@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__.'/LichessKernel.php';
+
+use Symfony\Framework\WebBundle\Console\Application;
+
+$kernel = new LichessKernel('prod', false);
+
+$application = new Application($kernel);
+$application->run();

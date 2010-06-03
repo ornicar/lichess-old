@@ -1,0 +1,5 @@
+/lichess/cache/*
+/lichess/logs/*
+/lichess/config/config_prod_local.yml
+/web/*_dev.php
+.git*

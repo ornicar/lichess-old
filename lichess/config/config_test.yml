@@ -1,0 +1,8 @@
+imports:
+  - { resource: config.yml }
+
+zend.logger:
+  priority: notice
+  path:     %kernel.logs_dir%/%kernel.environment%.log
+
+kernel.test: ~
