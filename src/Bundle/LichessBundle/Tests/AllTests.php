@@ -1,19 +1,22 @@
 <?php
 
-namespace Bundle\MiamBundle\Tests;
+namespace Bundle\LichessBundle\Tests;
 
-require_once 'PHPUnit/Framework.php';
-require_once __DIR__.'/Entities/StoryTest.php';
-require_once __DIR__.'/Renderer/StoryRendererTest.php';
+require_once __DIR__.'/Entities/GameTest.php';
+require_once __DIR__.'/Entities/PlayerTest.php';
+require_once __DIR__.'/Persistence/FilePersistenceTest.php';
+require_once __DIR__.'/Chess/GeneratorTest.php';
 
 class AllTests
 {
   public static function suite()
   {
-    $suite = new \PHPUnit_Framework_TestSuite('MiamBundle');
+    $suite = new \PHPUnit_Framework_TestSuite('LichessBundle');
 
-    $suite->addTestSuite('\Bundle\MiamBundle\Tests\Entities\StoryTest');
-    $suite->addTestSuite('\Bundle\MiamBundle\Tests\Renderer\StoryRendererTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Entities\GameTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Entities\PlayerTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Persistence\FilePersistenceTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\GeneratorTest');
 
     return $suite;
   }
