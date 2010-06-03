@@ -1,2 +1,2 @@
 lichess:
-  resource: MiamBundle/Resources/config/routing.yml
+  resource: LichessBundle/Resources/config/routing.yml
