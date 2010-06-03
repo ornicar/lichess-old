@@ -6,7 +6,7 @@
 
   <parameters>
 
-    <parameter key="lichess.observer.class">Bundle\lichessBundle\Event\Observer</parameter>
+    <parameter key="lichess.observer.class">Bundle\LichessBundle\Event\Observer</parameter>
 
   </parameters>
 
