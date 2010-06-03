@@ -1,3 +1,5 @@
+The goal is to create a very performant Chess Game in PHP, as well as play with Symfony 2.
+
 INSTALL
 -------
 
