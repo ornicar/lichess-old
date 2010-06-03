@@ -1,6 +1,6 @@
 [submodule "src/vendor/Symfony"]
 	path = src/vendor/Symfony
 	url = git://github.com/knplabs/symfony.git
-[submodule "src/vendor/Doctrine"]
-	path = src/vendor/Doctrine
-	url = git://github.com/knplabs/doctrine2.git
+[submodule "src/vendor/zend"]
+	path = src/vendor/zend
+	url = git://github.com/tjohns/zf.git
