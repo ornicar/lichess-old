@@ -32,6 +32,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $game = $generator->createGame();
 
         $this->assertTrue($game instanceof Entities\Game);
+
+        $this->assertEquals(2, count($game->getPlayers()));
+
+        $this->assertEquals(32, count($game->getPieces()));
     }
 
 }

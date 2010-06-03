@@ -20,8 +20,6 @@ class Game
      */
     protected $hash = null;
     
-    
-
     public function __construct()
     {
         $this->hash = substr(\sha1(\uniqid().\mt_rand().microtime(true)), 0, 8);
@@ -30,6 +28,16 @@ class Game
     public function setPlayers(array $players)
     {
         $this->players = $players;
+    }
+
+    public function getPlayers()
+    {
+      return $this->players;
+    }
+
+    public function getPlayer($color)
+    {
+      return $this->players[$color];
     }
 
     public function setPlayer($color, $player)
@@ -43,6 +51,11 @@ class Game
     public function getHash()
     {
       return $this->hash;
+    }
+
+    public function getPieces()
+    {
+      return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
     }
     
 }

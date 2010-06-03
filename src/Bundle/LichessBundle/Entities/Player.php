@@ -17,22 +17,6 @@ class Player
      * @var string
      */
     protected $color = null;
-    
-    /**
-     * @return string
-     */
-    public function getColor()
-    {
-      return $this->color;
-    }
-    
-    /**
-     * @param string
-     */
-    public function setColor($color)
-    {
-      $this->color = $color;
-    }
 
     /**
      * the player current game
@@ -41,16 +25,32 @@ class Player
      */
     protected $game = null;
     
+    /**
+     * the player pieces
+     *
+     * @var array
+     */
     protected $pieces = array();
 
     public function __construct()
     {
         $this->hash = substr(\sha1(\uniqid().\mt_rand().microtime(true)), 0, 4);
     }
-
-    public function setPieces(array $pieces)
+    
+    /**
+     * @return array
+     */
+    public function getPieces()
     {
-        $this->pieces = $pieces;
+      return $this->pieces;
+    }
+    
+    /**
+     * @param array
+     */
+    public function setPieces($pieces)
+    {
+      $this->pieces = $pieces;
     }
     
     /**
@@ -67,5 +67,20 @@ class Player
     public function setGame($game)
     {
       $this->game = $game;
+    }
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+      return $this->color;
+    }
+    
+    /**
+     * @param string
+     */
+    public function setColor($color)
+    {
+      $this->color = $color;
     }
 }

@@ -16,8 +16,8 @@ class Generator
         $game = new Game();
 
         $game->setPlayers(array(
-            $this->createPlayer($game, 'white'),
-            $this->createPlayer($game, 'black')
+            'white' => $this->createPlayer($game, 'white'),
+            'black' => $this->createPlayer($game, 'black')
         ));
 
         return $game;
@@ -41,8 +41,8 @@ class Generator
 
         foreach(explode(' ', 'Rook Knight Bishop Queen King Bishop Knight Rook') as $x => $class)
         {
-            $this->createPiece('Pawn', $player, $x+1);
-            $this->createPiece($class, $player, $x+1);
+            $pieces[] = $this->createPiece('Pawn', $player, $x+1);
+            $pieces[] = $this->createPiece($class, $player, $x+1);
         }
 
         return $pieces;
@@ -56,9 +56,9 @@ class Generator
         $class = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
 
         if('white' === $player->getColor()) {
-            $y = 'Pawn' === $class ? 1 : 2;
+            $y = 'Pawn' === $class ? 2 : 1;
         } else {
-            $y = 'Pawn' === $class ? 8 : 7;
+            $y = 'Pawn' === $class ? 7 : 8;
         }
 
         $piece = new $class($x, $y);
