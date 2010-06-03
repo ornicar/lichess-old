@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../miam/MiamKernel.php';
+require_once __DIR__.'/../lichess/LichessKernel.php';
 
-$kernel = new MiamKernel('dev', true);
+$kernel = new LichessKernel('dev', true);
 $kernel->handle()->send();
