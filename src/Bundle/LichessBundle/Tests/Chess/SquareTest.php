@@ -20,7 +20,7 @@ require_once __DIR__.'/../../Chess/Generator.php';
 require_once __DIR__.'/../../Chess/Board.php';
 require_once __DIR__.'/../../Chess/Square.php';
 
-class BoardTest extends \PHPUnit_Framework_TestCase
+class SquareTest extends \PHPUnit_Framework_TestCase
 {
 
     protected function createBoard()
@@ -29,26 +29,39 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $game = $generator->createGame();
         $board = $game->getBoard();
 
-        $this->assertTrue($board instanceof Board);
-
         return $board;
     }
 
-    protected function getSquare($x, $y)
+    protected function getSquare($x, $y, Board $board = null)
     {
-        return $this->createBoard()->getSquareByPos($x, $y);
+        $board = $board ? $board : $this->createBoard();
+        return $board->getSquareByPos($x, $y);
     }
 
-    /**
-     * @depends testBoardCreation
-     */
-    public function testGetPiece(Board $board)
+    public function testGetPiece()
     {
         $square = $this->getSquare(1, 1);
         $piece = $square->getPiece();
-        $this->assertTrue($piece instanceof Rook);
-        $this->assertEquals('white', $piece->geColor());
+        $this->assertTrue($piece instanceof Entities\Piece\Rook);
+        $this->assertEquals('white', $piece->getColor());
         $this->assertEquals(1, $piece->getX());
         $this->assertEquals(1, $piece->getY());
+
+        $this->assertEquals(null, $this->getSquare(1, 3)->getPiece());
+    }
+
+    public function testIsEmpty()
+    {
+        $this->assertTrue($this->getSquare(1, 3)->isEmpty());
+        $this->assertFalse($this->getSquare(1, 1)->isEmpty());
+    }
+
+    public function testIsControlledBy()
+    {
+        $board = $this->createBoard();
+        //$this->assertTrue($this->getSquare(1, 1, $board)->isControlledBy($board->getGame()->getPlayer('white')));
+        //$this->assertTrue($this->getSquare(1, 8, $board)->isControlledBy($board->getGame()->getPlayer('black')));
+        //$this->assertFalse($this->getSquare(1, 8, $board)->isControlledBy($board->getGame()->getPlayer('white')));
+        //$this->assertFalse($this->getSquare(1, 3, $board)->isControlledBy($board->getGame()->getPlayer('white')));
     }
 }

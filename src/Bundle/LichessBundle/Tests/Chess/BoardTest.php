@@ -68,6 +68,8 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($key, $square->getKey());
 
         $this->assertTrue($board->getSquareByKey('s88') instanceof Square);
+
+        $this->assertEquals(null, $board->getSquareByKey('s99'));
     }
 
     /**
