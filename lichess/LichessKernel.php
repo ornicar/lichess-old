@@ -6,9 +6,22 @@ require_once __DIR__.'/../src/vendor/Symfony/src/Symfony/Foundation/bootstrap.ph
 use Symfony\Foundation\Kernel;
 use Symfony\Components\DependencyInjection\Loader\YamlFileLoader as ContainerLoader;
 use Symfony\Components\Routing\Loader\YamlFileLoader as RoutingLoader;
+use Symfony\Components\HttpKernel\HttpKernelInterface;
+use Symfony\Components\HttpKernel\Request;
 
 class LichessKernel extends Kernel
 {
+
+    public function handle(Request $request = null, $type = HttpKernelInterface::MASTER_REQUEST, $raw = false)
+    {
+        define('LICHESS_START_TIME', microtime(true));
+
+        $response = parent::handle($request, $type, $raw);
+
+        $response->setContent(str_replace('{LICHESS_TIME}', sprintf('%01.2f', microtime(true) - LICHESS_START_TIME), $response->getContent()));
+
+        return $response;
+    }
   
   public function registerRootDir()
   {
@@ -19,13 +32,8 @@ class LichessKernel extends Kernel
   {
     $bundles = array(
       new Symfony\Foundation\Bundle\KernelBundle(),
-      //new Symfony\Framework\DoctrineBundle\Bundle(),
-      //new Symfony\Framework\DoctrineMigrationsBundle\Bundle(),
       new Symfony\Framework\WebBundle\Bundle(),
       new Symfony\Framework\ZendBundle\Bundle(),
-      //new Symfony\Framework\TwigBundle\Bundle(),
-      //new Bundle\MarkdownBundle\Bundle(),
-      //new Bundle\DoctrineUserBundle\Bundle(),
       new Bundle\LichessBundle\Bundle()
     );
 
