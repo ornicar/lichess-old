@@ -9,4 +9,9 @@ class King extends Piece
     {
         return 'King';
     }
+
+    protected function getBasicTargetSquares()
+    {
+        return array();
+    }
 }

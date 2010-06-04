@@ -9,4 +9,9 @@ class Bishop extends Piece
     {
         return 'Bishop';
     }
+
+    protected function getBasicTargetSquares()
+    {
+        return array();
+    }
 }
