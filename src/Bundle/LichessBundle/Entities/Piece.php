@@ -39,10 +39,33 @@ abstract class Piece
      */
     protected $firstMove = 0;
 
+    /**
+     * Unique hash
+     *
+     * @var string
+     */
+    protected $hash = null;
+
+    /**
+     * Non-persistent processing cache 
+     * 
+     * @var array
+     */
+    protected $cache = array();
+    
     public function __construct($x, $y)
     {
         $this->x = $x;
         $this->y = $y;
+        $this->hash = substr(\sha1(\uniqid().\mt_rand().microtime(true)), 0, 6);
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+      return $this->hash;
     }
 
     /**
@@ -378,6 +401,45 @@ abstract class Piece
     public function postMove(Square $oldSquare, Square $square, array $options = array())
     {
 
+    }
+
+    protected function getCache($key)
+    {
+        if(isset($this->cache[$key]))
+        {
+            return $this->cache[$key];
+        }
+
+        return null;
+    }
+
+    protected function hasCache($key)
+    {
+        return isset($this->cache[$key]);
+    }
+
+    protected function setCache($key, $value)
+    {
+        return $this->cache[$key] = $value;
+    }
+
+    public function clearCache($key = null)
+    {
+        if (null === $key)
+        {
+            $this->cache = array();
+        }
+        elseif(isset($this->cache[$key]))
+        {
+            unset($this->cache[$key]);
+        }
+
+        return $this;
+    }
+
+    public function serialize()
+    {
+        return array('hash', 'color', 'x', 'y', 'player', 'isDead', 'firstMove');
     }
 
 }
