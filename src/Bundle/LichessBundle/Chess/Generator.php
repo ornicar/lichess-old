@@ -59,9 +59,9 @@ class Generator
             $y = 'Pawn' === $class ? 7 : 8;
         }
 
-        $class = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
+        $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
 
-        $piece = new $class($x, $y);
+        $piece = new $fullClass($x, $y);
         $piece->setPlayer($player);
 
         return $piece;
