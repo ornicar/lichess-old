@@ -184,5 +184,4 @@ class Game
     {
         return array('hash', 'isFinished', 'isStarted', 'players', 'turns');
     }
-
 }
