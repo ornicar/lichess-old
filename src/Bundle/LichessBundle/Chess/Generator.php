@@ -53,13 +53,13 @@ class Generator
      */
     public function createPiece($class, $player, $x)
     {
-        $class = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
-
         if('white' === $player->getColor()) {
             $y = 'Pawn' === $class ? 2 : 1;
         } else {
             $y = 'Pawn' === $class ? 7 : 8;
         }
+
+        $class = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
 
         $piece = new $class($x, $y);
         $piece->setPlayer($player);

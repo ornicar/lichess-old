@@ -21,14 +21,75 @@ abstract class Piece
     /**
      * Y position
      *
-     * @var integer
+     * @var int
      */
     protected $y = null;
+
+    /**
+     * Whether the piece is dead or not
+     *
+     * @var boolean
+     */
+    protected $isDead = false;
+
+    /**
+     * When this piece moved for the first time (usefull for en passant)
+     *
+     * @var int
+     */
+    protected $firstMove = 0;
 
     public function __construct($x, $y)
     {
         $this->x = $x;
         $this->y = $y;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getFirstMove()
+    {
+      return $this->firstMove;
+    }
+    
+    /**
+     * @param integer
+     */
+    public function setFirstMove($firstMove)
+    {
+      $this->firstMove = $firstMove;
+    }
+    
+
+    /**
+     * @return boolean
+     */
+    public function getIsDead()
+    {
+      return $this->isDead;
+    }
+    
+    /**
+     * @param boolean
+     */
+    public function setIsDead($isDead)
+    {
+      $this->isDead = $isDead;
+    }
+    
+
+    /**
+     * @return string
+     */
+    abstract public function getClass();
+
+    /**
+     * @return boolean
+     */
+    public function isClass($class)
+    {
+        return $this->getClass() === $class;
     }
     
     /**

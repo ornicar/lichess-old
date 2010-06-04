@@ -11,7 +11,7 @@ class PlayerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreation()
     {
-        $player = new Player();
+        $player = new Player('white');
         $this->assertEquals('Bundle\LichessBundle\Entities\Player', get_class($player));
     }
 

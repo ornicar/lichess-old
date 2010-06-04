@@ -5,4 +5,8 @@ use Bundle\LichessBundle\Entities\Piece;
 
 class Knight extends Piece
 {
+    public function getClass()
+    {
+        return 'Knight';
+    }
 }

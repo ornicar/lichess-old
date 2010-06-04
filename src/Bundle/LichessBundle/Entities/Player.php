@@ -9,6 +9,11 @@ namespace Bundle\LichessBundle\Entities;
  */
 class Player
 {
+    /**
+     * Unique hash of the player
+     *
+     * @var string
+     */
     protected $hash;
 
     /**
@@ -32,9 +37,83 @@ class Player
      */
     protected $pieces = array();
 
-    public function __construct()
+    /**
+     * Whether the player won the game or not
+     *
+     * @var boolean
+     */
+    protected $isWinner = false;
+
+    /**
+     * Whether this player is an Artificial intelligence or not
+     *
+     * @var boolean
+     */
+    protected $isAi = false;
+
+    public function __construct($color)
     {
+        $this->color = $color;
         $this->hash = substr(\sha1(\uniqid().\mt_rand().microtime(true)), 0, 4);
+    }
+
+    /**
+     * @return Piece\King
+     */
+    public function getKing()
+    {
+        foreach($this->pieces as $piece) {
+            if($piece instanceof \Bundle\LichessBundle\Entities\Piece\King) {
+                return $piece;
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getPiecesByClass($class) {
+        $class = '\\Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
+        $pieces = array();
+        foreach($this->pieces as $piece) {
+            if($piece instanceof $class) {
+                $pieces[] = $piece;
+            }
+        }
+        return $pieces;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsAi()
+    {
+      return $this->isAi;
+    }
+    
+    /**
+     * @param boolean
+     */
+    public function setIsAi($isAi)
+    {
+      $this->isAi = $isAi;
+    }
+    
+    
+    /**
+     * @return boolean
+     */
+    public function getIsWinner()
+    {
+      return $this->isWinner;
+    }
+    
+    /**
+     * @param boolean
+     */
+    public function setIsWinner($isWinner)
+    {
+      $this->isWinner = $isWinner;
     }
     
     /**
@@ -68,6 +147,7 @@ class Player
     {
       $this->game = $game;
     }
+
     /**
      * @return string
      */
@@ -81,6 +161,16 @@ class Player
      */
     public function setColor($color)
     {
-      $this->color = $color;
+        $this->color = $color;
+    }
+
+    public function getOpponent()
+    {
+        return $this->getGame()->getPlayer('white' === $this->getColor() ? 'black' : 'white');
+    }
+
+    public function getIsMyTurn()
+    {
+        return $this->getGame()->getTurns() %2 xor 'white' === $this->getColor();
     }
 }
