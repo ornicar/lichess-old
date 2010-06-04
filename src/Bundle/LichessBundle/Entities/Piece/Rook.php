@@ -9,4 +9,9 @@ class Rook extends Piece
     {
         return 'Rook';
     }
+
+    protected function getBasicTargetSquares()
+    {
+        return array();
+    }
 }

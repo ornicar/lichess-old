@@ -9,4 +9,9 @@ class Knight extends Piece
     {
         return 'Knight';
     }
+
+    protected function getBasicTargetSquares()
+    {
+        return array();
+    }
 }

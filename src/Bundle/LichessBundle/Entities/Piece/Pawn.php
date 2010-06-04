@@ -9,4 +9,9 @@ class Pawn extends Piece
     {
         return 'Pawn';
     }
+
+    protected function getBasicTargetSquares()
+    {
+        return array();
+    }
 }
