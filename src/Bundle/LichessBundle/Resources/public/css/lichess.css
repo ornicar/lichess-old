@@ -130,7 +130,7 @@ div.lichess_piece.king.black{
   background-position: -320px +64px;
 }
 
-a.lichess_exchange_position {
+a.lichess_exchange{
   background: url(../images/exchange.png) top left no-repeat;
   width: 128px;
   height: 128px;
@@ -141,7 +141,7 @@ a.lichess_exchange_position {
   cursor: pointer;
 }
 
-a.lichess_exchange_position:hover {
+a.lichess_exchange:hover {
   background-position: 0 -128px;
 }
 
