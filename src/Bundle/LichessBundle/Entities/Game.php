@@ -180,4 +180,9 @@ class Game
         return '#'.$this->getId(). 'turn '.$this->getTurns();
     }
 
+    public function serialize()
+    {
+        return array('hash', 'isFinished', 'isStarted', 'players', 'turns');
+    }
+
 }
