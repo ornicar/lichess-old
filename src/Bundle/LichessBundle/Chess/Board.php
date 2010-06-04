@@ -65,7 +65,7 @@ class Board
   
   public function getPieceByKey($key)
   {
-      return $this->cache[$key];
+      return isset($this->cache[$key]) ? $this->cache[$key] : null;
   }
   
   public function getPieceByPos($x, $y)
