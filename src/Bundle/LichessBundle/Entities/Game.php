@@ -2,6 +2,8 @@
 
 namespace Bundle\LichessBundle\Entities;
 
+use Bundle\LichessBundle\Chess\Board;
+
 /**
  * Represents a single Chess game
  *
@@ -15,14 +17,14 @@ class Game
      * @var boolean
      */
     protected $isStarted = false;
-    
+
     /**
      * Whether the game is finished or not
      *
      * @var boolean
      */
     protected $isFinished = false;
-    
+
     /**
      * The two players 
      * 
@@ -36,52 +38,79 @@ class Game
      * @var integer
      */
     protected $turns = 0;
-    
+
     /**
      * unique hash of the game
      *
      * @var string
      */
     protected $hash = null;
-    
+
+    /**
+     * The game board
+     *
+     * @var Board
+     */
+    protected $board = null;
+
     public function __construct()
     {
         $this->hash = substr(\sha1(\uniqid().\mt_rand().microtime(true)), 0, 8);
     }
-    
+
+    /**
+     * @return Board
+     */
+    public function getBoard()
+    {
+        if(null === $this->board) {
+            $this->board = new Board($this);
+        }
+        return $this->board;
+    }
+
+    /**
+     * @param Board
+     */
+    public function setBoard($board)
+    {
+        $this->board = $board;
+    }
+
+
     /**
      * @return boolean
      */
     public function getIsFinished()
     {
-      return $this->isFinished;
+        return $this->isFinished;
     }
-    
+
     /**
      * @param boolean
      */
     public function setIsFinished($isFinished)
     {
-      $this->isFinished = $isFinished;
+        $this->isFinished = $isFinished;
     }
-    
-    
+
+
     /**
      * @return boolean
      */
     public function getIsStarted()
     {
-      return $this->isStarted;
+        return $this->isStarted;
     }
-    
+
     /**
      * @param boolean
      */
     public function setIsStarted($isStarted)
     {
-      $this->isStarted = $isStarted;
+        $this->isStarted = $isStarted;
     }
-    
+
 
     public function setPlayers(array $players)
     {
@@ -90,7 +119,7 @@ class Game
 
     public function getPlayers()
     {
-      return $this->players;
+        return $this->players;
     }
 
     /**
@@ -98,17 +127,17 @@ class Game
      */
     public function getPlayer($color)
     {
-      return $this->players[$color];
+        return $this->players[$color];
     }
 
     public function getWinner()
     {
-      if($this->getPlayer('white')->getIsWinner()) {
-        return $this->getPlayer('white');
-      }
-      elseif($this->getPlayer('black')->getIsWinner()) {
-        return $this->getPlayer('black');
-      }
+        if($this->getPlayer('white')->getIsWinner()) {
+            return $this->getPlayer('white');
+        }
+        elseif($this->getPlayer('black')->getIsWinner()) {
+            return $this->getPlayer('black');
+        }
     }
 
     public function setPlayer($color, $player)
@@ -121,34 +150,34 @@ class Game
      */
     public function getHash()
     {
-      return $this->hash;
+        return $this->hash;
     }
-    
+
     /**
      * @return integer
      */
     public function getTurns()
     {
-      return $this->turns;
+        return $this->turns;
     }
-    
+
     /**
      * @param integer
      */
     public function setTurns($turns)
     {
-      $this->turns = $turns;
+        $this->turns = $turns;
     }
-    
+
 
     public function getPieces()
     {
-      return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
+        return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
     }
 
     public function __toString()
     {
-      return '#'.$this->getId(). 'turn '.$this->getTurns();
+        return '#'.$this->getId(). 'turn '.$this->getTurns();
     }
-    
+
 }
