@@ -37,11 +37,4 @@ foreach($squares as $squareKey => $square)
   }
 }
 
-if(!$player->getGame()->getIsStarted())
-{
-  printf('<a href="%s" class="lichess_exchange" title="Change position"></a>',
-    $view->router->generate('lichess_exchange')
-  );
-}
-
 print '</div>';

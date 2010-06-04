@@ -1,7 +1,4 @@
 lichess_homepage:
-  pattern:  /
-  defaults: { _controller: LichessBundle:Main:index }
-
-lichess_exchange:
-  pattern:  /exchange
-  defaults: { _controller: LichessBundle:Game:exchange }
+  pattern:  /:color
+  defaults: { _controller: LichessBundle:Main:index, color: white }
+  requirements: { color: (white|black) }
