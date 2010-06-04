@@ -1,0 +1,62 @@
+body {
+  font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
+  color: #888;
+  text-shadow: 1px 1px 1px rgba(255,255,255,1);
+  background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
+}
+
+.content {
+  width: 1000px;
+  margin: auto;
+  position: relative;
+}
+
+#lichess {
+  width: 860px;
+  position:absolute;
+  left: 140px;
+  top: 25px;
+  width: 860px;
+  height: 514px;
+}
+
+.site_title_wrap {
+  padding-top: 13px;
+}
+
+.site_title {
+  width: 130px;
+  color: #666;
+  padding-top: 15px;
+  font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;
+  font-weight: bold;
+  font-size: 30px;
+  color: #aaa;
+  text-decoration: none;
+}
+
+.footer_wrap {
+  position: absolute;
+  top: 580px;
+  width: 100%;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background: #EEE;
+  padding: 20px;
+  display: block;
+}
+
+.footer {
+  width: 1000px;
+  margin: auto;
+  line-height: 2em;
+}
+
+div.browser_not_supported {
+  margin-top: 3em;
+}
+div.browser_not_supported span {
+  color: #BF2F2F;
+  margin-bottom: 1em;
+  display: block;
+}

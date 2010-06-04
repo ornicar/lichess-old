@@ -1,0 +1,320 @@
+a, a:visited {
+  color: #888;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+a.no_underline {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a.no_underline:hover {
+  text-decoration: underline;
+}
+
+div.lichess_board_wrap {
+  float: left;
+  border: 1px solid #D3D3D3;
+  width: 512px;
+  height: 512px;
+  margin-right: 15px;
+}
+
+div.lichess_board {
+  width: 512px;
+  height: 512px;
+  position: relative;
+}
+
+div.lichess_square {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+}
+
+div.lichess_square.white {
+  background: #FFFFFF;
+}
+div.lichess_square.black {
+  background: #CFCFCF;
+}
+
+div.lcsi {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+}
+div.lichess_square.moved div.lichess_square_inner {
+  background: url(../images/over5.png) top left no-repeat;
+}
+div.lichess_square.check div.lichess_square_inner {
+  background: url(../images/over6.png) top left no-repeat;
+}
+div.my_turn div.lichess_square:hover div.lichess_square_inner {
+  background: url(../images/over.png) top left no-repeat;
+}
+div.lichess_square.droppable-active div.lichess_square_inner {
+  background: url(../images/over4.png) top left no-repeat;
+}
+div.lichess_square.droppable-hover div.lichess_square_inner {
+  background: url(../images/over3.png) top left no-repeat;
+}
+
+div.lichess_square span.human_pos {
+  position: absolute;
+  margin: 0 0 0 2px;
+  font-size: 10px;
+}
+div.lichess_square.white span.human_pos {
+  color: #ccc;
+}
+div.lichess_square.black span.human_pos {
+  color: #fff;
+}
+
+div.lichess_piece {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  background-image: url(../images/piece/sprite.png);
+}
+
+.my_turn div.lichess_piece.ui-draggable {
+  cursor: move;
+}
+
+div.lichess_piece.ui-draggable-dragging,
+div.lichess_piece.moving {
+  opacity: 0.5;
+}
+
+div.lichess_piece.pawn.white{
+  background-position: +0px +0px;
+}
+div.lichess_piece.bishop.white{
+  background-position: -64px +0px;
+}
+div.lichess_piece.knight.white{
+  background-position: -128px +0px;
+}
+div.lichess_piece.rook.white{
+  background-position: -192px +0px;
+}
+div.lichess_piece.queen.white{
+  background-position: -256px +0px;
+}
+div.lichess_piece.king.white{
+  background-position: -320px +0px;
+}
+
+div.lichess_piece.pawn.black{
+  background-position: +0px +64px;
+}
+div.lichess_piece.bishop.black{
+  background-position: -64px +64px;
+}
+div.lichess_piece.knight.black{
+  background-position: -128px +64px;
+}
+div.lichess_piece.rook.black{
+  background-position: -192px +64px;
+}
+div.lichess_piece.queen.black{
+  background-position: -256px +64px;
+}
+div.lichess_piece.king.black{
+  background-position: -320px +64px;
+}
+
+a.lichess_exchange_position {
+  background: url(../images/exchange.png) top left no-repeat;
+  width: 128px;
+  height: 128px;
+  display: block;
+  position: absolute;
+  top: 191px;
+  left: 191px;
+  cursor: pointer;
+}
+
+a.lichess_exchange_position:hover {
+  background-position: 0 -128px;
+}
+
+div.lichess_promotion_choice {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 404px;
+  height: 288px;
+  background: #fff;
+  opacity: 0.8;
+  text-align: center;
+  padding: 224px 0 0 108px;
+}
+
+div.lichess_promotion_choice .lichess_piece {
+  float:left;
+  position:static;
+  padding: 5px;
+  width: 54px;
+  height: 54px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-box-shadow:0 0 5px #444;
+}
+
+div.lichess_promotion_choice .lichess_piece:hover {
+  -moz-box-shadow:0 0 10px blue;
+}
+
+div.lichess_board_wrap {
+  box-shadow: 0 0 7px #bbb;
+  -moz-box-shadow: 0 0 7px #bbb;
+  -webkit-box-shadow: 0 0 7px #bbb;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-color: #ccc;
+  margin-right: 25px;
+}
+
+div.lichess_player_white #s18,
+div.lichess_player_black #s81 {
+  border-radius-topleft: 4px;
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-radius: 4px 0 0 0;
+}
+
+div.lichess_player_white #s88,
+div.lichess_player_black #s11 {
+  border-radius-topright: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-radius: 0 4px 0 0;
+}
+
+div.lichess_player_white #s11,
+div.lichess_player_black #s88 {
+  border-radius-bottomleft: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-radius-bottomleft: 4px;
+  -webkit-border-radius-bottomright: 0 0 0 4px;
+}
+
+div.lichess_player_white #s81,
+div.lichess_player_black #s18 {
+  border-radius-bottomright: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-radius: 0 0 4px 0;
+}
+
+div.lichess_table_wrap {
+  position: relative;
+  margin-left: 545px;
+  height: 514px;
+}
+
+div.lichess_table {
+  position: absolute;
+  top: 150px;
+  left: 0px;
+  width: 315px;
+  background: #F7F7F7;
+  box-shadow: 0 0 7px #bbb;
+  -moz-box-shadow: 0 0 7px #bbb;
+  -webkit-box-shadow: 0 0 7px #bbb;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  height: auto;
+  border: none;
+}
+
+div.lichess_table_not_started {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  border: none;
+  top: 140px;
+}
+
+div.lichess_separator {
+  border-color: #ddd;
+  box-shadow: 0 0 1px #fff;
+  -moz-box-shadow: 0 0 1px #fff;
+  -webkit-box-shadow: 0 0 1px #fff;
+}
+
+div.lichess_table .button {
+  margin: 2.5em 1em 0 1em;
+  font-size: 1.5em;
+  display: block;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  background: #F0F0F0;
+  border: 1px solid #ddd;
+  border-radius: 32px;
+  -moz-border-radius: 32px;
+  -webkit-border-radius: 32px;
+  box-shadow: 0 0 3px #ccc;
+  -moz-box-shadow: 0 0 3px #ccc;
+  -webkit-box-shadow: 0 0 3px #ccc;
+  text-align: center;
+}
+
+div.lichess_table .button:hover {
+  background: #F0F0F0;
+  background: #fff;
+}
+
+div.lichess_join_url, div.lichess_permalink {
+  background: none;
+  border: none;
+  margin: 1em 0 0 0;
+}
+
+div.lichess_join_url span, div.lichess_permalink span {
+  display: block;
+  padding: 0.5em;
+  background: #fff;
+  margin-top: 1em;
+  border: 1px solid #D4D4D4;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+div.lichess_current_player div.player p {
+  color: #888;
+}
+
+div.lichess_cemetery_top {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 315px;
+}
+
+div.lichess_cemetery_bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+  width: 315px;
+}
+
+div.yescript {
+  text-align: center;
+  margin-left: 150px;
+  margin-top: 150px;
+  background: url(../images/gear128.png) bottom center no-repeat;
+  width: 200px;
+  height: 150px;
+}

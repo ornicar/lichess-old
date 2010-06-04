@@ -3,16 +3,18 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\WebBundle\Controller;
+use Bundle\LichessBundle as Lichess;
 
 class MainController extends Controller
 {
 
     public function indexAction()
     {
-        $logFile = $this->container['kernel.root_dir'].'/logs/'.$this->container['kernel.environment'].'.log';
-        $log = file_get_contents($logFile);
+        $generator = new Lichess\Chess\Generator();
+        $player = $generator->createGame()->getPlayer('white');
+
         return $this->render('LichessBundle:Main:index', array(
-            'log' => $log
+            'player' => $player
         ));
     }
 }
