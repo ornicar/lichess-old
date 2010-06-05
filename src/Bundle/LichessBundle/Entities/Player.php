@@ -68,7 +68,27 @@ class Player
     public function __construct($color)
     {
         $this->color = $color;
-        $this->hash = substr(\sha1(\uniqid().\mt_rand().microtime(true)), 0, 4);
+        $this->hash = '';
+        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
+        for ( $i = 0; $i < 4; $i++ ) {
+          $this->hash .= $chars[mt_rand( 0, 36 )];
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+      return $this->hash;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullHash()
+    {
+      return $this->game->getHash().$this->hash;
     }
 
     /**
