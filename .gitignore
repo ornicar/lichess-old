@@ -1,3 +1,7 @@
 /lichess/config/config*_local.yml
 /lichess/cache/*
 /lichess/logs/*
+# ignore game data files
+/lichess/data/*
+# except README
+!/lichess/data/README
