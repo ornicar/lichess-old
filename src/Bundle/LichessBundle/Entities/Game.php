@@ -33,6 +33,13 @@ class Game
     protected $players = array();
 
     /**
+     * The player who created the game
+     *
+     * @var Player
+     */
+    protected $creator = null;
+
+    /**
      * Number of turns passed
      *
      * @var integer
@@ -55,7 +62,11 @@ class Game
 
     public function __construct()
     {
-        $this->hash = substr(\sha1(\uniqid().\mt_rand().microtime(true)), 0, 8);
+        $this->hash = '';
+        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
+        for ( $i = 0; $i < 6; $i++ ) {
+            $this->hash .= $chars[mt_rand( 0, 36 )];
+        }
     }
 
     /**
@@ -130,6 +141,47 @@ class Game
         return $this->players[$color];
     }
 
+    /**
+     * @return Player
+     */
+    public function getPlayerByHash($hash)
+    {
+        if($this->getPlayer('white')->getHash() === $hash) {
+            return $this->getPlayer('white');
+        }
+
+        return $this->getPlayer('black');
+    }
+
+    /**
+     * @return Player
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
+
+    /**
+     * @return Player
+     */
+    public function getInvited()
+    {
+        if(!$this->creator) {
+            return null;
+        }
+
+        if($this->creator->isWhite()) {
+            return $this->getPlayer('black');
+        }
+
+        return $this->getPlayer('white');
+    }
+
+    public function setCreator(Player $player)
+    {
+        $this->creator = $player;
+    }
+
     public function getWinner()
     {
         if($this->getPlayer('white')->getIsWinner()) {
@@ -182,6 +234,6 @@ class Game
 
     public function serialize()
     {
-        return array('hash', 'isFinished', 'isStarted', 'players', 'turns');
+        return array('hash', 'isFinished', 'isStarted', 'players', 'turns', 'creator');
     }
 }
