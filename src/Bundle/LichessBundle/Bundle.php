@@ -16,6 +16,7 @@ class Bundle extends BaseBundle
         
         $loader = new XmlFileLoader(__DIR__.'/Resources/config');
         $configuration->merge($loader->load('observer.xml'));
+        $configuration->merge($loader->load('persistence.xml'));
 
         $container->setParameter('data_collector_manager.class', 'Bundle\LichessBundle\Profiler\DataCollectorManager');
 
