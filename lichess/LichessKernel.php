@@ -14,7 +14,9 @@ class LichessKernel extends Kernel
 
     public function handle(Request $request = null, $type = HttpKernelInterface::MASTER_REQUEST, $raw = false)
     {
-        define('LICHESS_START_TIME', microtime(true));
+        if(!defined('LICHESS_START_TIME')) {
+            define('LICHESS_START_TIME', microtime(true));
+        }
 
         $response = parent::handle($request, $type, $raw);
 
@@ -22,71 +24,70 @@ class LichessKernel extends Kernel
 
         return $response;
     }
-  
-  public function registerRootDir()
-  {
-    return __DIR__;
-  }
 
-  public function registerBundles()
-  {
-    $bundles = array(
-      new Symfony\Foundation\Bundle\KernelBundle(),
-      new Symfony\Framework\WebBundle\Bundle(),
-      new Symfony\Framework\ZendBundle\Bundle(),
-      new Bundle\LichessBundle\Bundle()
-    );
-
-    if ($this->isDebug())
+    public function registerRootDir()
     {
-      $bundles[] = new Symfony\Framework\ProfilerBundle\Bundle();
+        return __DIR__;
     }
 
-    return $bundles;
-  }
-
-  public function registerBundleDirs()
-  {
-    return array(
-      'Bundle'             => __DIR__.'/../src/Bundle',
-      'Symfony\\Framework' => __DIR__.'/../src/vendor/Symfony/src/Symfony/Framework',
-    );
-  }
-
-  /**
-   * Returns the config_{environment}_local.yml file or 
-   * the default config_{environment}.yml if it does not exist.
-   * Useful to override development password.
-   *
-   * @param string Environment
-   * @return The configuration file path
-   */
-  protected function getLocalConfigurationFile($environment)
-  {
-    $basePath = __DIR__.'/config/config_';
-    $file = $basePath.$environment.'_local.yml';
-    
-    if(file_exists($file))
+    public function registerBundles()
     {
-      return $file;
+        $bundles = array(
+            new Symfony\Foundation\Bundle\KernelBundle(),
+            new Symfony\Framework\WebBundle\Bundle(),
+            new Bundle\LichessBundle\Bundle()
+        );
+
+        if ($this->isDebug())
+        {
+            $bundles[] = new Symfony\Framework\ProfilerBundle\Bundle();
+        }
+
+        return $bundles;
     }
-    
-    return $basePath.$environment.'.yml';
-  }
-  
-  public function registerContainerConfiguration()
-  {
-    $loader = new ContainerLoader($this->getBundleDirs());
 
-    $configuration = $loader->load($this->getLocalConfigurationFile($this->getEnvironment()));
+    public function registerBundleDirs()
+    {
+        return array(
+            'Bundle'             => __DIR__.'/../src/Bundle',
+            'Symfony\\Framework' => __DIR__.'/../src/vendor/Symfony/src/Symfony/Framework',
+        );
+    }
 
-    return $configuration;
-  }
+    /**
+     * Returns the config_{environment}_local.yml file or 
+     * the default config_{environment}.yml if it does not exist.
+     * Useful to override development password.
+     *
+     * @param string Environment
+     * @return The configuration file path
+     */
+    protected function getLocalConfigurationFile($environment)
+    {
+        $basePath = __DIR__.'/config/config_';
+        $file = $basePath.$environment.'_local.yml';
 
-  public function registerRoutes()
-  {
-    $loader = new RoutingLoader($this->getBundleDirs());
+        if(file_exists($file))
+        {
+            return $file;
+        }
 
-    return $loader->load(__DIR__.'/config/routing.yml');
-  }
+        return $basePath.$environment.'.yml';
+    }
+
+    public function registerContainerConfiguration()
+    {
+        $loader = new ContainerLoader($this->getBundleDirs());
+
+        $configuration = $loader->load($this->getLocalConfigurationFile($this->getEnvironment()));
+
+        return $configuration;
+    }
+
+    public function registerRoutes()
+    {
+        $loader = new RoutingLoader($this->getBundleDirs());
+
+        return $loader->load(__DIR__.'/config/routing.yml');
+    }
 }

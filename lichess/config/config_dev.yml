@@ -1,9 +1,5 @@
 imports:
   - { resource: config.yml }
 
-zend.logger:
-  priority: warn
-  path:     %kernel.logs_dir%/%kernel.environment%.log
-
 profiler.config:
   toolbar: true
