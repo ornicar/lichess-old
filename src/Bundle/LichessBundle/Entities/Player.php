@@ -2,6 +2,8 @@
 
 namespace Bundle\LichessBundle\Entities;
 
+use Bundle\LichessBundle\Chess\PieceFilter;
+
 /**
  * Represents a single Chess player for one game
  *
@@ -182,6 +184,11 @@ class Player
         $this->pieces = $pieces;
     }
 
+    public function addPiece(Piece $piece)
+    {
+        $this->pieces[] = $piece;
+    }
+
     /**
      * @return Game
      */
@@ -290,7 +297,7 @@ class Player
         }
 
         $controlledKeys = array();
-        foreach($this->getTargetKeysByPieces(false, true) as $keys)
+        foreach($this->getPossibleMoves(false, true) as $keys)
         {
             $controlledKeys = array_merge($controlledKeys, $keys);
         }
@@ -298,27 +305,26 @@ class Player
         return $this->setCache('controlled_keys', array_unique($controlledKeys));
     }
 
-    public function getTargetKeysByPieces($protectKing = true, $exceptKing = false)
+    public function getPossibleMoves($protectKing = true, $exceptKing = false)
     {
-        return array();
         $targets = array();
 
-        $pieces = $this->getTable()->getPieceFilter()->filterAlive($this->get('Pieces'));
+        $pieces = PieceFilter::filterAlive($this->getPieces());
 
         if ($exceptKing)
         {
-            $pieces = $this->getTable()->getPieceFilter()->filterNotType($pieces, 'king');
+            $pieces = PieceFilter::filterNotClass($pieces, 'King');
         }
 
         foreach($pieces as $piece)
         {
-            $targets[$piece->get('id')] = $piece->getTargetKeys($protectKing);
+            $targets[$piece->getSquareKey()] = $piece->getTargetKeys($protectKing);
         }
 
         return $targets;
     }
 
-    public function isMate($andSave = true)
+    public function isMate()
     {
         if(!$this->getKing()->isAttacked())
         {
@@ -326,34 +332,16 @@ class Player
         }
 
         $isMate = true;
-        foreach($this->getTargetKeysByPieces() as $pieceId => $targetKeys)
+        foreach($this->getPossibleMoves() as $from => $tos)
         {
-            if(!empty($targetKeys))
+            if(!empty($tos))
             {
                 $isMate = false;
                 break;
             }
         }
 
-        if($isMate && $andSave)
-        {
-            $this->Game->isFinished = true;
-            $this->Opponent->isWinner = true;
-            $this->Opponent->save();
-        }
-
         return $isMate;
-    }
-
-    public function getPieceById($id)
-    {
-        foreach($this->get('Pieces') as $piece)
-        {
-            if($id == $piece->get('id'))
-            {
-                return $piece;
-            }
-        }
     }
 
     public function isWhite()
@@ -378,12 +366,6 @@ class Player
         return $this->getGame()->getTurns() %2 ? $this->isBlack() : $this->isWhite();
     }
 
-    public function is(DmChessPlayer $player)
-    {
-        return $this->get('code') === $player->get('code');
-    }
-
-
     public function setEvents($events)
     {
         $this->_set('events', json_encode($events), false);
@@ -404,7 +386,7 @@ class Player
         {
             if ('piece_move' === $event['action'])
             {
-                return $this->getBoard()->getSquareByKey($event['from'])->getHumanPos().' '.$this->getBoard()->getSquareByKey($event['to'])->getHumanPos();
+                return $this->getBoard()->getSquareByKey($event['from'])->getKey().' '.$this->getBoard()->getSquareByKey($event['to'])->getKey();
             }
         }
     }
@@ -445,14 +427,14 @@ class Player
 
     public function getPiecesByType($type)
     {
-        return $this->getTable()->getPieceFilter()->filterType($this->get('Pieces'), $type);
+        return PieceFilter::filterType($this->getPieces(), $type);
     }
 
     public function getDeadPieces()
     {
         $pieces = array();
 
-        foreach($this->get('Pieces') as $piece)
+        foreach($this->getPieces() as $piece)
         {
             if ($piece->getIsDead())
             {
@@ -521,7 +503,7 @@ class Player
 
     protected function createPiece($type, $x)
     {
-        $this->get('Pieces')->add(dmDb::table('DmChess'.ucfirst($type))->create()->set('x', $x)->set('Player', $this));
+        $this->getPieces()->add(dmDb::table('DmChess'.ucfirst($type))->create()->set('x', $x)->set('Player', $this));
     }
 
     public function getClone()
@@ -529,7 +511,9 @@ class Player
         $clone = clone($this);
         $pieceClones = array();
         foreach($this->getPieces() as $piece) {
-            $pieceClones[] = clone $piece;
+            $pieceClone = clone $piece;
+            $pieceClone->setPlayer($clone);
+            $pieceClones[] = $pieceClone;
         }
         $clone->setPieces($pieceClones);
 

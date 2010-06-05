@@ -117,7 +117,7 @@
         });
       });
       
-      self.restartBeat();
+      //self.restartBeat();
       
       self.$table.find("a.lichess_give_up").click(function()
       {

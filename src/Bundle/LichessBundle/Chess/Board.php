@@ -22,13 +22,29 @@ class Board
     {
         $this->pieces = array();
 
-        foreach($this->getPieces() as $piece)
+        foreach(PieceFilter::filterAlive($this->getPieces()) as $piece)
         {
             $this->pieces[$piece->getSquareKey()] = $piece;
         }
     }
 
-    public function debug()
+    public function setGame(Game $game)
+    {
+        $this->game = $game;
+    }
+
+    /**
+     * Dump the game to visual block notation like:
+r bqkb r
+ ppp ppp
+p n  n  
+    p   
+B   P   
+     N  
+PPPP PPP
+RNBQK  R
+    */
+    public function dump()
     {
         $string = "\n";
         for($y=8; $y>0; $y--) {
@@ -45,7 +61,6 @@ class Board
 
         return $string;
     }
-
 
     public function getGame()
     {
@@ -167,5 +182,10 @@ class Board
         static $xPos = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5, 'f' => 6, 'g' => 7, 'h' => 8);
 
         return array($xPos[$key{0}], (int)$key{1});
+    }
+
+    public function __clone()
+    {
+        $this->createSquares();
     }
 }

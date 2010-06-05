@@ -146,7 +146,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testBoardCreation
      */
-    public function testDebug(Board $board)
+    public function testDump(Board $board)
     {
         $expected = <<<EOF
 
@@ -160,6 +160,6 @@ PPPPPPPP
 RNBQKBNR
 
 EOF;
-        $this->assertEquals($expected, $board->debug());
+        $this->assertEquals($expected, $board->dump());
     }
 }
