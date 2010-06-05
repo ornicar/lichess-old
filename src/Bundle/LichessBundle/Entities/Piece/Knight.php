@@ -9,9 +9,20 @@ class Knight extends Piece
     {
         return 'Knight';
     }
-
-    protected function getBasicTargetSquares()
+    
+    public function getBasicTargetSquares()
     {
-        return array();
+        $mySquare = $this->getSquare();
+
+        return $this->cannibalismFilter(array(
+            $mySquare->getSquareByRelativePos(-1, -2),
+            $mySquare->getSquareByRelativePos(1, -2),
+            $mySquare->getSquareByRelativePos(2, -1),
+            $mySquare->getSquareByRelativePos(2, 1),
+            $mySquare->getSquareByRelativePos(1, 2),
+            $mySquare->getSquareByRelativePos(-1, 2),
+            $mySquare->getSquareByRelativePos(-2, 1),
+            $mySquare->getSquareByRelativePos(-2, -1)
+        ));
     }
 }

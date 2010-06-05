@@ -48,7 +48,7 @@ class Square
 
   public function __toString()
   {
-    return 'Square '.$this->getHumanPos();
+    return $this->getKey();
   }
   
   public function toDebug()
@@ -74,11 +74,6 @@ class Square
   public function getKey()
   {
     return $this->key;
-  }
-
-  public function getHumanPos()
-  {
-    return $this->board->keyToHumanPos($this->key);
   }
 
   public function getColor()

@@ -248,7 +248,7 @@ class Player
 
         if (!$piece->hasMoved())
         {
-            $piece->set('first_move', $this->getGame()->get('turns'));
+            $piece->set('first_move', $this->getGame()->getTurns());
         }
 
         $this->getEventDispatcher()->notify(new dmChessPieceMoveEvent($piece, 'dm.chess.piece_move', array('from' => $oldSquare, 'to' => $square)));
@@ -368,14 +368,14 @@ class Player
 
     public function __toString()
     {
-        $string = $this->get('color').' '.($this->get('is_ai') ? 'A.I.' : 'Human');
+        $string = $this->getColor().' '.($this->get('is_ai') ? 'A.I.' : 'Human');
 
         return $string;
     }
 
     public function isMyTurn()
     {
-        return $this->getGame()->get('turns') %2 ? $this->isBlack() : $this->isWhite();
+        return $this->getGame()->getTurns() %2 ? $this->isBlack() : $this->isWhite();
     }
 
     public function is(DmChessPlayer $player)
@@ -524,23 +524,16 @@ class Player
         $this->get('Pieces')->add(dmDb::table('DmChess'.ucfirst($type))->create()->set('x', $x)->set('Player', $this));
     }
 
-    public function exchangePosition()
+    public function getClone()
     {
-        if($this->Opponent)
-        {
-            throw new dmChessException('Can not exchange position');
+        $clone = clone($this);
+        $pieceClones = array();
+        foreach($this->getPieces() as $piece) {
+            $pieceClones[] = clone $piece;
         }
+        $clone->setPieces($pieceClones);
 
-        $this->color = $this->isWhite() ? 'black' : 'white';
-
-        foreach($this->Pieces as $piece)
-        {
-            $piece->set('y', 9 - $piece->get('y'));
-        }
-
-        $this->Pieces->save();
-
-        $this->save();
+        return $clone;
     }
 
     public function serialize()

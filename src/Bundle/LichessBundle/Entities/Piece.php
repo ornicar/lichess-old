@@ -2,6 +2,9 @@
 
 namespace Bundle\LichessBundle\Entities;
 
+use Bundle\LichessBundle\Chess\Square;
+use Bundle\LichessBundle\Chess\PieceFilter;
+
 abstract class Piece
 {
     /**
@@ -37,7 +40,7 @@ abstract class Piece
      *
      * @var int
      */
-    protected $firstMove = 0;
+    protected $firstMove = null;
 
     /**
      * Unique hash
@@ -71,7 +74,7 @@ abstract class Piece
     /**
      * @return array
      */
-    abstract protected function getBasicTargetSquares();
+    abstract public function getBasicTargetSquares();
 
     /**
      * @return string
@@ -196,7 +199,7 @@ abstract class Piece
             {
                 if ($otherPiece = $square->getPiece())
                 {
-                    if (!$otherPiece->getPlayer()->is($this->getPlayer()))
+                    if ($otherPiece->getPlayer() !== $this->player)
                     {
                         $squares[] = $square;
                     }
@@ -222,7 +225,7 @@ abstract class Piece
     {
         foreach($targets as $it => $target)
         {
-            if ($target && ($piece = $target->getPiece()) && ($piece->getPlayer()->is($this->getPlayer())))
+            if ($target && ($piece = $target->getPiece()) && ($piece->getPlayer() === $this->player))
             {
                 unset($targets[$it]);
             }
@@ -243,22 +246,23 @@ abstract class Piece
         $kingSquareKey = $king->getSquareKey();
 
         // create virtual objects
-        $_game        = $this->getGame()->getCopy();
-        $_game->getBoard()->clearCache();
+        $_game        = $this->getGame()->getClone();
+        $_game->getBoard()->compile();
+        # TODO check if we can just use the piece square instead
         $_thisSquare  = $_game->getBoard()->getSquareByKey($this->getSquareKey());
         $_this        = $_thisSquare->getPiece();
         $_player      = $_this->getPlayer();
         $_opponent    = $_player->getOpponent();
 
         // if we are moving the king, or if king is attacked, verify every opponent pieces
-        if ($_this->isType('king') || $king->isAttacked())
+        if ($_this instanceof King || $king->isAttacked())
         {
-            $_opponentPieces = $this->getPieceFilter()->filterAlive($_opponent->get('Pieces'));
+            $_opponentPieces = PieceFilter::filterAlive($_opponent->getPieces());
         }
         // otherwise only verify projection pieces: bishop, rooks and queens
         else
         {
-            $_opponentPieces = $this->getPieceFilter()->filterAlive($this->getPieceFilter()->filterProjection($_opponent->get('Pieces')));
+            $_opponentPieces = PieceFilter::filterAlive(PieceFilter::filterProjection($_opponent->getPieces()));
         }
 
         foreach($targets as $it => $square)
@@ -266,25 +270,25 @@ abstract class Piece
             $_square = $_game->getBoard()->getSquareByKey($square->getKey());
 
             // kings move to its target
-            if ($_this->isType('king'))
+            if ($_this instanceof King)
             {
                 $kingSquareKey = $square->getKey();
             }
 
-            // killed opponent piece
+            // kill opponent piece
             if ($_killedPiece = $_square->getPiece())
             {
                 $_killedPiece->kill(false);
             }
 
-            $_this->set('x', $_square->getX());
-            $_this->set('y', $_square->getY());
+            $_this->setX($_square->getX());
+            $_this->setY($_square->getY());
 
             $_game->getBoard()->compile();
 
             foreach($_opponentPieces as $_opponentPiece)
             {
-                if ($_opponentPiece->get('is_dead'))
+                if ($_opponentPiece->getIsDead())
                 {
                     continue;
                 }
@@ -301,15 +305,15 @@ abstract class Piece
             // if a virtual piece has been killed, bring it back to life
             if ($_killedPiece)
             {
-                $_killedPiece->set('is_dead', 0);
-                $_killedPiece->set('x', $_square->getX());
-                $_killedPiece->set('y', $_square->getY());
+                $_killedPiece->setIsDead(0);
+                $_killedPiece->setX($_square->getX());
+                $_killedPiece->setY($_square->getY());
             }
         }
 
         // restore position
-        $_this->set('x', $this->getX());
-        $_this->set('y', $this->getY());
+        $_this->setX($this->getX());
+        $_this->setY($this->getY());
 
         return $targets;
     }
@@ -361,14 +365,11 @@ abstract class Piece
         return $this->getGame()->getBoard();
     }
 
-    public function getPieceFilter()
-    {
-        return $this->getPlayer()->getTable()->getPieceFilter();
-    }
-
     public function getSquareKey()
     {
-        return 's'.$this->getX().$this->getY();
+        static $xKeys = array(1 => 'a', 2 => 'b', 3 => 'c', 4 => 'd', 5 => 'e', 6 => 'f', 7 => 'g', 8 => 'h');
+
+        return $xKeys[$this->x].$this->y;
     }
 
     public function toDebug()
@@ -401,6 +402,27 @@ abstract class Piece
     public function postMove(Square $oldSquare, Square $square, array $options = array())
     {
 
+    }
+
+    public function getForsythe()
+    {
+        $class = $this->getClass();
+
+        if ('Knight' === $class)
+        {
+            $notation = 'N';
+        }
+        else
+        {
+            $notation = $class{0};
+        }
+
+        if('black' === $this->getColor())
+        {
+            $notation = strtolower($notation);
+        }
+
+        return $notation;
     }
 
     protected function getCache($key)

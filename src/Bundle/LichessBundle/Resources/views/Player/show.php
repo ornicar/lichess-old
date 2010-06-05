@@ -9,3 +9,5 @@
         </div>
     </div>
 </div>
+
+<?php $view->output('LichessBundle:Game:data', array('player' => $player)) ?>

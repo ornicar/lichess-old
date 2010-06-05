@@ -20,7 +20,7 @@ class LichessKernel extends Kernel
 
         $response = parent::handle($request, $type, $raw);
 
-        $response->setContent(str_replace('{LICHESS_TIME}', sprintf('%01.2f', microtime(true) - LICHESS_START_TIME), $response->getContent()));
+        $response->setContent(str_replace('{LICHESS_TIME}', sprintf('%d', 1000* (microtime(true) - LICHESS_START_TIME)), $response->getContent()));
 
         return $response;
     }

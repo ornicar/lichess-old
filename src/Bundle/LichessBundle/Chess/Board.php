@@ -6,159 +6,166 @@ use Bundle\LichessBundle\Entities\Game;
 
 class Board
 {
-  protected
-  $game,
-  $squares,
-  $cache;
-  
-  public function __construct(Game $game)
-  {
-    $this->game = $game;
-    $this->createSquares();
-    $this->compile();
-  }
-  
-  public function compile()
-  {
-      $this->cache = array_fill(1, 8, array_fill(1, 8, null));
+    protected
+        $game,
+        $squares,
+        $pieces;
 
-      foreach($this->getPieces() as $piece)
-      {
-          $this->cache[$piece->getSquareKey()] = $piece;
-      }
-  }
-  
-  public function getGame()
-  {
-    return $this->game;
-  }
-  
-  public function getPlayers()
-  {
-    return $this->game->getPlayers();
-  }
-  
-  public function getPieces()
-  {
-    return $this->game->getPieces();
-  }
-  
-  public function getSquares()
-  {
-    return $this->squares;
-  }
-  
-  public function getSquareKeys()
-  {
-    return array_keys($this->squares);
-  }
+    public function __construct(Game $game)
+    {
+        $this->game = $game;
+        $this->createSquares();
+        $this->compile();
+    }
 
-  public function getSquareByKey($key)
-  {
-    return isset($this->squares[$key]) ? $this->squares[$key] : null;
-  }
-  
-  public function getSquareByPos($x, $y)
-  {
-    return $this->getSquareByKey('s'.$x.$y);
-  }
-  
-  public function getPieceByKey($key)
-  {
-      return isset($this->cache[$key]) ? $this->cache[$key] : null;
-  }
-  
-  public function getPieceByPos($x, $y)
-  {
-    return $this->getPieceByKey('s'.$x.$y);
-  }
-  public function getPieceByHumanPos($humanPos)
-  {
-    return $this->getPieceByKey($this->humanPosToKey($humanPos));
-  }
-  
-  protected function createSquares()
-  {
-    $this->squares = array();
-    
-    for($x=1; $x<9; $x++)
+    public function compile()
     {
-      for($y=1; $y<9; $y++)
-      {
-          $key = 's'.$x.$y;
-          $color = ($x+$y)%2 ? 'white' : 'black';
-          $this->squares[$key] = new Square($this, $key, $x, $y, $color);
-      }
-    }
-  }
+        $this->pieces = array();
 
-  public function squaresToKeys(array $squares)
-  {
-    $keys = array();
-    foreach($squares as $square)
-    {
-      $keys[] = $square->getKey();
+        foreach($this->getPieces() as $piece)
+        {
+            $this->pieces[$piece->getSquareKey()] = $piece;
+        }
     }
-    return $keys;
-  }
 
-  /**
-   * removes non existing or duplicated square
-   */
-  public function cleanSquares(array $squares, $passedKeys = array())
-  {
-    foreach($squares as $it => $square)
+    public function debug()
     {
-      if($square instanceof Square)
-      {
-        $key = $square->getKey();
-      }
-      else
-      {
-        unset($squares[$it]);
-        continue;
-      }
-      
-      if(in_array($key, $passedKeys))
-      {
-        unset($squares[$it]);
-      }
-      else
-      {
-        $passedKeys[] = $key;
-      }
+        $string = "\n";
+        for($y=8; $y>0; $y--) {
+            for($x=1; $x<9; $x++) {
+                if($piece = $this->getPieceByPos($x, $y)) {
+                    $string .= $piece->getForsythe();
+                }
+                else {
+                    $string .= ' ';
+                }
+            }
+            $string .= "\n";
+        }
+
+        return $string;
     }
-    
-    return array_values($squares);
-  }
-  
-  public function humanPosToKey($pos)
-  {
-    if(is_array($pos))
+
+
+    public function getGame()
     {
-      foreach($pos as $i => $p)
-      {
-        $pos[$i] = $this->humanPosToKey($p);
-      }
-      return $pos;
+        return $this->game;
     }
-    
-    $letters = 'abcdefgh';
-    return 's'.(1+strpos($letters, $pos{0})).$pos{1};
-  }
-  
-  public function keyToHumanPos($key)
-  {
-    if(is_array($key))
+
+    public function getPlayers()
     {
-      foreach($key as $i => $k)
-      {
-        $key[$i] = $this->keyToHumanPos($k);
-      }
-      return $key;
+        return $this->game->getPlayers();
     }
-    
-    $letters = 'abcdefgh';
-    return $letters{$key{1}-1}.$key{2};
-  }
+
+    public function getPieces()
+    {
+        return $this->game->getPieces();
+    }
+
+    public function getSquares()
+    {
+        return $this->squares;
+    }
+
+    public function getSquareKeys()
+    {
+        return array_keys($this->squares);
+    }
+
+    public function getSquareByKey($key)
+    {
+        return isset($this->squares[$key]) ? $this->squares[$key] : null;
+    }
+
+    public function getSquareByPos($x, $y)
+    {
+        if($x<1 || $x>8 || $y<1 || $y>8) {
+            return null;
+        }
+
+        return $this->getSquareByKey($this->posToKey($x, $y));
+    }
+
+    public function getPieceByKey($key)
+    {
+        return isset($this->pieces[$key]) ? $this->pieces[$key] : null;
+    }
+
+    public function getPieceByPos($x, $y)
+    {
+        if($x<1 || $x>8 || $y<1 || $y>8) {
+            return null;
+        }
+
+        return $this->getPieceByKey($this->posToKey($x, $y));
+    }
+
+    protected function createSquares()
+    {
+        $this->squares = array();
+
+        for($x=1; $x<9; $x++)
+        {
+            for($y=1; $y<9; $y++)
+            {
+                $key = $this->posToKey($x, $y);
+                $color = ($x+$y)%2 ? 'white' : 'black';
+                $this->squares[$key] = new Square($this, $key, $x, $y, $color);
+            }
+        }
+    }
+
+    public function squaresToKeys(array $squares)
+    {
+        $keys = array();
+        foreach($squares as $square) {
+            $keys[] = $square->getKey();
+        }
+
+        return $keys;
+    }
+
+    /**
+     * removes non existing or duplicated square
+     */
+    public function cleanSquares(array $squares, $passedKeys = array())
+    {
+        foreach($squares as $it => $square)
+        {
+            if($square instanceof Square)
+            {
+                $key = $square->getKey();
+            }
+            else
+            {
+                unset($squares[$it]);
+                continue;
+            }
+
+            if(in_array($key, $passedKeys))
+            {
+                unset($squares[$it]);
+            }
+            else
+            {
+                $passedKeys[] = $key;
+            }
+        }
+
+        return array_values($squares);
+    }
+
+    public function posToKey($x, $y)
+    {
+        static $xKeys = array(1 => 'a', 2 => 'b', 3 => 'c', 4 => 'd', 5 => 'e', 6 => 'f', 7 => 'g', 8 => 'h');
+
+        return $xKeys[$x].$y;
+    }
+
+    public function keyToPos($key)
+    {
+        static $xPos = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5, 'f' => 6, 'g' => 7, 'h' => 8);
+
+        return array($xPos[$key{0}], (int)$key{1});
+    }
 }

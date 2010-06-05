@@ -1,16 +1,18 @@
 <?php
 
-namespace Bundle\MiamBundle\Tests;
+namespace Bundle\LichessBundle\Tests;
 
-require_once __DIR__.'/Functional/unscheduleAStoryTest.php';
+require_once __DIR__.'/Functional/startAGameTest.php';
+require_once __DIR__.'/Functional/inviteAFriendTest.php';
 
 class AllTests
 {
   public static function suite()
   {
-    $suite = new \PHPUnit_Framework_TestSuite('MiamBundle_Functional');
+    $suite = new \PHPUnit_Framework_TestSuite('LichessBundle_Functional');
 
-    $suite->addTestSuite('Miam\Tests\Functional\updateTimelineTest');
+    $suite->addTestSuite('Lichess\Tests\Functional\startAGameTest');
+    $suite->addTestSuite('Lichess\Tests\Functional\inviteAFriendTest');
 
     return $suite;
   }
