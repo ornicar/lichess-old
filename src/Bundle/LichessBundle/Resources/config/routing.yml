@@ -14,3 +14,12 @@ lichess_join_ai:
   pattern:  /ai/:hash
   defaults: { _controller: LichessBundle:Game:join }
   requirements: { hash: "[\w]{10}" }
+lichess_wait:
+  pattern:  /wait/:hash/:updatedAt
+  defaults: { _controller: LichessBundle:Player:wait }
+  requirements: { hash: "[\w]{10}" }
+  requirements: { updatedAt: "[\d]{10}" }
+lichess_beat:
+  pattern:  /beat/:hash
+  defaults: { _controller: LichessBundle:Player:beat }
+  requirements: { hash: "[\w]{10}" }

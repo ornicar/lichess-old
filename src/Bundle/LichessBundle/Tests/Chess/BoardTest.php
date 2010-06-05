@@ -7,18 +7,7 @@ use Bundle\LichessBundle\Chess\Square;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Entities as Entities;
 
-require_once __DIR__.'/../../Entities/Game.php';
-require_once __DIR__.'/../../Entities/Player.php';
-require_once __DIR__.'/../../Entities/Piece.php';
-require_once __DIR__.'/../../Entities/Piece/Pawn.php';
-require_once __DIR__.'/../../Entities/Piece/Rook.php';
-require_once __DIR__.'/../../Entities/Piece/Knight.php';
-require_once __DIR__.'/../../Entities/Piece/Bishop.php';
-require_once __DIR__.'/../../Entities/Piece/Queen.php';
-require_once __DIR__.'/../../Entities/Piece/King.php';
-require_once __DIR__.'/../../Chess/Generator.php';
-require_once __DIR__.'/../../Chess/Board.php';
-require_once __DIR__.'/../../Chess/Square.php';
+require_once __DIR__.'/../gameBootstrap.php';
 
 class BoardTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,7 +48,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSquareByKey(Board $board)
     {
-        $key = 's11';
+        $key = 'a1';
         $square = $board->getSquareBykey($key);
         $this->assertTrue($square instanceof Square);
         $this->assertEquals('black', $square->getColor());
@@ -67,9 +56,9 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $square->getY());
         $this->assertEquals($key, $square->getKey());
 
-        $this->assertTrue($board->getSquareByKey('s88') instanceof Square);
+        $this->assertTrue($board->getSquareByKey('h8') instanceof Square);
 
-        $this->assertEquals(null, $board->getSquareByKey('s99'));
+        $this->assertEquals(null, $board->getSquareByKey('z9'));
     }
 
     /**
@@ -78,7 +67,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testGetSquareByPos(Board $board)
     {
         $square = $board->getSquareByPos(1, 1);
-        $this->assertSame($board->getSquareByKey('s11'), $square);
+        $this->assertSame($board->getSquareByKey('a1'), $square);
     }
 
     /**
@@ -86,7 +75,8 @@ class BoardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPieceByKey(Board $board)
     {
-        $piece = $board->getPieceByKey('s11');
+        $piece = $board->getPieceByKey('a1');
+        $this->assertTrue($piece instanceof Entities\Piece);
         $this->assertEquals('Rook', $piece->getClass());
         $this->assertEquals(1, $piece->getX());
         $this->assertEquals(1, $piece->getY());
@@ -99,7 +89,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPieceByPos(Board $board)
     {
-        $this->assertSame($board->getPieceByKey('s11'), $board->getPieceByPos(1, 1));
+        $this->assertSame($board->getPieceByKey('a1'), $board->getPieceByPos(1, 1));
     }
 
     /**
@@ -112,7 +102,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             $board->getSquareByPos(3, 8)
         );
 
-        $this->assertSame(array('s11', 's38'), $board->squaresToKeys($squares));
+        $this->assertSame(array('a1', 'c8'), $board->squaresToKeys($squares));
     }
 
     /**
@@ -136,20 +126,40 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testBoardCreation
      */
-    public function testKeyToHumanPos(Board $board)
+    public function testPosToKey(Board $board)
     {
-        $this->assertEquals('a1', $board->keyToHumanPos('s11'));
-        $this->assertEquals('h8', $board->keyToHumanPos('s88'));
-        $this->assertEquals('b4', $board->keyToHumanPos('s24'));
+        $this->assertEquals('a1', $board->posToKey(1, 1));
+        $this->assertEquals('h8', $board->posToKey(8, 8));
+        $this->assertEquals('b4', $board->posToKey(2, 4));
     }
 
     /**
      * @depends testBoardCreation
      */
-    public function testHumanPosToKey(Board $board)
+    public function testKeyToPos(Board $board)
     {
-        $this->assertEquals('s11', $board->humanPosToKey('a1'));
-        $this->assertEquals('s88', $board->humanPosToKey('h8'));
-        $this->assertEquals('s24', $board->humanPosToKey('b4'));
+        $this->assertSame(array(1, 1), $board->keyToPos('a1'));
+        $this->assertSame(array(8, 8), $board->keyToPos('h8'));
+        $this->assertSame(array(2, 4), $board->keyToPos('b4'));
+    }
+
+    /**
+     * @depends testBoardCreation
+     */
+    public function testDebug(Board $board)
+    {
+        $expected = <<<EOF
+
+rnbqkbnr
+pppppppp
+        
+        
+        
+        
+PPPPPPPP
+RNBQKBNR
+
+EOF;
+        $this->assertEquals($expected, $board->debug());
     }
 }

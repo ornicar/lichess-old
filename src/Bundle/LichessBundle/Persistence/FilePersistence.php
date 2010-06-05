@@ -25,10 +25,13 @@ class FilePersistence implements PersistenceInterface
     {
         $data = serialize($game);
         $data = $this->encode($data);
-        if(!file_put_contents($this->getGameFile($game), $data))
+        $file = $this->getGameFile($game);
+        if(!file_put_contents($file, $data))
         {
             throw new Exception('Can not save game '.$game->getHash().' to '.$this->getGameFile($game));
         }
+        
+        $game->setUpdatedAt(time());
     }
 
     /**
@@ -52,6 +55,8 @@ class FilePersistence implements PersistenceInterface
         {
             return null;
         }
+
+        $game->setUpdatedAt(filemtime($file));
 
         return $game;
     }

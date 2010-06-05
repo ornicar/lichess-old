@@ -60,6 +60,14 @@ class Game
      */
     protected $board = null;
 
+    /**
+     * Update time in timestamp
+     * Not persistent ; regenerated when game is loaded
+     *
+     * @var integer
+     */
+    protected $updatedAt = null;
+    
     public function __construct()
     {
         $this->hash = '';
@@ -67,6 +75,22 @@ class Game
         for ( $i = 0; $i < 6; $i++ ) {
             $this->hash .= $chars[mt_rand( 0, 36 )];
         }
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getUpdatedAt()
+    {
+      return $this->updatedAt;
+    }
+    
+    /**
+     * @param integer
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+      $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -88,7 +112,6 @@ class Game
         $this->board = $board;
     }
 
-
     /**
      * @return boolean
      */
@@ -105,7 +128,6 @@ class Game
         $this->isFinished = $isFinished;
     }
 
-
     /**
      * @return boolean
      */
@@ -121,7 +143,6 @@ class Game
     {
         $this->isStarted = $isStarted;
     }
-
 
     public function setPlayers(array $players)
     {
@@ -221,7 +242,6 @@ class Game
         $this->turns = $turns;
     }
 
-
     public function getPieces()
     {
         return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
@@ -235,5 +255,22 @@ class Game
     public function serialize()
     {
         return array('hash', 'isFinished', 'isStarted', 'players', 'turns', 'creator');
+    }
+
+    public function getClone()
+    {
+        $clone = clone($this);
+        foreach($this->getPlayers() as $color => $player) {
+            $clone->setPlayer($color, $player->getClone());
+        }
+
+        $clone->setBoard(clone $this->getBoard());
+        $clone->getBoard()->compile();
+
+        return $clone;
+    }
+
+    public function __clone()
+    {
     }
 }

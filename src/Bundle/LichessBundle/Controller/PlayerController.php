@@ -10,6 +10,30 @@ class PlayerController extends Controller
 {
     public function showAction($hash)
     {
+        $player = $this->findPlayer($hash);
+
+        return $this->render('LichessBundle:Player:show', array('player' => $player));
+    }
+
+    public function waitAction($hash, $updatedAt)
+    {
+        $gameHash = substr($hash, 0, 6);
+
+        if($this->container->getLichessPersistenceService()->getUpdatedAt($gameHash) <= $updatedAt) {
+            return $this->createResponse('wait');
+        }
+        
+        $player = $this->findPlayer($hash);
+
+        if($player->getGame()->getIsStarted()) {
+            return $this->createResponse($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+        }
+
+        return $this->createResponse('wait');
+    }
+
+    protected function findPlayer($hash)
+    {
         $gameHash = substr($hash, 0, 6);
         $playerHash = substr($hash, 6, 10);
 
@@ -23,6 +47,6 @@ class PlayerController extends Controller
             throw new NotFoundHttpException('Can\'t find player '.$playerHash);
         } 
 
-        return $this->render('LichessBundle:Player:show', array('player' => $player));
+        return $player;
     }
 }

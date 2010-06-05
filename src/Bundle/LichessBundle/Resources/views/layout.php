@@ -2,6 +2,11 @@
 <?php $view->stylesheets->add('/bundle/lichess/css/lichess.css') ?>
 <?php $view->stylesheets->add('/bundle/lichess/css/layout.css') ?>
 
+<?php $view->javascripts->add('/bundle/lichess/js/jquery.min.js') ?>
+<?php $view->javascripts->add('/bundle/lichess/js/jquery-ui-1.8.2.custom.min.js') ?>
+<?php $view->javascripts->add('/bundle/lichess/js/ctrl.js') ?>
+<?php $view->javascripts->add('/bundle/lichess/js/game.js') ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +18,7 @@
         <div class="content">
             <h1 class="site_title_wrap">
                 <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>" id="logo">Lichess</a>
-                <div class="lichess_time">{LICHESS_TIME} s.</div>
+                <div class="lichess_time">{LICHESS_TIME} ms</div>
             </h1>
             <div id="lichess">
                 <?php $view->slots->output('_content') ?>

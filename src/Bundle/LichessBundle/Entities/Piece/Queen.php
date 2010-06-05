@@ -10,8 +10,19 @@ class Queen extends Piece
         return 'Queen';
     }
 
-    protected function getBasicTargetSquares()
+    public function getBasicTargetSquares()
     {
-        return array();
+        return array_merge(
+            //bishop
+            $this->getTargetsByProjection(1, 1),
+            $this->getTargetsByProjection(1, -1),
+            $this->getTargetsByProjection(-1, 1),
+            $this->getTargetsByProjection(-1, -1),
+            //rook
+            $this->getTargetsByProjection(0, -1),
+            $this->getTargetsByProjection(0, 1),
+            $this->getTargetsByProjection(-1, 0),
+            $this->getTargetsByProjection(+1, 0)
+        );
     }
 }
