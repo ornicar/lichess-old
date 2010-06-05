@@ -2,3 +2,15 @@ lichess_homepage:
   pattern:  /:color
   defaults: { _controller: LichessBundle:Main:index, color: white }
   requirements: { color: (white|black) }
+lichess_game:
+  pattern:  /:hash
+  defaults: { _controller: LichessBundle:Game:show }
+  requirements: { hash: "[\w]{6}" }
+lichess_player:
+  pattern:  /:hash
+  defaults: { _controller: LichessBundle:Player:show }
+  requirements: { hash: "[\w]{10}" }
+lichess_join_ai:
+  pattern:  /ai/:hash
+  defaults: { _controller: LichessBundle:Game:join }
+  requirements: { hash: "[\w]{10}" }

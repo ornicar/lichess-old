@@ -24,7 +24,7 @@ body {
   padding-top: 13px;
 }
 
-.site_title {
+a.site_title {
   width: 130px;
   color: #666;
   padding-top: 15px;
