@@ -4,68 +4,82 @@ namespace Bundle\LichessBundle\Persistence;
 
 class FilePersistence implements PersistenceInterface
 {
-  protected $dir;
-  
-  public function __construct($dir)
-  {
-    if(!is_string($dir) || !is_dir($dir))
-    {
-      throw new \Exception($dir.' is not a directory');
-    }
-    
-    if(!is_writable($dir))
-    {
-      throw new \Exception($dir.' is not writable');
-    }
+    protected $dir;
 
-    $this->dir = $dir;
-  }
-
-  public function save($game)
-  {
-    if(!file_put_contents($this->getGameFile($game), serialize($game)))
+    public function __construct($dir)
     {
-      throw new Exception('Can not save game '.$game->getHash().' to '.$this->getGameFile($game));
-    }
-  }
+        if(!is_string($dir) || !is_dir($dir))
+        {
+            throw new \Exception($dir.' is not a directory');
+        }
 
-  /**
-   * @param string $hash
-   * @return Game
-   */
-  public function find($hash)
-  {
-    $file = $this->dir.'/'.$hash;
+        if(!is_writable($dir))
+        {
+            throw new \Exception($dir.' is not writable');
+        }
 
-    if(!\file_exists($file))
-    {
-      throw new \Exception('Game file '.$file.' does not exist');
-    }
-    
-    $game = \unserialize(file_get_contents($file));
-    
-    if(!$game)
-    {
-      throw new \Exception('Can not load game from '.$file.': got a '.gettype($game));
+        $this->dir = $dir;
     }
 
-    return $game;
-  }
-
-  public function getUpdatedAt($hash)
-  {
-    $file = $this->dir.'/'.$hash;
-
-    if(!\file_exists($file))
+    public function save($game)
     {
-      throw new \Exception('Game file '.$file.' does not exist');
+        $data = serialize($game);
+        $data = $this->encode($data);
+        if(!file_put_contents($this->getGameFile($game), $data))
+        {
+            throw new Exception('Can not save game '.$game->getHash().' to '.$this->getGameFile($game));
+        }
     }
 
-    return filemtime($file);
-  }
+    /**
+     * @param string $hash
+     * @return Game
+     */
+    public function find($hash)
+    {
+        $file = $this->dir.'/'.$hash;
 
-  public function getGameFile($game)
-  {
-    return $this->dir.'/'.$game->getHash();
-  }
+        if(!\file_exists($file))
+        {
+            throw new \Exception('Game file '.$file.' does not exist');
+        }
+
+        $data = file_get_contents($file);
+        $data = $this->decode($data);
+        $game = \unserialize($data);
+
+        if(!$game)
+        {
+            return null;
+        }
+
+        return $game;
+    }
+
+    protected function encode($data)
+    {
+        return gzcompress($data, 1);
+    }
+
+    protected function decode($data)
+    {
+        return gzuncompress($data);
+    }
+
+    public function getUpdatedAt($hash)
+    {
+        $file = $this->dir.'/'.$hash;
+
+        if(!\file_exists($file))
+        {
+            throw new \Exception('Game file '.$file.' does not exist');
+        }
+
+        return filemtime($file);
+    }
+
+    public function getGameFile($game)
+    {
+        return $this->dir.'/'.$game->getHash();
+    }
 }
