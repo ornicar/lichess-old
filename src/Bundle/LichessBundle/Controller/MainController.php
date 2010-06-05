@@ -11,7 +11,11 @@ class MainController extends Controller
     public function indexAction($color)
     {
         $generator = new Lichess\Chess\Generator();
-        $player = $generator->createGame()->getPlayer($color);
+        $game = $generator->createGame();
+        $player = $game->getPlayer($color);
+        $game->setCreator($player);
+
+        $this->container->getLichessPersistenceService()->save($game);
 
         return $this->render('LichessBundle:Main:index', array(
             'player' => $player

@@ -20,6 +20,8 @@ class Generator
             'black' => $this->createPlayer($game, 'black')
         ));
 
+        $game->setCreator($game->getPlayer('white'));
+
         return $game;
     }
 
