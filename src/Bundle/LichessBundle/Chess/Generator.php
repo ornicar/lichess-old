@@ -26,6 +26,58 @@ class Generator
     }
 
     /**
+     * Create a game from a visual block notation like:
+r bqkb r
+ ppp ppp
+p n  n  
+    p   
+B   P   
+     N  
+PPPP PPP
+RNBQK  R
+    */
+    public function createGameFromVisualBlock($data)
+    {
+        $game = new Game();
+
+        $players = array();
+        foreach(array('white', 'black') as $color) {
+            $player = new Player($color);
+            $player->setGame($game);
+            $players[$color] = $player;
+        }
+
+        $game->setPlayers($players);
+        $game->setCreator($game->getPlayer('white'));
+
+        foreach(explode("\n", $data) as $_y => $line) {
+            $y = 8-$_y;
+            for($x=1; $x<9; $x++) {
+                $byte = $line{$x-1};
+                if(' ' === $byte) {
+                    continue;
+                }
+                $color = ctype_lower($byte) ? 'black' : 'white';
+                $player = $game->getPlayer($color);
+                switch(strtolower($byte)) {
+                    case 'p': $class = 'Pawn'; break;
+                    case 'r': $class = 'Rook'; break;
+                    case 'n': $class = 'Knight'; break;
+                    case 'b': $class = 'Bishop'; break;
+                    case 'q': $class = 'Queen'; break;
+                    case 'k': $class = 'King'; break;
+                }
+                $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
+                $piece = new $fullClass($x, $y);
+                $piece->setPlayer($player);
+                $player->addPiece($piece);
+            }
+        }
+
+        return $game;
+    }
+
+    /**
      * @return Player
      */
     public function createPlayer($game, $color)

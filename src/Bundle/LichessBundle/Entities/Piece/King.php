@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Chess\Square;
 use Bundle\LichessBundle\Chess\PieceFilter;
+use Bundle\LichessBundle\Chess\MoveFilter;
 
 class King extends Piece
 {
@@ -54,7 +55,7 @@ class King extends Piece
             }
         }
 
-        return $this->cannibalismFilter($squares);
+        return MoveFilter::filterCannibalism($this, $squares);
     }
 
     public function canCastleQueenside()

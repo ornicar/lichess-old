@@ -30,6 +30,23 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         return $game;
     }
 
+    public function testFromVisual()
+    {
+        $visual = <<<EOF
+r bqkb r
+ ppp ppp
+p n  n  
+    p   
+B   P   
+     N  
+PPPP PPP
+RNBQK  R
+EOF;
+        $generator = new Generator();
+        $game = $generator->createGameFromVisualBlock($visual);
+        $this->assertEquals("\n".$visual."\n", $game->getBoard()->dump());
+    }
+
     /**
      * @depends testGameCreation
      */

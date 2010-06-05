@@ -59,4 +59,28 @@ class ManipulatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->manipulator->move('a2 a5');
     }
+
+    public function testOpening()
+    {
+        $moves = array('e2 e4', 'e7 e5', 'g1 f3', 'b8 c6', 'f1 b5', 'a7 a6', 'b5 a4', 'g8 f6');
+        foreach($moves as $move) {
+            $this->manipulator->move($move);
+            $this->board->getGame()->addTurn();
+            $this->board->compile();
+        }
+        $expected = <<<EOF
+
+r bqkb r
+ ppp ppp
+p n  n  
+    p   
+B   P   
+     N  
+PPPP PPP
+RNBQK  R
+
+EOF;
+        $this->assertEquals($expected, $this->board->dump());
+    }
+
 }

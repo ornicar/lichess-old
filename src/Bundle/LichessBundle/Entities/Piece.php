@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Entities;
 
 use Bundle\LichessBundle\Chess\Square;
 use Bundle\LichessBundle\Chess\PieceFilter;
+use Bundle\LichessBundle\Chess\MoveFilter;
 
 abstract class Piece
 {
@@ -180,7 +181,7 @@ abstract class Piece
 
         if ($protectKing)
         {
-            $targets = $this->protectKingFilter($targets);
+            $targets = MoveFilter::filterProtectKing($this, $targets);
         }
 
         return $targets;
@@ -220,129 +221,11 @@ abstract class Piece
         return $squares;
     }
 
-    // prevent a piece to eat a friend
-    protected function cannibalismFilter(array $targets)
+    public function kill()
     {
-        foreach($targets as $it => $target)
-        {
-            if ($target && ($piece = $target->getPiece()) && ($piece->getPlayer() === $this->player))
-            {
-                unset($targets[$it]);
-            }
-        }
-
-        return $targets;
-    }
-
-    // prevent leaving the king without protection
-    protected function protectKingFilter(array $targets)
-    {
-        if(empty($targets))
-        {
-            return $targets;
-        }
-
-        $king = $this->getPlayer()->getKing();
-        $kingSquareKey = $king->getSquareKey();
-
-        // create virtual objects
-        $_game        = $this->getGame()->getClone();
-        $_game->getBoard()->compile();
-        # TODO check if we can just use the piece square instead
-        $_thisSquare  = $_game->getBoard()->getSquareByKey($this->getSquareKey());
-        $_this        = $_thisSquare->getPiece();
-        $_player      = $_this->getPlayer();
-        $_opponent    = $_player->getOpponent();
-
-        // if we are moving the king, or if king is attacked, verify every opponent pieces
-        if ($_this instanceof King || $king->isAttacked())
-        {
-            $_opponentPieces = PieceFilter::filterAlive($_opponent->getPieces());
-        }
-        // otherwise only verify projection pieces: bishop, rooks and queens
-        else
-        {
-            $_opponentPieces = PieceFilter::filterAlive(PieceFilter::filterProjection($_opponent->getPieces()));
-        }
-
-        foreach($targets as $it => $square)
-        {
-            $_square = $_game->getBoard()->getSquareByKey($square->getKey());
-
-            // kings move to its target
-            if ($_this instanceof King)
-            {
-                $kingSquareKey = $square->getKey();
-            }
-
-            // kill opponent piece
-            if ($_killedPiece = $_square->getPiece())
-            {
-                $_killedPiece->kill(false);
-            }
-
-            $_this->setX($_square->getX());
-            $_this->setY($_square->getY());
-
-            $_game->getBoard()->compile();
-
-            foreach($_opponentPieces as $_opponentPiece)
-            {
-                if ($_opponentPiece->getIsDead())
-                {
-                    continue;
-                }
-
-                // if our king gets attacked
-                if (in_array($kingSquareKey, $_opponentPiece->getTargetKeys(false)))
-                {
-                    // can't go here
-                    unset($targets[$it]);
-                    break;
-                }
-            }
-
-            // if a virtual piece has been killed, bring it back to life
-            if ($_killedPiece)
-            {
-                $_killedPiece->setIsDead(0);
-                $_killedPiece->setX($_square->getX());
-                $_killedPiece->setY($_square->getY());
-            }
-        }
-
-        // restore position
-        $_this->setX($this->getX());
-        $_this->setY($this->getY());
-
-        return $targets;
-    }
-
-    public function moveToPos($x, $y, $checkMoveIntegrity = true, array $options = array())
-    {
-        return $this->moveToSquare($this->Board->getSquarebyPos($x, $y), $checkMoveIntegrity, $options);
-    }
-
-    public function moveToSquareKey($squareKey, $checkMoveIntegrity = true, array $options = array())
-    {
-        return $this->moveToSquare($this->Board->getSquarebyKey($squareKey), $checkMoveIntegrity, $options);
-    }
-
-    public function moveToSquare(Square $square, $checkMoveIntegrity = true, array $options = array())
-    {
-        return $this->getPlayer()->movePieceToSquare($this, $square, $checkMoveIntegrity, $options);
-    }
-
-    public function kill($andSave = true)
-    {
-        $this->set('is_dead', $this->getGame()->get('turns'));
-        $this->set('x', null);
-        $this->set('y', null);
-
-        if ($andSave)
-        {
-            $this->save();
-        }
+        $this->setIsDead(true);
+        $this->setX(null);
+        $this->setY(null);
     }
 
     public function canMoveToSquare(Square $square)
@@ -374,9 +257,9 @@ abstract class Piece
 
     public function toDebug()
     {
-        $pos = ($square = $this->getSquare()) ? $square->getHumanPos() : 'no-pos';
+        $pos = ($square = $this->getSquare()) ? $square->getKey() : 'no-pos';
 
-        return $this->id.': '.$this->type.' '.$this->color.' in '.$pos;
+        return $this->getClass().' '.$this->getPlayer()->getColor().' in '.$pos;
     }
 
     public function __toString()

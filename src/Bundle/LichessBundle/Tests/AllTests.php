@@ -9,6 +9,7 @@ require_once __DIR__.'/Chess/GeneratorTest.php';
 require_once __DIR__.'/Chess/BoardTest.php';
 require_once __DIR__.'/Chess/SquareTest.php';
 require_once __DIR__.'/Chess/PieceFilterTest.php';
+require_once __DIR__.'/Chess/MoveFilterTest.php';
 require_once __DIR__.'/Chess/ManipulatorTest.php';
 require_once __DIR__.'/Piece/PawnTest.php';
 require_once __DIR__.'/Piece/RookTest.php';
@@ -16,6 +17,7 @@ require_once __DIR__.'/Piece/KnightTest.php';
 require_once __DIR__.'/Piece/BishopTest.php';
 require_once __DIR__.'/Piece/QueenTest.php';
 require_once __DIR__.'/Piece/KingTest.php';
+require_once __DIR__.'/Ai/StupidTest.php';
 
 class AllTests
 {
@@ -30,6 +32,7 @@ class AllTests
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\BoardTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\SquareTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PieceFilterTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\MoveFilterTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\ManipulatorTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\PawnTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\RookTest');
@@ -37,6 +40,7 @@ class AllTests
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\BishopTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\QueenTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\KingTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Ai\StupidTest');
 
     return $suite;
   }

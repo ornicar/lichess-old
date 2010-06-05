@@ -9,23 +9,18 @@ class Stupid extends Ai
 
   public function move()
   {
-    $targetKeysByPiece = $this->player->getTargetKeysByPieces();
+    $moveTree = $this->player->getPossibleMoves();
     
     // choose random piece
     do
     {
-      $pieceId = array_rand($targetKeysByPiece);
+      $from = array_rand($moveTree);
     }
-    while(empty($targetKeysByPiece[$pieceId]));
+    while(empty($moveTree[$from]));
     
     // choose random move
-    $toSquareKey = $targetKeysByPiece[$pieceId][array_rand($targetKeysByPiece[$pieceId])];
+    $to = $moveTree[$from][array_rand($moveTree[$from])];
     
-    if (!$this->player->getPieceById($pieceId)->moveToSquareKey($toSquareKey))
-    {
-      throw new \Exception('Illegal move: '.$move['from'].'->'.$move['to']);
-    }
-    
-    return true;
+    return $from.' '.$to;
   }
 }

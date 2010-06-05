@@ -13,3 +13,4 @@ require_once __DIR__.'/../Chess/Generator.php';
 require_once __DIR__.'/../Chess/Board.php';
 require_once __DIR__.'/../Chess/Square.php';
 require_once __DIR__.'/../Chess/PieceFilter.php';
+require_once __DIR__.'/../Chess/MoveFilter.php';

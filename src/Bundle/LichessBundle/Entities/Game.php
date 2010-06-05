@@ -242,6 +242,11 @@ class Game
         $this->turns = $turns;
     }
 
+    public function addTurn()
+    {
+        ++$this->turns;
+    }
+
     public function getPieces()
     {
         return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
@@ -259,13 +264,17 @@ class Game
 
     public function getClone()
     {
-        $clone = clone($this);
+        $clone = clone $this;
         foreach($this->getPlayers() as $color => $player) {
-            $clone->setPlayer($color, $player->getClone());
+            $playerClone = $player->getClone();
+            $playerClone->setGame($clone);
+            $clone->setPlayer($color, $playerClone);
         }
 
-        $clone->setBoard(clone $this->getBoard());
-        $clone->getBoard()->compile();
+        $boardClone = clone $this->getBoard();
+        $boardClone->setGame($clone);
+        $clone->setBoard($boardClone);
+        $boardClone->compile();
 
         return $clone;
     }
