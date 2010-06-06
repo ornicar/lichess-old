@@ -108,6 +108,29 @@ EOF;
         $this->assertEquals($board->squaresToKeys($expectedMoves), $board->squaresToKeys($filteredMoves));
     }
 
+    public function testProtectKingFilterMustEatToDefendAllPossibleMoves()
+    {
+        $data = <<<EOF
+ nbqkp r
+pppppppp
+        
+        
+        
+    rr  
+PPPP  PP
+RNBPKPRR
+EOF;
+
+        $generator = new Generator();
+        $game = $generator->createGameFromVisualBlock($data);
+        $board = $game->getBoard();
+        
+        $expectedMoveTree = array('d2' => array('e3'));
+        $moveTree = $game->getPlayer('white')->getPossibleMoves();
+        $moveTree = array_filter($moveTree);
+        $this->assertEquals($expectedMoveTree, $moveTree);
+    }
+
     public function testProtectKingFilterDecouverte()
     {
         $data = <<<EOF

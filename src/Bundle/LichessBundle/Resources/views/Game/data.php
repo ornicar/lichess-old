@@ -15,7 +15,7 @@ $data = array(
         'color' => $player->getColor()
     ),
     'opponent' => array(
-        'color' => $player->getColor()
+        'color' => $player->getOpponent()->getColor()
     ),
     'beat' => array(
         'delay' => 2000,
@@ -29,7 +29,8 @@ $data = array(
         'Game Over' => 'Game Over',
         'Waiting for opponent' => 'Waiting for opponent',
         'Your turn' => 'Your turn'
-    )
+    ),
+    'possible_moves' => ($game->getIsStarted() && $player->isMyTurn()) ? array_filter($player->getPossibleMoves()) : array()
 );
 ?>
 <script type="text/javascript">var lichess_data = <?php echo json_encode($data) ?>;</script>

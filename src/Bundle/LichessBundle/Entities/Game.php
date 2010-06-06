@@ -177,6 +177,14 @@ class Game
     /**
      * @return Player
      */
+    public function getTurnPlayer()
+    {
+        return $this->turns%2 ? $this->getPlayer('black') : $this->getPlayer('white');
+    }
+
+    /**
+     * @return Player
+     */
     public function getCreator()
     {
         return $this->creator;
