@@ -12,6 +12,9 @@ require_once __DIR__.'/Chess/PieceFilterTest.php';
 require_once __DIR__.'/Chess/MoveFilterTest.php';
 require_once __DIR__.'/Chess/ManipulatorTest.php';
 require_once __DIR__.'/Chess/PossibleMovesTest.php';
+require_once __DIR__.'/Chess/PromotionTest.php';
+require_once __DIR__.'/Chess/EnPassantTest.php';
+require_once __DIR__.'/Chess/PlayTest.php';
 require_once __DIR__.'/Piece/PawnTest.php';
 require_once __DIR__.'/Piece/RookTest.php';
 require_once __DIR__.'/Piece/KnightTest.php';
@@ -28,6 +31,12 @@ class AllTests
 
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Entities\GameTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Entities\PlayerTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\PawnTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\RookTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\KnightTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\BishopTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\QueenTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\KingTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Persistence\FilePersistenceTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\GeneratorTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\BoardTest');
@@ -36,12 +45,9 @@ class AllTests
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\MoveFilterTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\ManipulatorTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PossibleMovesTest');
-    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\PawnTest');
-    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\RookTest');
-    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\KnightTest');
-    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\BishopTest');
-    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\QueenTest');
-    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Piece\KingTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PromotionTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\EnPassantTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PlayTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Ai\StupidTest');
 
     return $suite;
