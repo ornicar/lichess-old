@@ -1,6 +1,7 @@
 <?php
 
-$squares = $player->getGame()->getBoard()->getSquares();
+$game = $player->getGame();
+$squares = $game->getBoard()->getSquares();
 
 if ($player->isBlack())
 {
@@ -15,7 +16,7 @@ foreach($squares as $squareKey => $square)
 {
   $piece = $square->getPiece();
   
-  $check = ($piece && $piece->isClass('King') && $piece->isAttacked()) ? ' check' : '';
+  $check = ($piece && $game->getIsStarted() && $piece->isClass('King') && $piece->getPlayer()->isMyTurn() && $piece->isAttacked()) ? ' check' : '';
 
   printf('<div class="lichess_square %s%s" id="%s" style="top:%dpx;left:%dpx;">', $square->getColor(), $check, $squareKey, 64*(8-$x), 64*($y-1));
 

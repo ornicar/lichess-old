@@ -25,7 +25,7 @@ class MoveFilter
     }
 
     // prevent leaving the king without protection
-    public static function filterProtectKing(Piece $piece, array $targets)
+    public static function NOCLONEfilterProtectKing(Piece $piece, array $targets)
     {
         if(empty($targets))
         {
@@ -39,7 +39,6 @@ class MoveFilter
         // create virtual objects
         $_game        = $player->getGame()->getClone();
         $_board       = $_game->getBoard();
-        # TODO check if we can just use the piece square instead
         $_pieceSquare  = $_board->getSquareByKey($piece->getSquareKey());
         $_piece        = $_pieceSquare->getPiece();
         $_player      = $_piece->getPlayer();
@@ -105,6 +104,77 @@ class MoveFilter
         // restore position
         $_piece->setX($piece->getX());
         $_piece->setY($piece->getY());
+
+        return $targets;
+    }
+
+    // prevent leaving the king without protection
+    public static function filterProtectKing(Piece $piece, array $targets)
+    {
+        if(empty($targets))
+        {
+            return $targets;
+        }
+
+        $player = $piece->getPlayer();
+        $board = $player->getGame()->getBoard();
+        $king = $player->getKing();
+        $kingSquareKey = $king->getSquareKey();
+        $pieceOriginalX = $piece->getX();
+        $pieceOriginalY = $piece->getY();
+
+        // if we are moving the king, or if king is attacked, verify every opponent pieces
+        if ($piece instanceof King || $king->isAttacked())
+        {
+            $opponentPieces = PieceFilter::filterAlive($player->getOpponent()->getPieces());
+        }
+        // otherwise only verify projection pieces: bishop, rooks and queens
+        else
+        {
+            $opponentPieces = PieceFilter::filterAlive(PieceFilter::filterProjection($player->getOpponent()->getPieces()));
+        }
+
+        foreach($targets as $it => $square)
+        {
+            // kings move to its target so we update its position
+            if ($piece instanceof King)
+            {
+                $kingSquareKey = $square->getKey();
+            }
+
+            // kill opponent piece
+            if ($killedPiece = $square->getPiece())
+            {
+                $killedPiece->setIsDead(true);
+            }
+
+            $board->move($piece, $square->getX(), $square->getY());
+
+            foreach($opponentPieces as $opponentPiece)
+            {
+                if (null !== $killedPiece && $opponentPiece->getIsDead())
+                {
+                    continue;
+                }
+
+                // if our king gets attacked
+                if (in_array($kingSquareKey, $opponentPiece->getTargetKeys(false)))
+                {
+                    // can't go here
+                    unset($targets[$it]);
+                    break;
+                }
+            }
+
+            $board->move($piece, $pieceOriginalX, $pieceOriginalY);
+
+            // if a virtual piece has been killed, bring it back to life
+            if ($killedPiece)
+            {
+                $killedPiece->setIsDead(false);
+                $board->add($killedPiece);
+            }
+        }
 
         return $targets;
     }

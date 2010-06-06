@@ -47,9 +47,9 @@ class StupidTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($dump, $this->board->dump());
     }
 
-    public function testMove10Times()
+    public function testMoveManyTimes()
     {
-        for($it=0; $it<10; $it++) {
+        for($it=0; $it<5; $it++) {
             $dump = $this->board->dump();
             $move = $this->ai->move();
             $this->manipulator->move($move);

@@ -39,6 +39,9 @@ class King extends Piece
                 {
                     $canCastle = true;
                     $squaresToRook = $this->getSquaresToRook($rook);
+                    if(count($squaresToRook) < 2) {
+                        continue;
+                    }
                     foreach($squaresToRook as $square)
                     {
                         if (!$square->isEmpty() || $square->isControlledBy($opponent))
