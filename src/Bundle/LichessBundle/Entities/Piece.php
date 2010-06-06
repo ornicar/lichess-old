@@ -170,23 +170,6 @@ abstract class Piece
         $this->player = $player;
     }
 
-    public function getTargetKeys($protectKing = true)
-    {
-        return $this->getBoard()->squaresToKeys($this->getTargetSquares($protectKing));
-    }
-
-    public function getTargetSquares($protectKing = true)
-    {
-        $targets = $this->getBoard()->cleanSquares($this->getBasicTargetSquares());
-
-        if ($protectKing)
-        {
-            $targets = MoveFilter::filterProtectKing($this, $targets);
-        }
-
-        return $targets;
-    }
-
     protected function getTargetsByProjection($x, $y)
     {
         $squares = array();
@@ -219,13 +202,6 @@ abstract class Piece
         }
 
         return $squares;
-    }
-
-    public function kill()
-    {
-        $this->setIsDead(true);
-        $this->setX(null);
-        $this->setY(null);
     }
 
     public function canMoveToSquare(Square $square)
@@ -277,16 +253,6 @@ abstract class Piece
         return null !== $this->firstMove;
     }
 
-    public function preMove(Square $oldSquare, Square $square, array $options = array())
-    {
-
-    }
-
-    public function postMove(Square $oldSquare, Square $square, array $options = array())
-    {
-
-    }
-
     public function getForsythe()
     {
         $class = $this->getClass();
@@ -310,12 +276,7 @@ abstract class Piece
 
     protected function getCache($key)
     {
-        if(isset($this->cache[$key]))
-        {
-            return $this->cache[$key];
-        }
-
-        return null;
+        return $this->cache[$key];
     }
 
     protected function hasCache($key)
@@ -328,18 +289,9 @@ abstract class Piece
         return $this->cache[$key] = $value;
     }
 
-    public function clearCache($key = null)
+    public function clearCache()
     {
-        if (null === $key)
-        {
-            $this->cache = array();
-        }
-        elseif(isset($this->cache[$key]))
-        {
-            unset($this->cache[$key]);
-        }
-
-        return $this;
+        $this->cache = array();
     }
 
     public function serialize()

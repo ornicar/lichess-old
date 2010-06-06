@@ -28,6 +28,8 @@ class King extends Piece
             $mySquare->getSquareByRelativePos(1, 1)
         );
 
+        $debug = $this->getPlayer()->getGame()->getTurns() == 19 && 'black' == $this->getColor(); 
+
         // castles
         if (!$this->hasMoved() && !$this->isAttacked())
         {
@@ -38,10 +40,8 @@ class King extends Piece
                 if (!$rook->hasMoved())
                 {
                     $canCastle = true;
-                    $squaresToRook = $this->getSquaresToRook($rook);
-                    if(count($squaresToRook) < 2) {
-                        continue;
-                    }
+                    $dx = $this->getX() > $rook->getX() ? -1 : 1;
+                    $squaresToRook = array($mySquare->getSquareByRelativePos($dx, 0), $mySquare->getSquareByRelativePos(2*$dx, 0)); 
                     foreach($squaresToRook as $square)
                     {
                         if (!$square->isEmpty() || $square->isControlledBy($opponent))
@@ -95,50 +95,4 @@ class King extends Piece
 
         return $squares;
     }
-
-    // handle castle
-    public function postMove(Square $from, Square $to, array $options = array())
-    {
-        if (2 == abs($from->getX() - $to->getX()))
-        {
-            if ($to->getX() == 7)
-            {
-                $side = 'king';
-                $rookSquare = $to->getSquareByRelativePos(1, 0);
-                $newRookSquare = $to->getSquareByRelativePos(-1, 0);
-            }
-            else
-            {
-                $side = 'queen';
-                $rookSquare = $to->getSquareByRelativePos(-2, 0);
-                $newRookSquare = $to->getSquareByRelativePos(1, 0);
-            }
-
-            $rook = $rookSquare->getPiece();
-            $rook->x = $newRookSquare->getX();
-
-            $rook->save();
-
-            $this->getEventDispatcher()->notify(new dmChessPieceCastleEvent($this, 'dm.chess.piece_castle', array(
-                'side'        => $side,
-                'king'        => $this,
-                'king_from'   => $from,
-                'king_to'     => $to,
-                'rook'        => $rook,
-                'rook_from'   => $rookSquare,
-                'rook_to'     => $newRookSquare
-            )));
-        }
-    }
-
-    public function isAttacked()
-    {
-        if($this->hasCache('is_attacked'))
-        {
-            return $this->getCache('is_attacked');
-        }
-
-        return $this->setCache('is_attacked', $this->getGame()->getIsStarted() && $this->getSquare()->isControlledBy($this->getPlayer()->getOpponent()));
-    }
-
 }
