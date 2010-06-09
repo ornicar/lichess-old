@@ -71,9 +71,9 @@ class Analyser
         $allOpponentPieces = PieceFilter::filterNotClass(PieceFilter::filterAlive($player->getOpponent()->getPieces()), 'King');
         $projectionOpponentPieces = PieceFilter::filterProjection($allOpponentPieces);
         $king = $player->getKing();
-        $kingSquareKey = $king->getSquareKey();
         foreach(PieceFilter::filterAlive($player->getPieces()) as $piece)
         {
+            $kingSquareKey = $king->getSquareKey();
             $pieceOriginalX = $piece->getX();
             $pieceOriginalY = $piece->getY();
             //if we are not moving the king, and the king is not attacked, don't check pawns nor knights
@@ -173,21 +173,15 @@ class Analyser
             $squaresToRook = array();
             $dx = $kingSquare->getX() > $rookSquare->getX() ? -1 : 1;
             $square = $kingSquare;
+            $it = 0;
             while(($square = $square->getSquareByRelativePos($dx, 0)) && !$square->is($rookSquare))
             {
-                $squaresToRook[] = $square;
-            }
-            foreach($squaresToRook as $square)
-            {
-                if (!$square->isEmpty() || in_array($square->getKey(), $opponentControlledKeys))
-                {
-                    $canCastle = false;
+                if (!$square->isEmpty() || in_array($square->getKey(), $opponentControlledKeys)) {
                     break;
                 }
-            }
-            if ($canCastle)
-            {
-                $squares[] = $squaresToRook[1];
+                elseif(2 === ++$it) {
+                    $squares[] = $square;
+                }
             }
         }
         return $squares;
