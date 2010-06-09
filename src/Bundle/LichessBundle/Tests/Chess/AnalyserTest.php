@@ -29,8 +29,7 @@ EOF;
 
         $this->generate($data);
         $piece = $this->board->getPieceByKey('e1');
-
-        $this->assertEquals(array('f2'), $this->analyser->getPiecePossibleMoves($piece));
+        $this->assertEquals(array('f2'), $this->getPiecePossibleMoves($piece));
     }
 
     public function testProtectKingFilterMustMoveToDefend()
@@ -47,7 +46,7 @@ RNBQK  R
 EOF;
         $this->generate($data);
         $piece = $this->board->getPieceByKey('d1');
-        $this->assertEquals(array('e2'), $this->analyzer->getPiecePossibleMoves($piece));
+        $this->assertEquals(array('e2'), $this->getPiecePossibleMoves($piece));
     }
 
     public function testProtectKingFilterMustEatToDefend()
@@ -64,7 +63,7 @@ R  QK  R
 EOF;
         $this->generate($data);
         $piece = $this->board->getPieceByKey('d3');
-        $this->assertEquals(array('e4', 'e2'), $this->analyser->getPiecePossibleMoves($piece));
+        $this->assertEquals(array('e4', 'e2'), $this->getPiecePossibleMoves($piece));
     }
 
     public function testProtectKingFilterMustStayToDefend()
@@ -81,7 +80,7 @@ RNBQK  R
 EOF;
         $this->generate($data);
         $piece = $this->board->getPieceByKey('a2');
-        $this->assertEquals(array('a3', 'a4'), $this->analyser->getPiecePossibleMoves($piece));
+        $this->assertEquals(array(), $this->getPiecePossibleMoves($piece));
     }
 
     public function testProtectKingFilterMustEatToDefendAllPossibleMoves()
@@ -98,7 +97,7 @@ RNBPKPRR
 EOF;
         $this->generate($data);
         $piece = $this->board->getPieceByKey('d2');
-        $this->assertEquals(array('e3'), $this->analyser->getPiecePossibleMoves($piece));
+        $this->assertEquals(array('e3'), $this->getPiecePossibleMoves($piece));
     }
 
     public function testProtectKingFilterDecouverte()
@@ -115,7 +114,7 @@ RNBQKBNR
 EOF;
         $this->generate($data);
         $piece = $this->board->getPieceByKey('d2');
-        $this->assertEquals(array(), $this->analyser->getPiecePossibleMoves($piece));
+        $this->assertEquals(array(), $this->getPiecePossibleMoves($piece));
     }
 
     public function testProtectKingFilterCanEatAttacker()
@@ -132,7 +131,14 @@ RNBQK NR
 EOF;
         $this->generate($data);
         $piece = $this->board->getPieceByKey('e1');
-        $this->assertEquals(array('d2', 'f1'), $this->analyser->getPiecePossibleMoves($piece));
+        $this->assertEquals(array('d2', 'f1'), $this->getPiecePossibleMoves($piece));
+    }
+
+    protected function getPiecePossibleMoves($piece)
+    {
+        $analysis = $this->analyser->getPlayerPossibleMoves($piece->getPlayer());
+        $key = $piece->getSquareKey();
+        return isset($analysis[$key]) ? $analysis[$key] : array();
     }
 
     protected function generate($data)
