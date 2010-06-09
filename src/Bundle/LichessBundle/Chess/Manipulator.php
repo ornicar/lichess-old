@@ -34,7 +34,7 @@ class Manipulator
         $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($player->getOpponent());
         if(empty($opponentPossibleMoves)) {
             $this->game->setIsFinished(true);
-            if($analyser->isKingAttacked($player->getOpponent())) {
+            if($this->analyser->isKingAttacked($player->getOpponent())) {
                 $player->setIsWinner(true);
             }
         }

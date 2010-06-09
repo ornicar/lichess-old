@@ -12,6 +12,8 @@ require_once __DIR__.'/../../Chess/Manipulator.php';
 
 class PossibleMovesTest extends \PHPUnit_Framework_TestCase
 {
+    protected $game;
+
     public function test1()
     {
         $data = <<<EOF
@@ -157,8 +159,8 @@ EOF;
     protected function createGame($data)
     {
         $generator = new Generator();
-        $game = $generator->createGameFromVisualBlock($data);
-        return $game; 
+        $this->game = $generator->createGameFromVisualBlock($data);
+        return $this->game; 
     }
 
     protected function sort($array)
