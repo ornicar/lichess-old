@@ -29,7 +29,7 @@ EOF;
 
         $this->generate($data);
         $piece = $this->board->getPieceByKey('e1');
-        $this->assertEquals(array('f2'), $this->getPiecePossibleMoves($piece));
+        $this->assertEquals(array('f2', 'g1'), $this->getPiecePossibleMoves($piece));
     }
 
     public function testProtectKingFilterMustMoveToDefend()
