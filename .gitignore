@@ -5,3 +5,4 @@
 /lichess/data/*
 # except README
 !/lichess/data/README
+tags

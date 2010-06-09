@@ -72,8 +72,9 @@ class Manipulator
             throw new \LogicException('Can not play '.$from.' '.$to.' - Not '.$piece->getColor().' player turn');
         }
 
-        if(!in_array($to->getKey(), $this->analyser->getPiecePossibleMoves($piece))) {
-            throw new \LogicException($piece.' can not go to '.$to.' ('.implode(',', $this->analyser->getPiecePossibleMoves($piece)).')');
+        $possibleMoves = $this->analyser->getPiecePossibleMoves($piece);
+        if(!in_array($to->getKey(), $possibleMoves)) {
+            throw new \LogicException($piece.' can not go to '.$to.' ('.implode(',', $possibleMoves).')');
         }
 
         if($killed = $to->getPiece()) {

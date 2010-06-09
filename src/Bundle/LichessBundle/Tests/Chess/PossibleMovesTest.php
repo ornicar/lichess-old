@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\MoveFilter;
 
 require_once __DIR__.'/../gameBootstrap.php';
