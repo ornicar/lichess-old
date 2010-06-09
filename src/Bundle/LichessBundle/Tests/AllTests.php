@@ -9,7 +9,7 @@ require_once __DIR__.'/Chess/GeneratorTest.php';
 require_once __DIR__.'/Chess/BoardTest.php';
 require_once __DIR__.'/Chess/SquareTest.php';
 require_once __DIR__.'/Chess/PieceFilterTest.php';
-require_once __DIR__.'/Chess/MoveFilterTest.php';
+require_once __DIR__.'/Chess/AnalyserTest.php';
 require_once __DIR__.'/Chess/ManipulatorTest.php';
 require_once __DIR__.'/Chess/PossibleMovesTest.php';
 require_once __DIR__.'/Chess/PromotionTest.php';
@@ -42,7 +42,7 @@ class AllTests
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\BoardTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\SquareTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PieceFilterTest');
-    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\MoveFilterTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\AnalyserTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\ManipulatorTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PossibleMovesTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PromotionTest');

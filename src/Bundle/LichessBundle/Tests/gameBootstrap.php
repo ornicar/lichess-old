@@ -15,4 +15,4 @@ require_once __DIR__.'/../Chess/Square.php';
 require_once __DIR__.'/../Chess/PieceFilter.php';
 require_once __DIR__.'/../Chess/MoveFilter.php';
 require_once __DIR__.'/../Chess/Manipulator.php';
-require_once __DIR__.'/../Analyser.php';
+require_once __DIR__.'/../Chess/Analyser.php';
