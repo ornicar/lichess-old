@@ -37,15 +37,6 @@ class Square
     return !$this->getPiece();
   }
 
-  public function isControlledBy(Player $player)
-  {
-    return in_array($this->key, $player->getControlledKeys());
-  }
-
-  /*
-   * Basic accessors
-   */
-
   public function __toString()
   {
     return $this->getKey();

@@ -31,8 +31,8 @@ class Manipulator
         $this->move($notation, $options);
 
         $player = $this->game->getTurnPlayer();
-        $possibleMoves = $analyser->getPlayerPossibleMoves($player->getOpponent());
-        if(empty($possibleMoves)) {
+        $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($player->getOpponent());
+        if(empty($opponentPossibleMoves)) {
             $this->game->setIsFinished(true);
             if($analyser->isKingAttacked($player->getOpponent())) {
                 $player->setIsWinner(true);
@@ -42,7 +42,7 @@ class Manipulator
             $this->game->addTurn();
         }
 
-        return $possibleMoves;
+        return $opponentPossibleMoves;
     }
 
     /**
@@ -72,7 +72,13 @@ class Manipulator
             throw new \LogicException('Can not play '.$from.' '.$to.' - Not '.$piece->getColor().' player turn');
         }
 
-        $possibleMoves = $this->analyser->getPiecePossibleMoves($piece);
+        $analysis = $this->analyser->getPlayerPossibleMoves($piece->getPlayer());
+        $possibleMoves = isset($analysis[$from->getKey()]) ? $analysis[$from->getKey()] : null;
+
+        if(!$possibleMoves) {
+            throw new \LogicException($piece.' can not move');
+        }
+
         if(!in_array($to->getKey(), $possibleMoves)) {
             throw new \LogicException($piece.' can not go to '.$to.' ('.implode(',', $possibleMoves).')');
         }

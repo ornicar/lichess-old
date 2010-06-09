@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
 
 require_once __DIR__.'/../gameBootstrap.php';
@@ -12,6 +13,7 @@ require_once __DIR__.'/../../Chess/Manipulator.php';
 class PromotionTest extends \PHPUnit_Framework_TestCase
 {
     protected $game;
+    protected $analyser;
 
     public function testPromotionQueen()
     {
@@ -28,7 +30,7 @@ EOF;
         $game = $this->game = $this->createGame($data);
         $this->move('b7 b8', array('promotion' => 'Queen'));
         $this->assertTrue($this->game->getBoard()->getPieceByKey('b8')->isClass('Queen'));
-        $this->assertTrue($this->game->getBoard()->getPieceByKey('h8')->isAttacked());
+        $this->assertTrue($this->analyser->isKingAttacked($this->game->getPlayer('black')));
         $this->assertEquals(0, count(PieceFilter::filterClass($this->game->getPlayer('white')->getPieces(), 'Pawn')));
         $this->assertEquals(1, count(PieceFilter::filterClass($this->game->getPlayer('white')->getPieces(), 'Queen')));
     }
@@ -48,7 +50,7 @@ EOF;
         $game = $this->game = $this->createGame($data);
         $this->move('b7 b8', array('promotion' => 'Knight'));
         $this->assertTrue($this->game->getBoard()->getPieceByKey('b8')->isClass('Knight'));
-        $this->assertTrue($this->game->getBoard()->getPieceByKey('d7')->isAttacked());
+        $this->assertTrue($this->analyser->isKingAttacked($this->game->getPlayer('black')));
         $this->assertEquals(0, count(PieceFilter::filterClass($this->game->getPlayer('white')->getPieces(), 'Pawn')));
         $this->assertEquals(1, count(PieceFilter::filterClass($this->game->getPlayer('white')->getPieces(), 'Knight')));
     }
@@ -68,7 +70,7 @@ EOF;
         $game = $this->game = $this->createGame($data);
         $this->move('a1 a2');
         $this->assertNull($this->game->getBoard()->getPieceByKey('b8'));
-        $this->assertFalse($this->game->getBoard()->getPieceByKey('h8')->isAttacked());
+        $this->assertTrue($this->analyser->isKingAttacked($this->game->getPlayer('black')));
         $this->assertEquals(1, count(PieceFilter::filterClass($this->game->getPlayer('white')->getPieces(), 'Pawn')));
         $this->assertEquals(0, count(PieceFilter::filterClass($this->game->getPlayer('white')->getPieces(), 'Knight')));
     }
@@ -120,6 +122,7 @@ EOF;
         else {
             $game = $generator->createGame();
         }
+        $this->analyser = new Analyser($game->getBoard());
         $game->setIsStarted(true);
         $game->setTurns(30);
         return $game; 

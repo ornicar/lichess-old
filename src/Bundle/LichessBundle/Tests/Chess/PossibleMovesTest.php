@@ -73,6 +73,22 @@ EOF;
         $this->assertEquals($this->sort(array('f5', 'e6', 'd7', 'c8', 'h5', 'h3', 'f3')), $this->sort($moveTree['g4']));
     }
 
+    public function testCastling()
+    {
+        $data = <<<EOF
+r  q rk 
+pp  ppbp
+ np  np 
+  Q   B 
+   pp b 
+  N  N  
+PP   PPP
+R   K  R
+EOF;
+        $moveTree = $this->computePossibleMoves($data);
+        $this->assertEquals(array('e2', 'd1', 'd2', 'f1', 'c1', 'g1'), $moveTree['e1']);
+    }
+
     public function test4()
     {
         $data = <<<EOF
@@ -111,13 +127,14 @@ EOF;
         $game->clearCache();
         $wp->setFirstMove(12);
         $bp->setFirstMove(29);
-        $possibleMoves = $game->getTurnPlayer()->getPossibleMoves();
+        $analyser = new Analyser($game->getBoard());
+        $possibleMoves = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());
         $this->assertEquals(array('e7', 'f7'), $possibleMoves['e6']);
 
         $game->clearCache();
         $wp->setFirstMove(12);
         $bp->setFirstMove(13);
-        $possibleMoves = $game->getTurnPlayer()->getPossibleMoves();
+        $possibleMoves = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());
         $this->assertEquals(array('e7'), $possibleMoves['e6']);
     }
 
@@ -127,7 +144,8 @@ EOF;
         $game->setTurns($turn);
         $game->setIsStarted(true);
         
-        $moveTree = $game->getTurnPlayer()->getPossibleMoves();
+        $analyser = new Analyser($game->getBoard());
+        $moveTree = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());
         return $moveTree;
     }
 
