@@ -30,7 +30,7 @@ $data = array(
         'Waiting for opponent' => 'Waiting for opponent',
         'Your turn' => 'Your turn'
     ),
-    'possible_moves' => ($game->getIsStarted() && $player->isMyTurn()) ? $player->getPossibleMoves() : array()
+    'possible_moves' => $possibleMoves
 );
 ?>
 <script type="text/javascript">var lichess_data = <?php echo json_encode($data) ?>;</script>

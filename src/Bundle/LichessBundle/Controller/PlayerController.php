@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\WebBundle\Controller;
-use Bundle\LichessBundle as Lichess;
+use Bundle\LichessBundle\Chess\Analyser as Analyser;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
@@ -12,7 +12,19 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
 
-        return $this->render('LichessBundle:Player:show', array('player' => $player));
+        $analyser = new Analyser($player->getGame()->getBoard());
+        if($analyser->isKingAttacked($player->getGame()->getTurnPlayer())) {
+            $checkSquareKey = $game->getTurnPlayer()->getKing()->getSquareKey();
+        }
+        else {
+            $checkSquareKey = null;
+        }
+
+        return $this->render('LichessBundle:Player:show', array(
+            'player' => $player,
+            'checkSquareKey' => $checkSquareKey,
+            'possibleMoves' => $player->isMyTurn() ? $analyser->getPlayerPossibleMoves($player) : array()
+        ));
     }
 
     public function waitAction($hash, $updatedAt)
