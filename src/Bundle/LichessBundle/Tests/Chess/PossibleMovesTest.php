@@ -126,14 +126,12 @@ EOF;
         $wp = $game->getBoard()->getPieceByKey('e6');
         $bp = $game->getBoard()->getPieceByKey('f6');
 
-        $game->clearCache();
         $wp->setFirstMove(12);
         $bp->setFirstMove(29);
         $analyser = new Analyser($game->getBoard());
         $possibleMoves = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());
         $this->assertEquals(array('e7', 'f7'), $possibleMoves['e6']);
 
-        $game->clearCache();
         $wp->setFirstMove(12);
         $bp->setFirstMove(13);
         $possibleMoves = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());
