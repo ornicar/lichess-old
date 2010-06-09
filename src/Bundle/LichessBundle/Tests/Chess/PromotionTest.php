@@ -70,7 +70,7 @@ EOF;
         $game = $this->game = $this->createGame($data);
         $this->move('a1 a2');
         $this->assertNull($this->game->getBoard()->getPieceByKey('b8'));
-        $this->assertTrue($this->analyser->isKingAttacked($this->game->getPlayer('black')));
+        $this->assertFalse($this->analyser->isKingAttacked($this->game->getPlayer('black')));
         $this->assertEquals(1, count(PieceFilter::filterClass($this->game->getPlayer('white')->getPieces(), 'Pawn')));
         $this->assertEquals(0, count(PieceFilter::filterClass($this->game->getPlayer('white')->getPieces(), 'Knight')));
     }

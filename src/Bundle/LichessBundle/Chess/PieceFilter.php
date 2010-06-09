@@ -98,7 +98,7 @@ class PieceFilter
    **/
   public static function filterNotMoved(array $pieces)
   {
-      foreach ($pieces as $piece)
+      foreach ($pieces as $index => $piece)
       {
           if($piece->hasMoved()) {
               unset($pieces[$index]);
