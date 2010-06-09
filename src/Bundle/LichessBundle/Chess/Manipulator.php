@@ -27,7 +27,6 @@ class Manipulator
 
     public function play($notation, array $options = array())
     {
-        $this->game->clearCache();
         $this->move($notation, $options);
 
         $player = $this->game->getTurnPlayer();

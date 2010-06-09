@@ -60,13 +60,6 @@ class Player
      */
     protected $aiLevel = null;
 
-    /**
-     * Non-persistent processing cache 
-     * 
-     * @var array
-     */
-    protected $cache = array();
-
     public function __construct($color)
     {
         $this->color = $color;
@@ -320,28 +313,5 @@ class Player
     public function serialize()
     {
         return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner');
-    }
-
-    protected function getCache($key)
-    {
-        return $this->cache[$key];
-    }
-
-    protected function hasCache($key)
-    {
-        return isset($this->cache[$key]);
-    }
-
-    protected function setCache($key, $value)
-    {
-        return $this->cache[$key] = $value;
-    }
-
-    public function clearCache()
-    {
-        foreach($this->getPieces() as $piece) {
-            $piece->clearCache();
-        }
-        $this->cache = array();
     }
 }

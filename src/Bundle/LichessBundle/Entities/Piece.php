@@ -49,13 +49,6 @@ abstract class Piece
      * @var string
      */
     protected $hash = null;
-
-    /**
-     * Non-persistent processing cache 
-     * 
-     * @var array
-     */
-    protected $cache = array();
     
     public function __construct($x, $y)
     {
@@ -272,26 +265,6 @@ abstract class Piece
         }
 
         return $notation;
-    }
-
-    protected function getCache($key)
-    {
-        return $this->cache[$key];
-    }
-
-    protected function hasCache($key)
-    {
-        return isset($this->cache[$key]);
-    }
-
-    protected function setCache($key, $value)
-    {
-        return $this->cache[$key] = $value;
-    }
-
-    public function clearCache()
-    {
-        $this->cache = array();
     }
 
     public function serialize()
