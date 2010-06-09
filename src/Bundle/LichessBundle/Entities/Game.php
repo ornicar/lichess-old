@@ -287,13 +287,6 @@ class Game
         return $clone;
     }
 
-    public function clearCache()
-    {
-        foreach($this->players as $player) {
-            $player->clearCache();
-        }
-    }
-
     public function __clone()
     {
     }
