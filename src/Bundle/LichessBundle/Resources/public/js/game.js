@@ -4,7 +4,6 @@
   
     _init: function()
     {
-
       var self = this;
       self.title_timeout = null;
       self.pieceMoving = false
@@ -117,7 +116,7 @@
         });
       });
       
-      //self.restartBeat();
+      self.restartBeat();
       
       self.$table.find("a.lichess_give_up").click(function()
       {
@@ -157,17 +156,13 @@
       var self = this;
       $("div.lichess_square.check", self.$board).removeClass("check");
       
-      self.options.possible_moves = data.targets;
+      self.options.possible_moves = data.possible_moves;
       self.displayEvents(data.events);
       self.indicateTurn();
     },
     isMyTurn: function()
     {
       return this.options.possible_moves != null;
-    },
-    getTargets: function()
-    {
-      return this.options.possible_moves;
     },
     indicateTurn: function()
     {
@@ -201,43 +196,12 @@
         return;
       }
 
-      function refresh()
-      {
-        $.ajax({
-          url: self.options.url.beat,
-          dataType: "json",
-          error: function()
-          {
-            self.restartBeat();
-          },
-          success: function(data)
-          {
-            if (data)
-            {
-              self.updateFromJson(data);
-            }
-            self.restartBeat();
-          }
-        });
-      }
-
-      $.ajax({
-        url: self.options.url.beatHash,
-        error: function()
+      lichess_socket.connect(self.options.url.socket, function(data) {
+        if (data)
         {
-          refresh();
-        },
-        success: function(mustRefresh)
-        {
-          if(0 != mustRefresh)
-          {
-            refresh();
-          }
-          else
-          {
-            self.restartBeat();
-          }
+          self.updateFromJson(data);
         }
+        self.restartBeat();
       });
     },
     movePiece: function(from, to)
