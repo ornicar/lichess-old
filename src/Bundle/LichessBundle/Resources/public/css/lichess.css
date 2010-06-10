@@ -48,19 +48,19 @@ div.lcsi {
   width: 64px;
   height: 64px;
 }
-div.lichess_square.moved div.lichess_square_inner {
+div.lichess_square.moved div.lcsi {
   background: url(../images/over5.png) top left no-repeat;
 }
-div.lichess_square.check div.lichess_square_inner {
+div.lichess_square.check div.lcsi {
   background: url(../images/over6.png) top left no-repeat;
 }
-div.my_turn div.lichess_square:hover div.lichess_square_inner {
+div.my_turn div.lichess_square:hover div.lcsi {
   background: url(../images/over.png) top left no-repeat;
 }
-div.lichess_square.droppable-active div.lichess_square_inner {
+div.lichess_square.droppable-active div.lcsi {
   background: url(../images/over4.png) top left no-repeat;
 }
-div.lichess_square.droppable-hover div.lichess_square_inner {
+div.lichess_square.droppable-hover div.lcsi {
   background: url(../images/over3.png) top left no-repeat;
 }
 

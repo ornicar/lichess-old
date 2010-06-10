@@ -19,7 +19,7 @@ lichess_wait:
   defaults: { _controller: LichessBundle:Player:wait }
   requirements: { hash: "[\w]{10}" }
   requirements: { updatedAt: "[\d]{10}" }
-lichess_beat:
-  pattern:  /beat/:hash
-  defaults: { _controller: LichessBundle:Player:beat }
+lichess_move:
+  pattern:  /move/:hash
+  defaults: { _controller: LichessBundle:Player:move }
   requirements: { hash: "[\w]{10}" }

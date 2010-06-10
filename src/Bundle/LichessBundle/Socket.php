@@ -16,6 +16,7 @@ class Socket
     const WAIT = 'wait';
     const START = 'start';
     const PLAY = 'play';
+    const UPDATE = 'update';
 
     /**
      * The player this socket communicates with
