@@ -1,6 +1,6 @@
 $(function()
 {
-  $game = $game = $('div.lichess_game');
+  $game = $('div.lichess_game');
   if ($game.length)
   {
     if(lichess_data.game.started)
@@ -16,12 +16,13 @@ $(function()
       
       setTimeout(waitForOpponent = function()
       {
-        $.ajax({
-          url:       lichess_data.url.wait,
-          success:   function(response)
-          {
-            response == 'wait' ? setTimeout(waitForOpponent, lichess_data.beat.delay) : location.href = response;
-          }
+        lichess_socket.connect(lichess_data.url.socket, function(data) {
+            if(data && data.status == 'start') {
+                location.href = data.url;
+            }
+            else {
+                setTimeout(waitForOpponent, lichess_data.beat.delay);
+            }
         });
       }, lichess_data.delay);
     }

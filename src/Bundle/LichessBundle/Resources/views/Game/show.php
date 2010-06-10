@@ -20,4 +20,4 @@
     </div>
 </div>
 
-<?php $view->output('LichessBundle:Game:data', array('player' => $player)) ?>
+<?php $view->output('LichessBundle:Game:data', array('player' => $player, 'possibleMoves' => null)) ?>

@@ -20,7 +20,6 @@ class Generator
             'black' => $this->createPlayer($game, 'black')
         ));
 
-        $this->preloadBoard($game);
         $game->setCreator($game->getPlayer('white'));
 
         return $game;
@@ -74,7 +73,6 @@ RNBQK  R
                 $player->addPiece($piece);
             }
         }
-        $this->preloadBoard($game);
 
         return $game;
     }
@@ -121,16 +119,5 @@ RNBQK  R
         $piece->setPlayer($player);
 
         return $piece;
-    }
-
-    protected function preloadBoard(Game $game)
-    {
-        $board = $game->getBoard();
-        foreach($game->getPlayers() as $player) {
-            foreach ($player->getPieces() as $piece)
-            {
-                $piece->setBoard($board);
-            }
-        }
     }
 }

@@ -27,6 +27,12 @@ class Board
         {
             $this->pieces[$piece->getSquareKey()] = $piece;
         }
+        foreach($this->game->getPlayers() as $player) {
+            foreach ($player->getPieces() as $piece)
+            {
+                $piece->setBoard($this);
+            }
+        }
     }
 
     public function move(Piece $piece, $x, $y)

@@ -19,7 +19,7 @@
         $(this).droppable({
           accept: function(draggable)
           {
-            return self.isMyTurn() && self.inArray($(this).attr("id"), self.options.targets[draggable.attr("id").substr(1)]);
+            return self.isMyTurn() && self.inArray($(this).attr("id"), self.options.possible_moves[draggable.attr("id")]);
           },
           drop: function(ev, ui)
           {
@@ -28,12 +28,12 @@
             squareId    = $(this).attr("id"),
             moveData    = {
               player:   self.options.player.code,
-              piece:    $piece.attr("id").substr(1),
+              piece:    $piece.attr("id"),
               square:   squareId
             };
 
             $("div.droppable-active", self.$board).removeClass("droppable-active");
-            self.options.targets = null;
+            self.options.possible_moves = null;
             self.movePiece($oldSquare.attr("id"), squareId);
 
             function sendMoveRequest(moveData)
@@ -104,7 +104,7 @@
         })
         .hover(function()
         {
-          if (!self.pieceMoving && self.isMyTurn() && (targets = self.options.targets[$(this).attr('id').substr(1)]) && targets.length)
+          if (!self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).attr('id').substr(1)]) && targets.length)
           {
             $("#" + targets.join(", #")).addClass("droppable-active");
           }
@@ -157,17 +157,17 @@
       var self = this;
       $("div.lichess_square.check", self.$board).removeClass("check");
       
-      self.options.targets = data.targets;
+      self.options.possible_moves = data.targets;
       self.displayEvents(data.events);
       self.indicateTurn();
     },
     isMyTurn: function()
     {
-      return this.options.targets != null;
+      return this.options.possible_moves != null;
     },
     getTargets: function()
     {
-      return this.options.targets;
+      return this.options.possible_moves;
     },
     indicateTurn: function()
     {

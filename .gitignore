@@ -6,3 +6,4 @@
 # except README
 !/lichess/data/README
 tags
+/web/.htaccess
