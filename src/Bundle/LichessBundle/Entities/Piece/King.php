@@ -2,9 +2,7 @@
 
 namespace Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Entities\Piece;
-use Bundle\LichessBundle\Chess\Square;
-use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Chess\MoveFilter;
+use Bundle\LichessBundle\Chess\Board;
 
 class King extends Piece
 {
@@ -13,21 +11,37 @@ class King extends Piece
         return 'King';
     }
 
-    public function getBasicTargetSquares()
+    public function getBasicTargetKeys()
     {
         $mySquare = $this->getSquare();
+        $x = $mySquare->getX();
+        $y = $mySquare->getY();
+        $keys = array();
+        $board = $this->getBoard();
 
-        $squares = array(
-            $mySquare->getSquareByRelativePos(0, -1),
-            $mySquare->getSquareByRelativePos(0, 1),
-            $mySquare->getSquareByRelativePos(-1, -1),
-            $mySquare->getSquareByRelativePos(-1, 0),
-            $mySquare->getSquareByRelativePos(-1, 1),
-            $mySquare->getSquareByRelativePos(1, -1),
-            $mySquare->getSquareByRelativePos(1, 0),
-            $mySquare->getSquareByRelativePos(1, 1)
-        );
+        /**
+         * That's ugly and could be done easily in a nicer way.
+         * But I needed performance optimization.
+         */
+        for($dx = -1; $dx <2; $dx++) {
+            $_x = $x+$dx;
+            if($_x>0 && $_x<9) {
+                for($dy=-1; $dy<2; $dy++) {
+                    if(0 === $dx && 0 === $dy) {
+                        continue;
+                    }
+                    $_y = $y+$dy;
+                    if($_y>0 && $_y<9) {
+                        $key = Board::posToKey($_x, $_y);
+                        if(($piece = $board->getPieceByKey($key)) && $piece->getPlayer() === $this->player) {
+                            continue;
+                        }
+                        $keys[] = $key;
+                    }
+                }
+            }
+        }
 
-        return MoveFilter::filterCannibalism($this, $squares);
+        return $keys;
     }
 }

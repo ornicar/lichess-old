@@ -3,8 +3,8 @@
 namespace Bundle\LichessBundle\Entities;
 
 use Bundle\LichessBundle\Chess\Square;
+use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Chess\MoveFilter;
 
 abstract class Piece
 {
@@ -49,6 +49,13 @@ abstract class Piece
      * @var string
      */
     protected $hash = null;
+
+    /**
+     * Performance pointer to the player game board
+     * 
+     * @var Board
+     */
+    protected $board = null;
     
     public function __construct($x, $y)
     {
@@ -68,7 +75,12 @@ abstract class Piece
     /**
      * @return array
      */
-    abstract public function getBasicTargetSquares();
+    abstract public function getBasicTargetKeys();
+
+    public function getAttackTargetKeys()
+    {
+        return $this->getBasicTargetKeys();
+    }
 
     /**
      * @return string
@@ -163,29 +175,32 @@ abstract class Piece
         $this->player = $player;
     }
 
-    protected function getTargetsByProjection($x, $y)
+    protected function getKeysByProjection($dx, $dy)
     {
-        $squares = array();
+        $keys = array();
         $continue = true;
-
-        $square = $this->getSquare();
+        $x = $this->x;
+        $y = $this->y;
 
         while($continue)
         {
-            if ($square = $square->getSquareByRelativePos($x, $y))
+            $x += $dx;
+            $y += $dy;
+            if($x>0 && $x<9 && $y>0 && $y<9)
             {
-                if ($otherPiece = $square->getPiece())
+                $key = Board::posToKey($x, $y);
+                if ($piece = $this->board->getPieceByKey($key))
                 {
-                    if ($otherPiece->getPlayer() !== $this->player)
+                    if ($piece->getPlayer() !== $this->player)
                     {
-                        $squares[] = $square;
+                        $keys[] = $key;
                     }
 
                     $continue = false;
                 }
                 else
                 {
-                    $squares[] = $square;
+                    $keys[] = $key;
                 }
             }
             else
@@ -194,17 +209,17 @@ abstract class Piece
             }
         }
 
-        return $squares;
-    }
-
-    public function canMoveToSquare(Square $square)
-    {
-        return in_array($square->getKey(), $this->getTargetKeys());
+        return $keys;
     }
 
     public function getSquare()
     {
-        return $this->getBoard()->getSquareByKey($this->getSquareKey());
+        return $this->board->getSquareByKey(Board::posToKey($this->x, $this->y));
+    }
+
+    public function getSquareKey()
+    {
+        return Board::posToKey($this->x, $this->y);
     }
 
     public function getGame()
@@ -214,14 +229,12 @@ abstract class Piece
 
     public function getBoard()
     {
-        return $this->getGame()->getBoard();
+        return $this->board;
     }
 
-    public function getSquareKey()
+    public function setBoard(Board $board)
     {
-        static $xKeys = array(1 => 'a', 2 => 'b', 3 => 'c', 4 => 'd', 5 => 'e', 6 => 'f', 7 => 'g', 8 => 'h');
-
-        return $xKeys[$this->x].$this->y;
+        $this->board = $board;
     }
 
     public function toDebug()

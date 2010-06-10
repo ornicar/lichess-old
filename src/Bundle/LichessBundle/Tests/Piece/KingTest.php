@@ -25,10 +25,7 @@ class KingTest extends \PHPUnit_Framework_TestCase
         $piece = $this->board->getPieceByKey('e1');
         $this->assertTrue($piece instanceof King);
         $expected = array();
-        $squares = $piece->getBasicTargetSquares();
-        $squares = $this->board->cleanSquares($squares);
-
-        $this->assertSquareKeys($expected, $this->board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     public function testGetBasicTargetSquaresSecondMove()
@@ -40,9 +37,7 @@ class KingTest extends \PHPUnit_Framework_TestCase
         $piece->setFirstMove(1);
         $this->board->compile();
         $expected = array('b5', 'c5', 'd5', 'd4', 'd3', 'c3', 'b3', 'b4');
-        $squares = $piece->getBasicTargetSquares();
-        $squares = $this->board->cleanSquares($squares);
-        $this->assertSquareKeys($expected, $this->board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     protected function assertSquareKeys($expected, $result)

@@ -27,9 +27,7 @@ class BishopTest extends \PHPUnit_Framework_TestCase
     {
         $piece = $board->getPieceByKey('c1');
         $expected = array();
-        $squares = $piece->getBasicTargetSquares();
-
-        $this->assertEquals($expected, $board->squaresToKeys($squares));
+        $this->assertEquals($expected, $piece->getBasicTargetKeys());
     }
 
     /**
@@ -42,8 +40,7 @@ class BishopTest extends \PHPUnit_Framework_TestCase
         $piece->setY(4);
         $board->compile();
         $expected = array('b3', 'b5', 'a6', 'd5', 'e6', 'f7', 'd3');
-        $squares = $piece->getBasicTargetSquares();
-        $this->assertSquareKeys($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     protected function assertSquareKeys($expected, $result)

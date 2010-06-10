@@ -10,19 +10,19 @@ class Queen extends Piece
         return 'Queen';
     }
 
-    public function getBasicTargetSquares()
+    public function getBasicTargetKeys()
     {
         return array_merge(
             //bishop
-            $this->getTargetsByProjection(1, 1),
-            $this->getTargetsByProjection(1, -1),
-            $this->getTargetsByProjection(-1, 1),
-            $this->getTargetsByProjection(-1, -1),
+            $this->getKeysByProjection(1, 1),
+            $this->getKeysByProjection(1, -1),
+            $this->getKeysByProjection(-1, 1),
+            $this->getKeysByProjection(-1, -1),
             //rook
-            $this->getTargetsByProjection(0, -1),
-            $this->getTargetsByProjection(0, 1),
-            $this->getTargetsByProjection(-1, 0),
-            $this->getTargetsByProjection(+1, 0)
+            $this->getKeysByProjection(0, -1),
+            $this->getKeysByProjection(0, 1),
+            $this->getKeysByProjection(-1, 0),
+            $this->getKeysByProjection(+1, 0)
         );
     }
 }

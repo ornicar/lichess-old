@@ -27,9 +27,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
     {
         $piece = $board->getPieceByKey('a2');
         $expected = array('a3', 'a4');
-        $squares = $piece->getBasicTargetSquares();
-
-        $this->assertSquareKeys($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     /**
@@ -43,8 +41,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $board->compile();
 
         $expected = array('a5');
-        $squares = $piece->getBasicTargetSquares();
-        $this->assertSquareKeys($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     /**
@@ -57,8 +54,8 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $board->compile();
 
         $expected = array('a7', 'c7');
-        $squares = $piece->getBasicTargetSquares();
-        $this->assertSquareKeys($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
+        $this->assertSquareKeys($expected, $piece->getAttackTargetKeys());
     }
 
     /**
@@ -75,8 +72,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $board->compile();
 
         $expected = array('f6', 'g6');
-        $squares = $piece->getBasicTargetSquares();
-        $this->assertSquareKeys($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     protected function assertSquareKeys($expected, $result)

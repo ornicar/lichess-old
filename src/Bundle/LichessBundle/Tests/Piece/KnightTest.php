@@ -27,10 +27,7 @@ class KnightTest extends \PHPUnit_Framework_TestCase
     {
         $piece = $board->getPieceByKey('b1');
         $expected = array('a3', 'c3');
-        $squares = $piece->getBasicTargetSquares();
-        $squares = $board->cleanSquares($squares);
-
-        $this->assertSquareKeys($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     /**
@@ -43,9 +40,7 @@ class KnightTest extends \PHPUnit_Framework_TestCase
         $piece->setY(4);
         $board->compile();
         $expected = array('a3', 'a5', 'b6', 'd6', 'e5', 'e3');
-        $squares = $piece->getBasicTargetSquares();
-        $squares = $board->cleanSquares($squares);
-        $this->assertSquareKeys($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     protected function assertSquareKeys($expected, $result)
