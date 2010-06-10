@@ -3,7 +3,8 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\WebBundle\Controller;
-use Bundle\LichessBundle\Chess\Analyser as Analyser;
+use Bundle\LichessBundle\Chess\Analyser;
+use Bundle\LichessBundle\Socket;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
@@ -19,11 +20,15 @@ class PlayerController extends Controller
         else {
             $checkSquareKey = null;
         }
+        $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
+        $socket->write(array(
+            'status' => 'play'
+        ));
 
         return $this->render('LichessBundle:Player:show', array(
             'player' => $player,
             'checkSquareKey' => $checkSquareKey,
-            'possibleMoves' => $player->isMyTurn() ? $analyser->getPlayerPossibleMoves($player) : array()
+            'possibleMoves' => $player->isMyTurn() ? $analyser->getPlayerPossibleMoves($player) : null
         ));
     }
 

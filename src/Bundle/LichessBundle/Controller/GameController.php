@@ -3,7 +3,8 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\WebBundle\Controller;
-use Bundle\LichessBundle\Chess\Analyser as Analyser;
+use Bundle\LichessBundle\Chess\Analyser;
+use Bundle\LichessBundle\Socket;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
@@ -30,10 +31,17 @@ class GameController extends Controller
         $player = $game->getInvited();
         $game->setIsStarted(true);
         $this->container->getLichessPersistenceService()->save($game);
+        $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
+        $socket->write(array(
+            'status' => Socket::START,
+            'url' => $this->generateUrl('lichess_player', array(
+                'hash' => $player->getOpponent()->getFullHash()
+            ))
+        ));
 
         return $this->redirect($this->generateUrl('lichess_player', array(
             'hash' => $player->getFullHash(),
-            'checkSquareKey' => $checkSquareKey
+            'checkSquareKey' => null
         )));
     }
 }

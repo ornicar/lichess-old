@@ -1,6 +1,7 @@
 <?php
 $game = $player->getGame();
 $playerFullHash = $player->getFullHash();
+$baseUrl = 'http://'.$_SERVER['HTTP_HOST'].'/';
 $data = array(
     'game' => array(
         'hash' => $game->getHash(),
@@ -21,10 +22,9 @@ $data = array(
         'delay' => 2000,
     ),
     'url' => array(
-        'beat' => $view->router->generate('lichess_beat', array('hash' => $playerFullHash)),
-        'beatCache' => '/bundle/lichess/cache/'.$playerFullHash,
-        'wait' => $view->router->generate('lichess_wait', array('hash' => $playerFullHash, 'updatedAt' => $game->getUpdatedAt())),
+        'socket' => '/socket/'.$playerFullHash.'.json'
     ),
+    'time' => time(),
     'i18n' => array(
         'Game Over' => 'Game Over',
         'Waiting for opponent' => 'Waiting for opponent',

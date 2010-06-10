@@ -22,6 +22,7 @@ require_once __DIR__.'/Piece/BishopTest.php';
 require_once __DIR__.'/Piece/QueenTest.php';
 require_once __DIR__.'/Piece/KingTest.php';
 require_once __DIR__.'/Ai/StupidTest.php';
+require_once __DIR__.'/Socket/SocketTest.php';
 
 class AllTests
 {
@@ -49,6 +50,7 @@ class AllTests
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\EnPassantTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PlayTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Ai\StupidTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Socket\SocketTest');
 
     return $suite;
   }
