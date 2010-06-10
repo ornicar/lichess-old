@@ -84,7 +84,7 @@ class Analyser
                 $opponentPieces = $allOpponentPieces;
             }
 
-            $squares = $this->board->cleanSquares($piece->getBasicTargetSquares());
+            $squares = $this->board->keysToSquares($piece->getBasicTargetKeys());
             if($piece instanceOf King && !$isKingAttacked && !$piece->hasMoved()) {
                 $squares = $this->addCastlingSquares($piece, $squares);
             }
@@ -106,16 +106,13 @@ class Analyser
 
                 foreach($opponentPieces as $opponentPiece)
                 {
-                    //if($opponentPiece instanceof King) {
-                    //continue;
-                    //}
                     if (null !== $killedPiece && $opponentPiece->getIsDead())
                     {
                         continue;
                     }
 
                     // if our king gets attacked
-                    if (in_array($kingSquareKey, $this->getPieceControlledKeys($opponentPiece, $piece instanceof King)))
+                    if (in_array($kingSquareKey, $opponentPiece->getAttackTargetKeys()))
                     {
                         // can't go here
                         unset($squares[$it]);
@@ -125,7 +122,7 @@ class Analyser
 
                 $this->board->move($piece, $pieceOriginalX, $pieceOriginalY);
 
-                // if a virtual piece has been killed, bring it back to life
+                // if a piece has been killed, bring it back to life
                 if ($killedPiece)
                 {
                     $killedPiece->setIsDead(false);
@@ -139,12 +136,74 @@ class Analyser
         return $possibleMoves;
     }
 
+    public function getPiecePossibleMoves(Piece $piece)
+    {
+        $player = $piece->getPlayer();
+        $isKingAttacked = $this->isKingAttacked($player);
+        $allOpponentPieces = PieceFilter::filterNotClass(PieceFilter::filterAlive($player->getOpponent()->getPieces()), 'King');
+        $king = $player->getKing();
+        $kingSquareKey = $king->getSquareKey();
+        $pieceOriginalX = $piece->getX();
+        $pieceOriginalY = $piece->getY();
+        $opponentPieces = PieceFilter::filterProjection($allOpponentPieces);
+        //if we are not moving the king, and the king is not attacked, don't check pawns nor knights
+        if (!$piece instanceof King && !$isKingAttacked) {
+            $opponentPieces = PieceFilter::filterProjection($opponentPieces);
+        }
+        $squares = $this->board->keysToSquares($piece->getBasicTargetKeys());
+        if($piece instanceOf King && !$isKingAttacked && !$piece->hasMoved()) {
+            $squares = $this->addCastlingSquares($piece, $squares);
+        }
+        foreach($squares as $it => $square)
+        {
+            // kings move to its target so we update its position
+            if ($piece instanceof King)
+            {
+                $kingSquareKey = $square->getKey();
+            }
+
+            // kill opponent piece
+            if ($killedPiece = $square->getPiece())
+            {
+                $killedPiece->setIsDead(true);
+            }
+
+            $this->board->move($piece, $square->getX(), $square->getY());
+
+            foreach($opponentPieces as $opponentPiece)
+            {
+                if (null !== $killedPiece && $opponentPiece->getIsDead())
+                {
+                    continue;
+                }
+
+                // if our king gets attacked
+                if (in_array($kingSquareKey, $this->getPieceControlledKeys($opponentPiece, $piece instanceof King)))
+                {
+                    // can't go here
+                    unset($squares[$it]);
+                    break;
+                }
+            }
+
+            $this->board->move($piece, $pieceOriginalX, $pieceOriginalY);
+
+            // if a piece has been killed, bring it back to life
+            if ($killedPiece)
+            {
+                $killedPiece->setIsDead(false);
+                $this->board->add($killedPiece);
+            }
+        }
+        return $this->board->squaresToKeys($squares);
+    }
+
     /**
      * @return array flat array of keys
      */
     public function getPieceControlledKeys(Piece $piece)
     {
-        return $this->board->squaresToKeys($this->board->cleanSquares($piece->getBasicTargetSquares()));
+        return $piece->getBasicTargetKeys();
     }
 
     /**

@@ -28,6 +28,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 K       
 EOF;
         $game = $this->game = $this->createGame($data);
+        $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
         $this->move('b7 b8', array('promotion' => 'Queen'));
         $this->assertTrue($this->game->getBoard()->getPieceByKey('b8')->isClass('Queen'));
         $this->assertTrue($this->analyser->isKingAttacked($this->game->getPlayer('black')));
@@ -48,6 +49,7 @@ EOF;
 K       
 EOF;
         $game = $this->game = $this->createGame($data);
+        $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
         $this->move('b7 b8', array('promotion' => 'Knight'));
         $this->assertTrue($this->game->getBoard()->getPieceByKey('b8')->isClass('Knight'));
         $this->assertTrue($this->analyser->isKingAttacked($this->game->getPlayer('black')));

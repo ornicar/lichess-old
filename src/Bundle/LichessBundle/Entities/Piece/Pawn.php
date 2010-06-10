@@ -2,6 +2,7 @@
 
 namespace Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Entities\Piece;
+use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Square;
 
 class Pawn extends Piece
@@ -11,72 +12,70 @@ class Pawn extends Piece
         return 'Pawn';
     }
 
-    public function getDirection()
-    {
-        return $this->getPlayer()->isWhite() ? 1 : -1;
-    }
-
-    public function getBasicTargetSquares()
+    public function getBasicTargetKeys()
     {
         $mySquare = $this->getSquare();
-        $squares = array();
+        $x = $mySquare->getX();
+        $y = $mySquare->getY();
+        $keys = array();
+        $board = $this->getBoard();
+        $dy = $this->getPlayer()->isWhite() ? 1 : -1;
 
-        $direction = $this->getDirection();
-
-        $squares[] = $mySquare->getSquareByRelativePos(0, $direction);
-
-        if (!$this->hasMoved())
-        {
-            $squares[] = $mySquare->getSquareByRelativePos(0, $direction*2);
+        $key = Board::posToKey($x, $y+$dy);
+        if(!$board->hasPieceByKey($key)) {
+            $keys[] = $key;
         }
 
-        $squares = $this->getBoard()->cleanSquares($squares);
-
-        // can't eat forward
-        foreach($squares as $it => $square)
+        if (!$this->hasMoved() && !empty($keys))
         {
-            if ($square->getPiece())
-            {
-                #TODO simplify that
-                for($i=$it, $max = count($squares); $i<$max; $i++)
-                {
-                    unset($squares[$i]);
-                }
+            $key = Board::posToKey($x, $y+(2*$dy));
+            if(!$board->hasPieceByKey($key)) {
+                $keys[] = $key;
             }
         }
 
-        // eat
+        return array_merge($keys, $this->getAttackTargetKeys());
+    }
+
+    public function getAttackTargetKeys()
+    {
+        $keys = array();
+        $board = $this->getBoard();
+        $mySquare = $board->getSquareByKey($this->getSquareKey());
+        $x = $mySquare->getX();
+        $y = $mySquare->getY();
+        $dy = $this->getPlayer()->isWhite() ? 1 : -1;
+
+        $_y = $y+$dy;
         foreach(array(-1, 1) as $dx)
         {
-            if($square = $mySquare->getSquareByRelativePos($dx, $direction))
+            $_x = $x+$dx;
+            if($_x<1 || $_x>8) {
+                continue;
+            }
+            // eat
+            $key = Board::posToKey($_x, $_y);
+            if ($piece = $board->getPieceByKey($key))
             {
-                if ($piece = $square->getPiece())
+                if ($piece->getPlayer() !== $this->getPlayer())
                 {
-                    if ($piece->getPlayer() !== $this->getPlayer())
-                    {
-                        $squares[] = $square;
-                    }
+                    $keys[] = $key;
                 }
             }
-        }
-
-        // en passant
-        foreach(array(-1, 1) as $dx)
-        {
+            $opponentKey = Board::posToKey($_x, $y);
+            // en passant
             if (
-                ($square = $mySquare->getSquareByRelativePos($dx, 0)) &&
-                ($piece = $square->getPiece()) &&
-                $piece->isClass('Pawn') &&
-                $piece->getPlayer() !== $this->getPlayer() &&
+                ($piece = $board->getPieceByKey($opponentKey)) &&
+                $piece instanceof Pawn &&
+                $piece->getPlayer() !== $this->player &&
                 ($piece->getFirstMove() === ($this->getPlayer()->getGame()->getTurns() -1)) &&
-                ($specialSquare = $mySquare->getSquareByRelativePos($dx, $direction)) &&
-                $specialSquare->isEmpty()
+                !$board->hasPieceByKey($key)
             )
             {
-                $squares[] = $specialSquare;
+                $keys[] = $key;
             }
         }
 
-        return $squares;
+        return $keys;
     }
 }

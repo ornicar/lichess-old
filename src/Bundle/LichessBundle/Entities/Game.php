@@ -270,6 +270,17 @@ class Game
         return array('hash', 'isFinished', 'isStarted', 'players', 'turns', 'creator');
     }
 
+    public function unserialize()
+    {
+        $board = $this->getBoard();
+        foreach($this->getPlayers() as $player) {
+            foreach ($player->getPieces() as $piece)
+            {
+                $piece->setBoard($board);
+            }
+        }
+    }
+
     public function getClone()
     {
         $clone = clone $this;

@@ -125,6 +125,11 @@ RNBQK  R
         return isset($this->pieces[$key]) ? $this->pieces[$key] : null;
     }
 
+    public function hasPieceByKey($key)
+    {
+        return isset($this->pieces[$key]);
+    }
+
     public function getPieceByPos($x, $y)
     {
         if($x<1 || $x>8 || $y<1 || $y>8) {
@@ -142,7 +147,7 @@ RNBQK  R
         {
             for($y=1; $y<9; $y++)
             {
-                $key = $this->posToKey($x, $y);
+                $key = self::posToKey($x, $y);
                 $color = ($x+$y)%2 ? 'white' : 'black';
                 $this->squares[$key] = new Square($this, $key, $x, $y, $color);
             }
@@ -157,6 +162,17 @@ RNBQK  R
         }
 
         return $keys;
+    }
+
+    public function keysToSquares(array $keys)
+    {
+        $squares = array();
+        foreach ($keys as $key)
+        {
+            $squares[] = $this->squares[$key];
+        }
+
+        return $squares;
     }
 
     /**
@@ -189,14 +205,14 @@ RNBQK  R
         return array_values($squares);
     }
 
-    public function posToKey($x, $y)
+    public static function posToKey($x, $y)
     {
         static $xKeys = array(1 => 'a', 2 => 'b', 3 => 'c', 4 => 'd', 5 => 'e', 6 => 'f', 7 => 'g', 8 => 'h');
 
         return $xKeys[$x].$y;
     }
 
-    public function keyToPos($key)
+    public static function keyToPos($key)
     {
         static $xPos = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5, 'f' => 6, 'g' => 7, 'h' => 8);
 

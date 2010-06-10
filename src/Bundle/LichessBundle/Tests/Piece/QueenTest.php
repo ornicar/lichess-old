@@ -27,9 +27,7 @@ class QueenTest extends \PHPUnit_Framework_TestCase
     {
         $piece = $board->getPieceByKey('d1');
         $expected = array();
-        $squares = $piece->getBasicTargetSquares();
-
-        $this->assertEquals($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     /**
@@ -42,8 +40,7 @@ class QueenTest extends \PHPUnit_Framework_TestCase
         $piece->setY(4);
         $board->compile();
         $expected = array('b3', 'b5', 'a6', 'd5', 'e6', 'f7', 'd3', 'a4', 'b4', 'd4', 'e4', 'f4', 'g4', 'h4', 'c3', 'c5', 'c6', 'c7');
-        $squares = $piece->getBasicTargetSquares();
-        $this->assertSquareKeys($expected, $board->squaresToKeys($squares));
+        $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
     protected function assertSquareKeys($expected, $result)

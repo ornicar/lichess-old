@@ -71,8 +71,7 @@ class Manipulator
             throw new \LogicException('Can not play '.$from.' '.$to.' - Not '.$piece->getColor().' player turn');
         }
 
-        $analysis = $this->analyser->getPlayerPossibleMoves($piece->getPlayer());
-        $possibleMoves = isset($analysis[$from->getKey()]) ? $analysis[$from->getKey()] : null;
+        $possibleMoves = $this->analyser->getPiecePossibleMoves($piece);
 
         if(!$possibleMoves) {
             throw new \LogicException($piece.' can not move');
@@ -114,7 +113,7 @@ class Manipulator
      **/
     protected function enpassant(Pawn $pawn, Square $to)
     {
-        $passedSquare = $to->getSquareByRelativePos(0, -$pawn->getDirection()); 
+        $passedSquare = $to->getSquareByRelativePos(0, $pawn->getPlayer()->isWhite() ? -1 : 1); 
         $killed = $passedSquare->getPiece();
 
         if(!$killed || $killed->getPlayer() === $pawn->getPlayer()) {
@@ -141,6 +140,7 @@ class Manipulator
         $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$options['promotion'];
         $new = new $fullClass($pawn->getX(), $pawn->getY());
         $new->setPlayer($player);
+        $new->setBoard($player->getGame()->getBoard());
         $player->addPiece($new);
         $this->board->add($new);
     }

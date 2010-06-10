@@ -47,7 +47,7 @@ EOF;
         $moveTree = $this->computePossibleMoves($data);
         $this->assertEquals($expectedMoveTree, array_filter($moveTree));
 
-        $expectedMoveTree = array('h8' => array('h7', 'g7', 'g8'));
+        $expectedMoveTree = array('h8' => array('g7', 'g8', 'h7'));
         $moveTree = $this->computePossibleMoves($data, 1);
         $this->assertEquals($expectedMoveTree, $moveTree);
     }
@@ -65,7 +65,7 @@ PP   PPP
 R   KB R
 EOF;
         $moveTree = $this->computePossibleMoves($data);
-        $this->assertEquals(array('e2', 'd1', 'd2', 'c1'), $moveTree['e1']);
+        $this->assertEquals(array('d1', 'd2', 'e2', 'c1'), $moveTree['e1']);
         $this->assertEquals($this->sort(array('a5', 'b5', 'd5', 'e5', 'f5', 'c4', 'c6', 'b6', 'd6', 'e7', 'd4', 'a3', 'b4')), $this->sort($moveTree['c5']));
         $this->assertEquals($this->sort(array('f6', 'h6', 'h4', 'f4', 'e3', 'd2', 'c1')), $this->sort($moveTree['g5']));
         $this->assertFalse(isset($moveTree['f2']));
@@ -88,7 +88,7 @@ PP   PPP
 R   K  R
 EOF;
         $moveTree = $this->computePossibleMoves($data);
-        $this->assertEquals(array('e2', 'd1', 'd2', 'f1', 'c1', 'g1'), $moveTree['e1']);
+        $this->assertEquals(array('d1', 'd2', 'e2', 'f1', 'c1', 'g1'), $moveTree['e1']);
     }
 
     public function test4()

@@ -1,5 +1,8 @@
 <?php
 
+ini_set('xdebug.profiler_enable', 1);
+ini_set('xdebug.profiler_output_dir', '/tmp');
+ini_set('xdebug.profiler_output_name', 'cachegrind.out.44444');
 use Bundle\LichessBundle\Persistence\FilePersistence;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
@@ -13,6 +16,7 @@ $game = $generator->createGame();
 $player = $game->getPlayer('white');
 
 $iterations = 1;
+$nbMoves = 27;
 
 $start = microtime(true);
 for($it=0; $it<$iterations; $it++) {
@@ -21,8 +25,9 @@ for($it=0; $it<$iterations; $it++) {
 $time = 1000 * (microtime(true) - $start);
 printf('%d games played in %01.2f ms'."\n", $iterations, $time);
 printf('%01.2f ms per game'."\n", $time/$iterations);
+printf('%01.2f ms per move'."\n", $time/$iterations/$nbMoves);
 
-passthru('phpunit '.__DIR__.'/../AllTests.php');
+//passthru('phpunit '.__DIR__.'/../AllTests.php');
 
 function _playWholeGame()
 {

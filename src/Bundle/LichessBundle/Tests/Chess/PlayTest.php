@@ -184,17 +184,6 @@ B p p
        q
 EOF
         );
-        //var_dump($this->game->getBoard()->getPieceByKey('a6')->getTargetKeys(false, false));
-        //var_dump($this->game->getPlayer('white')->getPossibleMoves());die;
-        //var_dump($this->game->getPlayer('white')->getControlledKeys());die;
-        //$this->game->addTurn();
-        //define('DEBUG', true);
-        //$moves = $this->game->getPlayer('white')->getPossibleMoves();
-        //var_dump($moves['a6']);
-        //var_dump($this->game->getBoard()->getPieceByKey('a6')->__toString());die;
-        //$this->assertEquals($this->game->getBoard()->getPieceByKey('a6')->getTargetKeys(true, false), $moves['a6']);
-        //$this->assertTrue($this->game->getPlayer('black')->getKing()->isAttacked());
-        //$this->assertEquals(array(), $this->game->getPlayer('black')->getPossibleMoves());
         $this->assertTrue($this->game->getIsFinished());
         $this->assertTrue($this->game->getPlayer('white')->getIsWinner());
     }

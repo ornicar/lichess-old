@@ -10,13 +10,13 @@ class Rook extends Piece
         return 'Rook';
     }
 
-    public function getBasicTargetSquares()
+    public function getBasicTargetKeys()
     {
         return array_merge(
-            $this->getTargetsByProjection(0, -1),
-            $this->getTargetsByProjection(0, 1),
-            $this->getTargetsByProjection(-1, 0),
-            $this->getTargetsByProjection(+1, 0)
+            $this->getKeysByProjection(0, -1),
+            $this->getKeysByProjection(0, 1),
+            $this->getKeysByProjection(-1, 0),
+            $this->getKeysByProjection(+1, 0)
         );
     }
 }

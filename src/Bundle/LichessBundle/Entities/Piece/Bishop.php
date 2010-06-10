@@ -10,13 +10,13 @@ class Bishop extends Piece
         return 'Bishop';
     }
 
-    public function getBasicTargetSquares()
+    public function getBasicTargetKeys()
     {
         return array_merge(
-            $this->getTargetsByProjection(1, 1),
-            $this->getTargetsByProjection(1, -1),
-            $this->getTargetsByProjection(-1, 1),
-            $this->getTargetsByProjection(-1, -1)
+            $this->getKeysByProjection(1, 1),
+            $this->getKeysByProjection(1, -1),
+            $this->getKeysByProjection(-1, 1),
+            $this->getKeysByProjection(-1, -1)
         );
     }
 }

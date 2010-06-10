@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Entities\Piece;
-use Bundle\LichessBundle\Chess\MoveFilter;
+use Bundle\LichessBundle\Chess\Board;
 
 class Knight extends Piece
 {
@@ -11,19 +11,39 @@ class Knight extends Piece
         return 'Knight';
     }
     
-    public function getBasicTargetSquares()
+    public function getBasicTargetKeys()
     {
         $mySquare = $this->getSquare();
+        $x = $mySquare->getX();
+        $y = $mySquare->getY();
+        $keys = array();
+        $board = $this->getBoard();
 
-        return MoveFilter::filterCannibalism($this, array(
-            $mySquare->getSquareByRelativePos(-1, -2),
-            $mySquare->getSquareByRelativePos(1, -2),
-            $mySquare->getSquareByRelativePos(2, -1),
-            $mySquare->getSquareByRelativePos(2, 1),
-            $mySquare->getSquareByRelativePos(1, 2),
-            $mySquare->getSquareByRelativePos(-1, 2),
-            $mySquare->getSquareByRelativePos(-2, 1),
-            $mySquare->getSquareByRelativePos(-2, -1)
-        ));
+        /**
+         * That's ugly and could be done easily in a nicer way.
+         * But I needed performance optimization.
+         */
+        static $deltas = array(
+            array(-1, 2),
+            array(1, -2),
+            array(2, -1),
+            array(2, 1),
+            array(1, 2),
+            array(-1, -2),
+            array(-2, 1),
+            array(-2, -1)
+        );
+        foreach($deltas as $delta) {
+            $_x = $x+$delta[0];
+            $_y = $y+$delta[1];
+            if($_x>0 && $_x<9 && $_y>0 && $_y<9) {
+                $key = Board::posToKey($_x, $_y);
+                if(($piece = $board->getPieceByKey($key)) && $piece->getPlayer() === $this->player) {
+                    continue;
+                }
+                $keys[] = $key;
+            }
+        }
+        return $keys;
     }
 }
