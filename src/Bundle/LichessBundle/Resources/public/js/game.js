@@ -18,20 +18,20 @@
         $(this).droppable({
           accept: function(draggable)
           {
-            return self.isMyTurn() && self.inArray($(this).attr("id"), self.options.possible_moves[draggable.attr("id")]);
+            return self.isMyTurn() && self.inArray($(this).attr("id"), self.options.possible_moves[draggable.parent().parent().attr('id')]);
           },
           drop: function(ev, ui)
           {
             var $piece  = ui.draggable,
-            $oldSquare  = $piece.parent(),
+            $oldSquare  = $piece.parent().parent(),
             squareId    = $(this).attr("id"),
             moveData    = {
-              player:   self.options.player.code,
-              piece:    $piece.attr("id"),
-              square:   squareId
+              player:   self.options.player.hash,
+              from:    $oldSquare.attr("id"),
+              to:   squareId
             };
 
-            $("div.droppable-active", self.$board).removeClass("droppable-active");
+            self.$board.find("div.droppable-active").removeClass("droppable-active");
             self.options.possible_moves = null;
             self.movePiece($oldSquare.attr("id"), squareId);
 
@@ -39,7 +39,7 @@
             {
               $.ajax({
                 dataType: "json",
-                url: $.dm.ctrl.getHref('+/dmChessGame/move'),
+                url: self.options.url.move,
                 data: moveData,
                 success: function(data)
                 {
@@ -87,7 +87,7 @@
           {
             return $('<div>')
             .attr("class", $(this).attr("class"))
-            .attr("id", "moving_" + $(this).attr("id"))
+            .attr('data-key', $(this).parent().parent().attr('id'))
             .appendTo(self.$board);
           },
           start: function()
@@ -103,7 +103,7 @@
         })
         .hover(function()
         {
-          if (!self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).attr('id').substr(1)]) && targets.length)
+          if (!self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).parent().parent().attr('id')]) && targets.length)
           {
             $("#" + targets.join(", #")).addClass("droppable-active");
           }
@@ -111,7 +111,7 @@
         {
           if (!self.pieceMoving)
           {
-            $("div.droppable-active", self.$board).removeClass("droppable-active");
+            self.$board.find("div.droppable-active").removeClass("droppable-active");
           }
         });
       });

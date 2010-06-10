@@ -22,7 +22,10 @@ $data = array(
         'delay' => 2000,
     ),
     'url' => array(
-        'socket' => '/socket/'.$playerFullHash.'.json'
+        'socket' => '/socket/'.$playerFullHash.'.json',
+        'move' => $view->router->generate('lichess_move', array(
+            'hash' => $playerFullHash
+        ))
     ),
     'time' => time(),
     'i18n' => array(

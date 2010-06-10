@@ -4,11 +4,41 @@ namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\WebBundle\Controller;
 use Bundle\LichessBundle\Chess\Analyser;
+use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Socket;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
 {
+    public function moveAction($hash)
+    {
+        $player = $this->findPlayer($hash);
+        $game = $player->getGame();
+        if(!$player->isMyTurn()) {
+            throw new NotFoundHttpException('Not my turn');
+        }
+        $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
+        $manipulator = new Manipulator($game->getBoard());
+        try {
+            $opponentPossibleMoves = $manipulator->play($move);
+        }
+        catch(Exception $e) {
+            throw new NotFoundHttpException($e->getMessage());
+        }
+        $this->container->getLichessPersistenceService()->save($game);
+        $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
+        $socket->write(array(
+            'status' => Socket::UPDATE,
+            'possible_moves' => $opponentPossibleMoves,
+            'finished' => $game->getIsFinished()
+        ));
+
+        return $this->createResponse(json_encode(array(
+            'time' => time(),
+            'finished' => $game->getIsFinished()
+        )));
+    }
+
     public function showAction($hash)
     {
         $player = $this->findPlayer($hash);
