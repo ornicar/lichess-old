@@ -287,21 +287,21 @@
       for (var i in events) 
       {
         var event = events[i];
-        switch (event.action)
+        switch (event.type)
         {
-          case "piece_move":
+          case "move":
             self.movePiece(event.from, event.to);
             break;
-          case "pawn_promotion":
+          case "promotion":
             $("div#p"+event.old_piece)
             .attr('id', 'p'+event.new_piece)
             .addClass(event.type)
             .removeClass("pawn");
             break;
-          case "piece_castle":
+          case "castling":
             $("div#" + event.rook_to, self.$board).append($("div#p" + event.rook, self.$board));
             break;
-          case "pawn_en_passant":
+          case "enpassant":
             self.killPiece($("div#p" + event.killed, self.$board));
             break;
           case "check":

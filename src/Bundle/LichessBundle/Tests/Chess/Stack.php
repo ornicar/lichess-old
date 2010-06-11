@@ -1,10 +1,10 @@
 <?php
 
-namespace Bundle\LichessBundle\Tests\Chess;
+namespace Bundle\LichessBundle\Tests\Stack;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Chess\Stack;
+use Bundle\LichessBundle\Stack;
 
 require_once __DIR__.'/../gameBootstrap.php';
 

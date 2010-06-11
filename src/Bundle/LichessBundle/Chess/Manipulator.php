@@ -39,10 +39,18 @@ class Manipulator
         $this->move($notation, $options);
 
         $player = $this->game->getTurnPlayer();
-        $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($player->getOpponent());
+        $opponent = $player->getOpponent();
+        $isOpponentKingAttacked = $this->analyser->isKingAttacked($opponent);
+        if($isOpponentKingAttacked && $this->stack) {
+            $this->stack->add(array(
+                'type' => 'check',
+                'key'  => $opponent->getKing()->getSquareKey()
+            ));
+        }
+        $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($opponent, $isOpponentKingAttacked);
         if(empty($opponentPossibleMoves)) {
             $this->game->setIsFinished(true);
-            if($this->analyser->isKingAttacked($player->getOpponent())) {
+            if($isOpponentKingAttacked) {
                 $player->setIsWinner(true);
             }
         }
