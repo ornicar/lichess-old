@@ -1,5 +1,5 @@
 imports:
-  - { resource: config.yml }
+    - { resource: config.yml }
 
 profiler.config:
-  toolbar: true
+    toolbar: true
