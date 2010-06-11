@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Entities\Piece\King;
 use Bundle\LichessBundle\Entities\Piece\Pawn;
 use Bundle\LichessBundle\Chess\Analyser;
+use Bundle\LichessBundle\Stack;
 
 class Manipulator
 {
@@ -16,13 +17,21 @@ class Manipulator
      */
     protected $board = null;
 
+    /**
+     * The event stack to record chess events
+     *
+     * @var Stack
+     */
+    protected $stack = null;
+
     protected $game = null;
 
-    public function __construct(Board $board)
+    public function __construct(Board $board, Stack $stack = null)
     {
         $this->board = $board;
         $this->game = $board->getGame();
         $this->analyser = new Analyser($this->board);
+        $this->stack = $stack;
     }
 
     public function play($notation, array $options = array())
@@ -88,6 +97,14 @@ class Manipulator
 
         $this->board->move($piece, $to->getX(), $to->getY());
 
+        if($this->stack) {
+            $this->stack->add(array(
+                'type' => 'move',
+                'from' => $from->getKey(),
+                'to'   => $to->getKey()
+            ));
+        }
+
         if(null === $piece->getFirstMove()) {
             $piece->setFirstMove($this->game->getTurns());
         }
@@ -122,6 +139,13 @@ class Manipulator
 
         $killed->setIsDead(true);
         $this->board->remove($killed);
+
+        if($this->stack) {
+            $this->stack->add(array(
+                'type' => 'enpassant',
+                'killed' => $passedSquare->getKey()
+            ));
+        }
     }
 
     /**
@@ -143,6 +167,13 @@ class Manipulator
         $new->setBoard($player->getGame()->getBoard());
         $player->addPiece($new);
         $this->board->add($new);
+
+        if($this->stack) {
+            $this->stack->add(array(
+                'type' => 'promotion',
+                'class' => strtolower($options['promotion'])
+            ));
+        }
     }
 
     /**
@@ -164,5 +195,32 @@ class Manipulator
         $rook = $rookSquare->getPiece();
         $this->board->move($rook, $newRookSquare->getX(), $newRookSquare->getY());
         $rook->setFirstMove($this->game->getTurns());
+
+        if($this->stack) {
+            $this->stack->add(array(
+                'type' => 'castling',
+                'from' => $rookSquare->getKey(),
+                'to'   => $newRookSquare->getKey()
+            ));
+        }
+    }
+
+    /**
+     * Get stack
+     * @return Stack
+     */
+    public function getStack()
+    {
+      return $this->stack;
+    }
+    
+    /**
+     * Set stack
+     * @param  Stack
+     * @return null
+     */
+    public function setStack($stack)
+    {
+      $this->stack = $stack;
     }
 }
