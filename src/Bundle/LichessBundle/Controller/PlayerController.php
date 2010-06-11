@@ -6,6 +6,7 @@ use Symfony\Framework\WebBundle\Controller;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Socket;
+use Bundle\LichessBundle\Stack;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
@@ -18,7 +19,8 @@ class PlayerController extends Controller
             throw new NotFoundHttpException('Not my turn');
         }
         $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
-        $manipulator = new Manipulator($game->getBoard());
+        $stack = new Stack();
+        $manipulator = new Manipulator($game->getBoard(), $stack);
         try {
             $opponentPossibleMoves = $manipulator->play($move);
         }
@@ -30,12 +32,14 @@ class PlayerController extends Controller
         $socket->write(array(
             'status' => Socket::UPDATE,
             'possible_moves' => $opponentPossibleMoves,
-            'finished' => $game->getIsFinished()
+            'finished' => $game->getIsFinished(),
+            'events' => $stack->getEvents()
         ));
 
         return $this->createResponse(json_encode(array(
             'time' => time(),
-            'finished' => $game->getIsFinished()
+            'finished' => $game->getIsFinished(),
+            'events' => $stack->getEvents()
         )));
     }
 

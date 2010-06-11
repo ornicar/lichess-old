@@ -32,5 +32,11 @@ class Stack
 
     public function add(array $event)
     {
+        $this->events[] = $event;
+    }
+
+    public function reset()
+    {
+        $this->events = array();
     }
 }
