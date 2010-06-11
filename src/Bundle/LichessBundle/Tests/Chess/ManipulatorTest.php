@@ -6,7 +6,6 @@ use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 
 require_once __DIR__.'/../gameBootstrap.php';
-require_once __DIR__.'/../../Chess/Manipulator.php';
 
 class ManipulatorTest extends \PHPUnit_Framework_TestCase
 {
