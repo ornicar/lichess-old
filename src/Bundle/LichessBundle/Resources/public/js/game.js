@@ -12,6 +12,10 @@
       
       self.indicateTurn();
 
+      $('h1').append($('<a>connect</a>').click(function() {
+              self.beat();
+    }));
+
       // init squares
       $("div.lichess_square", self.$board).each(function()
       {
@@ -52,14 +56,15 @@
               });
             }
 
+            var color = self.options.player.color;
             // promotion
-            if($piece.hasClass('pawn') && ((self.options.player.color == "white" && squareId[2] == 8) || (self.options.player.color == "black" && squareId[2] == 1)))
+            if($piece.hasClass('pawn') && ((color == "white" && squareId[2] == 8) || (color == "black" && squareId[2] == 1)))
             {
               var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
-                <div rel="queen" class="lichess_piece queen '+self.options.player.color+'"></div>\
-                <div rel="knight" class="lichess_piece knight '+self.options.player.color+'"></div>\
-                <div rel="rook" class="lichess_piece rook '+self.options.player.color+'"></div>\
-                <div rel="bishop" class="lichess_piece bishop '+self.options.player.color+'"></div>'
+                <div rel="queen" class="lichess_piece queen '+color+'"></div>\
+                <div rel="knight" class="lichess_piece knight '+color+'"></div>\
+                <div rel="rook" class="lichess_piece rook '+color+'"></div>\
+                <div rel="bishop" class="lichess_piece bishop '+color+'"></div>'
               ).fadeIn(500).find('div.lichess_piece').click(function()
               {
                 moveData.promotion = $(this).attr('rel');
@@ -116,7 +121,7 @@
         });
       });
       
-      self.restartBeat();
+      //self.restartBeat();
       
       self.$table.find("a.lichess_give_up").click(function()
       {
@@ -199,9 +204,10 @@
       lichess_socket.connect(self.options.url.socket, function(data) {
         if (data)
         {
-          self.updateFromJson(data);
+            console.debug(data);
+          if(data.status == 'update') self.updateFromJson(data);
         }
-        self.restartBeat();
+        //self.restartBeat();
       });
     },
     movePiece: function(from, to)
@@ -229,7 +235,8 @@
         left: to_offset.left
       }, animation, function()
       {
-        if ($killed = $to.find("div.lichess_piece").orNot()) 
+        $killed = $to.find("div.lichess_piece");
+        if ($killed.length) 
         {
           self.killPiece($killed);
         }
