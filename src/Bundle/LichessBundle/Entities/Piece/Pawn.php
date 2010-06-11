@@ -18,18 +18,17 @@ class Pawn extends Piece
         $x = $mySquare->getX();
         $y = $mySquare->getY();
         $keys = array();
-        $board = $this->getBoard();
         $dy = $this->getPlayer()->isWhite() ? 1 : -1;
 
         $key = Board::posToKey($x, $y+$dy);
-        if(!$board->hasPieceByKey($key)) {
+        if(!$this->board->hasPieceByKey($key)) {
             $keys[] = $key;
         }
 
         if (!$this->hasMoved() && !empty($keys))
         {
             $key = Board::posToKey($x, $y+(2*$dy));
-            if(!$board->hasPieceByKey($key)) {
+            if(!$this->board->hasPieceByKey($key)) {
                 $keys[] = $key;
             }
         }
@@ -40,8 +39,7 @@ class Pawn extends Piece
     public function getAttackTargetKeys()
     {
         $keys = array();
-        $board = $this->getBoard();
-        $mySquare = $board->getSquareByKey($this->getSquareKey());
+        $mySquare = $this->board->getSquareByKey($this->getSquareKey());
         $x = $mySquare->getX();
         $y = $mySquare->getY();
         $dy = $this->getPlayer()->isWhite() ? 1 : -1;
@@ -55,7 +53,7 @@ class Pawn extends Piece
             }
             // eat
             $key = Board::posToKey($_x, $_y);
-            if ($piece = $board->getPieceByKey($key))
+            if ($piece = $this->board->getPieceByKey($key))
             {
                 if ($piece->getPlayer() !== $this->getPlayer())
                 {
@@ -65,11 +63,11 @@ class Pawn extends Piece
             $opponentKey = Board::posToKey($_x, $y);
             // en passant
             if (
-                ($piece = $board->getPieceByKey($opponentKey)) &&
+                ($piece = $this->board->getPieceByKey($opponentKey)) &&
                 $piece instanceof Pawn &&
                 $piece->getPlayer() !== $this->player &&
                 ($piece->getFirstMove() === ($this->getPlayer()->getGame()->getTurns() -1)) &&
-                !$board->hasPieceByKey($key)
+                !$this->board->hasPieceByKey($key)
             )
             {
                 $keys[] = $key;
