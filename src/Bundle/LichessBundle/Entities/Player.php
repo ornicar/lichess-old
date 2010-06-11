@@ -128,6 +128,17 @@ class Player
         return $pieces;
     }
 
+    public function getDeadPieces()
+    {
+        $pieces = array();
+        foreach($this->getPieces() as $piece) {
+            if($piece->getIsDead()) {
+                $pieces[] = $piece;
+            }
+        }
+        return $pieces;
+    }
+
     /**
      * @return boolean
      */
