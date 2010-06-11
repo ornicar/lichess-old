@@ -44,7 +44,8 @@ class PlayerController extends Controller
         $player = $this->findPlayer($hash);
 
         $analyser = new Analyser($player->getGame()->getBoard());
-        if($analyser->isKingAttacked($player->getGame()->getTurnPlayer())) {
+        $isKingAttacked = $analyser->isKingAttacked($player->getGame()->getTurnPlayer());
+        if($isKingAttacked) {
             $checkSquareKey = $game->getTurnPlayer()->getKing()->getSquareKey();
         }
         else {
@@ -58,7 +59,7 @@ class PlayerController extends Controller
         return $this->render('LichessBundle:Player:show', array(
             'player' => $player,
             'checkSquareKey' => $checkSquareKey,
-            'possibleMoves' => $player->isMyTurn() ? $analyser->getPlayerPossibleMoves($player) : null
+            'possibleMoves' => $player->isMyTurn() ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
 

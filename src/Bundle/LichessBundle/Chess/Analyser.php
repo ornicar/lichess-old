@@ -64,10 +64,10 @@ class Analyser
     /**
      * @return array key => array keys
      */
-    public function getPlayerPossibleMoves(Player $player)
+    public function getPlayerPossibleMoves(Player $player, $isKingAttacked = null)
     {
         $possibleMoves = array();
-        $isKingAttacked = $this->isKingAttacked($player);
+        $isKingAttacked = null === $isKingAttacked ? $this->isKingAttacked($player) : $isKingAttacked;
         $allOpponentPieces = PieceFilter::filterNotClass(PieceFilter::filterAlive($player->getOpponent()->getPieces()), 'King');
         $projectionOpponentPieces = PieceFilter::filterProjection($allOpponentPieces);
         $king = $player->getKing();
