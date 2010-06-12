@@ -200,8 +200,8 @@
       lichess_socket.connect(self.options.url.socket, function(data) {
         if (data)
         {
-            ('undefined' != typeof console) && console.debug(data);
-          if(data.status == 'update') self.updateFromJson(data);
+          ('undefined' != typeof console) && console.debug(data);
+          self.updateFromJson(data);
         }
         self.restartBeat();
       });
@@ -279,7 +279,7 @@
             .removeClass("pawn");
             break;
           case "castling":
-            $("div#" + event.to, self.$board).append($("div#" + event.to + " div.lichess_piece", self.$board));
+            $("div#" + event.to, self.$board).append($("div#" + event.from + " div.lichess_piece", self.$board));
             break;
           case "enpassant":
             self.killPiece($("div#" + event.killed + " div.lichess_piece", self.$board));

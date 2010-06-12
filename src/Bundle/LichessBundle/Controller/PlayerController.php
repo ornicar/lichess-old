@@ -38,7 +38,6 @@ class PlayerController extends Controller
 
             $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
             $socket->write(array(
-                'status' => Socket::UPDATE,
                 'possible_moves' => $possibleMoves,
                 'finished' => $game->getIsFinished(),
                 'events' => $stack->getEvents()
@@ -48,7 +47,6 @@ class PlayerController extends Controller
             $this->container->getLichessPersistenceService()->save($game);
             $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
             $socket->write(array(
-                'status' => Socket::UPDATE,
                 'possible_moves' => $opponentPossibleMoves,
                 'finished' => $game->getIsFinished(),
                 'events' => $events
@@ -75,9 +73,7 @@ class PlayerController extends Controller
             $checkSquareKey = null;
         }
         $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
-        $socket->write(array(
-            'status' => 'play'
-        ));
+        $socket->write(array());
 
         return $this->render('LichessBundle:Player:show', array(
             'player' => $player,
@@ -89,15 +85,26 @@ class PlayerController extends Controller
     public function inviteAiAction($hash)
     {
         $player = $this->findPlayer($hash);
+        $opponent = $player->getOpponent();
         $game = $player->getGame();
 
         if($game->getIsStarted()) {
             throw new NotFoundHttpException('Game already started');
         }
 
-        $player->getOpponent()->setIsAi(true);
+        $opponent->setIsAi(true);
         $game->setIsStarted(true);
-        $this->container->getLichessPersistenceService()->save($game);
+
+        if($player->isBlack()) {
+            $ai = new Crafty($opponent);
+            $stack = new Stack();
+            $manipulator = new Manipulator($game->getBoard(), $stack);
+            $possibleMoves = $manipulator->play($ai->move());
+            $this->container->getLichessPersistenceService()->save($game);
+        }
+        else {
+            $this->container->getLichessPersistenceService()->save($game);
+        }
 
         return $this->redirect($this->generateUrl('lichess_player', array(
             'hash' => $player->getFullHash(),

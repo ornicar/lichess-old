@@ -19,7 +19,7 @@ $data = array(
         'color' => $player->getOpponent()->getColor()
     ),
     'beat' => array(
-        'delay' => 2000,
+        'delay' => 1000,
     ),
     'url' => array(
         'socket' => '/socket/'.$playerFullHash.'.json',
