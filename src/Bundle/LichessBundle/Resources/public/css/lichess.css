@@ -259,18 +259,18 @@ div.lichess_separator {
 }
 
 div.lichess_control {
-  margin-top: 20px;
-  color: #888;
-  font-size: 90%;
+    margin-top: 20px;
+    color: #888;
+    font-size: 90%;
 }
 div.lichess_control a.lichess_permalink_toggle {
-  float: left;
+    float: left;
 }
 div.lichess_control a.lichess_resign {
-  float: right;
+    float: right;
 }
 div.lichess_control div.lichess_permalink {
-  margin-top: 1em;
+    margin-top: 1em;
 }
 
 div.lichess_table .lichess_button {
@@ -324,26 +324,27 @@ div.lichess_table.finished div.player {
 }
 
 div.lichess_cemetery {
-  height: 128px;
+    height: 128px;
     width: 320px;
     position: absolute;
     left: 0px;
 }
 div.lichess_cemetery_top {
     top: 0;
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 div.lichess_cemetery_bottom {
     bottom: 0;
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
-div.lichess_cemetery div {
-  display: block;
-  float: left;
-  margin-right: -24px;
-  width: 64px;
-  height: 64px;
-  opacity: 0.5;
-  position: relative;
+div.lichess_cemetery > div {
+    display: block;
+    float: left;
+    margin-right: -24px;
+    width: 64px;
+    height: 64px;
+}
+div.lichess_cemetery div.lichess_piece {
+    opacity: 0.5;
 }
