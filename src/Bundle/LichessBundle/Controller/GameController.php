@@ -33,7 +33,6 @@ class GameController extends Controller
         $this->container->getLichessPersistenceService()->save($game);
         $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
         $socket->write(array(
-            'status' => Socket::START,
             'url' => $this->generateUrl('lichess_player', array(
                 'hash' => $player->getOpponent()->getFullHash()
             ))

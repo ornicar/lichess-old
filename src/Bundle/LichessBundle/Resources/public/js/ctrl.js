@@ -17,7 +17,7 @@ $(function()
       setTimeout(waitForOpponent = function()
       {
         lichess_socket.connect(lichess_data.url.socket, function(data) {
-            if(data && data.status == 'start') {
+            if(data && data.url) {
                 location.href = data.url;
             }
             else {
