@@ -9,7 +9,7 @@ $(function()
     }
     else
     {
-      $game.find('a.toggle_join_url').click(function()
+      $game.find('a.lichess_toggle_join_url').click(function()
       {
         $game.find('div.lichess_join_url').toggle(100);
       });

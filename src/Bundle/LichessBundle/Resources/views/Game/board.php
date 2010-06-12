@@ -1,7 +1,7 @@
 <?php
 
-$game = $player->getGame();
-$squares = $game->getBoard()->getSquares();
+$board = $player->getGame()->getBoard();
+$squares = $board->getSquares();
 
 if ($player->isBlack())
 {
@@ -14,21 +14,17 @@ print '<div class="lichess_board">';
 
 foreach($squares as $squareKey => $square)
 {
-  $piece = $square->getPiece();
-  
-  $check = $checkSquareKey === $squareKey ? ' check' : '';
+  printf('<div class="lichess_square %s%s" id="%s" style="top:%dpx;left:%dpx;">',
+      $square->getColor(), $checkSquareKey === $squareKey ? ' check' : '', $squareKey, 64*(8-$x), 64*($y-1)
+  );
 
-  printf('<div class="lichess_square %s%s" id="%s" style="top:%dpx;left:%dpx;">', $square->getColor(), $check, $squareKey, 64*(8-$x), 64*($y-1));
+    print '<div class="lcsi"></div>';
 
-    print '<div class="lcsi">';
-
-    if($piece) {
+    if($piece = $board->getPieceByKey($squareKey)) {
       printf('<div class="lichess_piece %s %s" id="%s"></div>',
         strtolower($piece->getClass()), $piece->getColor(), $piece->getHash()
       );
     }
-
-    print '</div>';
 
   print '</div>';
   

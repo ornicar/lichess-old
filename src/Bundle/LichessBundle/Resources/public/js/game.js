@@ -22,12 +22,12 @@
         $(this).droppable({
           accept: function(draggable)
           {
-            return self.isMyTurn() && self.inArray($(this).attr("id"), self.options.possible_moves[draggable.parent().parent().attr('id')]);
+            return self.isMyTurn() && self.inArray($(this).attr("id"), self.options.possible_moves[draggable.parent().attr('id')]);
           },
           drop: function(ev, ui)
           {
             var $piece  = ui.draggable,
-            $oldSquare  = $piece.parent().parent(),
+            $oldSquare  = $piece.parent(),
             squareId    = $(this).attr("id"),
             moveData    = {
               player:   self.options.player.hash,
@@ -92,7 +92,7 @@
           {
             return $('<div>')
             .attr("class", $(this).attr("class"))
-            .attr('data-key', $(this).parent().parent().attr('id'))
+            .attr('data-key', $(this).parent().attr('id'))
             .appendTo(self.$board);
           },
           start: function()
@@ -108,7 +108,7 @@
         })
         .hover(function()
         {
-          if (!self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).parent().parent().attr('id')]) && targets.length)
+          if (!self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).parent().attr('id')]) && targets.length)
           {
             $("#" + targets.join(", #")).addClass("droppable-active");
           }
@@ -188,8 +188,8 @@
 
       if (!this.$table.hasClass('finished'))
       {
-        this.$table.find("div.lichess_current_player div.player:visible").fadeOut(500);
-        this.$table.find("div.lichess_current_player div.player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(500);
+        this.$table.find("div.lichess_current_player div.lichess_player:visible").fadeOut(500);
+        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(500);
       }
     },
     beat: function()
@@ -204,7 +204,7 @@
       lichess_socket.connect(self.options.url.socket, function(data) {
         if (data)
         {
-            console.debug(data);
+            console && console.debug(data);
           if(data.status == 'update') self.updateFromJson(data);
         }
         //self.restartBeat();
@@ -221,9 +221,8 @@
       }
 
       var self = this;
-      $("div.lichess_square.moved", self.$board).removeClass("moved");
-      var $from = $("div#" + from, self.$board).addClass("moved"), from_offset = $from.offset();
-      var $to = $("div#" + to, self.$board).addClass("moved"), to_offset = $to.offset();
+      var $from = $("div#" + from, self.$board), from_offset = $from.offset();
+      var $to = $("div#" + to, self.$board), to_offset = $to.offset();
       var animation = $piece.hasClass(self.options.player.color) ? 500 : 1000;
       
       $("body").append($piece.css({
@@ -261,13 +260,10 @@
     killPiece: function($piece)
     {
       $piece.draggable("destroy");
-      var self = this, $deads = $piece.hasClass("white") ? $("div.lichess_cemetery.white ul", self.element) : $("div.lichess_cemetery.black ul", self.element), $square = $piece.parent(), square_offset = $square.offset();
-      $deads.append($("<li>"));
-      var $tomb = $("li:last", $deads), tomb_offset = $tomb.offset();
-      self.element.append($piece.css({
-        top: square_offset.top,
-        left: square_offset.left
-      }));
+      var self = this, $deads = $piece.hasClass("white") ? $("div.lichess_cemetery.white", self.element) : $("div.lichess_cemetery.black", self.element), $square = $piece.parent();
+      $deads.append($("<div>"));
+      var $tomb = $("div:last", $deads), tomb_offset = $tomb.offset();
+      $('body').append($piece.css($square.offset()));
       $piece.css("opacity", 0).animate({
         top: tomb_offset.top,
         left: tomb_offset.left,
