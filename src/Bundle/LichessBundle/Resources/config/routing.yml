@@ -1,25 +1,24 @@
 lichess_homepage:
-  pattern:  /:color
-  defaults: { _controller: LichessBundle:Main:index, color: white }
-  requirements: { color: (white|black) }
+    pattern:        /:color
+    defaults:       { _controller: LichessBundle:Main:index, color: white }
+    requirements:   { color: (white|black) }
 lichess_game:
-  pattern:  /:hash
-  defaults: { _controller: LichessBundle:Game:show }
-  requirements: { hash: "[\w]{6}" }
+    pattern:        /:hash
+    defaults:       { _controller: LichessBundle:Game:show }
+    requirements:   { hash: "[\w]{6}" }
 lichess_player:
-  pattern:  /:hash
-  defaults: { _controller: LichessBundle:Player:show }
-  requirements: { hash: "[\w]{10}" }
+    pattern:        /:hash
+    defaults:       { _controller: LichessBundle:Player:show }
+    requirements:   { hash: "[\w]{10}" }
 lichess_join_ai:
-  pattern:  /ai/:hash
-  defaults: { _controller: LichessBundle:Game:join }
-  requirements: { hash: "[\w]{10}" }
-lichess_wait:
-  pattern:  /wait/:hash/:updatedAt
-  defaults: { _controller: LichessBundle:Player:wait }
-  requirements: { hash: "[\w]{10}" }
-  requirements: { updatedAt: "[\d]{10}" }
+    pattern:        /ai/:hash
+    defaults:       { _controller: LichessBundle:Game:join }
+    requirements:   { hash: "[\w]{10}" }
 lichess_move:
-  pattern:  /move/:hash
-  defaults: { _controller: LichessBundle:Player:move }
-  requirements: { hash: "[\w]{10}" }
+    pattern:        /move/:hash
+    defaults:       { _controller: LichessBundle:Player:move }
+    requirements:   { hash: "[\w]{10}" }
+lichess_resign:
+    pattern:        /resign/:hash
+    defaults:       { _controller: LichessBundle:Player:resign }
+    requirements:   { hash: "[\w]{10}" }
