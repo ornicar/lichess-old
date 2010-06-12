@@ -29,6 +29,7 @@ class PlayerController extends Controller
         catch(Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
+        $events = $stack->getEvents();
         if($opponent->getIsAi()) {
             $ai = new Crafty($opponent);
             $stack->reset();
@@ -50,14 +51,14 @@ class PlayerController extends Controller
                 'status' => Socket::UPDATE,
                 'possible_moves' => $opponentPossibleMoves,
                 'finished' => $game->getIsFinished(),
-                'events' => $stack->getEvents()
+                'events' => $events
             ));
         }
 
         return $this->createResponse(json_encode(array(
             'time' => time(),
             'finished' => $game->getIsFinished(),
-            'events' => $stack->getEvents()
+            'events' => $events
         )));
     }
 
