@@ -245,4 +245,32 @@ class Analyser
         }
         return $squares;
     }
+
+    /**
+     * Tell whether or not this player can castle king side
+     *
+     * @return bool
+     **/
+    public function canCastleKingSide(Player $player)
+    {
+       return $this->canCastle($player->getKing(), 3); 
+    }
+
+    /**
+     * Tell whether or not this player can castle queen side
+     *
+     * @return bool
+     **/
+    public function canCastleQueenSide(Player $player)
+    {
+       return $this->canCastle($player->getKing(), -4); 
+    }
+
+    protected function canCastle(King $king, $relativeX)
+    {
+        return
+        !$king->hasMoved() &&
+        ($rook = $this->board->getSquareByPos($king->getX()+$relativeX, $king->getY())->getPiece()) &&
+        ($rook->isClass('Rook') && !$rook->hasMoved());
+    }
 }
