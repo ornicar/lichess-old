@@ -1,7 +1,4 @@
 The goal is to create a very performant Chess Game in PHP, as well as play with Symfony 2.
-
-INSTALL
--------
   
 Run unit tests
 
@@ -14,3 +11,9 @@ Run performance tests
 Run functional tests
 
     phpunit --bootstrap lichess/tests/bootstrap/functional.php lichess/tests/AllTests.php
+
+INSTALL
+-------
+
+Install crafty on Ubuntu 10.04
+sudo apt-get install crafty

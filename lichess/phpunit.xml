@@ -2,7 +2,7 @@
 
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         colors="false"
+         colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
@@ -12,8 +12,8 @@
          bootstrap="../src/autoload.php"
 >
   <testsuites>
-    <testsuite name="Project Test Suite">
-      <directory>../src/Application/*/Tests</directory>
+    <testsuite name="Lichess Test Suite">
+      <directory>../src/LichessBundle/*/Tests</directory>
     </testsuite>
   </testsuites>
 
