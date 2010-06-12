@@ -10,9 +10,9 @@ lichess_player:
     pattern:        /:hash
     defaults:       { _controller: LichessBundle:Player:show }
     requirements:   { hash: "[\w]{10}" }
-lichess_join_ai:
+lichess_invite_ai:
     pattern:        /ai/:hash
-    defaults:       { _controller: LichessBundle:Game:join }
+    defaults:       { _controller: LichessBundle:Player:inviteAi }
     requirements:   { hash: "[\w]{10}" }
 lichess_move:
     pattern:        /move/:hash

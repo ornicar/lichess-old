@@ -22,7 +22,13 @@ class Crafty extends Ai
 
     protected function getNewForsythe($forsytheNotation)
     {
-        $file = tempnam(sys_get_temp_dir(), 'lichess_crafty_');
+        $file = sys_get_temp_dir().'/lichess/crafty_'.$this->player->getGame()->getHash();
+        if(!is_dir(dirname($file))) {
+            mkdir(dirname($file), 0777);
+        }
+        touch($file);
+        file_put_contents($file, '');
+        chmod($file, 0777);
 
         $command = $this->getPlayCommand($forsytheNotation, $file);
 
