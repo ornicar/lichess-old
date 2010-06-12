@@ -280,25 +280,4 @@ class Game
             }
         }
     }
-
-    public function getClone()
-    {
-        $clone = clone $this;
-        foreach($this->getPlayers() as $color => $player) {
-            $playerClone = $player->getClone();
-            $playerClone->setGame($clone);
-            $clone->setPlayer($color, $playerClone);
-        }
-
-        $boardClone = clone $this->getBoard();
-        $boardClone->setGame($clone);
-        $clone->setBoard($boardClone);
-        $boardClone->compile();
-
-        return $clone;
-    }
-
-    public function __clone()
-    {
-    }
 }
