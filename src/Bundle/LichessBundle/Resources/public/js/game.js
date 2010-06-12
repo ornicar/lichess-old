@@ -204,7 +204,7 @@
       lichess_socket.connect(self.options.url.socket, function(data) {
         if (data)
         {
-            console && console.debug(data);
+            ('undefined' != typeof console) && console.debug(data);
           if(data.status == 'update') self.updateFromJson(data);
         }
         //self.restartBeat();
@@ -295,13 +295,13 @@
             .removeClass("pawn");
             break;
           case "castling":
-            $("div#" + event.rook_to, self.$board).append($("div#p" + event.rook, self.$board));
+            $("div#" + event.to, self.$board).append($("div#" + event.to + " div.lichess_piece", self.$board));
             break;
           case "enpassant":
-            self.killPiece($("div#p" + event.killed, self.$board));
+            self.killPiece($("div#" + event.killed + " div.lichess_piece", self.$board));
             break;
           case "check":
-            $("div#" + event.square, self.$board).addClass("check");
+            $("div#" + event.key, self.$board).addClass("check");
             break;
           case "mate":
           case "resign":
