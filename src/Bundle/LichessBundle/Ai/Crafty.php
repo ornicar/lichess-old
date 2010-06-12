@@ -32,20 +32,18 @@ class Crafty extends Ai
 
         $command = $this->getPlayCommand($forsytheNotation, $file);
 
-        ob_start();
-        passthru($command, $code);
-        $return = ob_get_clean();
+        exec($command, $output, $code);
 
         if($code !== 0)
         {
-            throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.$return));
+            throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
         }
 
         $forsythe = $this->extractForsythe(file($file, FILE_IGNORE_NEW_LINES));
 
         if(!$forsythe)
         {
-            throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.$return));
+            throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
         }
         unlink($file);
 
@@ -66,7 +64,7 @@ savepos %s
 quit
 EOF",
 dirname($file),
-'crafty',
+'/usr/games/crafty',
 $this->getCraftyLevel(),
 $forsytheNotation,
 basename($file)
