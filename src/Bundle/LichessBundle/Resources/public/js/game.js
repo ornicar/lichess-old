@@ -48,10 +48,6 @@
                 success: function(data)
                 {
                   self.updateFromJson(data);
-                  if (self.options.opponent.ai && !self.options.game.finished)
-                  {
-                    self.aiMove();
-                  }
                 }
               });
             }
@@ -245,18 +241,6 @@
         }));
       });
     },
-    aiMove: function()
-    {
-      var self = this;
-      $.ajax({
-        dataType: "json",
-        url: $.dm.ctrl.getHref('+/dmChessGame/aiMove')+'?player='+self.options.player.code,
-        success: function(data)
-        {
-          self.updateFromJson(data);
-        }
-      });
-    },
     killPiece: function($piece)
     {
       $piece.draggable("destroy");
@@ -324,15 +308,6 @@
     restartBeat: function()
     {
       var self = this;
-      if (self.options.opponent.ai) 
-      {
-        if (!self.isMyTurn() && !self.options.game.finished)
-        {
-          self.aiMove();
-        }
-
-        return;
-      }
       if (self.options.beat.timeout) 
       {
         clearTimeout(self.options.beat.timeout);

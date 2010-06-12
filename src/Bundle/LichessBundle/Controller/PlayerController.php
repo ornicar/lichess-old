@@ -7,6 +7,7 @@ use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Socket;
 use Bundle\LichessBundle\Stack;
+use Bundle\LichessBundle\Ai\Crafty;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
@@ -14,6 +15,7 @@ class PlayerController extends Controller
     public function moveAction($hash)
     {
         $player = $this->findPlayer($hash);
+        $opponent = $player->getOpponent();
         $game = $player->getGame();
         if(!$player->isMyTurn()) {
             throw new NotFoundHttpException('Not my turn');
@@ -27,14 +29,30 @@ class PlayerController extends Controller
         catch(Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
-        $this->container->getLichessPersistenceService()->save($game);
-        $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
-        $socket->write(array(
-            'status' => Socket::UPDATE,
-            'possible_moves' => $opponentPossibleMoves,
-            'finished' => $game->getIsFinished(),
-            'events' => $stack->getEvents()
-        ));
+        if($opponent->getIsAi()) {
+            $ai = new Crafty($opponent);
+            $stack->reset();
+            $possibleMoves = $manipulator->play($ai->move());
+            $this->container->getLichessPersistenceService()->save($game);
+
+            $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
+            $socket->write(array(
+                'status' => Socket::UPDATE,
+                'possible_moves' => $possibleMoves,
+                'finished' => $game->getIsFinished(),
+                'events' => $stack->getEvents()
+            ));
+        }
+        else {
+            $this->container->getLichessPersistenceService()->save($game);
+            $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
+            $socket->write(array(
+                'status' => Socket::UPDATE,
+                'possible_moves' => $opponentPossibleMoves,
+                'finished' => $game->getIsFinished(),
+                'events' => $stack->getEvents()
+            ));
+        }
 
         return $this->createResponse(json_encode(array(
             'time' => time(),
@@ -67,21 +85,23 @@ class PlayerController extends Controller
         ));
     }
 
-    public function waitAction($hash, $updatedAt)
+    public function inviteAiAction($hash)
     {
-        $gameHash = substr($hash, 0, 6);
-
-        if($this->container->getLichessPersistenceService()->getUpdatedAt($gameHash) <= $updatedAt) {
-            return $this->createResponse('wait');
-        }
-        
         $player = $this->findPlayer($hash);
+        $game = $player->getGame();
 
-        if($player->getGame()->getIsStarted()) {
-            return $this->createResponse($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+        if($game->getIsStarted()) {
+            throw new NotFoundHttpException('Game already started');
         }
 
-        return $this->createResponse('wait');
+        $player->getOpponent()->setIsAi(true);
+        $game->setIsStarted(true);
+        $this->container->getLichessPersistenceService()->save($game);
+
+        return $this->redirect($this->generateUrl('lichess_player', array(
+            'hash' => $player->getFullHash(),
+            'checkSquareKey' => null
+        )));
     }
 
     protected function findPlayer($hash)
