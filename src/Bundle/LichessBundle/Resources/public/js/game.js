@@ -117,7 +117,7 @@
         });
       });
       
-      //self.restartBeat();
+      self.restartBeat();
       
       self.$table.find("a.lichess_give_up").click(function()
       {
@@ -203,7 +203,7 @@
             ('undefined' != typeof console) && console.debug(data);
           if(data.status == 'update') self.updateFromJson(data);
         }
-        //self.restartBeat();
+        self.restartBeat();
       });
     },
     movePiece: function(from, to)
