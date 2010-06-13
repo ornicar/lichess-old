@@ -33,7 +33,7 @@ class King extends Piece
                     $_y = $y+$dy;
                     if($_y>0 && $_y<9) {
                         $key = Board::posToKey($_x, $_y);
-                        if(($piece = $board->getPieceByKey($key)) && $piece->getPlayer() === $this->player) {
+                        if(($piece = $board->getPieceByKey($key)) && $piece->getColor() === $this->color) {
                             continue;
                         }
                         $keys[] = $key;
