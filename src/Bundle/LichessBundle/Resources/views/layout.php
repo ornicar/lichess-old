@@ -1,12 +1,9 @@
 <?php $view->stylesheets->add('/bundle/lichess/css/reset.css') ?>
 <?php $view->stylesheets->add('/bundle/lichess/css/lichess.css') ?>
 <?php $view->stylesheets->add('/bundle/lichess/css/layout.css') ?>
-
 <?php $view->javascripts->add('/bundle/lichess/js/lib.min.js') ?>
-<?php $view->javascripts->add('/bundle/lichess/js/socket.js') ?>
 <?php $view->javascripts->add('/bundle/lichess/js/ctrl.js') ?>
 <?php $view->javascripts->add('/bundle/lichess/js/game.js') ?>
-
 <!DOCTYPE html>
 <html>
     <head>
