@@ -51,4 +51,5 @@ $(function()
       }, lichess_data.delay);
     }
   }
+  $('#email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 });

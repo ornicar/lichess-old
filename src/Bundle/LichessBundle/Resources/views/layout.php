@@ -31,6 +31,8 @@
             Open Source software built with PHP 5.3,
             <a href="http://symfony-reloaded.org">Symfony 2</a> &amp;
             <a href="http://jqueryui.com/">jQuery UI</a> 
+            <br />
+            <span id="email"></span>
         </div>
         </footer>
         <?php echo $view->javascripts ?>
