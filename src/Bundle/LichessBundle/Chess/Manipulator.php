@@ -159,10 +159,7 @@ class Manipulator
      **/
     protected function promotion(Pawn $pawn, array $options)
     {
-        if(!isset($options['promotion'])) {
-            throw new \InvalidArgumentException('You must provide promotion class');
-        }
-        $promotionClass = ucfirst($options['promotion']);
+        $promotionClass = isset($options['promotion']) ? ucfirst($options['promotion']) : 'Queen';
         if(!in_array($promotionClass, array('Queen', 'Knight', 'Bishop', 'Rook'))) {
             throw new \InvalidArgumentException('Bad promotion class: '.$promotionClass);
         }
