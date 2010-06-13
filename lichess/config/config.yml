@@ -1,5 +1,5 @@
 parameters:
-    kernel.include_core_classes: false
+    kernel.include_core_classes: true
 
 kernel.config:
     charset:             UTF-8
