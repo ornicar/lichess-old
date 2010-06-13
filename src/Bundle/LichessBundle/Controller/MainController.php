@@ -11,8 +11,7 @@ class MainController extends Controller
 
     public function indexAction($color)
     {
-        $generator = new Generator();
-        $game = $generator->createGame();
+        $game = $this->getGameTestPromotion();
         $player = $game->getPlayer($color);
         $game->setCreator($player);
 
@@ -23,5 +22,27 @@ class MainController extends Controller
         return $this->render('LichessBundle:Main:index', array(
             'player' => $player
         ));
+    }
+
+    protected function getNewGame()
+    {
+        $generator = new Generator();
+        return $generator->createGame();
+    }
+
+    protected function getGameTestPromotion()
+    {
+        $generator = new Generator();
+        $data = <<<EOF
+       k
+        
+ PPPP   
+        
+        
+   pppp 
+        
+K       
+EOF;
+        return $generator->createGameFromVisualBlock($data);
     }
 }
