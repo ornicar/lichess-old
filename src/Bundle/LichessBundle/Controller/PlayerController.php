@@ -45,7 +45,7 @@ class PlayerController extends Controller
         }
         else {
             $this->container->getLichessPersistenceService()->save($game);
-            $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
+            $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
             $socket->write(array(
                 'possible_moves' => $opponentPossibleMoves,
                 'finished' => $game->getIsFinished(),
@@ -63,9 +63,10 @@ class PlayerController extends Controller
     public function showAction($hash)
     {
         $player = $this->findPlayer($hash);
+        $game = $player->getGame();
 
-        $analyser = new Analyser($player->getGame()->getBoard());
-        $isKingAttacked = $analyser->isKingAttacked($player->getGame()->getTurnPlayer());
+        $analyser = new Analyser($game->getBoard());
+        $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
         if($isKingAttacked) {
             $checkSquareKey = $game->getTurnPlayer()->getKing()->getSquareKey();
         }
@@ -78,7 +79,7 @@ class PlayerController extends Controller
         return $this->render('LichessBundle:Player:show', array(
             'player' => $player,
             'checkSquareKey' => $checkSquareKey,
-            'possibleMoves' => $player->isMyTurn() ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
+            'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
 
@@ -112,6 +113,50 @@ class PlayerController extends Controller
         )));
     }
 
+    public function resignAction($hash)
+    {
+        $player = $this->findPlayer($hash);
+        $game = $player->getGame();
+        $opponent = $player->getOpponent();
+
+        $game->setIsFinished(true);
+        $opponent->setIsWinner(true);
+        $this->container->getLichessPersistenceService()->save($game);
+        
+        $data = array(
+            'time' => time(),
+            'events' => array(array(
+                'type' => 'resign',
+                'table_url'  => $this->generateUrl('lichess_table', array(
+                    'hash' => $player->getFullHash()
+                ))
+            ))
+        );
+        if(!$opponent->getIsAi()) {
+            $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
+            $socket->write($data);
+        }
+
+        return $this->createResponse(json_encode($data));
+    }
+
+    public function tableAction($hash)
+    {
+        $player = $this->findPlayer($hash);
+
+        $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
+
+        return $this->render('LichessBundle:Game:'.$template, array(
+            'player' => $player
+        ));
+    }
+
+    /**
+     * Get the player for this hash 
+     * 
+     * @param string $hash 
+     * @return Player
+     */
     protected function findPlayer($hash)
     {
         $gameHash = substr($hash, 0, 6);

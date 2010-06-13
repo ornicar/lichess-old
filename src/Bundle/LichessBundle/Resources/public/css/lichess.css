@@ -300,7 +300,7 @@ div.lichess_current_player {
 }
 div.lichess_current_player div.lichess_player {
     position: absolute;
-    display: none;
+    /*display: none;*/
 }
 div.lichess_current_player div.lichess_player div.lichess_piece {
     top: 0;

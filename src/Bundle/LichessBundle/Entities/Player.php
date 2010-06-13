@@ -243,7 +243,7 @@ class Player
 
     public function getIsMyTurn()
     {
-        return $this->getGame()->getTurns() %2 xor 'white' === $this->getColor();
+        return $this->game->getTurns() %2 xor 'white' === $this->getColor();
     }
 
     public function isWhite()

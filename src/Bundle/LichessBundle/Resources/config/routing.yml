@@ -22,3 +22,7 @@ lichess_resign:
     pattern:        /resign/:hash
     defaults:       { _controller: LichessBundle:Player:resign }
     requirements:   { hash: "[\w]{10}" }
+lichess_table:
+    pattern:        /table/:hash
+    defaults:       { _controller: LichessBundle:Player:table }
+    requirements:   { hash: "[\w]{10}" }

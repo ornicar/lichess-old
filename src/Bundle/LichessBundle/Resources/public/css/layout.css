@@ -13,6 +13,10 @@ article, aside, dialog, figure, footer, header, hgroup, menu, nav, section { dis
 .clearfix {display:block;}
 /* End hide from IE Mac */
 
+.none {
+    display: none;
+}
+
 body {
   font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
   color: #888;

@@ -12,10 +12,6 @@
       
       self.indicateTurn();
 
-      $('h1').append($('<a>connect</a>').click(function() {
-              self.beat();
-    }));
-
       // init squares
       $("div.lichess_square", self.$board).each(function()
       {
@@ -119,7 +115,7 @@
       
       self.restartBeat();
       
-      self.$table.find("a.lichess_give_up").click(function()
+      self.$table.find("a.lichess_resign").click(function()
       {
         if (confirm($(this).attr('title')+' ?')) 
         {
@@ -184,7 +180,7 @@
 
       if (!this.$table.hasClass('finished'))
       {
-        this.$table.find("div.lichess_current_player div.lichess_player:visible").fadeOut(500);
+        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.opponent.color : this.options.player.color)).fadeOut(500);
         this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(500);
       }
     },
@@ -217,8 +213,9 @@
       }
 
       var self = this;
-      var $from = $("div#" + from, self.$board), from_offset = $from.offset();
-      var $to = $("div#" + to, self.$board), to_offset = $to.offset();
+      $("div.lichess_square.moved", self.$board).removeClass("moved");
+      var $from = $("div#" + from, self.$board).addClass("moved"), from_offset = $from.offset();
+      var $to = $("div#" + to, self.$board).addClass("moved"), to_offset = $to.offset();
       var animation = $piece.hasClass(self.options.player.color) ? 500 : 1000;
       
       $("body").append($piece.css({
@@ -292,7 +289,7 @@
             self.options.game.finished = true;
             document.title = self.translate('Game over');
             $.ajax({
-              url: $.dm.ctrl.getHref('+/dmChessGame/getTableFinished')+'?player='+self.options.player.code,
+              url: event.table_url,
               success: function(html)
               {
                 $("div.lichess_table").replaceWith(html);
