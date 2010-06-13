@@ -2,8 +2,7 @@
 <?php $view->stylesheets->add('/bundle/lichess/css/lichess.css') ?>
 <?php $view->stylesheets->add('/bundle/lichess/css/layout.css') ?>
 
-<?php $view->javascripts->add('/bundle/lichess/js/jquery.min.js') ?>
-<?php $view->javascripts->add('/bundle/lichess/js/jquery-ui-1.8.2.custom.min.js') ?>
+<?php $view->javascripts->add('/bundle/lichess/js/lib.min.js') ?>
 <?php $view->javascripts->add('/bundle/lichess/js/socket.js') ?>
 <?php $view->javascripts->add('/bundle/lichess/js/ctrl.js') ?>
 <?php $view->javascripts->add('/bundle/lichess/js/game.js') ?>
