@@ -159,15 +159,19 @@ class Manipulator
      **/
     protected function promotion(Pawn $pawn, array $options)
     {
-        if(!in_array($options['promotion'], array('Queen', 'Knight', 'Bishop', 'Rook'))) {
-            throw new \InvalidArgumentException('Bad promotion class: '.$options['promotion']);
+        if(!isset($options['promotion'])) {
+            throw new \InvalidArgumentException('You must provide promotion class');
+        }
+        $promotionClass = ucfirst($options['promotion']);
+        if(!in_array($promotionClass, array('Queen', 'Knight', 'Bishop', 'Rook'))) {
+            throw new \InvalidArgumentException('Bad promotion class: '.$promotionClass);
         }
         $player = $pawn->getPlayer();
 
         $this->board->remove($pawn);
         $player->removePiece($pawn);
 
-        $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$options['promotion'];
+        $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$promotionClass;
         $new = new $fullClass($pawn->getX(), $pawn->getY());
         $new->setPlayer($player);
         $new->setBoard($player->getGame()->getBoard());
@@ -177,7 +181,8 @@ class Manipulator
         if($this->stack) {
             $this->stack->add(array(
                 'type' => 'promotion',
-                'class' => strtolower($options['promotion'])
+                'class' => strtolower($promotionClass),
+                'key' => $new->getSquareKey()
             ));
         }
     }

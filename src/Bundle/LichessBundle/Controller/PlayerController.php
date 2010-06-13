@@ -24,7 +24,7 @@ class PlayerController extends Controller
         $stack = new Stack();
         $manipulator = new Manipulator($game->getBoard(), $stack);
         try {
-            $opponentPossibleMoves = $manipulator->play($move);
+            $opponentPossibleMoves = $manipulator->play($move, $this->getRequest()->get('options', array()));
         }
         catch(Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
