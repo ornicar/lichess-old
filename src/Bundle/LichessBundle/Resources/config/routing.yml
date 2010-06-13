@@ -14,6 +14,10 @@ lichess_invite_ai:
     pattern:        /ai/:hash
     defaults:       { _controller: LichessBundle:Player:inviteAi }
     requirements:   { hash: "[\w]{10}" }
+lichess_ai_level:
+    pattern:        /ai_level/:hash
+    defaults:       { _controller: LichessBundle:Player:aiLevel }
+    requirements:   { hash: "[\w]{10}" }
 lichess_move:
     pattern:        /move/:hash
     defaults:       { _controller: LichessBundle:Player:move }
