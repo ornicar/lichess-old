@@ -29,35 +29,59 @@ class PlayerController extends Controller
         catch(Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
-        $events = $stack->getEvents();
+        $data = array(
+            'time' => time(),
+            'events' => $stack->getEvents()
+        );
+        if($game->getIsFinished()) {
+            $data['events'][] = array(
+                'type' => 'mate',
+                'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
+            );
+        }
+        $response = $this->createResponse(json_encode($data));
+        
         if($opponent->getIsAi()) {
-            $ai = new Crafty($opponent);
-            $stack->reset();
-            $possibleMoves = $manipulator->play($ai->move());
-            $this->container->getLichessPersistenceService()->save($game);
+            if(empty($opponentPossibleMoves)) {
+                $this->container->getLichessPersistenceService()->save($game);
+            }
+            else {
+                $ai = new Crafty($opponent);
+                $stack->reset();
+                $possibleMoves = $manipulator->play($ai->move());
+                $this->container->getLichessPersistenceService()->save($game);
 
-            $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
-            $socket->write(array(
-                'possible_moves' => $possibleMoves,
-                'finished' => $game->getIsFinished(),
-                'events' => $stack->getEvents()
-            ));
+                $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
+                $data = array(
+                    'possible_moves' => $possibleMoves,
+                    'events' => $stack->getEvents()
+                );
+                if($game->getIsFinished()) {
+                    $data['events'][] = array(
+                        'type' => 'mate',
+                        'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
+                    );
+                }
+                $socket->write($data);
+            }
         }
         else {
             $this->container->getLichessPersistenceService()->save($game);
             $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
-            $socket->write(array(
+            $data = array(
                 'possible_moves' => $opponentPossibleMoves,
-                'finished' => $game->getIsFinished(),
                 'events' => $events
-            ));
+            );
+            if($game->getIsFinished()) {
+                $data['events'][] = array(
+                    'type' => 'mate',
+                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
+                );
+            }
+            $socket->write($data);
         }
 
-        return $this->createResponse(json_encode(array(
-            'time' => time(),
-            'finished' => $game->getIsFinished(),
-            'events' => $events
-        )));
+        return $response;
     }
 
     public function showAction($hash)
@@ -108,8 +132,7 @@ class PlayerController extends Controller
         }
 
         return $this->redirect($this->generateUrl('lichess_player', array(
-            'hash' => $player->getFullHash(),
-            'checkSquareKey' => null
+            'hash' => $player->getFullHash()
         )));
     }
 
@@ -127,9 +150,7 @@ class PlayerController extends Controller
             'time' => time(),
             'events' => array(array(
                 'type' => 'resign',
-                'table_url'  => $this->generateUrl('lichess_table', array(
-                    'hash' => $player->getFullHash()
-                ))
+                'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
             ))
         );
         if(!$opponent->getIsAi()) {
