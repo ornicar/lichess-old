@@ -67,17 +67,8 @@ class PlayerController extends Controller
         }
         else {
             $this->container->getLichessPersistenceService()->save($game);
+            $data['possible_moves'] = $opponentPossibleMoves;
             $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
-            $data = array(
-                'possible_moves' => $opponentPossibleMoves,
-                'events' => $events
-            );
-            if($game->getIsFinished()) {
-                $data['events'][] = array(
-                    'type' => 'mate',
-                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
-                );
-            }
             $socket->write($data);
         }
 
