@@ -49,6 +49,14 @@ abstract class Piece
      * @var Board
      */
     protected $board = null;
+
+    /**
+     * Cache of the player color
+     * This attribute is not persisted
+     * 
+     * @var string
+     */
+    protected $color = null;
     
     public function __construct($x, $y)
     {
@@ -157,6 +165,7 @@ abstract class Piece
     public function setPlayer($player)
     {
         $this->player = $player;
+        $this->color = $player->getColor();
     }
 
     protected function getKeysByProjection($dx, $dy)
@@ -175,7 +184,7 @@ abstract class Piece
                 $key = Board::posToKey($x, $y);
                 if ($piece = $this->board->getPieceByKey($key))
                 {
-                    if ($piece->getPlayer() !== $this->player)
+                    if ($piece->getColor() !== $this->color)
                     {
                         $keys[] = $key;
                     }
@@ -221,6 +230,16 @@ abstract class Piece
         $this->board = $board;
     }
 
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    public function hasMoved()
+    {
+        return null !== $this->firstMove;
+    }
+
     public function toDebug()
     {
         $pos = ($square = $this->getSquare()) ? $square->getKey() : 'no-pos';
@@ -231,16 +250,6 @@ abstract class Piece
     public function __toString()
     {
         return $this->toDebug();
-    }
-
-    public function getColor()
-    {
-        return $this->player->getColor();
-    }
-
-    public function hasMoved()
-    {
-        return null !== $this->firstMove;
     }
 
     public function getForsythe()
@@ -266,7 +275,7 @@ abstract class Piece
 
     public function serialize()
     {
-        return array('color', 'x', 'y', 'player', 'isDead', 'firstMove');
+        return array('x', 'y', 'player', 'isDead', 'firstMove');
     }
 
 }

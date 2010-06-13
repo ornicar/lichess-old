@@ -18,7 +18,7 @@ class Pawn extends Piece
         $x = $mySquare->getX();
         $y = $mySquare->getY();
         $keys = array();
-        $dy = $this->getPlayer()->isWhite() ? 1 : -1;
+        $dy = 'white' === $this->color ? 1 : -1;
 
         $key = Board::posToKey($x, $y+$dy);
         if(!$this->board->hasPieceByKey($key)) {
@@ -40,9 +40,9 @@ class Pawn extends Piece
     {
         $keys = array();
         $mySquare = $this->board->getSquareByKey($this->getSquareKey());
-        $x = $mySquare->getX();
-        $y = $mySquare->getY();
-        $dy = $this->getPlayer()->isWhite() ? 1 : -1;
+        $x = $this->x;
+        $y = $this->y;
+        $dy = 'white' === $this->color ? 1 : -1;
 
         $_y = $y+$dy;
         foreach(array(-1, 1) as $dx)
@@ -55,7 +55,7 @@ class Pawn extends Piece
             $key = Board::posToKey($_x, $_y);
             if ($piece = $this->board->getPieceByKey($key))
             {
-                if ($piece->getPlayer() !== $this->getPlayer())
+                if ($piece->getColor() !== $this->color)
                 {
                     $keys[] = $key;
                 }
@@ -65,7 +65,7 @@ class Pawn extends Piece
             if (
                 ($piece = $this->board->getPieceByKey($opponentKey)) &&
                 $piece instanceof Pawn &&
-                $piece->getPlayer() !== $this->player &&
+                $piece->getColor() !== $this->color &&
                 ($piece->getFirstMove() === ($this->getPlayer()->getGame()->getTurns() -1)) &&
                 !$this->board->hasPieceByKey($key)
             )
