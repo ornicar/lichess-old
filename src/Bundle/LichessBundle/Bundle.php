@@ -15,23 +15,12 @@ class Bundle extends BaseBundle
         $configuration = new BuilderConfiguration();
         
         $loader = new XmlFileLoader(__DIR__.'/Resources/config');
-        $configuration->merge($loader->load('observer.xml'));
         $configuration->merge($loader->load('persistence.xml'));
         $configuration->merge($loader->load('logger.xml'));
 
         $container->setParameter('data_collector_manager.class', 'Bundle\LichessBundle\Profiler\DataCollectorManager');
 
         return $configuration;
-    }
-
-    /**
-     * Boots the Bundle.
-     *
-     * @param Symfony\Components\DependencyInjection\ContainerInterface $container A ContainerInterface instance
-     */
-    public function boot(ContainerInterface $container)
-    {
-      $container->getLichessObserverService();
     }
 
 }
