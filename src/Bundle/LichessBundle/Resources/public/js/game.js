@@ -50,7 +50,7 @@
 
             var color = self.options.player.color;
             // promotion
-            if($piece.hasClass('pawn') && ((color == "white" && squareId[2] == 8) || (color == "black" && squareId[2] == 1)))
+            if($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1)))
             {
               var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
                 <div rel="queen" class="lichess_piece queen '+color+'"></div>\
@@ -59,7 +59,7 @@
                 <div rel="bishop" class="lichess_piece bishop '+color+'"></div>'
               ).fadeIn(500).find('div.lichess_piece').click(function()
               {
-                moveData.promotion = $(this).attr('rel');
+                moveData.options = {promotion: $(this).attr('rel')};
                 sendMoveRequest(moveData);
                 $choices.fadeOut(800, function() {$choices.remove();});
               }).end();
@@ -196,18 +196,18 @@
       lichess_socket.connect(self.options.url.socket, function(data) {
         if (data)
         {
-          ('undefined' != typeof console) && console.debug(data);
           self.updateFromJson(data);
         }
         self.restartBeat();
       });
     },
-    movePiece: function(from, to)
+    movePiece: function(from, to, callback)
     {
       var $piece = $("div#"+from+" div.lichess_piece", this.$board);
 
       if (!$piece.length)
       {
+        $.isFunction(callback || null) && callback();
         // already moved
         return;
       }
@@ -236,6 +236,7 @@
           top: 0,
           left: 0
         }));
+        $.isFunction(callback || null) && callback();
       });
     },
     killPiece: function($piece)
@@ -261,18 +262,28 @@
     displayEvents: function(events)
     {
       var self = this;
+      // move first
+      for (var i in events)
+      {
+          if(events[i].type == 'move')
+          {
+              var from = events[i].from, to = events[i].to;
+                events.splice(i, 1);
+            self.movePiece(from, to, function() {
+                self.displayEvents(events);
+            });
+                return;
+          }
+      }
+
       for (var i in events) 
       {
         var event = events[i];
         switch (event.type)
         {
-          case "move":
-            self.movePiece(event.from, event.to);
-            break;
           case "promotion":
-            $("div#p"+event.old_piece)
-            .attr('id', 'p'+event.new_piece)
-            .addClass(event.type)
+            $("div#"+event.key+" div.lichess_piece")
+            .addClass(event.class)
             .removeClass("pawn");
             break;
           case "castling":
