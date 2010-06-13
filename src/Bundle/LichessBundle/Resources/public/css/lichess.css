@@ -30,16 +30,16 @@ div.lichess_board {
     position: relative;
 }
 
-div.lichess_square {
+div.lcs {
     position: absolute;
     width: 64px;
     height: 64px;
 }
 
-div.lichess_square.white {
+div.lcs.white {
     background: #FFFFFF;
 }
-div.lichess_square.black {
+div.lcs.black {
     background: #CFCFCF;
 }
 
@@ -48,19 +48,19 @@ div.lcsi {
     width: 64px;
     height: 64px;
 }
-div.lichess_square.moved div.lcsi {
+div.lcs.moved div.lcsi {
     background: url(../images/over5.png) top left no-repeat;
 }
-div.lichess_square.check div.lcsi {
+div.lcs.check div.lcsi {
     background: url(../images/over6.png) top left no-repeat;
 }
-div.my_turn div.lichess_square:hover div.lcsi {
+div.my_turn div.lcs:hover div.lcsi {
     background: url(../images/over.png) top left no-repeat;
 }
-div.lichess_square.droppable-active div.lcsi {
+div.lcs.droppable-active div.lcsi {
     background: url(../images/over4.png) top left no-repeat;
 }
-div.lichess_square.droppable-hover div.lcsi {
+div.lcs.droppable-hover div.lcsi {
     background: url(../images/over3.png) top left no-repeat;
 }
 

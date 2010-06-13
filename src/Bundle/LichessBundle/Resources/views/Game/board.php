@@ -14,7 +14,7 @@ print '<div class="lichess_board">';
 
 foreach($squares as $squareKey => $square)
 {
-  printf('<div class="lichess_square %s%s" id="%s" style="top:%dpx;left:%dpx;">',
+  printf('<div class="lcs %s%s" id="%s" style="top:%dpx;left:%dpx;">',
       $square->getColor(), $checkSquareKey === $squareKey ? ' check' : '', $squareKey, 64*(8-$x), 64*($y-1)
   );
 

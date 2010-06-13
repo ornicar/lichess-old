@@ -12,7 +12,7 @@
       self.indicateTurn();
 
       // init squares
-      $("div.lichess_square", self.$board).each(function()
+      $("div.lcs", self.$board).each(function()
       {
         var squareId = $(this).attr('id');
         $(this).droppable({
@@ -150,7 +150,7 @@
     updateFromJson: function(data)
     {
       var self = this;
-      $("div.lichess_square.check", self.$board).removeClass("check");
+      $("div.lcs.check", self.$board).removeClass("check");
       
       self.options.possible_moves = data.possible_moves;
       self.displayEvents(data.events);
@@ -212,7 +212,7 @@
       }
 
       var self = this;
-      $("div.lichess_square.moved", self.$board).removeClass("moved");
+      $("div.lcs.moved", self.$board).removeClass("moved");
       var $from = $("div#" + from, self.$board).addClass("moved"), from_offset = $from.offset();
       var $to = $("div#" + to, self.$board).addClass("moved"), to_offset = $to.offset();
       var animation = $piece.hasClass(self.options.player.color) ? 500 : 1000;
