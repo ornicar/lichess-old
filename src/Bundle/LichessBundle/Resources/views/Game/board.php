@@ -21,8 +21,8 @@ foreach($squares as $squareKey => $square)
     print '<div class="lcsi"></div>';
 
     if($piece = $board->getPieceByKey($squareKey)) {
-      printf('<div class="lichess_piece %s %s" id="%s"></div>',
-        strtolower($piece->getClass()), $piece->getColor(), $piece->getHash()
+      printf('<div class="lichess_piece %s %s"></div>',
+        strtolower($piece->getClass()), $piece->getColor()
       );
     }
 

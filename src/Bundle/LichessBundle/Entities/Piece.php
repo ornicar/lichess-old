@@ -44,13 +44,6 @@ abstract class Piece
     protected $firstMove = null;
 
     /**
-     * Unique hash
-     *
-     * @var string
-     */
-    protected $hash = null;
-
-    /**
      * Performance pointer to the player game board
      * 
      * @var Board
@@ -61,15 +54,6 @@ abstract class Piece
     {
         $this->x = $x;
         $this->y = $y;
-        $this->hash = substr(\sha1(\uniqid().\mt_rand().microtime(true)), 0, 6);
-    }
-
-    /**
-     * @return string
-     */
-    public function getHash()
-    {
-      return $this->hash;
     }
 
     /**
@@ -282,7 +266,7 @@ abstract class Piece
 
     public function serialize()
     {
-        return array('hash', 'color', 'x', 'y', 'player', 'isDead', 'firstMove');
+        return array('color', 'x', 'y', 'player', 'isDead', 'firstMove');
     }
 
 }
