@@ -11,7 +11,8 @@ class MainController extends Controller
 
     public function indexAction($color)
     {
-        $game = $this->getGameTestPromotion();
+        //$game = $this->getGameTestPromotion();
+        $game = $this->getNewGame();
         $player = $game->getPlayer($color);
         $game->setCreator($player);
 

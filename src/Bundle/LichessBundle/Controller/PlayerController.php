@@ -46,7 +46,7 @@ class PlayerController extends Controller
                 $this->container->getLichessPersistenceService()->save($game);
             }
             else {
-                $ai = new Crafty($opponent);
+                $ai = new Crafty($opponent, array('level' => $opponent->getAiLevel()));
                 $stack->reset();
                 $possibleMoves = $manipulator->play($ai->move());
                 $this->container->getLichessPersistenceService()->save($game);
@@ -109,6 +109,7 @@ class PlayerController extends Controller
         }
 
         $opponent->setIsAi(true);
+        $opponent->setAiLevel(1);
         $game->setIsStarted(true);
 
         if($player->isBlack()) {
@@ -152,12 +153,20 @@ class PlayerController extends Controller
         return $this->createResponse(json_encode($data));
     }
 
+    public function aiLevelAction($hash)
+    {
+        $player = $this->findPlayer($hash);
+        $opponent = $player->getOpponent();
+        $level = min(8, max(1, (int)$this->getRequest()->get('level')));
+        $opponent->setAiLevel($level);
+        $this->container->getLichessPersistenceService()->save($player->getGame());
+        return $this->createResponse('done');
+    }
+
     public function tableAction($hash)
     {
         $player = $this->findPlayer($hash);
-
         $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
-
         return $this->render('LichessBundle:Game:'.$template, array(
             'player' => $player
         ));

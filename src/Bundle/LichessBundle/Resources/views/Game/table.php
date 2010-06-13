@@ -1,7 +1,18 @@
 <?php $turnPlayer = $player->getGame()->getTurnPlayer() ?>
+<?php $opponent = $player->getOpponent() ?>
 <div class="lichess_table">
     <div class="lichess_opponent">
-     <?php echo $player->getOpponent()->getIsAi() ? 'Opponent is Crafty A.I.' : 'Human opponent' ?>
+        <?php if ($opponent->getIsAi()): ?>
+            Opponent is Crafty A.I.
+            <?php $selectedLevel = $opponent->getAiLevel() ?>
+            <select class="lichess_ai_level">
+                <?php for($level=1; $level<9; $level++): ?>
+                <option value="<?php echo $level ?>" <?php if($level === $selectedLevel) echo 'selected="1"' ?>>Level <?php echo $level ?>
+                <?php endfor; ?>
+            </select>    
+        <?php else: ?>
+            Human opponent
+        <?php endif; ?>
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">

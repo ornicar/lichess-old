@@ -137,12 +137,11 @@
         self.$table.find('div.lichess_permalink').toggle(100);
       });
 
-      self.$table.find("select#lichess_level_select").change(function()
+      self.$table.find("select.lichess_ai_level").change(function()
       {
         $.ajax({
-          url:  $.dm.ctrl.getHref('+/dmChessGame/setAiLevel'),
+          url:  self.options.url.ai_level,
           data: {
-            player: self.options.player.code,
             level:  $(this).val()
           }
         });
