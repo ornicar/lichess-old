@@ -27,6 +27,15 @@ class ManipulatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->board->getSquareByKey('a2')->isEmpty());
     }
 
+    public function testNextPossibleMoves()
+    {
+        $this->manipulator->play('b2 b4');
+        $this->manipulator->play('a7 a5');
+        $this->manipulator->play('b4 b5');
+        $possibleMoves = $this->manipulator->play('c7 c5');
+        $this->assertEquals(array('b6', 'c6'), $possibleMoves['b5']);
+    }
+
     public function testMoveValidContinuous()
     {
         $this->manipulator->play('a2 a4');
