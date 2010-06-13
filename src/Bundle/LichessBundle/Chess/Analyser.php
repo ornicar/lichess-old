@@ -68,7 +68,8 @@ class Analyser
     {
         $possibleMoves = array();
         $isKingAttacked = null === $isKingAttacked ? $this->isKingAttacked($player) : $isKingAttacked;
-        $allOpponentPieces = PieceFilter::filterNotClass(PieceFilter::filterAlive($player->getOpponent()->getPieces()), 'King');
+        $allOpponentPieces = PieceFilter::filterAlive($player->getOpponent()->getPieces());
+        $attackOpponentPieces = PieceFilter::filterNotClass($allOpponentPieces, 'King');
         $projectionOpponentPieces = PieceFilter::filterProjection($allOpponentPieces);
         $king = $player->getKing();
         foreach(PieceFilter::filterAlive($player->getPieces()) as $piece)
@@ -77,11 +78,14 @@ class Analyser
             $pieceOriginalX = $piece->getX();
             $pieceOriginalY = $piece->getY();
             //if we are not moving the king, and the king is not attacked, don't check pawns nor knights
-            if (!$piece instanceof King && !$isKingAttacked) {
-                $opponentPieces = $projectionOpponentPieces;
+            if($piece instanceof King) {
+                $opponentPieces = $allOpponentPieces;
+            }
+            elseif($isKingAttacked) {
+                $opponentPieces = $attackOpponentPieces;
             }
             else {
-                $opponentPieces = $allOpponentPieces;
+                $opponentPieces = $projectionOpponentPieces;
             }
 
             $squares = $this->board->keysToSquares($piece->getBasicTargetKeys());

@@ -74,6 +74,23 @@ EOF;
         $this->assertEquals($this->sort(array('f5', 'e6', 'd7', 'c8', 'h5', 'h3', 'f3')), $this->sort($moveTree['g4']));
     }
 
+    public function testKings()
+    {
+        $data = <<<EOF
+        
+        
+        
+        
+        
+        
+  k     
+K       
+EOF;
+        $expectedMoveTree = array('a1' => array('a2'));
+        $moveTree = $this->computePossibleMoves($data);
+        $this->assertEquals($expectedMoveTree, array_filter($moveTree));
+    }
+
     public function testCastling()
     {
         $data = <<<EOF
