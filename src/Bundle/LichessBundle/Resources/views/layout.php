@@ -27,8 +27,11 @@
         </div>
         <footer class="footer_wrap">
         <div class="footer">
-            Open Source software built with Symfony 2<br />
             <a href="http://github.com/ornicar/lichess">Lichess source code on GitHub</a>
+            <br />
+            Open Source software built with PHP 5.3,
+            <a href="http://symfony-reloaded.org">Symfony 2</a> &amp;
+            <a href="http://jqueryui.com/">jQuery UI</a> 
         </div>
         </footer>
         <?php echo $view->javascripts ?>
