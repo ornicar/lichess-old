@@ -5,7 +5,6 @@
     _init: function()
     {
       var self = this;
-      self.title_timeout = null;
       self.pieceMoving = false
       self.$board = $("div.lichess_board", self.element);
       self.$table = $("div.lichess_table", self.element);
@@ -15,10 +14,11 @@
       // init squares
       $("div.lichess_square", self.$board).each(function()
       {
+        var squareId = $(this).attr('id');
         $(this).droppable({
           accept: function(draggable)
           {
-            return self.isMyTurn() && self.inArray($(this).attr("id"), self.options.possible_moves[draggable.parent().attr('id')]);
+            return self.isMyTurn() && self.inArray(squareId, self.options.possible_moves[draggable.parent().attr('id')]);
           },
           drop: function(ev, ui)
           {
@@ -307,7 +307,6 @@
             })
             $("div.ui-draggable").draggable("destroy");
             clearTimeout(self.options.beat.timeout);
-            clearTimeout(self.title_timeout);
             self.element.removeClass("my_turn");
         }
       }
