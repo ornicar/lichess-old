@@ -268,7 +268,9 @@ class Analyser
 
     protected function canCastle(King $king, $relativeX)
     {
+        $_x = $king->getX() + $relativeX;
         return
+        $_x > 0 && $_x < 9 &&
         !$king->hasMoved() &&
         ($rook = $this->board->getSquareByPos($king->getX()+$relativeX, $king->getY())->getPiece()) &&
         ($rook->isClass('Rook') && !$rook->hasMoved());
