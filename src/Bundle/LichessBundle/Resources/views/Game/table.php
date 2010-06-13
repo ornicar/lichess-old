@@ -20,6 +20,6 @@
     </div>
     <div class="lichess_permalink">
         To continue later, keep this url:
-        <span><?php echo $view->router->generate('lichess_player', array('hash' => $player->getFullHash())) ?>
+        <span><?php echo $view->router->generate('lichess_player', array('hash' => $player->getFullHash()), true) ?>
     </div>
 </div>
