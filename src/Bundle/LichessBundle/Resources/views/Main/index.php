@@ -10,7 +10,7 @@
             <a class="lichess_button lichess_toggle_join_url">Play with a friend</a>
             <div class="lichess_join_url">
                 <p>To invite someone to play, give this url:</p>
-                <span><a href="<?php echo $joinUrl = $view->router->generate('lichess_game', array('hash' => $player->getGame()->getHash())) ?>">http://lichess.org<?php echo $joinUrl ?></a>
+                <span><a href="<?php echo $joinUrl = $view->router->generate('lichess_game', array('hash' => $player->getGame()->getHash()), true) ?>"><?php echo $joinUrl ?></a>
                 </div>
                 <div class="lichess_join_ai">
                     <a href="<?php echo $view->router->generate('lichess_invite_ai', array('hash' => $player->getFullHash())) ?>" class="lichess_button">Play with the machine</a>
