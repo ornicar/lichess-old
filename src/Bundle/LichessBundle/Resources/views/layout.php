@@ -6,7 +6,7 @@
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/layout.css" />
-        <meta name="google-site-verification" content="Kn5XiidGrARfD6Z_K5H90D6Ov9K2P27TaHOSCpJw1m0" />
+        <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     </head>
     <body>
