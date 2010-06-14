@@ -68,7 +68,7 @@ div.lichess_piece {
     position: absolute;
     width: 64px;
     height: 64px;
-    background-image: url(../images/piece/sprite.png);
+    background-image: url(../images/sprite.png);
 }
 
 div.my_turn div.lichess_piece.ui-draggable {
