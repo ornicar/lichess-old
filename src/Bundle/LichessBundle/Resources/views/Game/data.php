@@ -1,5 +1,6 @@
 <?php
 $game = $player->getGame();
+$opponent = $player->getOpponent();
 $playerFullHash = $player->getFullHash();
 $baseUrl = 'http://'.$_SERVER['HTTP_HOST'].'/';
 $data = array(
@@ -11,15 +12,15 @@ $data = array(
         'updatedAt' => $game->getUpdatedAt()
     ),
     'player' => array(
-        'hash' => $player->getHash(),
         'fullHash' => $playerFullHash,
         'color' => $player->getColor()
     ),
     'opponent' => array(
-        'color' => $player->getOpponent()->getColor()
+        'color' => $opponent->getColor(),
+        'ai' => $opponent->getIsAi()
     ),
     'beat' => array(
-        'delay' => 1000,
+        'delay' => 1500,
     ),
     'url' => array(
         'socket' => '/socket/'.$playerFullHash.'.json',
