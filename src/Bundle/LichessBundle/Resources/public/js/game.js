@@ -297,7 +297,7 @@
         {
           case "promotion":
             $("div#"+event.key+" div.lichess_piece")
-            .addClass(event.class)
+            .addClass(event.pieceClass)
             .removeClass("pawn");
             break;
           case "castling":

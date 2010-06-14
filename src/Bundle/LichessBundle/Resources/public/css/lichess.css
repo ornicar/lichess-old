@@ -193,8 +193,7 @@ div.lichess_player_white #a1,
 div.lichess_player_black #h8 {
     border-radius-bottomleft: 4px;
     -moz-border-radius-bottomleft: 4px;
-    -webkit-border-radius-bottomleft: 4px;
-    -webkit-border-radius-bottomright: 0 0 0 4px;
+    -webkit-border-radius: 0 0 0 4px;
 }
 
 div.lichess_player_white #h1,

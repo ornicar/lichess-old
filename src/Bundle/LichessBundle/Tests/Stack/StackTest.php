@@ -99,7 +99,7 @@ EOF;
         $manipulator->play('b7 b8', array('promotion' => 'Queen'));
         $this->assertEquals(array(
             array('type' => 'move', 'from' => 'b7', 'to' => 'b8'),
-            array('type' => 'promotion', 'class' => 'queen', 'key' => 'b8')
+            array('type' => 'promotion', 'pieceClass' => 'queen', 'key' => 'b8')
         ), $stack->getEvents());
     }
 
@@ -122,7 +122,7 @@ EOF;
         $manipulator->play('b7 b8', array('promotion' => 'Knight'));
         $this->assertEquals(array(
             array('type' => 'move', 'from' => 'b7', 'to' => 'b8'),
-            array('type' => 'promotion', 'class' => 'knight', 'key' => 'b8')
+            array('type' => 'promotion', 'pieceClass' => 'knight', 'key' => 'b8')
         ), $stack->getEvents());
     }
 
