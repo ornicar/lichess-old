@@ -2,10 +2,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>lichess</title>
+        <title>Lichess | Open source PHP, CSS and Javascript free online Chess game, for Symfony 2 and jQuery 1.4</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/layout.css" />
+        <meta name="google-site-verification" content="Kn5XiidGrARfD6Z_K5H90D6Ov9K2P27TaHOSCpJw1m0" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div class="content">
@@ -30,5 +32,15 @@
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/ctrl.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/game.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-7935029-3']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        </script>
     </body>
 </html>
