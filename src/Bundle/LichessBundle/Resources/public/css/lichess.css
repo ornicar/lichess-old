@@ -348,3 +348,25 @@ div.lichess_cemetery > div {
 div.lichess_cemetery div.lichess_piece {
     opacity: 0.5;
 }
+
+div.lichess_box {
+  -moz-border-radius:4px 4px 4px 4px;
+  background:none repeat scroll 0 0 #F8F8F8;
+  border:1px solid #D4D4D4;
+  font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
+  width:472px;
+  padding:20px;
+  text-align: center;
+}
+
+div.lichess_box .lichess_title {
+    font-size: 1.4em;
+}
+
+div.lichess_box p {
+  margin: 1em;
+}
+
+div.lichess_box a {
+  font-size: 150%;
+}
