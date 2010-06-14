@@ -1,5 +1,6 @@
-/miam/cache/*
-/miam/logs/*
-/miam/data/*
+/lichess/cache
+/lichess/logs
+/lichess/data
 /web/*_dev.php
+tags
 .git*
