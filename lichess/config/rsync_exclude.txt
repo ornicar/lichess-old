@@ -1,5 +1,5 @@
-/lichess/cache/*
-/lichess/logs/*
-/lichess/config/config_prod_local.yml
+/miam/cache/*
+/miam/logs/*
+/miam/data/*
 /web/*_dev.php
 .git*

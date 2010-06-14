@@ -11,7 +11,6 @@
         <div class="content">
             <h1 class="site_title_wrap">
                 <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>" id="logo">Lichess</a>
-                <div class="lichess_time">{LICHESS_TIME} ms</div>
             </h1>
             <div id="lichess">
                 <?php $view->slots->output('_content') ?>
