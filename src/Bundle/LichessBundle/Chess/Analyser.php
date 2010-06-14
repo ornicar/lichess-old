@@ -237,14 +237,16 @@ class Analyser
             $dx = $kingSquare->getX() > $rookSquare->getX() ? -1 : 1;
             $square = $kingSquare;
             $it = 0;
+            $possible = true;
             while(($square = $square->getSquareByRelativePos($dx, 0)) && !$square->is($rookSquare))
             {
                 if (!$square->isEmpty() || in_array($square->getKey(), $opponentControlledKeys)) {
+                    $possible = false;
                     break;
                 }
-                elseif(2 === ++$it) {
-                    $squares[] = $square;
-                }
+            }
+            if($possible) {
+                $squares[] = $kingSquare->getSquareByRelativePos(2*$dx, 0);
             }
         }
         return $squares;
