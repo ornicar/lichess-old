@@ -76,6 +76,6 @@ basename($file)
         /*
          * st is the time in seconds crafty can think about the situation
          */
-        return "st=".(round($this->options['level']/12, 2));
+        return "st=".(round($this->options['level']/20, 2));
     }
 }
