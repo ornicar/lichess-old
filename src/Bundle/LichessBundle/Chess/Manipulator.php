@@ -178,7 +178,7 @@ class Manipulator
         if($this->stack) {
             $this->stack->add(array(
                 'type' => 'promotion',
-                'class' => strtolower($promotionClass),
+                'pieceClass' => strtolower($promotionClass),
                 'key' => $new->getSquareKey()
             ));
         }
