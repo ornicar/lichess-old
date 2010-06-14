@@ -1,15 +1,11 @@
-<?php $view->stylesheets->add('/bundle/lichess/css/reset.css') ?>
-<?php $view->stylesheets->add('/bundle/lichess/css/lichess.css') ?>
-<?php $view->stylesheets->add('/bundle/lichess/css/layout.css') ?>
-<?php $view->javascripts->add('/bundle/lichess/js/lib.min.js') ?>
-<?php $view->javascripts->add('/bundle/lichess/js/ctrl.js') ?>
-<?php $view->javascripts->add('/bundle/lichess/js/game.js') ?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>lichess - dev</title>
-        <?php echo $view->stylesheets ?>
+        <title>lichess</title>
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css" />
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/layout.css" />
     </head>
     <body>
         <div class="content">
@@ -22,16 +18,18 @@
             </div>
         </div>
         <footer class="footer_wrap">
-        <div class="footer">
-            <a href="http://github.com/ornicar/lichess">Lichess source code on GitHub</a>
-            <br />
-            Open Source software built with PHP 5.3,
-            <a href="http://symfony-reloaded.org">Symfony 2</a> &amp;
-            <a href="http://jqueryui.com/">jQuery UI</a> 
-            <br />
-            <span id="email"></span>
-        </div>
+            <div class="footer">
+                <a href="http://github.com/ornicar/lichess">Lichess source code on GitHub</a>
+                <br />
+                Open Source software built with PHP 5.3,
+                <a href="http://symfony-reloaded.org">Symfony 2</a> &amp;
+                <a href="http://jqueryui.com/">jQuery UI</a> 
+                <br />
+                <span id="email"></span>
+            </div>
         </footer>
-        <?php echo $view->javascripts ?>
+        <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/ctrl.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/game.js" type="text/javascript"></script>
     </body>
 </html>
