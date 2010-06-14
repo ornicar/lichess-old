@@ -8,6 +8,7 @@
       self.pieceMoving = false
       self.$board = $("div.lichess_board", self.element);
       self.$table = $("div.lichess_table", self.element);
+      self.initialTitle = document.title,
       
       self.indicateTurn();
 
@@ -114,6 +115,19 @@
       });
       
       self.restartBeat();
+
+      if(!self.options.opponent.ai)
+      {
+        // update document title to show playing state
+        setInterval(function()
+        {
+            document.title = (self.isMyTurn() && !self.options.game.finished)
+            ? document.title = document.title.indexOf('/\\/') == 0
+            ? '\\/\\ '+document.title.replace(/\/\\\/ /, '')
+            : '/\\/ '+document.title.replace(/\\\/\\ /, '')
+            : document.title;
+        }, 500);
+      }
       
       self.$table.find("a.lichess_resign").click(function()
       {
