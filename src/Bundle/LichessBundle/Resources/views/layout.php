@@ -6,13 +6,14 @@
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/layout.css" />
-        <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
+        <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open source software, it uses PHP 5.3, Symfony 2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
     </head>
     <body>
         <div class="content">
             <h1 class="site_title_wrap">
-                <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>" id="logo">Lichess</a>
+                <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
             </h1>
             <div id="lichess">
                 <?php $view->slots->output('_content') ?>
@@ -33,14 +34,15 @@
         <script src="/bundle/lichess/js/ctrl.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/game.js" type="text/javascript"></script>
         <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-7935029-3']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+if(document.domain == 'lichess.org') {
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-7935029-3']);
+_gaq.push(['_trackPageview']);
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+}
         </script>
     </body>
 </html>
