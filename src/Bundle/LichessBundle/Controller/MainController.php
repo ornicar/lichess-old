@@ -25,6 +25,11 @@ class MainController extends Controller
         ));
     }
 
+    public function notFoundAction()
+    {
+        return $this->render('LichessBundle:Main:notFound');
+    }
+
     protected function getNewGame()
     {
         $generator = new Generator();

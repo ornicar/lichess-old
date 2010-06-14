@@ -45,7 +45,10 @@ class LichessKernel extends Kernel
     {
         $loader = new ContainerLoader($this->getBundleDirs());
 
-        return $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $configuration = $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $configuration->merge($loader->load(__DIR__.'/config/dic.yml'));
+
+        return $configuration;
     }
 
     public function registerRoutes()
