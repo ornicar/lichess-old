@@ -26,7 +26,6 @@
             $oldSquare  = $piece.parent(),
             squareId    = $(this).attr("id"),
             moveData    = {
-              player:   self.options.player.hash,
               from:    $oldSquare.attr("id"),
               to:   squareId
             };
@@ -38,6 +37,7 @@
             function sendMoveRequest(moveData)
             {
               $.ajax({
+                type: 'POST',
                 dataType: "json",
                 url: self.options.url.move,
                 data: moveData,
@@ -140,6 +140,7 @@
       self.$table.find("select.lichess_ai_level").change(function()
       {
         $.ajax({
+          type: 'POST',
           url:  self.options.url.ai_level,
           data: {
             level:  $(this).val()
