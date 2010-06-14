@@ -69,7 +69,6 @@ EOF;
         $this->assertEquals($this->sort(array('f6', 'h6', 'h4', 'f4', 'e3', 'd2', 'c1')), $this->sort($moveTree['g5']));
         $this->assertFalse(isset($moveTree['f2']));
         $moveTree = $this->computePossibleMoves($data, 1);
-        $this->assertEquals(array('h8'), $moveTree['g8']);
         $this->assertEquals(array('d3', 'd2', 'c3'), $moveTree['d4']);
         $this->assertEquals($this->sort(array('f5', 'e6', 'd7', 'c8', 'h5', 'h3', 'f3')), $this->sort($moveTree['g4']));
     }
@@ -105,6 +104,22 @@ R   K  R
 EOF;
         $moveTree = $this->computePossibleMoves($data);
         $this->assertEquals(array('d1', 'd2', 'e2', 'f1', 'c1', 'g1'), $moveTree['e1']);
+    }
+
+    public function testCastlingImpossibleDueToRemainingPiece()
+    {
+        $data = <<<EOF
+r  q rk 
+pp  ppbp
+ np  np 
+  Q   B 
+   pp   
+        
+PP   PPP
+RN  K NR
+EOF;
+        $moveTree = $this->computePossibleMoves($data);
+        $this->assertEquals(array('d1', 'd2', 'e2', 'f1'), $moveTree['e1']);
     }
 
     public function test4()
