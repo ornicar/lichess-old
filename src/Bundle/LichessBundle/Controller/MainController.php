@@ -12,6 +12,7 @@ class MainController extends Controller
     public function indexAction($color)
     {
         //$game = $this->getGameTestPromotion();
+        //$game = $this->getGameTestStalemate();
         $game = $this->getNewGame();
         $player = $game->getPlayer($color);
         $game->setCreator($player);
@@ -48,6 +49,22 @@ class MainController extends Controller
    pppp 
         
 K       
+EOF;
+        return $generator->createGameFromVisualBlock($data);
+    }
+
+    protected function getGameTestStalemate()
+    {
+        $generator = new Generator();
+        $data = <<<EOF
+       k
+     K  
+     Q  
+        
+        
+        
+        
+        
 EOF;
         return $generator->createGameFromVisualBlock($data);
     }
