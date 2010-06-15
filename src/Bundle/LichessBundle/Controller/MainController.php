@@ -33,7 +33,9 @@ class MainController extends Controller
 
     public function notFoundAction()
     {
-        return $this->render('LichessBundle:Main:notFound');
+        $response = $this->render('LichessBundle:Main:notFound');
+        $response->setStatusCode(404);
+        return $response;
     }
 
     protected function getNewGame()
