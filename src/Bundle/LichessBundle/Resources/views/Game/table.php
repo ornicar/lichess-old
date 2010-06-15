@@ -7,7 +7,7 @@
             <?php $selectedLevel = $opponent->getAiLevel() ?>
             <select class="lichess_ai_level">
                 <?php for($level=1; $level<9; $level++): ?>
-                <option value="<?php echo $level ?>" <?php if($level === $selectedLevel) echo 'selected="1"' ?>>Level <?php echo $level ?>
+                <option value="<?php echo $level ?>" <?php if($level === $selectedLevel) echo 'selected="selected"' ?>>Level <?php echo $level ?>
                 <?php endfor; ?>
             </select>    
         <?php else: ?>
@@ -31,6 +31,6 @@
     </div>
     <div class="lichess_permalink">
         To continue later, keep this url:
-        <span><?php echo $view->router->generate('lichess_player', array('hash' => $player->getFullHash()), true) ?>
+        <span><?php echo $view->router->generate('lichess_player', array('hash' => $player->getFullHash()), true) ?></span>
     </div>
 </div>
