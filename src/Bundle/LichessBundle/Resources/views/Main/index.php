@@ -11,10 +11,9 @@
             <div class="lichess_join_url">
                 <p>To invite someone to play, give this url:</p>
                 <span><?php echo $view->router->generate('lichess_game', array('hash' => $player->getGame()->getHash()), true) ?></span>
-                </div>
-                <div class="lichess_join_ai">
-                    <a href="<?php echo $view->router->generate('lichess_invite_ai', array('hash' => $player->getFullHash())) ?>" class="lichess_button">Play with the machine</a>
-                </div>
+            </div>
+            <div class="lichess_join_ai">
+                <a href="<?php echo $view->router->generate('lichess_invite_ai', array('hash' => $player->getFullHash())) ?>" class="lichess_button">Play with the machine</a>
             </div>
         </div>
     </div>
