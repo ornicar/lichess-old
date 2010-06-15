@@ -24,23 +24,20 @@ body {
   background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
 }
 
+.header {
+    width: 140px;
+    float: left;
+}
+
 .content {
   width: 1000px;
-  margin: auto;
+  margin: 30px auto;
   position: relative;
 }
 
 #lichess {
   width: 860px;
-  position:absolute;
-  left: 140px;
-  top: 25px;
-  width: 860px;
-  height: 514px;
-}
-
-.site_title_wrap {
-  padding-top: 13px;
+  margin-left: 140px;
 }
 
 a.site_title {
@@ -55,11 +52,8 @@ a.site_title {
 }
 
 .footer_wrap {
-  position: absolute;
-  top: 580px;
   width: 100%;
   border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
   background: #EEE;
   padding: 20px 0;
   display: block;
@@ -69,6 +63,11 @@ a.site_title {
   width: 1000px;
   margin: auto;
   line-height: 2em;
+}
+
+.footer .right {
+    float: right;
+    text-align: right;
 }
 
 div.browser_not_supported {
