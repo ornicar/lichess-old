@@ -30,3 +30,6 @@ lichess_table:
     pattern:        /table/:hash
     defaults:       { _controller: LichessBundle:Player:table }
     requirements:   { hash: "[\w]{10}" }
+lichess_about:
+    pattern:        /about
+    defaults:       { _controller: LichessBundle:Main:about }

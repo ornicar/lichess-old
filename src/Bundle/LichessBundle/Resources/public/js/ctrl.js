@@ -56,5 +56,5 @@ $(function()
       }, 6000);
     }
   }
-  $('#email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
+  $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 });

@@ -12,22 +12,32 @@
     </head>
     <body>
         <div class="content">
-            <h1 class="site_title_wrap">
-                <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
-            </h1>
+            <header class="header">
+                <h1>
+                    <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
+                </h1>
+            </header>
             <div id="lichess">
                 <?php $view->slots->output('_content') ?>
             </div>
         </div>
         <footer class="footer_wrap">
             <div class="footer">
+                <div class="right">
+                    Brought to you by <a title="A french web agency who loves Symfony" href="http://www.knplabs.com/">knpLabs</a>
+                    <br />
+                    Contact: <span class="js_email"></span>
+                    <br />
+                    <a href="<?php echo $view->router->generate('lichess_about') ?>">Learn more about Lichess</a>
+                </div>
                 <a href="http://github.com/ornicar/lichess">Lichess source code on GitHub</a>
                 <br />
                 Open Source software built with PHP 5.3,
                 <a href="http://symfony-reloaded.org">Symfony 2</a> &amp;
-                <a href="http://jqueryui.com/">jQuery UI</a> 
+                <a href="http://jqueryui.com/">jQuery UI</a>
                 <br />
-                <span id="email"></span>
+                Artificial intelligence: <a href="http://www.craftychess.com/">Crafty</a>
+                <br />
             </div>
         </footer>
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>

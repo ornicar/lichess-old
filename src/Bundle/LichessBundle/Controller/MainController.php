@@ -26,6 +26,11 @@ class MainController extends Controller
         ));
     }
 
+    public function aboutAction()
+    {
+        return $this->render('LichessBundle:Main:about');
+    }
+
     public function notFoundAction()
     {
         return $this->render('LichessBundle:Main:notFound');
