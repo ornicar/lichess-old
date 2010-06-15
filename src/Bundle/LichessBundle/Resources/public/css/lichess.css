@@ -125,7 +125,7 @@ a.lichess_exchange{
     display: block;
     position: absolute;
     top: 191px;
-    left: 191px;
+    left: 333px;
     cursor: pointer;
 }
 
@@ -290,7 +290,6 @@ div.lichess_table .lichess_button {
 }
 
 div.lichess_table .lichess_button:hover {
-    background: #F0F0F0;
     background: #fff;
 }
 
@@ -299,7 +298,6 @@ div.lichess_current_player {
 }
 div.lichess_current_player div.lichess_player {
     position: absolute;
-    /*display: none;*/
 }
 div.lichess_current_player div.lichess_player div.lichess_piece {
     top: 0;
@@ -349,23 +347,43 @@ div.lichess_cemetery div.lichess_piece {
 }
 
 div.lichess_box {
-  -moz-border-radius:4px 4px 4px 4px;
-  background:none repeat scroll 0 0 #F8F8F8;
-  border:1px solid #D4D4D4;
-  font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
-  width:472px;
-  padding:20px;
-  text-align: center;
+    border-radius:4px 4px 4px 4px;
+    -moz-border-radius:4px 4px 4px 4px;
+    -webkit-border-radius:4px 4px 4px 4px;
+    box-shadow: 0 0 7px #bbb;
+    -moz-box-shadow: 0 0 7px #bbb;
+    -webkit-box-shadow: 0 0 7px #bbb;
+    background:none repeat scroll 0 0 #F8F8F8;
+    font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
+    width:472px;
+    padding:20px;
+    text-align: center;
+    line-height: 1.5em;
 }
 
 div.lichess_box .lichess_title {
     font-size: 1.4em;
+    margin-bottom: 0.5em;
 }
 
 div.lichess_box p {
   margin: 1em;
 }
 
-div.lichess_box a {
+div.lichess_box div.lichess_text {
+    text-align: left;
+    margin-bottom: 1em;
+}
+
+div.lichess_box em {
+    font-style: italic;
+}
+
+div.lichess_box li {
+    list-style: disc inside;
+    margin-left: 1em;
+}
+
+div.lichess_box a.lichess_new_game {
   font-size: 150%;
 }
