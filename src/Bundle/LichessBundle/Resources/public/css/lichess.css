@@ -387,3 +387,11 @@ div.lichess_box li {
 div.lichess_box a.lichess_new_game {
   font-size: 150%;
 }
+
+div.lichess_chat ol.lichess_messages li {
+    margin-top: 1em;
+}
+div.lichess_chat ol.lichess_messages em {
+    font-weight: bold;
+    margin-right: 0.5em;
+}

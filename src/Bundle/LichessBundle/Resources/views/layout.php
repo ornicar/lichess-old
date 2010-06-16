@@ -16,6 +16,9 @@
                 <h1>
                     <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
                 </h1>
+                <div class="lichess_chat_wrap">
+                    <?php $view->slots->output('chat', '') ?>
+                </div>
             </header>
             <div id="lichess">
                 <?php $view->slots->output('_content') ?>
