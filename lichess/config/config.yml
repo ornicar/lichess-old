@@ -1,5 +1,7 @@
 parameters:
     kernel.include_core_classes: true
+    lichess.ai.className: Bundle\LichessBundle\Ai\Stupid
+    lichess.ai.defaultLevel: 1
 
 kernel.config:
     charset:             UTF-8
