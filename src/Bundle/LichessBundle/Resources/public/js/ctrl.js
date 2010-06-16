@@ -57,4 +57,21 @@ $(function()
     }
   }
   $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
+
+    //fire uservoice tab
+    var s = document.createElement('script');
+    s.setAttribute('type', 'text/javascript');
+    s.setAttribute('src', "http://cdn.uservoice.com/javascripts/widgets/tab.js");
+    document.getElementsByTagName('head')[0].appendChild(s);
 });
+var uservoiceOptions = {
+    key: 'lichess',
+    host: 'lichess.uservoice.com', 
+    forum: '62479',
+    showTab: true,  
+    alignment: 'left',
+    background_color:'#bbb', 
+    text_color: 'white',
+    hover_color: '#06C',
+    lang: 'en'
+};
