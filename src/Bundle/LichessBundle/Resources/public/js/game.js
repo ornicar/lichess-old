@@ -189,7 +189,7 @@
       else 
       {
         this.element.removeClass("my_turn");
-        document.title = this.translate('Waiting for opponent');
+        document.title = this.translate('Waiting');
       }
 
       if (!this.$table.hasClass('finished'))
@@ -257,8 +257,8 @@
     {
       $piece.draggable("destroy");
       var self = this, $deads = $piece.hasClass("white") ? $("div.lichess_cemetery.white", self.element) : $("div.lichess_cemetery.black", self.element), $square = $piece.parent();
-      $deads.append($("<div>"));
-      var $tomb = $("div:last", $deads), tomb_offset = $tomb.offset();
+      $deads.append($("<div>").addClass('lichess_tomb'));
+      var $tomb = $("div.tomb:last", $deads), tomb_offset = $tomb.offset();
       $('body').append($piece.css($square.offset()));
       $piece.css("opacity", 0).animate({
         top: tomb_offset.top,
