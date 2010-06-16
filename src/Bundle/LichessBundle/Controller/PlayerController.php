@@ -20,13 +20,9 @@ class PlayerController extends Controller
      * need a factory, which is too much hassle that I'm willing to
      * put into Ai's configuration right now :/
      */
-    protected function getAi(Player $player, $options = array())
+    protected function getAi(Player $player, array $options)
     {
-        $class = $this->container['lichess.ai.className'];
-        
-        if (!isset($options['level'])) {
-            $options['level'] = $this->container['lichess.ai.defaultLevel'];
-        }
+        $class = $this->container->getParameter('lichess.ai.className');
         
         return new $class($player, $options);
     }
@@ -128,11 +124,11 @@ class PlayerController extends Controller
         }
 
         $opponent->setIsAi(true);
-        $opponent->setAiLevel(1);
+        $opponent->setAiLevel($this->container->getParameter('lichess.ai.defaultLevel'));
         $game->setIsStarted(true);
 
         if($player->isBlack()) {
-            $ai = $this->getAi($opponent);
+            $ai = $this->getAi($opponent, array('level' => $opponent->getAiLevel()));
             $stack = new Stack();
             $manipulator = new Manipulator($game->getBoard(), $stack);
             $possibleMoves = $manipulator->play($ai->move());
