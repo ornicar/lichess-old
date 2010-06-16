@@ -25,19 +25,18 @@ body {
 }
 
 .header {
-    width: 140px;
+    width: 190px;
     float: left;
 }
 
 .content {
-  width: 1000px;
+  width: 1010px;
   margin: 30px auto;
   position: relative;
 }
 
 #lichess {
-  width: 860px;
-  margin-left: 140px;
+  margin-left: 200px;
 }
 
 a.site_title {
@@ -68,13 +67,4 @@ a.site_title {
 .footer .right {
     float: right;
     text-align: right;
-}
-
-div.browser_not_supported {
-  margin-top: 3em;
-}
-div.browser_not_supported span {
-  color: #BF2F2F;
-  margin-bottom: 1em;
-  display: block;
 }
