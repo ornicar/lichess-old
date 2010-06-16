@@ -118,18 +118,25 @@
       $chat = $('div.lichess_chat');
       if($chat.length)
       {
+        var $messages = $chat.find('.lichess_messages');
+        $messages[0].scrollTop = 9999999;
+
         // send a message
         $chat.find('form').submit(function()
         {
-            if(text = $.trim($(this).find('input').val()))
-            {
-                $(this).find('input').val('');
-                $.post($(this).attr('action'), { text: text }, function(data)
-                {
-                    //updateConversation(data.hash, data.html);
-                    //reset();
-                }, 'json');
-            }
+            text = text = $.trim($(this).find('input').val());
+            if(!text) return;
+            $(this).find('input').val('');
+            $.ajax({
+              type: 'POST',
+              dataType: "json",
+              url: $(this).attr('action'),
+              data: {message: text},
+              success: function(data)
+              {
+                self.updateFromJson(data);
+              }
+            });
             return false;
         });
       }
@@ -185,11 +192,13 @@
     updateFromJson: function(data)
     {
       var self = this;
-      $("div.lcs.check", self.$board).removeClass("check");
-      
-      self.options.possible_moves = data.possible_moves;
+      if(typeof data.possible_moves != 'undefined')
+      {
+        $("div.lcs.check", self.$board).removeClass("check");
+        self.options.possible_moves = data.possible_moves;
+        self.indicateTurn();
+      }
       self.displayEvents(data.events);
-      self.indicateTurn();
     },
     isMyTurn: function()
     {
@@ -278,7 +287,7 @@
       $piece.draggable("destroy");
       var self = this, $deads = $piece.hasClass("white") ? $("div.lichess_cemetery.white", self.element) : $("div.lichess_cemetery.black", self.element), $square = $piece.parent();
       $deads.append($("<div>").addClass('lichess_tomb'));
-      var $tomb = $("div.tomb:last", $deads), tomb_offset = $tomb.offset();
+      var $tomb = $("div.lichess_tomb:last", $deads), tomb_offset = $tomb.offset();
       $('body').append($piece.css($square.offset()));
       $piece.css("opacity", 0).animate({
         top: tomb_offset.top,
@@ -315,6 +324,9 @@
         var event = events[i];
         switch (event.type)
         {
+          case "message":
+            $('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
+            break;
           case "promotion":
             $("div#"+event.key+" div.lichess_piece")
             .addClass(event.pieceClass)
@@ -356,7 +368,7 @@
       self.options.beat.timeout = setTimeout(function()
       {
         self.beat();
-      }, self.isMyTurn() ? self.options.beat.delay * 2 : self.options.beat.delay);
+      }, self.options.beat.delay);
     },
     translate: function(message)
     {
