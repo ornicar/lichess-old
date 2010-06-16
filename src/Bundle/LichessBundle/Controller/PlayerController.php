@@ -12,6 +12,23 @@ use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
 {
+    /**
+     * Add a message to the chat room 
+     */
+    public function sayAction($hash)
+    {
+        if(!$this->getRequest()->isMethod('post')) {
+            throw new NotFoundHttpException('POST method required');
+        }
+        if(!$message = $this->getRequest()->get('message')) {
+            throw new NotFoundHttpException('No message');
+        }
+        $player = $this->findGame($hash);
+        $room = $player->getGame()->getRoom();
+        $room->addMessage($player->getColor(), $message);
+        return $this->render('LichessBundle:Game:chatMessages', array('messages' => $room->getMessages()));
+    }
+
     public function moveAction($hash)
     {
         $player = $this->findPlayer($hash);

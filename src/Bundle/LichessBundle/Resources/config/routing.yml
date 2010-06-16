@@ -33,3 +33,6 @@ lichess_table:
 lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
+lichess_say:
+    pattern:        /say/:hash
+    default:        { _controller: LichessBundle:Player:say }
