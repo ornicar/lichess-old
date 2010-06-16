@@ -385,7 +385,11 @@ div.lichess_chat {
 }
 
 div.lichess_chat ol {
-    height: 448px;
+    height: 430px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 10px;
+    margin-bottom: 8px;
 }
 
 div.lichess_chat input {

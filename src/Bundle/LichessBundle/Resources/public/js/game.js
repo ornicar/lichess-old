@@ -114,6 +114,26 @@
         });
       });
       
+      //init chat
+      $chat = $('div.lichess_chat');
+      if($chat.length)
+      {
+        // send a message
+        $chat.find('form').submit(function()
+        {
+            if(text = $.trim($(this).find('input').val()))
+            {
+                $(this).find('input').val('');
+                $.post($(this).attr('action'), { text: text }, function(data)
+                {
+                    //updateConversation(data.hash, data.html);
+                    //reset();
+                }, 'json');
+            }
+            return false;
+        });
+      }
+
       self.restartBeat();
 
       if(!self.options.opponent.ai)

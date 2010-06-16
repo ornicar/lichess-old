@@ -93,10 +93,12 @@ class Game
     {
         if(null === $this->room) {
             $this->room = new Room();
+            for($it=0; $it<9; $it++) {
             $this->room->addMessage('white', 'Ah blablabli, ah blablabla, etc que ce jeu est rigolo');
             $this->room->addMessage('black', 'Ca pour sur ma bonne dame, et le ventre des gros.');
             $this->room->addMessage('black', 'Ainsi le meuble fuit ?');
             $this->room->addMessage('white', 'C\'est ce que l\'on en dit.');
+            }
         }
         return $this->room;
     }
