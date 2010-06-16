@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Entities;
 
 use Bundle\LichessBundle\Chess\Board;
+use Bundle\LichessBundle\Entities\Chat\Room;
 
 /**
  * Represents a single Chess game
@@ -67,7 +68,14 @@ class Game
      * @var integer
      */
     protected $updatedAt = null;
-    
+
+    /**
+     * The chat room
+     *
+     * @var Room
+     */
+    protected $room = null;
+
     public function __construct()
     {
         $this->hash = '';
@@ -76,21 +84,47 @@ class Game
             $this->hash .= $chars[mt_rand( 0, 36 )];
         }
     }
-    
+
+    /**
+     * Get room
+     * @return Room
+     */
+    public function getRoom()
+    {
+        if(null === $this->room) {
+            $this->room = new Room();
+            $this->room->addMessage('white', 'Ah blablabli, ah blablabla, etc que ce jeu est rigolo');
+            $this->room->addMessage('black', 'Ca pour sur ma bonne dame, et le ventre des gros.');
+            $this->room->addMessage('black', 'Ainsi le meuble fuit ?');
+            $this->room->addMessage('white', 'C\'est ce que l\'on en dit.');
+        }
+        return $this->room;
+    }
+
+    /**
+     * Set room
+     * @param  Room
+     * @return null
+     */
+    public function setRoom($room)
+    {
+        $this->room = $room;
+    }
+
     /**
      * @return integer
      */
     public function getUpdatedAt()
     {
-      return $this->updatedAt;
+        return $this->updatedAt;
     }
-    
+
     /**
      * @param integer
      */
     public function setUpdatedAt($updatedAt)
     {
-      $this->updatedAt = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
