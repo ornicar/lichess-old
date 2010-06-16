@@ -12,23 +12,6 @@ use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
 {
-    /**
-     * Add a message to the chat room 
-     */
-    public function sayAction($hash)
-    {
-        if(!$this->getRequest()->isMethod('post')) {
-            throw new NotFoundHttpException('POST method required');
-        }
-        if(!$message = $this->getRequest()->get('message')) {
-            throw new NotFoundHttpException('No message');
-        }
-        $player = $this->findGame($hash);
-        $room = $player->getGame()->getRoom();
-        $room->addMessage($player->getColor(), $message);
-        return $this->render('LichessBundle:Game:chatMessages', array('messages' => $room->getMessages()));
-    }
-
     public function moveAction($hash)
     {
         $player = $this->findPlayer($hash);
@@ -48,6 +31,7 @@ class PlayerController extends Controller
         }
         $data = array(
             'time' => time(),
+            'possible_moves' => null,
             'events' => $stack->getEvents()
         );
         if($game->getIsFinished()) {
@@ -57,6 +41,7 @@ class PlayerController extends Controller
             );
         }
         $response = $this->createResponse(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
         
         if($opponent->getIsAi()) {
             if(empty($opponentPossibleMoves)) {
@@ -157,6 +142,7 @@ class PlayerController extends Controller
         
         $data = array(
             'time' => time(),
+            'possible_moves' => null,
             'events' => array(array(
                 'type' => 'resign',
                 'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
@@ -167,7 +153,9 @@ class PlayerController extends Controller
             $socket->write($data);
         }
 
-        return $this->createResponse(json_encode($data));
+        $response = $this->createResponse(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     public function aiLevelAction($hash)

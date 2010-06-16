@@ -107,6 +107,10 @@ div.lichess_piece.king.black{
     background-position: -320px +64px;
 }
 
+div.lichess_game_not_started {
+    position: relative;
+}
+
 a.lichess_exchange{
     background: url(../images/exchange.png) top left no-repeat;
     width: 128px;
@@ -114,7 +118,7 @@ a.lichess_exchange{
     display: block;
     position: absolute;
     top: 191px;
-    left: 333px;
+    left: 193px;
     cursor: pointer;
 }
 
