@@ -33,6 +33,7 @@ class MainController extends Controller
 
     public function notFoundAction()
     {
+        error_log(sprintf('404 %s [%s]', $this->getRequest()->getRequestUri(), isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '?'));
         $response = $this->render('LichessBundle:Main:notFound');
         $response->setStatusCode(404);
         return $response;
