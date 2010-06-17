@@ -484,6 +484,7 @@ div.lichess_chat input {
     -moz-border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
     width: 173px;
+    background: white;
 }
 div.lichess_chat input.lichess_hint {
     color: #888;
@@ -524,7 +525,7 @@ a.lichess_tweet:hover {
 iframe.lichess_facebook {
     border:none;
     overflow:hidden;
-    width:58px;
+    width:67px;
     height:28px;
     float: left;
     margin-left: 5px;

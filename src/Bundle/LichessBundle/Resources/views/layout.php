@@ -11,7 +11,7 @@
     </head>
     <body>
         <div class="content">
-            <header class="header">
+            <div class="header">
                 <h1>
                     <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
                 </h1>
@@ -22,12 +22,12 @@
                 <div class="lichess_chat_wrap">
                     <?php $view->slots->output('chat', '') ?>
                 </div>
-            </header>
+            </div>
             <div id="lichess">
                 <?php $view->slots->output('_content') ?>
             </div>
         </div>
-        <footer class="footer_wrap">
+        <div class="footer_wrap">
             <div class="footer">
                 <div class="right">
                     Brought to you by <a title="A french web agency who loves Symfony" href="http://www.knplabs.com/">knpLabs</a><br />
@@ -38,7 +38,7 @@
                 Open Source software built with PHP 5.3, <a href="http://symfony-reloaded.org">Symfony 2</a> &amp; <a href="http://jqueryui.com/">jQuery UI</a><br />
                 Artificial intelligence: <a href="http://www.craftychess.com/">Crafty</a>
             </div>
-        </footer>
+        </div>
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/ctrl.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/game.1.js" type="text/javascript"></script>
