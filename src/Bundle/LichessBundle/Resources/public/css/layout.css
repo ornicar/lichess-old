@@ -25,8 +25,10 @@ body {
 }
 
 .header {
-    width: 190px;
+    width: 185px;
     float: left;
+    position: relative;
+    height: 514px;
 }
 
 .content {

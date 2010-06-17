@@ -1,3 +1,29 @@
+/* html5 ie compatibility */
+article, aside, dialog, figure, footer, header, hgroup, menu, nav, section { display: block; }
+
+.clearfix:after {
+  content:".";
+  display:block;
+  height:0;
+  clear:both;
+  visibility:hidden;
+}
+.clearfix {display:inline-block;}
+/* Hide from IE Mac \*/
+.clearfix {display:block;}
+/* End hide from IE Mac */
+
+.none {
+    display: none;
+}
+
+body {
+  font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
+  color: #888;
+  text-shadow: 1px 1px 1px rgba(255,255,255,1);
+  background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
+}
+
 a, a:visited {
     color: #888;
     text-decoration: underline;
@@ -6,6 +32,53 @@ a, a:visited {
 
 a:hover {
     text-decoration: none;
+}
+
+.header {
+    width: 185px;
+    float: left;
+    position: relative;
+    height: 514px;
+}
+
+.content {
+  width: 1010px;
+  margin: 30px auto;
+  position: relative;
+}
+
+#lichess {
+  margin-left: 200px;
+}
+
+a.site_title {
+  width: 130px;
+  color: #666;
+  padding-top: 15px;
+  font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;
+  font-weight: bold;
+  font-size: 30px;
+  color: #aaa;
+  text-decoration: none;
+}
+
+.footer_wrap {
+  width: 100%;
+  border-top: 1px solid #ddd;
+  background: #EEE;
+  padding: 20px 0;
+  display: block;
+}
+
+.footer {
+  width: 1000px;
+  margin: auto;
+  line-height: 2em;
+}
+
+.footer .right {
+    float: right;
+    text-align: right;
 }
 
 div.lichess_board_wrap {
@@ -387,27 +460,41 @@ div.lichess_box a.lichess_new_game {
 
 div.lichess_chat {
     font-size: 11px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 div.lichess_chat ol {
-    height: 430px;
+    height: 310px;
     overflow-y: auto;
     overflow-x: hidden;
-    margin-top: 10px;
-    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    padding: 2px 5px;
+    border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
 }
 
 div.lichess_chat input {
-    border: 1px solid #aaa;
+    border: 1px solid #ccc;
+    border-top: 0;
     padding: 2px 5px;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    width: 175px;
+    border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
+    width: 173px;
+}
+div.lichess_chat input.lichess_hint {
+    color: #888;
+}
+
+a.lichess_chat_hide {
+    line-height: 20px;
 }
 
 div.lichess_chat ol.lichess_messages li {
-    margin-top: 1em;
+    margin: 0.4em 0;
 }
 div.lichess_chat ol.lichess_messages em {
     font-weight: bold;
