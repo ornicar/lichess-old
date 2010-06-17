@@ -501,3 +501,31 @@ div.lichess_chat ol.lichess_messages em {
     margin-right: 0.5em;
     color: #aaa;
 }
+
+div.lichess_social {
+    margin-top: 10px;
+}
+a.lichess_tweet {
+    font-family:"lucida grande",sans-serif;
+    font-size: 11px;
+    text-decoration: none;
+    background: #ECF5EE url(../images/twitter14.png) 3px center no-repeat;
+    padding: 2px 5px 2px 18px;
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border: 1px solid #CAE7D4;
+    color: #3B9859;
+    float: left;
+}
+a.lichess_tweet:hover {
+    border-color: #9DCEAC;
+}
+iframe.lichess_facebook {
+    border:none;
+    overflow:hidden;
+    width:120px;
+    height:21px;
+    float: left;
+    margin-left: 5px;
+}

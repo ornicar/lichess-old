@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Lichess | Open source PHP, CSS and Javascript free online Chess game, for Symfony 2 and jQuery 1.4</title>
+        <title>Lichess | Open Source Chess game</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.1.css" />
-        <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open source software, it uses PHP 5.3, Symfony 2 and jQuery 1.4" name="description">
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.2.css" />
+        <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open Source software, uses PHP 5.3, Symfony 2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
     </head>
@@ -15,6 +15,10 @@
                 <h1>
                     <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
                 </h1>
+                <div class="lichess_social">
+                    <a href="http://twitter.com/home?status=<?php echo urlencode('Amazing Chess Game, free and opensource! http://lichess.org/') ?>" class="lichess_tweet" target="blank">Tweet</a>
+                    <iframe class="lichess_facebook" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=standard&amp;show_faces=false&amp;width=120&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+                </div>
                 <div class="lichess_chat_wrap">
                     <?php $view->slots->output('chat', '') ?>
                 </div>
