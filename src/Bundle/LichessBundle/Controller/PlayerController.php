@@ -8,10 +8,25 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Socket;
 use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Ai\Crafty;
+use Bundle\LichessBundle\Ai\Stupid;
+use Bundle\LichessBundle\Entities\Player;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
 {
+    /**
+     * It would be better to have an Ai service in the DIC, but
+     * since you can't pass arbitrary arguments to services, we would
+     * need a factory, which is too much hassle that I'm willing to
+     * put into Ai's configuration right now :/
+     */
+    protected function getAi(Player $player, array $options)
+    {
+        $class = $this->container->getParameter('lichess.ai.className');
+        
+        return new $class($player, $options);
+    }
+    
     public function moveAction($hash)
     {
         $player = $this->findPlayer($hash);
@@ -48,7 +63,7 @@ class PlayerController extends Controller
                 $this->container->getLichessPersistenceService()->save($game);
             }
             else {
-                $ai = new Crafty($opponent, array('level' => $opponent->getAiLevel()));
+                $ai = $this->getAi($opponent, array('level' => $opponent->getAiLevel()));
                 $stack->reset();
                 $possibleMoves = $manipulator->play($ai->move());
                 $this->container->getLichessPersistenceService()->save($game);
@@ -111,11 +126,11 @@ class PlayerController extends Controller
         }
 
         $opponent->setIsAi(true);
-        $opponent->setAiLevel(1);
+        $opponent->setAiLevel($this->container->getParameter('lichess.ai.defaultLevel'));
         $game->setIsStarted(true);
 
         if($player->isBlack()) {
-            $ai = new Crafty($opponent);
+            $ai = $this->getAi($opponent, array('level' => $opponent->getAiLevel()));
             $stack = new Stack();
             $manipulator = new Manipulator($game->getBoard(), $stack);
             $possibleMoves = $manipulator->play($ai->move());

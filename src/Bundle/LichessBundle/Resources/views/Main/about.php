@@ -9,12 +9,12 @@
             <li>It will <em>always</em> be open-source</li>
         </ul>
         <p>
-            The purpose of Lichess is to provide a minimalistic Chess game.<br />
+            The purpose of Lichess is to provide a minimalist Chess game.<br />
             It requires no registration. You don't need to create an account.<br />
             It requires no Flash and can be run from any modern web browser.<br />
         </p>
         <p>
-            Althought it's minimalistic, Lichess provides following features:
+            Lichess provides following features:
         </p>
         <ul>
             <li>Multiplayer</li>

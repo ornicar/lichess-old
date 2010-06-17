@@ -25,11 +25,6 @@ class LichessKernel extends Kernel
             new Bundle\LichessBundle\Bundle()
         );
 
-        if ($this->isDebug())
-        {
-            $bundles[] = new Symfony\Framework\ProfilerBundle\Bundle();
-        }
-
         return $bundles;
     }
 
