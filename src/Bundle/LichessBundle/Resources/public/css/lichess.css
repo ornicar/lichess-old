@@ -245,6 +245,7 @@ div.lichess_table_not_started {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     border: none;
+    padding: 0;
     top: 140px;
 }
 
@@ -269,7 +270,7 @@ div.lichess_control div.lichess_permalink {
 }
 
 div.lichess_table .lichess_button {
-    margin: 2.5em 1em 0 1em;
+    margin: 2.5em 0 0 0;
     font-size: 1.5em;
     display: block;
     text-decoration: none;
