@@ -467,6 +467,7 @@ div.lichess_chat {
 
 div.lichess_chat ol {
     height: 310px;
+    width: 173px;
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid #ccc;
