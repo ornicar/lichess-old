@@ -510,7 +510,7 @@ a.lichess_tweet {
     font-size: 11px;
     text-decoration: none;
     background: #ECF5EE url(../images/twitter14.png) 3px center no-repeat;
-    padding: 2px 5px 2px 18px;
+    padding: 4px 5px 4px 18px;
     border-radius:3px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
@@ -524,8 +524,8 @@ a.lichess_tweet:hover {
 iframe.lichess_facebook {
     border:none;
     overflow:hidden;
-    width:120px;
-    height:21px;
+    width:58px;
+    height:28px;
     float: left;
     margin-left: 5px;
 }
