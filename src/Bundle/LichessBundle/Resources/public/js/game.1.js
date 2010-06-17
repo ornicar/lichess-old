@@ -120,13 +120,29 @@
       {
         var $messages = $chat.find('.lichess_messages');
         $messages[0].scrollTop = 9999999;
+        var $form = $chat.find('form');
+        var $input = $chat.find('input').one("focus", function()
+        {
+            $input.val('').removeClass('lichess_hint');
+        });
+        $chat.find('.lichess_chat_hide').toggle(function() {
+            $messages.hide(); $form.hide();
+            $(this).text('Show chat');
+        }, function() {
+            $messages.show(); $form.show();
+            $(this).text('Hide chat');
+        });
 
         // send a message
-        $chat.find('form').submit(function()
+        $form.submit(function()
         {
-            text = text = $.trim($(this).find('input').val());
+            text = $.trim($input.val());
             if(!text) return;
-            $(this).find('input').val('');
+            if(text.length > 140) {
+                alert('Max length: 140 chars. '+text.length+' chars used.');
+                return false;
+            }
+            $input.val('');
             $.ajax({
               type: 'POST',
               dataType: "json",
@@ -231,11 +247,6 @@
     {
       var self = this;
 
-      if (self.options.game.finished)
-      {
-        return;
-      }
-
       lichess_socket.connect(self.options.url.socket, function(data) {
         if (data)
         {
@@ -310,8 +321,8 @@
       {
           if(events[i].type == 'move')
           {
-              var from = events[i].from, to = events[i].to;
-                events.splice(i, 1);
+            var from = events[i].from, to = events[i].to;
+            events.splice(i, 1);
             self.movePiece(from, to, function() {
                 self.displayEvents(events);
             });
@@ -353,7 +364,6 @@
               }
             })
             $("div.ui-draggable").draggable("destroy");
-            clearTimeout(self.options.beat.timeout);
             self.element.removeClass("my_turn");
         }
       }

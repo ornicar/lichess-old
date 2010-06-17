@@ -19,6 +19,7 @@ class ChatController extends Controller
         if(!$message = $this->getRequest()->get('message')) {
             throw new NotFoundHttpException('No message');
         }
+        $message = substr($message, 0, 140);
         $player = $this->findPlayer($hash);
         $game = $player->getGame();
         $room = $game->getRoom();

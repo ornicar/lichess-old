@@ -5,6 +5,7 @@
     <?php endforeach; ?>
     </ol>
     <form action="<?php echo $view->router->generate('lichess_say', array('hash' => $player->getFullHash())) ?>" method="POST">
-        <input class="lichess_say" />
+        <input class="lichess_say lichess_hint" value="Talk in chat" />
     </form>
+    <a class="lichess_chat_hide">Hide chat</a>
 </div>
