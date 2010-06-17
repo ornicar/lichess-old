@@ -32,7 +32,7 @@ class ChatController extends Controller
             'events' => array(
                 array(
                     'type' => 'message',
-                    'html' => sprintf('<li><em>%s</em>%s</li>', $player->getColor(), htmlentities($message, ENT_COMPAT, 'UTF-8'))
+                    'html' => sprintf('<li><em class="%s"></em>%s</li>', $player->getColor(), htmlentities($message, ENT_COMPAT, 'UTF-8'))
                 )
             )
         );
