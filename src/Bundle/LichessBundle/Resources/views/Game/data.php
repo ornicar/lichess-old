@@ -20,7 +20,7 @@ $data = array(
         'ai' => $opponent->getIsAi()
     ),
     'beat' => array(
-        'delay' => 1500,
+        'delay' => 1200,
     ),
     'url' => array(
         'socket' => '/socket/'.$playerFullHash.'.json',
