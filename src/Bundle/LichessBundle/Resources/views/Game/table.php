@@ -18,11 +18,11 @@
     <div class="lichess_current_player">
         <div class="lichess_player white">
         <div class="lichess_piece king white" <?php echo $turnPlayer->isBlack() ? ' none' : '' ?>></div>
-            <p><?php echo $player->isWhite() ? 'Your turn' : 'Waiting for opponent' ?></p>
+            <p><?php echo $player->isWhite() ? 'Your turn' : 'Waiting' ?></p>
         </div>
         <div class="lichess_player black <?php echo $turnPlayer->isWhite() ? ' none' : '' ?>">
             <div class="lichess_piece king black"></div>
-            <p><?php echo $player->isBlack() ? 'Your turn' : 'Waiting for opponent' ?></p>
+            <p><?php echo $player->isBlack() ? 'Your turn' : 'Waiting' ?></p>
         </div>
     </div>
     <div class="lichess_control clearfix">

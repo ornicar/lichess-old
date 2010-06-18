@@ -11,8 +11,11 @@ class MainController extends Controller
 
     public function indexAction($color)
     {
-        //$game = $this->getGameTestPromotion();
-        //$game = $this->getGameTestStalemate();
+        // When munin pings the website, don't create a new game
+        if(isset($_SERVER['HTTP_USER_AGENT']) && 0 === strncmp($_SERVER['HTTP_USER_AGENT'], 'Wget/', 5)) {
+            return $this->createResponse('alive');
+        }
+
         $game = $this->getNewGame();
         $player = $game->getPlayer($color);
         $game->setCreator($player);

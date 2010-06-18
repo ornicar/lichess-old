@@ -46,6 +46,7 @@ class PlayerController extends Controller
         }
         $data = array(
             'time' => time(),
+            'possible_moves' => null,
             'events' => $stack->getEvents()
         );
         if($game->getIsFinished()) {
@@ -55,6 +56,7 @@ class PlayerController extends Controller
             );
         }
         $response = $this->createResponse(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
         
         if($opponent->getIsAi()) {
             if(empty($opponentPossibleMoves)) {
@@ -155,6 +157,7 @@ class PlayerController extends Controller
         
         $data = array(
             'time' => time(),
+            'possible_moves' => null,
             'events' => array(array(
                 'type' => 'resign',
                 'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
@@ -165,7 +168,9 @@ class PlayerController extends Controller
             $socket->write($data);
         }
 
-        return $this->createResponse(json_encode($data));
+        $response = $this->createResponse(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     public function aiLevelAction($hash)

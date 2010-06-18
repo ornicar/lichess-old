@@ -16,3 +16,7 @@
 </div>
 
 <?php $view->output('LichessBundle:Game:data', array('player' => $player, 'possibleMoves' => $possibleMoves)) ?>
+
+<?php if(!$player->getOpponent()->getIsAi()): ?>
+    <?php $view->slots->set('chat', $view->render('LichessBundle:Chat:room', array('player' => $player))) ?>
+<?php endif; ?>
