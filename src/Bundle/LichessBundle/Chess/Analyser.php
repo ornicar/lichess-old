@@ -222,8 +222,7 @@ class Analyser
         if(empty($rooks)) {
             return $squares;
         }
-        $opponent = $player->getOpponent();
-        $opponentControlledKeys = $this->getPlayerControlledKeys($opponent, true);
+        $opponentControlledKeys = $this->getPlayerControlledKeys($player->getOpponent(), true);
 
         foreach($rooks as $rook)
         {
