@@ -12,6 +12,7 @@ require_once __DIR__.'/Chess/PieceFilterTest.php';
 require_once __DIR__.'/Chess/AnalyserTest.php';
 require_once __DIR__.'/Chess/ManipulatorTest.php';
 require_once __DIR__.'/Chess/PossibleMovesTest.php';
+require_once __DIR__.'/Chess/CastlingTest.php';
 require_once __DIR__.'/Chess/PromotionTest.php';
 require_once __DIR__.'/Chess/EnPassantTest.php';
 require_once __DIR__.'/Chess/PlayTest.php';
@@ -49,6 +50,7 @@ class AllTests
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\AnalyserTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\ManipulatorTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PossibleMovesTest');
+    $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\CastlingTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PromotionTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\EnPassantTest');
     $suite->addTestSuite('\Bundle\LichessBundle\Tests\Chess\PlayTest');
