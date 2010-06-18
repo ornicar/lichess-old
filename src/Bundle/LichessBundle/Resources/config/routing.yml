@@ -33,3 +33,7 @@ lichess_table:
 lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
+lichess_say:
+    pattern:        /say/:hash
+    defaults:       { _controller: LichessBundle:Chat:say }
+    requirements:   { hash: "[\w]{10}" }

@@ -114,6 +114,49 @@
         });
       });
       
+      //init chat
+      $chat = $('div.lichess_chat');
+      if($chat.length)
+      {
+        var $messages = $chat.find('.lichess_messages');
+        $messages[0].scrollTop = 9999999;
+        var $form = $chat.find('form');
+        var $input = $chat.find('input').one("focus", function()
+        {
+            $input.val('').removeClass('lichess_hint');
+        });
+        $chat.find('.lichess_chat_hide').toggle(function() {
+            $messages.hide(); $form.hide();
+            $(this).text('Show chat');
+        }, function() {
+            $messages.show(); $form.show();
+            $(this).text('Hide chat');
+        });
+
+        // send a message
+        $form.submit(function()
+        {
+            text = $.trim($input.val());
+            if(!text) return;
+            if(text.length > 140) {
+                alert('Max length: 140 chars. '+text.length+' chars used.');
+                return false;
+            }
+            $input.val('');
+            $.ajax({
+              type: 'POST',
+              dataType: "json",
+              url: $(this).attr('action'),
+              data: {message: text},
+              success: function(data)
+              {
+                self.updateFromJson(data);
+              }
+            });
+            return false;
+        });
+      }
+
       self.restartBeat();
 
       if(!self.options.opponent.ai)
@@ -165,11 +208,13 @@
     updateFromJson: function(data)
     {
       var self = this;
-      $("div.lcs.check", self.$board).removeClass("check");
-      
-      self.options.possible_moves = data.possible_moves;
+      if(typeof data.possible_moves != 'undefined')
+      {
+        $("div.lcs.check", self.$board).removeClass("check");
+        self.options.possible_moves = data.possible_moves;
+        self.indicateTurn();
+      }
       self.displayEvents(data.events);
-      self.indicateTurn();
     },
     isMyTurn: function()
     {
@@ -189,7 +234,7 @@
       else 
       {
         this.element.removeClass("my_turn");
-        document.title = this.translate('Waiting for opponent');
+        document.title = this.translate('Waiting');
       }
 
       if (!this.$table.hasClass('finished'))
@@ -201,11 +246,6 @@
     beat: function()
     {
       var self = this;
-
-      if (self.options.game.finished)
-      {
-        return;
-      }
 
       lichess_socket.connect(self.options.url.socket, function(data) {
         if (data)
@@ -257,8 +297,8 @@
     {
       $piece.draggable("destroy");
       var self = this, $deads = $piece.hasClass("white") ? $("div.lichess_cemetery.white", self.element) : $("div.lichess_cemetery.black", self.element), $square = $piece.parent();
-      $deads.append($("<div>"));
-      var $tomb = $("div:last", $deads), tomb_offset = $tomb.offset();
+      $deads.append($("<div>").addClass('lichess_tomb'));
+      var $tomb = $("div.lichess_tomb:last", $deads), tomb_offset = $tomb.offset();
       $('body').append($piece.css($square.offset()));
       $piece.css("opacity", 0).animate({
         top: tomb_offset.top,
@@ -281,8 +321,8 @@
       {
           if(events[i].type == 'move')
           {
-              var from = events[i].from, to = events[i].to;
-                events.splice(i, 1);
+            var from = events[i].from, to = events[i].to;
+            events.splice(i, 1);
             self.movePiece(from, to, function() {
                 self.displayEvents(events);
             });
@@ -295,6 +335,9 @@
         var event = events[i];
         switch (event.type)
         {
+          case "message":
+            $('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
+            break;
           case "promotion":
             $("div#"+event.key+" div.lichess_piece")
             .addClass(event.pieceClass)
@@ -321,7 +364,6 @@
               }
             })
             $("div.ui-draggable").draggable("destroy");
-            clearTimeout(self.options.beat.timeout);
             self.element.removeClass("my_turn");
         }
       }
@@ -336,7 +378,7 @@
       self.options.beat.timeout = setTimeout(function()
       {
         self.beat();
-      }, self.isMyTurn() ? self.options.beat.delay * 2 : self.options.beat.delay);
+      }, self.options.beat.delay);
     },
     translate: function(message)
     {
