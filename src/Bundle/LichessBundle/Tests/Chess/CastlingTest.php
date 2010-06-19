@@ -43,6 +43,7 @@ PPPPPPPP
 RNBQKBNR
 EOF;
         $this->createGame($data);
+        $this->game->setTurns(1);
         $this->assertMoves('e8', 'd8 d7 e7 f7 f8 c8 g8');
     }
     
@@ -75,7 +76,8 @@ PPPPPPPP
 RNBQKBNR
 EOF;
         $this->createGame($data);
-        $this->assertMoves('e1', 'd8 d7 f7 f8');
+        $this->game->setTurns(1);
+        $this->assertMoves('e8', 'd8 d7 f7 f8');
     }
 
     public function testThroughtCheckQueenSideWhite()
@@ -107,10 +109,11 @@ PPPPPPPP
 RNBQKBNR
 EOF;
         $this->createGame($data);
-        $this->assertMoves('e1', 'd7 f7 f8 g8');
+        $this->game->setTurns(1);
+        $this->assertMoves('e8', 'd7 f7 f8 g8');
     }
 
-    public function testThroughtCheckKingSide()
+    public function testThroughtCheckKingSideWhite()
     {
         $data = <<<EOF
 rnbqkbnr
@@ -126,7 +129,24 @@ EOF;
         $this->assertMoves('e1', 'd1 d2 f2 c1');
     }
 
-    public function testThroughtCheckBothSide()
+    public function testThroughtCheckKingSideBlack()
+    {
+        $data = <<<EOF
+r   k  r
+        
+        
+  B     
+        
+        
+PPPPPPPP
+RNBQKBNR
+EOF;
+        $this->createGame($data);
+        $this->game->setTurns(1);
+        $this->assertMoves('e8', 'd8 d7 f7 c8');
+    }
+
+    public function testThroughtCheckBothSideWhite()
     {
         $data = <<<EOF
 rnbqkbnr
@@ -142,7 +162,24 @@ EOF;
         $this->assertMoves('e1', 'd2 e2 f2');
     }
 
-    public function testToCheckQueenSide()
+    public function testThroughtCheckBothSideBlack()
+    {
+        $data = <<<EOF
+r   k  r
+        
+    N   
+        
+        
+        
+PPPPPPPP
+RNBQKBNR
+EOF;
+        $this->createGame($data);
+        $this->game->setTurns(1);
+        $this->assertMoves('e8', 'd7 e7 f7');
+    }
+
+    public function testToCheckQueenSideWhite()
     {
         $data = <<<EOF
 rnbqkbnr
@@ -158,7 +195,7 @@ EOF;
         $this->assertMoves('e1', 'd1 e2 f2 f1 g1');
     }
 
-    public function testToCheckKingSide()
+    public function testToCheckKingSideWhite()
     {
         $data = <<<EOF
 rnbqkbnr
