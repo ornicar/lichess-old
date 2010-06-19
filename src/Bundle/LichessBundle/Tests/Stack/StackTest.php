@@ -36,8 +36,8 @@ class StackTest extends \PHPUnit_Framework_TestCase
         $data = <<<EOF
         
         
-    Pp  
         
+    Pp  
         
         
         
@@ -45,16 +45,16 @@ k  K
 EOF;
         $game = $this->createGame($data);
         $game->setTurns(30);
-        $wp = $game->getBoard()->getPieceByKey('e6');
-        $bp = $game->getBoard()->getPieceByKey('f6');
+        $wp = $game->getBoard()->getPieceByKey('e5');
+        $bp = $game->getBoard()->getPieceByKey('f5');
         $wp->setFirstMove(12);
         $bp->setFirstMove(29);
         $stack = new Stack();
         $manipulator = new Manipulator($this->game->getBoard(), $stack);
-        $manipulator->play('e6 f7');
+        $manipulator->play('e5 f6');
         $this->assertEquals(array(
-            array('type' => 'move', 'from' => 'e6', 'to' => 'f7'),
-            array('type' => 'enpassant', 'killed' => 'f6')
+            array('type' => 'move', 'from' => 'e5', 'to' => 'f6'),
+            array('type' => 'enpassant', 'killed' => 'f5')
         ), $stack->getEvents());
     }
 
