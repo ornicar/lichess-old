@@ -270,14 +270,14 @@ div.lichess_player_black #a8 {
     -webkit-border-radius: 0 0 4px 0;
 }
 
-div.lichess_join_url, div.lichess_permalink {
+div.lichess_join_url {
     display:none;
     background: none;
     border: none;
     margin: 1em 0 0 0;
 }
 
-div.lichess_join_url span, div.lichess_permalink span {
+div.lichess_join_url span {
     display: block;
     padding: 0.5em;
     background: #fff;
@@ -339,14 +339,12 @@ div.lichess_control {
     color: #888;
     font-size: 90%;
 }
-div.lichess_control a.lichess_permalink_toggle {
-    float: left;
+div.lichess_control label {
+    margin-right: 1em;
+    cursor: pointer;
 }
 div.lichess_control a.lichess_resign {
     float: right;
-}
-div.lichess_control div.lichess_permalink {
-    margin-top: 1em;
 }
 
 div.lichess_table a.lichess_button {
@@ -504,10 +502,6 @@ div.lichess_chat input {
 }
 div.lichess_chat input.lichess_hint {
     color: #888;
-}
-
-a.lichess_chat_hide {
-    line-height: 20px;
 }
 
 div.lichess_chat ol.lichess_messages li {

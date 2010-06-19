@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Lichess | Open Source Chess game</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.3.css" />
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.4.css" />
         <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open Source software, uses PHP 5.3, Symfony 2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
