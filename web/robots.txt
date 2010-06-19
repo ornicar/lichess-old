@@ -7,3 +7,4 @@ Disallow: /socket
 Disallow: /ai
 Disallow: /table
 Disallow: /black
+Disallow: /anybody

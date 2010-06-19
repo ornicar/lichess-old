@@ -115,6 +115,25 @@ class PlayerController extends Controller
         ));
     }
 
+    public function playWithAnybodyAction($hash)
+    {
+        $connectionFile = $this->container['kernel.root_dir'].'/cache/connect_anybody';
+        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'x.x.x.x';
+        $player = $this->findPlayer($hash);
+        if(file_exists($connectionFile)) {
+            list($opponentHash, $opponentIp) = explode('|', file_get_contents($connectionFile));
+            if($opponentHash === $player->getFullHash() || $opponentIp === $ip) {
+                return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player));
+            }
+            $opponent = $this->findPlayer($opponentHash);
+        }
+        else {
+            $data = implode('|', array($hash, $ip));
+            file_put_contents($connectionFile, $data);
+            return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player));
+        }
+    }
+
     public function inviteAiAction($hash)
     {
         $player = $this->findPlayer($hash);
