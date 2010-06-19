@@ -60,17 +60,19 @@ class Pawn extends Piece
                     $keys[] = $key;
                 }
             }
-            $opponentKey = Board::posToKey($_x, $y);
             // en passant
-            if (
-                ($piece = $this->board->getPieceByKey($opponentKey)) &&
-                $piece instanceof Pawn &&
-                $piece->getColor() !== $this->color &&
-                ($piece->getFirstMove() === ($this->getPlayer()->getGame()->getTurns() -1)) &&
-                !$this->board->hasPieceByKey($key)
-            )
-            {
-                $keys[] = $key;
+            if(5 === $y || 4 === $y) {
+                $opponentKey = Board::posToKey($_x, $y);
+                if (
+                    ($piece = $this->board->getPieceByKey($opponentKey)) &&
+                    $piece instanceof Pawn &&
+                    $piece->getColor() !== $this->color &&
+                    ($piece->getFirstMove() === ($this->getPlayer()->getGame()->getTurns() -1)) &&
+                    !$this->board->hasPieceByKey($key)
+                )
+                {
+                    $keys[] = $key;
+                }
             }
         }
 

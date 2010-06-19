@@ -145,8 +145,8 @@ EOF;
         $data = <<<EOF
         
         
-    Pp  
         
+    Pp  
         
         
         
@@ -154,19 +154,19 @@ k  K
 EOF;
         $game = $this->createGame($data);
         $game->setTurns(30);
-        $wp = $game->getBoard()->getPieceByKey('e6');
-        $bp = $game->getBoard()->getPieceByKey('f6');
+        $wp = $game->getBoard()->getPieceByKey('e5');
+        $bp = $game->getBoard()->getPieceByKey('f5');
 
         $wp->setFirstMove(12);
         $bp->setFirstMove(29);
         $analyser = new Analyser($game->getBoard());
         $possibleMoves = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());
-        $this->assertEquals(array('e7', 'f7'), $possibleMoves['e6']);
+        $this->assertEquals(array('e6', 'f6'), $possibleMoves['e5']);
 
         $wp->setFirstMove(12);
         $bp->setFirstMove(13);
         $possibleMoves = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());
-        $this->assertEquals(array('e7'), $possibleMoves['e6']);
+        $this->assertEquals(array('e6'), $possibleMoves['e5']);
     }
 
     protected function computePossibleMoves($data, $turn = 0)

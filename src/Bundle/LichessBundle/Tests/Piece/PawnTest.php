@@ -71,7 +71,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $board->getPieceByKey('g7')->setFirstMove(9);
         $board->compile();
 
-        $expected = array('f6', 'g6');
+        $expected = array('f6');
         $this->assertSquareKeys($expected, $piece->getBasicTargetKeys());
     }
 
