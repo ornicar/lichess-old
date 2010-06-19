@@ -125,13 +125,6 @@
         {
             $input.val('').removeClass('lichess_hint');
         });
-        $chat.find('.lichess_chat_hide').toggle(function() {
-            $messages.hide(); $form.hide();
-            $(this).text('Show chat');
-        }, function() {
-            $messages.show(); $form.show();
-            $(this).text('Hide chat');
-        });
 
         // send a message
         $form.submit(function()
@@ -155,6 +148,24 @@
             });
             return false;
         });
+
+        $('div.lichess_control label.lichess_enable_chat input').change(function()
+        {
+            if($(this).attr('checked'))
+            {
+                $messages.show(); $form.show();
+                $(this).text('Hide chat');
+            }
+            else
+            {
+                $messages.hide(); $form.hide();
+                $(this).text('Show chat');
+            }
+        });
+      }
+      else
+      {
+        $('div.lichess_control label.lichess_enable_chat').hide();
       }
 
       self.restartBeat();
