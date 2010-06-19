@@ -54,7 +54,7 @@ class Analyser
         $controlledKeys = array();
         foreach(PieceFilter::filterAlive($player->getPieces()) as $piece)
         {
-            if(!$includeKing && !$piece instanceof Piece\King) {
+            if($includeKing || !$piece instanceof King) {
                 $controlledKeys = array_merge($controlledKeys, $this->getPieceControlledKeys($piece));
             }
         }
@@ -215,9 +215,9 @@ class Analyser
      *
      * @return array the squares where the king can go
      **/
-    protected function addCastlingSquares(King $piece, array $squares)
+    protected function addCastlingSquares(King $king, array $squares)
     {
-        $player = $piece->getPlayer();
+        $player = $king->getPlayer();
         $rooks = PieceFilter::filterNotMoved(PieceFilter::filterClass(PieceFilter::filterAlive($player->getPieces()), 'Rook'));
         if(empty($rooks)) {
             return $squares;
@@ -226,26 +226,22 @@ class Analyser
 
         foreach($rooks as $rook)
         {
-            $canCastle = true;
-            $rookSquare = $rook->getSquare();
-            if(in_array($rookSquare, $opponentControlledKeys)) {
-                continue;
-            }
-            $kingSquare = $piece->getSquare();
-            $squaresToRook = array();
-            $dx = $kingSquare->getX() > $rookSquare->getX() ? -1 : 1;
-            $square = $kingSquare;
-            $it = 0;
+            $kingX = $king->getX();
+            $kingY = $king->getY();
+            $dx = $kingX > $rook->getX() ? -1 : 1;
             $possible = true;
-            while(($square = $square->getSquareByRelativePos($dx, 0)) && !$square->is($rookSquare))
-            {
-                if (!$square->isEmpty() || in_array($square->getKey(), $opponentControlledKeys)) {
+            foreach(array($kingX+$dx, $kingX+2*$dx) as $_x) {
+                $key = Board::postoKey($_x, $kingY);
+                if ($this->board->hasPieceByKey($key) || in_array($key, $opponentControlledKeys)) {
                     $possible = false;
                     break;
                 }
             }
             if($possible) {
-                $squares[] = $kingSquare->getSquareByRelativePos(2*$dx, 0);
+                if(-1 === $dx && $this->board->hasPieceByKey(Board::postoKey($kingX-3, $kingY))) {
+                    break;
+                }
+                $squares[] = $this->board->getSquareByKey($key);
             }
         }
         return $squares;

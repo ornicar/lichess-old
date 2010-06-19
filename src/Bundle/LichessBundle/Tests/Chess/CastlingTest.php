@@ -42,9 +42,24 @@ r   k  r
 PPPPPPPP
 RNBQKBNR
 EOF;
-        $this->createGame($data);
-        $this->game->setTurns(1);
+        $this->createGame($data, true);
         $this->assertMoves('e8', 'd8 d7 e7 f7 f8 c8 g8');
+    }
+
+    public function testPossibleBlackPeruvian()
+    {
+        $data = <<<EOF
+r   k nr
+pp n ppp
+  p p   
+q       
+ b P B  
+P N  Q P
+ PP BPP 
+R   K  R
+EOF;
+        $this->createGame($data, true);
+        $this->assertMoves('e8', 'c8 d8 e7 f8');
     }
     
     public function testFromCheckWhite()
@@ -75,8 +90,7 @@ r   k  r
 PPPPPPPP
 RNBQKBNR
 EOF;
-        $this->createGame($data);
-        $this->game->setTurns(1);
+        $this->createGame($data, true);
         $this->assertMoves('e8', 'd8 d7 f7 f8');
     }
 
@@ -108,8 +122,7 @@ r   k  r
 PPPPPPPP
 RNBQKBNR
 EOF;
-        $this->createGame($data);
-        $this->game->setTurns(1);
+        $this->createGame($data, true);
         $this->assertMoves('e8', 'd7 f7 f8 g8');
     }
 
@@ -141,8 +154,7 @@ r   k  r
 PPPPPPPP
 RNBQKBNR
 EOF;
-        $this->createGame($data);
-        $this->game->setTurns(1);
+        $this->createGame($data, true);
         $this->assertMoves('e8', 'd8 d7 f7 c8');
     }
 
@@ -174,8 +186,7 @@ r   k  r
 PPPPPPPP
 RNBQKBNR
 EOF;
-        $this->createGame($data);
-        $this->game->setTurns(1);
+        $this->createGame($data, true);
         $this->assertMoves('e8', 'd7 e7 f7');
     }
 
@@ -216,10 +227,12 @@ EOF;
      *
      * @return Game
      **/
-    protected function createGame($data)
+    protected function createGame($data, $blackTurn = false)
     {
         $generator = new Generator();
         $this->game = $generator->createGameFromVisualBlock($data);
+        $this->game->setIsStarted(true);
+        $this->game->setTurns($blackTurn ? 11 : 10);
         $this->analyser = new Analyser($this->game->getBoard());
     }
 
@@ -227,7 +240,7 @@ EOF;
     {
         $moves = explode(' ', $moves);
         $possibleMoves = $this->analyser->getPlayerPossibleMoves($this->game->getTurnPlayer());
-        $this->assertEquals($this->sort($moves), $this->sort($possibleMoves[$pieceKey]));
+        $this->assertEquals($this->sort($moves), isset($possibleMoves[$pieceKey]) ? $this->sort($possibleMoves[$pieceKey]) : null);
     }
 
     protected function sort($array)
