@@ -25,6 +25,7 @@ $data = array(
     'url' => array(
         'socket' => '/socket/'.$playerFullHash.'.json',
         'move' => $view->router->generate('lichess_move', array('hash' => $playerFullHash)),
+        'sync' => $view->router->generate('lichess_sync', array('hash' => $playerFullHash)),
         'ai_level' => $opponent->getIsAi() ? $view->router->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null
     ),
     'time' => time(),
