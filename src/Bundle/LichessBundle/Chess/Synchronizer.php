@@ -1,29 +1,20 @@
 <?php
 
-namespace Bundle\LichessBundle\Chess\Synchronizer;
+namespace Bundle\LichessBundle\Chess;
+
+use Bundle\LichessBundle\Entities\Player;
 
 class Synchronizer
 {
-
-    /**
-     * The player to synchronize
-     *
-     * @var Player
-     */
-    protected $player = null;
-
-    public function __construct(Player $player)
-    {
-        $this->player = $player;
-    }
 
     /**
      * Synchronize the player game
      *
      * @return null
      **/
-    public function synchronize($time)
+    public function synchronize(Player $player)
     {
+        $time = time();
         $player->setTime($time);
         $game = $player->getGame();
         $opponent = $player->getOpponent();
@@ -42,24 +33,5 @@ class Synchronizer
     public function getTimeout()
     {
         return 5;
-    }
-    
-    /**
-     * Get player
-     * @return Player
-     */
-    public function getPlayer()
-    {
-      return $this->player;
-    }
-    
-    /**
-     * Set player
-     * @param  Player
-     * @return null
-     */
-    public function setPlayer($player)
-    {
-      $this->player = $player;
     }
 }

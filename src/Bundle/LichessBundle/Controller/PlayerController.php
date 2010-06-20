@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Framework\WebBundle\Controller;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Chess\Synchronizer;
 use Bundle\LichessBundle\Socket;
 use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Ai\Crafty;
@@ -41,8 +42,8 @@ class PlayerController extends Controller
             return $response;
         }
 
-        $synchronizer = new Synchronizer($player);
-        $synchronizer->synchronize(time());
+        $synchronizer = new Synchronizer();
+        $synchronizer->synchronize($player);
         $this->container->getLichessPersistenceService()->save($game);
 
         if($game->getIsFinished()) {
