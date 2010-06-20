@@ -41,8 +41,6 @@ class Bundle extends BaseBundle
         $configuration->merge($loader->load('persistence.xml'));
         $configuration->merge($loader->load('logger.xml'));
 
-        $container->setParameter('data_collector_manager.class', 'Bundle\LichessBundle\Profiler\DataCollectorManager');
-
         return $configuration;
     }
 
