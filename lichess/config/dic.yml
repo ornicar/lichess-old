@@ -1,2 +1,0 @@
-parameters:
-    exception_handler.controller: "LichessBundle:Main:notFound"
