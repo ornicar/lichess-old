@@ -26,6 +26,51 @@ class PlayerController extends Controller
         
         return new $class($player, $options);
     }
+
+    public function syncAction($hash)
+    {
+        $player = $this->findPlayer($hash);
+        if($player->getOpponent()->getIsAi()) {
+            throw new LogicException('Do not sync with AI');
+        }
+        $game = $player->getGame();
+        // BC compatibility: skip if no sync time
+        if($game->getIsFinished() || !$player->getTime()) {
+            $response = $this->createResponse(null);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
+        $synchronizer = new Synchronizer($player);
+        $synchronizer->synchronize(time());
+        $this->container->getLichessPersistenceService()->save($game);
+
+        if($game->getIsFinished()) {
+            $response = $this->createResponse(json_encode(array(
+                'time' => time(),
+                'possible_moves' => null,
+                'events' => array(array(
+                    'type' => 'resign',
+                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
+                ))
+            )));
+            $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
+            $socket->write(array(
+                'time' => time(),
+                'possible_moves' => null,
+                'events' => array(array(
+                    'type' => 'resign',
+                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getOpponent()->getFullHash()))
+                ))
+            ));
+        }
+        else {
+            $response = $this->createResponse(null);
+        }
+
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
     
     public function moveAction($hash)
     {
@@ -84,7 +129,17 @@ class PlayerController extends Controller
         }
         else {
             $this->container->getLichessPersistenceService()->save($game);
-            $data['possible_moves'] = $opponentPossibleMoves;
+            $data = array(
+                'time' => time(),
+                'possible_moves' => $opponentPossibleMoves,
+                'events' => $stack->getEvents()
+            );
+            if($game->getIsFinished()) {
+                $data['events'][] = array(
+                    'type' => 'mate',
+                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
+                );
+            }
             $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
             $socket->write($data);
         }
@@ -173,20 +228,26 @@ class PlayerController extends Controller
         $opponent->setIsWinner(true);
         $this->container->getLichessPersistenceService()->save($game);
         
-        $data = array(
+        if(!$opponent->getIsAi()) {
+            $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
+            $socket->write(array(
+                'time' => time(),
+                'possible_moves' => null,
+                'events' => array(array(
+                    'type' => 'resign',
+                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
+                ))
+            ));
+        }
+
+        $response = $this->createResponse(json_encode(array(
             'time' => time(),
             'possible_moves' => null,
             'events' => array(array(
                 'type' => 'resign',
                 'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
             ))
-        );
-        if(!$opponent->getIsAi()) {
-            $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
-            $socket->write($data);
-        }
-
-        $response = $this->createResponse(json_encode($data));
+        )));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

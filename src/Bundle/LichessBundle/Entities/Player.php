@@ -47,6 +47,13 @@ class Player
     protected $isWinner = false;
 
     /**
+     * Wether the player lose by timeout or not
+     *
+     * @var boolean
+     */
+    protected $isTimeOut = false;
+
+    /**
      * Whether this player is an Artificial intelligence or not
      *
      * @var boolean
@@ -60,6 +67,13 @@ class Player
      */
     protected $aiLevel = null;
 
+    /**
+     * Last synchronization time
+     *
+     * @var int
+     */
+    protected $time = null;
+
     public function __construct($color)
     {
         $this->color = $color;
@@ -68,6 +82,7 @@ class Player
         for ( $i = 0; $i < 4; $i++ ) {
           $this->hash .= $chars[mt_rand( 0, 36 )];
         }
+        $this->time = time();
     }
 
     /**
@@ -84,6 +99,44 @@ class Player
     public function getFullHash()
     {
       return $this->game->getHash().$this->hash;
+    }
+    
+    /**
+     * Get isTimeOut
+     * @return boolean
+     */
+    public function getTimeOut()
+    {
+      return $this->isTimeOut;
+    }
+    
+    /**
+     * Set isTimeOut
+     * @param  boolean
+     * @return null
+     */
+    public function setTimeOut($isTimeOut)
+    {
+      $this->isTimeOut = $isTimeOut;
+    }
+    
+    /**
+     * Get time
+     * @return int
+     */
+    public function getTime()
+    {
+      return $this->time;
+    }
+    
+    /**
+     * Set time
+     * @param  int
+     * @return null
+     */
+    public function setTime($time)
+    {
+      $this->time = $time;
     }
 
     /**
@@ -323,6 +376,6 @@ class Player
 
     public function serialize()
     {
-        return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner');
+        return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner', 'time');
     }
 }

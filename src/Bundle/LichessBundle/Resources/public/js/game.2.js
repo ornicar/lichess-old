@@ -188,6 +188,19 @@
             : '/\\/ '+document.title.replace(/\\\/\\ /, '')
             : document.title;
         }, 500);
+
+        // synchronize with opponent
+        setInterval(function()
+        {
+            $.ajax({
+                type:       'json',
+                url:        self.options.url.sync,
+                success:    function(data)
+                {
+                    if(data) self.updateFromJson(data);
+                }
+            });
+        }, 2000);
       }
       
       self.$table.find("a.lichess_resign").click(function()
