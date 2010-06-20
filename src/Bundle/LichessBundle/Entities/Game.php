@@ -13,18 +13,17 @@ use Bundle\LichessBundle\Entities\Chat\Room;
 class Game
 {
     /**
-     * Whether the game has started or not
+     * The current state of the game, like CREATED, STARTED or MATE.
      *
-     * @var boolean
+     * @var int
      */
-    protected $isStarted = false;
-
-    /**
-     * Whether the game is finished or not
-     *
-     * @var boolean
-     */
-    protected $isFinished = false;
+    protected $status = self::CREATED;
+    
+    const CREATED = 10;
+    const STARTED = 20;
+    const MATE = 30;
+    const RESIGN = 31;
+    const TIMEOUT = 32;
 
     /**
      * The two players 
@@ -83,6 +82,26 @@ class Game
         for ( $i = 0; $i < 6; $i++ ) {
             $this->hash .= $chars[mt_rand( 0, 36 )];
         }
+        $this->status = self::CREATED;
+    }
+    
+    /**
+     * Get status
+     * @return int
+     */
+    public function getStatus()
+    {
+      return $this->status;
+    }
+    
+    /**
+     * Set status
+     * @param  int
+     * @return null
+     */
+    public function setStatus($status)
+    {
+      $this->status = $status;
     }
 
     /**
@@ -147,15 +166,7 @@ class Game
      */
     public function getIsFinished()
     {
-        return $this->isFinished;
-    }
-
-    /**
-     * @param boolean
-     */
-    public function setIsFinished($isFinished)
-    {
-        $this->isFinished = $isFinished;
+        return $this->getStatus() >= self::MATE;
     }
 
     /**
@@ -163,15 +174,7 @@ class Game
      */
     public function getIsStarted()
     {
-        return $this->isStarted;
-    }
-
-    /**
-     * @param boolean
-     */
-    public function setIsStarted($isStarted)
-    {
-        $this->isStarted = $isStarted;
+        return $this->getStatus() >= self::STARTED;
     }
 
     public function setPlayers(array $players)
