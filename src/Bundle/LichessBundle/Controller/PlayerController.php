@@ -11,6 +11,7 @@ use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Ai\Crafty;
 use Bundle\LichessBundle\Ai\Stupid;
 use Bundle\LichessBundle\Entities\Player;
+use Bundle\LichessBundle\Entities\Game;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
@@ -35,8 +36,7 @@ class PlayerController extends Controller
             throw new LogicException('Do not sync with AI');
         }
         $game = $player->getGame();
-        // BC compatibility: skip if no sync time
-        if($game->getIsFinished() || !$player->getTime()) {
+        if($game->getIsFinished()) {
             $response = $this->createResponse(null);
             $response->headers->set('Content-Type', 'application/json');
             return $response;
@@ -51,7 +51,7 @@ class PlayerController extends Controller
                 'time' => time(),
                 'possible_moves' => null,
                 'events' => array(array(
-                    'type' => 'resign',
+                    'type' => 'end',
                     'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
                 ))
             )));
@@ -60,7 +60,7 @@ class PlayerController extends Controller
                 'time' => time(),
                 'possible_moves' => null,
                 'events' => array(array(
-                    'type' => 'resign',
+                    'type' => 'end',
                     'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getOpponent()->getFullHash()))
                 ))
             ));
@@ -79,17 +79,12 @@ class PlayerController extends Controller
         $opponent = $player->getOpponent();
         $game = $player->getGame();
         if(!$player->isMyTurn()) {
-            throw new NotFoundHttpException('Not my turn');
+            throw new LogicException('Not my turn');
         }
         $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
         $stack = new Stack();
         $manipulator = new Manipulator($game->getBoard(), $stack);
-        try {
-            $opponentPossibleMoves = $manipulator->play($move, $this->getRequest()->get('options', array()));
-        }
-        catch(Exception $e) {
-            throw new NotFoundHttpException($e->getMessage());
-        }
+        $opponentPossibleMoves = $manipulator->play($move, $this->getRequest()->get('options', array()));
         $data = array(
             'time' => time(),
             'possible_moves' => null,
@@ -97,7 +92,7 @@ class PlayerController extends Controller
         );
         if($game->getIsFinished()) {
             $data['events'][] = array(
-                'type' => 'mate',
+                'type' => 'end',
                 'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
             );
         }
@@ -121,7 +116,7 @@ class PlayerController extends Controller
                 );
                 if($game->getIsFinished()) {
                     $data['events'][] = array(
-                        'type' => 'mate',
+                        'type' => 'end',
                         'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
                     );
                 }
@@ -137,7 +132,7 @@ class PlayerController extends Controller
             );
             if($game->getIsFinished()) {
                 $data['events'][] = array(
-                    'type' => 'mate',
+                    'type' => 'end',
                     'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
                 );
             }
@@ -201,22 +196,20 @@ class PlayerController extends Controller
 
         $opponent->setIsAi(true);
         $opponent->setAiLevel($this->container->getParameter('lichess.ai.defaultLevel'));
-        $game->setIsStarted(true);
+        $game->setStatus(Game::STARTED);
 
         if($player->isBlack()) {
             $ai = $this->getAi($opponent, array('level' => $opponent->getAiLevel()));
             $stack = new Stack();
             $manipulator = new Manipulator($game->getBoard(), $stack);
-            $possibleMoves = $manipulator->play($ai->move());
+            $manipulator->play($ai->move());
             $this->container->getLichessPersistenceService()->save($game);
         }
         else {
             $this->container->getLichessPersistenceService()->save($game);
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array(
-            'hash' => $player->getFullHash()
-        )));
+        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
     }
 
     public function resignAction($hash)
@@ -225,7 +218,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
         $opponent = $player->getOpponent();
 
-        $game->setIsFinished(true);
+        $game->setStatus(Game::RESIGN);
         $opponent->setIsWinner(true);
         $this->container->getLichessPersistenceService()->save($game);
         
@@ -235,7 +228,7 @@ class PlayerController extends Controller
                 'time' => time(),
                 'possible_moves' => null,
                 'events' => array(array(
-                    'type' => 'resign',
+                    'type' => 'end',
                     'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
                 ))
             ));
@@ -245,7 +238,7 @@ class PlayerController extends Controller
             'time' => time(),
             'possible_moves' => null,
             'events' => array(array(
-                'type' => 'resign',
+                'type' => 'end',
                 'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
             ))
         )));
@@ -267,9 +260,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
-        return $this->render('LichessBundle:Game:'.$template, array(
-            'player' => $player
-        ));
+        return $this->render('LichessBundle:Game:'.$template, array( 'player' => $player));
     }
 
     /**

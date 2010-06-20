@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
+use Bundle\LichessBundle\Entities\Game;
 
 require_once __DIR__.'/../gameBootstrap.php';
 require_once __DIR__.'/../../Chess/Manipulator.php';
@@ -173,7 +174,7 @@ EOF;
     {
         $game = $this->createGame($data);
         $game->setTurns($turn);
-        $game->setIsStarted(true);
+        $game->setStatus(Game::STARTED);
         
         $analyser = new Analyser($game->getBoard());
         $moveTree = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());

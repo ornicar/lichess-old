@@ -8,7 +8,7 @@
         <?php if($winner): ?>
             <div class="lichess_player <?php echo $winner->getColor() ?>">
                 <div class="lichess_piece king <?php echo $winner->getColor() ?>"></div>
-                <p><?php echo $winner->getColor() ?> is victorious</p>
+                <p><?php echo $player->getGame()->getStatusMessage() ?><br /><?php echo ucfirst($winner->getColor()) ?> is victorious</p>
             </div>
         <?php else: ?>
             <div class="lichess_player">
