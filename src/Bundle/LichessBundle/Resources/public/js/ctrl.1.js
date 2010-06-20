@@ -40,20 +40,17 @@ $(function()
         $game.find('div.lichess_join_url').toggle(100);
       });
       
-      setTimeout(function()
+      setTimeout(waitForOpponent = function()
       {
-        setTimeout(waitForOpponent = function()
-        {
-            lichess_socket.connect(lichess_data.url.socket, function(data) {
-                if(data && data.url) {
-                    location.href = data.url;
-                }
-                else {
-                    setTimeout(waitForOpponent, lichess_data.beat.delay);
-                }
-            });
-        }, lichess_data.delay);
-      }, 6000);
+          lichess_socket.connect(lichess_data.url.socket, function(data) {
+              if(data && data.url) {
+                  location.href = data.url;
+              }
+              else {
+                  setTimeout(waitForOpponent, lichess_data.beat_delay);
+              }
+          });
+      }, lichess_data.beat_delay);
     }
   }
   $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));

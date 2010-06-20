@@ -248,7 +248,7 @@
     },
     getAnimationSpeed: function()
     {
-        return this.animate ? 500 : 1;
+        return this.animate ? this.options.animation_delay : 1;
     },
     changeTitle: function(text)
     {
@@ -407,14 +407,14 @@
     restartBeat: function()
     {
       var self = this;
-      if (self.options.beat.timeout) 
+      if (self.options.beat_timeout) 
       {
-        clearTimeout(self.options.beat.timeout);
+        clearTimeout(self.options.beat_timeout);
       }
-      self.options.beat.timeout = setTimeout(function()
+      self.options.beat_timeout = setTimeout(function()
       {
         self.beat();
-      }, self.options.beat.delay);
+      }, self.options.beat_delay);
     },
     translate: function(message)
     {
