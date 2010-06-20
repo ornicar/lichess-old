@@ -107,7 +107,6 @@ class PlayerController extends Controller
         }
         $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
         $socket->write(array());
-
         return $this->render('LichessBundle:Player:show', array(
             'player' => $player,
             'checkSquareKey' => $checkSquareKey,

@@ -9,7 +9,7 @@
       self.$board = $("div.lichess_board", self.element);
       self.$table = $("div.lichess_table", self.element);
       self.initialTitle = document.title,
-      self.animationInput = $('div.lichess_control .lichess_enable_animation input');
+      self.animate = null;
       
       self.indicateTurn();
 
@@ -46,6 +46,9 @@
                 success: function(data)
                 {
                   self.updateFromJson(data);
+                  if(self.options.opponent.ai) {
+                    setTimeout(function() { self.beat(); }, 1000);
+                  }
                 }
               });
             }
@@ -102,7 +105,7 @@
         })
         .hover(function()
         {
-          if (!self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).parent().attr('id')]) && targets.length)
+          if (self.animate && !self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).parent().attr('id')]) && targets.length)
           {
             $("#" + targets.join(", #")).addClass("droppable-active");
           }
@@ -167,10 +170,15 @@
         $('div.lichess_control label.lichess_enable_chat').hide();
       }
 
-      self.restartBeat();
+      $('div.lichess_control .lichess_enable_animation input').change(function()
+      {
+        self.animate = $(this).attr('checked');
+        $('div.lcs.ui-droppable').droppable('option', 'activeClass', self.animate ? 'droppable-active' : '');
+      }).trigger('change');
 
       if(!self.options.opponent.ai)
       {
+        self.restartBeat();
         // update document title to show playing state
         setInterval(function()
         {
@@ -227,7 +235,7 @@
     },
     getAnimationSpeed: function()
     {
-        return this.animationInput.attr('checked') ? 500 : 1;
+        return this.animate ? 500 : 1;
     },
     changeTitle: function(text)
     {
@@ -252,8 +260,8 @@
 
       if (!this.$table.hasClass('finished'))
       {
-        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.opponent.color : this.options.player.color)).fadeOut(500);
-        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(500);
+        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.opponent.color : this.options.player.color)).fadeOut(this.getAnimationSpeed());
+        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(this.getAnimationSpeed());
       }
     },
     beat: function()
@@ -265,7 +273,9 @@
         {
           self.updateFromJson(data);
         }
-        self.restartBeat();
+        if(!self.options.opponent.ai) {
+            self.restartBeat();
+        }
       });
     },
     movePiece: function(from, to, callback)
@@ -408,5 +418,5 @@
       return false;
     }
   });
-  
+
 })(jQuery);
