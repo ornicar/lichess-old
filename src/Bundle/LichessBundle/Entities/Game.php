@@ -23,7 +23,8 @@ class Game
     const STARTED = 20;
     const MATE = 30;
     const RESIGN = 31;
-    const TIMEOUT = 32;
+    const STALEMATE = 32;
+    const TIMEOUT = 33;
 
     /**
      * The two players 
@@ -93,6 +94,19 @@ class Game
     {
       return $this->status;
     }
+
+    public function getStatusMessage()
+    {
+        switch($this->getStatus()) {
+            case self::MATE: $message = 'Checkmate'; break;
+            case self::RESIGN: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
+            case self::STALEMATE: $message = ''; break;
+            case self::TIMEOUT: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
+            default: $message = '';
+        }
+        return $message;
+    }
+
     
     /**
      * Set status
@@ -300,15 +314,14 @@ class Game
 
     public function serialize()
     {
-        return array('hash', 'isFinished', 'isStarted', 'players', 'turns', 'creator');
+        return array('hash', 'status', 'players', 'turns', 'creator');
     }
 
     public function unserialize()
     {
         $board = $this->getBoard();
         foreach($this->getPlayers() as $player) {
-            foreach ($player->getPieces() as $piece)
-            {
+            foreach ($player->getPieces() as $piece) {
                 $piece->setBoard($board);
             }
         }

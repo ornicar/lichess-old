@@ -190,17 +190,19 @@
         }, 500);
 
         // synchronize with opponent
-        setInterval(function()
+        self.options.sync_interval = setInterval(function()
         {
-            $.ajax({
-                type:       'json',
-                url:        self.options.url.sync,
-                success:    function(data)
-                {
-                    if(data) self.updateFromJson(data);
-                }
-            });
-        }, 2000);
+            if(!self.options.game.finished) {
+                $.ajax({
+                    type:       'json',
+                    url:        self.options.url.sync,
+                    success:    function(data)
+                    {
+                        if(data) self.updateFromJson(data);
+                    }
+                });
+            }
+        }, self.options.sync_delay);
       }
       
       self.$table.find("a.lichess_resign").click(function()
@@ -388,8 +390,7 @@
           case "check":
             $("div#" + event.key, self.$board).addClass("check");
             break;
-          case "mate":
-          case "resign":
+          case "end":
             self.options.game.finished = true;
             document.title = self.translate('Game over');
             $.ajax({

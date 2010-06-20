@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Entities\Player;
+use Bundle\LichessBundle\Entities\Game;
 
 class Synchronizer
 {
@@ -18,20 +19,14 @@ class Synchronizer
         $player->setTime($time);
         $game = $player->getGame();
         $opponent = $player->getOpponent();
-        if($opponent->getTime() < ($time - $this->getTimeOut())) {
-            $this->eliminate($opponent);
+        if($opponent->getTime() < ($time - $this->getTimeLimit())) {
+            $game->setStatus(Game::TIMEOUT);
+            $player->setIsWinner(true);
         }
     }
 
-    protected function eliminate(Player $player)
+    public function getTimeLimit()
     {
-        $player->setIsTimeOut(true);
-        $player->getGame()->setIsFinished(true);
-        $player->getOpponent()->setIsWinner(true);
-    }
-
-    public function getTimeout()
-    {
-        return 5;
+        return 12;
     }
 }

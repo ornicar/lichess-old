@@ -7,6 +7,7 @@ use Bundle\LichessBundle\Entities\Piece\King;
 use Bundle\LichessBundle\Entities\Piece\Pawn;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Stack;
+use Bundle\LichessBundle\Entities\Game;
 
 class Manipulator
 {
@@ -50,9 +51,12 @@ class Manipulator
         $this->game->addTurn();
         $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($opponent, $isOpponentKingAttacked);
         if(empty($opponentPossibleMoves)) {
-            $this->game->setIsFinished(true);
             if($isOpponentKingAttacked) {
+                $this->game->setStatus(Game::MATE);
                 $player->setIsWinner(true);
+            }
+            else {
+                $this->game->setStatus(Game::STALEMATE);
             }
         }
 

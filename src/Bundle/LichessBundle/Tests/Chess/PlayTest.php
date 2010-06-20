@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Entities\Game;
 
 require_once __DIR__.'/../gameBootstrap.php';
 
@@ -225,7 +226,7 @@ EOF
         else {
             $game = $generator->createGame();
         }
-        $game->setIsStarted(true);
+        $game->setStatus(Game::STARTED);
         return $game; 
     }
 }

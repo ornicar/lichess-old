@@ -47,13 +47,6 @@ class Player
     protected $isWinner = false;
 
     /**
-     * Wether the player lose by timeout or not
-     *
-     * @var boolean
-     */
-    protected $isTimeOut = false;
-
-    /**
      * Whether this player is an Artificial intelligence or not
      *
      * @var boolean
@@ -82,7 +75,6 @@ class Player
         for ( $i = 0; $i < 4; $i++ ) {
           $this->hash .= $chars[mt_rand( 0, 36 )];
         }
-        $this->time = time();
     }
 
     /**
@@ -99,25 +91,6 @@ class Player
     public function getFullHash()
     {
       return $this->game->getHash().$this->hash;
-    }
-    
-    /**
-     * Get isTimeOut
-     * @return boolean
-     */
-    public function getTimeOut()
-    {
-      return $this->isTimeOut;
-    }
-    
-    /**
-     * Set isTimeOut
-     * @param  boolean
-     * @return null
-     */
-    public function setTimeOut($isTimeOut)
-    {
-      $this->isTimeOut = $isTimeOut;
     }
     
     /**

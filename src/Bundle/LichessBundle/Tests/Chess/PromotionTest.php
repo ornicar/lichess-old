@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
+use Bundle\LichessBundle\Entities\Game;
 
 require_once __DIR__.'/../gameBootstrap.php';
 require_once __DIR__.'/../../Chess/Manipulator.php';
@@ -125,7 +126,7 @@ EOF;
             $game = $generator->createGame();
         }
         $this->analyser = new Analyser($game->getBoard());
-        $game->setIsStarted(true);
+        $game->setStatus(Game::STARTED);
         $game->setTurns(30);
         return $game; 
     }

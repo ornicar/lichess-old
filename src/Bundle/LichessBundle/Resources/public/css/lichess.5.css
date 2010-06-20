@@ -400,12 +400,9 @@ div.lichess_current_player div.lichess_player p {
     margin: 0 0 0 64px;
 }
 
-div.lichess_table.finished .game_over {
-    font-size: 150%;
-}
-
-div.lichess_table.finished div.player {
-    display: block;
+div.lichess_table.finished div.lichess_player p {
+  line-height: 2em;
+  margin-top: 3px;
 }
 
 div.lichess_cemetery {
