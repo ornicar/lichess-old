@@ -9,6 +9,7 @@
       self.$board = $("div.lichess_board", self.element);
       self.$table = $("div.lichess_table", self.element);
       self.initialTitle = document.title,
+      self.animationInput = $('div.lichess_control .lichess_enable_animation input');
       
       self.indicateTurn();
 
@@ -58,11 +59,11 @@
                 <div rel="knight" class="lichess_piece knight '+color+'"></div>\
                 <div rel="rook" class="lichess_piece rook '+color+'"></div>\
                 <div rel="bishop" class="lichess_piece bishop '+color+'"></div>'
-              ).fadeIn(500).find('div.lichess_piece').click(function()
+              ).fadeIn(self.getAnimationSpeed()).find('div.lichess_piece').click(function()
               {
                 moveData.options = {promotion: $(this).attr('rel')};
                 sendMoveRequest(moveData);
-                $choices.fadeOut(800, function() {$choices.remove();});
+                $choices.fadeOut(self.getAnimationSpeed(), function() {$choices.remove();});
               }).end();
             }
             else
@@ -154,14 +155,12 @@
             if($(this).attr('checked'))
             {
                 $messages.show(); $form.show();
-                $(this).text('Hide chat');
             }
             else
             {
                 $messages.hide(); $form.hide();
-                $(this).text('Show chat');
             }
-        });
+        }).trigger('change');
       }
       else
       {
@@ -200,11 +199,6 @@
         return false;
       });
 
-      self.$table.find("a.lichess_permalink_toggle").click(function()
-      {
-        self.$table.find('div.lichess_permalink').toggle(100);
-      });
-
       self.$table.find("select.lichess_ai_level").change(function()
       {
         $.ajax({
@@ -231,21 +225,29 @@
     {
       return this.options.possible_moves != null;
     },
+    getAnimationSpeed: function()
+    {
+        return this.animationInput.attr('checked') ? 500 : 1;
+    },
+    changeTitle: function(text)
+    {
+        document.title = text+" - "+this.initialTitle;
+    },
     indicateTurn: function()
     {
       if (this.options.game.finished) 
       {
-        document.title = this.translate('Game over');
+        this.changeTitle(this.translate('Game over'));
       }
       else if (this.isMyTurn())
       {
         this.element.addClass("my_turn");
-        document.title = this.translate('Your turn');
+        this.changeTitle(this.translate('Your turn'));
       }
       else 
       {
         this.element.removeClass("my_turn");
-        document.title = this.translate('Waiting');
+        this.changeTitle(this.translate('Waiting'));
       }
 
       if (!this.$table.hasClass('finished'))
@@ -268,7 +270,7 @@
     },
     movePiece: function(from, to, callback)
     {
-      var $piece = $("div#"+from+" div.lichess_piece", this.$board);
+      var $piece = this.$board.find("div#"+from+" div.lichess_piece");
 
       if (!$piece.length)
       {
@@ -281,7 +283,7 @@
       $("div.lcs.moved", self.$board).removeClass("moved");
       var $from = $("div#" + from, self.$board).addClass("moved"), from_offset = $from.offset();
       var $to = $("div#" + to, self.$board).addClass("moved"), to_offset = $to.offset();
-      var animation = $piece.hasClass(self.options.player.color) ? 500 : 1000;
+      var animation = self.getAnimationSpeed()*($piece.hasClass(self.options.player.color) ? 1 : 2);
       
       $("body").append($piece.css({
         top: from_offset.top,
@@ -315,7 +317,7 @@
         top: tomb_offset.top,
         left: tomb_offset.left,
         opacity: 0.5
-      }, 2000, function()
+      }, self.getAnimationSpeed()*3, function()
       {
         $tomb.append($piece.css({
           position: "relative",
@@ -337,7 +339,7 @@
             self.movePiece(from, to, function() {
                 self.displayEvents(events);
             });
-                return;
+            return;
           }
       }
 

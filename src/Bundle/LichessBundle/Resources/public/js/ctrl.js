@@ -7,7 +7,7 @@ if(typeof lichess_data != 'undefined') {
                 dataType:   'json',
                 url:        url,
                 success:    function(data) {
-                    if(data.time > lichess_socket.time) {
+                    if(data && data.time > lichess_socket.time) {
                         lichess_socket.time = data.time;
                         callback(data);
                     }

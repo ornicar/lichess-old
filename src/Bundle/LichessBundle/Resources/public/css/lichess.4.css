@@ -343,6 +343,11 @@ div.lichess_control label {
     margin-right: 1em;
     cursor: pointer;
 }
+div.lichess_control input {
+    vertical-align: middle;
+    margin-right: 0.3em;
+}
+
 div.lichess_control a.lichess_resign {
     float: right;
 }
