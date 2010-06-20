@@ -16,14 +16,6 @@ class GameController extends Controller
 
         if($game->getIsStarted()) {
             return $this->render('LichessBundle:Game:alreadyStarted');
-            $analyser = new Analyser($player->getGame()->getBoard());
-            if($analyser->isKingAttacked($game->getTurnPlayer())) {
-                $checkSquareKey = $game->getTurnPlayer()->getKing()->getSquareKey();
-            }
-            else {
-                $checkSquareKey = null;
-            }
-            return $this->render('LichessBundle:Game:show', array('player' => $game->getCreator()));
         }
 
         $player = $game->getInvited();
