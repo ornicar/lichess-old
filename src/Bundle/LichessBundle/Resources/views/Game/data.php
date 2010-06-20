@@ -19,9 +19,9 @@ $data = array(
         'color' => $opponent->getColor(),
         'ai' => $opponent->getIsAi()
     ),
-    'beat' => array(
-        'delay' => 1200,
-    ),
+    'beat_delay' => 1200,
+    'sync_delay' => 5100,
+    'animation_delay' => 500,
     'url' => array(
         'socket' => '/socket/'.$playerFullHash.'.json',
         'move' => $view->router->generate('lichess_move', array('hash' => $playerFullHash)),
