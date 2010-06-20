@@ -1,7 +1,7 @@
 <?php $winner = $player->getGame()->getWinner() ?>
 <div class="lichess_table finished">
     <div class="lichess_opponent">
-     <?php echo $player->getOpponent()->getIsAi() ? 'Opponent is Crafty A.I. level '.$player->getOpponent->getAiLevel() : 'Human opponent' ?>
+     <?php echo $player->getOpponent()->getIsAi() ? 'Opponent is Crafty A.I. level '.$player->getOpponent()->getAiLevel() : 'Human opponent' ?>
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
