@@ -39,6 +39,10 @@
                 Artificial intelligence: <a href="http://www.craftychess.com/" target="_blank">Crafty</a>
             </div>
         </div>
+        <div class="lichess_server">
+            <?php $loadAverage = sys_getloadavg() ?>
+            Server load: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
+        </div>
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/ctrl.2.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/game.4.js" type="text/javascript"></script>

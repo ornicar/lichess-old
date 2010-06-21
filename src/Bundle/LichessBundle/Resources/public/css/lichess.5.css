@@ -548,6 +548,11 @@ iframe.lichess_facebook {
     height: 22px;
     float: left;
     margin-left: 5px;
-    overflow: hidden;
+    overflow: hidden; 
     background: transparent;
+}
+
+div.lichess_server {
+    margin: 20px 0;
+    text-align: center;
 }
