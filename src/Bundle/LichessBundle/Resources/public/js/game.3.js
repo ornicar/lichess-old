@@ -202,7 +202,7 @@
                     }
                 });
             }
-        }, self.options.sync_delay);
+        }, self.options.sync_delay + Math.round(1000*Math.random())-500);
       }
       
       self.$table.find("a.lichess_resign").click(function()
