@@ -187,7 +187,7 @@
             ? '\\/\\ '+document.title.replace(/\/\\\/ /, '')
             : '/\\/ '+document.title.replace(/\\\/\\ /, '')
             : document.title;
-        }, 500);
+        }, 400);
 
         // synchronize with opponent
         self.options.sync_interval = setInterval(function()
