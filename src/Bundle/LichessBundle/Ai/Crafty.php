@@ -57,25 +57,35 @@ class Crafty extends Ai
 
     protected function getPlayCommand($forsytheNotation, $file)
     {
-        return sprintf("cd %s && %s log=off ponder=off %s <<EOF
-            setboard %s
+        return sprintf("cd %s && %s log=off ponder=off smpmt=1 %s <<EOF
+setboard %s
 move
 savepos %s
 quit
 EOF",
-dirname($file),
-'/usr/games/crafty',
-$this->getCraftyLevel(),
-$forsytheNotation,
-basename($file)
-    );
+            dirname($file),
+            '/usr/games/crafty',
+            $this->getCraftyLevel(),
+            $forsytheNotation,
+            basename($file)
+        );
     }
 
     protected function getCraftyLevel()
     {
-        /*
-         * st is the time in seconds crafty can think about the situation
-         */
-        return "st=".(round($this->options['level']/20, 2));
+        $level = $this->options['level'];
+
+        $config = array(
+            /*
+            * sd is the number of moves crafty can anticipate
+            */
+            "sd=".$level,
+            /*
+            * st is the time in seconds crafty can think about the situation
+            */
+            "st=".(round($level/20, 2)),
+        );
+
+        return implode(' ', $config);
     }
 }
