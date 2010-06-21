@@ -17,7 +17,7 @@
                 </h1>
                 <div class="lichess_social">
                     <a href="http://twitter.com/home?status=<?php echo urlencode('Amazing Chess Game, free and Open Source! http://lichess.org/') ?>" class="lichess_tweet" target="blank">Tweet</a>
-                    <iframe class="lichess_facebook" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+                    <iframe class="lichess_facebook" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe>
                 </div>
                 <div class="lichess_chat_wrap">
                     <?php $view->slots->output('chat', '') ?>
