@@ -27,6 +27,6 @@ class Synchronizer
 
     public function getTimeLimit()
     {
-        return 12;
+        return 25;
     }
 }
