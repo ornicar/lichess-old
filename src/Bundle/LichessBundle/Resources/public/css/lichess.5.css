@@ -373,14 +373,6 @@ div.lichess_table a.lichess_button:hover {
     background: #fff;
 }
 
-a.lichess_button span.lichess_new {
-    font-size: 9px;
-    color: #FF4444;
-    text-transform: uppercase;
-    margin-left: 1em;
-    vertical-align: middle;
-}
-
 div.lichess_current_player {
     height: 64px;
 }
