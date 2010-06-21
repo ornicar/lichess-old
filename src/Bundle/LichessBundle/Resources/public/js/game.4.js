@@ -194,7 +194,7 @@
         {
             if(!self.options.game.finished) {
                 $.ajax({
-                    type:       'json',
+                    dataType:   'json',
                     url:        self.options.url.sync,
                     success:    function(data)
                     {
