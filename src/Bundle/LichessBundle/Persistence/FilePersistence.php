@@ -42,8 +42,7 @@ class FilePersistence implements PersistenceInterface
     {
         $file = $this->dir.'/'.$hash;
 
-        if(!\file_exists($file))
-        {
+        if(!\file_exists($file)) {
             throw new \Exception('Game file '.$file.' does not exist');
         }
 
@@ -51,8 +50,7 @@ class FilePersistence implements PersistenceInterface
         $data = $this->decode($data);
         $game = \unserialize($data);
 
-        if(!$game)
-        {
+        if(!$game) {
             return null;
         }
 
