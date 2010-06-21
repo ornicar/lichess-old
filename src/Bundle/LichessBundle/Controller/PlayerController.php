@@ -33,7 +33,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         if($player->getOpponent()->getIsAi()) {
-            throw new LogicException('Do not sync with AI');
+            throw new \LogicException('Do not sync with AI');
         }
         $game = $player->getGame();
         if($game->getIsFinished()) {
@@ -79,7 +79,7 @@ class PlayerController extends Controller
         $opponent = $player->getOpponent();
         $game = $player->getGame();
         if(!$player->isMyTurn()) {
-            throw new LogicException('Not my turn');
+            throw new \LogicException('Not my turn');
         }
         $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
         $stack = new Stack();
