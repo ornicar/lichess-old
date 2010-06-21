@@ -41,6 +41,6 @@
         </div>
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/ctrl.2.js" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/game.3.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/game.4.js" type="text/javascript"></script>
     </body>
 </html>
