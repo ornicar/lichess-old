@@ -43,7 +43,7 @@ class Socket
             mkdir($dir);
         }
         if(!is_writable($dir)) {
-            throw new Exception($dir.' is not writable');
+            throw new \InvalidArgumentException($dir.' is not writable');
         }
     }
 
