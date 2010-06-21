@@ -150,7 +150,7 @@ class PlayerController extends Controller
 
         if(!$player->getOpponent()->getIsAi() && !$game->getIsFinished()) {
             $synchronizer = new Synchronizer();
-            $synchronizer->synchronize($player);
+            $synchronizer->update($player);
             $this->container->getLichessPersistenceService()->save($game);
         }
 

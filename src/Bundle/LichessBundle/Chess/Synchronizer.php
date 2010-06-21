@@ -7,7 +7,6 @@ use Bundle\LichessBundle\Entities\Game;
 
 class Synchronizer
 {
-
     /**
      * Synchronize the player game
      *
@@ -15,14 +14,16 @@ class Synchronizer
      **/
     public function synchronize(Player $player)
     {
-        $time = time();
-        $player->setTime($time);
-        $game = $player->getGame();
-        $opponent = $player->getOpponent();
-        if($opponent->getTime() < ($time - $this->getTimeLimit())) {
-            $game->setStatus(Game::TIMEOUT);
+        $this->update($player);
+        if($player->getOpponent()->getTime() < (time() - $this->getTimeLimit())) {
+            $player->getGame()->setStatus(Game::TIMEOUT);
             $player->setIsWinner(true);
         }
+    }
+
+    public function update(Player $player)
+    {
+        $player->setTime(time());
     }
 
     public function getTimeLimit()
