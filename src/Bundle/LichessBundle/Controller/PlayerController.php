@@ -25,6 +25,8 @@ class PlayerController extends Controller
 
         if($nextHash = $game->getNext()) {
             $nextGame = $this->container->getLichessPersistenceService()->find($nextHash);
+            $nextGame->setRoom(clone $game->getRoom());
+            $this->container->getLichessPersistenceService()->save($nextGame);
             return $this->redirect($this->generateUrl('lichess_game', array('hash' => $nextGame->getHash())));
         }
 
@@ -32,6 +34,7 @@ class PlayerController extends Controller
         $nextGame = $generator->createGame();
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
+        $nextGame->setRoom(clone $game->getRoom());
         $this->container->getLichessPersistenceService()->save($nextGame);
         $game->setNext($nextGame->getHash());
         $this->container->getLichessPersistenceService()->save($game);
