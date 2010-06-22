@@ -17,6 +17,18 @@
         <?php endif; ?>
     </div>
     <div class="lichess_control clearfix">
-        <a class="lichess_new_game" href="<?php echo $view->router->generate('lichess_homepage') ?>">New game</a>
+        <label class="lichess_enable_chat"><input type="checkbox" checked="checked" />Chat</label>
+        <a class="lichess_new_game" title="Back to homepage" href="<?php echo $view->router->generate('lichess_homepage') ?>">New game</a>
+        <?php if(!$player->getOpponent()->getIsAi()): ?>
+            <?php if($player->getGame()->getNext()): ?>
+                <div class="lichess_separator"></div>
+                <div class="lichess_play_again_join">
+                    Your opponent wants to play a new game with you.&nbsp;
+                    <a class="lichess_play_again" title="Play with the same opponent again" href="<?php echo $view->router->generate('lichess_play_again', array('hash' => $player->getFullHash())) ?>">Accept</a>
+                </div>
+            <?php else: ?>
+                <a class="lichess_play_again" title="Play with the same opponent again" href="<?php echo $view->router->generate('lichess_play_again', array('hash' => $player->getFullHash())) ?>">Play again</a>
+            <?php endif; ?>
+        <?php endif; ?>
     </div>
 </div>
