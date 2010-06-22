@@ -2,14 +2,13 @@
 
 namespace Bundle\LichessBundle\Ai;
 
-use Bundle\LichessBundle\Ai;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Entities\Game;
 
-class Stupid extends Ai
+class Stupid
 {
 
-    public function move(Game $game)
+    public function move(Game $game, $level)
     {
         $analyser = new Analyser($game->getBoard());
         $moveTree = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());

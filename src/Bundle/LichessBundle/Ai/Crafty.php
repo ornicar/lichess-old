@@ -1,28 +1,27 @@
 <?php
 
 namespace Bundle\LichessBundle\Ai;
-use Bundle\LichessBundle\Ai;
 use Bundle\LichessBundle\Notation\Forsythe;
 use Bundle\LichessBundle\Entities\Game;
 
-class Crafty extends Ai
+class Crafty
 {
-    public function move(Game $game)
+    public function move(Game $game, $level)
     {
         $forsythe = new Forsythe();
         $oldForsythe = $forsythe->export($game);
-        $newForsythe = $this->getNewForsythe($oldForsythe);
+        $newForsythe = $this->getNewForsythe($oldForsythe, $level);
         $move = $forsythe->diffToMove($game, $newForsythe);
 
         return $move;
     }
 
-    protected function getNewForsythe($forsytheNotation)
+    protected function getNewForsythe($forsytheNotation, $level)
     {
         $file = tempnam(sys_get_temp_dir(), 'lichess_crafty');
         touch($file);
 
-        $command = $this->getPlayCommand($forsytheNotation, $file);
+        $command = $this->getPlayCommand($forsytheNotation, $file, $level);
         exec($command, $output, $code);
         if($code !== 0)
         {
@@ -45,7 +44,7 @@ class Crafty extends Ai
         return str_replace('setboard ', '', $results[0]);
     }
 
-    protected function getPlayCommand($forsytheNotation, $file)
+    protected function getPlayCommand($forsytheNotation, $file, $level)
     {
         return sprintf("cd %s && %s log=off ponder=off smpmt=1 %s <<EOF
 setboard %s
@@ -55,26 +54,26 @@ quit
 EOF",
             dirname($file),
             '/usr/games/crafty',
-            $this->getCraftyLevel(),
+            $this->getCraftyLevel($level),
             $forsytheNotation,
             basename($file)
         );
     }
 
-    protected function getCraftyLevel()
+    protected function getCraftyLevel($level)
     {
         $config = array(
             /*
             * sd is the number of moves crafty can anticipate
             */
-            'sd='.$this->level,
+            'sd='.$level,
             /*
             * st is the time in seconds crafty can think about the situation
             */
-            'st='.(round($this->level/10, 2)),
+            'st='.(round($level/10, 2)),
         );
 
-        if($this->level < 4) {
+        if($level < 4) {
             $config[] = 'book=off';
         }
 
