@@ -194,7 +194,8 @@
         {
             if(!self.options.game.finished) {
                 $.ajax({
-                    type:       'json',
+                    cache:      false,
+                    dataType:   'json',
                     url:        self.options.url.sync,
                     success:    function(data)
                     {
@@ -210,6 +211,7 @@
         if (confirm($(this).attr('title')+' ?')) 
         {
           $.ajax({
+            cache: false,
             dataType: "json",
             url: $(this).attr("href"),
             success: function(data)
@@ -394,6 +396,7 @@
             self.options.game.finished = true;
             document.title = self.translate('Game over');
             $.ajax({
+              cache: false,
               url: event.table_url,
               success: function(html)
               {
