@@ -7,7 +7,6 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Ai\Crafty;
 
 require_once __DIR__.'/../gameBootstrap.php';
-require_once __DIR__.'/../../Ai.php';
 require_once __DIR__.'/../../Ai/Crafty.php';
 require_once __DIR__.'/../../Notation/Forsythe.php';
 
@@ -27,16 +26,16 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
 
     public function testMoveFormat()
     {
-        $ai = new Crafty(1);
-        $move = $ai->move($this->game);
+        $ai = new Crafty();
+        $move = $ai->move($this->game, 1);
         $this->assertRegexp('/[a-h][1-8]\s[a-h][1-8]/', $move);
     }
 
     public function testMoveValid()
     {
         $dump = $this->board->dump();
-        $ai = new Crafty(1);
-        $move = $ai->move($this->game);
+        $ai = new Crafty();
+        $move = $ai->move($this->game, 1);
         $this->manipulator->play($move);
         $this->assertNotEquals($dump, $this->board->dump());
     }
@@ -45,8 +44,8 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
     {
         for($it=0; $it<8; $it++) {
             $dump = $this->board->dump();
-            $ai = new Crafty(1);
-            $move = $ai->move($this->game);
+            $ai = new Crafty();
+            $move = $ai->move($this->game, 1);
             $this->manipulator->play($move);
             $this->assertNotEquals($dump, $this->board->dump());
         }
@@ -54,9 +53,9 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
 
     public function testLevels()
     {
+        $ai = new Crafty();
         for($level=1; $level<=8; $level++) {
-            $ai = new Crafty($level);
-            $move = $ai->move($this->game);
+            $move = $ai->move($this->game, $level);
             $this->assertRegexp('/[a-h][1-8]\s[a-h][1-8]/', $move);
         }
     }

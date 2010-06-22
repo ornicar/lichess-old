@@ -94,7 +94,7 @@ class PlayerController extends Controller
             else {
                 $ai = $this->container->getLichessAiService();
                 $stack->reset();
-                $possibleMoves = $manipulator->play($ai->move($game));
+                $possibleMoves = $manipulator->play($ai->move($game, $opponent->getAiLevel()));
                 $this->container->getLichessPersistenceService()->save($game);
 
                 $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
@@ -189,14 +189,14 @@ class PlayerController extends Controller
         }
 
         $opponent->setIsAi(true);
-        $opponent->setAiLevel($this->container->getParameter('lichess.ai.defaultLevel'));
+        $opponent->setAiLevel(1);
         $game->setStatus(Game::STARTED);
 
         if($player->isBlack()) {
             $ai = $this->container->getLichessAiService();
             $stack = new Stack();
             $manipulator = new Manipulator($game->getBoard(), $stack);
-            $manipulator->play($ai->move($game));
+            $manipulator->play($ai->move($game, $opponent->getAiLevel()));
             $this->container->getLichessPersistenceService()->save($game);
         }
         else {
