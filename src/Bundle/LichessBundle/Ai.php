@@ -1,65 +1,39 @@
 <?php
 
 namespace Bundle\LichessBundle;
-
-use Bundle\LichessBundle\Entities\Player;
+use Bundle\LichessBundle\Entities\Game;
 
 abstract class Ai
 {
-    /**
-     * The Ai player
-     *
-     * @var Player
-     */
-    protected $player = null;
 
     /**
-     * Ai options
+     * Ai level
      *
-     * @var array
+     * @var int
      */
-    protected $options = array();
+    protected $level = 1;
     
-    public function __construct(Player $player, array $options = array())
+    public function __construct($level)
     {
-        $this->player = $player;
-        $this->options = array_merge($this->options, $options);
+        $this->level = 1;
     }
 
-    abstract public function move();
+    abstract public function move(Game $game);
     
     /**
-     * Get options
-     * @return array
+     * @return int
      */
-    public function getOptions()
+    public function getLevel()
     {
-      return $this->options;
+      return $this->level;
     }
     
     /**
-     * Set options
-     * @param  array
+     * @param  int
      * @return null
      */
-    public function setOptions($options)
+    public function setLevel($level)
     {
-      $this->options = $options;
-    }
-    
-    /**
-     * @return Player
-     */
-    public function getPlayer()
-    {
-      return $this->player;
-    }
-    
-    /**
-     * @param Player
-     */
-    public function setPlayer($player)
-    {
-      $this->player = $player;
+      $this->level = $level;
     }
 }
