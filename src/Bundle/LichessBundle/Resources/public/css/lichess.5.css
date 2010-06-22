@@ -45,7 +45,7 @@ div.content {
 }
 
 #lichess {
-  margin-left: 200px;
+  margin-left: 201px;
 }
 
 a.site_title {
@@ -296,18 +296,15 @@ div.lichess_table_wrap {
 
 div.lichess_table {
     position: absolute;
-    top: 175px;
+    top: 178px;
     left: 0px;
     width: 252px;
     background: #F7F7F7;
-    box-shadow: 0 0 7px #bbb;
-    -moz-box-shadow: 0 0 7px #bbb;
-    -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     height: auto;
-    border: none;
     padding: 10px;
 }
 
@@ -473,7 +470,7 @@ div.lichess_chat {
 }
 
 div.lichess_chat ol {
-    height: 310px;
+    height: 313px;
     width: 173px;
     overflow-y: auto;
     overflow-x: hidden;
