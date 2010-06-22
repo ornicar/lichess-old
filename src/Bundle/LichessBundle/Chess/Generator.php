@@ -26,6 +26,23 @@ class Generator
     }
 
     /**
+     * Creates a return game for the given player,
+     * reverting players colors
+     *
+     * @param  Player the player who creates the return game
+     * @return Player the new player on the new game
+     **/
+    public function createReturnGame(Player $player)
+    {
+        $nextGame = $this->createGame();
+        $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
+        $nextGame->setCreator($nextPlayer);
+        $player->getGame()->setNext($nextGame->getHash());
+
+        return $nextPlayer;
+    }
+
+    /**
      * Create a game from a visual block notation like:
 r bqkb r
  ppp ppp
