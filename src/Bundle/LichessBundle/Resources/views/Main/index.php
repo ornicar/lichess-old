@@ -13,7 +13,7 @@
                 <span><?php echo $view->router->generate('lichess_game', array('hash' => $player->getGame()->getHash()), true) ?></span>
             </div>
             <a href="<?php echo $view->router->generate('lichess_invite_ai', array('hash' => $player->getFullHash())) ?>" class="lichess_button" title="Challenge the artificial intelligence">Play with the machine</a>
-            <a href="<?php echo $view->router->generate('lichess_play_with_anybody', array('hash' => $player->getFullHash())) ?>" class="lichess_button" title="Pick a random human opponent">Play with anybody<span class="lichess_new">new</span></a>
+            <a href="<?php echo $view->router->generate('lichess_play_with_anybody', array('hash' => $player->getFullHash())) ?>" class="lichess_button" title="Pick a random human opponent">Play with anybody</a>
         </div>
     </div>
 </div>

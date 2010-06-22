@@ -45,7 +45,7 @@ div.content {
 }
 
 #lichess {
-  margin-left: 200px;
+  margin-left: 201px;
 }
 
 a.site_title {
@@ -296,18 +296,15 @@ div.lichess_table_wrap {
 
 div.lichess_table {
     position: absolute;
-    top: 175px;
+    top: 178px;
     left: 0px;
     width: 252px;
     background: #F7F7F7;
-    box-shadow: 0 0 7px #bbb;
-    -moz-box-shadow: 0 0 7px #bbb;
-    -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     height: auto;
-    border: none;
     padding: 10px;
 }
 
@@ -371,14 +368,6 @@ div.lichess_table a.lichess_button {
 
 div.lichess_table a.lichess_button:hover {
     background: #fff;
-}
-
-a.lichess_button span.lichess_new {
-    font-size: 9px;
-    color: #FF4444;
-    text-transform: uppercase;
-    margin-left: 1em;
-    vertical-align: middle;
 }
 
 div.lichess_current_player {
@@ -481,7 +470,7 @@ div.lichess_chat {
 }
 
 div.lichess_chat ol {
-    height: 310px;
+    height: 313px;
     width: 173px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -540,7 +529,7 @@ a.lichess_tweet {
     float: left;
 }
 a.lichess_tweet:hover {
-    border-color: #9DCEAC;
+    border-color: #9DACCE;
 }
 iframe.lichess_facebook {
     border:none;
