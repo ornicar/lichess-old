@@ -216,6 +216,14 @@ class Game
         return $this->getStatus() >= self::STARTED;
     }
 
+    /**
+     * @return boolean
+     */
+    public function getIsTimeOut()
+    {
+        return $this->getStatus() === self::TIMEOUT;
+    }
+
     public function setPlayers(array $players)
     {
         $this->players = $players;
