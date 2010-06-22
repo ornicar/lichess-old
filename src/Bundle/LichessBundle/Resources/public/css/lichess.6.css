@@ -317,6 +317,10 @@ div.lichess_table_not_started {
     top: 100px;
 }
 
+div.lichess_table_next {
+    top: 145px;
+}
+
 div.lichess_table_wait_anybody,
 div.lichess_table_wait_next {
     position: absolute;
@@ -355,9 +359,12 @@ div.lichess_control a.lichess_play_again {
 div.lichess_control div.lichess_play_again_join {
     background: url(../images/loader2.gif) center left no-repeat;
     padding-left: 45px;
+    color: #444;
 }
 div.lichess_control div.lichess_play_again_join a {
     margin-left: 0;
+    font-size: 150%;
+    display: block;
 }
 
 div.lichess_control a.lichess_resign {
