@@ -12,7 +12,6 @@ use Bundle\LichessBundle\Ai\Crafty;
 use Bundle\LichessBundle\Ai\Stupid;
 use Bundle\LichessBundle\Entities\Player;
 use Bundle\LichessBundle\Entities\Game;
-use Bundle\LichessBundle\Chess\Generator;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
@@ -31,8 +30,7 @@ class PlayerController extends Controller
             return $this->redirect($this->generateUrl('lichess_game', array('hash' => $nextGame->getHash())));
         }
 
-        $generator = new Generator();
-        $nextPlayer = $generator->createReturnGame($player);
+        $nextPlayer = $this->container->getLichessGeneratorService()->createReturnGame($player);
         $persistence->save($nextPlayer->getGame());
         $persistence->save($game);
         $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');

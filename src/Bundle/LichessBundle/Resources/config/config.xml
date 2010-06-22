@@ -11,6 +11,8 @@
 
     <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
 
+    <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
+
   </parameters>
 
   <services>
@@ -20,6 +22,9 @@
     </service>
 
     <service id="lichess_ai" class="%lichess.ai.class%" shared="true">
+    </service>
+    
+    <service id="lichess_generator" class="%lichess.generator.class%" shared="true">
     </service>
     
   </services>

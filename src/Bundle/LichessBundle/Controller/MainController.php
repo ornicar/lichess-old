@@ -4,14 +4,13 @@ namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\WebBundle\Controller;
 use Bundle\LichessBundle\Socket;
-use Bundle\LichessBundle\Chess\Generator;
 
 class MainController extends Controller
 {
 
     public function indexAction($color)
     {
-        $game = $this->getNewGame();
+        $game = $this->container->getLichessGeneratorService()->createGame();
         $player = $game->getPlayer($color);
         $game->setCreator($player);
 
@@ -40,43 +39,5 @@ class MainController extends Controller
         $response = $this->render('LichessBundle:Main:notFound');
         $response->setStatusCode(404);
         return $response;
-    }
-
-    protected function getNewGame()
-    {
-        $generator = new Generator();
-        return $generator->createGame();
-    }
-
-    protected function getGameTestPromotion()
-    {
-        $generator = new Generator();
-        $data = <<<EOF
-       k
-        
- PPPP   
-        
-        
-   pppp 
-        
-K       
-EOF;
-        return $generator->createGameFromVisualBlock($data);
-    }
-
-    protected function getGameTestStalemate()
-    {
-        $generator = new Generator();
-        $data = <<<EOF
-       k
-     K  
-     Q  
-        
-        
-        
-        
-        
-EOF;
-        return $generator->createGameFromVisualBlock($data);
     }
 }
