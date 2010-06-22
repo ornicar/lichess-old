@@ -31,6 +31,22 @@ EOF;
         $this->assertMoves('e1', 'd1 d2 e2 f2 f1 c1 g1');
     }
 
+    public function testPossibleWhite2()
+    {
+        $data = <<<EOF
+  bqkb r
+p ppp pp
+pr      
+   P p  
+   QnB  
+ PP  N  
+P    PPP
+RN  K  R
+EOF;
+        $this->createGame($data);
+        $this->assertMoves('e1', 'd1 e2 f1 g1');
+    }
+
     public function testPossibleBlack()
     {
         $data = <<<EOF

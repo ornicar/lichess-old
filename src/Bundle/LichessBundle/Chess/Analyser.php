@@ -239,9 +239,10 @@ class Analyser
             }
             if($possible) {
                 if(-1 === $dx && $this->board->hasPieceByKey(Board::postoKey($kingX-3, $kingY))) {
-                    break;
                 }
-                $squares[] = $this->board->getSquareByKey($key);
+                else {
+                    $squares[] = $this->board->getSquareByKey($key);
+                }
             }
         }
         return $squares;
