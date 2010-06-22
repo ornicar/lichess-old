@@ -148,6 +148,12 @@ class PlayerController extends Controller
         $player = $this->findPlayer($hash);
         $game = $player->getGame();
 
+        if(!$player->getOpponent()->getIsAi() && !$game->getIsFinished()) {
+            $synchronizer = new Synchronizer();
+            $synchronizer->update($player);
+            $this->container->getLichessPersistenceService()->save($game);
+        }
+
         $analyser = new Analyser($game->getBoard());
         $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
         if($isKingAttacked) {
