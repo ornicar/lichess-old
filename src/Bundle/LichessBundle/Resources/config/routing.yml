@@ -1,3 +1,15 @@
+lichess_sync:
+    pattern:        /sync/:hash
+    defaults:       { _controller: LichessBundle:Player:sync }
+    requirements:   { hash: "[\w]{10}" }
+lichess_move:
+    pattern:        /move/:hash
+    defaults:       { _controller: LichessBundle:Player:move }
+    requirements:   { hash: "[\w]{10}" }
+lichess_say:
+    pattern:        /say/:hash
+    defaults:       { _controller: LichessBundle:Chat:say }
+    requirements:   { hash: "[\w]{10}" }
 lichess_homepage:
     pattern:        /:color
     defaults:       { _controller: LichessBundle:Main:index, color: white }
@@ -14,18 +26,6 @@ lichess_invite_ai:
     pattern:        /ai/:hash
     defaults:       { _controller: LichessBundle:Player:inviteAi }
     requirements:   { hash: "[\w]{10}" }
-lichess_play_with_anybody:
-    pattern:        /anybody/:hash
-    defaults:       { _controller: LichessBundle:Player:playWithAnybody }
-    requirements:   { hash: "[\w]{10}" }
-lichess_ai_level:
-    pattern:        /ai_level/:hash
-    defaults:       { _controller: LichessBundle:Player:aiLevel }
-    requirements:   { hash: "[\w]{10}" }
-lichess_move:
-    pattern:        /move/:hash
-    defaults:       { _controller: LichessBundle:Player:move }
-    requirements:   { hash: "[\w]{10}" }
 lichess_resign:
     pattern:        /resign/:hash
     defaults:       { _controller: LichessBundle:Player:resign }
@@ -34,14 +34,14 @@ lichess_table:
     pattern:        /table/:hash
     defaults:       { _controller: LichessBundle:Player:table }
     requirements:   { hash: "[\w]{10}" }
+lichess_play_with_anybody:
+    pattern:        /anybody/:hash
+    defaults:       { _controller: LichessBundle:Player:playWithAnybody }
+    requirements:   { hash: "[\w]{10}" }
+lichess_ai_level:
+    pattern:        /ai_level/:hash
+    defaults:       { _controller: LichessBundle:Player:aiLevel }
+    requirements:   { hash: "[\w]{10}" }
 lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
-lichess_say:
-    pattern:        /say/:hash
-    defaults:       { _controller: LichessBundle:Chat:say }
-    requirements:   { hash: "[\w]{10}" }
-lichess_sync:
-    pattern:        /sync/:hash
-    defaults:       { _controller: LichessBundle:Player:sync }
-    requirements:   { hash: "[\w]{10}" }
