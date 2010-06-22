@@ -3,49 +3,39 @@
 namespace Bundle\LichessBundle\Ai;
 use Bundle\LichessBundle\Ai;
 use Bundle\LichessBundle\Notation\Forsythe;
+use Bundle\LichessBundle\Entities\Game;
 
 class Crafty extends Ai
 {
-    protected $options = array(
-        'level' => 1
-    );
-
-    public function move()
+    public function move(Game $game)
     {
         $forsythe = new Forsythe();
-        $oldForsythe = $forsythe->export($this->player->getGame());
+        $oldForsythe = $forsythe->export($game);
         $newForsythe = $this->getNewForsythe($oldForsythe);
-        $move = $forsythe->diffToMove($this->player->getGame(), $newForsythe);
+        $move = $forsythe->diffToMove($game, $newForsythe);
 
         return $move;
     }
 
     protected function getNewForsythe($forsytheNotation)
     {
-        $file = sys_get_temp_dir().'/lichess/crafty_'.$this->player->getGame()->getHash();
-        if(!is_dir(dirname($file))) {
-            mkdir(dirname($file), 0777);
-        }
+        $file = tempnam(sys_get_temp_dir(), 'lichess_crafty');
         touch($file);
-        file_put_contents($file, '');
-        chmod($file, 0777);
 
         $command = $this->getPlayCommand($forsytheNotation, $file);
-
         exec($command, $output, $code);
-
         if($code !== 0)
         {
             throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
         }
 
         $forsythe = $this->extractForsythe(file($file, FILE_IGNORE_NEW_LINES));
+        unlink($file);
 
         if(!$forsythe)
         {
             throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
         }
-        unlink($file);
 
         return $forsythe;
     }
@@ -73,18 +63,20 @@ EOF",
 
     protected function getCraftyLevel()
     {
-        $level = $this->options['level'];
-
         $config = array(
             /*
             * sd is the number of moves crafty can anticipate
             */
-            "sd=".$level,
+            'sd='.$this->level,
             /*
             * st is the time in seconds crafty can think about the situation
             */
-            "st=".(round($level/20, 2)),
+            'st='.(round($this->level/10, 2)),
         );
+
+        if($this->level < 4) {
+            $config[] = 'book=off';
+        }
 
         return implode(' ', $config);
     }

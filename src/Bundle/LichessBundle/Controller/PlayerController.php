@@ -16,18 +16,6 @@ use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
 {
-    /**
-     * It would be better to have an Ai service in the DIC, but
-     * since you can't pass arbitrary arguments to services, we would
-     * need a factory, which is too much hassle that I'm willing to
-     * put into Ai's configuration right now :/
-     */
-    protected function getAi(Player $player, array $options)
-    {
-        $class = $this->container->getParameter('lichess.ai.className');
-        
-        return new $class($player, $options);
-    }
 
     public function syncAction($hash)
     {
@@ -104,9 +92,9 @@ class PlayerController extends Controller
                 $this->container->getLichessPersistenceService()->save($game);
             }
             else {
-                $ai = $this->getAi($opponent, array('level' => $opponent->getAiLevel()));
+                $ai = $this->container->getLichessAiService();
                 $stack->reset();
-                $possibleMoves = $manipulator->play($ai->move());
+                $possibleMoves = $manipulator->play($ai->move($game));
                 $this->container->getLichessPersistenceService()->save($game);
 
                 $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
@@ -205,10 +193,10 @@ class PlayerController extends Controller
         $game->setStatus(Game::STARTED);
 
         if($player->isBlack()) {
-            $ai = $this->getAi($opponent, array('level' => $opponent->getAiLevel()));
+            $ai = $this->container->getLichessAiService();
             $stack = new Stack();
             $manipulator = new Manipulator($game->getBoard(), $stack);
-            $manipulator->play($ai->move());
+            $manipulator->play($ai->move($game));
             $this->container->getLichessPersistenceService()->save($game);
         }
         else {

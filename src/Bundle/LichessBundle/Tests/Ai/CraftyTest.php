@@ -27,16 +27,16 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
 
     public function testMoveFormat()
     {
-        $ai = new Crafty($this->game->getTurnPlayer());
-        $move = $ai->move();
+        $ai = new Crafty(1);
+        $move = $ai->move($this->game);
         $this->assertRegexp('/[a-h][1-8]\s[a-h][1-8]/', $move);
     }
 
     public function testMoveValid()
     {
         $dump = $this->board->dump();
-        $ai = new Crafty($this->game->getTurnPlayer());
-        $move = $ai->move();
+        $ai = new Crafty(1);
+        $move = $ai->move($this->game);
         $this->manipulator->play($move);
         $this->assertNotEquals($dump, $this->board->dump());
     }
@@ -45,10 +45,19 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
     {
         for($it=0; $it<8; $it++) {
             $dump = $this->board->dump();
-            $ai = new Crafty($this->game->getTurnPlayer());
-            $move = $ai->move();
+            $ai = new Crafty(1);
+            $move = $ai->move($this->game);
             $this->manipulator->play($move);
             $this->assertNotEquals($dump, $this->board->dump());
+        }
+    }
+
+    public function testLevels()
+    {
+        for($level=1; $level<=8; $level++) {
+            $ai = new Crafty($level);
+            $move = $ai->move($this->game);
+            $this->assertRegexp('/[a-h][1-8]\s[a-h][1-8]/', $move);
         }
     }
 
