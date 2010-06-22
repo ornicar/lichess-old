@@ -38,9 +38,8 @@ class Bundle extends BaseBundle
         $configuration = new BuilderConfiguration();
         
         $loader = new XmlFileLoader(__DIR__.'/Resources/config');
-        $configuration->merge($loader->load('persistence.xml'));
+        $configuration->merge($loader->load('config.xml'));
         $configuration->merge($loader->load('logger.xml'));
-        $configuration->merge($loader->load('ai.xml'));
 
         return $configuration;
     }

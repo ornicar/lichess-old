@@ -9,12 +9,17 @@
     <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\FilePersistence</parameter>
     <parameter key="lichess.persistence.dir">%kernel.root_dir%/data</parameter>
 
+    <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
+
   </parameters>
 
   <services>
 
     <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
         <argument>%lichess.persistence.dir%</argument>
+    </service>
+
+    <service id="lichess_ai" class="%lichess.ai.class%" shared="true">
     </service>
     
   </services>
