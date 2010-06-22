@@ -34,7 +34,6 @@ class PlayerController extends Controller
         $nextGame = $generator->createGame();
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
-        $nextGame->setRoom(clone $game->getRoom());
         $this->container->getLichessPersistenceService()->save($nextGame);
         $game->setNext($nextGame->getHash());
         $this->container->getLichessPersistenceService()->save($game);
