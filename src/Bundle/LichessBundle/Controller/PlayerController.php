@@ -22,21 +22,19 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         $game = $player->getGame();
+        $persistence = $this->container->getLichessPersistenceService();
 
         if($nextHash = $game->getNext()) {
-            $nextGame = $this->container->getLichessPersistenceService()->find($nextHash);
+            $nextGame = $persistence->find($nextHash);
             $nextGame->setRoom(clone $game->getRoom());
-            $this->container->getLichessPersistenceService()->save($nextGame);
+            $persistence->save($nextGame);
             return $this->redirect($this->generateUrl('lichess_game', array('hash' => $nextGame->getHash())));
         }
 
         $generator = new Generator();
-        $nextGame = $generator->createGame();
-        $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
-        $nextGame->setCreator($nextPlayer);
-        $this->container->getLichessPersistenceService()->save($nextGame);
-        $game->setNext($nextGame->getHash());
-        $this->container->getLichessPersistenceService()->save($game);
+        $nextPlayer = $generator->createReturnGame($player);
+        $persistence->save($nextPlayer->getGame());
+        $persistence->save($game);
         $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
         $socket->write(array('events' => array(array(
             'type' => 'reload_table',
