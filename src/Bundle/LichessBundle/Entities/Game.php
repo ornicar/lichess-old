@@ -76,6 +76,13 @@ class Game
      */
     protected $room = null;
 
+    /**
+     * The hash code of the next game the players will start
+     *
+     * @var string
+     */
+    protected $next = null;
+    
     public function __construct()
     {
         $this->hash = '';
@@ -84,6 +91,25 @@ class Game
             $this->hash .= $chars[mt_rand( 0, 36 )];
         }
         $this->status = self::CREATED;
+    }
+    
+    /**
+     * Get next
+     * @return string
+     */
+    public function getNext()
+    {
+      return $this->next;
+    }
+    
+    /**
+     * Set next
+     * @param  string
+     * @return null
+     */
+    public function setNext($next)
+    {
+      $this->next = $next;
     }
     
     /**
@@ -106,7 +132,6 @@ class Game
         }
         return $message;
     }
-
     
     /**
      * Set status

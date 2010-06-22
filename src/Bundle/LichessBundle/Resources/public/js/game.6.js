@@ -394,7 +394,11 @@
             break;
           case "end":
             self.options.game.finished = true;
-            document.title = self.translate('Game over');
+            self.changeTitle(self.translate('Game over'));
+            $("div.ui-draggable").draggable("destroy");
+            self.element.removeClass("my_turn");
+            // don't break here, we also want to reload the table
+          case "reload_table":
             $.ajax({
               cache: false,
               url: event.table_url,
@@ -403,8 +407,6 @@
                 $("div.lichess_table").replaceWith(html);
               }
             })
-            $("div.ui-draggable").draggable("destroy");
-            self.element.removeClass("my_turn");
         }
       }
     },

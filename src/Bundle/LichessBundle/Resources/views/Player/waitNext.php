@@ -5,8 +5,8 @@
         <?php $view->output('LichessBundle:Game:board', array('player' => $player, 'checkSquareKey' => null)) ?>
     </div> 
     <div class="lichess_table_wrap">
-        <div class="lichess_table_wait_anybody">
-            Waiting for a random opponent
+        <div class="lichess_table_wait_next">
+            Waiting for your previous opponent
         </div>
     </div>
 </div>

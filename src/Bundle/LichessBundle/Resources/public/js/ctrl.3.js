@@ -56,19 +56,21 @@ $(function()
   $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
     //uservoice
-    (function() {
-        var uservoice = document.createElement('script'); uservoice.type = 'text/javascript'; uservoice.async = true; uservoice.src = 'http://cdn.uservoice.com/javascripts/widgets/tab.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uservoice, s);
-    })();
-    $('a.lichess_uservoice').click(function()
-    {
-        UserVoice.Popin.show({
-            key: 'lichess',
-            host: 'lichess.uservoice.com', 
-            forum: '62479',
-            showTab: false
+    if(document.domain == 'lichess.org') {
+        (function() {
+            var uservoice = document.createElement('script'); uservoice.type = 'text/javascript'; uservoice.async = true; uservoice.src = 'http://cdn.uservoice.com/javascripts/widgets/tab.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uservoice, s);
+        })();
+        $('a.lichess_uservoice').click(function()
+        {
+            UserVoice.Popin.show({
+                key: 'lichess',
+                host: 'lichess.uservoice.com', 
+                forum: '62479',
+                showTab: false
+            });
         });
-    });
+    }
 });
 
 //analytics

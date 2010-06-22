@@ -45,3 +45,7 @@ lichess_ai_level:
 lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
+lichess_play_again:
+    pattern:        /next/:hash
+    defaults:       { _controller: LichessBundle:Player:playAgain }
+    requirements:   { hash: "[\w]{10}" }

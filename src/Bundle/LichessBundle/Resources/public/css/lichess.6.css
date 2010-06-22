@@ -317,13 +317,17 @@ div.lichess_table_not_started {
     top: 100px;
 }
 
-div.lichess_table_wait_anybody {
+div.lichess_table_wait_anybody,
+div.lichess_table_wait_next {
     position: absolute;
     background: url(../images/loader.gif) center left no-repeat;
-    padding-left: 50px;
+    padding-left: 45px;
     top: 239px;
     height: 32px;
     line-height: 32px;
+}
+div.lichess_table_wait_next {
+    background-image: url(../images/loader2.gif);
 }
 
 div.lichess_separator {
@@ -343,6 +347,17 @@ div.lichess_control label {
 div.lichess_control input {
     vertical-align: middle;
     margin-right: 0.3em;
+}
+div.lichess_control a.lichess_play_again {
+    margin-left: 1em;
+}
+
+div.lichess_control div.lichess_play_again_join {
+    background: url(../images/loader2.gif) center left no-repeat;
+    padding-left: 45px;
+}
+div.lichess_control div.lichess_play_again_join a {
+    margin-left: 0;
 }
 
 div.lichess_control a.lichess_resign {

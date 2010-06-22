@@ -12,10 +12,38 @@ use Bundle\LichessBundle\Ai\Crafty;
 use Bundle\LichessBundle\Ai\Stupid;
 use Bundle\LichessBundle\Entities\Player;
 use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Chess\Generator;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PlayerController extends Controller
 {
+
+    public function playAgainAction($hash)
+    {
+        $player = $this->findPlayer($hash);
+        $game = $player->getGame();
+
+        if($nextHash = $game->getNext()) {
+            $nextGame = $this->container->getLichessPersistenceService()->find($nextHash);
+            return $this->redirect($this->generateUrl('lichess_game', array('hash' => $nextGame->getHash())));
+        }
+
+        $generator = new Generator();
+        $nextGame = $generator->createGame();
+        $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
+        $nextGame->setCreator($nextPlayer);
+        $this->container->getLichessPersistenceService()->save($nextGame);
+        $game->setNext($nextGame->getHash());
+        $this->container->getLichessPersistenceService()->save($game);
+        $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
+        $socket->write(array('events' => array(array(
+            'type' => 'reload_table',
+            'table_url' => $this->generateUrl('lichess_table', array('hash' => $player->getOpponent()->getFullHash()))
+        ))));
+        $socket = new Socket($nextPlayer, $this->container['kernel.root_dir'].'/cache/socket');
+        $socket->write(array());
+        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayer->getFullHash())));
+    }
 
     public function syncAction($hash)
     {
@@ -135,6 +163,12 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         $game = $player->getGame();
+
+        if(!$game->getIsStarted()) {
+            return $this->render('LichessBundle:Player:waitNext', array(
+                'player' => $player
+            ));
+        }
 
         if(!$player->getOpponent()->getIsAi() && !$game->getIsFinished()) {
             $synchronizer = new Synchronizer();
