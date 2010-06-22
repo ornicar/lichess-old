@@ -1,3 +1,3 @@
 [submodule "src/vendor/Symfony"]
 	path = src/vendor/Symfony
-	url = git://github.com/knplabs/symfony.git
+	url = git://github.com/fabpot/symfony.git

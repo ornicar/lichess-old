@@ -45,6 +45,9 @@ class LichessKernel extends Kernel
         if(!$this->isDebug()) {
             $configuration->setParameter('exception_handler.controller', 'LichessBundle:Main:notFound');
         }
+        else {
+            $configuration->setParameter('profiler.storage.class', 'Bundle\\LichessBundle\\Profiler\\ProfilerStorage');
+        }
 
         return $configuration;
     }
