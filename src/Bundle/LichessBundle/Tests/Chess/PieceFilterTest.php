@@ -7,8 +7,6 @@ use Bundle\LichessBundle\Chess\PieceFilter;
 use Bundle\LichessBundle\Entities as Entities;
 use Bundle\LichessBundle\Entities\Piece as Piece;
 
-require_once __DIR__.'/../gameBootstrap.php';
-
 class PieceFilterTest extends \PHPUnit_Framework_TestCase
 {
     public function testGameCreation()

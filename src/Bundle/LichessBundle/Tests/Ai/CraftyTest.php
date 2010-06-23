@@ -6,10 +6,6 @@ use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Ai\Crafty;
 
-require_once __DIR__.'/../gameBootstrap.php';
-require_once __DIR__.'/../../Ai/Crafty.php';
-require_once __DIR__.'/../../Notation/Forsythe.php';
-
 class CraftyTest extends \PHPUnit_Framework_TestCase
 {
     protected $board;

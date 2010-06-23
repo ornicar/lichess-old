@@ -4,8 +4,6 @@ namespace Bundle\LichessBundle\Tests\Notation;
 
 use Bundle\LichessBundle\Notation\PgnParser;
 
-require_once __DIR__.'/../../Notation/PgnParser.php';
-
 class PgnParserTest extends \PHPUnit_Framework_TestCase
 {
 

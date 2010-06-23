@@ -4,8 +4,6 @@ namespace Bundle\LichessBundle\Tests\Entities;
 
 use Bundle\LichessBundle\Entities\Player;
 
-require_once __DIR__.'/../../Entities/Player.php';
-
 class PlayerTest extends \PHPUnit_Framework_TestCase
 {
 

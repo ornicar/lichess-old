@@ -6,9 +6,6 @@ use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Notation\Forsythe;
 
-require_once __DIR__.'/../gameBootstrap.php';
-require_once __DIR__.'/../../Notation/Forsythe.php';
-
 class ForsytheTest extends \PHPUnit_Framework_TestCase
 {
     public function testExport()

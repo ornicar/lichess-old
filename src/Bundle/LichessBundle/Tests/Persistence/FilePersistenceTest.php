@@ -5,10 +5,6 @@ namespace Bundle\LichessBundle\Tests\Persistence;
 use Bundle\LichessBundle\Persistence\FilePersistence;
 use Bundle\LichessBundle\Chess\Generator;
 
-require_once __DIR__.'/../../Persistence/PersistenceInterface.php';
-require_once __DIR__.'/../../Persistence/FilePersistence.php';
-require_once __DIR__.'/../../Chess/Generator.php';
-
 class FilePersistenceTest extends \PHPUnit_Framework_TestCase
 {
 

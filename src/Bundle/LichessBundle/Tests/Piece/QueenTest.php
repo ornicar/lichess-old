@@ -7,8 +7,6 @@ use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Entities\Piece\Queen;
 use Bundle\LichessBundle\Entities\Piece;
 
-require_once __DIR__.'/../gameBootstrap.php';
-
 class QueenTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetBoard()

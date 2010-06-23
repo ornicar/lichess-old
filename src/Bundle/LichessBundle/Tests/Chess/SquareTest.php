@@ -7,8 +7,6 @@ use Bundle\LichessBundle\Chess\Square;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Entities as Entities;
 
-require_once __DIR__.'/../gameBootstrap.php';
-
 class SquareTest extends \PHPUnit_Framework_TestCase
 {
 
