@@ -5,7 +5,6 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Framework\WebBundle\Controller;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Chess\Synchronizer;
 use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Ai\Crafty;
 use Bundle\LichessBundle\Ai\Stupid;
@@ -48,39 +47,36 @@ class PlayerController extends Controller
         }
         $game = $player->getGame();
         if($game->getIsFinished()) {
-            $response = $this->createResponse(null);
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
+            return $this->renderJson(null);
         }
 
-        $synchronizer = new Synchronizer();
-        $synchronizer->synchronize($player);
+        $this->container->getLichessSynchronizerService()->synchronize($player);
         $this->container->getLichessPersistenceService()->save($game);
 
         if($game->getIsFinished()) {
-            $response = $this->createResponse(json_encode(array(
-                'time' => time(),
-                'possible_moves' => null,
-                'events' => array(array(
-                    'type' => 'end',
-                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
-                ))
-            )));
-            $this->container->getLichessSocketService()->write($player->getOpponent(), array(
-                'time' => time(),
-                'possible_moves' => null,
-                'events' => array(array(
-                    'type' => 'end',
-                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getOpponent()->getFullHash()))
-                ))
-            ));
+            $this->container->getLichessSocketService()->write($player->getOpponent(), $this->getEndGameData($player->getOpponent()));
+            return $this->renderJson($this->getEndGameData($player));
         }
-        else {
-            $response = $this->createResponse(null);
-        }
+        return $this->renderJson(null);
+    }
 
+    protected function renderJson($data)
+    {
+        $response = $this->createResponse(empty($data) ? '' : json_encode($data));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    protected function getEndGameData(Player $player)
+    {
+        return array(
+            'time' => time(),
+            'possible_moves' => null,
+            'events' => array(array(
+                'type' => 'end',
+                'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
+            ))
+        );
     }
     
     public function moveAction($hash)
@@ -162,8 +158,7 @@ class PlayerController extends Controller
         }
 
         if(!$player->getOpponent()->getIsAi() && !$game->getIsFinished()) {
-            $synchronizer = new Synchronizer();
-            $synchronizer->update($player);
+            $this->container->getLichessSynchronizerService()->update($player);
             $this->container->getLichessPersistenceService()->save($game);
         }
 

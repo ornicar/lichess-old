@@ -18,6 +18,9 @@
 
     <parameter key="lichess.anybody.connection_file">%kernel.root_dir%/cache/connect_anybody</parameter>
 
+    <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
+    <parameter key="lichess.synchronizer.timeout">25</parameter>
+
   </parameters>
 
   <services>
@@ -36,5 +39,9 @@
     <service id="lichess_generator" class="%lichess.generator.class%" shared="true">
     </service>
     
+    <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
+        <argument>%lichess.synchronizer.timeout%</argument>
+    </service>
+
   </services>
 </container>
