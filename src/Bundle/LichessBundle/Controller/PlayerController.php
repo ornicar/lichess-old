@@ -102,18 +102,13 @@ class PlayerController extends Controller
                 'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
             );
         }
-        $response = $this->createResponse(json_encode($data));
-        $response->headers->set('Content-Type', 'application/json');
+        $response = $this->renderJson($data);
         
         if($opponent->getIsAi()) {
-            if(empty($opponentPossibleMoves)) {
-                $this->container->getLichessPersistenceService()->save($game);
-            }
-            else {
+            if(!empty($opponentPossibleMoves)) {
                 $ai = $this->container->getLichessAiService();
                 $stack->reset();
                 $possibleMoves = $manipulator->play($ai->move($game, $opponent->getAiLevel()));
-                $this->container->getLichessPersistenceService()->save($game);
                 $data = array(
                     'possible_moves' => $possibleMoves,
                     'events' => $stack->getEvents()
@@ -128,9 +123,7 @@ class PlayerController extends Controller
             }
         }
         else {
-            $this->container->getLichessPersistenceService()->save($game);
             $data = array(
-                'time' => time(),
                 'possible_moves' => $opponentPossibleMoves,
                 'events' => $stack->getEvents()
             );
@@ -142,6 +135,7 @@ class PlayerController extends Controller
             }
             $this->container->getLichessSocketService()->write($opponent, $data);
         }
+        $this->container->getLichessPersistenceService()->save($game);
 
         return $response;
     }
