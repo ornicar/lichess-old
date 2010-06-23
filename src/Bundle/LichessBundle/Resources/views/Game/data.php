@@ -2,7 +2,7 @@
 $game = $player->getGame();
 $opponent = $player->getOpponent();
 $playerFullHash = $player->getFullHash();
-$baseUrl = 'http://'.$_SERVER['HTTP_HOST'].'/';
+$baseUrl = 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'cli').'/';
 $data = array(
     'game' => array(
         'hash' => $game->getHash(),
