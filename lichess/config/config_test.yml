@@ -1,4 +1,7 @@
 imports:
-    - { resource: config.yml }
+    - { resource: config_dev.yml }
+
+web.config:
+    toolbar: false
 
 kernel.test: ~

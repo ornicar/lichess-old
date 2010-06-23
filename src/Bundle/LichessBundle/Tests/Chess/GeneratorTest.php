@@ -5,8 +5,6 @@ namespace Bundle\LichessBundle\Tests\Chess;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Entities as Entities;
 
-require_once __DIR__.'/../gameBootstrap.php';
-
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
 

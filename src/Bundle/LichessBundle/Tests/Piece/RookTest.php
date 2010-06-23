@@ -7,8 +7,6 @@ use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Entities\Piece\Rook;
 use Bundle\LichessBundle\Entities\Piece;
 
-require_once __DIR__.'/../gameBootstrap.php';
-
 class RookTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetBoard()

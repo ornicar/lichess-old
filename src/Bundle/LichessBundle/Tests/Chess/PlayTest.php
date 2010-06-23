@@ -6,8 +6,6 @@ use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Entities\Game;
 
-require_once __DIR__.'/../gameBootstrap.php';
-
 class PlayTest extends \PHPUnit_Framework_TestCase
 {
     protected $game;

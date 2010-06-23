@@ -7,9 +7,6 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Entities\Game;
 
-require_once __DIR__.'/../gameBootstrap.php';
-require_once __DIR__.'/../../Chess/Manipulator.php';
-
 class PossibleMovesTest extends \PHPUnit_Framework_TestCase
 {
     protected $game;
