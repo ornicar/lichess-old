@@ -22,7 +22,6 @@ class SocketTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($socket instanceof Socket);
         $this->assertTrue(is_dir($socket->getDir()));
         $this->assertTrue(is_writable($socket->getDir()));
-        $this->assertTrue(!file_exists($socket->getFile()));
     }
 
     protected function create()
@@ -31,6 +30,6 @@ class SocketTest extends \PHPUnit_Framework_TestCase
         $this->game = $generator->createGame();
         $this->board = $this->game->getBoard();
         $dir = sys_get_temp_dir();
-        return $this->socket = new Socket($this->game->getTurnPlayer(), $dir);
+        return $this->socket = new Socket($dir);
     }
 }
