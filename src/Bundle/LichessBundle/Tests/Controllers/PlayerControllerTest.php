@@ -67,5 +67,27 @@ class PlayerControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('#\{"time":\d+,"possible_moves":null,"events":\[\{"type":"move","from":"d4","to":"e5"\}\]\}#', $client->getResponse()->getContent());
     }
+
+    public function testSync()
+    {
+        $client = $this->createClient();
+        // player1 creates a new game
+        $crawler = $client->request('GET', '/');
+
+        $gameUrl = $crawler->filter('div.lichess_join_url span')->text();
+        $gameHash = substr($gameUrl, -6);
+        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
+        $player1Hash = $match[1];
+
+        // player2 joins it
+        $crawler = $client->request('GET', '/'.$gameHash);
+        $crawler = $client->followRedirect();
+        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
+        $player2Hash = $match[1];
+
+        // player1 syncs
+        $client->request('GET', '/sync/'.$player1Hash);
+        $this->assertEquals('', $client->getResponse()->getContent());
+    }
 }
 
