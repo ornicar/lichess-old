@@ -111,7 +111,7 @@ class GameControllerTest extends WebTestCase
 
         // player3 joins it
         $crawler = $client->request('GET', '/'.$gameHash);
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(410, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('h1:contains("This game has 2 players")')->count());
     }
 }
