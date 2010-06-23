@@ -13,7 +13,7 @@ class MainController extends Controller
         $player = $game->getPlayer($color);
         $game->setCreator($player);
 
-        if(isset($_SERVER['HTTP_USER_AGENT']) && 0 === strncmp($_SERVER['HTTP_USER_AGENT'], 'Wget/', 5)) {
+        if(0 === strncmp($this->getRequest()->server->get('HTTP_USER_AGENT'), 'Wget/', 5)) {
             // When munin pings the website, don't save the new game
         }
         else {
