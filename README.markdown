@@ -14,6 +14,7 @@ FEEDBACK
 
 I'm waiting for bug reports and feature requests in [GitHub issue tracker](http://github.com/ornicar/lichess/issues)
 
+Users can give feedback in [Uservoice](http://lichess.uservoice.com/forums/62479-general)
 INSTALL
 -------
 
@@ -23,6 +24,12 @@ As it uses no database, lichess is very easy to install.
     cd lichess
     git submodule update --init --recursive
 
+You also need to create some folders
+
+    mkdir lichess/data
+    mkdir lichess/cache/socket
+    ln -s web/socket ../lichess/cache/socket
+
 Install crafty on Debian based distros:
 
     sudo apt-get install crafty
@@ -30,10 +37,6 @@ Install crafty on Debian based distros:
 TEST
 ----
 
-Run unit tests
+Run all unit and functional tests
 
-    phpunit src/Bundle/LichessBundle/Tests/AllTests.php
-
-Run performance tests
-
-    php src/Bundle/LichessBundle/Tests/Performance/AllTests.php
+    phpunit -c lichess
