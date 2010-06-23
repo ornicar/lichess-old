@@ -12,7 +12,7 @@ class ForsytheTest extends \PHPUnit_Framework_TestCase
     {
         $generator = new Generator();
         $game = $generator->createGame();
-        $manipulator = new Manipulator($game->getBoard());
+        $manipulator = new Manipulator($game);
         $forsythe = new Forsythe();
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq', $forsythe->export($game));
         $manipulator->play('e2 e4');
@@ -29,7 +29,7 @@ class ForsytheTest extends \PHPUnit_Framework_TestCase
         $game = $generator->createGame();
         $game->getBoard()->getPieceByKey('a1')->setFirstMove(1);
         $game->getBoard()->getPieceByKey('h8')->setFirstMove(1);
-        $manipulator = new Manipulator($game->getBoard());
+        $manipulator = new Manipulator($game);
         $forsythe = new Forsythe();
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w Kq', $forsythe->export($game));
     }
@@ -38,7 +38,7 @@ class ForsytheTest extends \PHPUnit_Framework_TestCase
     {
         $generator = new Generator();
         $game = $generator->createGame();
-        $manipulator = new Manipulator($game->getBoard());
+        $manipulator = new Manipulator($game);
         $forsythe = new Forsythe();
         $this->assertEquals(null, $forsythe->diffToMove($game, 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq'));
         $this->assertEquals('e2 e4', $forsythe->diffToMove($game, 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq'));

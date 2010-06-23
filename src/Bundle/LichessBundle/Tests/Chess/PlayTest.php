@@ -203,7 +203,7 @@ EOF
      **/
     protected function applyMoves(array $moves)
     {
-        $manipulator = new Manipulator($this->game->getBoard());
+        $manipulator = new Manipulator($this->game);
         foreach ($moves as $move)
         {
             $manipulator->play($move);

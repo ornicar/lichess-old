@@ -89,7 +89,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
         $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
         $stack = new Stack();
-        $manipulator = new Manipulator($game->getBoard(), $stack);
+        $manipulator = new Manipulator($game, $stack);
         $opponentPossibleMoves = $manipulator->play($move, $this->getRequest()->get('options', array()));
         $data = array(
             'time' => time(),
@@ -212,7 +212,7 @@ class PlayerController extends Controller
 
         if($player->isBlack()) {
             $ai = $this->container->getLichessAiService();
-            $manipulator = new Manipulator($game->getBoard(), new Stack());
+            $manipulator = new Manipulator($game, new Stack());
             $manipulator->play($ai->move($game, $opponent->getAiLevel()));
         }
         $this->container->getLichessPersistenceService()->save($game);

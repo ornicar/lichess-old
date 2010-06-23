@@ -18,7 +18,7 @@ class StupidTest extends \PHPUnit_Framework_TestCase
         $generator = new Generator();
         $this->game = $generator->createGame();
         $this->board = $this->game->getBoard();
-        $this->manipulator = new Manipulator($this->board);
+        $this->manipulator = new Manipulator($this->game);
         $this->ai = new Stupid();
     }
 
