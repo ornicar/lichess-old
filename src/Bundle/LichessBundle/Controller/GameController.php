@@ -14,16 +14,16 @@ class GameController extends Controller
 
         if($game->getIsStarted()) {
             $response = $this->render('LichessBundle:Game:alreadyStarted');
-            $response->setStatusCode(404);
+            $response->setStatusCode(410);
             return $response;
         }
 
         $player = $game->getInvited();
         $opponent = $player->getOpponent();
         $game->setStatus(Game::STARTED);
-        $time = time();
-        $player->setTime($time);
-        $opponent->setTime($time);
+        $synchronizer = $this->container->getLichessSynchronizerService();
+        $synchronizer->update($player);
+        $synchronizer->update($opponent);
         $this->container->getLichessPersistenceService()->save($game);
         $this->container->getLichessSocketService()->write($opponent, array(
             'url' => $this->generateUrl('lichess_player', array('hash' => $opponent->getFullHash()))
