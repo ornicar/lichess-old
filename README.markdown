@@ -15,27 +15,47 @@ FEEDBACK
 I'm waiting for bug reports and feature requests in [GitHub issue tracker](http://github.com/ornicar/lichess/issues)
 
 Users can give feedback in [Uservoice](http://lichess.uservoice.com/forums/62479-general)
+
 INSTALL
 -------
 
-As it uses no database, lichess is very easy to install.
+Lichess is built on Symfony2, which is under heavy development and has very few [documentation](http://symfony-reloaded.org/) at the moment.
+
+### Get the code
 
     git clone git://github.com/ornicar/lichess.git
     cd lichess
     git submodule update --init --recursive
 
-You also need to create some folders
+### Create data folders
 
     mkdir lichess/data
     mkdir lichess/cache/socket
-    ln -s web/socket ../lichess/cache/socket
+    ln -s ../lichess/cache/socket web/socket
 
-Install crafty on Debian based distros:
+### Run
+
+Open your browser at http://myhostname/index_dev.php
+
+### Configure Artificial Intelligence
+
+The default AI si crafty, a opensource program written in C.
+
+#### Install crafty on Debian based distros:
 
     sudo apt-get install crafty
 
+If you can't or don't want to install crafty, you can use a `Stupid` AI:
+
+    # lichess/config/lichess.yml
+    parameters:
+        lichess.ai.class: "Bundle\LichessBundle\Ai\Stupid"
+
 TEST
 ----
+
+Before doing any modification to the code, you should be able to run the test suite.
+You need [PHPUnit 3.5](http://github.com/sebastianbergmann/phpunit) installed.
 
 Run all unit and functional tests
 
