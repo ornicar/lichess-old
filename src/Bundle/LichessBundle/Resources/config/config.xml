@@ -16,6 +16,8 @@
 
     <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
 
+    <parameter key="lichess.anybody.connection_file">%kernel.root_dir%/cache/connect_anybody</parameter>
+
   </parameters>
 
   <services>

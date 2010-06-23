@@ -185,7 +185,7 @@ class PlayerController extends Controller
 
     public function playWithAnybodyAction($hash)
     {
-        $connectionFile = $this->container['kernel.root_dir'].'/cache/connect_anybody';
+        $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
         $player = $this->findPlayer($hash);
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);

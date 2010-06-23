@@ -13,7 +13,9 @@ class GameController extends Controller
         $game = $this->findGame($hash);
 
         if($game->getIsStarted()) {
-            return $this->render('LichessBundle:Game:alreadyStarted');
+            $response = $this->render('LichessBundle:Game:alreadyStarted');
+            $response->setStatusCode(404);
+            return $response;
         }
 
         $player = $game->getInvited();
