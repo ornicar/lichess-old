@@ -39,7 +39,7 @@ Open your browser at http://myhostname/index_dev.php
 
 ### Configure Artificial Intelligence
 
-The default AI si crafty, a opensource program written in C.
+The default AI is crafty, a opensource program written in C.
 
 #### Install crafty on Debian based distros:
 
