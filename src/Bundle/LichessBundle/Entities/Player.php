@@ -181,7 +181,6 @@ class Player
         $this->isAi = $isAi;
     }
 
-
     /**
      * @return boolean
      */
@@ -221,13 +220,8 @@ class Player
 
     public function removePiece(Piece $piece)
     {
-        foreach($this->getPieces() as $index => $p)
-        {
-            if($p === $piece) {
-                unset($this->pieces[$index]);
-                break;
-            }
-        }
+        $index = array_search($piece, $this->pieces);
+        unset($this->pieces[$index]);
     }
 
     /**
@@ -264,12 +258,12 @@ class Player
 
     public function getOpponent()
     {
-        return $this->getGame()->getPlayer('white' === $this->getColor() ? 'black' : 'white');
+        return $this->getGame()->getPlayer('white' === $this->color ? 'black' : 'white');
     }
 
     public function getIsMyTurn()
     {
-        return $this->game->getTurns() %2 xor 'white' === $this->getColor();
+        return $this->game->getTurns() %2 xor 'white' === $this->color;
     }
 
     public function isWhite()
@@ -294,57 +288,9 @@ class Player
         return $this->getGame()->getTurns() %2 ? $this->isBlack() : $this->isWhite();
     }
 
-    public function setEvents($events)
-    {
-        $this->_set('events', json_encode($events), false);
-
-        $this->getEventDispatcher()->notify(new dmChessEvent($this, 'dm.chess.player_set_events'));
-
-        return $this;
-    }
-
-    public function getEvents()
-    {
-        return json_decode($this->_get('events'), true);
-    }
-
-    public function getStringEvents()
-    {
-        foreach((array) $this->getEvents() as $event)
-        {
-            if ('piece_move' === $event['action'])
-            {
-                return $this->getBoard()->getSquareByKey($event['from'])->getKey().' '.$this->getBoard()->getSquareByKey($event['to'])->getKey();
-            }
-        }
-    }
-
-    public function clearEvents()
-    {
-        $this->_set('events', null, false);
-
-        $this->getEventDispatcher()->notify(new dmChessEvent($this, 'dm.chess.player_clear_events'));
-
-        return $this;
-    }
-
     public function getBoard()
     {
         return $this->getGame()->getBoard();
-    }
-
-    public function getClone()
-    {
-        $clone = clone($this);
-        $pieceClones = array();
-        foreach($this->getPieces() as $piece) {
-            $pieceClone = clone $piece;
-            $pieceClone->setPlayer($clone);
-            $pieceClones[] = $pieceClone;
-        }
-        $clone->setPieces($pieceClones);
-
-        return $clone;
     }
 
     public function serialize()
