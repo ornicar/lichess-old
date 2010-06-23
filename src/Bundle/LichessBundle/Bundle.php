@@ -30,7 +30,7 @@ require_once __DIR__.'/Entities/Game.php';
 require_once __DIR__.'/Entities/Chat/Room.php';
 require_once __DIR__.'/Persistence/PersistenceInterface.php';
 require_once __DIR__.'/Persistence/FilePersistence.php';
-require_once __DIR__.'/Logger/BlackHole.php';
+require_once __DIR__.'/Logger/LichessLogger.php';
 
 class Bundle extends BaseBundle
 {
