@@ -42,12 +42,14 @@ class LichessKernel extends Kernel
 
         $configuration = $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        if(!$this->isDebug()) {
-            $configuration->setParameter('exception_handler.controller', 'LichessBundle:Main:notFound');
-        }
-        else {
+        if($this->isDebug()) {
             $configuration->setParameter('profiler.storage.class', 'Bundle\\LichessBundle\\Profiler\\ProfilerStorage');
         }
+        else {
+            $configuration->setParameter('exception_handler.controller', 'LichessBundle:Main:notFound');
+        }
+
+        $configuration->merge($loader->load(__DIR__.'/config/lichess.yml'));
 
         return $configuration;
     }
