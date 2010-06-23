@@ -6,7 +6,7 @@
 
   <parameters>
 
-    <parameter key="lichess.logger.class">Bundle\LichessBundle\Logger\BlackHole</parameter>
+    <parameter key="lichess.logger.class">Bundle\LichessBundle\Logger\LichessLogger</parameter>
 
   </parameters>
 
