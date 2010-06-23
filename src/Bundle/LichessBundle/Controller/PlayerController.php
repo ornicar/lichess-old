@@ -176,7 +176,7 @@ class PlayerController extends Controller
         $player = $this->findPlayer($hash);
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);
-            if($opponentHash === $hash) {
+            if($opponentHash == $hash) {
                 return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player));
             }
             unlink($connectionFile);
@@ -223,25 +223,9 @@ class PlayerController extends Controller
         $this->container->getLichessPersistenceService()->save($game);
         
         if(!$opponent->getIsAi()) {
-            $this->container->getLichessSocketService()->write($opponent, array(
-                'possible_moves' => null,
-                'events' => array(array(
-                    'type' => 'end',
-                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
-                ))
-            ));
+            $this->container->getLichessSocketService()->write($opponent, $this->getEndGameData($opponent));
         }
-
-        $response = $this->createResponse(json_encode(array(
-            'time' => time(),
-            'possible_moves' => null,
-            'events' => array(array(
-                'type' => 'end',
-                'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
-            ))
-        )));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->renderJson($this->getEndGameData($player));
     }
 
     public function aiLevelAction($hash)
