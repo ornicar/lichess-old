@@ -284,7 +284,7 @@ class Player
 
     public function __toString()
     {
-        $string = $this->getColor().' '.($this->get('is_ai') ? 'A.I.' : 'Human');
+        $string = $this->getColor().' '.($this->getIsAi() ? 'A.I.' : 'Human');
 
         return $string;
     }
