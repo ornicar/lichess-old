@@ -32,7 +32,7 @@ require_once __DIR__.'/Persistence/PersistenceInterface.php';
 require_once __DIR__.'/Persistence/FilePersistence.php';
 require_once __DIR__.'/Logger/BlackHole.php';
 
-class LichessBundle extends BaseBundle
+class Bundle extends BaseBundle
 {
     public function buildContainer(ContainerInterface $container)
     {
@@ -44,5 +44,4 @@ class LichessBundle extends BaseBundle
 
         return $configuration;
     }
-
 }
