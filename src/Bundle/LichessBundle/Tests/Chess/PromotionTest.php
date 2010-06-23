@@ -104,7 +104,7 @@ EOF;
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game->getBoard());
+        $manipulator = new Manipulator($this->game);
         $manipulator->play($move, $options);
     }
 

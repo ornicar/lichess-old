@@ -15,7 +15,7 @@ class ManipulatorTest extends \PHPUnit_Framework_TestCase
         $generator = new Generator();
         $game = $generator->createGame();
         $this->board = $game->getBoard();
-        $this->manipulator = new Manipulator($this->board);
+        $this->manipulator = new Manipulator($game);
     }
 
     public function testMoveValid()
