@@ -29,7 +29,7 @@ class PlayerControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_table.finished div.lichess_piece.king.white')->count());
     }
 
-    public function testPlay()
+    public function testRematch()
     {
         $client = $this->createClient();
         // player1 creates a new game
@@ -43,6 +43,62 @@ class PlayerControllerTest extends WebTestCase
         // player2 joins it
         $crawler = $client->request('GET', '/'.$gameHash);
         $crawler = $client->followRedirect();
+        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
+        $player2Hash = $match[1];
+
+        // player2 resigns
+        $client->click($crawler->filter('a:contains("Resign")')->link());
+
+        // player2 proposes a rematch
+        $crawler = $client->request('GET', '/'.$player2Hash);
+        $client->click($crawler->filter('a:contains("Rematch")')->link());
+        $this->assertTrue($client->getResponse()->isRedirection());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
+        $player2Hash = $match[1];
+        $this->assertEquals(1, $crawler->filter('div.lichess_table_wait_next', 'Waiting for your previous opponent')->count());
+
+        // player1 joins the game
+        $crawler = $client->request('GET', '/'.$player1Hash);
+        $client->click($crawler->filter('a:contains("Join the game")')->link());
+        $this->assertTrue($client->getResponse()->isRedirection());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isRedirection());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
+        $this->assertEquals('Human opponent', $crawler->filter('div.lichess_opponent span')->text());
+
+        // player2 sees player1
+        $crawler = $client->request('GET', '/'.$player2Hash);
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player_white')->count());
+        $this->assertEquals('Human opponent', $crawler->filter('div.lichess_opponent span')->text());
+    }
+
+    public function testPlay()
+    {
+        $client = $this->createClient();
+        // player1 creates a new game
+        $crawler = $client->request('GET', '/');
+
+        $gameUrl = $crawler->filter('div.lichess_join_url span')->text();
+        $gameHash = substr($gameUrl, -6);
+        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
+        $player1Hash = $match[1];
+
+        // player2 joins it
+        $crawler = $client->request('GET', '/'.$gameHash);
+        $this->assertTrue($client->getResponse()->isRedirection());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
         preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
         $player2Hash = $match[1];
 
@@ -81,7 +137,9 @@ class PlayerControllerTest extends WebTestCase
 
         // player2 joins it
         $crawler = $client->request('GET', '/'.$gameHash);
+        $this->assertTrue($client->getResponse()->isRedirection());
         $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
         preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
         $player2Hash = $match[1];
 

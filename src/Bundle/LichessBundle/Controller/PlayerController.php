@@ -146,9 +146,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
 
         if(!$game->getIsStarted()) {
-            return $this->render('LichessBundle:Player:waitNext', array(
-                'player' => $player
-            ));
+            return $this->render('LichessBundle:Player:waitNext', array('player' => $player));
         }
 
         if(!$player->getOpponent()->getIsAi() && !$game->getIsFinished()) {
