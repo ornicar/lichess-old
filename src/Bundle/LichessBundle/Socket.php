@@ -17,13 +17,6 @@ class Socket
     const START = 'start';
     const PLAY = 'play';
     const UPDATE = 'update';
-
-    /**
-     * The player this socket communicates with
-     *
-     * @var Player
-     */
-    protected $player = null;
     
     /**
      * The absolute directory where to store the socket
@@ -35,16 +28,9 @@ class Socket
     /**
      * Instanciate a Socket
      **/
-    public function __construct(Player $player, $dir)
+    public function __construct($dir)
     {
-        $this->player = $player;
         $this->dir = $dir;
-        if(!is_dir($dir)) {
-            mkdir($dir);
-        }
-        if(!is_writable($dir)) {
-            throw new \InvalidArgumentException($dir.' is not writable');
-        }
     }
 
     /**
@@ -52,11 +38,10 @@ class Socket
      *
      * @return null
      **/
-    public function write(array $data)
+    public function write(Player $player, array $data)
     {
         $data['time'] = time();
-        $json = json_encode($data);
-        file_put_contents($this->getFile(), $json);
+        file_put_contents($this->getFile($player), json_encode($data));
     }
     
     /**
@@ -77,33 +62,14 @@ class Socket
     {
       $this->dir = $dir;
     }
-    
-    /**
-     * Get player
-     * @return Player
-     */
-    public function getPlayer()
-    {
-      return $this->player;
-    }
-    
-    /**
-     * Set player
-     * @param  Player
-     * @return null
-     */
-    public function setPlayer($player)
-    {
-      $this->player = $player;
-    }
 
     /**
      * Get the socket file
      *
      * @return string
      **/
-    public function getFile()
+    public function getFile(Player $player)
     {
-        return $this->dir.'/'.$this->player->getFullHash().'.json';
+        return $this->dir.'/'.$player->getFullHash().'.json';
     }
 }
