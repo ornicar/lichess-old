@@ -9,15 +9,11 @@ class MainController extends Controller
 
     public function indexAction($color)
     {
-        $game = $this->container->getLichessGeneratorService()->createGame();
-        $player = $game->getPlayer($color);
-        $game->setCreator($player);
+        $player = $this->container->getLichessGeneratorService()->createGameForPlayer($color);
 
-        if(0 === strncmp($this->getRequest()->server->get('HTTP_USER_AGENT'), 'Wget/', 5)) {
-            // When munin pings the website, don't save the new game
-        }
-        else {
-            $this->container->getLichessPersistenceService()->save($game);
+        // When munin pings the website, don't save the new game
+        if(0 !== strncmp($this->getRequest()->server->get('HTTP_USER_AGENT'), 'Wget/', 5)) {
+            $this->container->getLichessPersistenceService()->save($player->getGame());
             $this->container->getLichessSocketService()->write($player, array());
         }
 
@@ -33,7 +29,6 @@ class MainController extends Controller
 
     public function notFoundAction()
     {
-        error_log(sprintf('404 %s [%s]', $this->getRequest()->getRequestUri(), isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '?'));
         $response = $this->render('LichessBundle:Main:notFound');
         $response->setStatusCode(404);
         return $response;

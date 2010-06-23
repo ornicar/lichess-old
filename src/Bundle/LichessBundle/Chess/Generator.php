@@ -42,6 +42,14 @@ class Generator
         return $nextPlayer;
     }
 
+    public function createGameForPlayer($color)
+    {
+        $game = $this->createGame();
+        $player = $game->getPlayer($color);
+        $game->setCreator($player);
+        return $player;
+    }
+
     /**
      * Create a game from a visual block notation like:
 r bqkb r
