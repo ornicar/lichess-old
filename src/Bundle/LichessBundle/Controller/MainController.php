@@ -3,7 +3,6 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\WebBundle\Controller;
-use Bundle\LichessBundle\Socket;
 
 class MainController extends Controller
 {
@@ -19,8 +18,7 @@ class MainController extends Controller
         }
         else {
             $this->container->getLichessPersistenceService()->save($game);
-            $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
-            $socket->write(array());
+            $this->container->getLichessSocketService()->write($player, array());
         }
 
         return $this->render('LichessBundle:Main:index', array(

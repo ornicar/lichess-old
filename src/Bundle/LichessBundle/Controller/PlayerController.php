@@ -6,7 +6,6 @@ use Symfony\Framework\WebBundle\Controller;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Synchronizer;
-use Bundle\LichessBundle\Socket;
 use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Ai\Crafty;
 use Bundle\LichessBundle\Ai\Stupid;
@@ -33,13 +32,11 @@ class PlayerController extends Controller
         $nextPlayer = $this->container->getLichessGeneratorService()->createReturnGame($player);
         $persistence->save($nextPlayer->getGame());
         $persistence->save($game);
-        $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
-        $socket->write(array('events' => array(array(
+        $this->container->getLichessSocketService()->write($player->getOpponent(), array('events' => array(array(
             'type' => 'reload_table',
             'table_url' => $this->generateUrl('lichess_table', array('hash' => $player->getOpponent()->getFullHash()))
         ))));
-        $socket = new Socket($nextPlayer, $this->container['kernel.root_dir'].'/cache/socket');
-        $socket->write(array());
+        $this->container->getLichessSocketService()->write($nextPlayer, array());
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayer->getFullHash())));
     }
 
@@ -69,8 +66,7 @@ class PlayerController extends Controller
                     'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
                 ))
             )));
-            $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
-            $socket->write(array(
+            $this->container->getLichessSocketService()->write($player->getOpponent(), array(
                 'time' => time(),
                 'possible_moves' => null,
                 'events' => array(array(
@@ -90,11 +86,11 @@ class PlayerController extends Controller
     public function moveAction($hash)
     {
         $player = $this->findPlayer($hash);
-        $opponent = $player->getOpponent();
-        $game = $player->getGame();
         if(!$player->isMyTurn()) {
             throw new \LogicException('Not my turn');
         }
+        $opponent = $player->getOpponent();
+        $game = $player->getGame();
         $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
         $stack = new Stack();
         $manipulator = new Manipulator($game->getBoard(), $stack);
@@ -122,8 +118,6 @@ class PlayerController extends Controller
                 $stack->reset();
                 $possibleMoves = $manipulator->play($ai->move($game, $opponent->getAiLevel()));
                 $this->container->getLichessPersistenceService()->save($game);
-
-                $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
                 $data = array(
                     'possible_moves' => $possibleMoves,
                     'events' => $stack->getEvents()
@@ -134,7 +128,7 @@ class PlayerController extends Controller
                         'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
                     );
                 }
-                $socket->write($data);
+                $this->container->getLichessSocketService()->write($player, $data);
             }
         }
         else {
@@ -150,8 +144,7 @@ class PlayerController extends Controller
                     'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
                 );
             }
-            $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
-            $socket->write($data);
+            $this->container->getLichessSocketService()->write($opponent, $data);
         }
 
         return $response;
@@ -182,8 +175,7 @@ class PlayerController extends Controller
         else {
             $checkSquareKey = null;
         }
-        $socket = new Socket($player, $this->container['kernel.root_dir'].'/cache/socket');
-        $socket->write(array());
+        $this->container->getLichessSocketService()->write($player, array());
         return $this->render('LichessBundle:Player:show', array(
             'player' => $player,
             'checkSquareKey' => $checkSquareKey,
@@ -213,27 +205,22 @@ class PlayerController extends Controller
     public function inviteAiAction($hash)
     {
         $player = $this->findPlayer($hash);
-        $opponent = $player->getOpponent();
         $game = $player->getGame();
-
         if($game->getIsStarted()) {
-            throw new NotFoundHttpException('Game already started');
+            throw new \LogicException('Game already started');
         }
 
+        $opponent = $player->getOpponent();
         $opponent->setIsAi(true);
         $opponent->setAiLevel(1);
         $game->setStatus(Game::STARTED);
 
         if($player->isBlack()) {
             $ai = $this->container->getLichessAiService();
-            $stack = new Stack();
-            $manipulator = new Manipulator($game->getBoard(), $stack);
+            $manipulator = new Manipulator($game->getBoard(), new Stack());
             $manipulator->play($ai->move($game, $opponent->getAiLevel()));
-            $this->container->getLichessPersistenceService()->save($game);
         }
-        else {
-            $this->container->getLichessPersistenceService()->save($game);
-        }
+        $this->container->getLichessPersistenceService()->save($game);
 
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
     }
@@ -249,9 +236,7 @@ class PlayerController extends Controller
         $this->container->getLichessPersistenceService()->save($game);
         
         if(!$opponent->getIsAi()) {
-            $socket = new Socket($opponent, $this->container['kernel.root_dir'].'/cache/socket');
-            $socket->write(array(
-                'time' => time(),
+            $this->container->getLichessSocketService()->write($opponent, array(
                 'possible_moves' => null,
                 'events' => array(array(
                     'type' => 'end',
@@ -275,9 +260,8 @@ class PlayerController extends Controller
     public function aiLevelAction($hash)
     {
         $player = $this->findPlayer($hash);
-        $opponent = $player->getOpponent();
         $level = min(8, max(1, (int)$this->getRequest()->get('level')));
-        $opponent->setAiLevel($level);
+        $player->getOpponent()->setAiLevel($level);
         $this->container->getLichessPersistenceService()->save($player->getGame());
         return $this->createResponse('done');
     }
@@ -286,7 +270,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
-        return $this->render('LichessBundle:Game:'.$template, array( 'player' => $player));
+        return $this->render('LichessBundle:Game:'.$template, array('player' => $player));
     }
 
     /**

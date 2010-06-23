@@ -3,7 +3,6 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\WebBundle\Controller;
-use Bundle\LichessBundle\Socket;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class ChatController extends Controller
@@ -22,21 +21,14 @@ class ChatController extends Controller
         $message = substr($message, 0, 140);
         $player = $this->findPlayer($hash);
         $game = $player->getGame();
-        $room = $game->getRoom();
-        $room->addMessage($player->getColor(), $message);
+        $game->getRoom()->addMessage($player->getColor(), $message);
         $this->container->getLichessPersistenceService()->save($game);
 
-        $socket = new Socket($player->getOpponent(), $this->container['kernel.root_dir'].'/cache/socket');
-        $data = array(
-            'time' => time(),
-            'events' => array(
-                array(
-                    'type' => 'message',
-                    'html' => sprintf('<li><em class="%s"></em>%s</li>', $player->getColor(), htmlentities($message, ENT_COMPAT, 'UTF-8'))
-                )
-            )
-        );
-        $socket->write($data);
+        $data = array('events' => array(array(
+            'type' => 'message',
+            'html' => sprintf('<li><em class="%s"></em>%s</li>', $player->getColor(), htmlentities($message, ENT_COMPAT, 'UTF-8'))
+        )));
+        $this->container->getLichessSocketService()->write($player->getOpponent(), $data);
 
         $response = $this->createResponse(json_encode($data));
         $response->headers->set('Content-Type', 'application/json');
