@@ -3,7 +3,7 @@
 <div class="lichess_table">
     <div class="lichess_opponent">
         <?php if ($opponent->getIsAi()): ?>
-            Opponent is Crafty A.I.
+            <span>Opponent is Crafty A.I.</span>
             <?php $selectedLevel = $opponent->getAiLevel() ?>
             <select class="lichess_ai_level">
                 <?php for($level=1; $level<9; $level++): ?>
@@ -11,7 +11,7 @@
                 <?php endfor; ?>
             </select>    
         <?php else: ?>
-            Human opponent
+            <span>Human opponent</span>
         <?php endif; ?>
     </div>
     <div class="lichess_separator"></div>
