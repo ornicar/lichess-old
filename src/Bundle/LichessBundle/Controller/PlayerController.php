@@ -152,13 +152,13 @@ class PlayerController extends Controller
         $player = $this->findPlayer($hash);
         $game = $player->getGame();
 
-        if(!$game->getIsStarted()) {
-            return $this->render('LichessBundle:Player:waitNext', array('player' => $player));
-        }
-
         if(!$player->getOpponent()->getIsAi()) {
             $this->container->getLichessSynchronizerService()->update($player);
             $this->container->getLichessPersistenceService()->save($game);
+        }
+
+        if(!$game->getIsStarted()) {
+            return $this->render('LichessBundle:Player:waitNext', array('player' => $player));
         }
 
         $analyser = new Analyser($game->getBoard());
