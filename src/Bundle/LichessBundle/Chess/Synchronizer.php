@@ -38,21 +38,6 @@ class Synchronizer
     {
       $this->timeout = $timeout;
     }
-    
-    /**
-     * Synchronize the player game
-     *
-     * @return null
-     **/
-    public function synchronize(Player $player)
-    {
-        $this->update($player);
-        $game = $player->getGame();
-        if($game->getIsStarted() && !$game->getIsFinished() && $this->isTimeout($player->getOpponent())) {
-            $game->setStatus(Game::TIMEOUT);
-            $player->setIsWinner(true);
-        }
-    }
 
     public function isTimeout(Player $player)
     {

@@ -11,7 +11,9 @@
                 <?php endfor; ?>
             </select>    
         <?php else: ?>
-        <span class="opponent_status">Human opponent <?php echo $isOpponentConnected ? 'connected' : 'offline' ?></span>
+            <div class="opponent_status">
+              <?php $view->output('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
+            </div>
         <?php endif; ?>
     </div>
     <div class="lichess_separator"></div>

@@ -49,3 +49,7 @@ lichess_play_again:
     pattern:        /next/:hash
     defaults:       { _controller: LichessBundle:Player:playAgain }
     requirements:   { hash: "[\w]{10}" }
+lichess_force_resignation:
+    pattern:        /force_resign/:hash
+    defaults:       { _controller: LichessBundle:Player:forceResign }
+    requirements:   { hash: "[\w]{10}" }

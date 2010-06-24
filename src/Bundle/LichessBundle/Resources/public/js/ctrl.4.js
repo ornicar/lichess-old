@@ -51,6 +51,7 @@ $(function()
               }
           });
       }, lichess_data.beat_delay);
+    }
 
       // synchronize with game
       setInterval(function()
@@ -58,10 +59,16 @@ $(function()
         $.ajax({
           cache:      false,
           dataType:   'json',
-          url:        lichess_data.url.sync
+          url:        lichess_data.url.sync,
+          success:    function(data)
+          {
+            $opponentStatus = $('div.lichess_table div.opponent_status');
+            if(data && $opponentStatus.length) {
+              $opponentStatus.html(data.opponent_status);
+            }
+          }
         });
-      }, lichess_data.sync_delay);
-    }
+      }, lichess_data.sync_delay + Math.round(1000*Math.random())-500);
   }
   $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
