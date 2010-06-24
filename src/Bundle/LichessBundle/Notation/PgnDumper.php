@@ -3,6 +3,9 @@
 namespace Bundle\LichessBundle\Notation;
 use Bundle\LichessBundle\Entities\Game;
 
+/**
+ * http://www.chessclub.com/help/PGN-spec
+ */
 class PgnDumper
 {
     /**
