@@ -62,7 +62,7 @@ class PlayerControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
-        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#Human opponent connected#', $crawler->filter('div.lichess_opponent div')->text());
 
         // player2 sees player1
         $crawler = $client->request('GET', '/'.$player2Hash);
@@ -71,7 +71,7 @@ class PlayerControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_white')->count());
-        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#Human opponent connected#', $crawler->filter('div.lichess_opponent div')->text());
     }
 
     public function testPlay()
@@ -149,7 +149,7 @@ class PlayerControllerTest extends WebTestCase
         // player 2 plays
         $client->request('POST', '/move/'.$player2Hash, array('from' => 'e7', 'to' => 'e5'));
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertRegexp('#\{"time":\d+,"possible_moves":null,"events":\[\{"type":"move","from":"e7","to":"e5"\},\{"type":"end","table_url":"[^"]+"\}\]\}#', $client->getResponse()->getContent());
+        $this->assertRegexp('#\{"time":\d+,"possible_moves":null,"events":\[\{"type":"move","from":"e7","to":"e5"\}\]\}#', $client->getResponse()->getContent());
     }
 
     public function testSync()
@@ -160,21 +160,22 @@ class PlayerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/'.$player1->getFullHash());
 
         // player2 joins it
-        $crawler = $client->request('GET', '/'.$player1->getGame()->getHash());
+        $client->request('GET', '/'.$player1->getGame()->getHash());
         $this->assertTrue($client->getResponse()->isRedirection());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table div.lichess_player p:contains("Waiting")')->count());
         $player2 = $player1->getOpponent();
 
         // player1 syncs
         $client->request('GET', '/sync/'.$player1->getFullHash());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals('', $client->getResponse()->getContent());
+        $this->assertRegexp('#Human opponent connected#', $client->getResponse()->getContent());
 
         // player2 syncs
         $client->request('GET', '/sync/'.$player2->getFullHash());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals('', $client->getResponse()->getContent());
+        $this->assertRegexp('#Human opponent connected#', $client->getResponse()->getContent());
     }
 
     public function testSyncTimeout()
@@ -199,34 +200,22 @@ class PlayerControllerTest extends WebTestCase
         // player2 syncs
         $client->request('GET', '/sync/'.$player2->getFullHash());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $expected = array('time' => time(), 'possible_moves' => null, 'events' => array(array('type' => 'end', 'table_url' => '/table/'.$player2->getFullHash())));
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
+        $this->assertRegexp('#The other player has left the game#', $client->getResponse()->getContent());
         
         // player2 refreshes and sees the resigned game
         $crawler = $client->request('GET', '/'.$player2->getFullHash());
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
+        $this->assertEquals(0, $crawler->filter('div.lichess_table.finished')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
-        $this->assertRegexp('#White left the game#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
-        $this->assertRegexp('#Black is victorious#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
-        
-        // player1 refreshes and sees the resigned game
-        $crawler = $client->request('GET', '/'.$player1->getFullHash());
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_player_white')->count());
-        $this->assertRegexp('#White left the game#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
-        $this->assertRegexp('#Black is victorious#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
+        $this->assertRegexp('#The other player has left the game#', $crawler->filter('div.lichess_opponent div.opponent_status')->text());
     }
 
     protected function createPlayer($client)
     {
         $player = $client->getContainer()->getLichessGeneratorService()->createGameForPlayer('white');
-        $client->getContainer()->getLichessSynchronizerService()->synchronize($player);
+        $client->getContainer()->getLichessSynchronizerService()->update($player);
         $client->getContainer()->getLichessPersistenceService()->save($player->getGame());
         return $player;
     }

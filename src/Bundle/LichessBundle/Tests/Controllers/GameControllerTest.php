@@ -27,7 +27,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
-        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#Human opponent connected#', $crawler->filter('div.lichess_opponent div.opponent_status')->text());
 
         // player1 is redirected to its player page
         $crawler = $client->request('GET', '/'.$playerHash);
@@ -36,10 +36,10 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_white')->count());
-        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#Human opponent connected#', $crawler->filter('div.lichess_opponent div.opponent_status')->text());
     }
 
-    public function testPlayWithFriendTimeout()
+    public function testPlayWithFriendTimeoutWait()
     {
         $client = $this->createClient();
         @unlink($client->getContainer()->getParameter('lichess.anybody.connection_file'));
@@ -64,9 +64,19 @@ class GameControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
+        $this->assertEquals(0, $crawler->filter('div.lichess_table.finished')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
+        $this->assertRegexp('#The other player has left the game#', $crawler->filter('div.lichess_opponent div.opponent_status')->text());
+        
+        // player2 forces resignation
+        $client->click($crawler->filter('div.opponent_status a.force_resignation')->link());
+        $this->assertTrue($client->getResponse()->isRedirection());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
-        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
         $this->assertRegexp('#White left the game#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
         $this->assertRegexp('#Black is victorious#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
 
@@ -77,7 +87,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_white')->count());
-        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#Human opponent connected#', $crawler->filter('div.lichess_opponent div')->text());
         $this->assertRegexp('#White left the game#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
         $this->assertRegexp('#Black is victorious#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
     }
@@ -136,7 +146,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
-        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent div')->text());
     }
 
     public function testPlayWithAnybodyTimeout()
