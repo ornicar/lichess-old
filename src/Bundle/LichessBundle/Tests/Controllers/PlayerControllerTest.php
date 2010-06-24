@@ -116,21 +116,67 @@ class PlayerControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         // player1 creates a new game
-        $player = $this->createPlayer($client);
-        $gameHash = $player->getGame()->getHash();
-        $player1Hash = $player->getFullHash();
+        $player1 = $this->createPlayer($client);
+        $crawler = $client->request('GET', '/'.$player1->getFullHash());
 
         // player2 joins it
-        $crawler = $client->request('GET', '/'.$gameHash);
+        $crawler = $client->request('GET', '/'.$player1->getGame()->getHash());
         $this->assertTrue($client->getResponse()->isRedirection());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
-        $player2Hash = $match[1];
+        $player2 = $player1->getOpponent();
 
         // player1 syncs
-        $client->request('GET', '/sync/'.$player1Hash);
+        $client->request('GET', '/sync/'.$player1->getFullHash());
+        $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('', $client->getResponse()->getContent());
+
+        // player2 syncs
+        $client->request('GET', '/sync/'.$player2->getFullHash());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('', $client->getResponse()->getContent());
+    }
+
+    public function testTimeout()
+    {
+        $client = $this->createClient();
+        // player1 creates a new game
+        $player1 = $this->createPlayer($client);
+        $client->request('GET', '/'.$player1->getFullHash());
+
+        // player2 joins it
+        $client->request('GET', '/'.$player1->getGame()->getHash());
+        $player2 = $player1->getOpponent();
+
+        // player1 disconnects
+        $player1->setTime(time() - $client->getContainer()->getParameter('lichess.synchronizer.timeout') -1);
+        $client->getContainer()->getLichessPersistenceService()->save($player1->getGame());
+
+        // player2 syncs
+        $client->request('GET', '/sync/'.$player2->getFullHash());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $expected = array('time' => time(), 'possible_moves' => null, 'events' => array(array('type' => 'end', 'table_url' => '/table/'.$player2->getFullHash())));
+        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
+        
+        // player2 refreshes and sees the resigned game
+        $crawler = $client->request('GET', '/'.$player2->getFullHash());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
+        $this->assertRegexp('#White left the game#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
+        $this->assertRegexp('#Black is victorious#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
+        
+        // player1 refreshes and sees the resigned game
+        $crawler = $client->request('GET', '/'.$player1->getFullHash());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player_white')->count());
+        $this->assertRegexp('#White left the game#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
+        $this->assertRegexp('#Black is victorious#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
     }
 
     protected function createPlayer($client)
