@@ -204,7 +204,7 @@ class PlayerController extends Controller
 
         if($player->isBlack()) {
             $ai = $this->container->getLichessAiService();
-            $manipulator = new Manipulator($game, new Stack());
+            $manipulator = new Manipulator($game);
             $manipulator->play($ai->move($game, $opponent->getAiLevel()));
         }
         $this->container->getLichessPersistenceService()->save($game);
