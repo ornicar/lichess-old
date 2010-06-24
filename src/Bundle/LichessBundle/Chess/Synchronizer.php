@@ -47,8 +47,9 @@ class Synchronizer
     public function synchronize(Player $player)
     {
         $this->update($player);
-        if($player->getGame()->getIsStarted() && $this->isTimeout($player->getOpponent())) {
-            $player->getGame()->setStatus(Game::TIMEOUT);
+        $game = $player->getGame();
+        if($game->getIsStarted() && !$game->getIsFinished() && $this->isTimeout($player->getOpponent())) {
+            $game->setStatus(Game::TIMEOUT);
             $player->setIsWinner(true);
         }
     }
