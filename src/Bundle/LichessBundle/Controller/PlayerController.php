@@ -211,7 +211,7 @@ class PlayerController extends Controller
         $opponent = $player->getOpponent();
         $opponent->setIsAi(true);
         $opponent->setAiLevel(1);
-        $game->setStatus(Game::STARTED);
+        $game->start();
 
         if($player->isBlack()) {
             $ai = $this->container->getLichessAiService();
