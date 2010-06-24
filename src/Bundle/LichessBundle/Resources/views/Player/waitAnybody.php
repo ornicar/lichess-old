@@ -6,7 +6,7 @@
     </div> 
     <div class="lichess_table_wrap">
         <div class="lichess_table_wait_anybody">
-            Waiting for a random opponent
+            Waiting for an opponent
         </div>
     </div>
 </div>
