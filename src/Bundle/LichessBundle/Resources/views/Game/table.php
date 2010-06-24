@@ -11,7 +11,7 @@
                 <?php endfor; ?>
             </select>    
         <?php else: ?>
-            <span>Human opponent</span>
+        <span class="opponent_status">Human opponent <?php echo $isOpponentConnected ? 'connected' : 'offline' ?></span>
         <?php endif; ?>
     </div>
     <div class="lichess_separator"></div>

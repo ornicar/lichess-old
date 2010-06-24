@@ -46,7 +46,7 @@
             Server load: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/ctrl.3.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/ctrl.4.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/game.6.js" type="text/javascript"></script>
     </body>
 </html>
