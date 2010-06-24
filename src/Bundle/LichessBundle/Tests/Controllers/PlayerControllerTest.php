@@ -113,6 +113,45 @@ class PlayerControllerTest extends WebTestCase
         $this->assertRegexp('#\{"time":\d+,"possible_moves":null,"events":\[\{"type":"move","from":"d4","to":"e5"\}\]\}#', $client->getResponse()->getContent());
     }
 
+    public function testPlayTimeout()
+    {
+        $client = $this->createClient();
+        // player1 creates a new game
+        $player1 = $this->createPlayer($client);
+        $gameHash = $player1->getGame()->getHash();
+        $player1Hash = $player1->getFullHash();
+
+        // player2 joins it
+        $crawler = $client->request('GET', '/'.$gameHash);
+        $this->assertTrue($client->getResponse()->isRedirection());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table div.lichess_player p:contains("Waiting")')->count());
+        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
+        $player2Hash = $match[1];
+
+        // player1 plays
+        $crawler = $client->request('GET', '/'.$player1Hash);
+        $this->assertEquals(1, $crawler->filter('div.lichess_table div.lichess_player p:contains("Your turn")')->count());
+        $client->request('POST', '/move/'.$player1Hash, array('from' => 'd2', 'to' => 'd4'));
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertRegexp('#\{"time":\d+,"possible_moves":null,"events":\[\{"type":"move","from":"d2","to":"d4"\}\]\}#', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/'.$player1Hash);
+        $this->assertEquals(1, $crawler->filter('div.lichess_table p:contains("Waiting")')->count());
+
+        // player1 disconnects
+        $game = $client->getContainer()->getLichessPersistenceService()->find($player1->getGame()->getHash());
+        $player1 = $game->getPlayerByHash($player1->getHash());
+        $player2Hash = $player1->getOpponent()->getFullHash();
+        $player1->setTime(time() - $client->getContainer()->getParameter('lichess.synchronizer.timeout') -1);
+        $client->getContainer()->getLichessPersistenceService()->save($game);
+
+        // player 2 plays
+        $client->request('POST', '/move/'.$player2Hash, array('from' => 'e7', 'to' => 'e5'));
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertRegexp('#\{"time":\d+,"possible_moves":null,"events":\[\{"type":"move","from":"e7","to":"e5"\},\{"type":"end","table_url":"[^"]+"\}\]\}#', $client->getResponse()->getContent());
+    }
+
     public function testSync()
     {
         $client = $this->createClient();
@@ -138,7 +177,7 @@ class PlayerControllerTest extends WebTestCase
         $this->assertEquals('', $client->getResponse()->getContent());
     }
 
-    public function testTimeout()
+    public function testSyncTimeout()
     {
         $client = $this->createClient();
         // player1 creates a new game

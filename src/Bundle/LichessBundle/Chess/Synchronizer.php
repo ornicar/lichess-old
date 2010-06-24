@@ -55,7 +55,7 @@ class Synchronizer
 
     public function isTimeout(Player $player)
     {
-        return $player->getTime() < (time() - $this->getTimeout());
+        return !$player->getIsAi() && $player->getTime() < (time() - $this->getTimeout());
     }
 
     public function update(Player $player)
