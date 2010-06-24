@@ -55,7 +55,7 @@ class PlayerController extends Controller
 
         if($game->getIsFinished()) {
             $this->container->getLichessSocketService()->write($player->getOpponent(), $this->getEndGameData($player->getOpponent()));
-            return $this->renderJson($this->getEndGameData($player));
+            return $this->renderJson($this->getendgamedata($player));
         }
         return $this->renderJson(null);
     }
@@ -87,6 +87,13 @@ class PlayerController extends Controller
         }
         $opponent = $player->getOpponent();
         $game = $player->getGame();
+        if(!$opponent->getIsAi()) {
+            $this->container->getLichessSynchronizerService()->synchronize($player);
+            if($game->getIsFinished()) {
+                $this->container->getLichessSocketService()->write($opponent, $this->getEndGameData($opponent));
+                return $this->renderJson($this->getEndGameData($player));
+            }
+        }
         $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
         $stack = new Stack();
         $manipulator = new Manipulator($game, $stack);
@@ -150,7 +157,7 @@ class PlayerController extends Controller
         }
 
         if(!$player->getOpponent()->getIsAi() && !$game->getIsFinished()) {
-            $this->container->getLichessSynchronizerService()->update($player);
+            $this->container->getLichessSynchronizerService()->synchronize($player);
             $this->container->getLichessPersistenceService()->save($game);
         }
 

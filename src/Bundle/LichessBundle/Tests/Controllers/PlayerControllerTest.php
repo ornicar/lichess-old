@@ -87,12 +87,13 @@ class PlayerControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirection());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table div.lichess_player p:contains("Waiting")')->count());
         preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
         $player2Hash = $match[1];
 
         // player1 plays
         $crawler = $client->request('GET', '/'.$player1Hash);
-        $this->assertEquals(1, $crawler->filter('div.lichess_table p:contains("Your turn")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table div.lichess_player p:contains("Your turn")')->count());
         $client->request('POST', '/move/'.$player1Hash, array('from' => 'd2', 'to' => 'd4'));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('#\{"time":\d+,"possible_moves":null,"events":\[\{"type":"move","from":"d2","to":"d4"\}\]\}#', $client->getResponse()->getContent());
@@ -186,6 +187,7 @@ class PlayerControllerTest extends WebTestCase
     protected function createPlayer($client)
     {
         $player = $client->getContainer()->getLichessGeneratorService()->createGameForPlayer('white');
+        $client->getContainer()->getLichessSynchronizerService()->synchronize($player);
         $client->getContainer()->getLichessPersistenceService()->save($player->getGame());
         return $player;
     }
