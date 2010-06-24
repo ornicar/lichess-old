@@ -51,6 +51,16 @@ $(function()
               }
           });
       }, lichess_data.beat_delay);
+
+      // synchronize with game
+      setInterval(function()
+      {
+        $.ajax({
+          cache:      false,
+          dataType:   'json',
+          url:        lichess_data.url.sync
+        });
+      }, lichess_data.sync_delay);
     }
   }
   $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));

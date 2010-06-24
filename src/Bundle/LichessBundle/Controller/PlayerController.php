@@ -174,19 +174,22 @@ class PlayerController extends Controller
     {
         $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
         $player = $this->findPlayer($hash);
+        $this->container->getLichessSynchronizerService()->update($player);
+        $this->container->getLichessPersistenceService()->save($player->getGame());
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);
             if($opponentHash == $hash) {
                 return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player));
             }
             unlink($connectionFile);
-            $game = $this->findPlayer($opponentHash)->getGame();
-            return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
+            $opponent = $this->findPlayer($opponentHash);
+            if(!$this->container->getLichessSynchronizerService()->isTimeout($opponent)) {
+                return $this->redirect($this->generateUrl('lichess_game', array('hash' => $opponent->getGame()->getHash())));
+            }
         }
-        else {
-            file_put_contents($connectionFile, $hash);
-            return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player));
-        }
+
+        file_put_contents($connectionFile, $hash);
+        return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player));
     }
 
     public function inviteAiAction($hash)
