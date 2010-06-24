@@ -8,23 +8,17 @@ class PlayerControllerTest extends WebTestCase
     public function testResign()
     {
         $client = $this->createClient();
-        // player1 creates a new game
-        $crawler = $client->request('GET', '/');
-
-        $gameUrl = $crawler->filter('div.lichess_join_url span')->text();
-        $gameHash = substr($gameUrl, -6);
-        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
-        $playerHash = $match[1];
+        $player = $this->createPlayer($client);
 
         // player2 joins it
-        $crawler = $client->request('GET', '/'.$gameHash);
+        $crawler = $client->request('GET', '/'.$player->getGame()->getHash());
         $crawler = $client->followRedirect();
 
         // player2 resigns
         $client->click($crawler->filter('a:contains("Resign")')->link());
 
         // player1 wins
-        $crawler = $client->request('GET', '/'.$playerHash);
+        $crawler = $client->request('GET', '/'.$player->getFullHash());
         $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table.finished div.lichess_piece.king.white')->count());
     }
@@ -33,12 +27,9 @@ class PlayerControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         // player1 creates a new game
-        $crawler = $client->request('GET', '/');
-
-        $gameUrl = $crawler->filter('div.lichess_join_url span')->text();
-        $gameHash = substr($gameUrl, -6);
-        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
-        $player1Hash = $match[1];
+        $player = $this->createPlayer($client);
+        $gameHash = $player->getGame()->getHash();
+        $player1Hash = $player->getFullHash();
 
         // player2 joins it
         $crawler = $client->request('GET', '/'.$gameHash);
@@ -87,12 +78,9 @@ class PlayerControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         // player1 creates a new game
-        $crawler = $client->request('GET', '/');
-
-        $gameUrl = $crawler->filter('div.lichess_join_url span')->text();
-        $gameHash = substr($gameUrl, -6);
-        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
-        $player1Hash = $match[1];
+        $player = $this->createPlayer($client);
+        $gameHash = $player->getGame()->getHash();
+        $player1Hash = $player->getFullHash();
 
         // player2 joins it
         $crawler = $client->request('GET', '/'.$gameHash);
@@ -128,12 +116,9 @@ class PlayerControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         // player1 creates a new game
-        $crawler = $client->request('GET', '/');
-
-        $gameUrl = $crawler->filter('div.lichess_join_url span')->text();
-        $gameHash = substr($gameUrl, -6);
-        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
-        $player1Hash = $match[1];
+        $player = $this->createPlayer($client);
+        $gameHash = $player->getGame()->getHash();
+        $player1Hash = $player->getFullHash();
 
         // player2 joins it
         $crawler = $client->request('GET', '/'.$gameHash);
@@ -147,5 +132,11 @@ class PlayerControllerTest extends WebTestCase
         $client->request('GET', '/sync/'.$player1Hash);
         $this->assertEquals('', $client->getResponse()->getContent());
     }
-}
 
+    protected function createPlayer($client)
+    {
+        $player = $client->getContainer()->getLichessGeneratorService()->createGameForPlayer('white');
+        $client->getContainer()->getLichessPersistenceService()->save($player->getGame());
+        return $player;
+    }
+}
