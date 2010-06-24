@@ -1,8 +1,13 @@
 <?php $game = $player->getGame() ?>
 <?php $winner = $game->getWinner() ?>
+<?php $opponent = $player->getOpponent() ?>
 <div class="lichess_table finished <?php echo $game->getNext() ? ' lichess_table_next' : '' ?>">
     <div class="lichess_opponent">
-      <span><?php echo $player->getOpponent()->getIsAi() ? 'Opponent is Crafty A.I. level '.$player->getOpponent()->getAiLevel() : 'Human opponent' ?></span>
+        <?php if ($opponent->getIsAi()): ?>
+            <span>Opponent is Crafty A.I. level <?php echo $opponent->getAiLevel() ?></span>
+        <?php else: ?>
+            <span class="opponent_status">Human opponent <?php echo $isOpponentConnected ? 'connected' : 'offline' ?></span>
+        <?php endif; ?>
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
@@ -20,7 +25,7 @@
     <div class="lichess_control clearfix">
         <label class="lichess_enable_chat"><input type="checkbox" checked="checked" />Chat</label>
         <a class="lichess_new_game" title="Back to homepage" href="<?php echo $view->router->generate('lichess_homepage') ?>">New game</a>
-        <?php if(!$player->getOpponent()->getIsAi()): ?>
+        <?php if(!$opponent->getIsAi()): ?>
             <?php if($game->getNext()): ?>
                 <div class="lichess_separator"></div>
                 <div class="lichess_play_again_join">

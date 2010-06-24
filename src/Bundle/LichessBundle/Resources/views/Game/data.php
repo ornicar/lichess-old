@@ -17,15 +17,17 @@ $data = array(
     ),
     'opponent' => array(
         'color' => $opponent->getColor(),
-        'ai' => $opponent->getIsAi()
+        'ai' => $opponent->getIsAi(),
+        'connected' => isset($isOpponentConnected) ? $isOpponentConnected : false,
     ),
     'beat_delay' => 1200,
-    'sync_delay' => 3000,
+    'sync_delay' => 15000,
     'animation_delay' => 500,
     'url' => array(
         'socket' => '/socket/'.$playerFullHash.'.json',
         'move' => $view->router->generate('lichess_move', array('hash' => $playerFullHash)),
         'sync' => $view->router->generate('lichess_sync', array('hash' => $playerFullHash)),
+        'table' => $view->router->generate('lichess_table', array('hash' => $playerFullHash)),
         'ai_level' => $opponent->getIsAi() ? $view->router->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null
     ),
     'time' => time(),

@@ -168,6 +168,7 @@ class PlayerController extends Controller
         $this->container->getLichessSocketService()->write($player, array());
         return $this->render('LichessBundle:Player:show', array(
             'player' => $player,
+            'isOpponentConnected' => $this->container->getLichessSynchronizerService()->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
             'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
