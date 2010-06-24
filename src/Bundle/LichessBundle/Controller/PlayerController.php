@@ -88,11 +88,6 @@ class PlayerController extends Controller
         $opponent = $player->getOpponent();
         $game = $player->getGame();
         if(!$opponent->getIsAi()) {
-            $this->container->getLichessSynchronizerService()->synchronize($player);
-            if($game->getIsFinished()) {
-                $this->container->getLichessSocketService()->write($opponent, $this->getEndGameData($opponent));
-                return $this->renderJson($this->getEndGameData($player));
-            }
         }
         $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
         $stack = new Stack();
@@ -103,6 +98,7 @@ class PlayerController extends Controller
             'possible_moves' => null,
             'events' => $stack->getEvents()
         );
+        $this->container->getLichessSynchronizerService()->synchronize($player);
         if($game->getIsFinished()) {
             $data['events'][] = array(
                 'type' => 'end',
