@@ -385,7 +385,7 @@
           case "reload_table":
             $.ajax({
               cache: false,
-              url: event.table_url,
+              url: self.options.url.table,
               success: function(html)
               {
                 $("div.lichess_table").replaceWith(html);
