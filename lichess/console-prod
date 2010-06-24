@@ -3,7 +3,7 @@
 
 require_once __DIR__.'/LichessKernel.php';
 
-use Symfony\Framework\WebBundle\Console\Application;
+use Symfony\Framework\FoundationBundle\Console\Application;
 
 $kernel = new LichessKernel('prod', false);
 

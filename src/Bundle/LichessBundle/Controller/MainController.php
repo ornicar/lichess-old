@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Controller;
 
-use Symfony\Framework\WebBundle\Controller;
+use Symfony\Framework\FoundationBundle\Controller;
 
 class MainController extends Controller
 {

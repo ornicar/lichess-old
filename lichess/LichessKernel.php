@@ -1,13 +1,10 @@
 <?php
 
 require_once __DIR__.'/../src/autoload.php';
-require_once __DIR__.'/../src/vendor/Symfony/src/Symfony/Foundation/bootstrap.php';
 
 use Symfony\Foundation\Kernel;
 use Symfony\Components\DependencyInjection\Loader\YamlFileLoader as ContainerLoader;
 use Symfony\Components\Routing\Loader\YamlFileLoader as RoutingLoader;
-use Symfony\Components\HttpKernel\HttpKernelInterface;
-use Symfony\Components\HttpKernel\Request;
 
 class LichessKernel extends Kernel
 {
@@ -21,7 +18,7 @@ class LichessKernel extends Kernel
     {
         $bundles = array(
             new Symfony\Foundation\Bundle\KernelBundle(),
-            new Symfony\Framework\WebBundle\WebBundle(),
+            new Symfony\Framework\FoundationBundle\FoundationBundle(),
             new Bundle\LichessBundle\LichessBundle()
         );
 

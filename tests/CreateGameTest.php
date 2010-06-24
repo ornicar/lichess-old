@@ -2,7 +2,7 @@
 
 namespace Lichess\Tests;
 
-use Symfony\Framework\WebBundle\Test\WebTestCase;
+use Symfony\Framework\FoundationBundle\Test\WebTestCase;
 
 class CreateGameTest extends WebTestCase
 {
