@@ -146,11 +146,15 @@ class PlayerControllerTest extends WebTestCase
 
         // player2 joins it
         $client->request('GET', '/'.$player1->getGame()->getHash());
+        $client->followRedirect();
         $player2 = $player1->getOpponent();
 
         // player1 disconnects
+        $game = $client->getContainer()->getLichessPersistenceService()->find($player1->getGame()->getHash());
+        $player1 = $game->getPlayerByHash($player1->getHash());
+        $player2 = $game->getPlayerByHash($player2->getHash());
         $player1->setTime(time() - $client->getContainer()->getParameter('lichess.synchronizer.timeout') -1);
-        $client->getContainer()->getLichessPersistenceService()->save($player1->getGame());
+        $client->getContainer()->getLichessPersistenceService()->save($game);
 
         // player2 syncs
         $client->request('GET', '/sync/'.$player2->getFullHash());
