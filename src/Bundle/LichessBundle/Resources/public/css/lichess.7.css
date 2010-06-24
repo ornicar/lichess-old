@@ -341,9 +341,12 @@ div.lichess_separator {
 
 div.lichess_control {
     margin-top: 20px;
-    color: #888;
+}
+
+div.lichess_control a {
     font-size: 90%;
 }
+
 div.lichess_control label {
     margin-right: 1em;
     cursor: pointer;
@@ -359,7 +362,6 @@ div.lichess_control a.lichess_play_again {
 div.lichess_control div.lichess_play_again_join {
     background: url(../images/loader2.gif) center left no-repeat;
     padding-left: 45px;
-    color: #444;
 }
 div.lichess_control div.lichess_play_again_join a {
     margin-left: 0;

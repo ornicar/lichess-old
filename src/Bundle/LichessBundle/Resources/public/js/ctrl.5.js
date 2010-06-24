@@ -54,21 +54,26 @@ $(function()
     }
 
       // synchronize with game
-      setInterval(function()
+      var syncDelay = lichess_data.sync_delay + Math.round(1000*Math.random())-500;
+      var sync = function()
       {
-        $.ajax({
-          cache:      false,
-          dataType:   'json',
-          url:        lichess_data.url.sync,
-          success:    function(data)
-          {
-            $opponentStatus = $('div.lichess_table div.opponent_status');
-            if(data && $opponentStatus.length) {
-              $opponentStatus.html(data.opponent_status);
+        setTimeout(function()
+        {
+          $.ajax({
+            cache:      false,
+            url:        lichess_data.url.sync,
+            success:    function(html)
+            {
+              $opponentStatus = $('div.lichess_table div.opponent_status');
+              if(html && $opponentStatus.length) {
+                $opponentStatus.html(html);
+              }
+              sync();
             }
-          }
-        });
-      }, lichess_data.sync_delay + Math.round(1000*Math.random())-500);
+          });
+        }, syncDelay);
+      };
+      sync();
   }
   $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 

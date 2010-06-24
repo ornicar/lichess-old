@@ -33,7 +33,6 @@ class PlayerController extends Controller
         $persistence->save($game);
         $this->container->getLichessSocketService()->write($player->getOpponent(), array('events' => array(array(
             'type' => 'reload_table',
-            'table_url' => $this->generateUrl('lichess_table', array('hash' => $player->getOpponent()->getFullHash()))
         ))));
         $this->container->getLichessSocketService()->write($nextPlayer, array());
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayer->getFullHash())));
@@ -50,13 +49,9 @@ class PlayerController extends Controller
         $synchronizer->update($player);
         $this->container->getLichessPersistenceService()->save($game);
         if(!$game->getIsStarted()) {
-            return $this->renderJson(null);
+            return $this->createResponse('');
         }
-        $isOpponentConnected = $synchronizer->isConnected($player->getOpponent());
-        return $this->renderJson(array(
-            'is_opponent_connected' => $isOpponentConnected,
-            'opponent_status' => $this->renderView('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected))
-        ));
+        return $this->render('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $synchronizer->isConnected($player->getOpponent())));
     }
 
     public function forceResignAction($hash)
@@ -66,6 +61,9 @@ class PlayerController extends Controller
             $player->getGame()->setStatus(Game::TIMEOUT);
             $player->setIsWinner(true);
             $this->container->getLichessPersistenceService()->save($player->getGame());
+            $this->container->getLichessSocketService()->write($player->getOpponent(), array('events' => array(array(
+                'type' => 'end',
+            ))));
         }
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
     }
@@ -84,7 +82,6 @@ class PlayerController extends Controller
             'possible_moves' => null,
             'events' => array(array(
                 'type' => 'end',
-                'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
             ))
         );
     }
@@ -112,7 +109,6 @@ class PlayerController extends Controller
         if($game->getIsFinished()) {
             $data['events'][] = array(
                 'type' => 'end',
-                'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
             );
         }
         $response = $this->renderJson($data);
@@ -129,7 +125,6 @@ class PlayerController extends Controller
                 if($game->getIsFinished()) {
                     $data['events'][] = array(
                         'type' => 'end',
-                        'table_url'  => $this->generateUrl('lichess_table', array('hash' => $player->getFullHash()))
                     );
                 }
                 $this->container->getLichessSocketService()->write($player, $data);
@@ -143,7 +138,6 @@ class PlayerController extends Controller
             if($game->getIsFinished()) {
                 $data['events'][] = array(
                     'type' => 'end',
-                    'table_url'  => $this->generateUrl('lichess_table', array('hash' => $opponent->getFullHash()))
                 );
             }
             $this->container->getLichessSocketService()->write($opponent, $data);
@@ -258,7 +252,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
-        return $this->render('LichessBundle:Game:'.$template, array('player' => $player));
+        return $this->render('LichessBundle:Game:'.$template, array('player' => $player, 'isOpponentConnected' => $this->container->getLichessSynchronizerService()->isConnected($player->getOpponent())));
     }
 
     /**
