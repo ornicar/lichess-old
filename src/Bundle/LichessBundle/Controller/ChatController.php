@@ -26,7 +26,7 @@ class ChatController extends Controller
 
         $data = array('events' => array(array(
             'type' => 'message',
-            'html' => sprintf('<li><em class="%s"></em>%s</li>', $player->getColor(), htmlentities($message, ENT_COMPAT, 'UTF-8'))
+            'html' => sprintf('<li class="%s">%s</li>', $player->getColor(), htmlentities($message, ENT_COMPAT, 'UTF-8'))
         )));
         $this->container->getLichessSocketService()->write($player->getOpponent(), $data);
 

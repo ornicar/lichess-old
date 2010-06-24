@@ -521,19 +521,17 @@ div.lichess_chat input.lichess_hint {
 
 div.lichess_chat ol.lichess_messages li {
     margin: 0.6em 0;
+    padding-left: 18px;
+    background: left center no-repeat;
 }
-div.lichess_chat ol.lichess_messages em {
-    display: block;
-    float: left;
-    width: 14px;
-    height: 14px;
-    margin-right: 0.3em;
+div.lichess_chat ol.lichess_messages li.white {
+    background-image: url(../images/kw14.png);
 }
-div.lichess_chat ol.lichess_messages em.white {
-    background: url(../images/kw14.png) top left no-repeat;
+div.lichess_chat ol.lichess_messages li.black {
+    background-image: url(../images/kb14.png);
 }
-div.lichess_chat ol.lichess_messages em.black {
-    background: url(../images/kb14.png) top left no-repeat;
+div.lichess_chat ol.lichess_messages li.system {
+    background-image: url(../images/tip3.png);
 }
 
 div.lichess_social {
