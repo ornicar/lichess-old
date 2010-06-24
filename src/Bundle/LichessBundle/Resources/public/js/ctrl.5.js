@@ -53,6 +53,7 @@ $(function()
       }, lichess_data.beat_delay);
     }
 
+    if(!lichess_data.opponent.ai) {
       // synchronize with game
       var syncDelay = lichess_data.sync_delay + Math.round(1000*Math.random())-500;
       var sync = function()
@@ -74,6 +75,7 @@ $(function()
         }, syncDelay);
       };
       sync();
+    }
   }
   $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
