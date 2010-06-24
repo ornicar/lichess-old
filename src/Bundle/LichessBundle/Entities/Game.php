@@ -68,6 +68,13 @@ class Game
      * @var integer
      */
     protected $updatedAt = null;
+    
+    /**
+     * PGN moves of the game
+     *
+     * @var string
+     */
+    protected $pgnMoves = null;
 
     /**
      * The chat room
@@ -93,6 +100,36 @@ class Game
         $this->status = self::CREATED;
     }
     
+    /**
+     * Get pgn moves
+     * @return string
+     */
+    public function getPgnMoves()
+    {
+      return $this->pgnMoves;
+    }
+    
+    /**
+     * Set pgn moves
+     * @param  string
+     * @return null
+     */
+    public function setPgnMoves($pgnMoves)
+    {
+      $this->pgnMoves = $pgnMoves;
+    }
+
+    /**
+     * Add a pgn move
+     *
+     * @param string
+     * @return null
+     **/
+    public function addPgnMove($pgnMove)
+    {
+        $this->pgnMoves .= ' '.$pgnMove;
+    }
+
     /**
      * Get next
      * @return string
