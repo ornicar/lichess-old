@@ -62,7 +62,7 @@ class PlayerControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
-        $this->assertEquals('Human opponent', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
 
         // player2 sees player1
         $crawler = $client->request('GET', '/'.$player2Hash);
@@ -71,7 +71,7 @@ class PlayerControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_table')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player_white')->count());
-        $this->assertEquals('Human opponent', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#Human opponent#', $crawler->filter('div.lichess_opponent span')->text());
     }
 
     public function testPlay()
