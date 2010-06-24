@@ -2,13 +2,12 @@
 
 namespace Bundle\LichessBundle\Command;
 
-use Symfony\Framework\WebBundle\Command\Command as BaseCommand;
+use Symfony\Framework\FoundationBundle\Command\Command as BaseCommand;
 use Symfony\Components\Console\Input\InputArgument;
 use Symfony\Components\Console\Input\InputOption;
 use Symfony\Components\Console\Input\InputInterface;
 use Symfony\Components\Console\Output\OutputInterface;
 use Symfony\Components\Console\Output\Output;
-use Symfony\Framework\WebBundle\Util\Filesystem;
 
 /**
  * Remove old games to preserve the server inode table

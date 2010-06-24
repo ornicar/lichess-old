@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Controller;
 
-use Symfony\Framework\WebBundle\Controller;
+use Symfony\Framework\FoundationBundle\Controller;
 use Bundle\LichessBundle\Entities\Game;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 

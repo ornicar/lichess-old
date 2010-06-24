@@ -1,7 +1,7 @@
 <?php
 namespace Bundle\LichessBundle\Tests\Controller;
 
-use Symfony\Framework\WebBundle\Test\WebTestCase;
+use Symfony\Framework\FoundationBundle\Test\WebTestCase;
 
 class GameControllerTest extends WebTestCase
 {
