@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__.'/../../Entities/Game.php');
+require_once(__DIR__.'/../../Entities/Chat/Room.php');
 require_once(__DIR__.'/../../Entities/Player.php');
 require_once(__DIR__.'/../../Entities/Piece.php');
 require_once(__DIR__.'/../../Entities/Piece/Pawn.php');
