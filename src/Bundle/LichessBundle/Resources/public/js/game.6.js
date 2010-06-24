@@ -188,22 +188,6 @@
             : '/\\/ '+document.title.replace(/\\\/\\ /, '')
             : document.title;
         }, 400);
-
-        // synchronize with opponent
-        self.options.sync_interval = setInterval(function()
-        {
-            if(!self.options.game.finished) {
-                $.ajax({
-                    cache:      false,
-                    dataType:   'json',
-                    url:        self.options.url.sync,
-                    success:    function(data)
-                    {
-                        if(data) self.updateFromJson(data);
-                    }
-                });
-            }
-        }, self.options.sync_delay + Math.round(1000*Math.random())-500);
       }
       
       self.$table.find("a.lichess_resign").click(function()

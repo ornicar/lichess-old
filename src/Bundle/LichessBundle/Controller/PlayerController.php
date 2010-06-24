@@ -46,18 +46,28 @@ class PlayerController extends Controller
             throw new \LogicException('Do not sync with AI');
         }
         $game = $player->getGame();
-        if($game->getIsFinished()) {
+        $synchronizer = $this->container->getLichessSynchronizerService();
+        $synchronizer->update($player);
+        $this->container->getLichessPersistenceService()->save($game);
+        if(!$game->getIsStarted()) {
             return $this->renderJson(null);
         }
+        $isOpponentConnected = $synchronizer->isConnected($player->getOpponent());
+        return $this->renderJson(array(
+            'is_opponent_connected' => $isOpponentConnected,
+            'opponent_status' => $this->renderView('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected))
+        ));
+    }
 
-        $this->container->getLichessSynchronizerService()->synchronize($player);
-        $this->container->getLichessPersistenceService()->save($game);
-
-        if($game->getIsFinished()) {
-            $this->container->getLichessSocketService()->write($player->getOpponent(), $this->getEndGameData($player->getOpponent()));
-            return $this->renderJson($this->getendgamedata($player));
+    public function forceResignAction($hash)
+    {
+        $player = $this->findPlayer($hash);
+        if(!$player->getGame()->getIsFinished() && $this->container->getLichessSynchronizerService()->isTimeout($player->getOpponent())) {
+            $player->getGame()->setStatus(Game::TIMEOUT);
+            $player->setIsWinner(true);
+            $this->container->getLichessPersistenceService()->save($player->getGame());
         }
-        return $this->renderJson(null);
+        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
     }
 
     protected function renderJson($data)
@@ -88,6 +98,7 @@ class PlayerController extends Controller
         $opponent = $player->getOpponent();
         $game = $player->getGame();
         if(!$opponent->getIsAi()) {
+            $this->container->getLichessSynchronizerService()->update($player);
         }
         $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
         $stack = new Stack();
@@ -98,7 +109,6 @@ class PlayerController extends Controller
             'possible_moves' => null,
             'events' => $stack->getEvents()
         );
-        $this->container->getLichessSynchronizerService()->synchronize($player);
         if($game->getIsFinished()) {
             $data['events'][] = array(
                 'type' => 'end',
@@ -152,8 +162,8 @@ class PlayerController extends Controller
             return $this->render('LichessBundle:Player:waitNext', array('player' => $player));
         }
 
-        if(!$player->getOpponent()->getIsAi() && !$game->getIsFinished()) {
-            $this->container->getLichessSynchronizerService()->synchronize($player);
+        if(!$player->getOpponent()->getIsAi()) {
+            $this->container->getLichessSynchronizerService()->update($player);
             $this->container->getLichessPersistenceService()->save($game);
         }
 
