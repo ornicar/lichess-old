@@ -5,7 +5,7 @@
         <title>Lichess | Open Source Chess game</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.6.css" />
-        <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open Source software, uses PHP 5.3, Symfony 2 and jQuery 1.4" name="description">
+        <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open Source software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
     </head>
@@ -37,7 +37,7 @@
                 <a class="lichess_uservoice" title="Having a suggestion, feature request or bug report? Let me know">Feedback</a> /
                 <a href="http://www.pledgie.com/campaigns/11352" target="_blank" title="Lichess is free, support it!">Donate</a> /
                 <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">Source code</a><br />
-                Open Source software built with PHP 5.3, <a href="http://symfony-reloaded.org" target="_blank">Symfony 2</a> &amp; <a href="http://jqueryui.com/" target="_blank">jQuery UI</a><br />
+                Open Source software built with PHP 5.3, <a href="http://symfony-reloaded.org" target="_blank">Symfony2</a> &amp; <a href="http://jqueryui.com/" target="_blank">jQuery UI</a><br />
                 Artificial intelligence: <a href="http://www.craftychess.com/" target="_blank">Crafty</a>
             </div>
         </div>
