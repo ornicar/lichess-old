@@ -21,7 +21,7 @@ $data = array(
         'connected' => isset($isOpponentConnected) ? $isOpponentConnected : false,
     ),
     'beat_delay' => 1200,
-    'sync_delay' => 15000,
+    'sync_delay' => 5000,
     'animation_delay' => 500,
     'url' => array(
         'socket' => '/socket/'.$playerFullHash.'.json',
