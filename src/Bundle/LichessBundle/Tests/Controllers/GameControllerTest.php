@@ -39,6 +39,49 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals('Human opponent', $crawler->filter('div.lichess_opponent span')->text());
     }
 
+    public function testPlayWithFriendTimeout()
+    {
+        $client = $this->createClient();
+        @unlink($client->getContainer()->getParameter('lichess.anybody.connection_file'));
+
+        // player1 creates a new game
+        $crawler = $client->request('GET', '/');
+        $gameUrl = $crawler->filter('div.lichess_join_url span')->text();
+        $gameHash = substr($gameUrl, -6);
+        preg_match('#"player":\{"fullHash":"([\w\d]{10})"#', $client->getResponse()->getContent(), $match);
+        $player1Hash = $match[1];
+
+        // player1 disconnects
+        $game = $client->getContainer()->getLichessPersistenceService()->find($gameHash);
+        $player1 = $game->getPlayerByHash(substr($player1Hash, 6, 4));
+        $player1->setTime(time() - $client->getContainer()->getParameter('lichess.synchronizer.timeout') -1);
+        $client->getContainer()->getLichessPersistenceService()->save($game);
+
+        // player2 joins the game
+        $crawler = $client->request('GET', '/'.$gameHash);
+        $this->assertTrue($client->getResponse()->isRedirection());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player_black')->count());
+        $this->assertEquals('Human opponent', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#White left the game#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
+        $this->assertRegexp('#Black is victorious#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
+
+        // player1 comes back
+        $crawler = $client->request('GET', '/'.$player1->getFullHash());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_board')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table.finished')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player_white')->count());
+        $this->assertEquals('Human opponent', $crawler->filter('div.lichess_opponent span')->text());
+        $this->assertRegexp('#White left the game#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
+        $this->assertRegexp('#Black is victorious#s', $crawler->filter('div.lichess_table div.lichess_player p')->text());
+    }
+
     public function testPlayWithAi()
     {
         // player1 creates a new game

@@ -2,7 +2,7 @@
 <?php $winner = $game->getWinner() ?>
 <div class="lichess_table finished <?php echo $game->getNext() ? ' lichess_table_next' : '' ?>">
     <div class="lichess_opponent">
-     <?php echo $player->getOpponent()->getIsAi() ? 'Opponent is Crafty A.I. level '.$player->getOpponent()->getAiLevel() : 'Human opponent' ?>
+      <span><?php echo $player->getOpponent()->getIsAi() ? 'Opponent is Crafty A.I. level '.$player->getOpponent()->getAiLevel() : 'Human opponent' ?></span>
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">

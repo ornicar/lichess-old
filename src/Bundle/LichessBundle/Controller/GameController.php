@@ -18,18 +18,14 @@ class GameController extends Controller
             return $response;
         }
 
-        $player = $game->getInvited();
-        $opponent = $player->getOpponent();
         $game->setStatus(Game::STARTED);
-        $synchronizer = $this->container->getLichessSynchronizerService();
-        $synchronizer->update($player);
-        $synchronizer->update($opponent);
+        $player = $game->getInvited();
         $this->container->getLichessPersistenceService()->save($game);
-        $this->container->getLichessSocketService()->write($opponent, array(
-            'url' => $this->generateUrl('lichess_player', array('hash' => $opponent->getFullHash()))
+        $this->container->getLichessSocketService()->write($player->getOpponent(), array(
+            'url' => $this->generateUrl('lichess_player', array('hash' => $player->getOpponent()->getFullHash()))
         ));
 
-        return $this->redirect($this->generateUrl('lichess_player', array( 'hash' => $player->getFullHash())));
+        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
     }
 
     /**
