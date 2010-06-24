@@ -21,8 +21,8 @@ class LichessKernel extends Kernel
     {
         $bundles = array(
             new Symfony\Foundation\Bundle\KernelBundle(),
-            new Symfony\Framework\WebBundle\Bundle(),
-            new Bundle\LichessBundle\Bundle()
+            new Symfony\Framework\WebBundle\WebBundle(),
+            new Bundle\LichessBundle\LichessBundle()
         );
 
         return $bundles;
