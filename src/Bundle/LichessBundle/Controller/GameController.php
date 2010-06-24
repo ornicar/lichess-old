@@ -8,6 +8,9 @@ use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
+    /**
+     * Join a game and start it
+     */
     public function showAction($hash)
     {
         $game = $this->findGame($hash);
@@ -18,9 +21,9 @@ class GameController extends Controller
             return $response;
         }
 
-        $game->setStatus(Game::STARTED);
-        $player = $game->getInvited();
+        $game->start();
         $this->container->getLichessPersistenceService()->save($game);
+        $player = $game->getInvited();
         $this->container->getLichessSocketService()->write($player->getOpponent(), array(
             'url' => $this->generateUrl('lichess_player', array('hash' => $player->getOpponent()->getFullHash()))
         ));
