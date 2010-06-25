@@ -22,6 +22,7 @@
     <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
     <parameter key="lichess.synchronizer.timeout">14</parameter>
     <parameter key="lichess.synchronizer.delay">5</parameter>
+    <parameter key="lichess.synchronizer.apc_prefix">lichess_sync_</parameter>
 
   </parameters>
 
@@ -43,6 +44,7 @@
     
     <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
         <argument>%lichess.synchronizer.timeout%</argument>
+        <argument>%lichess.synchronizer.apc_prefix%</argument>
     </service>
 
   </services>

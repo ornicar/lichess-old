@@ -14,10 +14,12 @@ class Synchronizer
      * @var int
      */
     protected $timeout = null;
+    protected $apcPrefix = null;
     
-    public function __construct($timeout)
+    public function __construct($timeout, $apcPrefix)
     {
         $this->timeout = $timeout;
+        $this->apcPrefix = $apcPrefix;
     }
 
     /**
