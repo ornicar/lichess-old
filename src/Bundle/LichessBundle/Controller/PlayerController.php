@@ -174,6 +174,7 @@ class PlayerController extends Controller
             'player' => $player,
             'isOpponentConnected' => $this->container->getLichessSynchronizerService()->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
+            'parameters' => $this->container->getParameters(),
             'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
