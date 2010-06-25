@@ -19,7 +19,8 @@ class MainController extends Controller
         }
 
         return $this->render('LichessBundle:Main:index', array(
-            'player' => $player
+            'player' => $player,
+            'parameters' => $this->container->getParameters()
         ));
     }
 

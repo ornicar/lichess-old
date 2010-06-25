@@ -47,7 +47,7 @@
                 {
                   self.updateFromJson(data);
                   if(self.options.opponent.ai) {
-                    setTimeout(function() { self.beat(); }, 1000);
+                    setTimeout(function() { self.socket(); }, 1000);
                   }
                 }
               });
@@ -178,7 +178,7 @@
 
       if(!self.options.opponent.ai)
       {
-        self.restartBeat();
+        self.restartSocket();
         // update document title to show playing state
         setInterval(function()
         {
@@ -265,7 +265,7 @@
         this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(this.getAnimationSpeed());
       }
     },
-    beat: function()
+    socket: function()
     {
       var self = this;
 
@@ -275,7 +275,7 @@
           self.updateFromJson(data);
         }
         if(!self.options.opponent.ai) {
-            self.restartBeat();
+            self.restartSocket();
         }
       });
     },
@@ -394,17 +394,17 @@
         }
       }
     },
-    restartBeat: function()
+    restartSocket: function()
     {
       var self = this;
-      if (self.options.beat_timeout) 
+      if (self.options.socket_timeout) 
       {
-        clearTimeout(self.options.beat_timeout);
+        clearTimeout(self.options.socket_timeout);
       }
-      self.options.beat_timeout = setTimeout(function()
+      self.options.socket_timeout = setTimeout(function()
       {
-        self.beat();
-      }, self.options.beat_delay);
+        self.socket();
+      }, self.options.socket_delay);
     },
     translate: function(message)
     {

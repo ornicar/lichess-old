@@ -11,6 +11,7 @@
 
     <parameter key="lichess.socket.class">Bundle\LichessBundle\Socket</parameter>
     <parameter key="lichess.socket.dir">%kernel.root_dir%/cache/socket</parameter>
+    <parameter key="lichess.socket.delay">1.2</parameter>
 
     <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
 
@@ -20,6 +21,7 @@
 
     <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
     <parameter key="lichess.synchronizer.timeout">14</parameter>
+    <parameter key="lichess.synchronizer.delay">5</parameter>
 
   </parameters>
 

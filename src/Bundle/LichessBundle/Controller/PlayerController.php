@@ -158,7 +158,7 @@ class PlayerController extends Controller
         }
 
         if(!$game->getIsStarted()) {
-            return $this->render('LichessBundle:Player:waitNext', array('player' => $player));
+            return $this->render('LichessBundle:Player:waitNext', array('player' => $player, 'parameters' => $this->container->getParameters()));
         }
 
         $analyser = new Analyser($game->getBoard());
@@ -174,6 +174,7 @@ class PlayerController extends Controller
             'player' => $player,
             'isOpponentConnected' => $this->container->getLichessSynchronizerService()->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
+            'parameters' => $this->container->getParameters(),
             'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
@@ -187,7 +188,7 @@ class PlayerController extends Controller
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);
             if($opponentHash == $hash) {
-                return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player));
+                return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameters()));
             }
             unlink($connectionFile);
             $opponent = $this->findPlayer($opponentHash);
@@ -197,7 +198,7 @@ class PlayerController extends Controller
         }
 
         file_put_contents($connectionFile, $hash);
-        return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player));
+        return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameters()));
     }
 
     public function inviteAiAction($hash)
