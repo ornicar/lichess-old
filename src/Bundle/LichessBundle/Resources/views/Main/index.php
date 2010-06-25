@@ -18,4 +18,4 @@
     </div>
 </div>
 
-<?php $view->output('LichessBundle:Game:data', array('player' => $player, 'possibleMoves' => null)) ?>
+<?php $view->output('LichessBundle:Game:data', array('player' => $player, 'possibleMoves' => null, 'parameters' => $parameters)) ?>

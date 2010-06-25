@@ -2,7 +2,6 @@
 $game = $player->getGame();
 $opponent = $player->getOpponent();
 $playerFullHash = $player->getFullHash();
-$baseUrl = 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'cli').'/';
 $data = array(
     'game' => array(
         'hash' => $game->getHash(),
@@ -18,10 +17,9 @@ $data = array(
     'opponent' => array(
         'color' => $opponent->getColor(),
         'ai' => $opponent->getIsAi(),
-        'connected' => isset($isOpponentConnected) ? $isOpponentConnected : false,
     ),
-    'beat_delay' => 1200,
-    'sync_delay' => 5000,
+    'beat_delay' => $parameters['lichess.socket.delay'] * 1000,
+    'sync_delay' => $parameters['lichess.synchronizer.delay'] * 1000,
     'animation_delay' => 500,
     'url' => array(
         'socket' => '/socket/'.$playerFullHash.'.json',
