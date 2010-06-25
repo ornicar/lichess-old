@@ -1,13 +1,10 @@
 <?php
 
-ini_set('xdebug.profiler_enable', 1);
-ini_set('xdebug.profiler_output_dir', '/tmp');
-ini_set('xdebug.profiler_output_name', 'cachegrind.out.44444');
 use Bundle\LichessBundle\Persistence\FilePersistence;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 
-require_once(__DIR__.'/../gameBootstrap.php');
+require_once(__DIR__.'/bootstrap.php');
 
 require_once(__DIR__.'/../../Chess/Manipulator.php');
 
@@ -63,7 +60,7 @@ function _playWholeGame()
 
     $generator = new Generator();
     $game = $generator->createGame();
-    $manipulator = new Manipulator($game->getBoard());
+    $manipulator = new Manipulator($game);
     foreach($moves as $move) {
         $manipulator->play($move);
     }
