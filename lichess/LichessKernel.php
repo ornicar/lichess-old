@@ -17,7 +17,7 @@ class LichessKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
-            new Symfony\Foundation\Bundle\KernelBundle(),
+            new Symfony\Foundation\KernelBundle(),
             new Symfony\Framework\FoundationBundle\FoundationBundle(),
             new Bundle\LichessBundle\LichessBundle()
         );
