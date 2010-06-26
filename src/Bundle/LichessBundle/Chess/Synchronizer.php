@@ -14,10 +14,36 @@ class Synchronizer
      * @var int
      */
     protected $timeout = null;
+    /**
+     * Apc prefix
+     *
+     * @var string
+     */
+    protected $apcPrefix = null;
     
-    public function __construct($timeout)
+    public function __construct($timeout, $apcPrefix)
     {
         $this->timeout = $timeout;
+        $this->apcPrefix = $apcPrefix;
+    }
+    
+    /**
+     * Get apcPrefix
+     * @return string
+     */
+    public function getApcPrefix()
+    {
+      return $this->apcPrefix;
+    }
+    
+    /**
+     * Set apcPrefix
+     * @param  string
+     * @return null
+     */
+    public function setApcPrefix($apcPrefix)
+    {
+      $this->apcPrefix = $apcPrefix;
     }
 
     /**
@@ -39,18 +65,28 @@ class Synchronizer
       $this->timeout = $timeout;
     }
 
+    public function setAlive(Player $player)
+    {
+        $data = apc_fetch($this->getPlayer());
+    }
+
     public function isTimeout(Player $player)
     {
-        return !$player->getIsAi() && $player->getTime() < (time() - $this->getTimeout());
+        return !$this->isConnected($player);
     }
 
     public function isConnected(Player $player)
     {
-        return !$this->isTimeout($player);
+        return $player->getIsAi() || !apc_exists($this->getPlayerApcKey($player));
     }
 
-    public function update(Player $player)
+    protected function getPlayerApcKey(Player $player)
     {
-        $player->setTime(time());
+        return $this->getApcPrefix().$player->getFullHash();
+    }
+
+    protected function getApcTimeOut()
+    {
+        return 5 * $this->getTimeout();
     }
 }
