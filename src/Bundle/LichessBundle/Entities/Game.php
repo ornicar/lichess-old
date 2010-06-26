@@ -91,6 +91,7 @@ class Game
             $this->hash .= $chars[mt_rand( 0, 36 )];
         }
         $this->status = self::CREATED;
+        $this->room = new Room();
     }
     
     /**
@@ -163,9 +164,6 @@ class Game
      */
     public function getRoom()
     {
-        if(null === $this->room) {
-            $this->room = new Room();
-        }
         return $this->room;
     }
 

@@ -13,14 +13,14 @@ class MainController extends Controller
 
         // When munin pings the website, don't save the new game
         if(0 !== strncmp($this->getRequest()->server->get('HTTP_USER_AGENT'), 'Wget/', 5)) {
-            $this->container->getLichessSynchronizerService()->update($player);
+            $this->container->getLichessSynchronizerService()->setAlive($player);
             $this->container->getLichessPersistenceService()->save($player->getGame());
-            $this->container->getLichessSocketService()->write($player, array());
         }
 
         return $this->render('LichessBundle:Main:index', array(
             'player' => $player,
-            'parameters' => $this->container->getParameters()
+            'parameters' => $this->container->getParameters(),
+            'isOpponentConnected' => false
         ));
     }
 

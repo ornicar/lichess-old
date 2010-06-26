@@ -1,78 +1,17 @@
-if(typeof lichess_data != 'undefined') {
-    lichess_socket = {
-        time: lichess_data.time,
-        connect: function(url, callback)
-        {
-            $.ajax({
-                dataType:   'json',
-                url:        url,
-                success:    function(data) {
-                    if(data && data.time > lichess_socket.time) {
-                        lichess_socket.time = data.time;
-                        callback(data);
-                    }
-                    else {
-                        callback(false);
-                    }
-                },
-                cache:      false,
-                error:      function(XMLHttpRequest, textStatus, errorThrown) {
-                    location.href=location.href;
-                }
-            });
-        }
-    };
-}
-
 $(function()
 {
-  $game = $('div.lichess_game');
-  if ($game.length)
-  {
-    if(lichess_data.game.started)
+    $game = $('div.lichess_game');
+    if ($game.length)
     {
-      $game.game(lichess_data);
-    }
-    else
-    {
-      $game.find('a.lichess_toggle_join_url').click(function()
-      {
-        $game.find('div.lichess_join_url').toggle(100);
-      });
-      
-      setTimeout(waitForOpponent = function()
-      {
-          lichess_socket.connect(lichess_data.url.socket, function(data) {
-              if(data && data.url) {
-                  location.href = data.url;
-              }
-              else {
-                  setTimeout(waitForOpponent, lichess_data.socket_delay);
-              }
-          });
-      }, lichess_data.socket_delay);
+        $game.game(lichess_data);
+
+        $game.find('a.lichess_toggle_join_url').click(function()
+        {
+            $game.find('div.lichess_join_url').toggle(100);
+        });
     }
 
-    if(!lichess_data.opponent.ai) {
-      // synchronize with game
-      setTimeout(sync = function()
-      {
-        $.ajax({
-          type:       'POST',
-          url:        lichess_data.url.sync,
-          success:    function(html)
-          {
-            $opponentStatus = $('div.lichess_table div.opponent_status');
-            if(html && $opponentStatus.length) {
-              $opponentStatus.html(html);
-            }
-            setTimeout(sync, lichess_data.sync_delay);
-          }
-        });
-      }, lichess_data.sync_delay);
-    }
-  }
-  $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
+    $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
     //uservoice
     if(document.domain == 'lichess.org') {
@@ -91,6 +30,35 @@ $(function()
         });
     }
 });
+
+/*
+ * Queued Ajax requests.
+ * A new Ajax request won't be started until the previous queued 
+ * request has finished.
+ */
+$.ajaxQueue = function(o){
+	var _old = o.success;
+	o.success = function(){
+		if (_old) _old.apply( this, arguments );
+		$.dequeue($.ajaxQueue, "ajax");
+	};
+
+    var send = function() {
+        if($.isFunction(o.url)) {
+            o.url = o.url();
+        }
+        $.ajax(o);
+    }
+
+    if($.queue($.ajaxQueue, "ajax").length) {
+        $.queue($.ajaxQueue, "ajax", function() {
+            send(o);
+        });
+    }
+    else {
+        send(o);
+    }
+};
 
 //analytics
 if(document.domain == 'lichess.org') {

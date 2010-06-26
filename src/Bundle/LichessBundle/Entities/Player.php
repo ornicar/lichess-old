@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Entities;
 
 use Bundle\LichessBundle\Chess\PieceFilter;
+use Bundle\LichessBundle\Stack;
 
 /**
  * Represents a single Chess player for one game
@@ -67,6 +68,13 @@ class Player
      */
     protected $time = null;
 
+    /**
+     * Event stack
+     *
+     * @var Stack
+     */
+    protected $stack = null;
+    
     public function __construct($color)
     {
         $this->color = $color;
@@ -75,8 +83,29 @@ class Player
         for ( $i = 0; $i < 4; $i++ ) {
           $this->hash .= $chars[mt_rand( 0, 36 )];
         }
+        $this->stack = new Stack();
+        $this->stack->addEvent(array('type' => 'start'));
     }
-
+    
+    /**
+     * Get stack
+     * @return Stack
+     */
+    public function getStack()
+    {
+      return $this->stack;
+    }
+    
+    /**
+     * Set stack
+     * @param  Stack
+     * @return null
+     */
+    public function setStack($stack)
+    {
+      $this->stack = $stack;
+    }
+    
     /**
      * @return string
      */
@@ -295,6 +324,6 @@ class Player
 
     public function serialize()
     {
-        return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner', 'time');
+        return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner', 'time', 'stack');
     }
 }
