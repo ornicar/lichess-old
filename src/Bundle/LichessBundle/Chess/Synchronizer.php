@@ -42,7 +42,7 @@ class Synchronizer
     public function getDiffEvents(Player $player, $clientVersion)
     {
         $stackVersion = $player->getStack()->getVersion();
-        if($stackVersion === $clientVersion) {
+        if($stackVersion == $clientVersion) {
             return array();
         }
         $events = array();
