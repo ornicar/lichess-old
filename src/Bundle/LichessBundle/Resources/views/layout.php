@@ -13,7 +13,7 @@
         <div class="content">
             <div class="header">
                 <h1>
-                    <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
+                    <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a><span class="lichess_version">1.1</span>
                 </h1>
                 <div class="lichess_social">
                     <a href="http://twitter.com/home?status=<?php echo urlencode('Amazing Chess Game, free and Open Source! http://lichess.org/') ?>" class="lichess_tweet" target="blank">Tweet</a>
