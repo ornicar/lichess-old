@@ -58,7 +58,7 @@ $(function()
       setTimeout(sync = function()
       {
         $.ajax({
-          cache:      false,
+          type:       'POST',
           url:        lichess_data.url.sync,
           success:    function(html)
           {
