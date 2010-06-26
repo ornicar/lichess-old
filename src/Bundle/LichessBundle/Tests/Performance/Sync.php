@@ -13,18 +13,14 @@ $kernel = new LichessKernel('test', true);
 $kernel->boot();
 $client = $kernel->getContainer()->getTest_ClientService();
 
-$game = $kernel->getContainer()->getLichessGeneratorService()->createGame();
-$gameHash = $game->getHash();
-$player = $game->getPlayer('white');
-$game->setCreator($player);
+$player = $kernel->getContainer()->getLichessGeneratorService()->createGameForPlayer('white');
+$game = $player->getGame();
 $game->setStatus(Game::STARTED);
+$gameHash = $game->getHash();
 for($it=0; $it<50; $it++) {
-    $game->getRoom()->addMessage($it%2 ? 'white' : 'black', str_repeat('blah blah ', rand(1, 10)));
+    $game->getRoom()->addMessage($it%2 ? 'white' : 'black', str_repeat('blah blah '.$it.' ', rand(1, 10)));
 }
 $playerHash = $player->getFullHash();
-$opponent = $player->getOpponent();
-$opponentHash = $opponent->getFullHash();
-$dir = sys_get_temp_dir();
 $persistence = $kernel->getContainer()->getLichessPersistenceService();
 $persistence->save($game);
 

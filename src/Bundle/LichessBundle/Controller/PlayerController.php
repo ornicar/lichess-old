@@ -41,14 +41,10 @@ class PlayerController extends Controller
     public function syncAction($hash)
     {
         $player = $this->findPlayer($hash);
-        if($player->getOpponent()->getIsAi()) {
-            throw new \LogicException('Do not sync with AI');
-        }
-        $game = $player->getGame();
         $synchronizer = $this->container->getLichessSynchronizerService();
         $synchronizer->update($player);
-        $this->container->getLichessPersistenceService()->save($game);
-        if(!$game->getIsStarted()) {
+        $this->container->getLichessPersistenceService()->save($player->getGame());
+        if(!$player->getGame()->getIsStarted()) {
             return $this->createResponse('');
         }
         return $this->render('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $synchronizer->isConnected($player->getOpponent())));
