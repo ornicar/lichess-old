@@ -47,10 +47,11 @@ class PlayerController extends Controller
 
     protected function getPlayerSyncData($player, $clientVersion)
     {
+        $playerVersion = $player->getStack()->getVersion();
         return array(
-            'v' => $player->getStack()->getVersion(),
+            'v' => $playerVersion,
             'o' => $this->getSynchronizer()->isConnected($player->getOpponent()),
-            'e' => $this->getSynchronizer()->getDiffEvents($player, $clientVersion)
+            'e' => $playerVersion != $clientVersion ? $this->getSynchronizer()->getDiffEvents($player, $clientVersion) : array()
         );
     }
 

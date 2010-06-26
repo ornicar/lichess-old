@@ -27,9 +27,8 @@
         setTimeout(self.syncPlayer = function()
         {
             $.ajaxQueue({
-                type:       'GET',
-                cache:      false,
-                url:        lichess_data.url.sync.replace(/0/, self.options.player.version),
+                type:       'POST',
+                url:        function() { return self.options.url.sync.replace(/0/, self.options.player.version); },
                 success:    function(data)
                 {
                     self.syncSuccess(data);
