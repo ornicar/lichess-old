@@ -23,7 +23,7 @@
 
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">15</parameter>
-        <parameter key="lichess.synchronizer.delay">9</parameter>
+        <parameter key="lichess.synchronizer.delay">5</parameter>
 
     </parameters>
 

@@ -163,6 +163,17 @@
     applyEvents: function(events)
     {
       var self = this;
+
+      // apply and overwrite possible_moves
+      for (var i in events)
+      {
+          if(events[i].type == 'possible_moves') {
+              self.options.possible_moves = events[i].possible_moves;
+              self.indicateTurn();
+              events.splice(i, 1);
+          }
+      }
+
       // move first
       for (var i in events)
       {
@@ -200,10 +211,6 @@
           case "check":
             $("div#" + event.key, self.$board).addClass("check");
             break;
-          case "possible_moves":
-              self.options.possible_moves = event.possible_moves;
-              self.indicateTurn();
-              break;
           case "redirect":
               window.location.href=event.url;
               break;
@@ -221,7 +228,10 @@
               {
                 self.$table.replaceWith(html);
               }
-            })
+            });
+            break;
+          default:
+            break;
         }
       }
     },
