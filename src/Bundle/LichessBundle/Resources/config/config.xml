@@ -4,46 +4,49 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
-  <parameters>
+    <parameters>
 
-    <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\FilePersistence</parameter>
-    <parameter key="lichess.persistence.dir">%kernel.root_dir%/data</parameter>
+        <parameter key="lichess.apc.prefix">lichess_</parameter>
 
-    <parameter key="lichess.socket.class">Bundle\LichessBundle\Socket</parameter>
-    <parameter key="lichess.socket.dir">%kernel.root_dir%/cache/socket</parameter>
-    <parameter key="lichess.socket.delay">1.2</parameter>
+        <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\FilePersistence</parameter>
+        <parameter key="lichess.persistence.dir">%kernel.root_dir%/data</parameter>
 
-    <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
+        <parameter key="lichess.socket.class">Bundle\LichessBundle\Socket</parameter>
+        <parameter key="lichess.socket.dir">%kernel.root_dir%/cache/socket</parameter>
+        <parameter key="lichess.socket.delay">1.2</parameter>
 
-    <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
+        <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
 
-    <parameter key="lichess.anybody.connection_file">%kernel.root_dir%/cache/connect_anybody</parameter>
+        <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
 
-    <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
-    <parameter key="lichess.synchronizer.timeout">14</parameter>
-    <parameter key="lichess.synchronizer.delay">5</parameter>
+        <parameter key="lichess.anybody.connection_file">%kernel.root_dir%/cache/connect_anybody</parameter>
 
-  </parameters>
+        <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
+        <parameter key="lichess.synchronizer.timeout">14</parameter>
+        <parameter key="lichess.synchronizer.delay">5</parameter>
 
-  <services>
+    </parameters>
 
-    <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
-        <argument>%lichess.persistence.dir%</argument>
-    </service>
+    <services>
 
-    <service id="lichess_socket" class="%lichess.socket.class%" shared="false">
-        <argument>%lichess.socket.dir%</argument>
-    </service>
+        <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
+            <argument>%lichess.persistence.dir%</argument>
+        </service>
 
-    <service id="lichess_ai" class="%lichess.ai.class%" shared="true">
-    </service>
-    
-    <service id="lichess_generator" class="%lichess.generator.class%" shared="true">
-    </service>
-    
-    <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
-        <argument>%lichess.synchronizer.timeout%</argument>
-    </service>
+        <service id="lichess_socket" class="%lichess.socket.class%" shared="false">
+            <argument>%lichess.socket.dir%</argument>
+        </service>
 
-  </services>
+        <service id="lichess_ai" class="%lichess.ai.class%" shared="true">
+        </service>
+
+        <service id="lichess_generator" class="%lichess.generator.class%" shared="true">
+        </service>
+
+        <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
+            <argument>%lichess.synchronizer.timeout%</argument>
+            <argument>%lichess.apc.prefix%</argument>
+        </service>
+
+    </services>
 </container>
