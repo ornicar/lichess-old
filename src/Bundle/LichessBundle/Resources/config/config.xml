@@ -6,7 +6,7 @@
 
   <parameters>
 
-    <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\FilePersistence</parameter>
+    <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\ApcPersistence</parameter>
     <parameter key="lichess.persistence.dir">%kernel.root_dir%/data</parameter>
 
     <parameter key="lichess.socket.class">Bundle\LichessBundle\Socket</parameter>
@@ -30,6 +30,7 @@
 
     <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
         <argument>%lichess.persistence.dir%</argument>
+        <argument>%lichess.synchronizer.timeout%</argument>
     </service>
 
     <service id="lichess_socket" class="%lichess.socket.class%" shared="false">
