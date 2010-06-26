@@ -6,13 +6,14 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Synchronizer;
 use Bundle\LichessBundle\Entities\Game;
 
-require_once(__DIR__.'/bootstrap.php');
-require_once(__DIR__.'/../../Persistence/PersistenceInterface.php');
-require_once(__DIR__.'/../../Persistence/FilePersistence.php');
-require_once(__DIR__.'/../../Chess/Synchronizer.php');
+require_once(__DIR__.'/../../../../autoload.php');
+require_once(__DIR__.'/../../../../../lichess/LichessKernel.php');
 
-$generator = new Generator();
-$game = $generator->createGame();
+$kernel = new LichessKernel('test', true);
+$kernel->boot();
+$client = $kernel->getContainer()->getTest_ClientService();
+
+$game = $kernel->getContainer()->getLichessGeneratorService()->createGame();
 $gameHash = $game->getHash();
 $player = $game->getPlayer('white');
 $game->setCreator($player);
@@ -24,18 +25,14 @@ $playerHash = $player->getFullHash();
 $opponent = $player->getOpponent();
 $opponentHash = $opponent->getFullHash();
 $dir = sys_get_temp_dir();
-$persistence = new FilePersistence($dir);
+$persistence = $kernel->getContainer()->getLichessPersistenceService();
 $persistence->save($game);
-$synchronizer = new Synchronizer(5);
 
-$iterations = 1000;
+$iterations = 100;
 
 $start = microtime(true);
 for($it=0; $it<$iterations; $it++) {
-  $persistence->find($gameHash);
-  $synchronizer->update($player);
-  $synchronizer->isConnected($opponent);
-  $persistence->save($game);
+    $client->request('POST', '/sync/'.$playerHash);
 }
 $time = 1000 * (microtime(true) - $start);
 printf('%d syncs in %01.2f ms'."\n", $iterations, $time);
