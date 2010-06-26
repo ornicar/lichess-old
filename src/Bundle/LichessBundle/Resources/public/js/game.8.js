@@ -6,229 +6,67 @@
     {
       var self = this;
       self.pieceMoving = false
-      self.$board = $("div.lichess_board", self.element);
-      self.$table = $("div.lichess_table", self.element);
+      self.$board = self.element.find("div.lichess_board");
+      self.$table = self.element.find("div.lichess_table");
+      self.$chat = $("div.lichess_chat");
       self.initialTitle = document.title,
       self.animate = null;
       
-      self.indicateTurn();
-
-      // init squares
-      $("div.lcs", self.$board).each(function()
+      if(self.options.game.started)
       {
-        var squareId = $(this).attr('id');
-        $(this).droppable({
-          accept: function(draggable)
-          {
-            return self.isMyTurn() && self.inArray(squareId, self.options.possible_moves[draggable.parent().attr('id')]);
-          },
-          drop: function(ev, ui)
-          {
-            var $piece  = ui.draggable,
-            $oldSquare  = $piece.parent(),
-            squareId    = $(this).attr("id"),
-            moveData    = {
-              from:    $oldSquare.attr("id"),
-              to:   squareId
-            };
-
-            self.$board.find("div.droppable-active").removeClass("droppable-active");
-            self.options.possible_moves = null;
-            self.movePiece($oldSquare.attr("id"), squareId);
-
-            function sendMoveRequest(moveData)
-            {
-              $.ajax({
-                type: 'POST',
-                dataType: "json",
-                url: self.options.url.move,
-                data: moveData,
-                success: function(data)
-                {
-                  self.updateFromJson(data);
-                  if(self.options.opponent.ai) {
-                    setTimeout(function() { self.socket(); }, 1000);
-                  }
-                }
-              });
-            }
-
-            var color = self.options.player.color;
-            // promotion
-            if($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1)))
-            {
-              var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
-                <div rel="queen" class="lichess_piece queen '+color+'"></div>\
-                <div rel="knight" class="lichess_piece knight '+color+'"></div>\
-                <div rel="rook" class="lichess_piece rook '+color+'"></div>\
-                <div rel="bishop" class="lichess_piece bishop '+color+'"></div>'
-              ).fadeIn(self.getAnimationSpeed()).find('div.lichess_piece').click(function()
-              {
-                moveData.options = {promotion: $(this).attr('rel')};
-                sendMoveRequest(moveData);
-                $choices.fadeOut(self.getAnimationSpeed(), function() {$choices.remove();});
-              }).end();
-            }
-            else
-            {
-              sendMoveRequest(moveData);
-            }
-          },
-          activeClass: 'droppable-active',
-          hoverClass: 'droppable-hover'
-        });
-      });
-      
-      // init pieces
-      $("div.lichess_piece." + self.options.player.color, self.$board).each(function()
-      {
-        $(this).draggable({
-          //distance: 10,
-          containment: self.$board,
-          helper: function()
-          {
-            return $('<div>')
-            .attr("class", $(this).attr("class"))
-            .attr('data-key', $(this).parent().attr('id'))
-            .appendTo(self.$board);
-          },
-          start: function()
-          {
-            self.pieceMoving = true;
-            $(this).addClass("moving").parent().addClass("droppable-active")
-          },
-          stop: function()
-          {
-            self.pieceMoving = false;
-            $(this).removeClass("moving").parent().removeClass("droppable-active")
-          }
-        })
-        .hover(function()
-        {
-          if (self.animate && !self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).parent().attr('id')]) && targets.length)
-          {
-            $("#" + targets.join(", #")).addClass("droppable-active");
-          }
-        }, function()
-        {
-          if (!self.pieceMoving)
-          {
-            self.$board.find("div.droppable-active").removeClass("droppable-active");
-          }
-        });
-      });
-      
-      //init chat
-      $chat = $('div.lichess_chat');
-      if($chat.length)
-      {
-        var $messages = $chat.find('.lichess_messages');
-        $messages[0].scrollTop = 9999999;
-        var $form = $chat.find('form');
-        var $input = $chat.find('input').one("focus", function()
-        {
-            $input.val('').removeClass('lichess_hint');
-        });
-
-        // send a message
-        $form.submit(function()
-        {
-            text = $.trim($input.val());
-            if(!text) return;
-            if(text.length > 140) {
-                alert('Max length: 140 chars. '+text.length+' chars used.');
-                return false;
-            }
-            $input.val('');
-            $.ajax({
-              type: 'POST',
-              dataType: "json",
-              url: $(this).attr('action'),
-              data: {message: text},
-              success: function(data)
-              {
-                self.updateFromJson(data);
-              }
-            });
-            return false;
-        });
-
-        $('div.lichess_control label.lichess_enable_chat input').change(function()
-        {
-            if($(this).attr('checked'))
-            {
-                $messages.show(); $form.show();
-            }
-            else
-            {
-                $messages.hide(); $form.hide();
-            }
-        }).trigger('change');
+        self.indicateTurn();
+        self.initSquaresAndPieces();
+        self.initChat();  
+        self.initTable();
+        self.initOptions();
       }
-      else
-      {
-        $('div.lichess_control label.lichess_enable_chat').hide();
-      }
-
-      $('div.lichess_control .lichess_enable_animation input').change(function()
-      {
-        self.animate = $(this).attr('checked');
-        $('div.lcs.ui-droppable').droppable('option', 'activeClass', self.animate ? 'droppable-active' : '');
-      }).trigger('change');
 
       if(!self.options.opponent.ai)
       {
-        self.restartSocket();
+        // synchronize with game
+        setTimeout(self.syncPlayer = function()
+        {
+            $.ajaxQueue({
+                type:       'GET',
+                cache:      false,
+                url:        lichess_data.url.sync.replace(/0/, self.options.player.version),
+                success:    function(data)
+                {
+                    self.syncSuccess(data);
+                    setTimeout(self.syncPlayer, self.options.sync_delay);
+                }
+            });
+        }, self.options.sync_delay);
+
         // update document title to show playing state
-        setInterval(function()
+        setTimeout(self.updateTitle = function()
         {
             document.title = (self.isMyTurn() && !self.options.game.finished)
             ? document.title = document.title.indexOf('/\\/') == 0
             ? '\\/\\ '+document.title.replace(/\/\\\/ /, '')
             : '/\\/ '+document.title.replace(/\\\/\\ /, '')
             : document.title;
+            setTimeout(self.updateTitle, 400);
         }, 400);
       }
-      
-      self.$table.find("a.lichess_resign").click(function()
-      {
-        if (confirm($(this).attr('title')+' ?')) 
-        {
-          $.ajax({
-            cache: false,
-            dataType: "json",
-            url: $(this).attr("href"),
-            success: function(data)
-            {
-              self.updateFromJson(data);
-            }
-          });
-        }
-
-        return false;
-      });
-
-      self.$table.find("select.lichess_ai_level").change(function()
-      {
-        $.ajax({
-          type: 'POST',
-          url:  self.options.url.ai_level,
-          data: {
-            level:  $(this).val()
-          }
-        });
-      });
     },
-    updateFromJson: function(data)
+    syncSuccess: function(data)
     {
-      var self = this;
-      if(typeof data.possible_moves != 'undefined')
-      {
-        $("div.lcs.check", self.$board).removeClass("check");
-        self.options.possible_moves = data.possible_moves;
-        self.indicateTurn();
-      }
-      self.displayEvents(data.events);
+        var self = this;
+        self.options.player.version = data.v;
+        self.applyEvents(data.e);
+        if(self.options.opponent.connected != data.o) {
+            self.options.opponent.connected = data.o;
+            $.ajaxQueue({
+                type: 'GET',
+                cache: false,
+                url: self.options.url.opponent,
+                success: function(html)
+                {
+                    self.$table.find('div.lichess_opponent').html(html);
+                }
+            });
+        }
     },
     isMyTurn: function()
     {
@@ -264,20 +102,6 @@
         this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.opponent.color : this.options.player.color)).fadeOut(this.getAnimationSpeed());
         this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(this.getAnimationSpeed());
       }
-    },
-    socket: function()
-    {
-      var self = this;
-
-      lichess_socket.connect(self.options.url.socket, function(data) {
-        if (data)
-        {
-          self.updateFromJson(data);
-        }
-        if(!self.options.opponent.ai) {
-            self.restartSocket();
-        }
-      });
     },
     movePiece: function(from, to, callback)
     {
@@ -337,7 +161,7 @@
         }));
       });
     },
-    displayEvents: function(events)
+    applyEvents: function(events)
     {
       var self = this;
       // move first
@@ -345,10 +169,11 @@
       {
           if(events[i].type == 'move')
           {
+            self.$board.find("div.lcs.check").removeClass("check");
             var from = events[i].from, to = events[i].to;
             events.splice(i, 1);
             self.movePiece(from, to, function() {
-                self.displayEvents(events);
+                self.applyEvents(events);
             });
             return;
           }
@@ -360,7 +185,7 @@
         switch (event.type)
         {
           case "message":
-            $('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
+            self.$chat.find('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
             break;
           case "promotion":
             $("div#"+event.key+" div.lichess_piece")
@@ -376,35 +201,241 @@
           case "check":
             $("div#" + event.key, self.$board).addClass("check");
             break;
+          case "possible_moves":
+              self.options.possible_moves = event.possible_moves;
+              self.indicateTurn();
+              break;
+          case "redirect":
+              window.location.href=event.url;
+              break;
           case "end":
             self.options.game.finished = true;
             self.changeTitle(self.translate('Game over'));
-            $("div.ui-draggable").draggable("destroy");
+            self.element.find("div.ui-draggable").draggable("destroy");
             self.element.removeClass("my_turn");
             // don't break here, we also want to reload the table
           case "reload_table":
-            $.ajax({
+            $.ajaxQueue({
               cache: false,
               url: self.options.url.table,
               success: function(html)
               {
-                $("div.lichess_table").replaceWith(html);
+                self.$table.replaceWith(html);
               }
             })
         }
       }
     },
-    restartSocket: function()
+    initSquaresAndPieces: function()
     {
-      var self = this;
-      if (self.options.socket_timeout) 
-      {
-        clearTimeout(self.options.socket_timeout);
-      }
-      self.options.socket_timeout = setTimeout(function()
-      {
-        self.socket();
-      }, self.options.socket_delay);
+        var self = this;
+        // init squares
+        $("div.lcs", self.$board).each(function()
+        {
+            var squareId = $(this).attr('id');
+            $(this).droppable({
+            accept: function(draggable)
+            {
+                return self.isMyTurn() && self.inArray(squareId, self.options.possible_moves[draggable.parent().attr('id')]);
+            },
+            drop: function(ev, ui)
+            {
+                var $piece  = ui.draggable,
+                $oldSquare  = $piece.parent(),
+                squareId    = $(this).attr("id"),
+                moveData    = {
+                from:    $oldSquare.attr("id"),
+                to:   squareId
+                };
+
+                self.$board.find("div.droppable-active").removeClass("droppable-active");
+                self.options.possible_moves = null;
+                self.movePiece($oldSquare.attr("id"), squareId);
+
+                function sendMoveRequest(moveData)
+                {
+                    $.ajaxQueue({
+                        type: 'POST',
+                        dataType: "json",
+                        url: function() { return self.options.url.move.replace(/0/, self.options.player.version); },
+                        data: moveData,
+                        success: function(data)
+                        {
+                            self.syncSuccess(data);
+                            if(self.options.opponent.ai) {
+                                $.ajaxQueue({
+                                    type:       'GET',
+                                    cache:      false,
+                                    url: function() { return self.options.url.sync.replace(/0/, self.options.player.version); },
+                                    success:    function(data)
+                                    {
+                                        self.syncSuccess(data);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+
+                var color = self.options.player.color;
+                // promotion
+                if($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1)))
+                {
+                var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
+                    <div rel="queen" class="lichess_piece queen '+color+'"></div>\
+                    <div rel="knight" class="lichess_piece knight '+color+'"></div>\
+                    <div rel="rook" class="lichess_piece rook '+color+'"></div>\
+                    <div rel="bishop" class="lichess_piece bishop '+color+'"></div>'
+                ).fadeIn(self.getAnimationSpeed()).find('div.lichess_piece').click(function()
+                {
+                    moveData.options = {promotion: $(this).attr('rel')};
+                    sendMoveRequest(moveData);
+                    $choices.fadeOut(self.getAnimationSpeed(), function() {$choices.remove();});
+                }).end();
+                }
+                else
+                {
+                sendMoveRequest(moveData);
+                }
+            },
+            activeClass: 'droppable-active',
+            hoverClass: 'droppable-hover'
+            });
+        });
+        
+        // init pieces
+        $("div.lichess_piece." + self.options.player.color, self.$board).each(function()
+        {
+            $(this).draggable({
+            //distance: 10,
+            containment: self.$board,
+            helper: function()
+            {
+                return $('<div>')
+                .attr("class", $(this).attr("class"))
+                .attr('data-key', $(this).parent().attr('id'))
+                .appendTo(self.$board);
+            },
+            start: function()
+            {
+                self.pieceMoving = true;
+                $(this).addClass("moving").parent().addClass("droppable-active")
+            },
+            stop: function()
+            {
+                self.pieceMoving = false;
+                $(this).removeClass("moving").parent().removeClass("droppable-active")
+            }
+            })
+            .hover(function()
+            {
+            if (self.animate && !self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).parent().attr('id')]) && targets.length)
+            {
+                $("#" + targets.join(", #")).addClass("droppable-active");
+            }
+            }, function()
+            {
+            if (!self.pieceMoving)
+            {
+                self.$board.find("div.droppable-active").removeClass("droppable-active");
+            }
+            });
+        });
+    },
+    initChat: function()
+    {
+        var self = this;
+        if(self.$chat.length)
+        {
+            var $messages = self.$chat.find('.lichess_messages');
+            $messages[0].scrollTop = 9999999;
+            var $form = self.$chat.find('form');
+            var $input = self.$chat.find('input').one("focus", function()
+            {
+                $input.val('').removeClass('lichess_hint');
+            });
+
+            // send a message
+            $form.submit(function()
+            {
+                text = $.trim($input.val());
+                if(!text) return;
+                if(text.length > 140) {
+                    alert('Max length: 140 chars. '+text.length+' chars used.');
+                    return false;
+                }
+                $input.val('');
+                $.ajaxQueue({
+                    type: 'POST',
+                    dataType: "json",
+                    url: function() { return self.options.url.say.replace(/0/, self.options.player.version); },
+                    data: {message: text},
+                    success: function(data)
+                    {
+                        self.syncSuccess(data);
+                    }
+                });
+                return false;
+            });
+
+            self.$table.find('label.lichess_enable_chat input').change(function()
+            {
+                if($(this).attr('checked'))
+                {
+                    $messages.show(); $form.show();
+                }
+                else
+                {
+                    $messages.hide(); $form.hide();
+                }
+            }).trigger('change');
+        }
+        else
+        {
+            self.$table.find('label.lichess_enable_chat').hide();
+        }
+    },
+    initTable: function()
+    {
+        var self = this;
+        self.$table.find("a.lichess_resign").click(function()
+        {
+            if (confirm($(this).attr('title')+' ?')) 
+            {
+                $.ajaxQueue({
+                    cache: false,
+                    dataType: "json",
+                    url: $(this).attr("href"),
+                    success: function(data)
+                    {
+                        self.options.player.version = data.version;
+                        self.applyEvents(data.events);
+                    }
+                });
+            }
+
+            return false;
+        });
+
+        self.$table.find("select.lichess_ai_level").change(function()
+        {
+            $.ajaxQueue({
+            type: 'POST',
+            url:  self.options.url.ai_level,
+            data: {
+                level:  $(this).val()
+            }
+            });
+        });
+    },
+    initOptions: function()
+    {
+        var self = this;
+        self.element.find('div.lichess_control .lichess_enable_animation input').change(function()
+        {
+            self.animate = $(this).attr('checked');
+            $('div.lcs.ui-droppable').droppable('option', 'activeClass', self.animate ? 'droppable-active' : '');
+        }).trigger('change');
     },
     translate: function(message)
     {

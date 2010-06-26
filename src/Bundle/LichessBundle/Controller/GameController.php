@@ -22,13 +22,12 @@ class GameController extends Controller
         }
 
         $game->start();
-        $this->container->getLichessPersistenceService()->save($game);
-        $player = $game->getInvited();
-        $this->container->getLichessSocketService()->write($player->getOpponent(), array(
-            'url' => $this->generateUrl('lichess_player', array('hash' => $player->getOpponent()->getFullHash()))
+        $game->getCreator()->getStack()->addEvent(array(
+            'type' => 'redirect',
+            'url' => $this->generateUrl('lichess_player', array('hash' => $game->getCreator()->getFullHash()))
         ));
-
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+        $this->container->getLichessPersistenceService()->save($game);
+        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $game->getInvited()->getFullHash())));
     }
 
     /**

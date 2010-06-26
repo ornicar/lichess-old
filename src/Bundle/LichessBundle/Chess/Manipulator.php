@@ -27,7 +27,7 @@ class Manipulator
 
     protected $game = null;
 
-    public function __construct(Game $game, Stack $stack = null)
+    public function __construct(Game $game, Stack $stack)
     {
         $this->game = $game;
         $this->board = $game->getBoard();
@@ -42,8 +42,8 @@ class Manipulator
         $player = $this->game->getTurnPlayer();
         $opponent = $player->getOpponent();
         $isOpponentKingAttacked = $this->analyser->isKingAttacked($opponent);
-        if($isOpponentKingAttacked && $this->stack) {
-            $this->stack->add(array(
+        if($isOpponentKingAttacked) {
+            $this->stack->addEvent(array(
                 'type' => 'check',
                 'key'  => $opponent->getKing()->getSquareKey()
             ));
@@ -58,6 +58,7 @@ class Manipulator
             else {
                 $this->game->setStatus(Game::STALEMATE);
             }
+            $this->stack->addEvent(array('type' => 'end'));
         }
 
         return $opponentPossibleMoves;
@@ -77,7 +78,7 @@ class Manipulator
         if(!$from = $this->board->getSquareByKey($from)) {
             throw new \InvalidArgumentException('Square '.$from.' does not exist');
         }
-        
+
         if(!$to = $this->board->getSquareByKey($to)) {
             throw new \InvalidArgumentException('Square '.$to.' does not exist');
         }
@@ -107,13 +108,11 @@ class Manipulator
 
         $this->board->move($piece, $to->getX(), $to->getY());
 
-        if($this->stack) {
-            $this->stack->add(array(
-                'type' => 'move',
-                'from' => $from->getKey(),
-                'to'   => $to->getKey()
-            ));
-        }
+        $this->stack->addEvent(array(
+            'type' => 'move',
+            'from' => $from->getKey(),
+            'to'   => $to->getKey()
+        ));
 
         if(null === $piece->getFirstMove()) {
             $piece->setFirstMove($this->game->getTurns());
@@ -150,12 +149,10 @@ class Manipulator
         $killed->setIsDead(true);
         $this->board->remove($killed);
 
-        if($this->stack) {
-            $this->stack->add(array(
-                'type' => 'enpassant',
-                'killed' => $passedSquare->getKey()
-            ));
-        }
+        $this->stack->addEvent(array(
+            'type' => 'enpassant',
+            'killed' => $passedSquare->getKey()
+        ));
     }
 
     /**
@@ -179,13 +176,11 @@ class Manipulator
         $player->addPiece($new);
         $this->board->add($new);
 
-        if($this->stack) {
-            $this->stack->add(array(
-                'type' => 'promotion',
-                'pieceClass' => strtolower($promotionClass),
-                'key' => $new->getSquareKey()
-            ));
-        }
+        $this->stack->addEvent(array(
+            'type' => 'promotion',
+            'pieceClass' => strtolower($promotionClass),
+            'key' => $new->getSquareKey()
+        ));
     }
 
     /**
@@ -208,13 +203,11 @@ class Manipulator
         $this->board->move($rook, $newRookSquare->getX(), $newRookSquare->getY());
         $rook->setFirstMove($this->game->getTurns());
 
-        if($this->stack) {
-            $this->stack->add(array(
-                'type' => 'castling',
-                'from' => $rookSquare->getKey(),
-                'to'   => $newRookSquare->getKey()
-            ));
-        }
+        $this->stack->addEvent(array(
+            'type' => 'castling',
+            'from' => $rookSquare->getKey(),
+            'to'   => $newRookSquare->getKey()
+        ));
     }
 
     /**
@@ -223,9 +216,9 @@ class Manipulator
      */
     public function getStack()
     {
-      return $this->stack;
+        return $this->stack;
     }
-    
+
     /**
      * Set stack
      * @param  Stack
@@ -233,6 +226,6 @@ class Manipulator
      */
     public function setStack($stack)
     {
-      $this->stack = $stack;
+        $this->stack = $stack;
     }
 }

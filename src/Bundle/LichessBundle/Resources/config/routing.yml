@@ -1,15 +1,15 @@
 lichess_sync:
-    pattern:        /sync/:hash
+    pattern:        /sync/:hash/:version
     defaults:       { _controller: LichessBundle:Player:sync }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w]{10}", version: "\d+" }
 lichess_move:
-    pattern:        /move/:hash
+    pattern:        /move/:hash/:version
     defaults:       { _controller: LichessBundle:Player:move }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w]{10}", version: "\d+" }
 lichess_say:
-    pattern:        /say/:hash
-    defaults:       { _controller: LichessBundle:Chat:say }
-    requirements:   { hash: "[\w]{10}" }
+    pattern:        /talk/:hash/:version
+    defaults:       { _controller: LichessBundle:Player:say }
+    requirements:   { hash: "[\w]{10}", version: "\d+" }
 lichess_homepage:
     pattern:        /:color
     defaults:       { _controller: LichessBundle:Main:index, color: white }
@@ -34,12 +34,16 @@ lichess_table:
     pattern:        /table/:hash
     defaults:       { _controller: LichessBundle:Player:table }
     requirements:   { hash: "[\w]{10}" }
+lichess_opponent:
+    pattern:        /opponent/:hash
+    defaults:       { _controller: LichessBundle:Player:opponent }
+    requirements:   { hash: "[\w]{10}" }
 lichess_play_with_anybody:
     pattern:        /anybody/:hash
     defaults:       { _controller: LichessBundle:Player:playWithAnybody }
     requirements:   { hash: "[\w]{10}" }
 lichess_ai_level:
-    pattern:        /ai_level/:hash
+    pattern:        /level/:hash
     defaults:       { _controller: LichessBundle:Player:aiLevel }
     requirements:   { hash: "[\w]{10}" }
 lichess_about:
