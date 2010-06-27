@@ -32,10 +32,10 @@
                 <div class="lichess_separator"></div>
                 <div class="lichess_play_again_join">
                     Your opponent wants to play a new game with you.&nbsp;
-                    <a class="lichess_play_again" title="Play with the same opponent again" href="<?php echo $view->router->generate('lichess_play_again', array('hash' => $player->getFullHash())) ?>">Join the game</a>
+                    <a class="lichess_play_again" title="Play with the same opponent again" href="<?php echo $view->router->generate('lichess_rematch', array('hash' => $player->getFullHash())) ?>">Join the game</a>
                 </div>
             <?php else: ?>
-                <a class="lichess_play_again" title="Play with the same opponent again" href="<?php echo $view->router->generate('lichess_play_again', array('hash' => $player->getFullHash())) ?>">Rematch</a>
+                <a class="lichess_rematch" title="Play with the same opponent again" href="<?php echo $view->router->generate('lichess_rematch', array('hash' => $player->getFullHash())) ?>">Rematch</a>
             <?php endif; ?>
         <?php endif; ?>
     </div>

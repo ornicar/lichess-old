@@ -27,9 +27,9 @@ lichess_invite_ai:
     defaults:       { _controller: LichessBundle:Player:inviteAi }
     requirements:   { hash: "[\w]{10}" }
 lichess_resign:
-    pattern:        /resign/:hash
+    pattern:        /resign/:hash/:version
     defaults:       { _controller: LichessBundle:Player:resign }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w]{10}", version: "\d+" }
 lichess_table:
     pattern:        /table/:hash
     defaults:       { _controller: LichessBundle:Player:table }
@@ -49,9 +49,9 @@ lichess_ai_level:
 lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
-lichess_play_again:
-    pattern:        /next/:hash
-    defaults:       { _controller: LichessBundle:Player:playAgain }
+lichess_rematch:
+    pattern:        /rematch/:hash
+    defaults:       { _controller: LichessBundle:Player:rematch }
     requirements:   { hash: "[\w]{10}" }
 lichess_force_resignation:
     pattern:        /force_resign/:hash

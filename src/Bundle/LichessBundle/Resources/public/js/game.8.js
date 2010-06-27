@@ -7,7 +7,7 @@
       var self = this;
       self.pieceMoving = false
       self.$board = self.element.find("div.lichess_board");
-      self.$table = self.element.find("div.lichess_table");
+      self.$table = self.element.find("div.lichess_table_wrap");
       self.$chat = $("div.lichess_chat");
       self.initialTitle = document.title,
       self.animate = null;
@@ -18,7 +18,6 @@
         self.initSquaresAndPieces();
         self.initChat();  
         self.initTable();
-        self.initOptions();
       }
 
       if(!self.options.opponent.ai)
@@ -26,14 +25,9 @@
         // synchronize with game
         setTimeout(self.syncPlayer = function()
         {
-            $.ajaxQueue({
-                type:       'POST',
-                url:        function() { return self.options.url.sync.replace(/0/, self.options.player.version); },
-                success:    function(data)
-                {
-                    self.syncSuccess(data);
-                    setTimeout(self.syncPlayer, self.options.sync_delay);
-                }
+            self.syncUrl(self.options.url.sync, function()
+            {
+                setTimeout(self.syncPlayer, self.options.sync_delay);
             });
         }, self.options.sync_delay);
 
@@ -49,23 +43,32 @@
         }, 400);
       }
     },
-    syncSuccess: function(data)
+    syncUrl: function(url, callback, data)
     {
         var self = this;
-        self.options.player.version = data.v;
-        self.applyEvents(data.e);
-        if(self.options.opponent.connected != data.o) {
-            self.options.opponent.connected = data.o;
-            $.ajaxQueue({
-                type: 'GET',
-                cache: false,
-                url: self.options.url.opponent,
-                success: function(html)
-                {
-                    self.$table.find('div.lichess_opponent').html(html);
+        $.ajaxQueue({
+            type: 'POST',
+            dataType: 'json',
+            data: data || {},
+            url: function() { return url.replace(/0/, self.options.player.version); },
+            success: function(data) {
+                self.options.player.version = data.v;
+                self.applyEvents(data.e);
+                if(self.options.opponent.connected != data.o) {
+                    self.options.opponent.connected = data.o;
+                    $.ajaxQueue({
+                        type: 'GET',
+                        cache: false,
+                        url: self.options.url.opponent,
+                        success: function(html)
+                        {
+                            self.$table.find('div.lichess_opponent').html(html);
+                        }
+                    });
                 }
-            });
-        }
+                $.isFunction(callback) && callback();
+            }
+        });
     },
     isMyTurn: function()
     {
@@ -96,7 +99,7 @@
         this.changeTitle(this.translate('Waiting'));
       }
 
-      if (!this.$table.hasClass('finished'))
+      if (!this.$table.find('>div').hasClass('finished'))
       {
         this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.opponent.color : this.options.player.color)).fadeOut(this.getAnimationSpeed());
         this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(this.getAnimationSpeed());
@@ -164,12 +167,16 @@
     {
       var self = this;
 
-      // apply and overwrite possible_moves
+      // apply and overwrite possible_moves and messages
       for (var i in events)
       {
           if(events[i].type == 'possible_moves') {
               self.options.possible_moves = events[i].possible_moves;
               self.indicateTurn();
+              events.splice(i, 1);
+          }
+          else if(events[i].type == 'message') {
+              self.$chat.find('ol.lichess_messages').append(events[i].html)[0].scrollTop = 9999999;
               events.splice(i, 1);
           }
       }
@@ -194,9 +201,6 @@
         var event = events[i];
         switch (event.type)
         {
-          case "message":
-            self.$chat.find('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
-            break;
           case "promotion":
             $("div#"+event.key+" div.lichess_piece")
             .addClass(event.pieceClass)
@@ -226,7 +230,8 @@
               url: self.options.url.table,
               success: function(html)
               {
-                self.$table.replaceWith(html);
+                self.$table.html(html);
+                self.initTable();
               }
             });
             break;
@@ -263,27 +268,12 @@
 
                 function sendMoveRequest(moveData)
                 {
-                    $.ajaxQueue({
-                        type: 'POST',
-                        dataType: "json",
-                        url: function() { return self.options.url.move.replace(/0/, self.options.player.version); },
-                        data: moveData,
-                        success: function(data)
-                        {
-                            self.syncSuccess(data);
-                            if(self.options.opponent.ai) {
-                                $.ajaxQueue({
-                                    type:       'GET',
-                                    cache:      false,
-                                    url: function() { return self.options.url.sync.replace(/0/, self.options.player.version); },
-                                    success:    function(data)
-                                    {
-                                        self.syncSuccess(data);
-                                    }
-                                });
-                            }
+                    self.syncUrl(self.options.url.move, function()
+                    {
+                        if(self.options.opponent.ai) {
+                            self.syncUrl(self.options.url.sync);
                         }
-                    });
+                    }, moveData);
                 }
 
                 var color = self.options.player.color;
@@ -304,7 +294,7 @@
                 }
                 else
                 {
-                sendMoveRequest(moveData);
+                    sendMoveRequest(moveData);
                 }
             },
             activeClass: 'droppable-active',
@@ -356,16 +346,14 @@
         var self = this;
         if(self.$chat.length)
         {
-            var $messages = self.$chat.find('.lichess_messages');
-            $messages[0].scrollTop = 9999999;
-            var $form = self.$chat.find('form');
+            self.$chat.find('ol.lichess_messages')[0].scrollTop = 9999999;
             var $input = self.$chat.find('input').one("focus", function()
             {
                 $input.val('').removeClass('lichess_hint');
             });
 
             // send a message
-            $form.submit(function()
+            self.$chat.find('form').submit(function()
             {
                 text = $.trim($input.val());
                 if(!text) return;
@@ -374,30 +362,9 @@
                     return false;
                 }
                 $input.val('');
-                $.ajaxQueue({
-                    type: 'POST',
-                    dataType: "json",
-                    url: function() { return self.options.url.say.replace(/0/, self.options.player.version); },
-                    data: {message: text},
-                    success: function(data)
-                    {
-                        self.syncSuccess(data);
-                    }
-                });
+                self.syncUrl(self.options.url.say, null, {message: text});
                 return false;
             });
-
-            self.$table.find('label.lichess_enable_chat input').change(function()
-            {
-                if($(this).attr('checked'))
-                {
-                    $messages.show(); $form.show();
-                }
-                else
-                {
-                    $messages.hide(); $form.hide();
-                }
-            }).trigger('change');
         }
         else
         {
@@ -411,39 +378,37 @@
         {
             if (confirm($(this).attr('title')+' ?')) 
             {
-                $.ajaxQueue({
-                    cache: false,
-                    dataType: "json",
-                    url: $(this).attr("href"),
-                    success: function(data)
-                    {
-                        self.options.player.version = data.version;
-                        self.applyEvents(data.events);
-                    }
-                });
+                self.syncUrl(self.options.url.resign);
             }
-
             return false;
         });
 
         self.$table.find("select.lichess_ai_level").change(function()
         {
             $.ajaxQueue({
-            type: 'POST',
-            url:  self.options.url.ai_level,
-            data: {
-                level:  $(this).val()
-            }
+                type: 'POST',
+                url:  self.options.url.ai_level,
+                data: { level:  $(this).val() }
             });
         });
-    },
-    initOptions: function()
-    {
-        var self = this;
-        self.element.find('div.lichess_control .lichess_enable_animation input').change(function()
+
+        self.$table.find('label.lichess_enable_animation input').change(function()
         {
             self.animate = $(this).attr('checked');
             $('div.lcs.ui-droppable').droppable('option', 'activeClass', self.animate ? 'droppable-active' : '');
+        }).trigger('change');
+
+        self.$table.find('label.lichess_enable_chat input').change(function()
+        {
+            var $chatElements = $('div.lichess_chat').find('ol.lichess_messages, form');
+            if($(this).attr('checked'))
+            {
+                $chatElements.show();
+            }
+            else
+            {
+                $chatElements.hide();
+            }
         }).trigger('change');
     },
     translate: function(message)
