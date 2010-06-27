@@ -167,6 +167,7 @@
     applyEvents: function(events)
     {
       var self = this;
+      var actionEvents = [];
 
       // apply and overwrite possible_moves and messages
       for (var i in events)
@@ -178,7 +179,11 @@
           else if(events[i].type == 'message') {
               self.$chat.find('ol.lichess_messages').append(events[i].html)[0].scrollTop = 9999999;
           }
+          else {
+              actionEvents.push(events[i]);
+          }
       }
+      events = actionEvents;
 
       // move first
       for (var i in events)
