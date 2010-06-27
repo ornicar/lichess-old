@@ -4,13 +4,15 @@
     <div class="lichess_board_wrap">
         <?php $view->output('LichessBundle:Game:board', array('player' => $player, 'checkSquareKey' => $checkSquareKey)) ?>
     </div> 
-    <div class="lichess_table_wrap">
+    <div class="lichess_ground">
         <?php $view->output('LichessBundle:Game:cemetery', array('player' => $player, 'position' => 'top')) ?>
-        <?php if($player->getGame()->getIsFinished()): ?>
-            <?php $view->output('LichessBundle:Game:tableEnd', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
-        <?php else: ?>
-          <?php $view->output('LichessBundle:Game:table', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
-        <?php endif; ?>
+        <div class="lichess_table_wrap">
+            <?php if($player->getGame()->getIsFinished()): ?>
+                <?php $view->output('LichessBundle:Game:tableEnd', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
+            <?php else: ?>
+            <?php $view->output('LichessBundle:Game:table', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
+            <?php endif; ?>
+        </div>
         <?php $view->output('LichessBundle:Game:cemetery', array('player' => $player->getOpponent(), 'position' => 'bottom')) ?>
     </div>
 </div>

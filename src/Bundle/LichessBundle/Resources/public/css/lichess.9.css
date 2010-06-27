@@ -292,7 +292,7 @@ div.lichess_join_url span {
     -webkit-border-radius: 4px;
 }
 
-div.lichess_table_wrap {
+div.lichess_ground {
     position: relative;
     margin-left: 530px;
     height: 514px;
