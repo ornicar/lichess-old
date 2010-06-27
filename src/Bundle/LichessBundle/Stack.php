@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle;
 
 class Stack
 {
-    const MAX_EVENTS = 20;
+    const MAX_EVENTS = 10;
 
     /**
      * Events in the stack
@@ -12,6 +12,11 @@ class Stack
      * @var array
      */
     protected $events = array();
+
+    public function __construct()
+    {
+        $this->rotate();
+    }
 
     public function getVersion()
     {
@@ -35,6 +40,9 @@ class Stack
      **/
     public function getEvent($version)
     {
+        if(!isset($this->events[$version])) {
+            throw new \OutOfBoundsException();
+        }
         return $this->events[$version];
     }
     
