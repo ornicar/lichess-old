@@ -16,7 +16,6 @@ class GameRotateCommand extends BaseCommand
 {
     protected $output;
     protected $gameDir;
-    protected $socketDir;
 
     /**
      * @see Command
@@ -32,7 +31,7 @@ class GameRotateCommand extends BaseCommand
 
     protected function getMaxNbGames()
     {
-        return 20000;
+        return 50000;
     }
 
     /**
@@ -44,12 +43,10 @@ class GameRotateCommand extends BaseCommand
     {
         $this->output = $output;
         $this->gameDir = $this->container['lichess.persistence.dir'];
-        $this->socketDir = $this->container['kernel.root_dir'].'/cache/socket';
         $nbGames = $this->getNbGames();
-        $nbSockets = $this->getNbSockets();
         $maxNbGames = $this->getMaxNbGames();
 
-        $output->writeln(sprintf('%s sockets, %d games, %d max.', $nbSockets, $nbGames, $maxNbGames));
+        $output->writeln(sprintf('%d games, %d max.', $nbSockets, $nbGames, $maxNbGames));
 
         if($nbGames <= $maxNbGames) {
             $output->writeln('Exit.');
@@ -68,9 +65,8 @@ class GameRotateCommand extends BaseCommand
         $output->writeln('Done');
         
         $nbGames = $this->getNbGames();
-        $nbSockets = $this->getNbSockets();
 
-        $output->writeln(sprintf('%s sockets, %d games.', $nbSockets, $nbGames));
+        $output->writeln(sprintf('%d games', $nbSockets, $nbGames));
     }
 
     protected function getNbGames()
@@ -79,19 +75,11 @@ class GameRotateCommand extends BaseCommand
         return (int) $output[0];
     }
 
-    protected function getNbSockets()
-    {
-        $output = $this->runCommand(sprintf('ls %s | wc -l', $this->socketDir));
-        return (int) $output[0];
-    }
-
     protected function deleteGame($gameHash)
     {
         $this->output->write('.');
         // remove data
         unlink($this->gameDir.'/'.$gameHash);
-        // remove sockets
-        shell_exec(sprintf('rm %s/%s* ', $this->socketDir, $gameHash));
     }
 
     protected function runCommand($command)

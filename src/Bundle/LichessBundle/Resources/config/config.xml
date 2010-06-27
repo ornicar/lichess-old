@@ -11,10 +11,6 @@
         <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\FilePersistence</parameter>
         <parameter key="lichess.persistence.dir">%kernel.root_dir%/data</parameter>
 
-        <parameter key="lichess.socket.class">Bundle\LichessBundle\Socket</parameter>
-        <parameter key="lichess.socket.dir">%kernel.root_dir%/cache/socket</parameter>
-        <parameter key="lichess.socket.delay">1.2</parameter>
-
         <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
 
         <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
@@ -31,10 +27,6 @@
 
         <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
             <argument>%lichess.persistence.dir%</argument>
-        </service>
-
-        <service id="lichess_socket" class="%lichess.socket.class%" shared="false">
-            <argument>%lichess.socket.dir%</argument>
         </service>
 
         <service id="lichess_ai" class="%lichess.ai.class%" shared="true">

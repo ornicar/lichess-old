@@ -11,7 +11,6 @@ use Symfony\Components\DependencyInjection\BuilderConfiguration;
 /**
  * Reduce usage of class loader for performance reasons
  */
-require_once __DIR__.'/Socket.php';
 require_once __DIR__.'/Stack.php';
 require_once __DIR__.'/Chess/Square.php';
 require_once __DIR__.'/Chess/Board.php';
