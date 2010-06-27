@@ -43,14 +43,14 @@
         }, 400);
       }
     },
-    syncUrl: function(url, callback, data)
+    syncUrl: function(url, callback, postData)
     {
         var self = this;
         $.ajaxQueue({
             type: 'POST',
             dataType: 'json',
-            data: data || {},
-            url: function() { return url.replace(/0/, self.options.player.version); },
+            data: postData || {},
+            url: function() { return url.replace(/0$/, self.options.player.version); },
             success: function(data) {
                 self.options.player.version = data.v;
                 self.applyEvents(data.e);
