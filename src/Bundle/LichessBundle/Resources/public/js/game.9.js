@@ -270,7 +270,7 @@
                     self.syncUrl(self.options.url.move, function()
                     {
                         if(self.options.opponent.ai) {
-                            self.syncUrl(self.options.url.sync);
+                            setTimeout(function() {self.syncUrl(self.options.url.sync);}, self.getAnimationSpeed()*3);
                         }
                     }, moveData);
                 }
@@ -365,10 +365,6 @@
                 return false;
             });
         }
-        else
-        {
-            self.$table.find('label.lichess_enable_chat').hide();
-        }
     },
     initTable: function()
     {
@@ -409,6 +405,11 @@
                 $chatElements.hide();
             }
         }).trigger('change');
+
+        if(self.options.opponent.ai)
+        {
+            self.$table.find('label.lichess_enable_chat').hide();
+        }
     },
     translate: function(message)
     {
