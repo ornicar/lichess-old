@@ -15,7 +15,8 @@ class PlayerControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         // player2 resigns
-        $client->click($crawler->filter('a:contains("Resign")')->link());
+        $client->request('POST', '/resign/'.$player->getOpponent()->getFullHash().'/0');
+        $this->assertEquals(array('v' => 1, 'o' => true, 'e'=>array(array('type' => 'end'))), json_decode($client->getResponse()->getContent(), true));
 
         // player1 wins
         $crawler = $client->request('GET', '/'.$player->getFullHash());
@@ -215,7 +216,7 @@ class PlayerControllerTest extends WebTestCase
     protected function createPlayer($client)
     {
         $player = $client->getContainer()->getLichessGeneratorService()->createGameForPlayer('white');
-        $client->getContainer()->getLichessSynchronizerService()->update($player);
+        $client->getContainer()->getLichessSynchronizerService()->setAlive($player);
         $client->getContainer()->getLichessPersistenceService()->save($player->getGame());
         return $player;
     }
