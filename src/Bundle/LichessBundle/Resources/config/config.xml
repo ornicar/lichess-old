@@ -6,8 +6,6 @@
 
     <parameters>
 
-        <parameter key="lichess.apc.prefix">lichess_</parameter>
-
         <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\FilePersistence</parameter>
         <parameter key="lichess.persistence.dir">%kernel.root_dir%/data</parameter>
 
@@ -19,7 +17,7 @@
 
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">15</parameter>
-        <parameter key="lichess.synchronizer.delay">5</parameter>
+        <parameter key="lichess.synchronizer.delay">3</parameter>
 
     </parameters>
 
@@ -37,7 +35,6 @@
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
             <argument>%lichess.synchronizer.timeout%</argument>
-            <argument>%lichess.apc.prefix%</argument>
         </service>
 
     </services>
