@@ -26,6 +26,7 @@ $data = array(
         'move' => $view->router->generate('lichess_move', array('hash' => $playerFullHash, 'version' => 0)),
         'sync' => $view->router->generate('lichess_sync', array('hash' => $playerFullHash, 'version' => 0)),
         'say' => $view->router->generate('lichess_say', array('hash' => $playerFullHash, 'version' => 0)),
+        'resign' => $view->router->generate('lichess_resign', array('hash' => $playerFullHash, 'version' => 0)),
         'table' => $view->router->generate('lichess_table', array('hash' => $playerFullHash)),
         'opponent' => $view->router->generate('lichess_opponent', array('hash' => $playerFullHash)),
         'ai_level' => $opponent->getIsAi() ? $view->router->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null
