@@ -13,11 +13,6 @@ class Stack
      */
     protected $events = array();
 
-    public function __construct()
-    {
-        $this->rotate();
-    }
-
     public function getVersion()
     {
         end($this->events);

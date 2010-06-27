@@ -45,11 +45,12 @@ class PlayerController extends Controller
     protected function getPlayerSyncData($player, $clientVersion)
     {
         $playerVersion = $player->getStack()->getVersion();
+        $player->getStack()->rotate();
         try {
             $events = $playerVersion != $clientVersion ? $this->getSynchronizer()->getDiffEvents($player, $clientVersion) : array();
         }
         catch(\OutOfBoundsException $e) {
-            $events = array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+            $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $player->getFullHash()))));
         }
         return array(
             'v' => $playerVersion,
