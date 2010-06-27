@@ -73,6 +73,7 @@ class PlayerController extends Controller
     public function moveAction($hash, $version)
     {
         $player = $this->findPlayer($hash);
+        $this->getSynchronizer()->setAlive($player);
         if(!$player->isMyTurn()) {
             throw new \LogicException('Not my turn');
         }
@@ -145,6 +146,7 @@ class PlayerController extends Controller
         }
         $message = substr($message, 0, 140);
         $player = $this->findPlayer($hash);
+        $this->getSynchronizer()->setAlive($player);
         $player->getGame()->getRoom()->addMessage($player->getColor(), $message);
         $sayEvent = array(
             'type' => 'message',
