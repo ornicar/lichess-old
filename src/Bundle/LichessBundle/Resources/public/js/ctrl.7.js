@@ -31,34 +31,13 @@ $(function()
     }
 });
 
-/*
- * Queued Ajax requests.
- * A new Ajax request won't be started until the previous queued 
- * request has finished.
- */
-$.ajaxQueue = function(o){
-	var _old = o.success;
-	o.success = function(){
-		if (_old) _old.apply( this, arguments );
-		$.dequeue($.ajaxQueue, "ajax");
-	};
-
-    var send = function() {
-        if($.isFunction(o.url)) {
-            o.url = o.url();
-        }
-        $.ajax(o);
+var _jQueryAjax = $.ajax;
+$.ajax = function(o) {
+    if($.isFunction(o.url)) {
+        o.url = o.url();
     }
-
-    if($.queue($.ajaxQueue, "ajax").length) {
-        $.queue($.ajaxQueue, "ajax", function() {
-            send(o);
-        });
-    }
-    else {
-        send(o);
-    }
-};
+    return _jQueryAjax(o);
+}
 
 //analytics
 if(document.domain == 'lichess.org') {

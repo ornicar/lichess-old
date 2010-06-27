@@ -11,6 +11,7 @@
       self.$chat = $("div.lichess_chat");
       self.initialTitle = document.title,
       self.animate = null;
+      self.ajaxManager = $.manageAjax({ manageType: "queue", maxReq: 1});
       
       if(self.options.game.started)
       {
@@ -46,7 +47,7 @@
     syncUrl: function(url, callback, postData)
     {
         var self = this;
-        $.ajaxQueue({
+        self.ajaxManager.add({
             type: 'POST',
             dataType: 'json',
             data: postData || {},
@@ -56,7 +57,7 @@
                 self.applyEvents(data.e);
                 if(self.options.opponent.connected != data.o) {
                     self.options.opponent.connected = data.o;
-                    $.ajaxQueue({
+                    $.ajax({
                         type: 'GET',
                         cache: false,
                         url: self.options.url.opponent,
@@ -225,7 +226,7 @@
             self.element.removeClass("my_turn");
             // don't break here, we also want to reload the table
           case "reload_table":
-            $.ajaxQueue({
+            $.ajax({
               cache: false,
               url: self.options.url.table,
               success: function(html)
@@ -385,7 +386,7 @@
 
         self.$table.find("select.lichess_ai_level").change(function()
         {
-            $.ajaxQueue({
+            $.ajax({
                 type: 'POST',
                 url:  self.options.url.ai_level,
                 data: { level:  $(this).val() }
