@@ -13,7 +13,8 @@ class SyncBenchmark extends Benchmark
         $hashes = array($player->getFullHash(), $player->getOpponent()->getFullHash());
         foreach($this->getMoves() as $it => $move) {
             list($from, $to) = explode(' ', $move);
-            $this->client->request('POST', '/move/'.$hashes[$it%2], array('from' => $from, 'to' => $to));
+            $player = $players[$it%2];
+            $this->client->request('POST', '/move/'.$player->getFullHash().'/'.$stackVersion, array('from' => $from, 'to' => $to));
         }
         $time = 1000 * (microtime(true) - $start);
         printf('%d games played in %01.2f ms'."\n", $iterations, $time);
