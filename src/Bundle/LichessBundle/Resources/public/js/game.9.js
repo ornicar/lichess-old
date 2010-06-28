@@ -53,8 +53,6 @@
             data: postData || {},
             url: function() { return url.replace(/0$/, self.options.player.version); },
             success: function(data) {
-                self.options.player.version = data.v;
-                self.applyEvents(data.e);
                 if(self.options.opponent.connected != data.o) {
                     self.options.opponent.connected = data.o;
                     $.ajax({
@@ -66,6 +64,10 @@
                             self.$table.find('div.lichess_opponent').html(html);
                         }
                     });
+                }
+                if(data.v) {
+                    self.options.player.version = data.v;
+                    self.applyEvents(data.e);
                 }
                 $.isFunction(callback) && callback();
             }

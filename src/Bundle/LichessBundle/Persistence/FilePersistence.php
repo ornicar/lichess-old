@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Persistence;
 
-class FilePersistence implements PersistenceInterface
+class FilePersistence
 {
     protected $dir;
 
@@ -23,6 +23,12 @@ class FilePersistence implements PersistenceInterface
 
     public function save($game)
     {
+        foreach($game->getPlayers() as $player) {
+            if(!$player->getIsAi()) {
+                $player->getStack()->rotate();
+                apc_store($player->getFullHash().'.data', $player->getStack()->getVersion().'|'.$player->getOpponent()->getFullHash(), 3600);
+            }
+        }
         $data = serialize($game);
         $data = $this->encode($data);
         $file = $this->getGameFile($game);
@@ -30,8 +36,6 @@ class FilePersistence implements PersistenceInterface
         {
             throw new Exception('Can not save game '.$game->getHash().' to '.$this->getGameFile($game));
         }
-        
-        $game->setUpdatedAt(time());
     }
 
     /**
@@ -54,8 +58,6 @@ class FilePersistence implements PersistenceInterface
             return null;
         }
 
-        $game->setUpdatedAt(filemtime($file));
-
         return $game;
     }
 
@@ -67,18 +69,6 @@ class FilePersistence implements PersistenceInterface
     protected function decode($data)
     {
         return gzuncompress($data);
-    }
-
-    public function getUpdatedAt($hash)
-    {
-        $file = $this->dir.'/'.$hash;
-
-        if(!\file_exists($file))
-        {
-            throw new \Exception('Game file '.$file.' does not exist');
-        }
-
-        return filemtime($file);
     }
 
     public function getGameFile($game)

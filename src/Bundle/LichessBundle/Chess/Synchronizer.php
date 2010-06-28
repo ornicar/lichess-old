@@ -55,7 +55,7 @@ class Synchronizer
 
     public function setAlive(Player $player)
     {
-        $player->setTime(time());
+        apc_store($player->getFullHash().'.alive', 1, $this->getTimeout());
     }
 
     public function isTimeout(Player $player)
@@ -65,6 +65,6 @@ class Synchronizer
 
     public function isConnected(Player $player)
     {
-        return $player->getIsAi() || $player->getTime() >= (time() - $this->getTimeout());
+        return $player->getIsAi() || (bool) apc_fetch($player->getFullHash().'.alive');
     }
 }

@@ -8,7 +8,6 @@ $data = array(
         'started' => $game->getIsStarted(),
         'finished' => $game->getIsFinished(),
         'turns' => $game->getTurns(),
-        'updatedAt' => $game->getUpdatedAt()
     ),
     'player' => array(
         'fullHash' => $playerFullHash,
