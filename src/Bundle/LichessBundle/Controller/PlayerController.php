@@ -118,7 +118,7 @@ class PlayerController extends Controller
         $this->getSynchronizer()->setAlive($player);
 
         if(!$game->getIsStarted()) {
-            return $this->render('LichessBundle:Player:waitNext', array('player' => $player, 'parameters' => $this->container->getParameterBag->all()));
+            return $this->render('LichessBundle:Player:waitNext', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
         }
 
         $analyser = new Analyser($game->getBoard());
