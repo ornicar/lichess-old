@@ -65,7 +65,7 @@
                         }
                     });
                 }
-                if(data.v) {
+                if(data.v && data.v != self.options.player.version) {
                     self.options.player.version = data.v;
                     self.applyEvents(data.e);
                 }
