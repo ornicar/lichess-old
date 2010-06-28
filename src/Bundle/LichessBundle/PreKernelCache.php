@@ -1,6 +1,6 @@
 <?php
 
-$path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+$path = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
 if(!preg_match('#^/sync/([\w\d]{10})/(\d+)$#', $path, $matches)) {
     return;
