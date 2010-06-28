@@ -62,6 +62,8 @@ class PlayerController extends Controller
         if(!$player->getGame()->getIsFinished() && $this->getSynchronizer()->isTimeout($player->getOpponent())) {
             $player->getGame()->setStatus(Game::TIMEOUT);
             $player->setIsWinner(true);
+            $player->getStack()->addEvent(array('type' => 'end'));
+            $player->getOpponent()->getStack()->addEvent(array('type' => 'end'));
             $this->getPersistence()->save($player->getGame());
         }
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
@@ -69,7 +71,7 @@ class PlayerController extends Controller
 
     protected function renderJson($data)
     {
-        $response = $this->createResponse(empty($data) ? '' : json_encode($data));
+        $response = $this->createResponse(json_encode($data));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
