@@ -19,7 +19,7 @@ class MainController extends Controller
 
         return $this->render('LichessBundle:Main:index', array(
             'player' => $player,
-            'parameters' => $this->container->getParameters(),
+            'parameters' => $this->container->getParameterBag()->all(),
             'isOpponentConnected' => false
         ));
     }

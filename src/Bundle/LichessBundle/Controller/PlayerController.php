@@ -118,7 +118,7 @@ class PlayerController extends Controller
         $this->getSynchronizer()->setAlive($player);
 
         if(!$game->getIsStarted()) {
-            return $this->render('LichessBundle:Player:waitNext', array('player' => $player, 'parameters' => $this->container->getParameters()));
+            return $this->render('LichessBundle:Player:waitNext', array('player' => $player, 'parameters' => $this->container->getParameterBag->all()));
         }
 
         $analyser = new Analyser($game->getBoard());
@@ -133,7 +133,7 @@ class PlayerController extends Controller
             'player' => $player,
             'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
-            'parameters' => $this->container->getParameters(),
+            'parameters' => $this->container->getParameterBag()->all(),
             'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
@@ -172,7 +172,7 @@ class PlayerController extends Controller
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);
             if($opponentHash == $hash) {
-                return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameters()));
+                return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
             }
             unlink($connectionFile);
             $opponent = $this->findPlayer($opponentHash);
@@ -182,7 +182,7 @@ class PlayerController extends Controller
         }
 
         file_put_contents($connectionFile, $hash);
-        return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameters()));
+        return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
     }
 
     public function inviteAiAction($hash)
