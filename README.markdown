@@ -21,17 +21,18 @@ INSTALL
 
 Lichess is built on Symfony2, which is under heavy development and has very few [documentation](http://symfony-reloaded.org/) at the moment.
 
+It requires [APC](http://www.php.net/manual/en/book.apc.php). It's a free and open opcode cache for PHP.
+
 ### Get the code
 
     git clone git://github.com/ornicar/lichess.git
     cd lichess
-    git submodule update --init --recursive
+    git submodule init
+    git submodule update
 
-### Create data folders
+### Create data folder
 
     mkdir lichess/data
-    mkdir lichess/cache/socket
-    ln -s ../lichess/cache/socket web/socket
 
 ### Run
 
