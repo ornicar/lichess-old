@@ -44,19 +44,16 @@ class PlayerController extends Controller
 
     protected function getPlayerSyncData($player, $clientVersion)
     {
-        $playerVersion = $player->getStack()->getVersion();
-        $player->getStack()->rotate();
+        $version = $player->getStack()->getVersion();
+        $isOpponentConnected = $this->getSynchronizer()->isConnected($player->getOpponent());
         try {
-            $events = $playerVersion != $clientVersion ? $this->getSynchronizer()->getDiffEvents($player, $clientVersion) : array();
+            $events = $version != $clientVersion ? $this->getSynchronizer()->getDiffEvents($player, $clientVersion) : array();
         }
         catch(\OutOfBoundsException $e) {
             $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $player->getFullHash()))));
         }
-        return array(
-            'v' => $playerVersion,
-            'o' => $this->getSynchronizer()->isConnected($player->getOpponent()),
-            'e' => $events
-        );
+
+        return array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events);
     }
 
     public function forceResignAction($hash)
@@ -117,7 +114,6 @@ class PlayerController extends Controller
         $game = $player->getGame();
 
         $this->getSynchronizer()->setAlive($player);
-        $this->getPersistence()->save($game);
 
         if(!$game->getIsStarted()) {
             return $this->render('LichessBundle:Player:waitNext', array('player' => $player, 'parameters' => $this->container->getParameters()));
@@ -171,7 +167,6 @@ class PlayerController extends Controller
         $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
         $player = $this->findPlayer($hash);
         $this->getSynchronizer()->setAlive($player);
-        $this->getPersistence()->save($player->getGame());
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);
             if($opponentHash == $hash) {

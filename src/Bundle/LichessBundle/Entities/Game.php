@@ -62,14 +62,6 @@ class Game
     protected $board = null;
 
     /**
-     * Update time in timestamp
-     * Not persistent ; regenerated when game is loaded
-     *
-     * @var integer
-     */
-    protected $updatedAt = null;
-
-    /**
      * The chat room
      *
      * @var Room
@@ -175,22 +167,6 @@ class Game
     public function setRoom($room)
     {
         $this->room = $room;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param integer
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
     }
 
     /**

@@ -62,13 +62,6 @@ class Player
     protected $aiLevel = null;
 
     /**
-     * Last synchronization time
-     *
-     * @var int
-     */
-    protected $time = null;
-
-    /**
      * Event stack
      *
      * @var Stack
@@ -120,25 +113,6 @@ class Player
     public function getFullHash()
     {
       return $this->game->getHash().$this->hash;
-    }
-    
-    /**
-     * Get time
-     * @return int
-     */
-    public function getTime()
-    {
-      return $this->time;
-    }
-    
-    /**
-     * Set time
-     * @param  int
-     * @return null
-     */
-    public function setTime($time)
-    {
-      $this->time = $time;
     }
 
     /**
@@ -324,6 +298,6 @@ class Player
 
     public function serialize()
     {
-        return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner', 'time', 'stack');
+        return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner', 'stack');
     }
 }
