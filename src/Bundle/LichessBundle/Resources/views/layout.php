@@ -34,8 +34,7 @@
                     Contact: <span class="js_email"></span><br />
                     <a href="<?php echo $view->router->generate('lichess_about') ?>" target="_blank">Learn more about Lichess</a>
                 </div>
-                <a class="lichess_uservoice" title="Having a suggestion, feature request or bug report? Let me know">Feedback</a> /
-                <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">Source code</a><br />
+                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a class="lichess_uservoice" title="Having a suggestion, feature request or bug report? Let me know">feedback</a><br />
                 Open Source software built with PHP 5.3, <a href="http://symfony-reloaded.org" target="_blank">Symfony2</a> &amp; <a href="http://jqueryui.com/" target="_blank">jQuery UI</a><br />
                 Artificial intelligence: <a href="http://www.craftychess.com/" target="_blank">Crafty</a>
             </div>
