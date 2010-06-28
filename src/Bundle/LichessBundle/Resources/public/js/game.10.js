@@ -53,7 +53,7 @@
             data: postData || {},
             url: function() { return url.replace(/0$/, self.options.player.version); },
             success: function(data) {
-                if(self.options.opponent.connected != data.o) {
+                if(self.options.opponent.connected != data.o && self.options.game.started) {
                     self.options.opponent.connected = data.o;
                     $.ajax({
                         type: 'GET',
