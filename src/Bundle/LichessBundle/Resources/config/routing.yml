@@ -1,7 +1,7 @@
 lichess_sync:
-    pattern:        /sync/:hash/:color/:version
-    defaults:       { _controller: LichessBundle:Player:sync }
-    requirements:   { hash: "[\w]{6}", color: (white|black), version: "\d+" }
+    pattern:        /sync/:hash/:color/:version/:playerFullHash
+    defaults:       { _controller: LichessBundle:Player:sync, playerFullHash: "" }
+    requirements:   { hash: "[\w]{6}", color: (white|black), version: "\d+", playerFullHash: "([\w]{10}|)" }
 lichess_move:
     pattern:        /move/:hash/:version
     defaults:       { _controller: LichessBundle:Player:move }

@@ -55,7 +55,7 @@
             type: 'POST',
             dataType: 'json',
             data: postData || {},
-            url: function() { return url.replace(/0$/, self.options.player.version); },
+            url: function() { return url.replace(/9999999/, self.options.player.version); },
             success: function(data) {
                 if(!data) return;
                 if(!self.options.opponent.ai && self.options.opponent.connected != data.o && self.options.game.started) {
@@ -93,6 +93,7 @@
     },
     changeTitle: function(text)
     {
+        if(this.options.player.spectator) return;
         document.title = text+" - "+this.initialTitle;
     },
     indicateTurn: function()
@@ -188,7 +189,7 @@
               self.options.possible_moves = events[i].possible_moves;
               self.indicateTurn();
           }
-          else if(events[i].type == 'message' && !self.options.player.spectator) {
+          else if(events[i].type == 'message') {
               self.$chat.find('ol.lichess_messages').append(events[i].html)[0].scrollTop = 9999999;
           }
           else {
@@ -232,9 +233,7 @@
             $("div#" + event.key, self.$board).addClass("check");
             break;
           case "redirect":
-              if(!self.options.player.spectator) {
-                window.location.href=event.url;
-              }
+              window.location.href=event.url;
               break;
           case "end":
             self.options.game.finished = true;

@@ -12,15 +12,14 @@
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
 // Handle only sync urls
-if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<hash>[\w]{6})/(?P<color>(white|black))/(?P<version>\d+)$#x', $url, $matches)) {
+if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<hash>[\w]{6})/(?P<color>(white|black))/(?P<version>\d+)/(?P<playerFullHash>([\w]{10}|))$#x', $url, $matches)) {
     $hash = $matches['hash'];
     $color = $matches['color'];
-    $opponentColor = 'white' === $color ? 'black' : 'white';
     $clientVersion = $matches['version'];
+    $playerFullHash = $matches['playerFullHash'];
+    $opponentColor = 'white' === $color ? 'black' : 'white';
 }
-else {
-    return;
-}
+else return;
 
 // Get user cache from APC
 $userVersion = apc_fetch($hash.'.'.$color.'.data');
@@ -31,11 +30,18 @@ if(!$userVersion) return;
 // If the client and server version differ, update the client
 if($userVersion != $clientVersion) return;
 
-// Set the client as connected
-apc_store($hash.'.'.$color.'.alive', 1, 10);
+if($playerFullHash) {
+    // Set the client as connected
+    apc_store($hash.'.'.$color.'.alive', 1, 10);
+}
 
 // Check is opponent is connected
-$isOpponentAlive = apc_fetch($hash.'.'.$opponentColor.'.alive') ? 1 : 0;
+if($playerFullHash) {
+    $isOpponentAlive = apc_fetch($hash.'.'.$opponentColor.'.alive') ? 1 : 0;
+}
+else {
+    $isOpponentAlive = true;
+}
 
 // Return minimalist JSON response telling the state of the opponent
 header('HTTP/1.0 200 OK');

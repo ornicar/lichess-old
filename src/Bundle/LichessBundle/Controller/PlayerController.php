@@ -46,12 +46,23 @@ class PlayerController extends Controller
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
     }
 
-    public function syncAction($hash, $color, $version)
+    public function syncAction($hash, $color, $version, $playerFullHash)
     {
         $player = $this->findPublicPlayer($hash, $color);
-        $this->getSynchronizer()->setAlive($player);
-        $this->getPersistence()->save($player->getGame());
-        return $this->renderJson($this->getPlayerSyncData($player, $version));
+        if($playerFullHash) {
+            $this->getSynchronizer()->setAlive($player);
+            $this->getPersistence()->save($player->getGame());
+        }
+        $data = $this->getPlayerSyncData($player, $version);
+        // remove private events if user is spectator
+        if(!$playerFullHash) {
+            foreach($data['e'] as $index => $event) {
+                if('message' === $event['type'] || 'redirect' === $event['type']) {
+                    unset($data['e'][$index]);
+                }
+            }
+        }
+        return $this->renderJson($data);
     }
 
     protected function getPlayerSyncData($player, $clientVersion)

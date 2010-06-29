@@ -23,11 +23,11 @@ $data = array(
     'sync_delay' => $parameters['lichess.synchronizer.delay'] * 1000,
     'animation_delay' => 500,
     'url' => array(
-        'sync' => $view->router->generate('lichess_sync', array('hash' => $gameHash, 'color' => $color, 'version' => 0)),
+        'sync' => $view->router->generate('lichess_sync', array('hash' => $gameHash, 'color' => $color, 'version' => 9999999, 'playerFullHash' => $playerFullHash)),
         'table' => $view->router->generate('lichess_table', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => $playerFullHash)),
         'opponent' => $view->router->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => $playerFullHash)),
-        'move' => $view->router->generate('lichess_move', array('hash' => $playerFullHash, 'version' => 0)),
-        'say' => $view->router->generate('lichess_say', array('hash' => $playerFullHash, 'version' => 0)),
+        'move' => $view->router->generate('lichess_move', array('hash' => $playerFullHash, 'version' => 9999999)),
+        'say' => $view->router->generate('lichess_say', array('hash' => $playerFullHash, 'version' => 9999999)),
         'ai_level' => $opponent->getIsAi() ? $view->router->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null
     ),
     'i18n' => array(
