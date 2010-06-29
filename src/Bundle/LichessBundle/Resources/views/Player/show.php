@@ -18,3 +18,5 @@
 <?php if(!$player->getOpponent()->getIsAi()): ?>
     <?php $view->slots->set('chat', $view->render('LichessBundle:Player:room', array('player' => $player))) ?>
 <?php endif; ?>
+
+<?php $view->slots->set('goodies', $view->render('LichessBundle:Game:goodies', array('game' => $player->getGame()))) ?>
