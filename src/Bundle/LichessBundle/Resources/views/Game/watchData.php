@@ -16,7 +16,8 @@ $data = array(
     ),
     'opponent' => array(
         'color' => $opponent->getColor(),
-        'ai' => $opponent->getIsAi()
+        'ai' => $opponent->getIsAi(),
+        'connected' => true
     ),
     'sync_delay' => $parameters['lichess.synchronizer.delay'] * 1000,
     'animation_delay' => 500,
