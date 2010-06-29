@@ -1,7 +1,7 @@
 lichess_sync:
-    pattern:        /sync/:hash/:version
+    pattern:        /sync/:hash/:color/:version
     defaults:       { _controller: LichessBundle:Player:sync }
-    requirements:   { hash: "[\w]{10}", version: "\d+" }
+    requirements:   { hash: "[\w]{6}", color: (white|black), version: "\d+" }
 lichess_move:
     pattern:        /move/:hash/:version
     defaults:       { _controller: LichessBundle:Player:move }
@@ -47,13 +47,13 @@ lichess_resign:
     defaults:       { _controller: LichessBundle:Player:resign }
     requirements:   { hash: "[\w]{10}" }
 lichess_table:
-    pattern:        /table/:hash
+    pattern:        /table/:hash/:color
     defaults:       { _controller: LichessBundle:Player:table }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w]{6}", color: (white|black) }
 lichess_opponent:
-    pattern:        /opponent/:hash
+    pattern:        /opponent/:hash/:color
     defaults:       { _controller: LichessBundle:Player:opponent }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w]{6}", color: (white|black) }
 lichess_ai_level:
     pattern:        /level/:hash
     defaults:       { _controller: LichessBundle:Player:aiLevel }

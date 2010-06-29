@@ -46,9 +46,9 @@ class PlayerController extends Controller
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
     }
 
-    public function syncAction($hash, $version)
+    public function syncAction($hash, $color, $version)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPublicPlayer($hash, $color);
         $this->getSynchronizer()->setAlive($player);
         $this->getPersistence()->save($player->getGame());
         return $this->renderJson($this->getPlayerSyncData($player, $version));
@@ -222,9 +222,9 @@ class PlayerController extends Controller
         return $this->createResponse('done');
     }
 
-    public function tableAction($hash)
+    public function tableAction($hash, $color)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPublicPlayer($hash, $color);
         $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
         if($nextPlayerHash = $player->getGame()->getNext()) {
             $nextGame = $this->findPlayer($nextPlayerHash)->getGame();
@@ -235,9 +235,9 @@ class PlayerController extends Controller
         return $this->render('LichessBundle:Game:'.$template, array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent()), 'nextGame' => $nextGame));
     }
 
-    public function opponentAction($hash)
+    public function opponentAction($hash, $color)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPublicPlayer($hash, $color);
         return $this->render('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent())));
     }
 
@@ -260,6 +260,27 @@ class PlayerController extends Controller
         $player = $game->getPlayerByHash($playerHash);
         if(!$player) {
             throw new NotFoundHttpException('Can\'t find player '.$playerHash);
+        } 
+
+        return $player;
+    }
+
+    /**
+     * Get the public player for this hash 
+     * 
+     * @param string $hash 
+     * @return Player
+     */
+    protected function findPublicPlayer($hash, $color)
+    {
+        $game = $this->getPersistence()->find($hash);
+        if(!$game) {
+            throw new NotFoundHttpException('Can\'t find game '.$gameHash);
+        } 
+
+        $player = $game->getPlayer($color);
+        if(!$player) {
+            throw new NotFoundHttpException('Can\'t find player '.$color);
         } 
 
         return $player;
