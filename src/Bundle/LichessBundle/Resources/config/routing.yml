@@ -23,8 +23,24 @@ lichess_player:
     defaults:       { _controller: LichessBundle:Player:show }
     requirements:   { hash: "[\w]{10}" }
 lichess_invite_ai:
-    pattern:        /ai/:hash
-    defaults:       { _controller: LichessBundle:Player:inviteAi }
+    pattern:        /ai/:color
+    defaults:       { _controller: LichessBundle:Game:inviteAi }
+    requirements:   { color: (white|black) }
+lichess_invite_friend:
+    pattern:        /friend/:color
+    defaults:       { _controller: LichessBundle:Game:inviteFriend }
+    requirements:   { color: (white|black) }
+lichess_wait_friend:
+    pattern:        /friend/:hash
+    defaults:       { _controller: LichessBundle:Player:waitFriend }
+    requirements:   { hash: "[\w]{10}" }
+lichess_invite_anybody:
+    pattern:        /anybody/:color
+    defaults:       { _controller: LichessBundle:Game:inviteAnybody }
+    requirements:   { color: (white|black) }
+lichess_wait_anybody:
+    pattern:        /anybody/:hash
+    defaults:       { _controller: LichessBundle:Player:waitAnybody }
     requirements:   { hash: "[\w]{10}" }
 lichess_resign:
     pattern:        /resign/:hash/:version
@@ -38,10 +54,6 @@ lichess_opponent:
     pattern:        /opponent/:hash
     defaults:       { _controller: LichessBundle:Player:opponent }
     requirements:   { hash: "[\w]{10}" }
-lichess_play_with_anybody:
-    pattern:        /anybody/:hash
-    defaults:       { _controller: LichessBundle:Player:playWithAnybody }
-    requirements:   { hash: "[\w]{10}" }
 lichess_ai_level:
     pattern:        /level/:hash
     defaults:       { _controller: LichessBundle:Player:aiLevel }
@@ -53,7 +65,11 @@ lichess_rematch:
     pattern:        /rematch/:hash
     defaults:       { _controller: LichessBundle:Player:rematch }
     requirements:   { hash: "[\w]{10}" }
+lichess_wait_rematch:
+    pattern:        /rematch/:hash/:previousHash
+    defaults:       { _controller: LichessBundle:Player:waitRematch }
+    requirements:   { hash: "[\w]{10}", previousHash: "[\w]{10}" }
 lichess_force_resignation:
-    pattern:        /force_resign/:hash
+    pattern:        /force-resign/:hash
     defaults:       { _controller: LichessBundle:Player:forceResign }
     requirements:   { hash: "[\w]{10}" }

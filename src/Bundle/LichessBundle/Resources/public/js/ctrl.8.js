@@ -5,10 +5,7 @@ $(function()
     {
         $game.game(lichess_data);
 
-        $game.find('a.lichess_toggle_join_url').click(function()
-        {
-            $game.find('div.lichess_join_url').toggle(100);
-        });
+        $game.find('input.lichess_hash_input').select();
     }
 
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
