@@ -43,9 +43,9 @@ lichess_wait_anybody:
     defaults:       { _controller: LichessBundle:Player:waitAnybody }
     requirements:   { hash: "[\w]{10}" }
 lichess_resign:
-    pattern:        /resign/:hash/:version
+    pattern:        /resign/:hash
     defaults:       { _controller: LichessBundle:Player:resign }
-    requirements:   { hash: "[\w]{10}", version: "\d+" }
+    requirements:   { hash: "[\w]{10}" }
 lichess_table:
     pattern:        /table/:hash
     defaults:       { _controller: LichessBundle:Player:table }
@@ -62,12 +62,8 @@ lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
 lichess_rematch:
-    pattern:        /rematch_from/:hash
-    defaults:       { _controller: LichessBundle:Player:rematch }
-    requirements:   { hash: "[\w]{10}" }
-lichess_wait_rematch:
     pattern:        /rematch/:hash
-    defaults:       { _controller: LichessBundle:Player:waitRematch }
+    defaults:       { _controller: LichessBundle:Player:rematch }
     requirements:   { hash: "[\w]{10}" }
 lichess_force_resignation:
     pattern:        /force-resign/:hash

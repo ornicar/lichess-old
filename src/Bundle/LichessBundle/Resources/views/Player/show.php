@@ -7,11 +7,7 @@
     <div class="lichess_ground">
         <?php $view->output('LichessBundle:Game:cemetery', array('player' => $player, 'position' => 'top')) ?>
         <div class="lichess_table_wrap">
-            <?php if($player->getGame()->getIsFinished()): ?>
-                <?php $view->output('LichessBundle:Game:tableEnd', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
-            <?php else: ?>
-            <?php $view->output('LichessBundle:Game:table', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
-            <?php endif; ?>
+            <?php $view->actions->output('LichessBundle:Player:table', array('path' => array('hash' => $player->getFullHash()))) ?>
         </div>
         <?php $view->output('LichessBundle:Game:cemetery', array('player' => $player->getOpponent(), 'position' => 'bottom')) ?>
     </div>
