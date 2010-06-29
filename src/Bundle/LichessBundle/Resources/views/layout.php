@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Lichess | Open Source Chess game</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.15.css" />
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.16.css" />
         <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open Source software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
@@ -15,9 +15,12 @@
                 <h1>
                     <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a><span class="lichess_version">1.5</span>
                 </h1>
-                <div class="lichess_social">
+                <div class="lichess_social clearfix">
                     <a href="http://twitter.com/home?status=<?php echo urlencode('Amazing Chess Game, free and Open Source! http://lichess.org/') ?>" class="lichess_tweet" target="blank">Tweet</a>
                     <iframe class="lichess_facebook" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe>
+                </div>
+                <div class="lichess_goodies_wrap">
+                    <?php $view->slots->output('goodies', '') ?>
                 </div>
                 <div class="lichess_chat_wrap">
                     <?php $view->slots->output('chat', '') ?>

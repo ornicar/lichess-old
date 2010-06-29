@@ -568,6 +568,10 @@ div.lichess_chat ol.lichess_messages li.system {
     background-image: url(../images/tip3.png);
 }
 
+div.lichess_goodies {
+    margin-top: 20px;
+}
+
 div.lichess_social {
     margin-top: 10px;
 }
