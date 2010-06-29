@@ -345,19 +345,6 @@
                 self.pieceMoving = false;
                 $(this).removeClass("moving").parent().removeClass("droppable-active")
             }
-            })
-            .hover(function()
-            {
-            if (self.animate && !self.pieceMoving && self.isMyTurn() && (targets = self.options.possible_moves[$(this).parent().attr('id')]) && targets.length)
-            {
-                $("#" + targets.join(", #")).addClass("droppable-active");
-            }
-            }, function()
-            {
-            if (!self.pieceMoving)
-            {
-                self.$board.find("div.droppable-active").removeClass("droppable-active");
-            }
             });
         });
     },
