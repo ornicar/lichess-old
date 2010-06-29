@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Lichess | Open Source Chess game</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.11.css" />
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.12.css" />
         <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open Source software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
@@ -44,7 +44,7 @@
             Server load: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
         <script src="/bundle/lichess/js/lib.2.min.js" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/ctrl.8.js" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/game.10.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/ctrl.9.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/game.11.js" type="text/javascript"></script>
     </body>
 </html>
