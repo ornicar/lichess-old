@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Framework\FoundationBundle\Controller;
 use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Stack;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
@@ -18,9 +19,7 @@ class GameController extends Controller
         $game = $this->findGame($hash);
 
         if($game->getIsStarted()) {
-            $response = $this->render('LichessBundle:Game:alreadyStarted');
-            $response->setStatusCode(410);
-            return $response;
+            return $this->forward('LichessBundle:Game:watch', array('hash' => $hash));
         }
 
         $game->start();
@@ -30,6 +29,23 @@ class GameController extends Controller
         ));
         $this->container->getLichessPersistenceService()->save($game);
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $game->getInvited()->getFullHash())));
+    }
+
+    public function watchAction($hash)
+    {
+        $game = $this->findGame($hash);
+        $color = 'white';
+        $player = $game->getPlayer($color);
+        $analyser = new Analyser($game->getBoard());
+        $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
+        if($isKingAttacked) {
+            $checkSquareKey = $game->getTurnPlayer()->getKing()->getSquareKey();
+        }
+        else {
+            $checkSquareKey = null;
+        }
+
+        return $this->render('LichessBundle:Game:watch', array('game' => $game, 'player' => $player, 'checkSquareKey' => $checkSquareKey, 'parameters' => $this->container->getParameterBag()->all()));
     }
 
     public function inviteFriendAction($color)

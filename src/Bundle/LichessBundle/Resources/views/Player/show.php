@@ -7,7 +7,7 @@
     <div class="lichess_ground">
         <?php $view->output('LichessBundle:Game:cemetery', array('player' => $player, 'position' => 'top')) ?>
         <div class="lichess_table_wrap">
-            <?php $view->actions->output('LichessBundle:Player:table', array('path' => array('hash' => $player->getFullHash()))) ?>
+            <?php $view->actions->output('LichessBundle:Player:table', array('path' => array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor()))) ?>
         </div>
         <?php $view->output('LichessBundle:Game:cemetery', array('player' => $player->getOpponent(), 'position' => 'bottom')) ?>
     </div>

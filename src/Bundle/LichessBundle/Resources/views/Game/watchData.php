@@ -3,7 +3,6 @@ $game = $player->getGame();
 $gameHash = $game->getHash();
 $color = $player->getColor();
 $opponent = $player->getOpponent();
-$playerFullHash = $player->getFullHash();
 $data = array(
     'game' => array(
         'hash' => $game->getHash(),
@@ -12,31 +11,25 @@ $data = array(
         'turns' => $game->getTurns(),
     ),
     'player' => array(
-        'fullHash' => $playerFullHash,
         'color' => $player->getColor(),
         'version' => $player->getStack()->getVersion()
     ),
     'opponent' => array(
         'color' => $opponent->getColor(),
-        'ai' => $opponent->getIsAi(),
-        'connected' => $isOpponentConnected
+        'ai' => $opponent->getIsAi()
     ),
     'sync_delay' => $parameters['lichess.synchronizer.delay'] * 1000,
     'animation_delay' => 500,
     'url' => array(
         'sync' => $view->router->generate('lichess_sync', array('hash' => $gameHash, 'color' => $color, 'version' => 0)),
         'table' => $view->router->generate('lichess_table', array('hash' => $gameHash, 'color' => $color)),
-        'opponent' => $view->router->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color)),
-        'move' => $view->router->generate('lichess_move', array('hash' => $playerFullHash, 'version' => 0)),
-        'say' => $view->router->generate('lichess_say', array('hash' => $playerFullHash, 'version' => 0)),
-        'ai_level' => $opponent->getIsAi() ? $view->router->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null
+        'opponent' => $view->router->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color))
     ),
     'i18n' => array(
         'Game Over' => 'Game Over',
         'Waiting for opponent' => 'Waiting for opponent',
         'Your turn' => 'Your turn'
-    ),
-    'possible_moves' => $possibleMoves
+    )
 );
 ?>
 <script type="text/javascript">var lichess_data = <?php echo json_encode($data) ?>;</script>
