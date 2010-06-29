@@ -62,13 +62,13 @@ lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
 lichess_rematch:
-    pattern:        /rematch/:hash
+    pattern:        /rematch_from/:hash
     defaults:       { _controller: LichessBundle:Player:rematch }
     requirements:   { hash: "[\w]{10}" }
 lichess_wait_rematch:
-    pattern:        /rematch/:hash/:previousHash
+    pattern:        /rematch/:hash
     defaults:       { _controller: LichessBundle:Player:waitRematch }
-    requirements:   { hash: "[\w]{10}", previousHash: "[\w]{10}" }
+    requirements:   { hash: "[\w]{10}" }
 lichess_force_resignation:
     pattern:        /force-resign/:hash
     defaults:       { _controller: LichessBundle:Player:forceResign }

@@ -31,7 +31,7 @@ class PlayerController extends Controller
         $this->getPersistence()->save($nextPlayer->getGame());
         $player->getOpponent()->getStack()->addEvent(array('type' => 'reload_table'));
         $this->getPersistence()->save($game);
-        return $this->redirect($this->generateUrl('lichess_wait_rematch', array('hash' => $nextPlayer->getFullHash(), 'previousHash' => $player->getFullHash())));
+        return $this->redirect($this->generateUrl('lichess_wait_rematch', array('hash' => $nextPlayer->getFullHash())));
     }
 
     public function syncAction($hash, $version)
@@ -110,16 +110,15 @@ class PlayerController extends Controller
         return $response;
     }
 
-    public function waitRematchAction($hash, $previousHash)
+    public function waitRematchAction($hash)
     {
         $player = $this->findPlayer($hash);
-        $previousPlayer = $this->findPlayer($previousHash);
 
         if($player->getGame()->getIsStarted()) {
             return $this->redirect('LichessBundle:Player:show', array('hash' => $hash));
         }
         
-        return $this->render('LichessBundle:Player:waitRematch', array('player' => $player, 'previousPlayer' => $previousPlayer, 'parameters' => $this->container->getParameterBag()->all()));
+        return $this->render('LichessBundle:Player:waitRematch', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
     }
 
     public function showAction($hash)
