@@ -31,7 +31,7 @@ class PlayerController extends Controller
         $this->getPersistence()->save($nextPlayer->getGame());
         $player->getOpponent()->getStack()->addEvent(array('type' => 'reload_table'));
         $this->getPersistence()->save($game);
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayer->getFullHash())));
+        return $this->redirect($this->generateUrl('lichess_wait_rematch', array('hash' => $nextPlayer->getFullHash(), 'previousHash' => $player->getFullHash())));
     }
 
     public function syncAction($hash, $version)
@@ -110,6 +110,18 @@ class PlayerController extends Controller
         return $response;
     }
 
+    public function waitRematchAction($hash, $previousHash)
+    {
+        $player = $this->findPlayer($hash);
+        $previousPlayer = $this->findPlayer($previousHash);
+
+        if($player->getGame()->getIsStarted()) {
+            return $this->redirect('LichessBundle:Player:show', array('hash' => $hash));
+        }
+        
+        return $this->render('LichessBundle:Player:waitRematch', array('player' => $player, 'previousPlayer' => $previousPlayer, 'parameters' => $this->container->getParameterBag()->all()));
+    }
+
     public function showAction($hash)
     {
         $player = $this->findPlayer($hash);
@@ -118,7 +130,7 @@ class PlayerController extends Controller
         $this->getSynchronizer()->setAlive($player);
 
         if(!$game->getIsStarted()) {
-            return $this->render('LichessBundle:Player:waitNext', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
+            throw new HttpException('Game not started', 410);
         }
 
         $analyser = new Analyser($game->getBoard());
@@ -164,47 +176,26 @@ class PlayerController extends Controller
         return $this->renderJson($this->getPlayerSyncData($player, $version));
     }
 
-    public function playWithAnybodyAction($hash)
+    public function waitAnybodyAction($hash)
     {
-        $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
         $player = $this->findPlayer($hash);
-        $this->getSynchronizer()->setAlive($player);
-        if(file_exists($connectionFile)) {
-            $opponentHash = file_get_contents($connectionFile);
-            if($opponentHash == $hash) {
-                return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
-            }
-            unlink($connectionFile);
-            $opponent = $this->findPlayer($opponentHash);
-            if(!$this->getSynchronizer()->isTimeout($opponent)) {
-                return $this->redirect($this->generateUrl('lichess_game', array('hash' => $opponent->getGame()->getHash())));
-            }
+        if($player->getGame()->getIsStarted()) {
+            return $this->redirect('lichess_player', array('hash' => $hash));
         }
+        $this->getSynchronizer()->setAlive($player);
 
-        file_put_contents($connectionFile, $hash);
         return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
     }
 
-    public function inviteAiAction($hash)
+    public function waitFriendAction($hash)
     {
         $player = $this->findPlayer($hash);
-        $game = $player->getGame();
-        if($game->getIsStarted()) {
-            throw new \LogicException('Game already started');
+        if($player->getGame()->getIsStarted()) {
+            return $this->redirect('lichess_player', array('hash' => $hash));
         }
+        $this->getSynchronizer()->setAlive($player);
 
-        $opponent = $player->getOpponent();
-        $opponent->setIsAi(true);
-        $opponent->setAiLevel(1);
-        $game->start();
-
-        if($player->isBlack()) {
-            $manipulator = new Manipulator($game, new Stack());
-            $manipulator->play($this->container->getLichessAiService()->move($game, $opponent->getAiLevel()));
-        }
-        $this->getPersistence()->save($game);
-
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+        return $this->render('LichessBundle:Player:waitFriend', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
     }
 
     public function resignAction($hash, $version)
