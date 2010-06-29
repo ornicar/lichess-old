@@ -13,5 +13,3 @@
 </div>
 
 <?php $view->output('LichessBundle:Game:data', array('player' => $player, 'possibleMoves' => null, 'parameters' => $parameters, 'isOpponentConnected' => false)) ?>
-
-<?php $view->slots->set('chat', $view->render('LichessBundle:Player:room', array('player' => $previousPlayer))) ?>
