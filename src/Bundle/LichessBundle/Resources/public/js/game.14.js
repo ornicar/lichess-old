@@ -21,27 +21,31 @@
         self.initTable();
       }
 
-      if(!self.options.opponent.ai)
+      if(!self.options.opponent.ai || self.options.player.spectator)
       {
         // synchronize with game
-        setTimeout(self.syncPlayer = function()
-        {
-            self.syncUrl(self.options.url.sync, function()
+        if(!self.options.game.finished || !self.options.player.spectator) {
+            setTimeout(self.syncPlayer = function()
             {
-                setTimeout(self.syncPlayer, self.options.sync_delay);
-            });
-        }, self.options.sync_delay);
+                self.syncUrl(self.options.url.sync, function()
+                {
+                    setTimeout(self.syncPlayer, self.options.sync_delay);
+                });
+            }, self.options.sync_delay);
+        }
 
-        // update document title to show playing state
-        setTimeout(self.updateTitle = function()
-        {
-            document.title = (self.isMyTurn() && !self.options.game.finished)
-            ? document.title = document.title.indexOf('/\\/') == 0
-            ? '\\/\\ '+document.title.replace(/\/\\\/ /, '')
-            : '/\\/ '+document.title.replace(/\\\/\\ /, '')
-            : document.title;
-            setTimeout(self.updateTitle, 400);
-        }, 400);
+        if(!self.options.player.spectator) {
+            // update document title to show playing state
+            setTimeout(self.updateTitle = function()
+            {
+                document.title = (self.isMyTurn() && !self.options.game.finished)
+                ? document.title = document.title.indexOf('/\\/') == 0
+                ? '\\/\\ '+document.title.replace(/\/\\\/ /, '')
+                : '/\\/ '+document.title.replace(/\\\/\\ /, '')
+                : document.title;
+                setTimeout(self.updateTitle, 400);
+            }, 400);
+        }
       }
     },
     syncUrl: function(url, callback, postData)
@@ -54,7 +58,7 @@
             url: function() { return url.replace(/0$/, self.options.player.version); },
             success: function(data) {
                 if(!data) return;
-                if(self.options.opponent.connected != data.o && self.options.game.started) {
+                if(!self.options.opponent.ai && self.options.opponent.connected != data.o && self.options.game.started) {
                     self.options.opponent.connected = data.o;
                     $.ajax({
                         type: 'GET',
@@ -73,7 +77,9 @@
             },
             complete: function()
             {
-                $.isFunction(callback) && callback();
+                if(!self.options.game.finished || !self.options.player.spectator) {
+                    $.isFunction(callback) && callback();
+                }
             }
         });
     },
@@ -182,7 +188,7 @@
               self.options.possible_moves = events[i].possible_moves;
               self.indicateTurn();
           }
-          else if(events[i].type == 'message') {
+          else if(events[i].type == 'message' && !self.options.player.spectator) {
               self.$chat.find('ol.lichess_messages').append(events[i].html)[0].scrollTop = 9999999;
           }
           else {
@@ -226,7 +232,9 @@
             $("div#" + event.key, self.$board).addClass("check");
             break;
           case "redirect":
-              window.location.href=event.url;
+              if(!self.options.player.spectator) {
+                window.location.href=event.url;
+              }
               break;
           case "end":
             self.options.game.finished = true;
@@ -253,6 +261,9 @@
     initSquaresAndPieces: function()
     {
         var self = this;
+        if(self.options.player.spectator) {
+            return;
+        }
         // init squares
         $("div.lcs", self.$board).each(function()
         {
@@ -354,6 +365,9 @@
     initChat: function()
     {
         var self = this;
+        if(self.options.player.spectator) {
+            return;
+        }
         if(self.$chat.length)
         {
             self.$chat.find('ol.lichess_messages')[0].scrollTop = 9999999;
@@ -380,46 +394,48 @@
     initTable: function()
     {
         var self = this;
-        self.$table.find("a.lichess_resign").click(function()
-        {
-            if (!confirm($(this).attr('title')+' ?')) 
+        if(!self.options.player.spectator) {
+            self.$table.find("a.lichess_resign").click(function()
             {
-                return false;
-            }
-        });
-
-        self.$table.find("select.lichess_ai_level").change(function()
-        {
-            $.ajax({
-                type: 'POST',
-                url:  self.options.url.ai_level,
-                data: { level:  $(this).val() }
+                if (!confirm($(this).attr('title')+' ?')) 
+                {
+                    return false;
+                }
             });
-        });
+
+            self.$table.find("select.lichess_ai_level").change(function()
+            {
+                $.ajax({
+                    type: 'POST',
+                    url:  self.options.url.ai_level,
+                    data: { level:  $(this).val() }
+                });
+            });
+
+            self.$table.find('label.lichess_enable_chat input').change(function()
+            {
+                var $chatElements = $('div.lichess_chat').find('ol.lichess_messages, form');
+                if($(this).attr('checked'))
+                {
+                    $chatElements.show();
+                }
+                else
+                {
+                    $chatElements.hide();
+                }
+            }).trigger('change');
+
+            if(self.options.opponent.ai)
+            {
+                self.$table.find('label.lichess_enable_chat').hide();
+            }
+        }
 
         self.$table.find('label.lichess_enable_animation input').change(function()
         {
             self.animate = $(this).attr('checked');
             $('div.lcs.ui-droppable').droppable('option', 'activeClass', self.animate ? 'droppable-active' : '');
         }).trigger('change');
-
-        self.$table.find('label.lichess_enable_chat input').change(function()
-        {
-            var $chatElements = $('div.lichess_chat').find('ol.lichess_messages, form');
-            if($(this).attr('checked'))
-            {
-                $chatElements.show();
-            }
-            else
-            {
-                $chatElements.hide();
-            }
-        }).trigger('change');
-
-        if(self.options.opponent.ai)
-        {
-            self.$table.find('label.lichess_enable_chat').hide();
-        }
     },
     translate: function(message)
     {

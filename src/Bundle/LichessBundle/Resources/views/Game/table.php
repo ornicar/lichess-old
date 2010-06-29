@@ -12,14 +12,14 @@
             </select>    
         <?php else: ?>
             <div class="opponent_status">
-              <?php $view->output('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
+              <?php $view->actions->output('LichessBundle:Player:opponent', array('path' => array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash()))) ?>
             </div>
         <?php endif; ?>
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
-        <div class="lichess_player white">
-        <div class="lichess_piece king white" <?php echo $turnPlayer->isBlack() ? ' none' : '' ?>></div>
+        <div class="lichess_player white <?php echo $turnPlayer->isBlack() ? ' none' : '' ?>">
+            <div class="lichess_piece king white"></div>
             <p><?php echo $player->isWhite() ? 'Your turn' : 'Waiting' ?></p>
         </div>
         <div class="lichess_player black <?php echo $turnPlayer->isWhite() ? ' none' : '' ?>">

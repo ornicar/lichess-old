@@ -27,7 +27,7 @@ class FilePersistence
         foreach($game->getPlayers() as $player) {
             if(!$player->getIsAi()) {
                 $player->getStack()->rotate();
-                apc_store($player->getFullHash().'.data', $player->getStack()->getVersion().'|'.$player->getOpponent()->getFullHash(), 3600);
+                apc_store($game->getHash().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
             }
         }
         $data = serialize($game);

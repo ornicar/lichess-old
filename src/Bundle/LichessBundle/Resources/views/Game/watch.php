@@ -5,10 +5,12 @@
         <?php $view->output('LichessBundle:Game:board', array('player' => $player, 'checkSquareKey' => $checkSquareKey)) ?>
     </div> 
     <div class="lichess_ground">
-        <div class="lichess_table lichess_table_not_started">
-            <a class="lichess_button lichess_toggle_join_url">Play with a friend</a>
+        <?php $view->output('LichessBundle:Game:cemetery', array('player' => $player, 'position' => 'top')) ?>
+        <div class="lichess_table_wrap">
+            <?php $view->actions->output('LichessBundle:Player:table', array('path' => array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => ''))) ?>
         </div>
+        <?php $view->output('LichessBundle:Game:cemetery', array('player' => $player->getOpponent(), 'position' => 'bottom')) ?>
     </div>
 </div>
 
-<?php $view->output('LichessBundle:Game:watchData', array('player' => $player, 'parameters' => $parameters)) ?>
+<?php $view->output('LichessBundle:Game:watchData', array('player' => $player, 'parameters' => $parameters, 'possibleMoves' => $possibleMoves)) ?>

@@ -222,23 +222,37 @@ class PlayerController extends Controller
         return $this->createResponse('done');
     }
 
-    public function tableAction($hash, $color)
+    public function tableAction($hash, $color, $playerFullHash)
     {
-        $player = $this->findPublicPlayer($hash, $color);
-        $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
-        if($nextPlayerHash = $player->getGame()->getNext()) {
-            $nextGame = $this->findPlayer($nextPlayerHash)->getGame();
+        if($playerFullHash) {
+            $player = $this->findPlayer($playerFullHash);
+            $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
+            if($nextPlayerHash = $player->getGame()->getNext()) {
+                $nextGame = $this->findPlayer($nextPlayerHash)->getGame();
+            }
+            else {
+                $nextGame = null;
+            }
         }
         else {
+            $player = $this->findPublicPlayer($hash, $color);
+            $template = 'watchTable';
             $nextGame = null;
         }
         return $this->render('LichessBundle:Game:'.$template, array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent()), 'nextGame' => $nextGame));
     }
 
-    public function opponentAction($hash, $color)
+    public function opponentAction($hash, $color, $playerFullHash)
     {
-        $player = $this->findPublicPlayer($hash, $color);
-        return $this->render('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent())));
+        if($playerFullHash) {
+            $player = $this->findPlayer($playerFullHash);
+            $template = 'opponent';
+        }
+        else {
+            $player = $this->findPublicPlayer($hash, $color);
+            $template = 'watchOpponent';
+        }
+        return $this->render('LichessBundle:Player:'.$template, array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent())));
     }
 
     /**

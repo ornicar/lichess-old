@@ -7,7 +7,7 @@
             <span>Opponent is Crafty A.I. level <?php echo $opponent->getAiLevel() ?></span>
         <?php else: ?>
             <div class="opponent_status">
-              <?php $view->output('LichessBundle:Player:opponentStatus', array('player' => $player, 'isOpponentConnected' => $isOpponentConnected)) ?>
+              <?php $view->actions->output('LichessBundle:Player:opponent', array('path' => array('hash' => $game->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash()))) ?>
             </div>
         <?php endif; ?>
     </div>

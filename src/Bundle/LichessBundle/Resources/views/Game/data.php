@@ -9,12 +9,11 @@ $data = array(
         'hash' => $game->getHash(),
         'started' => $game->getIsStarted(),
         'finished' => $game->getIsFinished(),
-        'turns' => $game->getTurns(),
     ),
     'player' => array(
-        'fullHash' => $playerFullHash,
         'color' => $player->getColor(),
-        'version' => $player->getStack()->getVersion()
+        'version' => $player->getStack()->getVersion(),
+        'spectator' => false
     ),
     'opponent' => array(
         'color' => $opponent->getColor(),
@@ -25,8 +24,8 @@ $data = array(
     'animation_delay' => 500,
     'url' => array(
         'sync' => $view->router->generate('lichess_sync', array('hash' => $gameHash, 'color' => $color, 'version' => 0)),
-        'table' => $view->router->generate('lichess_table', array('hash' => $gameHash, 'color' => $color)),
-        'opponent' => $view->router->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color)),
+        'table' => $view->router->generate('lichess_table', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => $playerFullHash)),
+        'opponent' => $view->router->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => $playerFullHash)),
         'move' => $view->router->generate('lichess_move', array('hash' => $playerFullHash, 'version' => 0)),
         'say' => $view->router->generate('lichess_say', array('hash' => $playerFullHash, 'version' => 0)),
         'ai_level' => $opponent->getIsAi() ? $view->router->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null
