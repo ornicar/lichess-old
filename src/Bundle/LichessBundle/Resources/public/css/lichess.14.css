@@ -118,7 +118,7 @@ div.lcs.moved div.lcsi {
 div.lcs.check div.lcsi {
     background: url(../images/over6.png) top left no-repeat;
 }
-div.my_turn div.lcs:hover div.lcsi {
+div.my_turn.not_spectator div.lcs:hover div.lcsi {
     background: url(../images/over.png) top left no-repeat;
 }
 div.lcs.droppable-active div.lcsi {
@@ -349,6 +349,9 @@ div.lichess_table {
     -webkit-border-radius: 4px;
     height: auto;
     padding: 10px;
+}
+div.lichess_table.spectator {
+    top: 160px;
 }
 
 div.lichess_table_not_started {

@@ -8,11 +8,11 @@ $data = array(
         'hash' => $game->getHash(),
         'started' => $game->getIsStarted(),
         'finished' => $game->getIsFinished(),
-        'turns' => $game->getTurns(),
     ),
     'player' => array(
         'color' => $player->getColor(),
-        'version' => $player->getStack()->getVersion()
+        'version' => $player->getStack()->getVersion(),
+        'spectator' => true
     ),
     'opponent' => array(
         'color' => $opponent->getColor(),
@@ -22,14 +22,15 @@ $data = array(
     'animation_delay' => 500,
     'url' => array(
         'sync' => $view->router->generate('lichess_sync', array('hash' => $gameHash, 'color' => $color, 'version' => 0)),
-        'table' => $view->router->generate('lichess_table', array('hash' => $gameHash, 'color' => $color)),
-        'opponent' => $view->router->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color))
+        'table' => $view->router->generate('lichess_table', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => '')).'/',
+        'opponent' => $view->router->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => '')).'/'
     ),
     'i18n' => array(
         'Game Over' => 'Game Over',
         'Waiting for opponent' => 'Waiting for opponent',
         'Your turn' => 'Your turn'
-    )
+    ),
+    'possible_moves' => $possibleMoves
 );
 ?>
 <script type="text/javascript">var lichess_data = <?php echo json_encode($data) ?>;</script>

@@ -47,13 +47,13 @@ lichess_resign:
     defaults:       { _controller: LichessBundle:Player:resign }
     requirements:   { hash: "[\w]{10}" }
 lichess_table:
-    pattern:        /table/:hash/:color
-    defaults:       { _controller: LichessBundle:Player:table }
-    requirements:   { hash: "[\w]{6}", color: (white|black) }
+    pattern:        /table/:hash/:color/:playerFullHash
+    defaults:       { _controller: LichessBundle:Player:table, playerFullHash: "" }
+    requirements:   { hash: "[\w]{6}", color: (white|black), playerFullHash: "([\w]{10}|)" }
 lichess_opponent:
-    pattern:        /opponent/:hash/:color
-    defaults:       { _controller: LichessBundle:Player:opponent }
-    requirements:   { hash: "[\w]{6}", color: (white|black) }
+    pattern:        /opponent/:hash/:color/:playerFullHash
+    defaults:       { _controller: LichessBundle:Player:opponent, playerFullHash: "" }
+    requirements:   { hash: "[\w]{6}", color: (white|black), playerFullHash: "([\w]{10}|)" }
 lichess_ai_level:
     pattern:        /level/:hash
     defaults:       { _controller: LichessBundle:Player:aiLevel }
