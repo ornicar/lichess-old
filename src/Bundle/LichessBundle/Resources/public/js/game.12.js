@@ -11,7 +11,7 @@
       self.$chat = $("div.lichess_chat");
       self.initialTitle = document.title,
       self.animate = null;
-      self.ajaxManager = $.manageAjax({ manageType: "queue", maxReq: 1});
+      self.ajaxManager = $.manageAjax.create('lichess_sync', { manageType: "queue", maxReq: 1});
       
       if(self.options.game.started)
       {
@@ -53,6 +53,7 @@
             data: postData || {},
             url: function() { return url.replace(/0$/, self.options.player.version); },
             success: function(data) {
+                if(!data) return;
                 if(self.options.opponent.connected != data.o && self.options.game.started) {
                     self.options.opponent.connected = data.o;
                     $.ajax({
@@ -69,6 +70,9 @@
                     self.options.player.version = data.v;
                     self.applyEvents(data.e);
                 }
+            },
+            complete: function()
+            {
                 $.isFunction(callback) && callback();
             }
         });
