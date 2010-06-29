@@ -37,7 +37,7 @@ class Generator
         $nextGame = $this->createGame();
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
-        $player->getGame()->setNext($nextGame->getHash());
+        $player->getGame()->setNext($nextPlayer->getFullHash());
 
         return $nextPlayer;
     }

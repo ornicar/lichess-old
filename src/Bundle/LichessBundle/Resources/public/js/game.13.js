@@ -382,11 +382,10 @@
         var self = this;
         self.$table.find("a.lichess_resign").click(function()
         {
-            if (confirm($(this).attr('title')+' ?')) 
+            if (!confirm($(this).attr('title')+' ?')) 
             {
-                self.syncUrl(self.options.url.resign);
+                return false;
             }
-            return false;
         });
 
         self.$table.find("select.lichess_ai_level").change(function()
