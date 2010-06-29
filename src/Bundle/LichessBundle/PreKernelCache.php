@@ -9,13 +9,16 @@
  **/
 
 // Get url
-$path = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+$url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
 // Handle only sync urls
-if(!preg_match('#^/sync/([\w\d]{10})/(\d+)$#', $path, $matches)) return;
-
-// Extract user infos from url
-list($hash, $clientVersion) = array($matches[1], $matches[2]);
+if (0 === strpos($url, '/sync') && preg_match('#^/sync/(?P<hash>[\w]{10})/(?P<version>\d+)$#x', $url, $matches)) {
+    $hash = $matches['hash'];
+    $clientVersion = $matches['version'];
+}
+else {
+    return;
+}
 
 // Get user cache from APC
 $cache = apc_fetch($hash.'.data');
