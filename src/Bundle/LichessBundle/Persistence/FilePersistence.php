@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Persistence;
 class FilePersistence
 {
     protected $dir;
+    protected $games = array();
 
     public function __construct($dir)
     {
@@ -44,6 +45,8 @@ class FilePersistence
      */
     public function find($hash)
     {
+        if(isset($this->games[$hash])) return $this->games[$hash];
+
         $file = $this->dir.'/'.$hash;
 
         if(!\file_exists($file)) {
@@ -54,11 +57,9 @@ class FilePersistence
         $data = $this->decode($data);
         $game = \unserialize($data);
 
-        if(!$game) {
-            return null;
-        }
+        if(!$game) return null;
 
-        return $game;
+        return $this->games[$hash] = $game;
     }
 
     protected function encode($data)
