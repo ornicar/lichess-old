@@ -28,8 +28,8 @@
         </div>
     </div>
     <div class="lichess_control clearfix">
-        <label class="lichess_enable_chat"><input type="checkbox" checked="checked" />Chat</label>
-        <label class="lichess_enable_animation"><input type="checkbox" checked="checked" />Animation</label>
+        <label title="Toggle the chat" class="lichess_enable_chat"><input type="checkbox" checked="checked" />Chat</label>
+        <label title="Toggle animations" class="lichess_enable_animation"><input type="checkbox" checked="checked" />Animation</label>
         <a href="<?php echo $view->router->generate('lichess_resign', array('hash' => $player->getFullHash())) ?>" class="lichess_resign" title="Give up">Resign</a>
     </div>
 </div>

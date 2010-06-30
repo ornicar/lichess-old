@@ -5,12 +5,15 @@ $(function()
     {
         $game.game(lichess_data);
 
-        $game.find('input.lichess_hash_input').select();
+        $('input').click(function()
+        {
+            this.select();
+        });
     }
 
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
-    $('a, input').tipsy({fade: true});
+    $('a, input, label, div.lichess_server').tipsy({fade: true});
 
     //uservoice
     if(document.domain == 'lichess.org') {

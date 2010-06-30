@@ -43,7 +43,7 @@
                 Artificial intelligence: <a href="http://www.craftychess.com/" target="_blank">Crafty</a>
             </div>
         </div>
-        <div class="lichess_server">
+        <div title="Come on, make my server suffer :)" class="lichess_server">
             <?php $loadAverage = sys_getloadavg() ?>
             Server load: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
