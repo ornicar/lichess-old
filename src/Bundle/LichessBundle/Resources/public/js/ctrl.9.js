@@ -10,6 +10,8 @@ $(function()
 
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
+    $('a, input').tipsy({fade: true});
+
     //uservoice
     if(document.domain == 'lichess.org') {
         (function() {
