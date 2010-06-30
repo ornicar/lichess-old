@@ -5,7 +5,7 @@
         <?php $view->output('LichessBundle:Main:staticBoard', array('color' => $player->getColor())) ?>
         <div class="lichess_overboard">
             To invite someone to play, give this url:
-            <input class="lichess_hash_input" readonly="readonly" value="<?php echo $view->router->generate('lichess_game', array('hash' => $player->getGame()->getHash()), true) ?>" />
+            <input title="The first person who uses this url will start to play with you" class="lichess_hash_input" readonly="readonly" value="<?php echo $view->router->generate('lichess_game', array('hash' => $player->getGame()->getHash()), true) ?>" />
         </div>
     </div> 
     <div class="lichess_ground">

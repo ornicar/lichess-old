@@ -575,6 +575,12 @@ div.lichess_chat ol.lichess_messages li.system {
 div.lichess_goodies {
     margin-top: 20px;
 }
+div.lichess_goodies input {
+    margin-top: 10px;
+    border: none;
+    background: transparent;
+    color: #444;
+}
 
 div.lichess_social {
     margin-top: 10px;
