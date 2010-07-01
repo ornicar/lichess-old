@@ -11,6 +11,7 @@ use Bundle\LichessBundle\Ai\Stupid;
 use Bundle\LichessBundle\Entities\Player;
 use Bundle\LichessBundle\Entities\Game;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Components\HttpKernel\Exception\HttpException;
 
 class PlayerController extends Controller
 {
