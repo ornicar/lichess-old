@@ -17,7 +17,7 @@
 
 <?php $view->slots->start('goodies') ?>
 <div class="lichess_goodies">
-    Your are viewing this game as a spectator.<br /><br />
+    You are viewing this game as a spectator.<br /><br />
     <a href="<?php echo $view->router->generate('lichess_homepage') ?>"><strong>Play a new game</strong></a>
 </div>
 <?php $view->slots->stop() ?>
