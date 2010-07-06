@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Lichess | Open Source Chess game</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
@@ -48,7 +49,7 @@
             Server load: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
         <script src="/bundle/lichess/js/lib.4.min.js" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/ctrl.10.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/ctrl.11.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/game.15.js" type="text/javascript"></script>
     </body>
 </html>
