@@ -623,6 +623,10 @@ li.lichess_stumbleupon iframe {
 li.lichess_stumbleupon iframe {
     width: 80px;
 }
+li.lichess_add2any a img {
+    padding-top: 2px;
+    vertical-align: top;
+}
 
 div.lichess_server {
     margin: 20px 0;
