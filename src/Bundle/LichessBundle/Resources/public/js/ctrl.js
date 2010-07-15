@@ -41,6 +41,15 @@ $.ajax = function(o) {
     return _jQueryAjax(o);
 }
 
+//add2any
+var a2a_config = a2a_config || {};
+a2a_config.linkname = "Best web Chess game ever!";
+a2a_config.linkurl = "http://lichess.org/";
+(function() {
+    var a = document.createElement('script'); a.type = 'text/javascript'; a.async = true; a.src = 'http://static.addtoany.com/menu/page.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
+})();
+
 //analytics
 if(document.domain == 'lichess.org') {
     var _gaq = _gaq || [];
