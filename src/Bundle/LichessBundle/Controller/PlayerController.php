@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Controller;
 
-use Symfony\Framework\FoundationBundle\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Stack;
