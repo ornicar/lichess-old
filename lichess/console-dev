@@ -3,9 +3,9 @@
 
 require_once __DIR__.'/LichessKernel.php';
 
-use Symfony\Framework\FoundationBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-$kernel = new LichessKernel('prod', false);
+$kernel = new LichessKernel('dev', true);
 
 $application = new Application($kernel);
 $application->run();
