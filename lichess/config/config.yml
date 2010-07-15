@@ -1,5 +1,5 @@
 parameters:
-    kernel.include_core_classes: true
+    kernel.include_core_classes: false
 
 kernel.config:
     charset:             UTF-8
@@ -9,3 +9,5 @@ web.config: ~
 
 web.templating:
     escaping: false
+
+lichess.config: ~

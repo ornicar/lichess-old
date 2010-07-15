@@ -2,11 +2,11 @@
 
 namespace Bundle\LichessBundle;
 
-use Symfony\Foundation\Bundle\Bundle as BaseBundle;
+use Symfony\Framework\Bundle\Bundle as BaseBundle;
 
-use Symfony\Components\DependencyInjection\ContainerInterface;
-use Symfony\Components\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Components\DependencyInjection\BuilderConfiguration;
+use Bundle\LichessBundle\DependencyInjection\LichessExtension;
+use Symfony\Components\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Components\DependencyInjection\Loader\Loader;
 
 /**
  * Reduce usage of class loader for performance reasons
@@ -30,14 +30,8 @@ require_once __DIR__.'/Logger/LichessLogger.php';
 
 class LichessBundle extends BaseBundle
 {
-    public function buildContainer(ContainerInterface $container)
+    public function buildContainer(ParameterBagInterface $parameterBag)
     {
-        $configuration = new BuilderConfiguration();
-        
-        $loader = new XmlFileLoader(__DIR__.'/Resources/config');
-        $configuration->merge($loader->load('config.xml'));
-        $configuration->merge($loader->load('logger.xml'));
-
-        return $configuration;
+        Loader::registerExtension(new LichessExtension());
     }
 }

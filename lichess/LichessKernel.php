@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../src/autoload.php';
 
-use Symfony\Foundation\Kernel;
+use Symfony\Framework\Kernel;
 use Symfony\Components\DependencyInjection\Loader\YamlFileLoader as ContainerLoader;
 use Symfony\Components\Routing\Loader\YamlFileLoader as RoutingLoader;
 
@@ -17,8 +17,8 @@ class LichessKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
-            new Symfony\Foundation\KernelBundle(),
-            new Symfony\Framework\FoundationBundle\FoundationBundle(),
+            new Symfony\Framework\KernelBundle(),
+            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Bundle\LichessBundle\LichessBundle()
         );
 
@@ -40,7 +40,7 @@ class LichessKernel extends Kernel
         $configuration = $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
         if($this->isDebug()) {
-            $configuration->setParameter('profiler.storage.class', 'Bundle\\LichessBundle\\Profiler\\ProfilerStorage');
+            //$configuration->setParameter('profiler.storage.class', 'Bundle\\LichessBundle\\Profiler\\ProfilerStorage');
         }
         else {
             $configuration->setParameter('exception_handler.controller', 'LichessBundle:Main:notFound');
