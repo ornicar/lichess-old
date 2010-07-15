@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Command;
 
-use Symfony\Framework\FoundationBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
 use Symfony\Components\Console\Input\InputArgument;
 use Symfony\Components\Console\Input\InputOption;
 use Symfony\Components\Console\Input\InputInterface;
@@ -42,11 +42,11 @@ class GameRotateCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $this->gameDir = $this->container['lichess.persistence.dir'];
+        $this->gameDir = $this->container->getParameter('lichess.persistence.dir');
         $nbGames = $this->getNbGames();
         $maxNbGames = $this->getMaxNbGames();
 
-        $output->writeln(sprintf('%d games, %d max.', $nbSockets, $nbGames, $maxNbGames));
+        $output->writeln(sprintf('%d games, %d max.', $nbGames, $maxNbGames));
 
         if($nbGames <= $maxNbGames) {
             $output->writeln('Exit.');
@@ -66,7 +66,7 @@ class GameRotateCommand extends BaseCommand
         
         $nbGames = $this->getNbGames();
 
-        $output->writeln(sprintf('%d games', $nbSockets, $nbGames));
+        $output->writeln(sprintf('%d games', $nbGames));
     }
 
     protected function getNbGames()
