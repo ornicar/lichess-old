@@ -6,7 +6,7 @@ use Symfony\Framework\Bundle\Bundle as BaseBundle;
 
 use Bundle\LichessBundle\DependencyInjection\LichessExtension;
 use Symfony\Components\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Components\DependencyInjection\Loader\Loader;
+use Symfony\Components\DependencyInjection\ContainerBuilder;
 
 /**
  * Reduce usage of class loader for performance reasons
@@ -32,6 +32,6 @@ class LichessBundle extends BaseBundle
 {
     public function buildContainer(ParameterBagInterface $parameterBag)
     {
-        Loader::registerExtension(new LichessExtension());
+        ContainerBuilder::registerExtension(new LichessExtension());
     }
 }
