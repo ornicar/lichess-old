@@ -1,3 +1,7 @@
+lichess_homepage:
+    pattern:        /:color
+    defaults:       { _controller: LichessBundle:Main:index, color: white }
+    requirements:   { color: (white|black) }
 lichess_sync:
     pattern:        /sync/:hash/:color/:version/:playerFullHash
     defaults:       { _controller: LichessBundle:Player:sync, playerFullHash: "" }
@@ -10,10 +14,6 @@ lichess_say:
     pattern:        /talk/:hash/:version
     defaults:       { _controller: LichessBundle:Player:say }
     requirements:   { hash: "[\w]{10}", version: "\d+" }
-lichess_homepage:
-    pattern:        /:color
-    defaults:       { _controller: LichessBundle:Main:index, color: white }
-    requirements:   { color: (white|black) }
 lichess_game:
     pattern:        /:hash
     defaults:       { _controller: LichessBundle:Game:show }

@@ -9,9 +9,7 @@ class MainController extends Controller
 
     public function indexAction($color)
     {
-        return $this->render('LichessBundle:Main:index', array(
-            'color' => $color
-        ));
+        return $this->render('LichessBundle:Main:index', array('color' => $color));
     }
 
     public function aboutAction()
