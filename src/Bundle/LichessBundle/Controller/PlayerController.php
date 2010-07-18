@@ -193,7 +193,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         if($player->getGame()->getIsStarted()) {
-            return $this->redirect('lichess_player', array('hash' => $hash));
+            return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
         }
         $this->getSynchronizer()->setAlive($player);
 
@@ -204,7 +204,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         if($player->getGame()->getIsStarted()) {
-            return $this->redirect('lichess_player', array('hash' => $hash));
+            return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
         }
         $this->getSynchronizer()->setAlive($player);
 
