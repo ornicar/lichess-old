@@ -381,14 +381,6 @@
     {
         var self = this;
         if(!self.options.player.spectator) {
-            self.$table.find("a.lichess_resign").click(function()
-            {
-                if (!confirm($(this).attr('title')+' ?')) 
-                {
-                    return false;
-                }
-            });
-
             self.$table.find("select.lichess_ai_level").change(function()
             {
                 $.ajax({
