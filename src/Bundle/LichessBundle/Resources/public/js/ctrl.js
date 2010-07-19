@@ -5,10 +5,11 @@ $(function()
     {
         $game.game(lichess_data);
 
-        $('input').click(function()
-        {
-            this.select();
-        });
+        $('input').click(function() { this.select(); });
+
+        setTimeout(function() {
+            $('a.invite_tools').show().click(function() { $('div.invite_tools').toggle(); });
+        }, 2000);
     }
 
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
@@ -43,7 +44,7 @@ $.ajax = function(o) {
 
 //add2any
 var a2a_config = a2a_config || {};
-a2a_config.linkname = "Best web Chess game ever!";
+a2a_config.linkname = "I'm playing Chess on lichess.org";
 a2a_config.linkurl = "http://lichess.org/";
 (function() {
     var a = document.createElement('script'); a.type = 'text/javascript'; a.async = true; a.src = 'http://static.addtoany.com/menu/page.js';
