@@ -3,11 +3,11 @@
     <head>
         <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Lichess | Open Source Chess game</title>
+        <title>Lichess | Web Chess game</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/vendor/tipsy/stylesheets/tipsy.css" />
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css" />
-        <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. Open Source software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css?v=2" />
+        <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. OpenSource software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
     </head>
@@ -50,7 +50,7 @@
             Server load: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/ctrl.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/ctrl.js?v=2" type="text/javascript"></script>
         <script src="/bundle/lichess/js/game.js" type="text/javascript"></script>
     </body>
 </html>
