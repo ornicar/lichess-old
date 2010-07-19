@@ -36,7 +36,7 @@ lichess_wait_friend:
     requirements:   { hash: "[\w]{10}" }
 lichess_invite_anybody:
     pattern:        /anybody/:color
-    defaults:       { _controller: LichessBundle:Game:inviteAnybody }
+    defaults:       { _controller: LichessBundle:Game:inviteAnybody, color: white }
     requirements:   { color: (white|black) }
 lichess_wait_anybody:
     pattern:        /anybody/:hash
