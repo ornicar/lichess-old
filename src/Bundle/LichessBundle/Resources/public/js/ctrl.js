@@ -8,7 +8,7 @@ $(function()
         $('input').click(function() { this.select(); });
 
         setTimeout(function() {
-            $('a.invite_tools').show().click(function() { $('div.invite_tools').toggle(); });
+            $('a.invite_tools').css('display', 'block').click(function() { $('div.invite_tools').toggle(); });
         }, 2000);
     }
 

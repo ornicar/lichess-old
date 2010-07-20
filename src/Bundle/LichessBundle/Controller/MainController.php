@@ -12,6 +12,12 @@ class MainController extends Controller
         return $this->render('LichessBundle:Main:index', array('color' => $color));
     }
 
+    public function localeAction($locale)
+    {
+        $this->container->getSessionService()->setLocale($locale);
+        return $this->redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function aboutAction()
     {
         return $this->render('LichessBundle:Main:about');
