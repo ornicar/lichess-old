@@ -5,7 +5,7 @@
         <?php $view->output('LichessBundle:Main:staticBoard', array('color' => $player->getColor())) ?>
         <div class="lichess_overboard wait_next">
             <img src="/bundle/lichess/images/hloader.gif" width="220" height="33" /><br />
-            Waiting for your opponent
+            <?php echo $view->translator->translate('Waiting for opponent') ?> 
         </div>
     </div> 
     <div class="lichess_ground">
