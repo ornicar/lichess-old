@@ -145,8 +145,8 @@ class Game
     {
         $this->setStatus(static::STARTED);
         if(!$this->getInvited()->getIsAi()) {
-            $this->getRoom()->addMessage('system', $this->getCreator()->getColor().' creates the game');
-            $this->getRoom()->addMessage('system', $this->getInvited()->getColor().' joins the game');
+            $this->getRoom()->addMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
+            $this->getRoom()->addMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
         }
     }
 
