@@ -30,11 +30,19 @@ class Translator
     protected $messages = array();
 
     /**
+     * Debug mode
+     *
+     * @var boolean
+     */
+    protected $isDebug = null;
+
+    /**
      * Instanciate a translator
      **/
-    public function __construct(array $locales)
+    public function __construct(array $locales, $isDebug = false)
     {
         $this->locales = $locales;
+        $this->isDebug = $isDebug;
     }
 
     /**
@@ -81,14 +89,51 @@ class Translator
     protected function getMessages($locale)
     {
         if(!isset($this->messages[$locale])) {
-            if(!$this->messages[$locale] = apc_fetch('lichess.translator.messages.'.$locale)) {
+            if(!$this->messages[$locale] = $this->getMessagesCache($locale)) {
                 if(!$this->messages[$locale] = Yaml::load(realpath(__DIR__.sprintf('/../Resources/i18n/%s.yml', $locale)))) {
                     throw new \InvalidArgumentException(sprintf('The locale "%s" does not exist', $locale));
                 }
-                apc_store('lichess.translator.messages.'.$locale, $this->messages[$locale]);
+                $this->setMessagesCache($locale, $this->messages[$locale]);
             }
         }
         return $this->messages[$locale];
+    }
+
+    protected function getMessagesCache($locale)
+    {
+        if($this->isDebug) {
+            return false;
+        }
+
+        return apc_fetch('lichess.translator.messages.'.$locale);
+    }
+
+    protected function setMessagesCache($locale, array $messages)
+    {
+        if($this->isDebug) {
+            return false;
+        }
+
+        apc_store('lichess.translator.messages.'.$locale, $this->messages[$locale]);
+    }
+    
+    /**
+     * Get isDebug
+     * @return boolean
+     */
+    public function getIsDebug()
+    {
+      return $this->isDebug;
+    }
+    
+    /**
+     * Set isDebug
+     * @param  boolean
+     * @return null
+     */
+    public function setIsDebug($isDebug)
+    {
+      $this->isDebug = $isDebug;
     }
 
     /**

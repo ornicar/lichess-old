@@ -38,6 +38,7 @@
 
         <service id="lichess_translator" class="%lichess.translator.class%" shared="true">
             <argument>%lichess.translator.locales%</argument>
+            <argument>%kernel.debug%</argument>
         </service>
 
         <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
