@@ -5,6 +5,9 @@ kernel.config:
     charset:             UTF-8
     error_handler_level: null
 
+kernel.session:
+    lifetime: 2592000 # one month 
+
 web.config:
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
 
