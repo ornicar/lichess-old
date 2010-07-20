@@ -7,7 +7,7 @@
             <?php $selectedLevel = $opponent->getAiLevel() ?>
             <select class="lichess_ai_level">
                 <?php for($level=1; $level<9; $level++): ?>
-                <option value="<?php echo $level ?>" <?php if($level === $selectedLevel) echo 'selected="selected"' ?>>Level <?php echo $level ?>
+                <option value="<?php echo $level ?>" <?php if($level === $selectedLevel) echo 'selected="selected"' ?>><?php echo $view->translator->translate('Level') ?> <?php echo $level ?>
                 <?php endfor; ?>
             </select>    
         <?php else: ?>
@@ -20,11 +20,11 @@
     <div class="lichess_current_player">
         <div class="lichess_player white <?php echo $turnPlayer->isBlack() ? ' none' : '' ?>">
             <div class="lichess_piece king white"></div>
-            <p><?php echo $player->isWhite() ? 'Your turn' : 'Waiting' ?></p>
+            <p><?php echo $view->translator->translate($player->isWhite() ? 'Your turn' : 'Waiting') ?></p>
         </div>
         <div class="lichess_player black <?php echo $turnPlayer->isWhite() ? ' none' : '' ?>">
             <div class="lichess_piece king black"></div>
-            <p><?php echo $player->isBlack() ? 'Your turn' : 'Waiting' ?></p>
+            <p><?php echo $view->translator->translate($player->isBlack() ? 'Your turn' : 'Waiting') ?></p>
         </div>
     </div>
     <div class="lichess_control clearfix">
