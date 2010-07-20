@@ -4,7 +4,7 @@
 <div class="lichess_table finished <?php echo $game->getNext() ? ' lichess_table_next' : '' ?>">
     <div class="lichess_opponent">
         <?php if ($opponent->getIsAi()): ?>
-            <span><?php echo $view->translator->translate('Opponent: %ai_name% level %ai_level%', array('%ai_name%' => 'Crafty A.I.', '%level%' => $opponent->getAiLevel())) ?></span>
+            <span><?php echo $view->translator->translate('Opponent: %ai_name% level %ai_level%', array('%ai_name%' => 'Crafty A.I.', '%ai_level%' => $opponent->getAiLevel())) ?></span>
         <?php else: ?>
             <div class="opponent_status">
               <?php $view->actions->output('LichessBundle:Player:opponent', array('path' => array('hash' => $game->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash()))) ?>
