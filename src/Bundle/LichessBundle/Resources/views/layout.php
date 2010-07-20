@@ -6,7 +6,7 @@
         <title>Lichess | Web Chess game</title>
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
         <link type="text/css" rel="stylesheet" href="/bundle/lichess/vendor/tipsy/stylesheets/tipsy.css" />
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css?v=2" />
+        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css?v=3" />
         <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. OpenSource software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
@@ -17,11 +17,13 @@
                 <h1>
                     <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
                 </h1>
-                <div class="language"><?php echo $view->translator->getLocaleName() ?></div>
-                <div class="language_links">
-                    <?php foreach($view->translator->getOtherLocales() as $code => $name): ?>
-                        <a href="<?php echo $view->router->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a>
-                    <?php endforeach ?>
+                <div class="lichess_language">
+                    <span><?php echo $view->translator->getLocaleName() ?></span>
+                    <ul class="lichess_language_links">
+                        <?php foreach($view->translator->getOtherLocales() as $code => $name): ?>
+                            <li><a href="<?php echo $view->router->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a></li>
+                        <?php endforeach ?>
+                    </ul>
                 </div>
                 <div class="lichess_goodies_wrap">
                     <?php $view->slots->output('goodies', '') ?>
@@ -56,8 +58,8 @@
             <?php echo $view->translator->translate('Server load') ?>: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/ctrl.js?v=2" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/game.js" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/ctrl.js?v=3" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/game.js?v=2" type="text/javascript"></script>
         <?php if($view->translator->getLocale() !== 'en'): ?>
             <script src="http://static.addtoany.com/menu/locale/<?php echo $view->translator->getLocale() ?>.js" charset="utf-8"></script>
         <?php endif; ?>
