@@ -19,9 +19,26 @@
         <parameter key="lichess.synchronizer.timeout">10</parameter>
         <parameter key="lichess.synchronizer.delay">2</parameter>
 
+        <parameter key="lichess.translator.class">Bundle\LichessBundle\I18N\Translator</parameter>
+        <parameter key="lichess.translator.locales" type="collection">
+            <parameter key="en">English</parameter>
+            <parameter key="fr">Français</parameter>
+        </parameter>
+
+        <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
+
     </parameters>
 
     <services>
+
+        <service id="templating.helper.translator" class="%templating.helper.translator.class%">
+            <argument type="service" id="lichess_translator" />
+            <annotation name="templating.helper" alias="translator" />
+        </service>
+
+        <service id="lichess_translator" class="%lichess.translator.class%" shared="true">
+            <argument>%lichess.translator.locales%</argument>
+        </service>
 
         <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
             <argument>%lichess.persistence.dir%</argument>
