@@ -7,6 +7,9 @@ use Symfony\Framework\Bundle\Bundle as BaseBundle;
 use Bundle\LichessBundle\DependencyInjection\LichessExtension;
 use Symfony\Components\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Components\DependencyInjection\ContainerBuilder;
+use Symfony\Components\DependencyInjection\ContainerInterface;
+use Symfony\Components\HttpKernel\HttpKernelInterface; 
+use Symfony\Components\EventDispatcher\Event;
 
 /**
  * Reduce usage of class loader for performance reasons
@@ -33,5 +36,23 @@ class LichessBundle extends BaseBundle
     public function buildContainer(ParameterBagInterface $parameterBag)
     {
         ContainerBuilder::registerExtension(new LichessExtension());
+    }
+
+    public function boot(ContainerInterface $container)
+    {
+        parent::boot($container);
+        $container->getEventDispatcherService()->connect('core.request', function(Event $event) use ($container) {
+            if(HttpKernelInterface::MASTER_REQUEST === $event['request_type']) {
+                $session = $container->getSessionService();
+                $session->start();
+                $translator = $container->getLichessTranslatorService();
+                if(!$session->getLocale()) {
+                    $request = $container->getRequestService();
+                    $locales = array_keys($translator->getLocales());
+                    $session->setLocale($request->$this->getPreferredLanguage($locales));
+                }
+                $translator->setLocale($session->getLocale());
+            }
+        });
     }
 }
