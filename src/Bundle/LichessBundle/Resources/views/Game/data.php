@@ -31,9 +31,9 @@ $data = array(
         'ai_level' => $opponent->getIsAi() ? $view->router->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null
     ),
     'i18n' => array(
-        'Game Over' => 'Game Over',
-        'Waiting for opponent' => 'Waiting for opponent',
-        'Your turn' => 'Your turn'
+        'Game Over' => $view->translator->translate('Game Over'),
+        'Waiting for opponent' => $view->translator->translate('Waiting for opponent'),
+        'Your turn' => $view->translator->translate('Your turn')
     ),
     'possible_moves' => $possibleMoves
 );

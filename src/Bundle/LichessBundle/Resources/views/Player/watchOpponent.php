@@ -1,6 +1,6 @@
 <?php echo $player->getOpponent()->getColor() ?>:
 <?php if($player->getOpponent()->getIsAi()): ?>
-Crafty A.I. level <?php echo $player->getOpponent()->getAiLevel() ?>
+<?php echo $view->translator->translate('Opponent: %ai_name% level %ai_level%', array('%ai_name%' => 'Crafty A.I.', '%level%' => $player->getOpponent()->getAiLevel())) ?>
 <?php else: ?>
-Human
+<?php echo $view->translator->translate('Human') ?> 
 <?php endif; ?>

@@ -3,7 +3,7 @@
 <div class="lichess_table">
     <div class="lichess_opponent">
         <?php if ($opponent->getIsAi()): ?>
-            <span>Opponent is Crafty A.I.</span>
+            <span><?php echo $view->translator->translate('Opponent: %ai_name%', array('%ai_name%' => 'Crafty A.I.')) ?></span>
             <?php $selectedLevel = $opponent->getAiLevel() ?>
             <select class="lichess_ai_level">
                 <?php for($level=1; $level<9; $level++): ?>
@@ -28,8 +28,8 @@
         </div>
     </div>
     <div class="lichess_control clearfix">
-        <label title="Toggle the chat" class="lichess_enable_chat"><input type="checkbox" checked="checked" />Chat</label>
-        <label title="Toggle animations" class="lichess_enable_animation"><input type="checkbox" checked="checked" />Animation</label>
-        <a href="<?php echo $view->router->generate('lichess_resign', array('hash' => $player->getFullHash())) ?>" class="lichess_resign" title="Give up">Resign</a>
+    <label title="<?php echo $view->translator->translate('Toggle the chat') ?>" class="lichess_enable_chat"><input type="checkbox" checked="checked" /><?php echo $view->translator->translate('Chat') ?></label>
+    <label title="<?php echo $view->translator->translate('Toggle animations') ?>" class="lichess_enable_animation"><input type="checkbox" checked="checked" /><?php echo $view->translator->translate('Animation') ?></label>
+    <a href="<?php echo $view->router->generate('lichess_resign', array('hash' => $player->getFullHash())) ?>" class="lichess_resign" title="<?php echo $view->translator->translate('Give up') ?>"><?php echo $view->translator->translate('Resign') ?></a>
     </div>
 </div>
