@@ -3,7 +3,7 @@
 require_once __DIR__.'/../src/autoload.php';
 
 use Symfony\Framework\Kernel;
-use Symfony\Components\DependencyInjection\Loader\YamlFileLoader as ContainerLoader;
+use Symfony\Components\DependencyInjection\Loader\LoaderInterface;
 use Symfony\Components\DependencyInjection\ContainerBuilder;
 use Symfony\Components\Routing\Loader\YamlFileLoader as RoutingLoader;
 
@@ -34,10 +34,9 @@ class LichessKernel extends Kernel
         );
     }
 
-    public function registerContainerConfiguration()
+    public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $container = new ContainerBuilder();
-        $loader = new ContainerLoader($container, $this->getBundleDirs());
 
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
@@ -49,12 +48,5 @@ class LichessKernel extends Kernel
         }
 
         return $container;
-    }
-
-    public function registerRoutes()
-    {
-        $loader = new RoutingLoader($this->getBundleDirs());
-
-        return $loader->load(__DIR__.'/config/routing.yml');
     }
 }
