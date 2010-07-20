@@ -58,5 +58,8 @@
         <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
         <script src="/bundle/lichess/js/ctrl.js?v=2" type="text/javascript"></script>
         <script src="/bundle/lichess/js/game.js" type="text/javascript"></script>
+        <?php if($view->translator->getLocale() !== 'en'): ?>
+            <script src="http://static.addtoany.com/menu/locale/<?php echo $view->translator->getLocale() ?>.js" charset="utf-8"></script>
+        <?php endif; ?>
     </body>
 </html>
