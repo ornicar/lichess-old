@@ -583,6 +583,25 @@ div.lichess_chat ol.lichess_messages li.system {
     background-image: url(../images/tip3.png);
 }
 
+div.lichess_language {
+    margin-top: 10px;
+}
+div.lichess_language span {
+    background: url(../images/down16.png) center right no-repeat;
+    padding-right: 16px;
+    cursor: pointer;
+}
+ul.lichess_language_links {
+    display:none;
+    background: #FFF;
+    border: 1px solid #F0F0F0;
+    margin-top: 0.2em;
+}
+ul.lichess_language_links a {
+    display: block;
+    padding: 0.5em 0.5em;
+}
+
 div.lichess_goodies {
     margin-top: 20px;
 }

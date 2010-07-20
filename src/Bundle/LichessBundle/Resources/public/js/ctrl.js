@@ -12,6 +12,12 @@ $(function()
         }, 2000);
     }
 
+    $('div.lichess_language').hover(function() {
+        $(this).find('ul.lichess_language_links').show();
+    }, function() {
+        $(this).find('ul.lichess_language_links').hide();
+    });
+
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
     $('a, input, label, div.lichess_server').tipsy({fade: true});
