@@ -7,7 +7,7 @@
     </div> 
     <div class="lichess_ground">
         <div class="lichess_table lichess_table_not_started">
-            <a href="<?php echo $view->router->generate('lichess_invite_friend', array('color' => $color)) ?>" class="lichess_button" title="Invite a friend to play with you">Play with a friend</a>
+            <a href="<?php echo $view->router->generate('lichess_invite_friend', array('color' => $color)) ?>" class="lichess_button" title="Invite a friend to play with you"><?php echo $view->translator->translate('Play with a friend') ?></a>
             <a href="<?php echo $view->router->generate('lichess_invite_ai', array('color' => $color)) ?>" class="lichess_button" title="Challenge the artificial intelligence">Play with the machine</a>
             <a href="<?php echo $view->router->generate('lichess_invite_anybody', array('color' => $color)) ?>" class="lichess_button" title="Pick a random human opponent">Play with anybody</a>
         </div>

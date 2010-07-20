@@ -17,6 +17,12 @@
                 <h1>
                     <a class="site_title" href="<?php echo $view->router->generate('lichess_homepage') ?>">Lichess</a>
                 </h1>
+                <div class="language"><?php echo $view->translator->getLocaleName() ?></div>
+                <div class="language_links">
+                    <?php foreach($view->translator->getOtherLocales() as $code => $name): ?>
+                        <a href="<?php echo $view->router->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a>
+                    <?php endforeach ?>
+                </div>
                 <div class="lichess_goodies_wrap">
                     <?php $view->slots->output('goodies', '') ?>
                 </div>

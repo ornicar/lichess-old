@@ -69,3 +69,6 @@ lichess_force_resignation:
     pattern:        /force-resign/:hash
     defaults:       { _controller: LichessBundle:Player:forceResign }
     requirements:   { hash: "[\w]{10}" }
+lichess_locale:
+    pattern:        /locale/:locale
+    defaults:       { _controller: LichessBundle:Main:locale }
