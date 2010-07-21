@@ -69,7 +69,7 @@
                         url: self.options.url.opponent,
                         success: function(html)
                         {
-                            self.$table.find('div.lichess_opponent').html(html);
+                            self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({fade: true});
                         }
                     });
                 }
@@ -422,6 +422,8 @@
             self.animate = $(this).attr('checked');
             $('div.lcs.ui-droppable').droppable('option', 'activeClass', self.animate ? 'droppable-active' : '');
         }).trigger('change');
+
+        self.$table.find('a, input, label').tipsy({fade: true});
     },
     translate: function(message)
     {
