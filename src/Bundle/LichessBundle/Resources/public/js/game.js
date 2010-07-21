@@ -20,6 +20,9 @@
         self.initChat();  
         self.initTable();
       }
+      else if(self.element.find('div.wait_anybody').length) {
+          $.idleTimer(5000);
+      }
 
       if(!self.options.opponent.ai || self.options.player.spectator)
       {
@@ -233,8 +236,9 @@
             $("div#" + event.key, self.$board).addClass("check");
             break;
           case "redirect":
-              window.location.href=event.url;
-              break;
+            if(self.isIdle()) alert(self.translate('Your opponent has arrived!'));
+            window.location.href=event.url;
+            break;
           case "end":
             self.options.game.finished = true;
             self.changeTitle(self.translate('Game over'));
@@ -256,6 +260,10 @@
             break;
         }
       }
+    },
+    isIdle: function()
+    {
+      return $.data(document,'idleTimer') == 'idle';
     },
     initSquaresAndPieces: function()
     {
