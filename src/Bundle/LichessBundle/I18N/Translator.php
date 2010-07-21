@@ -86,6 +86,11 @@ class Translator
         return $text;
     }
 
+    public function _($text, array $parameters = array(), $locale = null)
+    {
+        return $this->translate($text, $parameters, $locale);
+    }
+
     protected function getMessages($locale)
     {
         if(!isset($this->messages[$locale])) {
