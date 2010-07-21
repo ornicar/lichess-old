@@ -5,7 +5,6 @@ require_once __DIR__.'/../src/autoload.php';
 use Symfony\Framework\Kernel;
 use Symfony\Components\DependencyInjection\Loader\LoaderInterface;
 use Symfony\Components\DependencyInjection\ContainerBuilder;
-use Symfony\Components\Routing\Loader\YamlFileLoader as RoutingLoader;
 
 class LichessKernel extends Kernel
 {
@@ -20,6 +19,7 @@ class LichessKernel extends Kernel
         $bundles = array(
             new Symfony\Framework\KernelBundle(),
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\ZendBundle\ZendBundle(),
             new Bundle\LichessBundle\LichessBundle()
         );
 
@@ -30,7 +30,7 @@ class LichessKernel extends Kernel
     {
         return array(
             'Bundle'             => __DIR__.'/../src/Bundle',
-            'Symfony\\Framework' => __DIR__.'/../src/vendor/Symfony/src/Symfony/Framework',
+            'Symfony\\Framework' => __DIR__.'/../src/vendor/Symfony/src/Symfony/Framework'
         );
     }
 
@@ -40,10 +40,7 @@ class LichessKernel extends Kernel
 
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        if($this->isDebug()) {
-            //$configuration->setParameter('profiler.storage.class', 'Bundle\\LichessBundle\\Profiler\\ProfilerStorage');
-        }
-        else {
+        if(!$this->isDebug()) {
             $container->setParameter('exception_handler.controller', 'LichessBundle:Main:notFound');
         }
 
