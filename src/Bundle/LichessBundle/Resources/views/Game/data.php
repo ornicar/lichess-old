@@ -33,7 +33,8 @@ $data = array(
     'i18n' => array(
         'Game Over' => $view->translator->translate('Game Over'),
         'Waiting for opponent' => $view->translator->translate('Waiting for opponent'),
-        'Your turn' => $view->translator->translate('Your turn')
+        'Your turn' => $view->translator->translate('Your turn'),
+        'Your opponent has arrived!' => $view->translator->translate('Your opponent has arrived!')
     ),
     'possible_moves' => $possibleMoves
 );
