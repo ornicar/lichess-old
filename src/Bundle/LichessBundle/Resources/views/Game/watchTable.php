@@ -10,27 +10,27 @@
             <?php if($winner = $player->getGame()->getWinner()): ?>
                 <div class="lichess_player <?php echo $winner->getColor() ?>">
                     <div class="lichess_piece king <?php echo $winner->getColor() ?>"></div>
-                    <p><?php echo $view->translator->translate($player->getGame()->getStatusMessage()) ?><br /><?php echo $view->translator->translate(ucfirst($winner->getColor()).' is victorious') ?></p>
+                    <p><?php echo $view->translator->_($player->getGame()->getStatusMessage()) ?><br /><?php echo $view->translator->_(ucfirst($winner->getColor()).' is victorious') ?></p>
                 </div>
             <?php else: ?>
                 <div class="lichess_player">
-                    <p><?php echo $view->translator->translate('Stalemate') ?></p>
+                    <p><?php echo $view->translator->_('Stalemate') ?></p>
                 </div>
             <?php endif; ?>
         <?php else: ?>
             <div class="lichess_player white <?php echo $turnPlayer->isBlack() ? ' none' : '' ?>">
                 <div class="lichess_piece king white"></div>
-                <p><?php echo $view->translator->translate('White plays') ?></p>
+                <p><?php echo $view->translator->_('White plays') ?></p>
             </div>
             <div class="lichess_player black <?php echo $turnPlayer->isWhite() ? ' none' : '' ?>">
                 <div class="lichess_piece king black"></div>
-                <p><?php echo $view->translator->translate('Black plays') ?></p>
+                <p><?php echo $view->translator->_('Black plays') ?></p>
             </div>
          <?php endif; ?>
     </div>
     <?php if(!$player->getGame()->getIsFinished()): ?>
         <div class="lichess_control clearfix">
-            <label title="<?php echo $view->translator->translate('Toggle animations') ?>" class="lichess_enable_animation"><input type="checkbox" checked="checked" /><?php echo $view->translator->translate('Animation') ?></label>
+            <label title="<?php echo $view->translator->_('Toggle animations') ?>" class="lichess_enable_animation"><input type="checkbox" checked="checked" /><?php echo $view->translator->_('Animation') ?></label>
         </div>
     <?php endif; ?>
     <div class="lichess_separator"></div>
