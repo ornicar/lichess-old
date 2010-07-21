@@ -9,7 +9,7 @@ $(function()
 
         setTimeout(function() {
             $('a.invite_tools').css('display', 'block').click(function() { $('div.invite_tools').toggle(); });
-        }, 2000);
+        }, 3000);
     }
 
     $('div.lichess_language').hover(function() {

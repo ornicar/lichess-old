@@ -57,9 +57,9 @@
             <?php $loadAverage = sys_getloadavg() ?>
             <?php echo $view->translator->translate('Server load') ?>: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
-        <script src="/bundle/lichess/js/lib.min.js" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/ctrl.js?v=3" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/game.js?v=2" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/lib.min.js?v=2" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/ctrl.js?v=4" type="text/javascript"></script>
+        <script src="/bundle/lichess/js/game.js?v=3" type="text/javascript"></script>
         <?php if($view->translator->getLocale() !== 'en'): ?>
             <script src="http://static.addtoany.com/menu/locale/<?php echo $view->translator->getLocale() ?>.js" charset="utf-8"></script>
         <?php endif; ?>
