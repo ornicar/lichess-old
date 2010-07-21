@@ -27,9 +27,9 @@ $data = array(
         'opponent' => $view->router->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => '')).'/'
     ),
     'i18n' => array(
-        'Game Over' => $view->translator->translate('Game Over'),
-        'Waiting for opponent' => $view->translator->translate('Waiting for opponent'),
-        'Your turn' => $view->translator->translate('Your turn')
+        'Game Over' => $view->translator->_('Game Over'),
+        'Waiting for opponent' => $view->translator->_('Waiting for opponent'),
+        'Your turn' => $view->translator->_('Your turn')
     ),
     'possible_moves' => $possibleMoves
 );

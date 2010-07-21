@@ -45,17 +45,17 @@
             <div class="footer">
                 <div class="right">
                     Brought to you by <a title="A french web agency who loves Symfony" href="http://www.knplabs.com/" target="_blank">knpLabs</a><br />
-                    <?php echo $view->translator->translate('Contact') ?>: <span class="js_email"></span><br />
+                    <?php echo $view->translator->_('Contact') ?>: <span class="js_email"></span><br />
                     <a href="<?php echo $view->router->generate('lichess_about') ?>" target="_blank">Learn more about Lichess</a>
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a class="lichess_uservoice" title="Having a suggestion, feature request or bug report? Let me know">feedback</a><br />
-                <?php echo $view->translator->translate('Open Source software built with %php%, %symfony% and %jqueryui%', array('%php%' => 'PHP 5.3', '%symfony%' => '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%' => '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>')) ?><br />
-            <?php echo $view->translator->translate('Artificial intelligence') ?>: <a href="http://www.craftychess.com/" target="_blank">Crafty</a>
+                <?php echo $view->translator->_('Open Source software built with %php%, %symfony% and %jqueryui%', array('%php%' => 'PHP 5.3', '%symfony%' => '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%' => '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>')) ?><br />
+            <?php echo $view->translator->_('Artificial intelligence') ?>: <a href="http://www.craftychess.com/" target="_blank">Crafty</a>
             </div>
         </div>
         <div title="Come on, make my server suffer :)" class="lichess_server">
             <?php $loadAverage = sys_getloadavg() ?>
-            <?php echo $view->translator->translate('Server load') ?>: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
+            <?php echo $view->translator->_('Server load') ?>: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
         <script src="/bundle/lichess/js/lib.min.js?v=2" type="text/javascript"></script>
         <script src="/bundle/lichess/js/ctrl.js?v=4" type="text/javascript"></script>
