@@ -20,7 +20,7 @@
         self.initChat();  
         self.initTable();
       }
-      else if(self.element.find('div.wait_anybody').length) {
+      else if(self.element.hasClass('waiting_opponent')) {
           $.idleTimer(5000);
       }
 
