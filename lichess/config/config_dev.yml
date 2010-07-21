@@ -3,7 +3,3 @@ imports:
 
 web.config:
     toolbar: true
-
-zend.logger:
-    priority: notice
-    path:     %kernel.logs_dir%/%kernel.environment%.log

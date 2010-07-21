@@ -29,6 +29,7 @@ require_once __DIR__.'/Entities/Player.php';
 require_once __DIR__.'/Entities/Game.php';
 require_once __DIR__.'/Entities/Chat/Room.php';
 require_once __DIR__.'/Persistence/FilePersistence.php';
+require_once __DIR__.'/I18N/Translator.php';
 
 class LichessBundle extends BaseBundle
 {
