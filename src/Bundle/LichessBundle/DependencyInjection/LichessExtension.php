@@ -13,7 +13,6 @@ class LichessExtension extends Extension
     {
         $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
         $loader->load('config.xml');
-        $loader->load('logger.xml');
     }
 
     /**
