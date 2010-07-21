@@ -16,7 +16,7 @@
         <parameter key="lichess.anybody.connection_file">%kernel.root_dir%/cache/connect_anybody</parameter>
 
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
-        <parameter key="lichess.synchronizer.timeout">10</parameter>
+        <parameter key="lichess.synchronizer.timeout">12</parameter>
         <parameter key="lichess.synchronizer.delay">2</parameter>
 
         <parameter key="lichess.translator.class">Bundle\LichessBundle\I18N\Translator</parameter>
