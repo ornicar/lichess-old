@@ -91,7 +91,7 @@ class Translator
         return $this->translate($text, $parameters, $locale);
     }
 
-    protected function getMessages($locale)
+    public function getMessages($locale)
     {
         if(!isset($this->messages[$locale])) {
             if(!$this->messages[$locale] = $this->getMessagesCache($locale)) {

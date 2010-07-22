@@ -30,6 +30,7 @@
                         <?php foreach($view->translator->getOtherLocales() as $code => $name): ?>
                             <li><a href="<?php echo $view->router->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a></li>
                         <?php endforeach ?>
+                        <li><a href="<?php echo $view->router->generate('lichess_translation') ?>">Help translate Lichess!</a></li>
                     </ul>
                 </div>
                 <div class="lichess_goodies_wrap">
