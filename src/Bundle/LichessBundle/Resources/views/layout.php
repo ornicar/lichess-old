@@ -1,15 +1,22 @@
+<?php
+    $view->stylesheets->add('bundle/lichess/css/lib.min.css');
+    $view->stylesheets->add('bundle/lichess/css/lichess.css');
+
+    $view->javascripts->add('bundle/lichess/js/lib.min.js');
+    $view->javascripts->add('bundle/lichess/js/ctrl.js');
+    $view->javascripts->add('bundle/lichess/js/game.js');
+    if($view->translator->getLocale() !== 'en'):
+        $view->javascripts->add('http://static.addtoany.com/menu/locale/'.$view->translator->getLocale().'.js');
+    endif;
+?>
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Lichess | Web Chess game</title>
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/reset.css" />
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/vendor/tipsy/stylesheets/tipsy.css" />
-        <link type="text/css" rel="stylesheet" href="/bundle/lichess/css/lichess.css?v=3" />
-        <meta content="Free online Chess game. Easy and fast: no registration, no flash; just sit and play. OpenSource software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
+        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
+        <?php echo $view->stylesheets ?>
     </head>
     <body>
         <div class="content">
@@ -57,11 +64,6 @@
             <?php $loadAverage = sys_getloadavg() ?>
             <?php echo $view->translator->_('Server load') ?>: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
-        <script src="/bundle/lichess/js/lib.min.js?v=2" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/ctrl.js?v=4" type="text/javascript"></script>
-        <script src="/bundle/lichess/js/game.js?v=3" type="text/javascript"></script>
-        <?php if($view->translator->getLocale() !== 'en'): ?>
-            <script src="http://static.addtoany.com/menu/locale/<?php echo $view->translator->getLocale() ?>.js" charset="utf-8"></script>
-        <?php endif; ?>
+        <?php echo $view->javascripts ?>
     </body>
 </html>
