@@ -9,6 +9,8 @@ kernel.session:
     lifetime: 2592000 # one month 
 
 web.config:
+    validation:
+        enabled: true
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
 
 web.templating:

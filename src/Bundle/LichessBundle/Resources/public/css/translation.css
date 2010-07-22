@@ -1,0 +1,29 @@
+#lichess div.lichess_box {
+    width: auto;
+}
+
+div.field {
+    margin: 1em 0;
+}
+
+#translation_yamlMessages {
+    width: 100%;
+    height: 40em;
+}
+
+.message, .error {
+    margin: 1em;
+    padding: 1em;
+    text-align: center;
+    font-size: 1.2em;
+    border: 1px solid #DADADA;
+    color: #000;
+}
+
+.message {
+    background: #AAFFAA;
+}
+
+.error {
+    background: #FFAAAA;
+}

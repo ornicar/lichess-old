@@ -22,6 +22,10 @@ $(function()
 
     $('a, input, label, div.lichess_server').tipsy({fade: true});
 
+    $('#translation_code').change(function() {
+        location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
+    });
+
     //uservoice
     if(document.domain == 'lichess.org') {
         (function() {
