@@ -7,6 +7,7 @@ use Symfony\Components\Form\Form;
 use Symfony\Components\Form\ChoiceField;
 use Symfony\Components\Form\TextareaField;
 use Bundle\LichessBundle\Entities\Translation;
+use Symfony\Components\Finder\Finder;
 
 class TranslationController extends Controller
 {
@@ -58,5 +59,13 @@ class TranslationController extends Controller
             'message' => isset($message) ? $message : null,
             'error' => isset($error) ? $error : null,
         ));
+    }
+
+    public function listAction()
+    {
+        $finder = new Finder;
+        $files = $finder->files()->in(sprintf('%s/translation', $this->container->getParameter('kernel.root_dir')));
+
+        return $this->render('LichessBundle:Translation:list', array('files' => $files));
     }
 }
