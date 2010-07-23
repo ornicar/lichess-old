@@ -117,7 +117,7 @@ return array(
     "rm" => "rumantsch grischu",
     "rn" => "kiRund",
     "ro" => "român",
-    "ru" => "русский язы",
+    "ru" => "русский язык",
     "sa" => "संस्कृत",
     "sc" => "sard",
     "se" => "Davvisámegiell",
