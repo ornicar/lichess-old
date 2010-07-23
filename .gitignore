@@ -5,6 +5,10 @@
 /lichess/data/*
 # except README
 !/lichess/data/README
+# ignore proposed translations files
+/lichess/translation/*
+# except README
+!/lichess/translation/README
 /lichess/deploy.sh
 tags
 /web/.htaccess
