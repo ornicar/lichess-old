@@ -23,6 +23,7 @@
         <parameter key="lichess.translator.locales" type="collection">
             <parameter key="en">English</parameter>
             <parameter key="fr">Français</parameter>
+            <parameter key="ru">русский язы</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
