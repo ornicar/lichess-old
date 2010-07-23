@@ -6,7 +6,7 @@
     <div class="lichess_text">
         <?php $message && printf('<div class="message">%s</div>', $message); ?>
         <?php $error && printf('<div class="error">%s</div>', $error); ?>
-        <?php echo $form->renderFormTag($view->router->generate('lichess_translation', array('locale' => $locale)), array('data-change-url' => $view->router->generate('lichess_translation', array('locale' => '__')))) ?>
+        <?php echo $form->renderFormTag($view->router->generate('lichess_translate', array('locale' => $locale)), array('data-change-url' => $view->router->generate('lichess_translate', array('locale' => '__')))) ?>
             <div class="field">
                 <label for="translation_code">Translate from english to </label>
                 <?php echo $form['code']->render() ?>
