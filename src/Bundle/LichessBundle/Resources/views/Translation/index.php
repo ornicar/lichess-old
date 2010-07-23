@@ -27,8 +27,9 @@
         <hr />
         Current translations:
         <ul>
-            <li><strong>French</strong> by Thibault Duplessis
-            <li><strong>Russian</strong> by Nikita Milovanov
+            <li><strong>French</strong> by Thibault Duplessis</li>
+            <li><strong>Russian</strong> by Nikita Milovanov</li>
+            <li><strong>Deutsch</strong> by Patrick Gawliczek</li>
         </ul>
     </div>
 </div>
