@@ -1,5 +1,6 @@
 <?php $view->extend('LichessBundle::layout') ?>
 <?php $view->stylesheets->add('bundle/lichess/css/translation.css') ?>
+<?php $view->slots->set('title', 'Help translate Lichess') ?>
 
 <div class="lichess_box">
     <h1 class="lichess_title">Help translate Lichess!</h1>
