@@ -75,3 +75,6 @@ lichess_locale:
 lichess_translate:
     pattern:        /translate/:locale
     defaults:       { _controller: LichessBundle:Translation:index, locale: " " }
+lichess_translate_list:
+    pattern:        /translate_list
+    defaults:       { _controller: LichessBundle:Translation:list }
