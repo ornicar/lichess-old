@@ -113,7 +113,7 @@
       else 
       {
         this.element.removeClass("my_turn");
-        this.changeTitle(this.translate('Waiting'));
+        this.changeTitle(this.translate('Waiting for opponent'));
       }
 
       if (!this.$table.find('>div').hasClass('finished'))
