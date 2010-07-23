@@ -41,7 +41,7 @@ class TranslationController extends Controller
                 $form->bind($this->getRequest()->request->get('translation'));
                 $fileName = sprintf("%s_%s-%d", $translation->getCode(), date("Y-m-d_h-i-s"), time());
                 $fileContent = sprintf("#%s\n%s\n", $translation->getName(), $translation->getYamlMessages());
-                $file = $this->container->getParameter('kernel.root_dir').'/data/translation/'.$fileName;
+                $file = sprintf('%s/translation/%s', $this->container->getParameter('kernel.root_dir'), $fileName);
                 if(!@file_put_contents($file, $fileContent)) {
                     throw new \Exception('Submit failed due to an internal error. please send a mail containing your translation to thibault.duplessis@gmail.com');
                 }
