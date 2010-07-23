@@ -15,7 +15,9 @@
             </div>
             <?php if(!empty($locale)): ?>
                 Please translate the following English words and phrases below.<br />
-                For example, to translate from English to French: <em>"Level": ""</em> becomes <em>"Level": "Niveau"</em>
+                For example, to translate from English to French:<br />
+                <strong>"Level": ""</strong> becomes <strong>"Level": "Niveau"</strong><br />
+                <strong>"Opponent: %ai_name%": ""</strong> becomes <strong>"Opponent: %ai_name%": "Adversaire : %ai_name%"</strong>
                 <div class="field">
                     <?php echo $form['yamlMessages']->render() ?>
                 </div>
