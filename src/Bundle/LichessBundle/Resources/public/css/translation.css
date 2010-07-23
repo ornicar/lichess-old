@@ -9,6 +9,7 @@ div.field {
 #translation_yamlMessages {
     width: 100%;
     height: 40em;
+    font-size: 1.1em;
 }
 
 .message, .error {
