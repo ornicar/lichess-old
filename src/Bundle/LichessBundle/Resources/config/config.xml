@@ -22,9 +22,10 @@
         <parameter key="lichess.translator.class">Bundle\LichessBundle\I18N\Translator</parameter>
         <parameter key="lichess.translator.locales" type="collection">
             <parameter key="en">English</parameter>
-            <parameter key="fr">Français</parameter>
+            <parameter key="fr">français</parameter>
             <parameter key="ru">русский язык</parameter>
             <parameter key="de">Deutsch</parameter>
+            <parameter key="tr">Türkçe</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>

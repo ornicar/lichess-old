@@ -3,7 +3,7 @@
 <div class="lichess_game_not_started clearfix lichess_player_<?php echo $color ?>">
     <div class="lichess_board_wrap">
         <?php $view->output('LichessBundle:Main:staticBoard', array('color' => $color)) ?>
-        <a href="<?php echo $view->router->generate('lichess_homepage', array('color' => 'white' === $color ? 'black' : 'white')) ?>" class="lichess_exchange" title="<?php echo $view->translator->_('Change position') ?>"></a>
+        <a href="<?php echo $view->router->generate('lichess_homepage', array('color' => 'white' === $color ? 'black' : 'white')) ?>" class="lichess_exchange" title="<?php echo $view->translator->_('Change side') ?>"></a>
     </div> 
     <div class="lichess_ground">
         <div class="lichess_table lichess_table_not_started">
