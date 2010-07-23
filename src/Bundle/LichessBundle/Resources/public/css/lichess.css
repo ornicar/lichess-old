@@ -594,12 +594,15 @@ div.lichess_language span {
 ul.lichess_language_links {
     display:none;
     background: #FFF;
-    border: 1px solid #F0F0F0;
+    border: 1px solid #EEE;
     margin-top: 0.2em;
 }
 ul.lichess_language_links a {
     display: block;
     padding: 0.5em 0.5em;
+}
+ul.lichess_language_links li:last-child {
+    border-top: 1px solid #EEE;
 }
 
 div.lichess_goodies {
