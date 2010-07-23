@@ -4,6 +4,7 @@
 <div class="lichess_box">
     <h1 class="lichess_title">Help translate Lichess!</h1>
     <div class="lichess_text">
+        Lichess is OpenSource and needs contributors to get better.
         <?php $message && printf('<div class="message">%s</div>', $message); ?>
         <?php $error && printf('<div class="error">%s</div>', $error); ?>
         <?php echo $form->renderFormTag($view->router->generate('lichess_translate', array('locale' => $locale)), array('data-change-url' => $view->router->generate('lichess_translate', array('locale' => '__')))) ?>
