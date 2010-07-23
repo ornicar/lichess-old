@@ -1,5 +1,5 @@
 <?php
-    $view->assets->setVersion(8);
+    $view->assets->setVersion(9);
     $view->stylesheets->add('bundle/lichess/css/lib.min.css');
     $view->stylesheets->add('bundle/lichess/css/lichess.css');
 
