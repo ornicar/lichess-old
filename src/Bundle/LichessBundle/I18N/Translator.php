@@ -76,7 +76,7 @@ class Translator
 
         if('en' !== $locale) {
             $messages = $this->getMessages($locale);
-            if(isset($messages[$text])) {
+            if(!empty($messages[$text])) {
                 $text = $messages[$text];
             } 
         }
