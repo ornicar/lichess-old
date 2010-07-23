@@ -44,6 +44,8 @@ class LichessKernel extends Kernel
             $container->setParameter('exception_listener.controller', 'LichessBundle:Main:notFound');
         }
 
+        $container->setParameter('validator.message_interpolator.class', 'Bundle\\LichessBundle\\Validator\\NoValidationXliffMessageInterpolator');
+
         return $container;
     }
 }
