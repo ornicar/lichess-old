@@ -24,6 +24,7 @@
             <parameter key="en">English</parameter>
             <parameter key="fr">Français</parameter>
             <parameter key="ru">русский язык</parameter>
+            <parameter key="de">Deutsch</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
