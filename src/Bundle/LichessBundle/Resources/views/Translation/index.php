@@ -24,5 +24,11 @@
                 </div>
             <?php endif; ?>
         </form>
+        <hr />
+        Current translations:
+        <ul>
+            <li><strong>French</strong> by Thibault Duplessis
+            <li><strong>Russian</strong> by Nikita Milovanov
+        </ul>
     </div>
 </div>
