@@ -143,7 +143,7 @@ return array(
     "tk" => "Türkmen, Түркме",
     "tn" => "Setswan",
     "to" => "faka Tong",
-    "tr" => "Türkç",
+    "tr" => "Türkçe",
     "ts" => "Xitsong",
     "tw" => "Twi",
     "ty" => "Reo Tahit",
