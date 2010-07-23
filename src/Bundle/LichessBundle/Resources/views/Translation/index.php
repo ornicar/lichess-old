@@ -32,7 +32,7 @@
             <li><strong>French</strong> by Thibault Duplessis</li>
             <li><strong>Russian</strong> by Nikita Milovanov</li>
             <li><strong>Deutsch</strong> by Patrick Gawliczek</li>
-            <li><strong>Türkçe</strong> by Yakup Ipek</li>
+            <li><strong>Turkish</strong> by Yakup Ipek</li>
         </ul>
     </div>
 </div>
