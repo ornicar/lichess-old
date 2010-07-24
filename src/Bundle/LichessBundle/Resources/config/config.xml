@@ -26,6 +26,7 @@
             <parameter key="ru">русский язык</parameter>
             <parameter key="de">Deutsch</parameter>
             <parameter key="tr">Türkçe</parameter>
+            <parameter key="sr">српски јези</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
