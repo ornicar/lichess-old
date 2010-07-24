@@ -28,3 +28,12 @@ div.field {
 .error {
     background: #FFAAAA;
 }
+
+.translation_list h2 {
+    font-size: 2em;
+    margin-top: 1em;
+    text-align: center;
+}
+.translation_list h3 {
+    font-size: 1.8em;
+}
