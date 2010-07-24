@@ -12,6 +12,10 @@ div.field {
     font-size: 1.1em;
 }
 
+div.field input {
+    width: 30em;
+}
+
 .message, .error {
     margin: 1em;
     padding: 1em;

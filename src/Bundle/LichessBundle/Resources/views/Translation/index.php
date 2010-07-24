@@ -22,6 +22,14 @@
                     <?php echo $form['yamlMessages']->render() ?>
                 </div>
                 <div class="field">
+                    <label for="translation_author">Author (optional)</label>
+                    <?php echo $form['author']->render() ?>
+                </div>
+                <div class="field">
+                    <label for="translation_comment">Comment (optional)</label>
+                    <?php echo $form['comment']->render() ?>
+                </div>
+                <div class="field">
                     <input type="submit" value="Submit translations" />
                 </div>
             <?php endif; ?>

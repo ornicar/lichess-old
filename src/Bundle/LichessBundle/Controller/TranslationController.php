@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller;
 use Symfony\Components\Form\Form;
 use Symfony\Components\Form\ChoiceField;
 use Symfony\Components\Form\TextareaField;
+use Symfony\Components\Form\TextField;
 use Bundle\LichessBundle\Entities\Translation;
 use Symfony\Components\Finder\Finder;
 
@@ -35,13 +36,15 @@ class TranslationController extends Controller
         $form = new Form('translation', $translation, $this->container->getValidatorService());
         $form->add(new ChoiceField('code', array('choices' => $locales)));
         $form->add(new TextareaField('yamlMessages'));
+        $form->add(new TextField('author'));
+        $form->add(new TextField('comment'));
 
         if ($this->getRequest()->getMethod() == 'POST')
         {
             try {
                 $form->bind($this->getRequest()->request->get('translation'));
                 $fileName = sprintf("%s_%s-%d", $translation->getCode(), date("Y-m-d_h-i-s"), time());
-                $fileContent = sprintf("#%s\n%s\n", $translation->getName(), $translation->getYamlMessages());
+                $fileContent = sprintf("#%s\n#%s\n#%s\n%s\n", $translation->getName(), $translation->comment, $translation->author, $translation->getYamlMessages());
                 $file = sprintf('%s/translation/%s', $this->container->getParameter('kernel.root_dir'), $fileName);
                 if(!@file_put_contents($file, $fileContent)) {
                     throw new \Exception('Submit failed due to an internal error. please send a mail containing your translation to thibault.duplessis@gmail.com');
