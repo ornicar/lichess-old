@@ -71,18 +71,20 @@ class TranslationController extends Controller
 
         $days = array();
         foreach($files as $file) {
-            if(preg_match('/^([\w]+)_([\d-]+)_(.+)$/', basename($file), $matches))
+            if(preg_match('/^([\w]+)_([\d-]+)_(\d{2}-){3}(\d+)$/', basename($file), $matches))
             {
-                list($name, $locale, $date, $time) = $matches;
+                list($name, $locale, $date, $time, $ts) = $matches;
                 if(!isset($days[$date])) {
                     $days[$date] = array();
                 }
-                $days[$date][$time] = array('file' => $file, 'locale' => $locale, 'time' => $time);
+                $dateObject = new \DateTime();
+                $dateObject->setTimestamp($ts);
+                $days[$date][$ts] = array('file' => $file, 'locale' => $locale, 'date' => $dateObject);
             }
         }
 
         krsort($days);
-        foreach($days as $date => $times) {
+        foreach($days as $date => &$times) {
             krsort($times);
         }
 
