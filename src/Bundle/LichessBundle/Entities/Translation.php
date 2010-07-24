@@ -25,6 +25,10 @@ class Translation
      * @var array
      */
     protected $messages = array();
+
+    public $comment;
+
+    public $author;
     
     /**
      * Get code
