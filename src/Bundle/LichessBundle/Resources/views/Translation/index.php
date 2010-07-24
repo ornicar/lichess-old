@@ -33,6 +33,7 @@
             <li><strong>Russian</strong> by Nikita Milovanov</li>
             <li><strong>Deutsch</strong> by Patrick Gawliczek</li>
             <li><strong>Turkish</strong> by Yakup Ipek</li>
+            <li><strong>Serbian</strong> by ?</li>
         </ul>
     </div>
 </div>
