@@ -584,7 +584,8 @@ div.lichess_chat ol.lichess_messages li.system {
 }
 
 div.lichess_language {
-    margin-top: 10px;
+    margin: 10px 0;
+    position: relative;
 }
 div.lichess_language span {
     background: url(../images/down16.png) center right no-repeat;
@@ -596,6 +597,10 @@ ul.lichess_language_links {
     background: #FFF;
     border: 1px solid #EEE;
     margin-top: 0.2em;
+    position: absolute;
+    top: 1em;
+    left: 0;
+    width: 180px;
 }
 ul.lichess_language_links a {
     display: block;
