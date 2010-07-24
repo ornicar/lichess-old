@@ -43,6 +43,7 @@
             <li><strong>Turkish</strong> by Yakup Ipek</li>
             <li><strong>Serbian</strong> by ?</li>
             <li><strong>Latvian</strong> by ?</li>
+            <li><strong>Bosnian</strong> by Jacikka</li>
         </ul>
     </div>
 </div>
