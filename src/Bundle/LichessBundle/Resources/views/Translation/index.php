@@ -35,15 +35,15 @@
             <?php endif; ?>
         </form>
         <hr />
-        Current translations:
+        Big thanks go to all translators!
         <ul>
-            <li><strong>French</strong> by Thibault Duplessis</li>
-            <li><strong>Russian</strong> by Nikita Milovanov</li>
-            <li><strong>Deutsch</strong> by Patrick Gawliczek</li>
-            <li><strong>Turkish</strong> by Yakup Ipek</li>
-            <li><strong>Serbian</strong> by Nenad Nikolić</li>
-            <li><strong>Latvian</strong> by ?</li>
-            <li><strong>Bosnian</strong> by Jacikka</li>
+            <li><strong>French</strong> Thibault Duplessis</li>
+            <li><strong>Russian</strong> Nikita Milovanov</li>
+            <li><strong>Deutsch</strong> Patrick Gawliczek</li>
+            <li><strong>Turkish</strong> Yakup Ipek</li>
+            <li><strong>Serbian</strong> Nenad Nikolić</li>
+            <li><strong>Latvian</strong> [?]</li>
+            <li><strong>Bosnian</strong> Jacikka</li>
         </ul>
     </div>
 </div>
