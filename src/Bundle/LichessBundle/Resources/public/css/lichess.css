@@ -601,6 +601,7 @@ ul.lichess_language_links {
     top: 1em;
     left: 0;
     width: 180px;
+    z-index: 5;
 }
 ul.lichess_language_links a {
     display: block;
