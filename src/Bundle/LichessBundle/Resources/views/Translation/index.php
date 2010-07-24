@@ -34,6 +34,7 @@
             <li><strong>Deutsch</strong> by Patrick Gawliczek</li>
             <li><strong>Turkish</strong> by Yakup Ipek</li>
             <li><strong>Serbian</strong> by ?</li>
+            <li><strong>Latvian</strong> by ?</li>
         </ul>
     </div>
 </div>
