@@ -178,9 +178,10 @@ class PlayerController extends Controller
         $player = $this->findPlayer($hash);
         $this->getSynchronizer()->setAlive($player);
         $player->getGame()->getRoom()->addMessage($player->getColor(), $message);
+        $htmlMessage = \Bundle\LichessBundle\Helper\TextHelper::autoLink(htmlentities($message, ENT_COMPAT, 'UTF-8'));
         $sayEvent = array(
             'type' => 'message',
-            'html' => sprintf('<li class="%s">%s</li>', $player->getColor(), htmlentities($message, ENT_COMPAT, 'UTF-8'))
+            'html' => sprintf('<li class="%s">%s</li>', $player->getColor(), $htmlMessage)
         );
         $player->getStack()->addEvent($sayEvent);
         $player->getOpponent()->getStack()->addEvent($sayEvent);
