@@ -41,7 +41,7 @@
             <li><strong>Russian</strong> by Nikita Milovanov</li>
             <li><strong>Deutsch</strong> by Patrick Gawliczek</li>
             <li><strong>Turkish</strong> by Yakup Ipek</li>
-            <li><strong>Serbian</strong> by ?</li>
+            <li><strong>Serbian</strong> by Nenad Nikolić<li>
             <li><strong>Latvian</strong> by ?</li>
             <li><strong>Bosnian</strong> by Jacikka</li>
         </ul>
