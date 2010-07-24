@@ -66,6 +66,23 @@ class TranslationController extends Controller
         $finder = new Finder;
         $files = $finder->files()->in(sprintf('%s/translation', $this->container->getParameter('kernel.root_dir')));
 
-        return $this->render('LichessBundle:Translation:list', array('files' => $files));
+        $days = array();
+        foreach($files as $file) {
+            if(preg_match('/^([\w]+)_([\d-]+)_(.+)$/', basename($file), $matches))
+            {
+                list($name, $locale, $date, $time) = $matches;
+                if(!isset($days[$date])) {
+                    $days[$date] = array();
+                }
+                $days[$date][$time] = array('file' => $file, 'locale' => $locale, 'time' => $time);
+            }
+        }
+
+        krsort($days);
+        foreach($days as $date => $times) {
+            krsort($times);
+        }
+
+        return $this->render('LichessBundle:Translation:list', array('days' => $days));
     }
 }
