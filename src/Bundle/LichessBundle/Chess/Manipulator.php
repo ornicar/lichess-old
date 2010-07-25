@@ -117,13 +117,23 @@ class Manipulator
         $isCastling = 'King' === $pieceClass && 2 === abs($from->getX() - $to->getX());
 
         // promotion?
-        $isPromotion = 'Pawn' === $pieceClass && ($to->getY() === ($player->isWhite() ? 8 : 1));
+        if('Pawn' === $pieceClass && ($to->getY() === ($player->isWhite() ? 8 : 1))) {
+            $isPromotion = true;
+            $promotionClass = isset($options['promotion']) ? ucfirst($options['promotion']) : 'Queen';
+            if(!in_array($promotionClass, array('Queen', 'Knight', 'Bishop', 'Rook'))) {
+                throw new \InvalidArgumentException('Bad promotion class: '.$promotionClass);
+            }
+            $options['promotion'] = $promotionClass;
+        }
+        else {
+            $isPromotion = false;
+        }
 
         // enpassant?
         $isEnPassant = 'Pawn' === $pieceClass && $to->getX() !== $from->getX() && !$killed;
 
         $pgnDumper = new PgnDumper();
-        $pgn = $pgnDumper->dumpMove($this->game, $piece, $from, $to, $playerPossibleMoves, $killed, $isCastling, $isPromotion, $isEnPassant);
+        $pgn = $pgnDumper->dumpMove($this->game, $piece, $from, $to, $playerPossibleMoves, $killed, $isCastling, $isPromotion, $isEnPassant, $options);
 
         if($killed) {
             $killed->setIsDead(true);
@@ -147,7 +157,7 @@ class Manipulator
         }
 
         if($isPromotion) {
-            $this->promotion($piece, $options);
+            $this->promotion($piece, $options['promotion']);
         }
 
         if($isEnPassant) {
@@ -181,12 +191,8 @@ class Manipulator
     /**
      * Handle pawn promotion
      **/
-    protected function promotion(Pawn $pawn, array $options)
+    protected function promotion(Pawn $pawn, $promotionClass)
     {
-        $promotionClass = isset($options['promotion']) ? ucfirst($options['promotion']) : 'Queen';
-        if(!in_array($promotionClass, array('Queen', 'Knight', 'Bishop', 'Rook'))) {
-            throw new \InvalidArgumentException('Bad promotion class: '.$promotionClass);
-        }
         $player = $pawn->getPlayer();
 
         $this->board->remove($pawn);

@@ -15,7 +15,7 @@ class PgnDumper
      *
      * @return string
      **/
-    public function dumpMove(Game $game, Piece $piece, Square $from, Square $to, array $playerPossibleMoves, $killed, $isCastling, $isPromotion, $isEnPassant)
+    public function dumpMove(Game $game, Piece $piece, Square $from, Square $to, array $playerPossibleMoves, $killed, $isCastling, $isPromotion, $isEnPassant, array $options)
     {
         $board = $game->getBoard();
         $pieceClass = $piece->getClass();
@@ -30,6 +30,12 @@ class PgnDumper
                 return 'O-O';
             }
         }
+        if($isEnPassant) {
+            return $from->getFile().'x'.$to->getKey();
+        }
+        if($isPromotion) {
+            return $to->getKey().'='.('Knight' === $options['promotion'] ? 'N' : $options['promotion']{0});
+        }
         $pgnFromPiece = $pgnFromFile = $pgnFromRank = '';
         if('Pawn' != $pieceClass) {
             $pgnFromPiece = $piece->getPgn();
@@ -39,6 +45,34 @@ class PgnDumper
                     $_piece = $board->getPieceByKey($_from);
                     if($_piece->getClass() === $pieceClass) {
                         $candidates[] = $_piece;
+                    }
+                }
+            }
+            if(!empty($candidates)) {
+                $isAmbiguous = false;
+                foreach($candidates as $candidate) {
+                    if($candidate->getSquare()->getFile() === $from->getFile()) {
+                        $isAmbiguous = true;
+                        break;
+                    }
+                }
+                if(!$isAmbiguous) {
+                    $pgnFromFile = $from->getFile();
+                }
+                else {
+                    $isAmbiguous = false;
+                    foreach($candidates as $candidate) {
+                        if($candidate->getSquare()->getRank() === $from->getRank()) {
+                            $isAmbiguous = true;
+                            break;
+                        }
+                    }
+                    if(!$isAmbiguous) {
+                        $pgnFromRank = $from->getRank();
+                    }
+                    else {
+                        $pgnFromFile = $from->getFile();
+                        $pgnFromRank = $from->getRank();
                     }
                 }
             }
