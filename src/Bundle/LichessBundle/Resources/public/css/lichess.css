@@ -615,7 +615,11 @@ div.lichess_goodies input {
     border: none;
     background: transparent;
     color: #666;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+a.lichess_replay_link {
+    background: url(../images/new-text.png) top left no-repeat;
+    padding-left: 20px;
 }
 
 ul.lichess_social {
