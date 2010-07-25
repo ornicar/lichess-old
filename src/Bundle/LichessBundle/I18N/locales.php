@@ -35,7 +35,7 @@ return array(
     "cr" => "ᓀᐦᐃᔭᐍᐏᐣ",
     "hr" => "hrvatski",
     "cs" => "česky, čeština",
-    "da" => "dans",
+    "da" => "Dansk",
     "nl" => "Nederlands, Vlaam",
     "en" => "English",
     "eo" => "Esperanto",
