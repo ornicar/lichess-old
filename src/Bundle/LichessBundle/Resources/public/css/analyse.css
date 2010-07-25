@@ -1,0 +1,51 @@
+h1 {
+    font-size: 2em;
+    margin-bottom: 5px;
+}
+#pgnText {
+    display: none;
+}
+
+div.board_wrap {
+    float: left;
+    margin-right: 1em;
+}
+
+#GameBoard table.boardTable {
+    border: 1px solid #C0C0C0;
+}
+#GameBoard td a {
+    display: block;
+    height: 64px;
+}
+
+#GameButtons {
+    margin-top: 1em;
+}
+#GameButtons input {
+    width: 100px;
+    height: 2em;
+}
+
+#GameText {
+    font-size: 1.2em;
+    height: 504px;
+    border: 1px solid #C0C0C0;
+    overflow: auto;
+    padding: 5px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+#GameText span.break {
+    display: block;
+}
+#GameText a {
+    font-family: 'pgn4web ChessSansMerida', 'pgn4web Liberation Sans', sans-serif;
+    text-decoration: none;
+    padding: 2px 5px;
+    color: #444;
+}
+#GameText a.moveOn {
+    background: #FFE73B;
+}

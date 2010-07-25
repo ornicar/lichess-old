@@ -611,9 +611,6 @@ ul.lichess_language_links li:last-child {
     border-top: 1px solid #EEE;
 }
 
-div.lichess_goodies {
-    margin-top: 20px;
-}
 div.lichess_goodies input {
     margin-top: 10px;
     border: none;
