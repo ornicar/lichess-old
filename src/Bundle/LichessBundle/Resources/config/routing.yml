@@ -82,3 +82,7 @@ lichess_pgn_viewer:
     pattern:        /analyse/:hash/:color
     defaults:       { _controller: LichessBundle:Pgn:analyse }
     requirements:   { hash: "[\w]{6}", color: (white|black) }
+lichess_pgn_export:
+    pattern:        /export/:hash
+    defaults:       { _controller: LichessBundle:Pgn:export }
+    requirements:   { hash: "[\w]{6}" }

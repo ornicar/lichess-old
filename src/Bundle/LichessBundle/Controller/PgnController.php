@@ -21,6 +21,17 @@ class PgnController extends Controller
         ));
     }
 
+    public function exportAction($hash)
+    {
+        $game = $this->findGame($hash);
+        $dumper = new PgnDumper();
+        $pgn = $dumper->dumpGame($game);
+
+        $response = $this->createResponse($pgn);
+        $response->headers->set('Content-Type', 'text/plain');
+        return $response;
+    }
+
     /**
      * Return the game for this hash 
      * 

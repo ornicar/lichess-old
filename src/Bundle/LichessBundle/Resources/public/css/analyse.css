@@ -8,7 +8,10 @@ h1 {
 
 div.board_wrap {
     float: left;
-    margin-right: 1em;
+    width: 514px;
+}
+div.moves_wrap {
+    margin-left: 530px;
 }
 
 #GameBoard table.boardTable {
@@ -46,6 +49,16 @@ div.board_wrap {
     padding: 2px 5px;
     color: #444;
 }
+#GameText a:hover {
+    background: #DDD;
+}
 #GameText a.moveOn {
     background: #FFE73B;
+}
+
+div.lichess_goodies {
+    margin-top: 20px;
+}
+div.export_link {
+    margin-top: 10px;
 }
