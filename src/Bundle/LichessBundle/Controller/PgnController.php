@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Controller;
 
-use Symfony\Framework\WebBundle\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller;
 use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class PgnController extends Controller

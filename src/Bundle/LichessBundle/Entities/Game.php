@@ -18,7 +18,7 @@ class Game
      * @var int
      */
     protected $status = self::CREATED;
-    
+
     const CREATED = 10;
     const STARTED = 20;
     const MATE = 30;
@@ -62,7 +62,7 @@ class Game
     protected $board = null;
 
     /**
-     * PGN moves of the game
+     * PGN moves of the game, separed by spaces
      *
      * @var string
      */
@@ -81,7 +81,7 @@ class Game
      * @var string
      */
     protected $next = null;
-    
+
     public function __construct()
     {
         $this->hash = '';
@@ -92,16 +92,16 @@ class Game
         $this->status = self::CREATED;
         $this->room = new Room();
     }
-    
+
     /**
      * Get pgn moves
      * @return string
      */
     public function getPgnMoves()
     {
-      return $this->pgnMoves;
+        return $this->pgnMoves;
     }
-    
+
     /**
      * Set pgn moves
      * @param  string
@@ -109,7 +109,7 @@ class Game
      */
     public function setPgnMoves($pgnMoves)
     {
-      $this->pgnMoves = $pgnMoves;
+        $this->pgnMoves = $pgnMoves;
     }
 
     /**
@@ -120,7 +120,10 @@ class Game
      **/
     public function addPgnMove($pgnMove)
     {
-        $this->pgnMoves .= ' '.$pgnMove;
+        if(null !== $this->pgnMoves) {
+            $this->pgnMoves .= ' ';
+        }
+        $this->pgnMoves .= $pgnMove;
     }
 
     /**
@@ -129,9 +132,9 @@ class Game
      */
     public function getNext()
     {
-      return $this->next;
+        return $this->next;
     }
-    
+
     /**
      * Set next
      * @param  string
@@ -139,30 +142,30 @@ class Game
      */
     public function setNext($next)
     {
-      $this->next = $next;
+        $this->next = $next;
     }
-    
+
     /**
      * Get status
      * @return int
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     public function getStatusMessage()
     {
         switch($this->getStatus()) {
-            case self::MATE: $message = 'Checkmate'; break;
-            case self::RESIGN: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
-            case self::STALEMATE: $message = ''; break;
-            case self::TIMEOUT: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
-            default: $message = '';
+        case self::MATE: $message = 'Checkmate'; break;
+        case self::RESIGN: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
+        case self::STALEMATE: $message = ''; break;
+        case self::TIMEOUT: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
+        default: $message = '';
         }
         return $message;
     }
-    
+
     /**
      * Set status
      * @param  int
@@ -170,7 +173,7 @@ class Game
      */
     public function setStatus($status)
     {
-      $this->status = $status;
+        $this->status = $status;
     }
 
     /**
