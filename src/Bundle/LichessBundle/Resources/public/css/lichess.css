@@ -294,10 +294,10 @@ div.lichess_board_wrap {
     box-shadow: 0 0 7px #bbb;
     -moz-box-shadow: 0 0 7px #bbb;
     -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    border-color: #ccc;
 }
 
 div.lichess_player_white #a8,
