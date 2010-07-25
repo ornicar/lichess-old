@@ -628,25 +628,6 @@ ul.lichess_social {
 ul.lichess_social li {
     display: inline;
 }
-li.lichess_tweet {
-    padding: 5px 10px 0 0;
-}
-li.lichess_tweet a {
-    font-family:"lucida grande",sans-serif;
-    font-size: 11px;
-    text-decoration: none;
-    background: #ECEEF5 url(../images/twitter14.png) 3px center no-repeat;
-    padding: 2px 5px 2px 18px;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    border: 1px solid #CAD4E7;
-    color: #3B5998;
-    vertical-align: top;
-}
-li.lichess_tweet a:hover {
-    border-color: #9DACCE;
-}
 li.lichess_facebook iframe,
 li.lichess_stumbleupon iframe {
     border:none;
