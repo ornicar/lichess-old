@@ -94,7 +94,7 @@ class Analyser
             }
             foreach($squares as $it => $square)
             {
-                // kings move to its target so we update its position
+                // king move to its target so we update its position
                 if ($piece instanceof King)
                 {
                     $kingSquareKey = $square->getKey();
