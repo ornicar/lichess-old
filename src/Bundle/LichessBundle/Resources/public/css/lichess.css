@@ -612,10 +612,10 @@ ul.lichess_language_links li:last-child {
 }
 
 div.lichess_goodies input {
-    margin-top: 10px;
     border: none;
     background: transparent;
-    color: #444;
+    color: #666;
+    margin-bottom: 10px;
 }
 
 ul.lichess_social {
