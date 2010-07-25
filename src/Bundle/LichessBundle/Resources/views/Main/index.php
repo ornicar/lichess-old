@@ -1,4 +1,5 @@
 <?php $view->extend('LichessBundle::layout') ?>
+<?php $view->slots->set('assets_pack', 'home') ?>
 
 <div class="lichess_game_not_started clearfix lichess_player_<?php echo $color ?>">
     <div class="lichess_board_wrap">
