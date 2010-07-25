@@ -15,7 +15,17 @@ div.moves_wrap {
 }
 
 #GameBoard table.boardTable {
-    border: 1px solid #C0C0C0;
+    box-shadow: 0 0 7px #bbb;
+    -moz-box-shadow: 0 0 7px #bbb;
+    -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+#GameBoard td.highlightWhiteSquare a,
+#GameBoard td.highlightBlackSquare a {
+    background: url(../images/over5.png) top left no-repeat;
 }
 #GameBoard td a {
     display: block;
