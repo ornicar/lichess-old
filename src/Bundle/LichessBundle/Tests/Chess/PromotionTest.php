@@ -68,6 +68,7 @@ EOF;
 K       
 EOF;
         $game = $this->game = $this->createGame($data);
+        $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
         $this->move('a1 a2');
         $this->assertNull($this->game->getBoard()->getPieceByKey('b8'));
         $this->assertFalse($this->analyser->isKingAttacked($this->game->getPlayer('black')));

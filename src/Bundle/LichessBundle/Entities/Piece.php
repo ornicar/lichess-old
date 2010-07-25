@@ -273,6 +273,22 @@ abstract class Piece
         return $notation;
     }
 
+    public function getPgn()
+    {
+        $class = $this->getClass();
+
+        if ('Knight' === $class)
+        {
+            $notation = 'N';
+        }
+        else
+        {
+            $notation = $class{0};
+        }
+
+        return $notation;
+    }
+
     public function serialize()
     {
         return array('x', 'y', 'player', 'isDead', 'firstMove');

@@ -611,14 +611,15 @@ ul.lichess_language_links li:last-child {
     border-top: 1px solid #EEE;
 }
 
-div.lichess_goodies {
-    margin-top: 20px;
-}
 div.lichess_goodies input {
-    margin-top: 10px;
     border: none;
     background: transparent;
-    color: #444;
+    color: #666;
+    margin-bottom: 20px;
+}
+a.lichess_replay_link {
+    background: url(../images/new-text.png) top left no-repeat;
+    padding-left: 20px;
 }
 
 ul.lichess_social {
