@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Entities\Piece\King;
 use Bundle\LichessBundle\Entities\Piece\Pawn;
 use Bundle\LichessBundle\Chess\Analyser;
+use Bundle\LichessBundle\Notation\PgnDumper;
 use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Entities\Game;
 
@@ -37,7 +38,7 @@ class Manipulator
 
     public function play($notation, array $options = array())
     {
-        $this->move($notation, $options);
+        $pgn = $this->move($notation, $options);
 
         $player = $this->game->getTurnPlayer();
         $opponent = $player->getOpponent();
@@ -47,6 +48,7 @@ class Manipulator
                 'type' => 'check',
                 'key'  => $opponent->getKing()->getSquareKey()
             ));
+            $pgn .= '+';
         }
         $this->game->addTurn();
         $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($opponent, $isOpponentKingAttacked);
@@ -54,12 +56,15 @@ class Manipulator
             if($isOpponentKingAttacked) {
                 $this->game->setStatus(Game::MATE);
                 $player->setIsWinner(true);
+                $pgn = preg_replace('/\+$/', '#', $pgn);
             }
             else {
                 $this->game->setStatus(Game::STALEMATE);
             }
             $this->stack->addEvent(array('type' => 'end'));
         }
+
+        $this->game->addPgnMove($pgn);
 
         return $opponentPossibleMoves;
     }
@@ -69,39 +74,58 @@ class Manipulator
      * Performs several validation before applying the move 
      * 
      * @param mixed $notation Valid algebraic notation (e.g. "a2 a4") 
-     * @return void
+     * @return string PGN notation of the move
      */
     public function move($notation, array $options = array())
     {
-        list($from, $to) = explode(' ', $notation);
+        list($fromKey, $toKey) = explode(' ', $notation);
 
-        if(!$from = $this->board->getSquareByKey($from)) {
-            throw new \InvalidArgumentException('Square '.$from.' does not exist');
+        if(!$from = $this->board->getSquareByKey($fromKey)) {
+            throw new \InvalidArgumentException('Square '.$fromKey.' does not exist');
         }
 
-        if(!$to = $this->board->getSquareByKey($to)) {
-            throw new \InvalidArgumentException('Square '.$to.' does not exist');
+        if(!$to = $this->board->getSquareByKey($toKey)) {
+            throw new \InvalidArgumentException('Square '.$toKey.' does not exist');
         }
 
         if(!$piece = $from->getPiece()) {
             throw new \InvalidArgumentException('No piece on '.$from);
         }
+        $pieceClass = $piece->getClass();
 
-        if(!$piece->getPlayer()->isMyTurn()) {
+        $player = $piece->getPlayer();
+        if(!$player->isMyTurn()) {
             throw new \LogicException('Can not play '.$from.' '.$to.' - Not '.$piece->getColor().' player turn');
         }
 
-        $possibleMoves = $this->analyser->getPiecePossibleMoves($piece);
+        $isPlayerKingAttacked = $this->analyser->isKingAttacked($player);
+        $playerPossibleMoves = $this->analyser->getPlayerPossibleMoves($player, $isPlayerKingAttacked);
+        $possibleMoves = isset($playerPossibleMoves[$fromKey]) ? $playerPossibleMoves[$fromKey] : false;
 
         if(!$possibleMoves) {
             throw new \LogicException($piece.' can not move');
         }
 
-        if(!in_array($to->getKey(), $possibleMoves)) {
+        if(!in_array($toKey, $possibleMoves)) {
             throw new \LogicException($piece.' can not go to '.$to.' ('.implode(',', $possibleMoves).')');
         }
 
-        if($killed = $to->getPiece()) {
+        // killed?
+        $killed = $to->getPiece();
+
+        // casting?
+        $isCastling = 'King' === $pieceClass && 2 === abs($from->getX() - $to->getX());
+
+        // promotion?
+        $isPromotion = 'Pawn' === $pieceClass && ($to->getY() === ($player->isWhite() ? 8 : 1));
+
+        // enpassant?
+        $isEnPassant = 'Pawn' === $pieceClass && $to->getX() !== $from->getX() && !$killed;
+
+        $pgnDumper = new PgnDumper();
+        $pgn = $pgnDumper->dumpMove($this->game, $piece, $from, $to, $playerPossibleMoves, $killed, $isCastling, $isPromotion, $isEnPassant);
+
+        if($killed) {
             $killed->setIsDead(true);
             $this->board->remove($killed);
         }
@@ -118,20 +142,19 @@ class Manipulator
             $piece->setFirstMove($this->game->getTurns());
         }
 
-        // casting?
-        if($piece instanceof King && 2 === abs($from->getX() - $to->getX())) {
+        if($isCastling) {
             $this->castling($piece, $to);
         }
 
-        // promotion?
-        if($piece instanceof Pawn && ($to->getY() === ($piece->getPlayer()->isWhite() ? 8 : 1))) {
+        if($isPromotion) {
             $this->promotion($piece, $options);
         }
 
-        // enpassant?
-        if($piece instanceof Pawn && $to->getX() !== $from->getX() && !$killed) {
+        if($isEnPassant) {
             $this->enpassant($piece, $to);
         }
+
+        return $pgn;
     }
 
     /**

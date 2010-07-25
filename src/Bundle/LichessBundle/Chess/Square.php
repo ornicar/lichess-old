@@ -86,4 +86,14 @@ class Square
   {
     return $this->key === $square->getKey();
   }
+
+  public function getFile()
+  {
+      return $this->key{0};
+  }
+
+  public function getRank()
+  {
+      return $this->key{1};
+  }
 }
