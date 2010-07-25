@@ -35,6 +35,143 @@ class PgnDumperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $moves);
     }
 
+    public function testDisambiguationFile()
+    {
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
+        
+        
+    N   
+        
+PPPPPPPP
+RNBQKB R
+EOF;
+
+        $this->createGame($data);
+        $piece = $this->game->getBoard()->getPieceByKey('b1');
+        $manipulator = new Manipulator($this->game);
+        $manipulator->play('b1 c3');
+        $this->assertEquals('Nbc3', $this->game->getPgnMoves());
+    }
+
+    public function testDisambiguationRank()
+    {
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
+        
+        
+        
+ N      
+PPP PPPP
+RNBQKB R
+EOF;
+
+        $this->createGame($data);
+        $piece = $this->game->getBoard()->getPieceByKey('b1');
+        $manipulator = new Manipulator($this->game);
+        $manipulator->play('b1 d2');
+        $this->assertEquals('N1d2', $this->game->getPgnMoves());
+    }
+
+    public function testDisambiguationFileAndRank()
+    {
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
+        
+        
+        
+ N      
+PPP PPPP
+RNBQKN R
+EOF;
+
+        $this->createGame($data);
+        $manipulator = new Manipulator($this->game);
+        $manipulator->play('b1 d2');
+        $this->assertEquals('Nb1d2', $this->game->getPgnMoves());
+    }
+
+    public function testEnPassant()
+    {
+        $data = <<<EOF
+rnbqkbnr
+pppppp p
+        
+     Pp 
+        
+ N      
+PPP PPPP
+RNBQKN R
+EOF;
+
+        $this->createGame($data);
+        $this->game->getBoard()->getPieceByKey('g5')->setFirstMove(9);
+        $manipulator = new Manipulator($this->game);
+        $manipulator->play('f5 g6');
+        $this->assertEquals('fxg6', $this->game->getPgnMoves());
+    }
+
+    public function testPromotionKnight()
+    {
+        $data = <<<EOF
+rnbqk   
+ppppp P 
+        
+     Pp 
+        
+ N      
+PPP PPPP
+RNBQKN R
+EOF;
+
+        $this->createGame($data);
+        $this->game->getBoard()->getPieceByKey('g7')->setFirstMove(2);
+        $manipulator = new Manipulator($this->game);
+        $manipulator->play('g7 g8', array('promotion' => 'Knight'));
+        $this->assertEquals('g8=N', $this->game->getPgnMoves());
+    }
+
+    public function testPromotionQueenWithCheckMate()
+    {
+        $data = <<<EOF
+rnbqk   
+ppppp P 
+        
+     Pp 
+        
+ N      
+PPP PPPP
+RNBQKN R
+EOF;
+
+        $this->createGame($data);
+        $this->game->getBoard()->getPieceByKey('g7')->setFirstMove(2);
+        $manipulator = new Manipulator($this->game);
+        $manipulator->play('g7 g8', array('promotion' => 'Queen'));
+        $this->assertEquals('g8=Q#', $this->game->getPgnMoves());
+    }
+
+    public function testGioachinoGreco()
+    {
+        $this->createGame();
+        $this->applyMoves(array('d2 d4', 'd7 d5', 'c2 c4', 'd5 c4', 'e2 e3', 'b7 b5', 'a2 a4', 'c7 c6', 'a4 b5', 'c6 b5', 'd1 f3'));
+
+        $this->game->setStatus(Game::RESIGN);
+        $this->game->getPlayer('white')->setIsWinner(true);
+
+        $pgn = <<<EOF
+[Site "http://lichess.org/"]
+[Result "1-0"]
+
+1.d4 d5 2.c4 dxc4 3.e3 b5 4.a4 c6 5.axb5 cxb5 6.Qf3 1-0
+EOF;
+
+        $this->assertGamePgn($pgn);
+    }
+
     public function testPeruvianImmortal()
     {
         $this->createGame();
