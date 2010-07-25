@@ -37,6 +37,7 @@
             <li><a href="http://en.wikipedia.org/wiki/HTML5">HTML5</a> &amp; <a href="http://en.wikipedia.org/wiki/Css">CSS</a></li>
             <li><a href="http://www.ubuntu.com/">Ubuntu 10.04</a>, <a href="http://nginx.org/">nginx</a> &amp; <a href="http://www.vim.org/">Vim</a></li>
             <li><a href="http://www.craftychess.com/">Crafty Chess engine</a></li>
+            <li><a href="http://code.google.com/p/pgn4web/">pgn4web</a></li>
         </ul>
         <p>
             Lichess works better with a modern browser like <a href="http://www.mozilla.com/firefox/">Firefox</a>, Chrome, Safari or Opera.<br />
