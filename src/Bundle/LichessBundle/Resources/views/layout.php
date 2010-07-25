@@ -1,11 +1,22 @@
 <?php
-    $view->assets->setVersion(10);
+    $view->assets->setVersion(11);
     $view->stylesheets->add('bundle/lichess/css/lib.min.css');
     $view->stylesheets->add('bundle/lichess/css/lichess.css');
 
     $view->javascripts->add('bundle/lichess/js/lib.min.js');
     $view->javascripts->add('bundle/lichess/js/ctrl.js');
-    $view->javascripts->add('bundle/lichess/js/game.js');
+    $assetsPack = $view->slots->get('assets_pack');
+    if('home' === $assetsPack) {
+    }
+    elseif('analyse' === $view->slots->get('assets_pack')) {
+        $view->javascripts->add('bundle/lichess/vendor/pgn4web/pgn4web.min.js');
+        $view->javascripts->add('bundle/lichess/js/analyse.js');
+        $view->stylesheets->add('bundle/lichess/css/analyse.css');
+        $view->stylesheets->add('bundle/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css');
+    }
+    else {
+        $view->javascripts->add('bundle/lichess/js/game.js');
+    }
     if($view->translator->getLocale() !== 'en'):
         $view->javascripts->add('http://static.addtoany.com/menu/locale/'.$view->translator->getLocale().'.js');
     endif;
