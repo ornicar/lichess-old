@@ -219,8 +219,8 @@ div.lichess_overboard {
     border-radius: 8px;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
-    box-shadow: 5px 5px 30px #888;
-    -moz-box-shadow: 5px 5px 30px #888;
+    box-shadow: 0px 0px 20px #444;
+    -moz-box-shadow: 0px 0px 20px #444;
     -webkit-box-shadow: 0px 0px 20px #444;
     text-align: center;
 }
@@ -595,7 +595,10 @@ div.lichess_language span {
 ul.lichess_language_links {
     display:none;
     background: #FFF;
-    border: 1px solid #EEE;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 7px #ccc;
+    -moz-box-shadow: 0 0 7px #ccc;
+    -webkit-box-shadow: 0 0 7px #ccc;
     margin-top: 0.2em;
     position: absolute;
     top: 1em;
@@ -607,8 +610,12 @@ ul.lichess_language_links a {
     display: block;
     padding: 0.5em 0.5em;
 }
+ul.lichess_language_links a:hover {
+    background: #F0F0F0;
+    color: #444;
+}
 ul.lichess_language_links li:last-child {
-    border-top: 1px solid #EEE;
+    border-top: 1px solid #ddd;
 }
 
 div.lichess_goodies input {
