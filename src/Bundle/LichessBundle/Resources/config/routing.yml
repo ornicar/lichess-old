@@ -80,7 +80,7 @@ lichess_translate_list:
     defaults:       { _controller: LichessBundle:Translation:list }
 lichess_pgn_viewer:
     pattern:        /analyse/:hash/:color
-    defaults:       { _controller: LichessBundle:Pgn:analyse }
+    defaults:       { _controller: LichessBundle:Pgn:analyse, color: white }
     requirements:   { hash: "[\w]{6}", color: (white|black) }
 lichess_pgn_export:
     pattern:        /export/:hash

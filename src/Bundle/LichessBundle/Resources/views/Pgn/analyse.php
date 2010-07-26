@@ -16,18 +16,21 @@
 
 <?php $view->slots->start('goodies') ?>
 <div class="lichess_goodies">
-    <?php foreach(array('white', 'black') as $color): ?>
+    <?php foreach(array('white', 'black') as $_color): ?>
         <div>
-            <?php echo $view->translator->_(ucfirst($color)) ?> - 
-            <?php if($game->getPlayer($color)->getIsAi()): ?>
-            <?php echo $view->translator->_('%ai_name% level %ai_level%', array('%ai_name%' => 'Crafty A.I.', '%ai_level%' => $game->getPlayer($color)->getAiLevel())) ?>
+            <?php echo $view->translator->_(ucfirst($_color)) ?> - 
+            <?php if($game->getPlayer($_color)->getIsAi()): ?>
+            <?php echo $view->translator->_('%ai_name% level %ai_level%', array('%ai_name%' => 'Crafty A.I.', '%ai_level%' => $game->getPlayer($_color)->getAiLevel())) ?>
             <?php else: ?>
             <?php echo $view->translator->_('Human') ?> 
             <?php endif ?>
         </div>
     <?php endforeach ?>
-    <div class="export_link">
-        <a href="<?php echo $view->router->generate('lichess_pgn_export', array('hash' => $game->getHash())) ?>">Export PGN</a>
-    </div>
+    <ul class="links">
+        <li><a href="<?php echo $view->router->generate('lichess_pgn_export', array('hash' => $game->getHash())) ?>"><?php echo $view->translator->_('Export PGN') ?></a></li>
+        <li><a class="rotate_board <?php echo $color ?>" href="<?php echo $view->router->generate('lichess_pgn_viewer', array('hash' => $game->getHash(), 'color' => 'white' === $color ? 'black' : 'white')) ?>">
+           <?php echo $view->translator->_('Change side') ?>
+        </a></li>
+    </ul>
 </div>
 <?php $view->slots->stop() ?>
