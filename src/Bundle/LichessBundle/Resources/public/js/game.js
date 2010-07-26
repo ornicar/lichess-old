@@ -20,9 +20,6 @@
         self.initChat();  
         self.initTable();
       }
-      else if(self.element.hasClass('waiting_opponent')) {
-          $.idleTimer(5000);
-      }
 
       if(!self.options.opponent.ai || self.options.player.spectator)
       {
@@ -236,7 +233,6 @@
             $("div#" + event.key, self.$board).addClass("check");
             break;
           case "redirect":
-            if(self.isIdle()) alert(self.translate('Your opponent has arrived!'));
             window.location.href=event.url;
             break;
           case "end":
@@ -260,10 +256,6 @@
             break;
         }
       }
-    },
-    isIdle: function()
-    {
-      return $.data(document,'idleTimer') == 'idle';
     },
     initSquaresAndPieces: function()
     {
