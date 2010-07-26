@@ -46,6 +46,7 @@
             <li><strong>Bosnian</strong> Jacikka</li>
             <li><strong>Dansk</strong> Henrik Bjornskov</li>
             <li><strong>Español</strong> FennecFoxz</li>
+            <li><strong>român</strong> Cristian Niţă</li>
         </ul>
     </div>
 </div>
