@@ -45,6 +45,7 @@
             <li><strong>Latvian</strong> [?]</li>
             <li><strong>Bosnian</strong> Jacikka</li>
             <li><strong>Dansk</strong> Henrik Bjornskov</li>
+            <li><strong>Español</strong> FennecFoxz</li>
         </ul>
     </div>
 </div>
