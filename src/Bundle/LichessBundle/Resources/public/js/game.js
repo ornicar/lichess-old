@@ -277,7 +277,6 @@
                 to:   squareId
                 };
 
-                self.$board.find("div.droppable-active").removeClass("droppable-active");
                 self.options.possible_moves = null;
                 self.movePiece($oldSquare.attr("id"), squareId);
 
@@ -312,7 +311,6 @@
                     sendMoveRequest(moveData);
                 }
             },
-            activeClass: 'droppable-active',
             hoverClass: 'droppable-hover'
             });
         });
@@ -333,12 +331,12 @@
             start: function()
             {
                 self.pieceMoving = true;
-                $(this).addClass("moving").parent().addClass("droppable-active")
+                $(this).addClass("moving");
             },
             stop: function()
             {
                 self.pieceMoving = false;
-                $(this).removeClass("moving").parent().removeClass("droppable-active")
+                $(this).removeClass("moving");
             }
             });
         });
