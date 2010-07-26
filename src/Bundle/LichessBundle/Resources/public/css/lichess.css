@@ -302,29 +302,29 @@ div.lichess_board_wrap {
 
 div.lichess_player_white #a8,
 div.lichess_player_black #h1 {
-    border-radius-topleft: 4px;
-    -moz-border-radius-topleft: 4px;
+    border-radius: 4px 0 0 0;
+    -moz-border-radius: 4px 0 0 0;
     -webkit-border-radius: 4px 0 0 0;
 }
 
 div.lichess_player_white #h8,
 div.lichess_player_black #a1 {
-    border-radius-topright: 4px;
-    -moz-border-radius-topright: 4px;
+    border-radius: 0 4px 0 0;
+    -moz-border-radius: 0 4px 0 0;
     -webkit-border-radius: 0 4px 0 0;
 }
 
 div.lichess_player_white #a1,
 div.lichess_player_black #h8 {
-    border-radius-bottomleft: 4px;
-    -moz-border-radius-bottomleft: 4px;
+    border-radius: 0 0 0 4px;
+    -moz-border-radius: 0 0 0 4px;
     -webkit-border-radius: 0 0 0 4px;
 }
 
 div.lichess_player_white #h1,
 div.lichess_player_black #a8 {
-    border-radius-bottomright: 4px;
-    -moz-border-radius-bottomright: 4px;
+    border-radius: 0 0 4px 0;
+    -moz-border-radius: 0 0 4px 0;
     -webkit-border-radius: 0 0 4px 0;
 }
 
