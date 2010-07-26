@@ -47,10 +47,21 @@ class LichessBundle extends BaseBundle
                 $session = $container->getSessionService();
                 $session->start();
                 $translator = $container->getLichessTranslatorService();
-                if(!$session->getLocale()) {
-                    $request = $container->getRequestService();
+                if(!$session->getAttribute('lichess.flag')) {
+                    $languages = $container->getRequestService()->getLanguages();
                     $locales = array_keys($translator->getLocales());
-                    $session->setLocale($request->$this->getPreferredLanguage($locales));
+                    if (empty($languages)) {
+                        $locale = $locales[0];
+                    }
+                    else {
+                        foreach($languages as $index => $language) {
+                            $languages[$index] = substr($language, 0, 2);
+                        }
+                        $languages = array_values(array_intersect($languages, $locales));
+                        $locale = isset($languages[0]) ? $languages[0] : $locales[0];
+                    }
+                    $session->setLocale($locale);
+                    $session->setAttribute('lichess.flag', true);
                 }
                 $translator->setLocale($session->getLocale());
             }
