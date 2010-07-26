@@ -129,11 +129,8 @@ div.lcs.check div.lcsi {
 div.my_turn.not_spectator div.lcs:hover div.lcsi {
     background: url(../images/over.png) top left no-repeat;
 }
-div.lcs.droppable-active div.lcsi {
-    background: url(../images/over4.png) top left no-repeat;
-}
 div.lcs.droppable-hover div.lcsi {
-    background: url(../images/over3.png) top left no-repeat;
+    background: url(../images/over4.png) top left no-repeat;
 }
 
 div.lichess_piece {
