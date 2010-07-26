@@ -30,6 +30,7 @@
             <parameter key="lv">latviešu valoda</parameter>
             <parameter key="bs">bosanski jezik</parameter>
             <parameter key="da">Dansk</parameter>
+            <parameter key="es">Español</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
