@@ -27,10 +27,10 @@
         </div>
     <?php endforeach ?>
     <ul class="links">
-        <li><a href="<?php echo $view->router->generate('lichess_pgn_export', array('hash' => $game->getHash())) ?>"><?php echo $view->translator->_('Export PGN') ?></a></li>
         <li><a class="rotate_board <?php echo $color ?>" href="<?php echo $view->router->generate('lichess_pgn_viewer', array('hash' => $game->getHash(), 'color' => 'white' === $color ? 'black' : 'white')) ?>">
            <?php echo $view->translator->_('Change side') ?>
         </a></li>
+        <li><a href="<?php echo $view->router->generate('lichess_pgn_export', array('hash' => $game->getHash())) ?>"><?php echo $view->translator->_('Export PGN') ?></a></li>
     </ul>
 </div>
 <?php $view->slots->stop() ?>
