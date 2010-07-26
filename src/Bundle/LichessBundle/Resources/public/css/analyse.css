@@ -53,7 +53,7 @@ div.moves_wrap {
 #GameText span.break {
     display: block;
 }
-#GameText a {
+#GameText a.move {
     font-family: 'pgn4web ChessSansMerida', 'pgn4web Liberation Sans', sans-serif;
     text-decoration: none;
     padding: 2px 5px;
