@@ -28,11 +28,6 @@
             </div>
          <?php endif; ?>
     </div>
-    <?php if(!$player->getGame()->getIsFinished()): ?>
-        <div class="lichess_control clearfix">
-            <label title="<?php echo $view->translator->_('Toggle animations') ?>" class="lichess_enable_animation"><input type="checkbox" checked="checked" /><?php echo $view->translator->_('Animation') ?></label>
-        </div>
-    <?php endif; ?>
     <div class="lichess_separator"></div>
         <?php $view->actions->output('LichessBundle:Player:opponent', array('path' => array('hash' => $player->getGame()->getHash(), 'color' => $player->getOpponent()->getColor(), 'playerFullHash' => ''))) ?>
 </div>
