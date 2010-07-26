@@ -69,6 +69,6 @@ div.moves_wrap {
 div.lichess_goodies {
     margin-top: 20px;
 }
-div.export_link {
+div.lichess_goodies ul.links {
     margin-top: 10px;
 }

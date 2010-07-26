@@ -10,6 +10,7 @@
     }
     elseif('analyse' === $view->slots->get('assets_pack')) {
         $view->javascripts->add('bundle/lichess/vendor/pgn4web/pgn4web.min.js');
+        $view->javascripts->add('bundle/lichess/vendor/transform/jquery.transform.min.js');
         $view->javascripts->add('bundle/lichess/js/analyse.js');
         $view->stylesheets->add('bundle/lichess/css/analyse.css');
         $view->stylesheets->add('bundle/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css');
