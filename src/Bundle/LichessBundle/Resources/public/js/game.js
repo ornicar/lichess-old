@@ -10,7 +10,6 @@
       self.$table = self.element.find("div.lichess_table_wrap");
       self.$chat = $("div.lichess_chat");
       self.initialTitle = document.title,
-      self.animate = null;
       self.ajaxManager = $.manageAjax.create('lichess_sync', { manageType: "queue", maxReq: 1});
       
       if(self.options.game.started)
@@ -87,10 +86,6 @@
     {
       return this.options.possible_moves != null;
     },
-    getAnimationSpeed: function()
-    {
-        return this.animate ? this.options.animation_delay : 1;
-    },
     changeTitle: function(text)
     {
         if(this.options.player.spectator) return;
@@ -115,8 +110,8 @@
 
       if (!this.$table.find('>div').hasClass('finished'))
       {
-        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.opponent.color : this.options.player.color)).fadeOut(this.getAnimationSpeed());
-        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(this.getAnimationSpeed());
+        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.opponent.color : this.options.player.color)).fadeOut(this.options.animation_delay);
+        this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color : this.options.opponent.color)).fadeIn(this.options.animation_delay);
       }
     },
     movePiece: function(from, to, callback)
@@ -134,7 +129,7 @@
       $("div.lcs.moved", self.$board).removeClass("moved");
       var $from = $("div#" + from, self.$board).addClass("moved"), from_offset = $from.offset();
       var $to = $("div#" + to, self.$board).addClass("moved"), to_offset = $to.offset();
-      var animation = self.getAnimationSpeed()*($piece.hasClass(self.options.player.color) ? 1 : 2);
+      var animation = self.options.animation_delay*($piece.hasClass(self.options.player.color) ? 1 : 2);
       
       $("body").append($piece.css({
         top: from_offset.top,
@@ -168,7 +163,7 @@
         top: tomb_offset.top,
         left: tomb_offset.left,
         opacity: 0.5
-      }, self.getAnimationSpeed()*3, function()
+      }, self.options.animation_delay*3, function()
       {
         $tomb.append($piece.css({
           position: "relative",
@@ -291,7 +286,7 @@
                     self.syncUrl(self.options.url.move, function()
                     {
                         if(self.options.opponent.ai) {
-                            setTimeout(function() {self.syncUrl(self.options.url.sync);}, self.getAnimationSpeed()*3);
+                            setTimeout(function() {self.syncUrl(self.options.url.sync);}, self.options.animation_delay*3);
                         }
                     }, moveData);
                 }
@@ -305,11 +300,11 @@
                     <div rel="knight" class="lichess_piece knight '+color+'"></div>\
                     <div rel="rook" class="lichess_piece rook '+color+'"></div>\
                     <div rel="bishop" class="lichess_piece bishop '+color+'"></div>'
-                ).fadeIn(self.getAnimationSpeed()).find('div.lichess_piece').click(function()
+                ).fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function()
                 {
                     moveData.options = {promotion: $(this).attr('rel')};
                     sendMoveRequest(moveData);
-                    $choices.fadeOut(self.getAnimationSpeed(), function() {$choices.remove();});
+                    $choices.fadeOut(self.options.animation_delay, function() {$choices.remove();});
                 }).end();
                 }
                 else
@@ -408,12 +403,6 @@
                 self.$table.find('label.lichess_enable_chat').hide();
             }
         }
-
-        self.$table.find('label.lichess_enable_animation input').change(function()
-        {
-            self.animate = $(this).attr('checked');
-            $('div.lcs.ui-droppable').droppable('option', 'activeClass', self.animate ? 'droppable-active' : '');
-        }).trigger('change');
 
         self.$table.find('a, input, label').tipsy({fade: true});
     },
