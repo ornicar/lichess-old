@@ -18,6 +18,7 @@ require_once __DIR__.'/Stack.php';
 require_once __DIR__.'/Chess/Square.php';
 require_once __DIR__.'/Chess/Board.php';
 require_once __DIR__.'/Chess/Synchronizer.php';
+require_once __DIR__.'/Notation/PgnDumper.php';
 require_once __DIR__.'/Entities/Piece.php';
 require_once __DIR__.'/Entities/Piece/Bishop.php';
 require_once __DIR__.'/Entities/Piece/King.php';
