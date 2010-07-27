@@ -32,6 +32,7 @@
             <parameter key="da">Dansk</parameter>
             <parameter key="es">Español</parameter>
             <parameter key="ro">român</parameter>
+            <parameter key="it">Italian</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>

@@ -47,6 +47,7 @@
             <li><strong>Dansk</strong> Henrik Bjornskov</li>
             <li><strong>Español</strong> FennecFoxz</li>
             <li><strong>român</strong> Cristian Niţă</li>
+            <li><strong>Italian</strong> Marco Barberis</li>
         </ul>
     </div>
 </div>
