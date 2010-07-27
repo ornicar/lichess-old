@@ -278,8 +278,9 @@ class Game
         if($this->getPlayer('white')->getHash() === $hash) {
             return $this->getPlayer('white');
         }
-
-        return $this->getPlayer('black');
+        elseif($this->getPlayer('black')->getHash() === $hash) {
+            return $this->getPlayer('black');
+        }
     }
 
     /**
