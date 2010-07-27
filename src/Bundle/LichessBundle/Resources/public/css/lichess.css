@@ -532,6 +532,14 @@ div.lichess_box a.lichess_new_game {
   font-size: 150%;
 }
 
+div.lichess_box p.license_images {
+    text-align: center;
+    vertical-align: middle;
+}
+div.lichess_box p.license_images a {
+    margin: 0 1em;
+}
+
 div.lichess_chat {
     font-size: 11px;
     position: absolute;
