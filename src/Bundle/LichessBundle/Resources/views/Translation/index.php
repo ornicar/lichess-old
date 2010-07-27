@@ -48,6 +48,7 @@
             <li><strong>Español</strong> FennecFoxz</li>
             <li><strong>român</strong> Cristian Niţă</li>
             <li><strong>Italian</strong> Marco Barberis</li>
+            <li><strong>Finnish</strong> Juuso Vallius</li>
         </ul>
     </div>
 </div>
