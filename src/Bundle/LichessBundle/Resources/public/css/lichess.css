@@ -614,19 +614,11 @@ ul.lichess_language_links a:hover {
 ul.lichess_language_links li:last-child {
     border-top: 1px solid #ddd;
 }
-
-div.lichess_goodies input {
-    border: none;
-    background: transparent;
-    color: #666;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: block;
-    text-align: left;
-}
 a.lichess_replay_link {
     background: url(../images/new-text.png) top left no-repeat;
     padding-left: 20px;
+    margin-top: 20px;
+    display: block;
 }
 
 ul.lichess_social {
