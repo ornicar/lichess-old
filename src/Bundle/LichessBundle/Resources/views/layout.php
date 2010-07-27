@@ -28,8 +28,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="Content-Language" content="<?php echo $view->session->getLocale() ?>">
         <title><?php $view->slots->output('title', 'Lichess') ?> | free online Chess game</title>
-        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and jQuery 1.4" name="description">
-        <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, artificial intelligence" name="keywords">
+        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and JavaScript with jQuery 1.4" name="description">
+        <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
         <meta content="<?php echo $view->slots->get('robots', 'index, follow') ?>" name="robots">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <?php echo $view->stylesheets ?>
@@ -71,7 +71,7 @@
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a class="lichess_uservoice" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="<?php echo $view->router->generate('lichess_translate') ?>">help translate Lichess</a><br />
                 <?php echo $view->translator->_('Open Source software built with %php%, %symfony% and %jqueryui%', array('%php%' => 'PHP 5.3', '%symfony%' => '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%' => '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>')) ?><br />
-            <?php echo $view->translator->_('Artificial intelligence') ?>: <a href="http://www.craftychess.com/" target="_blank">Crafty</a>
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-nc/3.0/80x15.png" /></a>
             </div>
         </div>
         <div title="Come on, make my server suffer :)" class="lichess_server">

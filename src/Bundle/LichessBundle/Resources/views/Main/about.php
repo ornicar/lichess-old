@@ -25,9 +25,18 @@
             <li><a href="http://en.wikipedia.org/wiki/Check_%28chess%29">Check</a>, <a href="http://en.wikipedia.org/wiki/Checkmate">Chekmate</a> &amp; <a href="http://en.wikipedia.org/wiki/Stale_mate">Stalemate</a> detection</li>
             <li>Move hints and validation</li>
         </ul>
+        <p class="license_images">
+            <a href="http://www.opensource.org/"><img src="<?php echo $view->assets->getUrl('bundle/lichess/images/opensource.png') ?>" alt="OpenSource" /></a>
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a>
+        </p>
         <p>
-            This program is <a href="http://www.opensource.org/">Open Source</a>, and distributed under <a href="http://en.wikipedia.org/wiki/MIT_License">MIT License</a>.<br />
-            It means you can read the code, modify, use and distribute it.<br />
+            <span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">Lichess</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>. Permissions beyond the scope of this license are available at <a xmlns:cc="http://creativecommons.org/ns#" href="http://lichess.org/about" rel="cc:morePermissions">http://lichess.org/about</a>.
+        </p>
+        <p>
+            It means you may read the code, modify, use and distribute it.<br />
+            You may NOT use it for commercial purposes. You may NOT display ads on a page where Lichess is displayed.
+        </p>
+        <p>
             Get source code on <a href="http://github.com/ornicar/lichess">Lichess repository</a> or <a href="http://github.com/ornicar/lichess/tarball/master">download it</a>.<br />
             Lichess is built using only Open Source software, including:
         </p>
