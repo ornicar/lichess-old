@@ -44,7 +44,7 @@
                     <span><?php echo $view->translator->getLocaleName() ?></span>
                     <ul class="lichess_language_links">
                         <?php foreach($view->translator->getOtherLocales() as $code => $name): ?>
-                            <li><a href="<?php echo $view->router->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a></li>
+                            <li><a lang="<?php echo $code ?>" href="<?php echo $view->router->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a></li>
                         <?php endforeach ?>
                         <li><a href="<?php echo $view->router->generate('lichess_translate') ?>">Help translate Lichess!</a></li>
                     </ul>
