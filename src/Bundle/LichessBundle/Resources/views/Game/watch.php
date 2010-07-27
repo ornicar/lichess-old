@@ -17,7 +17,9 @@
 
 <?php $view->slots->start('goodies') ?>
 <div class="lichess_goodies">
-<?php echo $view->translator->_('You are viewing this game as a spectator') ?>.<br /><br />
-<a href="<?php echo $view->router->generate('lichess_homepage') ?>"><strong><?php echo $view->translator->_('Play a new game') ?></strong></a>
+    <a class="lichess_replay_link" target="_blank" href="<?php echo $view->router->generate('lichess_pgn_viewer', array('hash' => $game->getHash(), 'color' =>isset($color) ? $color : 'white')) ?>" title="<?php echo $view->translator->_('Share this url to let spectators see the game') ?>"><?php echo $view->translator->_('Replay and analyse') ?></a>
+    <br /><br />
+    <?php echo $view->translator->_('You are viewing this game as a spectator') ?>.<br /><br />
+    <a href="<?php echo $view->router->generate('lichess_homepage') ?>"><strong><?php echo $view->translator->_('Play a new game') ?></strong></a>
 </div>
 <?php $view->slots->stop() ?>
