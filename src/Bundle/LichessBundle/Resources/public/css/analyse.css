@@ -23,6 +23,12 @@ div.moves_wrap {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
 }
+#GameBoard.flip, #GameBoard.flip img.pieceImage {
+    -o-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
 #GameBoard td.highlightWhiteSquare a,
 #GameBoard td.highlightBlackSquare a {
     background: url(../images/over5.png) top left no-repeat;
