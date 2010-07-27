@@ -30,7 +30,7 @@
             <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a>
         </p>
         <p>
-            <span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">Lichess</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>. Permissions beyond the scope of this license are available at <a xmlns:cc="http://creativecommons.org/ns#" href="http://lichess.org/about" rel="cc:morePermissions">http://lichess.org/about</a>.
+            <span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">Lichess</span> is OpenSource, and licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.
         </p>
         <p>
             It means you may read the code, modify, use and distribute it.<br />
