@@ -18,8 +18,6 @@
 "Level": "Nivel"
 "Toggle the chat": "Activa el Chat"
 "Chat": "Chat"
-"Animation": "Animaciones"
-"Toggle animations": "Activar animaciones"
 "Give up": "Darte por vencido"
 "Resign": "Renunciar"
 "Checkmate": "Jaque Mate"
@@ -64,3 +62,4 @@
 "There is nothing to see here. If you think it's a bug, you could send an email to %email%": "No hay información aquí, si crees que esto puede ser un bug puedes enviar un mail a %email%"
 "Share this url to let spectators see the game": "Comparte esta URL para que se unan espectadores a la partida"
 "Replay and analyse": "Repetición del juego y Análisis"
+"Flip board": "Cambiar lado"

@@ -18,8 +18,6 @@
 "Level": "Мастерство"
 "Toggle the chat": "Показывать окошко чата"
 "Chat": "Чат"
-"Animation": "Aнимация"
-"Toggle animations": "Анимировать перемещение фигур"
 "Give up": "Сдаться"
 "Resign": "Закончить игру"
 "Checkmate": "Мат"
@@ -64,3 +62,4 @@
 "There is nothing to see here. If you think it's a bug, you could send an email to %email%": ""
 "Share this url to let spectators see the game": ""
 "Replay and analyse": ""
+"Flip board": "Выбрать другой цвет фигур"

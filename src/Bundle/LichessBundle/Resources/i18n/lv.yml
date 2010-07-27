@@ -18,8 +18,6 @@
 "Level": "Līmenis"
 "Toggle the chat": "Pārslēgt čatu"
 "Chat": "Čats"
-"Animation": "Animācija"
-"Toggle animations": "Pārslēgt animāciju"
 "Give up": "Padoties"
 "Resign": "Atslēgties"
 "Checkmate": "Šahs un mats"
@@ -64,3 +62,4 @@
 "There is nothing to see here. If you think it's a bug, you could send an email to %email%": "Šeit nekā nav. Ja tu domā, ka tas ir bugs, tad droši raksti mūms %email%"
 "Share this url to let spectators see the game": "Padalies ar šo url, lai ļaut skatītājiem redzēt spēli"
 "Replay and analyse": ""
+"Flip board": "Nomainīt pusi"

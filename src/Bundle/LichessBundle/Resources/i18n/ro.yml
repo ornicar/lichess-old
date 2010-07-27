@@ -18,8 +18,6 @@
 "Level": "Nivel"
 "Toggle the chat": "Porneşte/Opreşte discuţia"
 "Chat": "Discuţie"
-"Animation": "Animaţie"
-"Toggle animations": "Porneşte/Opreşte animaţii"
 "Give up": "Renunţă"
 "Resign": "Abandon"
 "Checkmate": "Şah Mat"
@@ -64,3 +62,4 @@
 "There is nothing to see here. If you think it's a bug, you could send an email to %email%": "Nu este nimic de văzut aici. Dacă consideraţi că este un bug, puteţi trimite un e-mail la %email%"
 "Share this url to let spectators see the game": "Distribuiţi acest url pentru a permite spectatorilor să vizioneze meciul"
 "Replay and analyse": "Rejucaţi şi analizaţi"
+"Flip board": "Schimbaţi partea"

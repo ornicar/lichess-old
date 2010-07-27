@@ -18,8 +18,6 @@
 "Level": "Level"
 "Toggle the chat": "Chat-Funktion an- oder ausschalten"
 "Chat": "Chat"
-"Animation": "Animation"
-"Toggle animations": "Animation an- oder ausschalten"
 "Give up": "Das Spiel aufgeben"
 "Resign": "Aufgeben"
 "Checkmate": "Schachmatt"
@@ -64,3 +62,4 @@
 "There is nothing to see here. If you think it's a bug, you could send an email to %email%": "Hier gibt es nichts zu sehen. Wenn du glaubst, es ist ein Bug, kannst du eine Email an %email% senden"
 "Share this url to let spectators see the game": ""
 "Replay and analyse": "Das Spiel analysieren"
+"Flip board": "Farbe wechseln"

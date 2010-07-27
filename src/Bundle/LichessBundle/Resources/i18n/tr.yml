@@ -18,8 +18,6 @@
 "Level": "seviye"
 "Toggle the chat": "Sohbeti aç ya da kapat"
 "Chat": "Sobhet"
-"Animation": "Animasyon"
-"Toggle animations": "Animasyonu aç ya da kapat"
 "Give up": "Vazgeç"
 "Resign": "İstifa et"
 "Checkmate": "Şahmat"
@@ -64,3 +62,4 @@
 "There is nothing to see here. If you think it's a bug, you could send an email to %email%": "Burada herhanbi bir şey yok. Eğer bunun bir sorun olduğunu düşünüyorsanız lütfen bu adrese email gönderin %email%"
 "Share this url to let spectators see the game": "Bu linki izlemek isteyenlerle paylaşabilirsiniz"
 "Replay and analyse": "İzle ve analiz et"
+"Flip board": "Taraf değiştir"
