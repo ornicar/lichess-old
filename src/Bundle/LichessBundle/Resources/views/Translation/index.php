@@ -44,9 +44,9 @@
             <li><strong>Serbian</strong> Nenad Nikolić</li>
             <li><strong>Latvian</strong> [?]</li>
             <li><strong>Bosnian</strong> Jacikka</li>
-            <li><strong>Dansk</strong> Henrik Bjornskov</li>
-            <li><strong>Español</strong> FennecFoxz</li>
-            <li><strong>român</strong> Cristian Niţă</li>
+            <li><strong>Danish</strong> Henrik Bjornskov</li>
+            <li><strong>Spanish</strong> FennecFoxz</li>
+            <li><strong>Romanian</strong> Cristian Niţă</li>
             <li><strong>Italian</strong> Marco Barberis</li>
             <li><strong>Finnish</strong> Juuso Vallius</li>
         </ul>
