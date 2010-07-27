@@ -3,8 +3,8 @@ Allow: /
 Disallow: /resign
 Disallow: /ai_level
 Disallow: /move
-Disallow: /socket
 Disallow: /ai
 Disallow: /table
 Disallow: /black
 Disallow: /anybody
+Disallow: /friend
