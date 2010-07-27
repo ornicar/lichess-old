@@ -28,7 +28,7 @@
     <?php endforeach ?>
     <ul class="links">
         <li><a class="rotate_board" href="<?php echo $view->router->generate('lichess_pgn_viewer', array('hash' => $game->getHash(), 'color' => 'white' === $color ? 'black' : 'white')) ?>">
-           <?php echo $view->translator->_('Change side') ?>
+           <?php echo $view->translator->_('Flip board') ?>
         </a></li>
         <li><a href="<?php echo $view->router->generate('lichess_pgn_export', array('hash' => $game->getHash())) ?>"><?php echo $view->translator->_('Export PGN') ?></a></li>
     </ul>
