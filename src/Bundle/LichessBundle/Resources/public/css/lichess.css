@@ -615,8 +615,6 @@ ul.lichess_language_links li:last-child {
     border-top: 1px solid #ddd;
 }
 a.lichess_replay_link {
-    background: url(../images/new-text.png) top left no-repeat;
-    padding-left: 20px;
     margin-top: 20px;
     display: block;
 }
