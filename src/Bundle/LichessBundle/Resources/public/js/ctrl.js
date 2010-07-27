@@ -47,14 +47,6 @@ $(function()
                 var a = document.createElement('script'); a.type = 'text/javascript'; a.async = true; a.src = 'http://static.addtoany.com/menu/page.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
             })();
-            //analytics
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-7935029-3']);
-            _gaq.push(['_trackPageview']);
-            (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
         }, 300);
     }
 });
@@ -67,18 +59,28 @@ $.ajax = function(o) {
     return _jQueryAjax(o);
 }
 
-// chartbeat
-var _sf_async_config={uid:2506,domain:"lichess.org"};
-(function(){
-function loadChartbeat() {
-    window._sf_endpt=(new Date()).getTime();
-    var e = document.createElement('script');
-    e.setAttribute('language', 'javascript');
-    e.setAttribute('type', 'text/javascript');
-    e.setAttribute('src', "http://static.chartbeat.com/js/chartbeat.js");
-    document.body.appendChild(e);
+if(document.domain == 'lichess.org') {
+    // chartbeat
+    var _sf_async_config={uid:2506,domain:"lichess.org"};
+    (function(){
+    function loadChartbeat() {
+        window._sf_endpt=(new Date()).getTime();
+        var e = document.createElement('script');
+        e.setAttribute('language', 'javascript');
+        e.setAttribute('type', 'text/javascript');
+        e.setAttribute('src', "http://static.chartbeat.com/js/chartbeat.js");
+        document.body.appendChild(e);
+    }
+    var oldonload = window.onload;
+    window.onload = (typeof window.onload != 'function') ?
+        loadChartbeat : function() { oldonload(); loadChartbeat(); };
+    })();
+    //analytics
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7935029-3']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
 }
-var oldonload = window.onload;
-window.onload = (typeof window.onload != 'function') ?
-    loadChartbeat : function() { oldonload(); loadChartbeat(); };
-})();
