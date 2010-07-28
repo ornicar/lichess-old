@@ -24,6 +24,10 @@
             <li><a href="http://en.wikipedia.org/wiki/Promotion_%28chess%29">Promotion</a></li>
             <li><a href="http://en.wikipedia.org/wiki/Check_%28chess%29">Check</a>, <a href="http://en.wikipedia.org/wiki/Checkmate">Chekmate</a> &amp; <a href="http://en.wikipedia.org/wiki/Stale_mate">Stalemate</a> detection</li>
             <li>Move hints and validation</li>
+            <li>Replay and analysis</li>
+            <li>Export in PGN</li>
+            <li>Translated to 13 languages, and more to come</li>
+            <li>Run in any browser (excepted IE6, of course) without flash</li>
         </ul>
         <p class="license_images">
             <a href="http://www.opensource.org/"><img src="<?php echo $view->assets->getUrl('bundle/lichess/images/opensource.png') ?>" alt="OpenSource" /></a>
