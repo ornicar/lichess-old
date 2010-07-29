@@ -116,16 +116,14 @@
     },
     movePiece: function(from, to, callback)
     {
-      var $piece = this.$board.find("div#"+from+" div.lichess_piece");
+      var self = this, $piece = this.$board.find("div#"+from+" div.lichess_piece");
 
-      if (!$piece.length)
-      {
+      // already moved
+      if (!$piece.length) {
         $.isFunction(callback || null) && callback();
-        // already moved
         return;
       }
 
-      var self = this;
       $("div.lcs.moved", self.$board).removeClass("moved");
       var $from = $("div#" + from, self.$board).addClass("moved"), from_offset = $from.offset();
       var $to = $("div#" + to, self.$board).addClass("moved"), to_offset = $to.offset();
@@ -252,6 +250,45 @@
         }
       }
     },
+    dropPiece: function($piece, $oldSquare, $newSquare)
+    {
+      var self = this, squareId = $newSquare.attr('id'), moveData = { from: $oldSquare.attr("id"), to: squareId };
+
+      self.$board.find('div.lcs.selected').removeClass('selected');
+      self.options.possible_moves = null;
+      self.movePiece($oldSquare.attr("id"), squareId);
+
+      function sendMoveRequest(moveData)
+      {
+          self.syncUrl(self.options.url.move, function()
+          {
+              if(self.options.opponent.ai) {
+                  setTimeout(function() {self.syncUrl(self.options.url.sync);}, self.options.animation_delay*3);
+              }
+          }, moveData);
+      }
+
+      var color = self.options.player.color;
+      // promotion
+      if($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1)))
+      {
+        var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
+            <div rel="queen" class="lichess_piece queen '+color+'"></div>\
+            <div rel="knight" class="lichess_piece knight '+color+'"></div>\
+            <div rel="rook" class="lichess_piece rook '+color+'"></div>\
+            <div rel="bishop" class="lichess_piece bishop '+color+'"></div>'
+        ).fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function()
+        {
+            moveData.options = {promotion: $(this).attr('rel')};
+            sendMoveRequest(moveData);
+            $choices.fadeOut(self.options.animation_delay, function() {$choices.remove();});
+        }).end();
+      }
+      else
+      {
+          sendMoveRequest(moveData);
+      }
+    },
     initSquaresAndPieces: function()
     {
         var self = this;
@@ -259,7 +296,7 @@
             return;
         }
         // init squares
-        $("div.lcs", self.$board).each(function()
+        self.$board.find("div.lcs").each(function()
         {
             var squareId = $(this).attr('id');
             $(this).droppable({
@@ -269,77 +306,73 @@
             },
             drop: function(ev, ui)
             {
-                var $piece  = ui.draggable,
-                $oldSquare  = $piece.parent(),
-                squareId    = $(this).attr("id"),
-                moveData    = {
-                from:    $oldSquare.attr("id"),
-                to:   squareId
-                };
-
-                self.options.possible_moves = null;
-                self.movePiece($oldSquare.attr("id"), squareId);
-
-                function sendMoveRequest(moveData)
-                {
-                    self.syncUrl(self.options.url.move, function()
-                    {
-                        if(self.options.opponent.ai) {
-                            setTimeout(function() {self.syncUrl(self.options.url.sync);}, self.options.animation_delay*3);
-                        }
-                    }, moveData);
-                }
-
-                var color = self.options.player.color;
-                // promotion
-                if($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1)))
-                {
-                var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
-                    <div rel="queen" class="lichess_piece queen '+color+'"></div>\
-                    <div rel="knight" class="lichess_piece knight '+color+'"></div>\
-                    <div rel="rook" class="lichess_piece rook '+color+'"></div>\
-                    <div rel="bishop" class="lichess_piece bishop '+color+'"></div>'
-                ).fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function()
-                {
-                    moveData.options = {promotion: $(this).attr('rel')};
-                    sendMoveRequest(moveData);
-                    $choices.fadeOut(self.options.animation_delay, function() {$choices.remove();});
-                }).end();
-                }
-                else
-                {
-                    sendMoveRequest(moveData);
-                }
+              self.dropPiece(ui.draggable, ui.draggable.parent(), $(this));
             },
             hoverClass: 'droppable-hover'
             });
         });
         
         // init pieces
-        $("div.lichess_piece." + self.options.player.color, self.$board).each(function()
+        self.$board.find("div.lichess_piece." + self.options.player.color).each(function()
         {
             $(this).draggable({
-            //distance: 10,
-            containment: self.$board,
-            helper: function()
-            {
-                return $('<div>')
-                .attr("class", $(this).attr("class"))
-                .attr('data-key', $(this).parent().attr('id'))
-                .appendTo(self.$board);
-            },
-            start: function()
-            {
-                self.pieceMoving = true;
-                $(this).addClass("moving");
-            },
-            stop: function()
-            {
-                self.pieceMoving = false;
-                $(this).removeClass("moving");
-            }
+              distance: 3,
+              containment: self.$board,
+              helper: function()
+              {
+                  return $('<div>')
+                  .attr("class", $(this).attr("class"))
+                  .attr('data-key', $(this).parent().attr('id'))
+                  .appendTo(self.$board);
+              },
+              start: function()
+              {
+                  self.pieceMoving = true;
+                  $(this).addClass("moving");
+              },
+              stop: function()
+              {
+                  self.pieceMoving = false;
+                  $(this).removeClass("moving");
+              }
             });
         });
+
+        /*
+         * Code for touch screends like android or iphone
+         */
+
+        self.$board.find("div.lichess_piece." + self.options.player.color).each(function()
+        {
+          $(this).click(function() {
+            var $square = $(this).parent();
+            var isSelected = $square.hasClass('selected');
+            self.$board.find('div.lcs.selected').removeClass('selected');
+            if(isSelected) return;
+            $square.addClass('selected');
+          });
+        });
+
+        self.$board.find("div.lcs").each(function() {
+            $(this).hover(function() {
+              var $selected = self.$board.find('div.lcs.selected');
+              if($selected.length && self.inArray($(this).attr('id'), self.options.possible_moves[$selected.attr('id')])) {
+                $(this).addClass('selectable');
+              }
+            },
+            function() {
+              $(this).removeClass('selectable');
+            })
+            .click(function() {
+              if(!$(this).hasClass('selectable')) return;
+              var $selected = self.$board.find('div.lcs.selected');
+              self.dropPiece($selected.find('div.lichess_piece'), $selected, $(this));
+            });
+        });
+
+        /*
+         * End of code for touch screens
+         */
     },
     initChat: function()
     {

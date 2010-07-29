@@ -132,6 +132,11 @@ div.my_turn.not_spectator div.lcs:hover div.lcsi {
 div.lcs.droppable-hover div.lcsi {
     background: url(../images/over4.png) top left no-repeat;
 }
+div.lichess_board div.lcs.selected div.lcsi,
+div.lichess_board div.lcs.selectable div.lcsi {
+    background: url(../images/over3.png) top left no-repeat !important;
+    cursor: pointer;
+}
 
 div.lichess_piece {
     position: absolute;
