@@ -18,7 +18,7 @@ class Crafty
 
     protected function getNewForsythe($forsytheNotation, $level)
     {
-        $file = tempnam(sys_get_temp_dir(), 'lichess_crafty');
+        $file = tempnam(sys_get_temp_dir(), 'lichess_crafty_'.md5(time().mt_rand(0, 1000)));
         touch($file);
 
         $command = $this->getPlayCommand($forsytheNotation, $file, $level);
