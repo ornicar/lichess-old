@@ -49,6 +49,7 @@
             <li><strong>Romanian</strong> Cristian Niţă</li>
             <li><strong>Italian</strong> Marco Barberis</li>
             <li><strong>Finnish</strong> Juuso Vallius</li>
+            <li><strong>Ukrainian</strong> alterionisto</li>
         </ul>
     </div>
 </div>

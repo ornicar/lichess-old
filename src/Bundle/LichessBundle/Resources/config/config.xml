@@ -34,6 +34,7 @@
             <parameter key="ro">Română</parameter>
             <parameter key="it">Italian</parameter>
             <parameter key="fi">suomi, suomen kieli</parameter>
+            <parameter key="uk">українськ</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
