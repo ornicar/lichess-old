@@ -51,6 +51,7 @@
             <li><strong>Finnish</strong> Juuso Vallius</li>
             <li><strong>Ukrainian</strong> alterionisto</li>
             <li><strong>Portuguese</strong> Arthur Braz</li>
+            <li><strong>polski</strong> M3n747</li>
         </ul>
     </div>
 </div>
