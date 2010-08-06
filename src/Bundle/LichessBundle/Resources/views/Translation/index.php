@@ -50,6 +50,7 @@
             <li><strong>Italian</strong> Marco Barberis</li>
             <li><strong>Finnish</strong> Juuso Vallius</li>
             <li><strong>Ukrainian</strong> alterionisto</li>
+            <li><strong>Portuguese</strong> Arthur Braz</li>
         </ul>
     </div>
 </div>
