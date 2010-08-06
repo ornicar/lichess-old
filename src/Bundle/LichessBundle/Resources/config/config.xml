@@ -36,6 +36,7 @@
             <parameter key="fi">suomi, suomen kieli</parameter>
             <parameter key="uk">українськ</parameter>
             <parameter key="pt">Portuguê</parameter>
+            <parameter key="pl">Polish</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
