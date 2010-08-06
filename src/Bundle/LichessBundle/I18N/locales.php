@@ -111,7 +111,7 @@ return array(
     "or" => "ଓଡ଼ି",
     "os" => "ирон æвза",
     "pi" => "पा",
-    "pl" => "polsk",
+    "pl" => "polski",
     "pt" => "Portuguê",
     "qu" => "Runa Simi, Kichw",
     "rm" => "rumantsch grischu",
