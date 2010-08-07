@@ -44,26 +44,15 @@ class LichessBundle extends BaseBundle
         parent::boot($container);
         $container->getEventDispatcherService()->connect('core.request', function(Event $event) use ($container) {
             if(HttpKernelInterface::MASTER_REQUEST === $event['request_type']) {
+                $translator = $container->getLichessTranslatorService();
                 $session = $container->getSessionService();
                 $session->start();
-                $translator = $container->getLichessTranslatorService();
                 if(!$session->getAttribute('lichess.flag')) {
-                    $languages = $container->getRequestService()->getLanguages();
-                    $locales = array_keys($translator->getLocales());
-                    if (empty($languages)) {
-                        $locale = $locales[0];
-                    }
-                    else {
-                        foreach($languages as $index => $language) {
-                            $languages[$index] = substr($language, 0, 2);
-                        }
-                        $languages = array_values(array_intersect($languages, $locales));
-                        $locale = isset($languages[0]) ? $languages[0] : $locales[0];
-                    }
+                    $locale = $translator->getBestLocale($container->getRequestService()->getLanguages());
                     $session->setLocale($locale);
                     $session->setAttribute('lichess.flag', true);
                 }
-                $translator->setLocale($session->getLocale());
+                $translator->setLocale($locale);
             }
         });
     }
