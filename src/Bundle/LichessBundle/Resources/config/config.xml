@@ -41,6 +41,8 @@
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
 
+        <parameter key="session.storage.test.class">Bundle\LichessBundle\SessionStorage\TestSessionStorage</parameter>
+
     </parameters>
 
     <services>
@@ -67,6 +69,13 @@
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
             <argument>%lichess.synchronizer.timeout%</argument>
+        </service>
+
+        <service id="session.storage.test" class="%session.storage.test.class%">
+            <argument type="collection">
+                <argument key="session_id">test</argument>
+                <argument key="session_path">%kernel.root_dir%/cache</argument>
+            </argument>
         </service>
 
     </services>

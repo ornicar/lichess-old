@@ -13,6 +13,10 @@ class LichessExtension extends Extension
     {
         $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
         $loader->load('config.xml');
+
+        if('test' === $container->getParameter('kernel.environment')) {
+            $container->setAlias('session.storage', 'session.storage.test');
+        }
     }
 
     /**
