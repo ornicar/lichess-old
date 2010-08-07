@@ -183,4 +183,21 @@ class Translator
     {
         $this->locale = $locale;
     }
+
+    public function getBestLocale(array $languages)
+    {
+        $locales = array_keys($this->getLocales());
+        if (empty($languages)) {
+            $locale = $locales[0];
+        }
+        else {
+            foreach($languages as $index => $language) {
+                $languages[$index] = substr($language, 0, 2);
+            }
+            $languages = array_values(array_intersect($languages, $locales));
+            $locale = isset($languages[0]) ? $languages[0] : $locales[0];
+        }
+
+        return $locale;
+    }
 }
