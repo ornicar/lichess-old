@@ -46,8 +46,8 @@
     <services>
 
         <service id="templating.helper.translator" class="%templating.helper.translator.class%">
+            <tag name="templating.helper" alias="translator" />
             <argument type="service" id="lichess_translator" />
-            <annotation name="templating.helper" alias="translator" />
         </service>
 
         <service id="lichess_translator" class="%lichess.translator.class%" shared="true">
