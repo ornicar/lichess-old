@@ -22,4 +22,18 @@ class MainControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_game_not_started.lichess_player_black')->count());
     }
+
+    public function testAbout()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/about');
+        $this->assertEquals(1, $crawler->filter('h1:contains("About Lichess")')->count());
+    }
+
+    public function test404()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/thispagedoesnotexist');
+        $this->assertEquals(1, $crawler->filter('h1:contains("Page not found (404)")')->count());
+    }
 }

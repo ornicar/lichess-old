@@ -40,9 +40,7 @@ class LichessKernel extends Kernel
 
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        if(!$this->isDebug()) {
-            $container->setParameter('exception_listener.controller', 'LichessBundle:Main:notFound');
-        }
+        $container->setParameter('exception_listener.controller', 'LichessBundle:Main:notFound');
 
         $container->setParameter('validator.message_interpolator.class', 'Bundle\\LichessBundle\\Validator\\NoValidationXliffMessageInterpolator');
 
