@@ -1,75 +1,118 @@
 <?php
 
 namespace Bundle\LichessBundle\SessionStorage;
+use Symfony\Components\HttpFoundation\SessionStorage\SessionStorageInterface;
 
 /**
  * TestSessionStorage.
  */
 class TestSessionStorage implements SessionStorageInterface
 {
+    static protected $sessionIdRegenerated = false;
+    static protected $sessionStarted       = false;
+
+    protected $sessionId;
+    protected $data;
+    protected $options;
+
     /**
-     * @throws \InvalidArgumentException When "session_path" option is not provided
+     * Constructor.
+     *
+     * @param array $options  An associative array of options
      */
-    public function __construct($options = null)
+    public function __construct(array $options)
     {
-        if (!array_key_exists('session_path', $options)) {
-            throw new \InvalidArgumentException('You must provide the "session_path" option for a TestSessionStorage.');
+        if (!isset($options['session_path']))
+        {
+          throw new \InvalidArgumentException('The "session_path" option is mandatory for the TestSessionStorage class.');
         }
 
-        $options = array_merge(array(
-            'session_id' => null,
+        $this->options = array_merge(array(
+            'auto_shutdown' => true,
+            'session_id' => 'test'
         ), $options);
-
-        $this->options = $options;
     }
 
-    /**
-     * Starts the session.
-     */
     public function start()
     {
-        if (self::$sessionStarted) {
-            return;
-        }
+        $this->sessionId = $this->options['session_id'];
 
-        $this->options['session_id'] = null !== $this->options['session_id'] ? $this->options['session_id'] : (array_key_exists('session_id', $_SERVER) ? $_SERVER['session_id'] : null);
-
-        if ($this->sessionId)
+        // we read session data from temp file
+        $file = $this->options['session_path'].DIRECTORY_SEPARATOR.$this->sessionId.'.session';
+        $this->sessionData = file_exists($file) ? unserialize(file_get_contents($file)) : array();
+        
+        if ($this->options['auto_shutdown'])
         {
-            // we read session data from temp file
-            $file = $this->options['session_path'].DIRECTORY_SEPARATOR.$this->sessionId.'.session';
-            $this->sessionData = file_exists($file) ? unserialize(file_get_contents($file)) : array();
+          register_shutdown_function(array($this, 'sessionClose'));
         }
-        else
-        {
-            $this->sessionId   = md5(uniqid(rand(), true));
-            $this->sessionData = array();
-        }
-
-        // use this object as the session handler
-        session_set_save_handler(
-            array($this, 'sessionOpen'),
-            array($this, 'sessionClose'),
-            array($this, 'sessionRead'),
-            array($this, 'sessionWrite'),
-            array($this, 'sessionDestroy'),
-            array($this, 'sessionGC')
-        );
     }
 
     /**
-     * Opens a session.
+     * Reads data from this storage.
      *
-     * @param  string $path  (ignored)
-     * @param  string $name  (ignored)
+     * The preferred format for a key is directory style so naming conflicts can be avoided.
      *
-     * @return boolean true, if the session was opened, otherwise an exception is thrown
+     * @param string $key A unique key identifying your data
+     *
+     * @return mixed Data associated with the key
      */
-    public function sessionOpen($path = null, $name = null)
+    public function read($key, $default = null)
     {
-        return true;
+        return array_key_exists($key, $this->sessionData) ? $this->sessionData[$key] : $default;
     }
 
+    /**
+     * Removes data from this storage.
+     *
+     * The preferred format for a key is directory style so naming conflicts can be avoided.
+     *
+     * @param  string $key  A unique key identifying your data
+     *
+     * @return mixed Data associated with the key
+     */
+    public function remove($key)
+    {
+        $retval = null;
+
+        if (isset($this->sessionData[$key])) {
+            $retval = $this->sessionData[$key];
+            unset($this->sessionData[$key]);
+        }
+
+        return $retval;
+    }
+
+    /**
+     * Writes data to this storage.
+     *
+     * The preferred format for a key is directory style so naming conflicts can be avoided.
+     *
+     * @param string $key   A unique key identifying your data
+     * @param mixed  $data  Data associated with your key
+     *
+     */
+    public function write($key, $data)
+    {
+        $this->sessionData[$key] = $data;
+    }
+
+    /**
+     * Regenerates id that represents this storage.
+     *
+     * @param  boolean $destroy Destroy session when regenerating?
+     *
+     * @return boolean True if session regenerated, false if error
+     *
+     */
+    public function regenerate($destroy = false)
+    {
+        if($destroy) {
+            $this->sessionData = array();
+        }
+        
+        return true;
+    }
+    
     /**
      * Closes a session.
      *
@@ -77,142 +120,28 @@ class TestSessionStorage implements SessionStorageInterface
      */
     public function sessionClose()
     {
-        // do nothing
+        if ($this->sessionId)
+        {
+          $current_umask = umask(0000);
+          if (!is_dir($this->options['session_path']))
+          {
+            mkdir($this->options['session_path'], 0777, true);
+          }
+          umask($current_umask);
+          file_put_contents($this->options['session_path'].DIRECTORY_SEPARATOR.$this->sessionId.'.session', serialize($this->sessionData));
+          $this->sessionId   = '';
+          $this->sessionData = array();
+        }
         return true;
     }
-
+    
     /**
-     * Destroys a session.
+     * Gets session id for the current session storage instance.
      *
-     * @param  string $id  A session ID
-     *
-     * @return bool   true, if the session was destroyed, otherwise an exception is thrown
-     *
-     * @throws \RuntimeException If the session cannot be destroyed
+     * @return string Session id
      */
-    public function sessionDestroy($id)
+    public function getSessionId()
     {
-        // get table/column
-        $db_table  = $this->options['db_table'];
-        $db_id_col = $this->options['db_id_col'];
-
-        // delete the record associated with this id
-        $sql = 'DELETE FROM '.$db_table.' WHERE '.$db_id_col.'= ?';
-
-        try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(1, $id, \PDO::PARAM_STR);
-            $stmt->execute();
-        } catch (\PDOException $e) {
-            throw new \RuntimeException(sprintf('PDOException was thrown when trying to manipulate session data. Message: %s', $e->getMessage()));
-        }
-
-        return true;
-    }
-
-    /**
-     * Cleans up old sessions.
-     *
-     * @param  int $lifetime  The lifetime of a session
-     *
-     * @return bool true, if old sessions have been cleaned, otherwise an exception is thrown
-     *
-     * @throws \RuntimeException If any old sessions cannot be cleaned
-     */
-    public function sessionGC($lifetime)
-    {
-        // get table/column
-        $db_table    = $this->options['db_table'];
-        $db_time_col = $this->options['db_time_col'];
-
-        // delete the record associated with this id
-        $sql = 'DELETE FROM '.$db_table.' WHERE '.$db_time_col.' < '.(time() - $lifetime);
-
-        try {
-            $this->db->query($sql);
-        } catch (\PDOException $e) {
-            throw new \RuntimeException(sprintf('PDOException was thrown when trying to manipulate session data. Message: %s', $e->getMessage()));
-        }
-
-        return true;
-    }
-
-    /**
-     * Reads a session.
-     *
-     * @param  string $id  A session ID
-     *
-     * @return string      The session data if the session was read or created, otherwise an exception is thrown
-     *
-     * @throws \RuntimeException If the session cannot be read
-     */
-    public function sessionRead($id)
-    {
-        // get table/columns
-        $db_table    = $this->options['db_table'];
-        $db_data_col = $this->options['db_data_col'];
-        $db_id_col   = $this->options['db_id_col'];
-        $db_time_col = $this->options['db_time_col'];
-
-        try {
-            $sql = 'SELECT '.$db_data_col.' FROM '.$db_table.' WHERE '.$db_id_col.'=?';
-
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(1, $id, \PDO::PARAM_STR, 255);
-
-            $stmt->execute();
-            // it is recommended to use fetchAll so that PDO can close the DB cursor
-            // we anyway expect either no rows, or one row with one column. fetchColumn, seems to be buggy #4777
-            $sessionRows = $stmt->fetchAll(\PDO::FETCH_NUM);
-
-            if (count($sessionRows) == 1) {
-                return $sessionRows[0][0];
-            } else {
-                // session does not exist, create it
-                $sql = 'INSERT INTO '.$db_table.'('.$db_id_col.', '.$db_data_col.', '.$db_time_col.') VALUES (?, ?, ?)';
-
-                $stmt = $this->db->prepare($sql);
-                $stmt->bindParam(1, $id, \PDO::PARAM_STR);
-                $stmt->bindValue(2, '', \PDO::PARAM_STR);
-                $stmt->bindValue(3, time(), \PDO::PARAM_INT);
-                $stmt->execute();
-
-                return '';
-            }
-        } catch (\PDOException $e) {
-            throw new \RuntimeException(sprintf('PDOException was thrown when trying to manipulate session data. Message: %s', $e->getMessage()));
-        }
-    }
-
-    /**
-     * Writes session data.
-     *
-     * @param  string $id    A session ID
-     * @param  string $data  A serialized chunk of session data
-     *
-     * @return bool true, if the session was written, otherwise an exception is thrown
-     *
-     * @throws \RuntimeException If the session data cannot be written
-     */
-    public function sessionWrite($id, $data)
-    {
-        // get table/column
-        $db_table    = $this->options['db_table'];
-        $db_data_col = $this->options['db_data_col'];
-        $db_id_col   = $this->options['db_id_col'];
-        $db_time_col = $this->options['db_time_col'];
-
-        $sql = 'UPDATE '.$db_table.' SET '.$db_data_col.' = ?, '.$db_time_col.' = '.time().' WHERE '.$db_id_col.'= ?';
-
-        try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(1, $data, \PDO::PARAM_STR);
-            $stmt->bindParam(2, $id, \PDO::PARAM_STR);
-            $stmt->execute();
-        } catch (\PDOException $e) {
-            throw new \RuntimeException(sprintf('PDOException was thrown when trying to manipulate session data. Message: %s', $e->getMessage()));
-        }
-
-        return true;
+      return $this->sessionId;
     }
 }
