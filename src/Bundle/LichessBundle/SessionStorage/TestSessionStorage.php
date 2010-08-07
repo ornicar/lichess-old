@@ -11,8 +11,7 @@ class TestSessionStorage implements SessionStorageInterface
     static protected $sessionIdRegenerated = false;
     static protected $sessionStarted       = false;
 
-    protected $sessionId;
-    protected $data;
+    protected $sessionData = array();
     protected $options;
 
     /**
@@ -24,27 +23,123 @@ class TestSessionStorage implements SessionStorageInterface
     {
         if (!isset($options['session_path']))
         {
-          throw new \InvalidArgumentException('The "session_path" option is mandatory for the TestSessionStorage class.');
+            throw new \InvalidArgumentException('The "session_path" option is mandatory for the TestSessionStorage class.');
         }
 
         $this->options = array_merge(array(
-            'auto_shutdown' => true,
             'session_id' => 'test'
         ), $options);
     }
 
     public function start()
     {
-        $this->sessionId = $this->options['session_id'];
-
-        // we read session data from temp file
-        $file = $this->options['session_path'].DIRECTORY_SEPARATOR.$this->sessionId.'.session';
-        $this->sessionData = file_exists($file) ? unserialize(file_get_contents($file)) : array();
-        
-        if ($this->options['auto_shutdown'])
-        {
-          register_shutdown_function(array($this, 'sessionClose'));
+        if (self::$sessionStarted) {
+            return;
         }
+
+        // use this object as the session handler
+        session_set_save_handler(
+            array($this, 'sessionOpen'),
+            array($this, 'sessionClose'),
+            array($this, 'sessionRead'),
+            array($this, 'sessionWrite'),
+            array($this, 'sessionDestroy'),
+            array($this, 'sessionGC')
+        );
+
+        self::$sessionStarted = true;
+    }
+
+    /**
+     * Opens a session.
+     *
+     * @param  string $path  (ignored)
+     * @param  string $name  (ignored)
+     *
+     * @return boolean true, if the session was opened, otherwise an exception is thrown
+     */
+    public function sessionOpen($path = null, $name = null)
+    {
+        return true;
+    }
+
+    /**
+     * Closes a session.
+     *
+     * @return boolean true, if the session was closed, otherwise false
+     */
+    public function sessionClose()
+    {
+        // do nothing
+        return true;
+    }
+
+    /**
+     * Destroys a session.
+     *
+     * @param  string $id  A session ID
+     *
+     * @return bool   true, if the session was destroyed, otherwise an exception is thrown
+     *
+     * @throws \RuntimeException If the session cannot be destroyed
+     */
+    public function sessionDestroy($id)
+    {
+        $this->sessionWrite($id, null);
+        return true;
+    }
+
+    /**
+     * Cleans up old sessions.
+     *
+     * @param  int $lifetime  The lifetime of a session
+     *
+     * @return bool true, if old sessions have been cleaned, otherwise an exception is thrown
+     *
+     * @throws \RuntimeException If any old sessions cannot be cleaned
+     */
+    public function sessionGC($lifetime)
+    {
+        return true;
+    }
+
+    /**
+     * Reads a session.
+     *
+     * @param  string $id  A session ID
+     *
+     * @return string      The session data if the session was read or created, otherwise an exception is thrown
+     *
+     * @throws \RuntimeException If the session cannot be read
+     */
+    public function sessionRead($id)
+    {
+        // we read session data from temp file
+        $file = $this->options['session_path'].DIRECTORY_SEPARATOR.$id.'.session';
+        $this->sessionData = file_exists($file) ? unserialize(file_get_contents($file)) : array();
+    }
+
+    /**
+     * Writes session data.
+     *
+     * @param  string $id    A session ID
+     * @param  string $data  A serialized chunk of session data
+     *
+     * @return bool true, if the session was written, otherwise an exception is thrown
+     *
+     * @throws \RuntimeException If the session data cannot be written
+     */
+    public function sessionWrite($id, $data)
+    {
+        var_dump($data);
+        $current_umask = umask(0000);
+        if (!is_dir($this->options['session_path']))
+        {
+            mkdir($this->options['session_path'], 0777, true);
+        }
+        umask($current_umask);
+        file_put_contents($this->options['session_path'].DIRECTORY_SEPARATOR.$id.'.session', serialize($this->sessionData));
+        return true;
     }
 
     /**
@@ -109,39 +204,7 @@ class TestSessionStorage implements SessionStorageInterface
         if($destroy) {
             $this->sessionData = array();
         }
-        
+
         return true;
-    }
-    
-    /**
-     * Closes a session.
-     *
-     * @return boolean true, if the session was closed, otherwise false
-     */
-    public function sessionClose()
-    {
-        if ($this->sessionId)
-        {
-          $current_umask = umask(0000);
-          if (!is_dir($this->options['session_path']))
-          {
-            mkdir($this->options['session_path'], 0777, true);
-          }
-          umask($current_umask);
-          file_put_contents($this->options['session_path'].DIRECTORY_SEPARATOR.$this->sessionId.'.session', serialize($this->sessionData));
-          $this->sessionId   = '';
-          $this->sessionData = array();
-        }
-        return true;
-    }
-    
-    /**
-     * Gets session id for the current session storage instance.
-     *
-     * @return string Session id
-     */
-    public function getSessionId()
-    {
-      return $this->sessionId;
     }
 }
