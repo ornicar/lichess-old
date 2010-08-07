@@ -18,7 +18,7 @@ class MainControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/');
-        $client->click($crawler->selectLink('Change side')->link());
+        $crawler = $client->click($crawler->filter('.lichess_exchange')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_game_not_started.lichess_player_black')->count());
     }
