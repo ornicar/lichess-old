@@ -27,6 +27,7 @@ class MainControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/about');
+        $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('h1:contains("About Lichess")')->count());
     }
 
@@ -34,6 +35,7 @@ class MainControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/thispagedoesnotexist');
+        $this->assertTrue($client->getResponse()->isNotFound());
         $this->assertEquals(1, $crawler->filter('h1:contains("Page not found (404)")')->count());
     }
 }
