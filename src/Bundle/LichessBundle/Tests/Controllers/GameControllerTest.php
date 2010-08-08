@@ -1,0 +1,129 @@
+<?php
+
+namespace Bundle\LichessBundle\Tests\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class GameControllerTest extends WebTestCase
+{
+    public function testInviteAi()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/');
+        $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Opponent: Crafty A.I.")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+    }
+
+    public function testInviteAiAsBlack()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/black');
+        $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Opponent: Crafty A.I.")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
+    }
+
+    public function testInviteFriend()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/');
+        $crawler = $client->click($crawler->selectLink('Play with a friend')->link());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
+        $this->assertEquals(1, $crawler->filter($selector)->count());
+
+        $inviteUrl = $crawler->filter($selector)->attr('value');
+        $this->assertRegexp('#^http://.*/[\w\d]{6}$#', $inviteUrl);
+
+        $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
+        $this->assertRegexp('#^/sync/[\w\d]{6}/white/0/[\w\d]{10}$#', $syncUrl);
+
+        $friend = $this->createClient();
+        $friend->request('GET', $inviteUrl);
+        $crawler = $friend->followRedirect();
+        $this->assertTrue($friend->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+
+        $client->reload();
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+    }
+
+    public function testInviteFriendAsBlack()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/black');
+        $crawler = $client->click($crawler->selectLink('Play with a friend')->link());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
+        $this->assertEquals(1, $crawler->filter($selector)->count());
+
+        $inviteUrl = $crawler->filter($selector)->attr('value');
+        $this->assertRegexp('#^http://.*/[\w\d]{6}$#', $inviteUrl);
+
+        $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
+        $this->assertRegexp('#^/sync/[\w\d]{6}/black/0/[\w\d]{10}$#', $syncUrl);
+
+        $friend = $this->createClient();
+        $friend->request('GET', $inviteUrl);
+        $crawler = $friend->followRedirect();
+        $this->assertTrue($friend->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
+
+        $client->reload();
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
+    }
+
+    public function testInviteAnybody()
+    {
+        $client = $this->createClient();
+        $connectionFile = $client->getContainer()->getParameter('lichess.anybody.connection_file');
+        @unlink($connectionFile);
+        $crawler = $client->request('GET', '/');
+        $crawler = $client->click($crawler->selectLink('Play with anybody')->link());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard.wait_anybody';
+        $this->assertEquals(1, $crawler->filter($selector)->count());
+
+        $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
+        $this->assertRegexp('#^/sync/[\w\d]{6}/white/0/[\w\d]{10}$#', $syncUrl);
+
+        $friend = $this->createClient();
+        $crawler = $friend->request('GET', '/');
+        $crawler = $friend->click($crawler->selectLink('Play with anybody')->link());
+        $crawler = $friend->followRedirect();
+        $crawler = $friend->followRedirect();
+        $this->assertTrue($friend->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+
+        $client->reload();
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+    }
+}
