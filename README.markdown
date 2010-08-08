@@ -61,3 +61,12 @@ You need [PHPUnit 3.5](http://github.com/sebastianbergmann/phpunit) installed.
 Run all unit and functional tests
 
     phpunit -c lichess
+
+To get functional tests passing, you need to enable APC in CLI.
+
+    # /etc/php5/cli/conf.d/apc.ini
+    extension=apc.so
+    apc.enabled=1  
+    apc.enable_cli=1
+    apc.shm_segments=1  
+    apc.shm_size=64
