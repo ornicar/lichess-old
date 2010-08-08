@@ -16,6 +16,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Opponent: Crafty A.I.")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+        $this->assertEquals(0, $crawler->filter('div.lichess_chat')->count());
     }
 
     public function testInviteAiAsBlack()
@@ -28,6 +29,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Opponent: Crafty A.I.")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
+        $this->assertEquals(0, $crawler->filter('div.lichess_chat')->count());
     }
 
     public function testInviteFriend()
@@ -53,6 +55,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
 
         $client->reload();
         $crawler = $client->followRedirect();
@@ -60,6 +63,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
     }
 
     public function testInviteFriendAsBlack()
@@ -85,6 +89,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
 
         $client->reload();
         $crawler = $client->followRedirect();
@@ -92,6 +97,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
     }
 
     public function testInviteAnybody()
@@ -118,6 +124,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
 
         $client->reload();
         $crawler = $client->followRedirect();
@@ -125,5 +132,24 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
+    }
+
+    public function testWatchGame()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/');
+        $client->click($crawler->selectLink('Play with a friend')->link());
+        $crawler = $client->followRedirect();
+        $inviteUrl = $crawler->filter('div.lichess_game_not_started.waiting_opponent div.lichess_overboard input')->attr('value');
+        $friend = $this->createClient();
+        $friend->request('GET', $inviteUrl);
+        $crawler = $friend->followRedirect();
+        
+        $spectator = $this->createClient();
+        $crawler = $spectator->request('GET', $inviteUrl);
+        $this->assertTrue($spectator->getResponse()->isSuccessful());
+        $this->assertRegexp('#You are viewing this game as a spectator.#', $spectator->getResponse()->getContent());
+        $this->assertEquals(0, $crawler->filter('div.lichess_chat')->count());
     }
 }

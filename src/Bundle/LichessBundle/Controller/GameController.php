@@ -11,8 +11,8 @@ use Symfony\Components\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
-    /**
-     * Join a game and start it
+   /**
+     * Join a game and start it if new, or see it as a spectator
      */
     public function showAction($hash)
     {
