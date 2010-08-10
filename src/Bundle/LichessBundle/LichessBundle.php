@@ -39,9 +39,10 @@ class LichessBundle extends BaseBundle
         ContainerBuilder::registerExtension(new LichessExtension());
     }
 
-    public function boot(ContainerInterface $container)
+    public function boot()
     {
-        parent::boot($container);
+        parent::boot();
+        $container = $this->container;
         $container->getEventDispatcherService()->connect('core.request', function(Event $event) use ($container) {
             if(HttpKernelInterface::MASTER_REQUEST === $event['request_type']) {
                 $translator = $container->getLichessTranslatorService();
