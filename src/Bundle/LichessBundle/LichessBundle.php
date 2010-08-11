@@ -4,10 +4,6 @@ namespace Bundle\LichessBundle;
 
 use Symfony\Framework\Bundle\Bundle as BaseBundle;
 
-use Bundle\LichessBundle\DependencyInjection\LichessExtension;
-use Symfony\Components\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Components\DependencyInjection\ContainerBuilder;
-use Symfony\Components\DependencyInjection\ContainerInterface;
 use Symfony\Components\HttpKernel\HttpKernelInterface; 
 use Symfony\Components\EventDispatcher\Event;
 
@@ -34,11 +30,6 @@ require_once __DIR__.'/I18N/Translator.php';
 
 class LichessBundle extends BaseBundle
 {
-    public function buildContainer(ParameterBagInterface $parameterBag)
-    {
-        ContainerBuilder::registerExtension(new LichessExtension());
-    }
-
     public function boot()
     {
         parent::boot();
