@@ -31,7 +31,7 @@ class MainController extends Controller
 
     public function notFoundAction()
     {
-        if($this->getRequest()->isXmlHttpRequest()) {
+        if($this['request']->isXmlHttpRequest()) {
             $response = $this->createResponse('You sould not do that.');
         }
         else {

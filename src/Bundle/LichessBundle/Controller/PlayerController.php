@@ -109,10 +109,10 @@ class PlayerController extends Controller
         }
         $opponent = $player->getOpponent();
         $game = $player->getGame();
-        $move = $this->getRequest()->get('from').' '.$this->getRequest()->get('to');
+        $move = $this['request']->get('from').' '.$this['request']->get('to');
         $stack = new Stack();
         $manipulator = new Manipulator($game, $stack);
-        $opponentPossibleMoves = $manipulator->play($move, $this->getRequest()->get('options', array()));
+        $opponentPossibleMoves = $manipulator->play($move, $this['request']->get('options', array()));
         $player->getStack()->addEvents($stack->getEvents());
         $player->getStack()->addEvent(array('type' => 'possible_moves', 'possible_moves' => null));
         $response = $this->renderJson($this->getPlayerSyncData($player, $version));
@@ -167,10 +167,10 @@ class PlayerController extends Controller
      */
     public function sayAction($hash, $version)
     {
-        if('POST' !== $this->getRequest()->getMethod()) {
+        if('POST' !== $this['request']->getMethod()) {
             throw new NotFoundHttpException('POST method required');
         }
-        $message = trim($this->getRequest()->get('message'));
+        $message = trim($this['request']->get('message'));
         if('' === $message) {
             throw new NotFoundHttpException('No message');
         }
@@ -229,7 +229,7 @@ class PlayerController extends Controller
     public function aiLevelAction($hash)
     {
         $player = $this->findPlayer($hash);
-        $level = min(8, max(1, (int)$this->getRequest()->get('level')));
+        $level = min(8, max(1, (int)$this['request']->get('level')));
         $player->getOpponent()->setAiLevel($level);
         $this->getPersistence()->save($player->getGame());
         return $this->createResponse('done');
