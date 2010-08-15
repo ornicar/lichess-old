@@ -39,10 +39,10 @@ class TranslationController extends Controller
         $form->add(new TextField('author'));
         $form->add(new TextField('comment'));
 
-        if ($this->getRequest()->getMethod() == 'POST')
+        if ($this['request']->getMethod() == 'POST')
         {
             try {
-                $form->bind($this->getRequest()->request->get('translation'));
+                $form->bind($this['request']->request->get('translation'));
                 $fileName = sprintf("%s_%s-%d", $translation->getCode(), date("Y-m-d_h-i-s"), time());
                 $fileContent = sprintf("#%s\n#%s\n#%s\n%s\n", $translation->getName(), $translation->comment, $translation->author, $translation->getYamlMessages());
                 $file = sprintf('%s/translation/%s', $this->container->getParameter('kernel.root_dir'), $fileName);
