@@ -52,6 +52,8 @@
             <li><strong>Ukrainian</strong> alterionisto</li>
             <li><strong>Portuguese</strong> Arthur Braz</li>
             <li><strong>polski</strong> M3n747</li>
+            <li><strong>Dutch</strong> [?]</li>
+            <li><strong>Vietnamese</strong> Xiblack</li>
         </ul>
     </div>
 </div>

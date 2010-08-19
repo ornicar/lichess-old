@@ -37,6 +37,8 @@
             <parameter key="uk">українськ</parameter>
             <parameter key="pt">Portuguê</parameter>
             <parameter key="pl">polski</parameter>
+            <parameter key="nl">Nederlands, Vlaam</parameter>
+            <parameter key="vi">Tiếng Việt</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
