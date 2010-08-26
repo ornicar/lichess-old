@@ -39,10 +39,10 @@ class LichessBundle extends BaseBundle
                 $translator = $container->getLichessTranslatorService();
                 $session = $container->getSessionService();
                 $session->start();
-                if(!$session->getAttribute('lichess.flag')) {
+                if(!$session->get('lichess.flag')) {
                     $bestLocale = $translator->getBestLocale($container->getRequestService()->getLanguages());
                     $session->setLocale($bestLocale);
-                    $session->setAttribute('lichess.flag', true);
+                    $session->set('lichess.flag', true);
                 }
                 $translator->setLocale($session->getLocale());
             }
