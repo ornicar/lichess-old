@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Entities;
-use Symfony\Components\Yaml\Yaml;
+use Symfony\Component\Yaml\Yaml;
 
 class Translation
 {

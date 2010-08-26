@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Validator;
 
-use Symfony\Components\Validator\MessageInterpolator\XliffMessageInterpolator; 
+use Symfony\Component\Validator\MessageInterpolator\XliffMessageInterpolator; 
 
 class NoValidationXliffMessageInterpolator extends XliffMessageInterpolator 
 {

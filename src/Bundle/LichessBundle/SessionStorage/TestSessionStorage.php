@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\SessionStorage;
-use Symfony\Components\HttpFoundation\SessionStorage\SessionStorageInterface;
+use Symfony\Component\HttpFoundation\SessionStorage\SessionStorageInterface;
 
 /**
  * TestSessionStorage.

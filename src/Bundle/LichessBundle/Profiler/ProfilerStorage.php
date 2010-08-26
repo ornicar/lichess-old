@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Profiler;
-use Symfony\Components\HttpKernel\Profiler\ProfilerStorage as Base;
+use Symfony\Component\HttpKernel\Profiler\ProfilerStorage as Base;
 
 class ProfilerStorage extends Base
 {
