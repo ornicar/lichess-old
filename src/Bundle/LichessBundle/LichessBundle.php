@@ -4,8 +4,8 @@ namespace Bundle\LichessBundle;
 
 use Symfony\Framework\Bundle\Bundle as BaseBundle;
 
-use Symfony\Components\HttpKernel\HttpKernelInterface; 
-use Symfony\Components\EventDispatcher\Event;
+use Symfony\Component\HttpKernel\HttpKernelInterface; 
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Reduce usage of class loader for performance reasons

@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Helper;
 
-use Symfony\Components\Templating\Helper\HelperInterface;
+use Symfony\Component\Templating\Helper\HelperInterface;
 use Bundle\LichessBundle\I18N\Translator;
 
 class TranslatorHelper implements HelperInterface

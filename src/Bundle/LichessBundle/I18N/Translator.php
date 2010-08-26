@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\I18N;
-use Symfony\Components\Yaml\Yaml;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * A translator used for translating text.

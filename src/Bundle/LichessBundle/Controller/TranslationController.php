@@ -3,12 +3,12 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller;
-use Symfony\Components\Form\Form;
-use Symfony\Components\Form\ChoiceField;
-use Symfony\Components\Form\TextareaField;
-use Symfony\Components\Form\TextField;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\ChoiceField;
+use Symfony\Component\Form\TextareaField;
+use Symfony\Component\Form\TextField;
 use Bundle\LichessBundle\Entities\Translation;
-use Symfony\Components\Finder\Finder;
+use Symfony\Component\Finder\Finder;
 
 class TranslationController extends Controller
 {
