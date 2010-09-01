@@ -12,3 +12,4 @@
 /lichess/deploy.sh
 tags
 /web/.htaccess
+/web/google*
