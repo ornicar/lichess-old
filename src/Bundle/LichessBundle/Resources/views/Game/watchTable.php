@@ -2,7 +2,7 @@
 <?php $opponent = $player->getOpponent() ?>
 <div class="lichess_table <?php $player->getGame()->getIsFinished() && print 'finished ' ?>spectator">
     <div class="lichess_opponent">
-        <?php $view['actions']->output('LichessBundle:Player:opponent', array('path' => array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => ''))) ?>
+        <?php $view['actions']->output('LichessBundle:Player:opponent', array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => '')) ?>
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
@@ -29,5 +29,5 @@
          <?php endif; ?>
     </div>
     <div class="lichess_separator"></div>
-        <?php $view['actions']->output('LichessBundle:Player:opponent', array('path' => array('hash' => $player->getGame()->getHash(), 'color' => $player->getOpponent()->getColor(), 'playerFullHash' => ''))) ?>
+        <?php $view['actions']->output('LichessBundle:Player:opponent', array('hash' => $player->getGame()->getHash(), 'color' => $player->getOpponent()->getColor(), 'playerFullHash' => '')) ?>
 </div>

@@ -12,7 +12,7 @@
             </select>    
         <?php else: ?>
             <div class="opponent_status">
-              <?php $view['actions']->output('LichessBundle:Player:opponent', array('path' => array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash()))) ?>
+              <?php $view['actions']->output('LichessBundle:Player:opponent', array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash())) ?>
             </div>
         <?php endif; ?>
     </div>
