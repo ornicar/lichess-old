@@ -7,7 +7,7 @@
             <span><?php echo $view['translator']->_('Opponent: %ai_name% level %ai_level%', array('%ai_name%' => 'Crafty A.I.', '%ai_level%' => $opponent->getAiLevel())) ?></span>
         <?php else: ?>
             <div class="opponent_status">
-              <?php $view['actions']->output('LichessBundle:Player:opponent', array('path' => array('hash' => $game->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash()))) ?>
+              <?php $view['actions']->output('LichessBundle:Player:opponent', array('hash' => $game->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash())) ?>
             </div>
         <?php endif; ?>
     </div>
