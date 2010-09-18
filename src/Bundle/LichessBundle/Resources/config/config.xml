@@ -41,7 +41,7 @@
             <parameter key="vi">Tiếng Việt</parameter>
             <parameter key="sv">svensk</parameter>
             <parameter key="cs">česky, čeština</parameter>
-            <parameter key="sv">slovenčin</parameter>
+            <parameter key="sk">slovenčin</parameter>
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
