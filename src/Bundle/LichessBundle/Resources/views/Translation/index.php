@@ -56,6 +56,7 @@
             <li><strong>Vietnamese</strong> Xiblack</li>
             <li><strong>Swedish</strong> nizleib</li>
             <li><strong>Czech</strong> Martin</li>
+            <li><strong>Slovak</strong> taiga</li>
         </ul>
     </div>
 </div>
