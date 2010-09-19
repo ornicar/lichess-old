@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle;
 
-use Symfony\Framework\Bundle\Bundle as BaseBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 
 use Symfony\Component\HttpKernel\HttpKernelInterface; 
 use Symfony\Component\EventDispatcher\Event;
