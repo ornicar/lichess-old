@@ -38,7 +38,6 @@ class LichessBundle extends BaseBundle
             if(HttpKernelInterface::MASTER_REQUEST === $event['request_type']) {
                 $translator = $container->getLichessTranslatorService();
                 $session = $container->getSessionService();
-                $session->start();
                 if(!$session->get('lichess.flag')) {
                     $languages = $container->getRequestService()->getLanguages() ?: array();
                     $bestLocale = $translator->getBestLocale($languages);
