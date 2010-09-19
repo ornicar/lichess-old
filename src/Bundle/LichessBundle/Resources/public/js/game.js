@@ -339,7 +339,7 @@
         });
 
         /*
-         * Code for touch screends like android or iphone
+         * Code for touch screens like android or iphone
          */
 
         self.$board.find("div.lichess_piece." + self.options.player.color).each(function()
