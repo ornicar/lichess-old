@@ -32,7 +32,7 @@ class MainController extends Controller
     public function notFoundAction()
     {
         if($this['request']->isXmlHttpRequest()) {
-            $response = $this->createResponse('You sould not do that.');
+            $response = $this->createResponse('You should not do that.');
         }
         else {
             $response = $this->render('LichessBundle:Main:notFound');

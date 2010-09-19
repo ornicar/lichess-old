@@ -109,10 +109,11 @@ class PlayerController extends Controller
         }
         $opponent = $player->getOpponent();
         $game = $player->getGame();
-        $move = $this['request']->get('from').' '.$this['request']->get('to');
+        $postData = $this['request']->request;
+        $move = $postData->get('from').' '.$postData->get('to');
         $stack = new Stack();
         $manipulator = new Manipulator($game, $stack);
-        $opponentPossibleMoves = $manipulator->play($move, $this['request']->get('options', array()));
+        $opponentPossibleMoves = $manipulator->play($move, $postData->get('options', array()));
         $player->getStack()->addEvents($stack->getEvents());
         $player->getStack()->addEvent(array('type' => 'possible_moves', 'possible_moves' => null));
         $response = $this->renderJson($this->getPlayerSyncData($player, $version));
