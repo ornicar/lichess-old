@@ -4,4 +4,4 @@ imports:
 web.config:
     toolbar: false
 
-kernel.test: ~
+web.test: ~

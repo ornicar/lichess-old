@@ -1,16 +1,13 @@
 parameters:
     kernel.include_core_classes: false
 
-kernel.config:
-    charset:             UTF-8
-    error_handler_level: null
-
-kernel.session:
+web.session:
     lifetime: 2592000 # one month 
 
 web.config:
-    validation:
-        enabled: true
+    charset:             UTF-8
+    error_handler_level: null
+    validation: { enabled: false }
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
 
 web.templating:
