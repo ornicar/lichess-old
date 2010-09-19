@@ -79,6 +79,11 @@
                 if(!self.options.game.finished || !self.options.player.spectator) {
                     $.isFunction(callback) && callback();
                 }
+            },
+            error: function()
+            {
+                // client is corrupted, resynchronize with server
+                location.reload();
             }
         });
     },
