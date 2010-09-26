@@ -1,6 +1,7 @@
 <?php $view->extend('LichessBundle::layout') ?>
 <?php $view['slots']->set('assets_pack', 'analyse') ?>
 <?php $view['slots']->set('title', 'Lichess - '.$view['translator']->_('Replay and analyse')) ?>
+<?php $view['slots']->set('title_suffix', ' #'.$game->getHash()) ?>
 
 <textarea id="pgnText"><?php echo $pgn ?></textarea>
 <div class="analyse clearfix">

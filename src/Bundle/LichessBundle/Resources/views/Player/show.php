@@ -1,5 +1,6 @@
 <?php $view->extend('LichessBundle::layout') ?>
 <?php $view['slots']->set('robots', 'noindex, nofollow') ?>
+<?php $view['slots']->set('title_suffix', ' #'.$player->getHash()) ?>
 
 <div class="lichess_game clearfix lichess_player_<?php echo $player->getColor() ?> not_spectator">
     <div class="lichess_board_wrap">
