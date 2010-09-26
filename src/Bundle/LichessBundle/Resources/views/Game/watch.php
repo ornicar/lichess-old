@@ -1,4 +1,5 @@
 <?php $view->extend('LichessBundle::layout') ?>
+<?php $view['slots']->set('title_suffix', ' #'.$game->getHash()) ?>
 
 <div class="lichess_game clearfix lichess_player_<?php echo $player->getColor() ?>">
     <div class="lichess_board_wrap">

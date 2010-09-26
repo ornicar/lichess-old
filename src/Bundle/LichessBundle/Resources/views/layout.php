@@ -26,7 +26,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="Content-Language" content="<?php echo $view['session']->getLocale() ?>">
-        <title><?php $view['slots']->output('title', 'Lichess') ?> | free online Chess game</title>
+        <title><?php $view['slots']->output('title', 'Lichess') ?> | free online Chess game<?php $view['slots']->output('title_suffix', '') ?></title>
         <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and JavaScript with jQuery 1.4" name="description">
         <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
         <meta content="<?php echo $view['slots']->get('robots', 'index, follow') ?>" name="robots">
