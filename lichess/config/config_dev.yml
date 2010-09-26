@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
 
-web.config:
+webprofiler.config:
     toolbar: true
+    intercept_redirects: false

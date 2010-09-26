@@ -1,13 +1,11 @@
-web.session:
-    lifetime: 2592000 # one month 
-
-web.config:
+app.config:
     charset:             UTF-8
     error_handler_level: null
     validation: { enabled: false }
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
-
-web.templating:
-    escaping: false
+    user:
+        lifetime: 2592000 # one month 
+    templating:
+        escaping: false
 
 lichess.config: ~

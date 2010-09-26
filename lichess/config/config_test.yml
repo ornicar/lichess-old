@@ -1,7 +1,8 @@
 imports:
     - { resource: config_dev.yml }
 
-web.config:
+webprofiler.config:
     toolbar: false
 
-web.test: ~
+app.config:
+    test: ~

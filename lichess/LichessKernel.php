@@ -22,6 +22,10 @@ class LichessKernel extends Kernel
             new Bundle\LichessBundle\LichessBundle()
         );
 
+        if ($this->isDebug()) {
+            $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
+        }
+
         return $bundles;
     }
 
@@ -29,7 +33,7 @@ class LichessKernel extends Kernel
     {
         return array(
             'Bundle'             => __DIR__.'/../src/Bundle',
-            'Symfony\\Framework' => __DIR__.'/../src/vendor/Symfony/src/Symfony/Framework'
+            'Symfony\\Bundle'    => __DIR__.'/../src/vendor/Symfony/src/Symfony/Bundle',
         );
     }
 
@@ -39,9 +43,9 @@ class LichessKernel extends Kernel
 
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        $container->setParameter('exception_listener.controller', 'LichessBundle:Main:notFound');
-
-        $container->setParameter('validator.message_interpolator.class', 'Bundle\\LichessBundle\\Validator\\NoValidationXliffMessageInterpolator');
+        if (!$this->isDebug()) {
+            $container->setParameter('exception_listener.controller', 'LichessBundle:Main:notFound');
+        }
 
         return $container;
     }
