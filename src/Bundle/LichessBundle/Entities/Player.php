@@ -67,19 +67,19 @@ class Player
      * @var Stack
      */
     protected $stack = null;
-    
+
     public function __construct($color)
     {
         $this->color = $color;
         $this->hash = '';
         $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
         for ( $i = 0; $i < 4; $i++ ) {
-          $this->hash .= $chars[mt_rand( 0, 36 )];
+            $this->hash .= $chars[mt_rand( 0, 36 )];
         }
         $this->stack = new Stack();
         $this->stack->addEvent(array('type' => 'start'));
     }
-    
+
     /**
      * Get stack
      * @return Stack
@@ -90,9 +90,9 @@ class Player
             $this->stack = new Stack();
         }
 
-      return $this->stack;
+        return $this->stack;
     }
-    
+
     /**
      * Set stack
      * @param  Stack
@@ -100,15 +100,15 @@ class Player
      */
     public function setStack($stack)
     {
-      $this->stack = $stack;
+        $this->stack = $stack;
     }
-    
+
     /**
      * @return string
      */
     public function getHash()
     {
-      return $this->hash;
+        return $this->hash;
     }
 
     /**
@@ -116,7 +116,7 @@ class Player
      */
     public function getFullHash()
     {
-      return $this->game->getHash().$this->hash;
+        return $this->game->getHash().$this->hash;
     }
 
     /**
