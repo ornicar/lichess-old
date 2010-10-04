@@ -33,7 +33,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <?php echo $view['stylesheets'] ?>
     </head>
-    <body>
+    <body data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>" data-sound-file="<?php echo $view['assets']->getUrl('bundle/lichess/sound/alert.ogg') ?>">
         <div class="content">
             <div class="header">
                 <h1>

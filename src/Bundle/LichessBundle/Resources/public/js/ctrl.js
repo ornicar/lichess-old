@@ -30,17 +30,23 @@ $(function()
         var $toggler = $(this);
         $.post($toggler.attr('href'), {}, function(data) {
             $toggler.attr('class', 'sound_state_'+data);
-            lichess_data.sound.enabled = 'on' == data;
-            playSound();
+            $('body').attr('data-sound-enabled', data);
+            $.playSound();
         });
         return false;
     });
     
-    function playSound() {
-        if (lichess_data.sound.enabled) {
-            $('body').append('<audio id="sound" src="'+lichess_data.sound.file+'" autoplay></audio>');
+    $.playSound = function(callback) {
+        if ('on' == $('body').attr('data-sound-enabled')) {
+            $('body').append('<audio id="lichess_sound" src="'+$('body').attr('data-sound-file')+'" autoplay="autoplay"></audio>');
+            setTimeout(function() {
+                $('#lichess_sound').remove();
+                $.isFunction(callback || null) && callback();
+            }, 1000);
         }
-        setTimeout(function() { $('#sound').remove(); }, 1500);
+        else {
+            $.isFunction(callback || null) && callback();
+        }
     }
 
     //uservoice
