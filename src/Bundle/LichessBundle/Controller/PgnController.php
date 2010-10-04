@@ -14,7 +14,7 @@ class PgnController extends Controller
         $dumper = new PgnDumper();
         $pgn = $dumper->dumpGame($game);
 
-        return $this->render('LichessBundle:Pgn:analyse', array(
+        return $this->render('LichessBundle:Pgn:analyse.php', array(
             'game' => $game,
             'color' => $color,
             'pgn' => $pgn

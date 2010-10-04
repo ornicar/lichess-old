@@ -56,7 +56,7 @@ class TranslationController extends Controller
             }
         }
 
-        return $this->render('LichessBundle:Translation:index', array(
+        return $this->render('LichessBundle:Translation:index.php', array(
             'form' => $form,
             'locale' => $locale,
             'message' => isset($message) ? $message : null,
@@ -88,6 +88,6 @@ class TranslationController extends Controller
             krsort($times);
         }
 
-        return $this->render('LichessBundle:Translation:list', array('days' => $days));
+        return $this->render('LichessBundle:Translation:list.php', array('days' => $days));
     }
 }

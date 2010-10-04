@@ -154,7 +154,7 @@ class PlayerController extends Controller
         else {
             $checkSquareKey = null;
         }
-        return $this->render('LichessBundle:Player:show', array(
+        return $this->render('LichessBundle:Player:show.php', array(
             'player' => $player,
             'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
@@ -199,7 +199,7 @@ class PlayerController extends Controller
         }
         $this->getSynchronizer()->setAlive($player);
 
-        return $this->render('LichessBundle:Player:waitAnybody', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
+        return $this->render('LichessBundle:Player:waitAnybody.php', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
     }
 
     public function waitFriendAction($hash)
@@ -210,7 +210,7 @@ class PlayerController extends Controller
         }
         $this->getSynchronizer()->setAlive($player);
 
-        return $this->render('LichessBundle:Player:waitFriend', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
+        return $this->render('LichessBundle:Player:waitFriend.php', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
     }
 
     public function resignAction($hash)
@@ -253,7 +253,7 @@ class PlayerController extends Controller
             $template = 'watchTable';
             $nextGame = null;
         }
-        return $this->render('LichessBundle:Game:'.$template, array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent()), 'nextGame' => $nextGame));
+        return $this->render('LichessBundle:Game:'.$template.'.php', array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent()), 'nextGame' => $nextGame));
     }
 
     public function opponentAction($hash, $color, $playerFullHash)
@@ -266,7 +266,7 @@ class PlayerController extends Controller
             $player = $this->findPublicPlayer($hash, $color);
             $template = 'watchOpponent';
         }
-        return $this->render('LichessBundle:Player:'.$template, array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent())));
+        return $this->render('LichessBundle:Player:'.$template.'.php', array('player' => $player, 'isOpponentConnected' => $this->getSynchronizer()->isConnected($player->getOpponent())));
     }
 
     /**

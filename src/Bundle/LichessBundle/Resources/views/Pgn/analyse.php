@@ -1,4 +1,4 @@
-<?php $view->extend('LichessBundle::layout') ?>
+<?php $view->extend('LichessBundle::layout.php') ?>
 <?php $view['slots']->set('assets_pack', 'analyse') ?>
 <?php $view['slots']->set('title', 'Lichess - '.$view['translator']->_('Replay and analyse')) ?>
 <?php $view['slots']->set('title_suffix', ' #'.$game->getHash()) ?>

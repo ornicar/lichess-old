@@ -46,7 +46,7 @@ class GameController extends Controller
         }
         $possibleMoves = ($player->isMyTurn() && !$game->getIsFinished()) ? 1 : null;
 
-        return $this->render('LichessBundle:Game:watch', array('game' => $game, 'player' => $player, 'checkSquareKey' => $checkSquareKey, 'parameters' => $this->container->getParameterBag()->all(), 'possibleMoves' => $possibleMoves));
+        return $this->render('LichessBundle:Game:watch.php', array('game' => $game, 'player' => $player, 'checkSquareKey' => $checkSquareKey, 'parameters' => $this->container->getParameterBag()->all(), 'possibleMoves' => $possibleMoves));
     }
 
     public function inviteFriendAction($color)

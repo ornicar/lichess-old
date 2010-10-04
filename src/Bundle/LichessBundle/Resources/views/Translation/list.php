@@ -1,4 +1,4 @@
-<?php $view->extend('LichessBundle::layout') ?>
+<?php $view->extend('LichessBundle::layout.php') ?>
 <?php $view['stylesheets']->add('bundle/lichess/css/translation.css') ?>
 
 <div class="translation_list">

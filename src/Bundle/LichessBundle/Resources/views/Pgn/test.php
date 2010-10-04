@@ -1,4 +1,4 @@
-<?php $view->extend('LichessBundle::layout') ?>
+<?php $view->extend('LichessBundle::layout.php') ?>
 <script src="/bundle/lichess/vendor/pgn4web/pgn4web.js" type="text/javascript"></script>
 <script type="text/javascript">
    SetImagePath ("/bundle/lichess/vendor/pgn4web/alpha/48"); // use "" path if images are in the same folder as this javascript file

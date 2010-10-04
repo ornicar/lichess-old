@@ -1,4 +1,4 @@
-<?php $view->extend('LichessBundle::layout') ?>
+<?php $view->extend('LichessBundle::layout.php') ?>
 
 <div class="lichess_box">
     <h1 class="lichess_title">About Lichess</h1>

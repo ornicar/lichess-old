@@ -1,4 +1,4 @@
-<?php $view->extend('LichessBundle::layout') ?>
+<?php $view->extend('LichessBundle::layout.php') ?>
 
 <div class="lichess_box">
     <h1 class="lichess_title"><?php echo $view['translator']->_('Page not found') ?> (404)</h1>
