@@ -19,6 +19,8 @@
         <parameter key="lichess.synchronizer.timeout">12</parameter>
         <parameter key="lichess.synchronizer.delay">2</parameter>
 
+        <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
+
         <parameter key="lichess.translator.class">Bundle\LichessBundle\I18N\Translator</parameter>
         <parameter key="lichess.translator.locales" type="collection">
             <parameter key="en">English</parameter>
@@ -74,6 +76,10 @@
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
             <argument>%lichess.synchronizer.timeout%</argument>
+        </service>
+
+        <service id="lichess_pgn_dumper" class="%lichess.pgn_dumper.class%" shared="true">
+            <argument type="service" id="router" />
         </service>
 
         <service id="session.storage.test" class="%session.storage.test.class%">
