@@ -1,7 +1,7 @@
 app.config:
     charset:             UTF-8
     error_handler_level: null
-    validation: { enabled: false }
+    validation: { enabled: true }
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
     user:
         lifetime: 2592000 # one month 
