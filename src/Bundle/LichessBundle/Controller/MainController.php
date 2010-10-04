@@ -12,6 +12,16 @@ class MainController extends Controller
         return $this->render('LichessBundle:Main:index.php', array('color' => $color));
     }
 
+    public function toggleSoundAction()
+    {
+        $session = $this['session'];
+        $attributeName = 'lichess.sound.enabled';
+        $enableSound = !$session->get($attributeName);
+        $session->set($attributeName, $enableSound);
+
+        return $this->createResponse($enableSound ? 'on' : 'off');
+    }
+
     public function localeAction($locale)
     {
         $this->container->getSessionService()->setLocale($locale);

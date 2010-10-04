@@ -15,7 +15,7 @@ $(function()
     $('div.lichess_language').hoverIntent({
         over: function() { $(this).find('ul').show(); },
         out: function() { $(this).find('ul').hide(); },
-        timeout: 500
+        timeout: 100
     });
 
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
@@ -25,6 +25,23 @@ $(function()
     $('#translation_code').change(function() {
         location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
     });
+
+    $('#sound_state').click(function() {
+        var $toggler = $(this);
+        $.post($toggler.attr('href'), {}, function(data) {
+            $toggler.attr('class', 'sound_state_'+data);
+            lichess_data.sound.enabled = 'on' == data;
+            playSound();
+        });
+        return false;
+    });
+    
+    function playSound() {
+        if (lichess_data.sound.enabled) {
+            $('body').append('<audio id="sound" src="'+lichess_data.sound.file+'" autoplay></audio>');
+        }
+        setTimeout(function() { $('#sound').remove(); }, 1500);
+    }
 
     //uservoice
     if(document.domain == 'lichess.org') {

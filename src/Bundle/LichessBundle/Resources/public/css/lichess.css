@@ -48,7 +48,7 @@ div.header {
 
 div.content {
   width: 1010px;
-  margin: 30px auto;
+  margin: 30px auto 50px auto;
   position: relative;
 }
 
@@ -593,9 +593,28 @@ div.lichess_chat ol.lichess_messages li.system {
     background-image: url(../images/tip3.png);
 }
 
+a#sound_state {
+    display: block;
+    width: 18px;
+    height: 15px;
+    opacity: 0.7;
+    position: absolute;
+    top: 5px;
+    right: 100px;
+}
+a#sound_state:hover {
+    opacity: 1;
+}
+a.sound_state_on {
+    background: url(../images/sound-on.gif) top left no-repeat;
+}
+a.sound_state_off {
+    background: url(../images/sound-off.gif) top left no-repeat;
+}
 div.lichess_language {
-    margin: 10px 0;
-    position: relative;
+    position: absolute;
+    top: 5px;
+    right: 140px;
 }
 div.lichess_language span {
     background: url(../images/down16.png) center right no-repeat;

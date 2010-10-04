@@ -72,6 +72,9 @@ lichess_force_resignation:
 lichess_locale:
     pattern:        /locale/:locale
     defaults:       { _controller: LichessBundle:Main:locale }
+lichess_toggle_sound:
+    pattern:        /toggle-sound
+    defaults:       { _controller: LichessBundle:Main:toggleSound }
 lichess_translate:
     pattern:        /translate/:locale
     defaults:       { _controller: LichessBundle:Translation:index, locale: " " }
