@@ -86,6 +86,10 @@ class Player
      */
     public function getStack()
     {
+        if(null === $this->stack) {
+            $this->stack = new Stack();
+        }
+
       return $this->stack;
     }
     
