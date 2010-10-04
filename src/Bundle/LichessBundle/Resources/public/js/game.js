@@ -132,7 +132,10 @@
       $("div.lcs.moved", self.$board).removeClass("moved");
       var $from = $("div#" + from, self.$board).addClass("moved"), from_offset = $from.offset();
       var $to = $("div#" + to, self.$board).addClass("moved"), to_offset = $to.offset();
-      var animation = self.options.animation_delay*($piece.hasClass(self.options.player.color) ? 1 : 2);
+      var isMyPiece = $piece.hasClass(self.options.player.color);
+      var animation = self.options.animation_delay*(isMyPiece ? 1 : 2);
+
+      if(!isMyPiece || this.options.player.spectator) $.playSound();
       
       $("body").append($piece.css({
         top: from_offset.top,
@@ -231,7 +234,7 @@
             $("div#" + event.key, self.$board).addClass("check");
             break;
           case "redirect":
-            window.location.href=event.url;
+            $.playSound(function() { window.location.href=event.url; });
             break;
           case "end":
             self.options.game.finished = true;

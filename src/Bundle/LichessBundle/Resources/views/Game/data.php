@@ -36,10 +36,6 @@ $data = array(
         'Your turn' => $view['translator']->_('Your turn'),
         'Your opponent has arrived!' => $view['translator']->_('Your opponent has arrived!')
     ),
-    'sound' => array(
-        'file' => $view['assets']->getUrl('bundle/lichess/sound/alert.ogg'),
-        'enabled' => $view['session']->get('lichess.sound.enabled')
-    ),
     'possible_moves' => $possibleMoves
 );
 ?>
