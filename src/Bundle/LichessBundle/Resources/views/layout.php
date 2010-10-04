@@ -39,15 +39,6 @@
                 <h1>
                     <a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a>
                 </h1>
-                <div class="lichess_language">
-                    <span><?php echo $view['translator']->getLocaleName() ?></span>
-                    <ul class="lichess_language_links">
-                        <?php foreach($view['translator']->getOtherLocales() as $code => $name): ?>
-                            <li><a lang="<?php echo $code ?>" href="<?php echo $view['router']->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a></li>
-                        <?php endforeach ?>
-                        <li><a href="<?php echo $view['router']->generate('lichess_translate') ?>">Help translate Lichess!</a></li>
-                    </ul>
-                </div>
                 <div class="lichess_goodies_wrap">
                     <?php $view['slots']->output('goodies', '') ?>
                 </div>
@@ -76,6 +67,16 @@
         <div title="Come on, make my server suffer :)" class="lichess_server">
             <?php $loadAverage = sys_getloadavg() ?>
             <?php echo $view['translator']->_('Server load') ?>: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
+        </div>
+        <a href="<?php echo $view['router']->generate('lichess_toggle_sound') ?>" id="sound_state" class="sound_state_<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>"></a>
+        <div class="lichess_language">
+            <span><?php echo $view['translator']->getLocaleName() ?></span>
+            <ul class="lichess_language_links">
+                <?php foreach($view['translator']->getOtherLocales() as $code => $name): ?>
+                    <li><a lang="<?php echo $code ?>" href="<?php echo $view['router']->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a></li>
+                <?php endforeach ?>
+                <li><a href="<?php echo $view['router']->generate('lichess_translate') ?>">Help translate Lichess!</a></li>
+            </ul>
         </div>
         <?php echo $view['javascripts'] ?>
     </body>
