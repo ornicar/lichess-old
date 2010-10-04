@@ -113,20 +113,6 @@ class PlayerWithAiControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('a:contains("Export PGN")')->count());
     }
 
-    /**
-     * @depends testMoveWithAi
-     */
-    public function testExportPgn($hash)
-    {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', $hash);
-
-        $crawler = $client->click($crawler->selectLink('Replay and analyse')->link());
-        $crawler = $client->click($crawler->selectLink('Export PGN')->link());
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertRegexp('#^\[Site "http://lichess.org/"\]'."\n".'\[Result.+$#s', $client->getResponse()->getContent());
-    }
-
     protected function getSyncUrl($hash)
     {
         $client = $this->createClient();

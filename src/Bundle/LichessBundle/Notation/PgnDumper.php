@@ -4,12 +4,27 @@ namespace Bundle\LichessBundle\Notation;
 use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Chess\Square;
+use Symfony\Component\Routing\Router;
 
 /**
  * http://www.chessclub.com/help/PGN-spec
  */
 class PgnDumper
 {
+    protected $generator;
+
+    /**
+     * Constructor.
+     *
+     * @param Router $router A Router instance
+     */
+    public function __construct(Router $router = null)
+    {
+        if($router) {
+            $this->generator = $router->getGenerator();
+        }
+    }
+
     /**
      * Dumps a single move to PGN notation
      *
@@ -138,8 +153,17 @@ class PgnDumper
     protected function getPgnHeader(Game $game)
     {
         return sprintf('[Site "%s"]%s[Result "%s"]',
-            'http://lichess.org/', "\n", $this->getPgnResult($game)
+            $this->getGameUrl($game), "\n", $this->getPgnResult($game)
         );
+    }
+
+    protected function getGameUrl(Game $game)
+    {
+        if(null === $this->generator) {
+            return 'http://lichess.org/';
+        }
+
+        return $this->generator->generate('lichess_pgn_viewer', array('hash' => $game->getHash()), true);
     }
 
     protected function getPgnResult(Game $game)
