@@ -1,5 +1,5 @@
 <?php
-    $view['assets']->setVersion(23);
+    $view['assets']->setVersion(24);
     $view['stylesheets']->add('bundle/lichess/css/lib.min.css');
     $view['stylesheets']->add('bundle/lichess/css/lichess.css');
 
@@ -33,7 +33,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <?php echo $view['stylesheets'] ?>
     </head>
-    <body data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>"  ?>">
+    <body data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>">
         <div class="content">
             <div class="header">
                 <h1>
