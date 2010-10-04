@@ -234,7 +234,8 @@
             $("div#" + event.key, self.$board).addClass("check");
             break;
           case "redirect":
-            $.playSound(function() { window.location.href=event.url; });
+            $.playSound();
+            setTimeout(function() { window.location.href=event.url; }, 1500);
             break;
           case "end":
             self.options.game.finished = true;
