@@ -11,8 +11,7 @@ class PgnController extends Controller
     public function analyseAction($hash, $color)
     {
         $game = $this->findGame($hash);
-        $dumper = new PgnDumper();
-        $pgn = $dumper->dumpGame($game);
+        $pgn = $this['lichess_pgn_dumper']->dumpGame($game);
 
         return $this->render('LichessBundle:Pgn:analyse.php', array(
             'game' => $game,
@@ -24,8 +23,7 @@ class PgnController extends Controller
     public function exportAction($hash)
     {
         $game = $this->findGame($hash);
-        $dumper = new PgnDumper();
-        $pgn = $dumper->dumpGame($game);
+        $pgn = $this['lichess_pgn_dumper']->dumpGame($game);
 
         $response = $this->createResponse($pgn);
         $response->headers->set('Content-Type', 'text/plain');
