@@ -410,6 +410,17 @@
                 self.syncUrl(self.options.url.say, null, {message: text});
                 return false;
             });
+
+            // toggle the chat
+            self.$chat.find('input.toggle_chat').change(function()
+            {
+                if($(this).attr('checked')) {
+                    self.$chat.removeClass('hidden');
+                }
+                else {
+                    self.$chat.addClass('hidden');
+                }
+            }).trigger('change');
         }
     },
     initTable: function()
@@ -424,19 +435,6 @@
                     data: { level:  $(this).val() }
                 });
             });
-
-            self.$table.find('label.lichess_enable_chat input').change(function()
-            {
-                var $chatElements = $('div.lichess_chat').find('ol.lichess_messages, form');
-                if($(this).attr('checked'))
-                {
-                    $chatElements.show();
-                }
-                else
-                {
-                    $chatElements.hide();
-                }
-            }).trigger('change');
 
             if(self.options.opponent.ai)
             {

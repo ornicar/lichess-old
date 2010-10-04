@@ -25,7 +25,6 @@
         <?php endif; ?>
     </div>
     <div class="lichess_control clearfix">
-    <label title="<?php echo $view['translator']->_('Toggle the chat') ?>" class="lichess_enable_chat"><input type="checkbox" checked="checked" /><?php echo $view['translator']->_('Chat') ?></label>
         <a class="lichess_new_game" href="<?php echo $view['router']->generate('lichess_homepage') ?>"><?php echo $view['translator']->_('New game') ?></a>
         <?php if(!$opponent->getIsAi()): ?>
             <?php if(isset($nextGame)): ?>

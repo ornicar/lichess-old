@@ -28,7 +28,6 @@
         </div>
     </div>
     <div class="lichess_control clearfix">
-    <label title="<?php echo $view['translator']->_('Toggle the chat') ?>" class="lichess_enable_chat"><input type="checkbox" checked="checked" /><?php echo $view['translator']->_('Chat') ?></label>
     <a href="<?php echo $view['router']->generate('lichess_resign', array('hash' => $player->getFullHash())) ?>" class="lichess_resign" title="<?php echo $view['translator']->_('Give up') ?>"><?php echo $view['translator']->_('Resign') ?></a>
     </div>
 </div>
