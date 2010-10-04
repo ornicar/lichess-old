@@ -36,16 +36,9 @@ $(function()
         return false;
     });
     
-    $.playSound = function(callback) {
+    $.playSound = function() {
         if ('on' == $('body').attr('data-sound-enabled')) {
-            $('body').append('<audio id="lichess_sound" src="'+$('body').attr('data-sound-file')+'" autoplay="autoplay"></audio>');
-            setTimeout(function() {
-                $('#lichess_sound').remove();
-                $.isFunction(callback || null) && callback();
-            }, 1000);
-        }
-        else {
-            $.isFunction(callback || null) && callback();
+            $('#lichess_sound_player').get(0).play();
         }
     }
 
