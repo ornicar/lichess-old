@@ -7,11 +7,6 @@
         <div class="lichess_overboard wait_anybody">
             <img src="/bundle/lichess/images/hloader.gif" width="220" height="33" /><br />
             <?php echo $view['translator']->_('Waiting for opponent') ?>...
-            <a class="invite_tools"><?php echo $view['translator']->_('Taking too long?') ?></a>
-            <div class="invite_tools">
-                <?php echo $view['translator']->_('Bring people to play with you') ?>:
-                <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Flichess.org%2F&amp;linkname=Best%20web%20Chess%20game%20ever!"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" alt="Share/Bookmark"/></a>
-            </div>
         </div>
     </div> 
     <div class="lichess_ground">

@@ -236,10 +236,6 @@ div.lichess_overboard .wait_next {
 div.lichess_overboard.wait_anybody {
     height: auto;
 }
-div.lichess_overboard.wait_anybody .invite_tools {
-    font-size: 0.8em;
-    display: none;
-}
 div.lichess_table_wait_next {
     background-image: url(../images/loader2.gif);
 }
