@@ -22,18 +22,27 @@ $(function()
         location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
     });
 
-    $('#sound_state').click(function() {
-        var $toggler = $(this);
-        $.post($toggler.attr('href'), {}, function(data) {
-            $toggler.attr('class', 'sound_state_'+data);
-            $('body').attr('data-sound-enabled', data);
-            $.playSound();
+    var elem = document.createElement('audio');
+    var canPlayAudio = !!elem.canPlayType && elem.canPlayType('audio/ogg; codecs="vorbis"');
+
+    if(canPlayAudio) {
+        $('body').append($('<audio id="lichess_sound_player">').attr('src', $('body').attr('data-sound-file')));
+        $('#sound_state').css('display', 'block').click(function() {
+            var $toggler = $(this);
+            $.post($toggler.attr('href'), {}, function(data) {
+                $toggler.attr('class', 'sound_state_'+data);
+                $('body').attr('data-sound-enabled', data);
+                $.playSound();
+            });
+            return false;
         });
-        return false;
-    });
+    }
+    else {
+        $('div.lichess_goodies_wrap').append('<br />Your browser is deprecated, please consider upgrading!<br /><a href="http://getfirefox.com" target="_blank"><img src="http://sfx-images.mozilla.org/firefox/3.6/96x31_edit_green.png" width="96" height="31" /></a>');
+    }
     
     $.playSound = function() {
-        if ('on' == $('body').attr('data-sound-enabled')) {
+        if (canPlayAudio && 'on' == $('body').attr('data-sound-enabled')) {
             $('#lichess_sound_player').get(0).play();
         }
     }
