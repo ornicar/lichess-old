@@ -33,12 +33,10 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <?php echo $view['stylesheets'] ?>
     </head>
-    <body data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>">
+    <body data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>" data-sound-file="<?php echo $view['assets']->getUrl('bundle/lichess/sound/alert.ogg') ?>">
         <div class="content">
             <div class="header">
-                <h1>
-                    <a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a>
-                </h1>
+                <h1><a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a></h1>
                 <div class="lichess_goodies_wrap">
                     <?php $view['slots']->output('goodies', '') ?>
                 </div>
@@ -79,6 +77,5 @@
             </ul>
         </div>
         <?php echo $view['javascripts'] ?>
-        <audio id="lichess_sound_player" src="<?php echo $view['assets']->getUrl('bundle/lichess/sound/alert.ogg') ?>"></audio>
     </body>
 </html>
