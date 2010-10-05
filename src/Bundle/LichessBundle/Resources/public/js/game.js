@@ -390,7 +390,7 @@
         if(self.$chat.length)
         {
             self.$chat.find('ol.lichess_messages')[0].scrollTop = 9999999;
-            var $input = self.$chat.find('input').one("focus", function()
+            var $input = self.$chat.find('input.lichess_say').one("focus", function()
             {
                 $input.val('').removeClass('lichess_hint');
             });
@@ -399,7 +399,7 @@
             self.$chat.find('form').submit(function()
             {
                 text = $.trim($input.val());
-                if(!text) return;
+                if(!text) return false;
                 if(text.length > 140) {
                     alert('Max length: 140 chars. '+text.length+' chars used.');
                     return false;
