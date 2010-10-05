@@ -12,16 +12,14 @@
       self.initialTitle = document.title,
       self.ajaxManager = $.manageAjax.create('lichess_sync', { manageType: "queue", maxReq: 1});
       
-      if(self.options.game.started)
-      {
+      if(self.options.game.started) {
         self.indicateTurn();
         self.initSquaresAndPieces();
         self.initChat();  
         self.initTable();
       }
 
-      if(!self.options.opponent.ai || self.options.player.spectator)
-      {
+      if(!self.options.opponent.ai || self.options.player.spectator) {
         // synchronize with game
         if(!self.options.game.finished || !self.options.player.spectator) {
             setTimeout(self.syncPlayer = function()

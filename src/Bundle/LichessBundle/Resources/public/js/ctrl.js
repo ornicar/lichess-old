@@ -6,10 +6,6 @@ $(function()
         $game.game(lichess_data);
 
         $('input').click(function() { this.select(); });
-
-        setTimeout(function() {
-            $('a.invite_tools').css('display', 'block').click(function() { $('div.invite_tools').toggle(); });
-        }, 3000);
     }
 
     $('div.lichess_language').hoverIntent({
