@@ -52,7 +52,7 @@ class Game
      *
      * @var string
      */
-    protected $hash = null;
+    protected $hash = '';
 
     /**
      * The game board
@@ -91,7 +91,6 @@ class Game
 
     public function __construct()
     {
-        $this->hash = '';
         $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
         for ( $i = 0; $i < 6; $i++ ) {
             $this->hash .= $chars[mt_rand( 0, 36 )];
@@ -110,6 +109,17 @@ class Game
             $hash .= $piece->getContextualHash();
         }
         $this->positionHashes[] = md5($hash);
+    }
+
+    /**
+     * Sometime we can safely clear the position hashes,
+     * for example when a pawn moved 
+     * 
+     * @return void
+     */
+    public function clearPositionHashes()
+    {
+        $this->positionHashes = array();
     }
 
     /**

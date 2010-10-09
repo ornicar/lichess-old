@@ -165,6 +165,12 @@ class Manipulator
             $this->enpassant($piece, $to);
         }
 
+        // When an irreversible event happens,
+        // we can safely clear the game position hashes
+        if($killed || $isPromotion || $isCastling || 'Pawn' === $pieceClass) {
+            $this->game->clearPositionHashes();
+        }
+
         return $pgn;
     }
 
