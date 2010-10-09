@@ -425,21 +425,14 @@
     {
         var self = this;
         if(!self.options.player.spectator) {
-            self.$table.find("select.lichess_ai_level").change(function()
-            {
+            self.$table.find("select.lichess_ai_level").change(function() {
                 $.ajax({
                     type: 'POST',
                     url:  self.options.url.ai_level,
                     data: { level:  $(this).val() }
                 });
             });
-
-            if(self.options.opponent.ai)
-            {
-                self.$table.find('label.lichess_enable_chat').hide();
-            }
         }
-
         self.$table.find('a, input, label').tipsy({fade: true});
     },
     translate: function(message)
