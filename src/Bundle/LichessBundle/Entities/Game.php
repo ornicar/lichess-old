@@ -201,8 +201,9 @@ class Game
         switch($this->getStatus()) {
         case self::MATE: $message = 'Checkmate'; break;
         case self::RESIGN: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
-        case self::STALEMATE: $message = ''; break;
+        case self::STALEMATE: $message = 'Stalemate'; break;
         case self::TIMEOUT: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
+        case self::DRAW: $message = 'Draw'; break;
         default: $message = '';
         }
         return $message;
