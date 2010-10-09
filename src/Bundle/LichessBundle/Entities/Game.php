@@ -25,6 +25,7 @@ class Game
     const RESIGN = 31;
     const STALEMATE = 32;
     const TIMEOUT = 33;
+    const DRAW = 34;
 
     /**
      * The two players 
