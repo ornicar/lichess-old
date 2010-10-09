@@ -17,6 +17,7 @@
         self.initSquaresAndPieces();
         self.initChat();  
         self.initTable();
+        if(self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() { $.playSound(); });
       }
 
       if(!self.options.opponent.ai || self.options.player.spectator) {
@@ -232,8 +233,7 @@
             $("div#" + event.key, self.$board).addClass("check");
             break;
           case "redirect":
-            $.playSound();
-            setTimeout(function() { window.location.href=event.url; }, 1500);
+            window.location.href=event.url;
             break;
           case "end":
             self.options.game.finished = true;
