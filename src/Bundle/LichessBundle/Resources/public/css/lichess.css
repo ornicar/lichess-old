@@ -436,7 +436,7 @@ div.lichess_control a.lichess_resign {
     display: block;
 }
 
-div.lichess_special_action {
+div.lichess_claim_draw_zone {
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid #ddd;

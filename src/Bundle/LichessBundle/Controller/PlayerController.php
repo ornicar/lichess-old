@@ -90,6 +90,7 @@ class PlayerController extends Controller
             $player->getOpponent()->getStack()->addEvent(array('type' => 'end'));
             $this->getPersistence()->save($player->getGame());
         }
+
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
     }
 

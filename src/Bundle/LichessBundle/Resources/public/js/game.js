@@ -182,6 +182,9 @@
       var self = this;
       var actionEvents = [];
 
+      // if a draw was claimable, remove the zone
+      $('div.lichess_claim_draw_zone').remove();
+
       // apply and overwrite possible_moves and messages
       for (var i in events)
       {
