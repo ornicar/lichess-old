@@ -57,7 +57,7 @@ class TranslationController extends Controller
         }
 
         return $this->render('LichessBundle:Translation:index.php', array(
-            'form' => $form,
+            'form' => $this['templating.form']->get($form),
             'locale' => $locale,
             'message' => isset($message) ? $message : null,
             'error' => isset($error) ? $error : null,
