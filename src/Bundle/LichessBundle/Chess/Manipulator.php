@@ -51,6 +51,7 @@ class Manipulator
             $pgn .= '+';
         }
         $this->game->addTurn();
+        $this->game->addPositionHash();
         $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($opponent, $isOpponentKingAttacked);
         if(empty($opponentPossibleMoves)) {
             if($isOpponentKingAttacked) {

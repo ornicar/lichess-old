@@ -103,7 +103,7 @@ class Game
     /**
      * Add the current position hash to the stack
      */
-    protected function addPositionHash()
+    public function addPositionHash()
     {
         $hash = '';
         foreach($this->getPieces() as $piece) {
@@ -393,7 +393,6 @@ class Game
     public function addTurn()
     {
         ++$this->turns;
-        $this->addPositionHash();
     }
 
     public function getPieces()
