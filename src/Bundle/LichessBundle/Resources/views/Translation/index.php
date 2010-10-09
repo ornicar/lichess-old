@@ -57,6 +57,7 @@
             <li><strong>Swedish</strong> nizleib</li>
             <li><strong>Czech</strong> Martin</li>
             <li><strong>Slovak</strong> taiga</li>
+            <li><strong>Magyar</strong> [?]</li>
         </ul>
     </div>
 </div>
