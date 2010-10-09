@@ -8,10 +8,10 @@
         Lichess is OpenSource and needs contributors to get better.
         <?php $message && printf('<div class="message">%s</div>', $message); ?>
         <?php $error && printf('<div class="error">%s</div>', $error); ?>
-        <?php echo $form->renderFormTag($view['router']->generate('lichess_translate', array('locale' => $locale)), array('data-change-url' => $view['router']->generate('lichess_translate', array('locale' => '__')))) ?>
+        <form action="<?php echo $view['router']->generate('lichess_translate', array('locale' => $locale)) ?>" data-change-url="<?php echo $view['router']->generate('lichess_translate', array('locale' => '__')) ?>" method="post">
             <div class="field">
                 <label for="translation_code">Translate from english to </label>
-                <?php echo $form['code']->render() ?>
+                <?php echo $form['code']->widget() ?>
             </div>
             <?php if(!empty($locale)): ?>
                 Please translate the following English words and phrases below.<br />
@@ -19,15 +19,15 @@
                 <strong>"Level": ""</strong> becomes <strong>"Level": "Niveau"</strong><br />
                 <strong>"Opponent: %ai_name%": ""</strong> becomes <strong>"Opponent: %ai_name%": "Adversaire : %ai_name%"</strong>
                 <div class="field">
-                    <?php echo $form['yamlMessages']->render() ?>
+                    <?php echo $form['yamlMessages']->widget(array(), 'LichessBundle:Translation:textarea_field.php') ?>
                 </div>
                 <div class="field">
                     <label for="translation_author">Author (optional)</label>
-                    <?php echo $form['author']->render() ?>
+                    <?php echo $form['author']->widget() ?>
                 </div>
                 <div class="field">
                     <label for="translation_comment">Comment (optional)</label>
-                    <?php echo $form['comment']->render() ?>
+                    <?php echo $form['comment']->widget() ?>
                 </div>
                 <div class="field">
                     <input type="submit" value="Submit translations" />
