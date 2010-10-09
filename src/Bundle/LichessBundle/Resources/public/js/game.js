@@ -159,7 +159,7 @@
     },
     killPiece: function($piece)
     {
-      $piece.draggable("destroy");
+      if($.data($piece, 'draggable')) $piece.draggable("destroy");
       var self = this, $deads = $piece.hasClass("white") ? $("div.lichess_cemetery.white", self.element) : $("div.lichess_cemetery.black", self.element), $square = $piece.parent();
       $deads.append($("<div>").addClass('lichess_tomb'));
       var $tomb = $("div.lichess_tomb:last", $deads), tomb_offset = $tomb.offset();
