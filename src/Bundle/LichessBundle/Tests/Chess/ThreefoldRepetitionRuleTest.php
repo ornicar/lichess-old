@@ -16,7 +16,7 @@ class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
     {
         $generator = new Generator();
         $game = $generator->createGame();
-        $this->assertFalse($game->isThreefold());
+        $this->assertFalse($game->isThreefoldRepetition());
     }
 
     public function testPlayedGameIsNotThreefold()
@@ -30,7 +30,7 @@ class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
             'd7 d5',
             'e4 d5'
         ));
-        $this->assertFalse($game->isThreefold());
+        $this->assertFalse($game->isThreefoldRepetition());
     }
 
     public function testTwofoldIsNotThreefold()
@@ -47,7 +47,7 @@ class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
             'c3 b1',
             'c6 b8',
         ));
-        $this->assertFalse($game->isThreefold());
+        $this->assertFalse($game->isThreefoldRepetition());
     }
 
     public function testRepeatedGameIsThreefold()
@@ -68,7 +68,7 @@ class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
             'c3 b1',
             'c6 b8',
         ));
-        $this->assertTrue($game->isThreefold());
+        $this->assertTrue($game->isThreefoldRepetition());
     }
 
     /**
