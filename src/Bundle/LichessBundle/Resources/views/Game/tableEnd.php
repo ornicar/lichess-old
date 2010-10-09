@@ -20,7 +20,7 @@
             </div>
         <?php else: ?>
             <div class="lichess_player">
-                <p><?php echo $view['translator']->_('Stalemate') ?></p>
+                <p><?php echo $view['translator']->_($game->getStatusMessage()) ?></p>
             </div>
         <?php endif; ?>
     </div>
