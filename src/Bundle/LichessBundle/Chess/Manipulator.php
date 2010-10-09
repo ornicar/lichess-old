@@ -51,7 +51,6 @@ class Manipulator
             $pgn .= '+';
         }
         $this->game->addTurn();
-        $this->game->addPositionHash();
         $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($opponent, $isOpponentKingAttacked);
         if(empty($opponentPossibleMoves)) {
             if($isOpponentKingAttacked) {
@@ -63,6 +62,11 @@ class Manipulator
                 $this->game->setStatus(Game::STALEMATE);
             }
             $this->stack->addEvent(array('type' => 'end'));
+        }
+
+        $this->game->addPositionHash();
+        if($this->game->isThreefoldRepetition()) {
+            $this->stack->addEvent(array('type' => 'threefold_repetition'));
         }
 
         $this->game->addPgnMove($pgn);
