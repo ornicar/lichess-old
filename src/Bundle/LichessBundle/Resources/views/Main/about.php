@@ -27,7 +27,7 @@
             <li>Move hints and validation</li>
             <li>Replay and analysis</li>
             <li>Export in PGN</li>
-            <li>Translated to 20 languages</li>
+            <li>Translated to 20 languages (<a href="<?php echo $view['router']->generate('lichess_translate') ?>">help with translation</a>)</li>
             <li>Run in any browser (excepted IE6, of course) without flash</li>
         </ul>
         <p class="license_images">
