@@ -235,22 +235,17 @@
           case "redirect":
             window.location.href=event.url;
             break;
+          case "threefold_repetition":
+            break;
           case "end":
             self.options.game.finished = true;
             self.changeTitle(self.translate('Game over'));
             self.element.find("div.ui-draggable").draggable("destroy");
             self.element.removeClass("my_turn");
-            // don't break here, we also want to reload the table
+            self.reloadTable();
+            break;
           case "reload_table":
-            $.ajax({
-              cache: false,
-              url: self.options.url.table,
-              success: function(html)
-              {
-                self.$table.html(html);
-                self.initTable();
-              }
-            });
+            self.reloadTable();
             break;
           default:
             break;
@@ -420,6 +415,19 @@
                 }
             }).trigger('change');
         }
+    },
+    reloadTable: function()
+    {
+        var self = this;
+        $.ajax({
+            cache: false,
+            url: self.options.url.table,
+            success: function(html)
+            {
+                self.$table.html(html);
+                self.initTable();
+            }
+        });
     },
     initTable: function()
     {
