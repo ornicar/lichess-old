@@ -82,6 +82,13 @@ class Game
      */
     protected $next = null;
 
+    /**
+     * Array of position hashes, used to detect threefold repetition 
+     * 
+     * @var array
+     */
+    protected $positionHashes = array();
+
     public function __construct()
     {
         $this->hash = '';
@@ -91,6 +98,30 @@ class Game
         }
         $this->status = self::CREATED;
         $this->room = new Room();
+    }
+
+    /**
+     * Add the current position hash to the stack
+     */
+    protected function addPositionHash()
+    {
+        $hash = '';
+        foreach($this->getPieces() as $piece) {
+            $hash .= $piece->getContextualHash();
+        }
+        $this->positionHashes[] = md5($hash);
+    }
+
+    /**
+     * Are we in a threefold repetition state?
+     *
+     * @return bool
+     **/
+    public function isThreefold()
+    {
+        $hash = end($this->positionHashes);
+
+        return count(array_keys($this->positionHashes, $hash)) >= 3;
     }
 
     /**
@@ -362,6 +393,7 @@ class Game
     public function addTurn()
     {
         ++$this->turns;
+        $this->addPositionHash();
     }
 
     public function getPieces()
@@ -376,7 +408,7 @@ class Game
 
     public function serialize()
     {
-        return array('hash', 'status', 'players', 'turns', 'creator');
+        return array('hash', 'status', 'players', 'turns', 'creator', 'positionHashes');
     }
 
     public function unserialize()

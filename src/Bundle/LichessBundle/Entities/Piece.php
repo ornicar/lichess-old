@@ -289,6 +289,12 @@ abstract class Piece
         return $notation;
     }
 
+    public function getContextualHash()
+    {
+        $class = $this->getClass();
+        return $class{0}.$this->color{0}.$this->x.$this->y;
+    }
+
     public function serialize()
     {
         return array('x', 'y', 'player', 'isDead', 'firstMove');
