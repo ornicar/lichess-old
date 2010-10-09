@@ -105,7 +105,7 @@ RNBQK  R
     /**
      * @return Player
      */
-    public function createPlayer($game, $color)
+    public function createPlayer(Game $game, $color)
     {
         $player = new Player($color);
         $player->setGame($game);
@@ -114,7 +114,7 @@ RNBQK  R
         return $player;
     }
 
-    public function createPieces($player)
+    public function createPieces(Player $player)
     {
         $pieces = array();
 
@@ -130,7 +130,7 @@ RNBQK  R
     /**
      * @return Piece
      */
-    public function createPiece($class, $player, $x)
+    public function createPiece($class, Player $player, $x)
     {
         if('white' === $player->getColor()) {
             $y = 'Pawn' === $class ? 2 : 1;
