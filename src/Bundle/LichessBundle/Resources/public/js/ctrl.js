@@ -4,7 +4,6 @@ $(function()
     if ($game.length)
     {
         $game.game(lichess_data);
-
         $('input').click(function() { this.select(); });
     }
 
@@ -24,6 +23,14 @@ $(function()
 
     var elem = document.createElement('audio');
     var canPlayAudio = !!elem.canPlayType && elem.canPlayType('audio/ogg; codecs="vorbis"');
+    
+    $.playSound = function() {
+        if (canPlayAudio && 'on' == $('body').attr('data-sound-enabled')) {
+            var sound = $('#lichess_sound_player').get(0);
+            sound.play();
+            setTimeout(function() {sound.pause();}, 1000);
+        }
+    }
 
     if(canPlayAudio) {
         $('body').append($('<audio id="lichess_sound_player">').attr('src', $('body').attr('data-sound-file')));
@@ -36,15 +43,10 @@ $(function()
             });
             return false;
         });
+        $game.trigger('lichess.audio_ready');
     }
     else {
         $('div.lichess_goodies_wrap').append('<br />Your browser is deprecated, please consider upgrading!<br /><a href="http://getfirefox.com" target="_blank"><img src="http://sfx-images.mozilla.org/firefox/3.6/96x31_edit_green.png" width="96" height="31" /></a>');
-    }
-    
-    $.playSound = function() {
-        if (canPlayAudio && 'on' == $('body').attr('data-sound-enabled')) {
-            $('#lichess_sound_player').get(0).play();
-        }
     }
 
     //uservoice
