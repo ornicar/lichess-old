@@ -93,6 +93,20 @@ class PlayerController extends Controller
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
     }
 
+    public function claimDrawAction($hash)
+    {
+        $player = $this->findPlayer($hash);
+        $game = $player->getGame();
+        if(!$game->getIsFinished() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
+            $game->setStatus(GAME::DRAW);
+            $player->getStack()->addEvent(array('type' => 'end'));
+            $player->getOpponent()->getStack()->addEvent(array('type' => 'end'));
+            $this->getPersistence()->save($player->getGame());
+        }
+
+        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
+    }
+
     protected function renderJson($data)
     {
         $response = $this->createResponse(json_encode($data));

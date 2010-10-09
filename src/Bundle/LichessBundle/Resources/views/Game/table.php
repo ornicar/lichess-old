@@ -28,6 +28,12 @@
         </div>
     </div>
     <div class="lichess_control clearfix">
-    <a href="<?php echo $view['router']->generate('lichess_resign', array('hash' => $player->getFullHash())) ?>" class="lichess_resign" title="<?php echo $view['translator']->_('Give up') ?>"><?php echo $view['translator']->_('Resign') ?></a>
+        <a href="<?php echo $view['router']->generate('lichess_resign', array('hash' => $player->getFullHash())) ?>" class="lichess_resign" title="<?php echo $view['translator']->_('Give up') ?>"><?php echo $view['translator']->_('Resign') ?></a>
     </div>
+    <?php if($player->isMyTurn() && $player->getGame()->isThreefoldRepetition()): ?>
+    <div class="lichess_special_action">
+        <?php echo $view['translator']->_('Threefold repetition') ?>.&nbsp;
+        <a class="lichess_claim_draw" href="<?php echo $view['router']->generate('lichess_claim_draw', array('hash' => $player->getFullHash())) ?>"><?php echo $view['translator']->_('Claim a draw') ?></a>
+    </div>
+    <?php endif; ?>
 </div>

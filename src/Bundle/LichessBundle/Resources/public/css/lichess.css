@@ -433,6 +433,18 @@ div.lichess_control div.lichess_play_again_join a {
 
 div.lichess_control a.lichess_resign {
     float: right;
+    display: block;
+}
+
+div.lichess_special_action {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+div.lichess_separator {
+    margin: 10px 0;
+    border-bottom: 1px solid #ddd;
 }
 
 div.lichess_table .lichess_button {

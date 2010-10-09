@@ -236,6 +236,7 @@
             window.location.href=event.url;
             break;
           case "threefold_repetition":
+            self.reloadTable();
             break;
           case "end":
             self.options.game.finished = true;
