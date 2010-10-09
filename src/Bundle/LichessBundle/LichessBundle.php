@@ -38,8 +38,8 @@ class LichessBundle extends BaseBundle
             if(HttpKernelInterface::MASTER_REQUEST === $event->getParameter('request_type')) {
                 $translator = $container->getLichessTranslatorService();
                 $session = $container->getSessionService();
-                if(!$session->has('lichess.sound.state')) {
-                    $session->set('lichess.sound.state', true);
+                if(!$session->has('lichess.sound.enabled')) {
+                    $session->set('lichess.sound.enabled', true);
                 }
                 if(!$session->get('lichess.flag')) {
                     $languages = $container->getRequestService()->getLanguages() ?: array();
