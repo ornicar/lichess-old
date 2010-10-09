@@ -127,7 +127,7 @@ class Game
      *
      * @return bool
      **/
-    public function isThreefold()
+    public function isThreefoldRepetition()
     {
         $hash = end($this->positionHashes);
 
