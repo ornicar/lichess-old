@@ -1,5 +1,4 @@
 <?php
-    $view['stylesheets']->add('bundle/lichess/css/lib.min.css');
     $view['stylesheets']->add('bundle/lichess/css/lichess.css');
 
     $view['javascripts']->add('bundle/lichess/js/lib.min.js');
