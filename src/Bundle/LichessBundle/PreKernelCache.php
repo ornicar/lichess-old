@@ -21,6 +21,9 @@ if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<hash>[\w]{6})/(?P<co
 }
 else return;
 
+// Configuration
+$timeout = 20;
+
 // Get user cache from APC
 $userVersion = apc_fetch($hash.'.'.$color.'.data');
 
@@ -32,7 +35,7 @@ if($userVersion != $clientVersion) return;
 
 if($playerFullHash) {
     // Set the client as connected
-    apc_store($hash.'.'.$color.'.alive', 1, 10);
+    apc_store($hash.'.'.$color.'.alive', 1, $timeout);
 }
 
 // Check is opponent is connected
