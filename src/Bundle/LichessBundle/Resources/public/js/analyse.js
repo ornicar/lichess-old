@@ -1,9 +1,7 @@
-(function($) {
-$(function() {
+jQuery(function() {
     SetImagePath("/bundle/lichess/vendor/pgn4web/lichess/64"); // use "" path if images are in the same folder as this javascript file
     SetImageType("png");
 });
-})(jQuery);
 
 function customFunctionOnPgnGameLoad() {
     var it = 0;
@@ -13,6 +11,13 @@ function customFunctionOnPgnGameLoad() {
     });
     $('div.lichess_goodies a.rotate_board').click(function() {
         $('#GameBoard').toggleClass('flip');
+        redrawBoardMarks();
         return false;
     });
+    redrawBoardMarks();
+}
+
+function redrawBoardMarks()
+{
+    jQuery.displayBoardMarks($('#GameBoard'), !$('#GameBoard').hasClass('flip'));
 }
