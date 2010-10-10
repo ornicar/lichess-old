@@ -61,7 +61,7 @@
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a class="lichess_uservoice" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="<?php echo $view['router']->generate('lichess_translate') ?>">help translate Lichess</a><br />
                 <?php echo $view['translator']->_('Open Source software built with %php%, %symfony% and %jqueryui%', array('%php%' => 'PHP 5.3', '%symfony%' => '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%' => '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>')) ?><br />
-                <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-nc/3.0/80x15.png" /></a>
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="<?php echo $view['assets']->getUrl('bundle/lichess/images/cc-80x15.png') ?>" /></a>
             </div>
         </div>
         <div title="Come on, make my server suffer :)" class="lichess_server">
