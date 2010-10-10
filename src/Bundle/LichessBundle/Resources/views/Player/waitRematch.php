@@ -3,7 +3,7 @@
 
 <div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_<?php echo $player->getColor() ?>">
     <div class="lichess_board_wrap">
-        <?php $view->output('LichessBundle:Main:staticBoard.php', array('color' => $player->getColor())) ?>
+        <?php $view->output('LichessBundle:Main:staticBoard_'.$player->getColor().'.php') ?>
         <div class="lichess_overboard wait_next">
             <img src="/bundle/lichess/images/hloader.gif" width="220" height="33" /><br />
             <?php echo $view['translator']->_('Waiting for opponent') ?> 
