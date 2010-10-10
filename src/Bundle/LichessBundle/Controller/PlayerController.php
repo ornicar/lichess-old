@@ -208,7 +208,12 @@ class PlayerController extends Controller
 
     public function waitAnybodyAction($hash)
     {
-        $player = $this->findPlayer($hash);
+        try {
+            $player = $this->findPlayer($hash);
+        }
+        catch(NotFoundHttpException $e) {
+            return $this->redirect($this->generateUrl('lichess_invite_anybody'));
+        }
         if($player->getGame()->getIsStarted()) {
             return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
         }

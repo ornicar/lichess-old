@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
-   /**
+    /**
      * Join a game and start it if new, or see it as a spectator
      */
     public function showAction($hash)
@@ -77,18 +77,23 @@ class GameController extends Controller
     public function inviteAnybodyAction($color)
     {
         $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
+        $persistence = $this->container->getLichessPersistenceService();
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);
             unlink($connectionFile);
             $gameHash = substr($opponentHash, 0, 6);
-            $game = $this->container->getLichessPersistenceService()->find($gameHash);
-            if($game && !$this->container->getLichessSynchronizerService()->isTimeout($game->getCreator())) {
-                return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
+            $game = $persistence->find($gameHash);
+            if($game) {
+                if($this->container->getLichessSynchronizerService()->isConnected($game->getCreator())) {
+                    return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
+                }
+                // if the game creator is disconnected, remove the game
+                $persistence->remove($game);
             }
         }
 
         $player = $this->container->getLichessGeneratorService()->createGameForPlayer($color);
-        $this->container->getLichessPersistenceService()->save($player->getGame());
+        $persistence->save($player->getGame());
         file_put_contents($connectionFile, $player->getFullHash());
         return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $player->getFullHash())));
     }
