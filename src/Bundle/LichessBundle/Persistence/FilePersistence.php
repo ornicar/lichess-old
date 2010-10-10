@@ -62,7 +62,7 @@ class FilePersistence
 
     public function clearPlayerCache(Player $player)
     {
-        apc_store($player->getGame()->getHash().'.'.$player->getColor().'.data', null, 1);
+        apc_delete($player->getGame()->getHash().'.'.$player->getColor().'.data');
     }
 
     /**
