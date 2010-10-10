@@ -1,10 +1,24 @@
 $(function()
 {
     $game = $('div.lichess_game');
-    if ($game.length)
-    {
+    if ($game.length) {
         $game.game(lichess_data);
         $('input').click(function() { this.select(); });
+    }
+    else {
+        // Update number of connected players
+        var $nbConnectedPlayers = $('div.nb_connected_players');
+        if($nbConnectedPlayers.length) {
+            function reloadNbConnectedPlayers() {
+                setTimeout(function() {
+                    $.get($nbConnectedPlayers.attr('data-url'), function(nb) {
+                        $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
+                        reloadNbConnectedPlayers();
+                    });
+                }, 5000);
+            }
+            reloadNbConnectedPlayers();
+        }
     }
 
     $('div.lichess_language').hoverIntent({
@@ -75,7 +89,7 @@ $(function()
                 var a = document.createElement('script'); a.type = 'text/javascript'; a.async = true; a.src = 'http://static.addtoany.com/menu/page.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
             })();
-        }, 300);
+        }, 700);
     }
 });
 
