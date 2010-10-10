@@ -8,13 +8,13 @@ use Bundle\LichessBundle\Entities\Game;
 class Synchronizer
 {
     /**
-    * If a player doesn't synchronize during this amount of seconds,
-    * he is disconnected and resigns automatically
+     * If a player doesn't synchronize during this amount of seconds,
+     * he is disconnected and resigns automatically
      *
      * @var int
      */
     protected $timeout = null;
-    
+
     public function __construct($timeout)
     {
         $this->timeout = $timeout;
@@ -26,9 +26,9 @@ class Synchronizer
      */
     public function getTimeout()
     {
-      return $this->timeout;
+        return $this->timeout;
     }
-    
+
     /**
      * Set timeout
      * @param  int
@@ -36,7 +36,7 @@ class Synchronizer
      */
     public function setTimeout($timeout)
     {
-      $this->timeout = $timeout;
+        $this->timeout = (int) $timeout;
     }
 
     public function getDiffEvents(Player $player, $clientVersion)
