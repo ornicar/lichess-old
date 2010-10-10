@@ -35,11 +35,12 @@
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a></h1>
+                <?php $view['slots']->output('baseline', '') ?>
+                <div class="nb_connected_players" data-url="<?php echo $view['router']->generate('lichess_nb_players') ?>">
+                    <?php echo $view['translator']->_('%nb% connected players', array('%nb%' => $view['lichess']->getNbConnectedPlayers())) ?>
+                </div>
                 <div class="lichess_goodies_wrap">
                     <?php $view['slots']->output('goodies', '') ?>
-                </div>
-                <div class="nb_connected_players">
-                    <?php echo $view['translator']->_('%nb% connected players', array('%nb%' => $view['lichess']->getNbConnectedPlayers())) ?>
                 </div>
                 <div class="lichess_chat_wrap">
                     <?php $view['slots']->output('chat', '') ?>
