@@ -31,6 +31,14 @@ class MainControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('h1:contains("About Lichess")')->count());
     }
 
+    public function testHowManyPlayersNow()
+    {
+        $client = $this->createClient();
+        $client->request('GET', '/how-many-players-now');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertRegexp('/^\d+$/', (string)$client->getResponse()->getContent());
+    }
+
     public function test404()
     {
         $client = $this->createClient();

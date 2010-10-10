@@ -12,6 +12,14 @@ class MainController extends Controller
         return $this->render('LichessBundle:Main:index.php', array('color' => $color));
     }
 
+    public function howManyPlayersNowAction()
+    {
+        $nbConnectedPlayers = $this['lichess_synchronizer']->getNbConnectedPlayers();
+        $response = $this->createResponse($nbConnectedPlayers ?: "0");
+        $response->headers->set('Content-Type', 'text/plain');
+        return $response;
+    }
+
     public function toggleSoundAction()
     {
         $session = $this['session'];
