@@ -61,6 +61,9 @@ div.header {
     position: relative;
     height: 514px;
 }
+div.header strong {
+    font-weight: normal;
+}
 
 div.content {
   width: 1010px;
