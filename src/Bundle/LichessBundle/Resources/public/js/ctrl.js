@@ -15,18 +15,7 @@ $(function()
 
     // Append marks 1-8 && a-h
     if(($bw = $('div.lichess_board_wrap')).length) {
-        if($('#lichess > div.lichess_player_white').length) {
-            factor = 1;
-            base = 0;
-        }
-        else {
-            factor = -1;
-            base = 575;
-        }
-        for(i=1; i<9; i++) {
-            $bw.append($('<span>').addClass('lichess_mark').text(i).css({'right': -10, 'bottom': factor*i*64 - 38 + base}));
-            $bw.append($('<span>').addClass('lichess_mark').text('abcdefgh'[i-1]).css({'bottom': -14, 'left': factor*i*64 - 35 + base}));
-        }
+        $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
     }
 
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
@@ -97,6 +86,22 @@ $.ajax = function(o) {
     }
     return _jQueryAjax(o);
 }
+
+$.displayBoardMarks = function($board, isWhite)
+{
+    if(isWhite) {
+        factor = 1;
+        base = 0;
+    } else {
+        factor = -1;
+        base = 575;
+    }
+    $board.find('span.lichess_mark').remove();
+    for(i=1; i<9; i++) {
+        $board.append($('<span>').addClass('lichess_mark').text(i).css({'right': -10, 'bottom': factor*i*64 - 38 + base}));
+        $board.append($('<span>').addClass('lichess_mark').text('abcdefgh'[i-1]).css({'bottom': -14, 'left': factor*i*64 - 35 + base}));
+    }
+};
 
 if(document.domain == 'lichess.org') {
     //analytics

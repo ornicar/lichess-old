@@ -11,7 +11,11 @@ div.board_wrap {
     width: 514px;
 }
 div.moves_wrap {
-    margin-left: 530px;
+    margin-left: 532px;
+}
+
+#GameBoard {
+    position: relative;
 }
 
 #GameBoard table.boardTable {
@@ -23,7 +27,7 @@ div.moves_wrap {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
 }
-#GameBoard.flip, #GameBoard.flip img.pieceImage {
+#GameBoard.flip table, #GameBoard.flip img.pieceImage {
     -o-transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
@@ -39,7 +43,7 @@ div.moves_wrap {
 }
 
 #GameButtons {
-    margin-top: 1em;
+    margin-top: 20px;
 }
 #GameButtons input {
     width: 100px;
