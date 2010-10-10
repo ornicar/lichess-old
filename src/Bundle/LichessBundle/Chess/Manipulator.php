@@ -63,6 +63,10 @@ class Manipulator
             }
             $this->stack->addEvent(array('type' => 'end'));
         }
+        elseif($this->game->isCandidateToAutoDraw()) {
+            $this->game->setStatus(GAME::DRAW);
+            $this->stack->addEvent(array('type' => 'end'));
+        }
 
         $this->game->addPositionHash();
         if($this->game->isThreefoldRepetition()) {

@@ -161,6 +161,18 @@ class Player
         return $pieces;
     }
 
+    public function getNbAlivePieces()
+    {
+        $nb = 0;
+        foreach($this->pieces as $piece) {
+            if(!$piece->getIsDead()) {
+                ++$nb;
+            }
+        }
+
+        return $nb;
+    }
+
     public function getDeadPieces()
     {
         $pieces = array();

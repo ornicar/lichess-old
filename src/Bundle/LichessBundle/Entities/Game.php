@@ -136,6 +136,21 @@ class Game
     }
 
     /**
+     * Return true if the game can not be won anymore
+     * and can be declared as draw automatically
+     *
+     * @return boolean
+     **/
+    public function isCandidateToAutoDraw()
+    {
+        if(1 === $this->getPlayer('white')->getNbAlivePieces() && 1 === $this->getPlayer('black')->getNbAlivePieces()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Get pgn moves
      * @return string
      */
