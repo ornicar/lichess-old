@@ -9,6 +9,7 @@
       self.$board = self.element.find("div.lichess_board");
       self.$table = self.element.find("div.lichess_table_wrap");
       self.$chat = $("div.lichess_chat");
+      self.$connectedPlayers = $('div.nb_connected_players');
       self.initialTitle = document.title,
       self.ajaxManager = $.manageAjax.create('lichess_sync', { manageType: "queue", maxReq: 1});
       
@@ -71,6 +72,9 @@
                 if(data.v && data.v != self.options.player.version) {
                     self.options.player.version = data.v;
                     self.applyEvents(data.e);
+                }
+                if(data.ncp) {
+                    self.$connectedPlayers.text(self.$connectedPlayers.text().replace(/\d+/, data.ncp));
                 }
             },
             complete: function()

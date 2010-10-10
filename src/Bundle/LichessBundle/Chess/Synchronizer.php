@@ -20,6 +20,20 @@ class Synchronizer
         $this->timeout = $timeout;
     }
 
+    public function getNbConnectedPlayers()
+    {
+        $cleanup = 0 === rand(0, 20);
+        $it = new \APCIterator('user', '/alive$/', $cleanup ? APC_ITER_MTIME | APC_ITER_KEY : APC_ITER_MTIME, 100, APC_LIST_ACTIVE);
+        $nb = 0;
+        $limit = time() - $this->getTimeOut();
+        foreach($it as $i) {
+            if($cleanup) apc_fetch($i['key']);
+            if($i['mtime'] >= $limit) ++$nb;
+        }
+
+        return $nb;
+    }
+
     /**
      * Get timeout
      * @return int
