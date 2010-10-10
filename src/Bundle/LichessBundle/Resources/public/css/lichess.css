@@ -113,6 +113,14 @@ div.footer div.right {
 div.lichess_board_wrap {
     float: left;
     border: 1px solid #D3D3D3;
+    position: relative;
+}
+span.lichess_mark {
+    position: absolute;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #bbb;
+    font-weight: bold;
 }
 
 div.lichess_board {
@@ -365,7 +373,7 @@ div.lichess_join_url span {
 
 div.lichess_ground {
     position: relative;
-    margin-left: 530px;
+    margin-left: 532px;
     height: 514px;
 }
 
