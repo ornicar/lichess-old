@@ -7,6 +7,6 @@ app.config:
         lifetime: 2592000 # one month 
     templating:
         escaping: false
-        assets_version: 32
+        assets_version: 33
 
 lichess.config: ~
