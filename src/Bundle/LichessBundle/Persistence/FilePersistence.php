@@ -1,6 +1,8 @@
 <?php
 
 namespace Bundle\LichessBundle\Persistence;
+use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Entities\Player;
 
 class FilePersistence
 {
@@ -22,12 +24,12 @@ class FilePersistence
         $this->dir = $dir;
     }
 
-    public function save($game)
+    public function save(Game $game)
     {
         foreach($game->getPlayers() as $player) {
             if(!$player->getIsAi()) {
                 $player->getStack()->rotate();
-                apc_store($game->getHash().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
+                $this->storePlayerCache($player);
             }
         }
         $data = serialize($game);
@@ -35,8 +37,32 @@ class FilePersistence
         $file = $this->getGameFile($game);
         if(!file_put_contents($file, $data))
         {
-            throw new Exception('Can not save game '.$game->getHash().' to '.$this->getGameFile($game));
+            throw new \Exception('Can not save game '.$game->getHash().' to '.$this->getGameFile($game));
         }
+    }
+
+    public function storePlayerCache(Player $player)
+    {
+        apc_store($player->getGame()->getHash().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
+    }
+
+    public function remove(Game $game)
+    {
+        foreach($game->getPlayers() as $player) {
+            if(!$player->getIsAi()) {
+                $this->clearPlayerCache($player);
+            }
+        }
+        $file = $this->getGameFile($game);
+        if(!unlink($file))
+        {
+            throw new \Exception('Can not remove game '.$game->getHash().' at '.$this->getGameFile($game));
+        }
+    }
+
+    public function clearPlayerCache(Player $player)
+    {
+        apc_store($player->getGame()->getHash().'.'.$player->getColor().'.data', null, 1);
     }
 
     /**
@@ -50,7 +76,7 @@ class FilePersistence
         $file = $this->dir.'/'.$hash;
 
         if(!\file_exists($file)) {
-            throw new \Exception('Game file '.$file.' does not exist');
+            return null;
         }
 
         $data = file_get_contents($file);
@@ -72,7 +98,7 @@ class FilePersistence
         return gzuncompress($data);
     }
 
-    public function getGameFile($game)
+    public function getGameFile(Game $game)
     {
         return $this->dir.'/'.$game->getHash();
     }
