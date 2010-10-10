@@ -31,7 +31,7 @@ class GameRotateCommand extends BaseCommand
 
     protected function getMaxNbGames()
     {
-        return 50000;
+        return 150000;
     }
 
     /**
