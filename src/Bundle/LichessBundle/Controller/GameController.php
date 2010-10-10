@@ -78,8 +78,13 @@ class GameController extends Controller
     {
         $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
         $persistence = $this->container->getLichessPersistenceService();
+        $sessionInvites = $this['session']->get('lichess.invites', array());
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);
+            // if I'm about to join my own game
+            if(in_array($opponentHash, $sessionInvites)) {
+                return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $opponentHash)));
+            }
             unlink($connectionFile);
             $gameHash = substr($opponentHash, 0, 6);
             $game = $persistence->find($gameHash);
@@ -95,6 +100,8 @@ class GameController extends Controller
         $player = $this->container->getLichessGeneratorService()->createGameForPlayer($color);
         $persistence->save($player->getGame());
         file_put_contents($connectionFile, $player->getFullHash());
+        $sessionInvites[] = $player->getFullHash();
+        $this['session']->set('lichess.invites', $sessionInvites);
         return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $player->getFullHash())));
     }
 
