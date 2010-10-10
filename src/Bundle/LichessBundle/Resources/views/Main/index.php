@@ -15,3 +15,7 @@
         </div>
     </div>
 </div>
+
+<?php $view['slots']->start('goodies') ?>
+Don't register. <strong>Play Chess</strong>.
+<?php $view['slots']->stop() ?>
