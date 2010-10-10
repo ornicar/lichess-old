@@ -38,6 +38,9 @@
                 <div class="lichess_goodies_wrap">
                     <?php $view['slots']->output('goodies', '') ?>
                 </div>
+                <div class="nb_connected_players">
+                    <?php echo $view['translator']->_('%nb% connected players', array('%nb%' => $view['lichess']->getNbConnectedPlayers())) ?>
+                </div>
                 <div class="lichess_chat_wrap">
                     <?php $view['slots']->output('chat', '') ?>
                 </div>

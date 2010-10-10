@@ -48,6 +48,7 @@
         </parameter>
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
+        <parameter key="templating.helper.lichess.class">Bundle\LichessBundle\Helper\LichessHelper</parameter>
 
         <parameter key="session.storage.test.class">Bundle\LichessBundle\SessionStorage\TestSessionStorage</parameter>
 
@@ -58,6 +59,11 @@
         <service id="templating.helper.translator" class="%templating.helper.translator.class%">
             <tag name="templating.helper" alias="translator" />
             <argument type="service" id="lichess_translator" />
+        </service>
+
+        <service id="templating.helper.lichess" class="%templating.helper.lichess.class%">
+            <tag name="templating.helper" alias="lichess" />
+            <argument type="service" id="lichess_synchronizer" />
         </service>
 
         <service id="lichess_translator" class="%lichess.translator.class%" shared="true">

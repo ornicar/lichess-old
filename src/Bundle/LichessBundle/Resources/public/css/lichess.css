@@ -90,6 +90,10 @@ span.lichess_version {
     font-style: italic;
 }
 
+div.nb_connected_players {
+    margin-top: 20px;
+}
+
 div.footer_wrap {
   width: 100%;
   border-top: 1px solid #ddd;

@@ -77,7 +77,10 @@ class PlayerController extends Controller
             $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $player->getFullHash()))));
         }
 
-        return array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events);
+        $data = array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events);
+        $data['ncp'] = $this->getSynchronizer()->getNbConnectedPlayers();
+
+        return $data;
     }
 
     public function forceResignAction($hash)
