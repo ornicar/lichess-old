@@ -24,15 +24,19 @@ class MongoDBPersistence
                 $this->storePlayerCache($player);
             }
         }
+        $hash = $game->getHash();
 
-        $gameData = array(
-            'serialized' => $this->encode(serialize($game)),
-            'hash' => $game->getHash()
+        $data = array(
+            'bin' => $this->encode(serialize($game)),
+            'hash' => $hash,
+            'status' => $game->getStatus(),
+            'turns' => $game->getTurns(),
+            'upd' => time()
         );
 
-        $criteria = array('hash' => $gameData['hash']);
+        $criteria = array('hash' => $hash);
         $options = array('upsert' => true);
-        $this->collection->update($criteria, $gameData, $options);
+        $this->collection->update($criteria, $data, $options);
     }
 
     public function storePlayerCache(Player $player)
@@ -63,12 +67,10 @@ class MongoDBPersistence
     {
         if(isset($this->games[$hash])) return $this->games[$hash];
 
-        $gameData = $this->collection->findOne(array('hash' => $hash));
+        $data = $this->collection->findOne(array('hash' => $hash));
+        if(!$data) return null;
 
-        if(!$gameData) return null;
-
-        $game = unserialize($this->decode($gameData['serialized']));
-
+        $game = unserialize($this->decode($data['bin']));
         if(!$game) return null;
 
         return $this->games[$hash] = $game;
@@ -76,7 +78,7 @@ class MongoDBPersistence
 
     protected function encode($data)
     {
-        return new \MongoBinData(gzcompress($data, 1));
+        return new \MongoBinData(gzcompress($data, 1), \MongoBinData::CUSTOM);
     }
 
     protected function decode($data)
