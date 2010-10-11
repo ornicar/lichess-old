@@ -295,9 +295,14 @@ abstract class Piece
         return $class{0}.$this->color{0}.$this->x.$this->y;
     }
 
-    public function serialize()
+    public function getPersistentPropertyNames()
     {
         return array('x', 'y', 'player', 'isDead', 'firstMove');
+    }
+
+    public function serialize()
+    {
+        return $this->getPersistentPropertyNames();
     }
 
 }

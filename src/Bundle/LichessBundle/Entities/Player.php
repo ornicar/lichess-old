@@ -312,8 +312,13 @@ class Player
         return $this->getGame()->getBoard();
     }
 
-    public function serialize()
+    public function getPersistentPropertyNames()
     {
         return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner', 'stack');
+    }
+
+    public function serialize()
+    {
+        return $this->getPersistentPropertyNames();
     }
 }

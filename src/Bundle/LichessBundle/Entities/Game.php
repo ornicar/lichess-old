@@ -432,9 +432,14 @@ class Game
         return '#'.$this->getId(). 'turn '.$this->getTurns();
     }
 
-    public function serialize()
+    public function getPersistentPropertyNames()
     {
         return array('hash', 'status', 'players', 'turns', 'creator', 'positionHashes');
+    }
+
+    public function serialize()
+    {
+        return $this->getPersistentPropertyNames();
     }
 
     public function unserialize()
