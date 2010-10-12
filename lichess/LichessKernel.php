@@ -19,6 +19,9 @@ class LichessKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\ZendBundle\ZendBundle(),
+            new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
+            new Bundle\ForumBundle\ForumBundle(),
+            new Application\ForumBundle\ForumBundle(),
             new Bundle\LichessBundle\LichessBundle()
         );
 
@@ -43,7 +46,7 @@ class LichessKernel extends Kernel
 
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        if (true || !$this->isDebug()) {
+        if (false || !$this->isDebug()) {
             $container->setParameter('exception_listener.controller', 'LichessBundle:Main:notFound');
         }
 

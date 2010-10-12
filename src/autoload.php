@@ -4,7 +4,10 @@ require_once __DIR__.'/vendor/Symfony/src/Symfony/Component/HttpFoundation/Unive
 
 $loader = new Symfony\Component\HttpFoundation\UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'Symfony'     => __DIR__.'/vendor/Symfony/src',
-    'Bundle'      => __DIR__
+    'Symfony'                => __DIR__.'/vendor/Symfony/src',
+    'Doctrine\\Common'       => __DIR__.'/vendor/mongodb-odm/lib/vendor/doctrine-common/lib',
+    'Doctrine\\ODM\\MongoDB' => __DIR__.'/vendor/mongodb-odm/lib',
+    'Bundle'                 => __DIR__,
+    'Application'            => __DIR__
 ));
 $loader->register();
