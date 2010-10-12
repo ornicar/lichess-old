@@ -91,7 +91,7 @@ class MongoDBPersistence
 
     protected function encode($data)
     {
-        return new \MongoBinData(gzcompress($data, 1), \MongoBinData::CUSTOM);
+        return new \MongoBinData(gzcompress($data, 9), \MongoBinData::CUSTOM);
     }
 
     protected function decode($data)
