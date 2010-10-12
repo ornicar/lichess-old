@@ -8,6 +8,30 @@ use Bundle\LichessBundle\Chess\Generator;
 class MongoDBPersistenceTest extends \PHPUnit_Framework_TestCase
 {
 
+    public function testMongoBin()
+    {
+        $data = "string data";
+        $bin = new \MongoBinData($data);
+        $this->assertEquals($data, $bin->bin);
+    }
+
+    public function testMongoBinWithCompressedData()
+    {
+        $data = "string data";
+        $compressed = gzcompress($data, 9);
+        $bin = new \MongoBinData($compressed);
+        $this->assertEquals($data, gzuncompress($bin->bin));
+    }
+
+    public function testMongoBinWithSerializedAndCompressedData()
+    {
+        $data = "string data";
+        $serialized = serialize($data);
+        $compressed = gzcompress($serialized, 9);
+        $bin = new \MongoBinData($compressed);
+        $this->assertEquals($data, unserialize(gzuncompress($bin->bin)));
+    }
+
     public function testCompression()
     {
         $this->compression('string data');
@@ -18,8 +42,8 @@ class MongoDBPersistenceTest extends \PHPUnit_Framework_TestCase
     protected function compression($data)
     {
         $serialized = serialize($data);
-        $compressed = gzcompress($serialized, 1);
-        $bin = new \MongoBinData($compressed, \MongoBinData::MD5);
+        $compressed = gzcompress($serialized, 9);
+        $bin = new \MongoBinData($compressed);
         $this->assertEquals($compressed, $bin->bin);
         $this->assertEquals($serialized, gzuncompress($bin->bin));
     }
@@ -41,7 +65,7 @@ class MongoDBPersistenceTest extends \PHPUnit_Framework_TestCase
 
         return $game;
     }
-   
+
     /**
      * @depends testSave
      */
