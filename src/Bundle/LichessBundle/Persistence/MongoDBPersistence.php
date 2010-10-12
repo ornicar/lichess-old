@@ -16,6 +16,17 @@ class MongoDBPersistence
         $this->collection = $this->mongo->selectCollection('lichess', 'game');
     }
 
+    public function ensureIndexes()
+    {
+        $this->collection->deleteIndexes();
+        $this->collection->ensureIndex(array('hash' => 1), array('unique' => true, 'safe' => true, 'name' => 'hash_index'));
+    }
+
+    public function getNbGames()
+    {
+        return $this->collection->count();
+    }
+
     public function save(Game $game)
     {
         foreach($game->getPlayers() as $player) {

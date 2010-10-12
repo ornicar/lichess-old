@@ -14,9 +14,6 @@ use Symfony\Component\Console\Output\Output;
  */
 class ProofCommand extends BaseCommand
 {
-    protected $output;
-    protected $gameDir;
-
     /**
      * @see Command
      */
