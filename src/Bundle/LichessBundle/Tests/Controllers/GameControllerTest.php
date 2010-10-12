@@ -43,10 +43,10 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter($selector)->count());
 
         $inviteUrl = $crawler->filter($selector)->attr('value');
-        $this->assertRegexp('#^http://.*/[\w\d]{6}$#', $inviteUrl);
+        $this->assertRegexp('#^http://.*/[\w-]{6}$#', $inviteUrl);
 
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
-        $this->assertRegexp('#^/sync/[\w\d]{6}/white/0/[\w\d]{10}$#', $syncUrl);
+        $this->assertRegexp('#^/sync/[\w-]{6}/white/0/[\w-]{10}$#', $syncUrl);
 
         $friend = $this->createClient();
         $friend->request('GET', $inviteUrl);
@@ -77,10 +77,10 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter($selector)->count());
 
         $inviteUrl = $crawler->filter($selector)->attr('value');
-        $this->assertRegexp('#^http://.*/[\w\d]{6}$#', $inviteUrl);
+        $this->assertRegexp('#^http://.*/[\w-]{6}$#', $inviteUrl);
 
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
-        $this->assertRegexp('#^/sync/[\w\d]{6}/black/0/[\w\d]{10}$#', $syncUrl);
+        $this->assertRegexp('#^/sync/[\w-]{6}/black/0/[\w-]{10}$#', $syncUrl);
 
         $friend = $this->createClient();
         $friend->request('GET', $inviteUrl);
@@ -113,7 +113,7 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter($selector)->count());
 
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
-        $this->assertRegexp('#^/sync/[\w\d]{6}/white/0/[\w\d]{10}$#', $syncUrl);
+        $this->assertRegexp('#^/sync/[\w-]{6}/white/0/[\w-]{10}$#', $syncUrl);
 
         $friend = $this->createClient();
         $crawler = $friend->request('GET', '/');

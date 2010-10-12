@@ -12,7 +12,7 @@
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
 // Handle only sync urls
-if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<hash>[\w]{6})/(?P<color>(white|black))/(?P<version>\d+)/(?P<playerFullHash>([\w]{10}|))$#x', $url, $matches)) {
+if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<hash>[\w-]{6})/(?P<color>(white|black))/(?P<version>\d+)/(?P<playerFullHash>([\w-]{10}|))$#x', $url, $matches)) {
     $hash = $matches['hash'];
     $color = $matches['color'];
     $clientVersion = $matches['version'];

@@ -5,23 +5,23 @@ lichess_homepage:
 lichess_sync:
     pattern:        /sync/:hash/:color/:version/:playerFullHash
     defaults:       { _controller: LichessBundle:Player:sync, playerFullHash: "" }
-    requirements:   { hash: "[\w]{6}", color: (white|black), version: "\d+", playerFullHash: "([\w]{10}|)" }
+    requirements:   { hash: "[\w-]{6}", color: (white|black), version: "\d+", playerFullHash: "([\w-]{10}|)" }
 lichess_move:
     pattern:        /move/:hash/:version
     defaults:       { _controller: LichessBundle:Player:move }
-    requirements:   { hash: "[\w]{10}", version: "\d+" }
+    requirements:   { hash: "[\w-]{10}", version: "\d+" }
 lichess_say:
     pattern:        /talk/:hash/:version
     defaults:       { _controller: LichessBundle:Player:say }
-    requirements:   { hash: "[\w]{10}", version: "\d+" }
+    requirements:   { hash: "[\w-]{10}", version: "\d+" }
 lichess_game:
     pattern:        /:hash
     defaults:       { _controller: LichessBundle:Game:show }
-    requirements:   { hash: "[\w]{6}" }
+    requirements:   { hash: "[\w-]{6}" }
 lichess_player:
     pattern:        /:hash
     defaults:       { _controller: LichessBundle:Player:show }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_invite_ai:
     pattern:        /ai/:color
     defaults:       { _controller: LichessBundle:Game:inviteAi }
@@ -33,7 +33,7 @@ lichess_invite_friend:
 lichess_wait_friend:
     pattern:        /friend/:hash
     defaults:       { _controller: LichessBundle:Player:waitFriend }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_invite_anybody:
     pattern:        /anybody/:color
     defaults:       { _controller: LichessBundle:Game:inviteAnybody, color: white }
@@ -41,38 +41,38 @@ lichess_invite_anybody:
 lichess_wait_anybody:
     pattern:        /anybody/:hash
     defaults:       { _controller: LichessBundle:Player:waitAnybody }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_resign:
     pattern:        /resign/:hash
     defaults:       { _controller: LichessBundle:Player:resign }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_table:
     pattern:        /table/:hash/:color/:playerFullHash
     defaults:       { _controller: LichessBundle:Player:table, playerFullHash: "" }
-    requirements:   { hash: "[\w]{6}", color: (white|black), playerFullHash: "([\w]{10}|)" }
+    requirements:   { hash: "[\w-]{6}", color: (white|black), playerFullHash: "([\w-]{10}|)" }
 lichess_opponent:
     pattern:        /opponent/:hash/:color/:playerFullHash
     defaults:       { _controller: LichessBundle:Player:opponent, playerFullHash: "" }
-    requirements:   { hash: "[\w]{6}", color: (white|black), playerFullHash: "([\w]{10}|)" }
+    requirements:   { hash: "[\w-]{6}", color: (white|black), playerFullHash: "([\w-]{10}|)" }
 lichess_ai_level:
     pattern:        /level/:hash
     defaults:       { _controller: LichessBundle:Player:aiLevel }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
 lichess_rematch:
     pattern:        /rematch/:hash
     defaults:       { _controller: LichessBundle:Player:rematch }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_force_resignation:
     pattern:        /force-resign/:hash
     defaults:       { _controller: LichessBundle:Player:forceResign }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_claim_draw:
     pattern:        /claim-draw/:hash
     defaults:       { _controller: LichessBundle:Player:claimDraw }
-    requirements:   { hash: "[\w]{10}" }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_locale:
     pattern:        /locale/:locale
     defaults:       { _controller: LichessBundle:Main:locale }
@@ -88,11 +88,11 @@ lichess_translate_list:
 lichess_pgn_viewer:
     pattern:        /analyse/:hash/:color
     defaults:       { _controller: LichessBundle:Pgn:analyse, color: white }
-    requirements:   { hash: "[\w]{6}", color: (white|black) }
+    requirements:   { hash: "[\w-]{6}", color: (white|black) }
 lichess_pgn_export:
     pattern:        /export/:hash
     defaults:       { _controller: LichessBundle:Pgn:export }
-    requirements:   { hash: "[\w]{6}" }
+    requirements:   { hash: "[\w-]{6}" }
 lichess_nb_players:
     pattern:        /how-many-players-now
     defaults:       { _controller: LichessBundle:Main:howManyPlayersNow }

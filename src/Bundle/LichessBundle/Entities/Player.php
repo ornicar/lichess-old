@@ -72,9 +72,9 @@ class Player
     {
         $this->color = $color;
         $this->hash = '';
-        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
         for ( $i = 0; $i < 4; $i++ ) {
-            $this->hash .= $chars[mt_rand( 0, 36 )];
+            $this->hash .= $chars[mt_rand( 0, 63 )];
         }
         $this->stack = new Stack();
         $this->stack->addEvent(array('type' => 'start'));
