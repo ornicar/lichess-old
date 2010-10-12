@@ -10,3 +10,9 @@
 [submodule "src/vendor/mongodb-odm"]
 	path = src/vendor/mongodb-odm
 	url = git://github.com/doctrine/mongodb-odm
+[submodule "TimeBundle"]
+	path = TimeBundle
+	url = git://github.com/knplabs/TimeBundle.git
+[submodule "src/Bundle/TimeBundle"]
+	path = src/Bundle/TimeBundle
+	url = git://github.com/knplabs/TimeBundle.git
