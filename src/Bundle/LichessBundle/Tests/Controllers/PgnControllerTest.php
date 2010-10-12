@@ -12,7 +12,7 @@ class PgnControllerTest extends WebTestCase
         $client->request('GET', '/ai/white');
         $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $hash = preg_replace('#^.+([\w\d]{10}+)$#', '$1', $client->getRequest()->getUri());
+        $hash = preg_replace('#^.+([\w-]{10}+)$#', '$1', $client->getRequest()->getUri());
         $publicHash = substr($hash, 0, 6);
         $crawler = $client->request('GET', '/analyse/'.$publicHash);
         $this->assertTrue($client->getResponse()->isSuccessful());

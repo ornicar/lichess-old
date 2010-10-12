@@ -14,13 +14,13 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
         $inviteUrl = $crawler->filter($selector)->attr('value');
-        $h1 = preg_replace('#^.+([\w\d]{10}+)$#', '$1', $p1->getRequest()->getUri());
+        $h1 = preg_replace('#^.+([\w-]{10}+)$#', '$1', $p1->getRequest()->getUri());
 
         $p2 = $this->createClient();
         $p2->request('GET', $inviteUrl);
         $crawler = $p2->followRedirect();
         $this->assertTrue($p2->getResponse()->isSuccessful());
-        $h2 = preg_replace('#^.+([\w\d]{10}+)$#', '$1', $p2->getRequest()->getUri());
+        $h2 = preg_replace('#^.+([\w-]{10}+)$#', '$1', $p2->getRequest()->getUri());
 
         return array($p1, $h1, $p2, $h2);
     }

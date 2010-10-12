@@ -92,9 +92,9 @@ class Game
 
     public function __construct()
     {
-        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
         for ( $i = 0; $i < 6; $i++ ) {
-            $this->hash .= $chars[mt_rand( 0, 36 )];
+            $this->hash .= $chars[mt_rand( 0, 63 )];
         }
         $this->status = self::CREATED;
         $this->room = new Room();

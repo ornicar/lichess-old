@@ -12,7 +12,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $client->request('GET', '/ai/white');
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $hash = preg_replace('#^.+([\w\d]{10}+)$#', '$1', $client->getRequest()->getUri());
+        $hash = preg_replace('#^.+([\w-]{10}+)$#', '$1', $client->getRequest()->getUri());
 
         return $hash;
     }
