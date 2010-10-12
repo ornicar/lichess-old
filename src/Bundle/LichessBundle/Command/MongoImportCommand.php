@@ -52,7 +52,7 @@ class MongoImportCommand extends BaseCommand
                     $nbFails++;
                     continue;
                 }
-                $mongoPersistence->save($game);
+                $mongoPersistence->save($game, true);
                 $output->writeLn(sprintf('%01.0f%% %s', 100*$gi/$nbGames, $hash));
                 $gi++;
             }
