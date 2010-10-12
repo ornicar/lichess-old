@@ -7,3 +7,6 @@
 [submodule "src/Bundle/ForumBundle"]
 	path = src/Bundle/ForumBundle
 	url = git://github.com/Exercise/ForumBundle.git
+[submodule "src/vendor/mongodb-odm"]
+	path = src/vendor/mongodb-odm
+	url = git://github.com/doctrine/mongodb-odm
