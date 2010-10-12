@@ -27,12 +27,14 @@ class MongoDBPersistence
         return $this->collection->count();
     }
 
-    public function save(Game $game)
+    public function save(Game $game, $import = false)
     {
-        foreach($game->getPlayers() as $player) {
-            if(!$player->getIsAi()) {
-                $player->getStack()->rotate();
-                $this->storePlayerCache($player);
+        if(!$import) {
+            foreach($game->getPlayers() as $player) {
+                if(!$player->getIsAi()) {
+                    $player->getStack()->rotate();
+                    $this->storePlayerCache($player);
+                }
             }
         }
         $hash = $game->getHash();
