@@ -18,8 +18,12 @@ class MongoDBPersistence
 
     public function ensureIndexes()
     {
-        $this->collection->deleteIndexes();
         $this->collection->ensureIndex(array('hash' => 1), array('unique' => true, 'safe' => true, 'name' => 'hash_index'));
+    }
+
+    public function getCollection()
+    {
+        return $this->collection;
     }
 
     public function getNbGames()
@@ -29,6 +33,7 @@ class MongoDBPersistence
 
     public function save(Game $game, $import = false)
     {
+        $hash = $game->getHash();
         if(!$import) {
             foreach($game->getPlayers() as $player) {
                 if(!$player->getIsAi()) {
@@ -37,7 +42,6 @@ class MongoDBPersistence
                 }
             }
         }
-        $hash = $game->getHash();
 
         $data = array(
             'bin' => $this->encode(serialize($game)),
