@@ -88,6 +88,11 @@ class FilePersistence
         return $this->games[$hash] = $game;
     }
 
+    public function clear()
+    {
+        $this->games = array();
+    }
+
     protected function encode($data)
     {
         return gzcompress($data, 1);
