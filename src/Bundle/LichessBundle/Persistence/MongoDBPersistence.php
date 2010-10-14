@@ -6,13 +6,14 @@ use Bundle\LichessBundle\Entities\Player;
 
 class MongoDBPersistence
 {
+    protected $server = 'mongodb://localhost:27017';
     protected $mongo;
     protected $collection;
     protected $games = array();
 
     public function __construct()
     {
-        $this->mongo = new \Mongo();
+        $this->mongo = new \Mongo($this->server, array('persist' => 'lichess_connection'));
         $this->collection = $this->mongo->selectCollection('lichess', 'game');
     }
 
