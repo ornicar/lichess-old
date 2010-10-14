@@ -6,13 +6,14 @@ use Bundle\LichessBundle\Entities\Player;
 
 class MongoDBPersistence
 {
+    protected $server = 'mongodb://localhost:27017';
     protected $mongo;
     protected $collection;
     protected $games = array();
 
     public function __construct()
     {
-        $this->mongo = new \Mongo();
+        $this->mongo = new \Mongo($this->server, array('persist' => 'lichess_connection'));
         $this->collection = $this->mongo->selectCollection('lichess', 'game');
     }
 
@@ -31,17 +32,15 @@ class MongoDBPersistence
         return $this->collection->count();
     }
 
-    public function save(Game $game, $import = false)
+    public function save(Game $game)
     {
-        $hash = $game->getHash();
-        if(!$import) {
-            foreach($game->getPlayers() as $player) {
-                if(!$player->getIsAi()) {
-                    $player->getStack()->rotate();
-                    $this->storePlayerCache($player);
-                }
+        foreach($game->getPlayers() as $player) {
+            if(!$player->getIsAi()) {
+                $player->getStack()->rotate();
+                $this->storePlayerCache($player);
             }
         }
+        $hash = $game->getHash();
 
         $data = array(
             'bin' => $this->encode(serialize($game)),
@@ -93,12 +92,12 @@ class MongoDBPersistence
         return $this->games[$hash] = $game;
     }
 
-    protected function encode($data)
+    public function encode($data)
     {
         return new \MongoBinData(gzcompress($data, 9));
     }
 
-    protected function decode($data)
+    public function decode($data)
     {
         return gzuncompress($data->bin);
     }
