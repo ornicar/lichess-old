@@ -12,7 +12,7 @@ class MongoDBPersistence
 
     public function __construct()
     {
-        $this->mongo = new \Mongo();
+        $this->mongo = new \Mongo('mongodb://localhost:27017', array('persist' => 'lichess_connection'));
         $this->collection = $this->mongo->selectCollection('lichess', 'game');
     }
 
@@ -97,10 +97,5 @@ class MongoDBPersistence
     protected function decode($data)
     {
         return gzuncompress($data->bin);
-    }
-
-    public function __destruct()
-    {
-        $this->mongo->close();
     }
 }
