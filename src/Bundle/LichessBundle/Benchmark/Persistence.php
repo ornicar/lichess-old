@@ -10,36 +10,38 @@ require_once(__DIR__.'/bootstrap.php');
 require_once(__DIR__.'/../Persistence/FilePersistence.php');
 require_once(__DIR__.'/../Persistence/MongoDBPersistence.php');
 
-$driver = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : 'file';
-
 $totalTime = 0;
 $dir = sys_get_temp_dir().'/lichess';
 if(!is_dir($dir)) {
     mkdir($dir);
 }
+$driver = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : 'file';
+$driver = function() use($driver, $dir)
+{
+    return 'file' == $driver ? new FilePersistence($dir) : new MongoDBPersistence();
+};
 
-$persistence = 'file' == $driver ? new FilePersistence($dir) : new MongoDBPersistence();
 $generator = new Generator();
 $game = $generator->createGame();
-$persistence->save($game);
+$driver()->save($game);
 
 print "Empty game\n";
-lichess_test_performance_file_persistence($game, $persistence);
+lichess_test_performance_file_persistence($game, $driver);
 
 $game = $generator->createGame();
-$persistence->save($game);
+$driver()->save($game);
 $game->setStatus(Game::STARTED);
 for($it=0; $it<300; $it++) {
     $game->getRoom()->addMessage($it%2 ? 'white' : 'black', str_repeat('blah blah ', rand(1, 10)));
 }
-$persistence->save($game);
+$driver();
 
 print "Real world game\n";
-lichess_test_performance_file_persistence($game, $persistence);
+lichess_test_performance_file_persistence($game, $driver);
 
 printf('Total: %01.2f ms'."\n", $totalTime);
 
-function lichess_test_performance_file_persistence(Game $game, $persistence)
+function lichess_test_performance_file_persistence(Game $game, $driver)
 {
     global $totalTime;
     $hash = $game->getHash();
@@ -47,7 +49,9 @@ function lichess_test_performance_file_persistence(Game $game, $persistence)
 
     $start = microtime(true);
     for($it=0; $it<$iterations; $it++) {
+        $persistence = $driver();
         $persistence->find($hash);
+        unset($persistence);
     }
     $totalTime += $time = 1000 * (microtime(true) - $start);
 
@@ -56,7 +60,9 @@ function lichess_test_performance_file_persistence(Game $game, $persistence)
 
     $start = microtime(true);
     for($it=0; $it<$iterations; $it++) {
+        $persistence = $driver();
         $persistence->save($game);
+        unset($persistence);
     }
     $totalTime += $time = 1000 * (microtime(true) - $start);
 
