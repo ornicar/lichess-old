@@ -98,4 +98,9 @@ class MongoDBPersistence
     {
         return gzuncompress($data->bin);
     }
+
+    public function __destruct()
+    {
+        $this->mongo->close();
+    }
 }
