@@ -43,14 +43,12 @@ class LichessKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $container = new ContainerBuilder();
-
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        if (false || !$this->isDebug()) {
+        if (true || !$this->isDebug()) {
+            $container = new ContainerBuilder();
             $container->setParameter('exception_listener.controller', 'LichessBundle:Main:notFound');
+            return $container;
         }
-
-        return $container;
     }
 }

@@ -51,8 +51,10 @@ class MongoImportCommand extends BaseCommand
             foreach(str_split($chars) as $char2) {
                 $start = microtime(true);
                 $files = glob($gameDir.'/'.$char1.$char2.'*');
+                $gameArrays = array();
                 foreach($files as $file) {
                     $hash = basename($file);
+                    if(strlen($hash) !== 6) continue;
                     if($mongoCollection->count(array('hash' => $hash))) continue;
                     $game = $filePersistence->find($hash);
                     if(!$game) {
@@ -60,16 +62,24 @@ class MongoImportCommand extends BaseCommand
                         $nbFails++;
                         continue;
                     }
-                    if($game->getTurns() < 2) {
+                    if($game->getTurns() < 4) {
                         $nbEmpty++;
                         continue;
                     }
-                    $mongoPersistence->save($game, true);
+                    $gameArrays[] = array(
+                        'bin' => $mongoPersistence->encode(serialize($game)),
+                        'hash' => $hash,
+                        'status' => $game->getStatus(),
+                        'turns' => $game->getTurns(),
+                        'upd' => filemtime($file)
+                    );
+
                     unset($game);
                 }
+                if(!empty($gameArrays)) $mongoCollection->batchInsert($gameArrays);
                 $time = microtime(true) - $start;
                 $output->writeLn(sprintf('%s%s* %d in %01.2fs', $char1, $char2, count($files), $time));
-                unset($files);
+                unset($files, $gameArrays);
                 $filePersistence->clear();
             }
         }
