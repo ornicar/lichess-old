@@ -10,8 +10,8 @@ forum_category:
 forum_topic:
     resource: ForumBundle/Resources/config/routing/topic.xml
     prefix: /forum
-forum_topic:
-    resource: ForumBundle/Resources/config/routing/topic.xml
+forum_post:
+    resource: ForumBundle/Resources/config/routing/post.xml
     prefix: /forum
 forum_index:
     pattern:        /forum
