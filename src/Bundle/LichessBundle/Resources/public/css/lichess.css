@@ -33,7 +33,6 @@ html{color:#000;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fiel
 body {
   font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
   color: #888;
-  text-shadow: 1px 1px 1px rgba(255,255,255,1);
   background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
 }
 
@@ -56,7 +55,7 @@ strong {
 }
 
 div.header {
-    width: 185px;
+    width: 200px;
     float: left;
     position: relative;
     height: 514px;
@@ -72,7 +71,7 @@ div.content {
 }
 
 #lichess {
-  margin-left: 201px;
+  margin-left: 211px;
 }
 
 a.site_title {
@@ -385,7 +384,7 @@ div.lichess_table {
     position: absolute;
     top: 176px;
     left: 0px;
-    width: 252px;
+    width: 242px;
     background: #F7F7F7;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -510,7 +509,7 @@ div.lichess_table.finished div.lichess_player p {
 
 div.lichess_cemetery {
     height: 128px;
-    width: 272px;
+    width: 262px;
     position: absolute;
     left: 0px;
 }
@@ -526,7 +525,7 @@ div.lichess_cemetery_bottom {
 div.lichess_cemetery div.lichess_tomb {
     display: block;
     float: left;
-    margin: 0 -15px;
+    margin: 0 -16px;
     width: 64px;
     height: 64px;
 }
@@ -604,7 +603,7 @@ div.lichess_chat input.toggle_chat {
 
 div.lichess_chat ol {
     height: 313px;
-    width: 173px;
+    width: 183px;
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid #ccc;
@@ -621,7 +620,7 @@ div.lichess_chat form input {
     border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
-    width: 173px;
+    width: 183px;
     background: white;
 }
 div.lichess_chat input.lichess_hint {
@@ -702,6 +701,15 @@ ul.lichess_language_links li:last-child {
 a.lichess_replay_link {
     margin-top: 20px;
     display: block;
+}
+div.lichess_share_game {
+    margin-top: 20px;
+}
+div.lichess_share_game input {
+    background: none;
+    border: 1px solid #ddd;
+    padding: 1px 3px;
+    color: #888;
 }
 
 ul.lichess_social {

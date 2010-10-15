@@ -23,6 +23,7 @@ class MongoImportCommand extends BaseCommand
     {
         $this
             ->setDefinition(array(
+                new InputArgument('start', InputArgument::REQUIRED, 'The starting letter'),
             ))
             ->setName('lichess:mongo:import')
         ;
@@ -36,30 +37,54 @@ class MongoImportCommand extends BaseCommand
         $gameDir = $this->container->getParameter('lichess.persistence.dir');
         $filePersistence = new FilePersistence($gameDir);
         $mongoPersistence = new MongoDBPersistence();
+        $mongoCollection = $mongoPersistence->getCollection();
 
         $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
-        $nbGames = $this->getNbGames($gameDir);
-        $gi = 1;
+        $startChar = $input->getArgument('start');
+        $charStartIndex = strpos($chars, $startChar);
         $nbFails = 0;
-        foreach(str_split($chars) as $char) {
-            $files = glob($gameDir.'/'.$char.'*');
-            foreach($files as $file) {
-                if(!is_file($file)) continue;
-                $hash = basename($file);
-                $game = $filePersistence->find($hash);
-                if(!$game) {
-                    $output->writeLn('FAIL '.$hash);
-                    $nbFails++;
-                    continue;
+        $nbEmpty = 0;
+        foreach(str_split($chars) as $charIndex => $char1) {
+            if($charIndex < $charStartIndex) continue;
+            $output->writeLn('Indexing...');
+            $mongoPersistence->ensureIndexes();
+            foreach(str_split($chars) as $char2) {
+                $start = microtime(true);
+                $files = glob($gameDir.'/'.$char1.$char2.'*');
+                $gameArrays = array();
+                foreach($files as $file) {
+                    $hash = basename($file);
+                    if(strlen($hash) !== 6) continue;
+                    if($mongoCollection->count(array('hash' => $hash))) continue;
+                    $game = $filePersistence->find($hash);
+                    if(!$game) {
+                        $output->writeLn('FAIL '.$hash);
+                        $nbFails++;
+                        continue;
+                    }
+                    if($game->getTurns() < 4) {
+                        $nbEmpty++;
+                        continue;
+                    }
+                    $gameArrays[] = array(
+                        'bin' => $mongoPersistence->encode(serialize($game)),
+                        'hash' => $hash,
+                        'status' => $game->getStatus(),
+                        'turns' => $game->getTurns(),
+                        'upd' => filemtime($file)
+                    );
+
+                    unset($game);
                 }
-                $mongoPersistence->save($game, true);
-                $output->writeLn(sprintf('%01.0f%% %s', 100*$gi/$nbGames, $hash));
-                $gi++;
+                if(!empty($gameArrays)) $mongoCollection->batchInsert($gameArrays);
+                $time = microtime(true) - $start;
+                $output->writeLn(sprintf('%s%s* %d in %01.2fs', $char1, $char2, count($files), $time));
+                unset($files, $gameArrays);
+                $filePersistence->clear();
             }
-            unset($files);
         }
 
-        $output->writeLn(sprintf('%d fails, %d games in DB', $nbFails, $mongoPersistence->getNbGames()));
+        $output->writeLn(sprintf('%d fails, %d empty, %d games in DB', $nbFails, $nbEmpty, $mongoPersistence->getNbGames()));
     }
 
     protected function getNbGames($dir)
