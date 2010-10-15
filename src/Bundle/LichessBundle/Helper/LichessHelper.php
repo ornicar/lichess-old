@@ -14,6 +14,11 @@ class LichessHelper extends Helper
         $this->synchronizer = $synchronizer;
     }
 
+    public function escape($string)
+    {
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
+
     public function getNbConnectedPlayers()
     {
         return $this->synchronizer->getNbConnectedPlayers();
