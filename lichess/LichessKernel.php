@@ -45,7 +45,7 @@ class LichessKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        if (true || !$this->isDebug()) {
+        if (!$this->isDebug()) {
             $container = new ContainerBuilder();
             $container->setParameter('exception_listener.controller', 'LichessBundle:Main:notFound');
             return $container;
