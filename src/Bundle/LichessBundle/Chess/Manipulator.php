@@ -89,14 +89,15 @@ class Manipulator
     {
         list($fromKey, $toKey) = explode(' ', $notation);
 
+        if(!$fromKey || !$toKey) {
+            throw new \InvalidArgumentException(sprintf('Invalid internal move notation "%s"', $notation));
+        }
         if(!$from = $this->board->getSquareByKey($fromKey)) {
             throw new \InvalidArgumentException('Square '.$fromKey.' does not exist');
         }
-
         if(!$to = $this->board->getSquareByKey($toKey)) {
             throw new \InvalidArgumentException('Square '.$toKey.' does not exist');
         }
-
         if(!$piece = $from->getPiece()) {
             throw new \InvalidArgumentException('No piece on '.$from);
         }
