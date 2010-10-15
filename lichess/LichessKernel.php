@@ -35,8 +35,8 @@ class LichessKernel extends Kernel
     public function registerBundleDirs()
     {
         return array(
-            'Bundle'          => __DIR__.'/../src/Bundle',
             'Application'     => __DIR__.'/../src/Application',
+            'Bundle'          => __DIR__.'/../src/Bundle',
             'Symfony\\Bundle' => __DIR__.'/../src/vendor/Symfony/src/Symfony/Bundle',
         );
     }
