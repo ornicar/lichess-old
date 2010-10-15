@@ -111,9 +111,10 @@ $.displayBoardMarks = function($board, isWhite)
         base = 575;
     }
     $board.find('span.lichess_mark').remove();
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
     for(i=1; i<9; i++) {
         $board.append($('<span>').addClass('lichess_mark').text(i).css({'right': -10, 'bottom': factor*i*64 - 38 + base}));
-        $board.append($('<span>').addClass('lichess_mark').text('abcdefgh'[i-1]).css({'bottom': -14, 'left': factor*i*64 - 35 + base}));
+        $board.append($('<span>').addClass('lichess_mark').text(letters[i-1]).css({'bottom': -14, 'left': factor*i*64 - 35 + base}));
     }
 };
 
