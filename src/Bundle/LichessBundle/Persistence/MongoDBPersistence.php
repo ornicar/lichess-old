@@ -6,20 +6,25 @@ use Bundle\LichessBundle\Entities\Player;
 
 class MongoDBPersistence
 {
+    protected $server = 'mongodb://localhost:27017';
     protected $mongo;
     protected $collection;
     protected $games = array();
 
     public function __construct()
     {
-        $this->mongo = new \Mongo('mongodb://localhost:27017', array('persist' => 'lichess_connection'));
+        $this->mongo = new \Mongo($this->server, array('persist' => 'lichess_connection'));
         $this->collection = $this->mongo->selectCollection('lichess', 'game');
     }
 
     public function ensureIndexes()
     {
-        $this->collection->deleteIndexes();
         $this->collection->ensureIndex(array('hash' => 1), array('unique' => true, 'safe' => true, 'name' => 'hash_index'));
+    }
+
+    public function getCollection()
+    {
+        return $this->collection;
     }
 
     public function getNbGames()
@@ -27,14 +32,12 @@ class MongoDBPersistence
         return $this->collection->count();
     }
 
-    public function save(Game $game, $import = false)
+    public function save(Game $game)
     {
-        if(!$import) {
-            foreach($game->getPlayers() as $player) {
-                if(!$player->getIsAi()) {
-                    $player->getStack()->rotate();
-                    $this->storePlayerCache($player);
-                }
+        foreach($game->getPlayers() as $player) {
+            if(!$player->getIsAi()) {
+                $player->getStack()->rotate();
+                $this->storePlayerCache($player);
             }
         }
         $hash = $game->getHash();
@@ -89,12 +92,12 @@ class MongoDBPersistence
         return $this->games[$hash] = $game;
     }
 
-    protected function encode($data)
+    public function encode($data)
     {
         return new \MongoBinData(gzcompress($data, 9));
     }
 
-    protected function decode($data)
+    public function decode($data)
     {
         return gzuncompress($data->bin);
     }
