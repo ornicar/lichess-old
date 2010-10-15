@@ -8,3 +8,12 @@ webprofiler.config:
 doctrine_odm.mongodb:
     metadata_cache_driver: array
     cache_driver: array
+
+app.config:
+    profiler:
+        only_exceptions: false
+
+zend.config:
+    logger:
+        priority: notice
+        path:     %kernel.logs_dir%/%kernel.environment%.log
