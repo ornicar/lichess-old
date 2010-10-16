@@ -16,3 +16,6 @@
 [submodule "src/vendor/zend"]
 	path = src/vendor/zend
 	url = git://github.com/zendframework/zf2.git
+[submodule "src/vendor/ZendPaginatorAdapter"]
+	path = src/vendor/ZendPaginatorAdapter
+	url = git://github.com/ornicar/ZendPaginatorAdapter.git
