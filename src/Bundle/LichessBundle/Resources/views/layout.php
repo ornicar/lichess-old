@@ -1,19 +1,19 @@
 <?php
-    $view['stylesheets']->add('bundle/lichess/css/lichess.css');
+    $view['stylesheets']->add('bundles/lichess/css/lichess.css');
 
-    $view['javascripts']->add('bundle/lichess/js/lib.min.js');
-    $view['javascripts']->add('bundle/lichess/js/ctrl.js');
+    $view['javascripts']->add('bundles/lichess/js/lib.min.js');
+    $view['javascripts']->add('bundles/lichess/js/ctrl.js');
     $assetsPack = $view['slots']->get('assets_pack');
     if('home' === $assetsPack) {
     }
     elseif('analyse' === $view['slots']->get('assets_pack')) {
-        $view['javascripts']->add('bundle/lichess/vendor/pgn4web/pgn4web.min.js');
-        $view['javascripts']->add('bundle/lichess/js/analyse.js');
-        $view['stylesheets']->add('bundle/lichess/css/analyse.css');
-        $view['stylesheets']->add('bundle/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css');
+        $view['javascripts']->add('bundles/lichess/vendor/pgn4web/pgn4web.min.js');
+        $view['javascripts']->add('bundles/lichess/js/analyse.js');
+        $view['stylesheets']->add('bundles/lichess/css/analyse.css');
+        $view['stylesheets']->add('bundles/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css');
     }
     else {
-        $view['javascripts']->add('bundle/lichess/js/game.js');
+        $view['javascripts']->add('bundles/lichess/js/game.js');
     }
     if($view['translator']->getLocale() !== 'en'):
         $view['javascripts']->add('http://static.addtoany.com/menu/locale/'.$view['translator']->getLocale().'.js');
@@ -31,7 +31,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <?php echo $view['stylesheets'] ?>
     </head>
-    <body data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>" data-sound-file="<?php echo $view['assets']->getUrl('bundle/lichess/sound/alert.ogg') ?>">
+    <body data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>" data-sound-file="<?php echo $view['assets']->getUrl('bundles/lichess/sound/alert.ogg') ?>">
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a></h1>
@@ -55,13 +55,12 @@
             </ul>
             <div class="footer">
                 <div class="right">
-                    Brought to you by <a title="A french web agency who loves Symfony" href="http://www.knplabs.com/" target="_blank">knpLabs</a><br />
                     <?php echo $view['translator']->_('Contact') ?>: <span class="js_email"></span><br />
                     <a href="<?php echo $view['router']->generate('lichess_about') ?>" target="_blank">Learn more about Lichess</a>
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a class="lichess_uservoice" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="<?php echo $view['router']->generate('lichess_translate') ?>">help translate Lichess</a><br />
                 <?php echo $view['translator']->_('Open Source software built with %php%, %symfony% and %jqueryui%', array('%php%' => 'PHP 5.3', '%symfony%' => '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%' => '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>')) ?><br />
-                <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="<?php echo $view['assets']->getUrl('bundle/lichess/images/cc-80x15.png') ?>" /></a>
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="<?php echo $view['assets']->getUrl('bundles/lichess/images/cc-80x15.png') ?>" /></a>
             </div>
         </div>
         <div title="Come on, make my server suffer :)" class="lichess_server">
