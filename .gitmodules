@@ -16,6 +16,3 @@
 [submodule "src/vendor/zend"]
 	path = src/vendor/zend
 	url = git://github.com/zendframework/zf2.git
-[submodule "src/Bundle/DoctrinePaginatorBundle"]
-	path = src/Bundle/DoctrinePaginatorBundle
-	url = git@github.com:knplabs/DoctrinePaginatorBundle.git
