@@ -7,6 +7,9 @@
     </ul>
     <div class="main topics">
         <h2><?php echo $category->getName() ?></h2>
+        <?php $pager = $view->render('ForumBundle::pagination.php', array('pager' => $topics->getPages(), 'url' => $view['router']->generate('forum_category_show', array('slug' => $category->getSlug())))) ?>
+        <?php echo $pager ?>
         <?php echo $view->render('ForumBundle:Topic:list.php', array('topics' => $topics)) ?>
+        <?php echo $pager ?>
     </div>
 </div>
