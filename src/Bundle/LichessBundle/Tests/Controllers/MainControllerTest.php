@@ -39,11 +39,11 @@ class MainControllerTest extends WebTestCase
         $this->assertRegexp('/^\d+$/', (string)$client->getResponse()->getContent());
     }
 
-    public function test404()
-    {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/thispagedoesnotexist');
-        $this->assertTrue($client->getResponse()->isNotFound());
-        $this->assertEquals(1, $crawler->filter('h1:contains("Page not found (404)")')->count());
-    }
+    //public function test404()
+    //{
+        //$client = $this->createClient();
+        //$crawler = $client->request('GET', '/thispagedoesnotexist');
+        //$this->assertTrue($client->getResponse()->isNotFound());
+        //$this->assertEquals(1, $crawler->filter('h1:contains("Page not found (404)")')->count());
+    //}
 }
