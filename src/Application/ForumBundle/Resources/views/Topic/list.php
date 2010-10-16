@@ -1,14 +1,20 @@
-<ul class="forum_topics_list">
-<?php foreach ($topics as $topic): ?>
-    <li class="topic">
-        <div class="content">
-            <a class="subject" href="<?php echo $view['forum']->urlForTopic($topic) ?>"><?php echo $topic->getSubject() ?></a>
-        </div>
-        <div class="metas">
-            <span class="creation">Created <span class="createdAt"><?php echo $view['time']->ago($topic->getCreatedAt()) ?></span>
-            | <span class="numPosts"><?php echo $topic->getNumPosts() . ' ' . ($topic->getNumPosts() > 1 ? 'posts' : 'post') ?></span>
-            | <a class="category" href="<?php echo $view['forum']->urlForCategory($topic->getCategory()) ?>"><?php echo $topic->getCategory()->getName() ?></a>
-        </div>
-    </li>
-<?php endforeach ?>
-</ul>
+<table class="forum_topics_list">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Views</th>
+            <th>Posts</th>
+            <th>Last Post</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($topics as $topic): ?>
+        <tr>
+            <td><a href="<?php echo $view['forum']->urlForTopic($topic) ?>"><?php echo $topic->getSubject() ?></a></td>
+            <td><?php echo $topic->getNumViews() ?></td>
+            <td><?php echo $topic->getNumPosts() ?></td>
+            <td><?php echo $view['time']->ago($topic->getLastPost()->getCreatedAt()) ?> by <?php echo $topic->getLastPost()->getAuthorName() ?></td>
+        </tr>
+    <?php endforeach ?>
+    </tbody>
+</table>

@@ -16,8 +16,10 @@
         <?php echo $pager ?>
     </div>
 
-    <div class="topic_reply">
-        <?php echo $view['actions']->render('ForumBundle:Post:new', array('topicId' => $topic->getId())) ?>
-    </div>
+    <?php if($view['forum']->getTopicNumPages($topic) == $posts->getCurrentPageNumber()): ?>
+        <div class="topic_reply">
+            <?php echo $view['actions']->render('ForumBundle:Post:new', array('topicId' => $topic->getId())) ?>
+        </div>
+    <?php endif ?>
 
 </div>
