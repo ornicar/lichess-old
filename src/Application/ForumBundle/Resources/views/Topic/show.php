@@ -10,7 +10,10 @@
 
     <div class="topic">
         <h2><?php echo $view['lichess']->escape($topic->getSubject()) ?></h2>
+        <?php $pager = $view->render('ForumBundle::pagination.php', array('pager' => $posts->getPages(), 'url' => $view['router']->generate('forum_topic_show', array('id' => $topic->getId())))) ?>
+        <?php echo $pager ?>
         <?php echo $view->render('ForumBundle:Post:list.php', array('posts' => $posts)) ?>
+        <?php echo $pager ?>
     </div>
 
     <div class="topic_reply">

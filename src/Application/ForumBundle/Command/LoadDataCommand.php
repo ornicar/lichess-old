@@ -39,6 +39,8 @@ class LoadDataCommand extends BaseCommand
         $nbCateg = 5;
         $nbTopic = 21;
         $nbPost  = 21;
+        $authorNames = array('admin', 'Bonnie Parker', 'Clyde Barrow', 'Sarah Pelle');
+        $itAuthor = 0;
         for($iCateg = 1; $iCateg <= $nbCateg; $iCateg++) {
             $categ = new Category();
             $categ->setName('Test category number '.$iCateg);
@@ -50,7 +52,9 @@ class LoadDataCommand extends BaseCommand
                     $post = new Post();
                     $post->setTopic($topic);
                     $post->setMessage(str_repeat('Test message number '.$iPost."\n", 5));
+                    $post->setAuthorName($authorNames[$itAuthor%count($authorNames)]);
                     $dm->persist($post);
+                    $itAuthor++;
                 }
                 $dm->persist($topic);
             }
