@@ -31,7 +31,7 @@
             <li>Run in any browser (excepted IE6, of course) without flash</li>
         </ul>
         <p class="license_images">
-            <a href="http://www.opensource.org/"><img src="<?php echo $view['assets']->getUrl('bundle/lichess/images/opensource.png') ?>" alt="OpenSource" /></a>
+            <a href="http://www.opensource.org/"><img src="<?php echo $view['assets']->getUrl('bundles/lichess/images/opensource.png') ?>" alt="OpenSource" /></a>
             <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a>
         </p>
         <p>
