@@ -84,10 +84,6 @@ a.site_title {
   color: #aaa;
   text-decoration: none;
 }
-span.lichess_version {
-    margin-left: 0.5em;
-    font-style: italic;
-}
 
 div.nb_connected_players {
     margin-top: 20px;
