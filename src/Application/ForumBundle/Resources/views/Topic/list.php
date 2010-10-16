@@ -13,7 +13,7 @@
             <td><a href="<?php echo $view['forum']->urlForTopic($topic) ?>"><?php echo $topic->getSubject() ?></a></td>
             <td><?php echo $topic->getNumViews() ?></td>
             <td><?php echo $topic->getNumPosts() ?></td>
-            <td><?php echo $view['time']->ago($topic->getLastPost()->getCreatedAt()) ?> by <?php echo $topic->getLastPost()->getAuthorName() ?></td>
+            <td><a href="<?php echo $view['forum']->urlForPost($topic->getLastPost()) ?>"><?php echo $view['time']->ago($topic->getLastPost()->getCreatedAt()) ?></a> by <?php echo $topic->getLastPost()->getAuthorName() ?></td>
         </tr>
     <?php endforeach ?>
     </tbody>
