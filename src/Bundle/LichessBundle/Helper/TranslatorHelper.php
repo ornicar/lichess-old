@@ -19,16 +19,21 @@ class TranslatorHelper implements HelperInterface
     }
 
     /**
-     * Translate a string 
-     * 
-     * @param string $text 
-     * @param array $parameters 
-     * @param string $locale 
+     * Translate a string
+     *
+     * @param string $text
+     * @param array $parameters
+     * @param string $locale
      * @return string The translated text
      */
     public function _($text, $parameters = array(), $locale = null)
     {
         return $this->translator->translate($text, $parameters, $locale);
+    }
+
+    public function trans($text, $parameters = array(), $catalogue)
+    {
+        return $this->_($text, $parameters);
     }
 
     public function getLocale()

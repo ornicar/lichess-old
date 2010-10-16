@@ -120,7 +120,7 @@ tr.even {
     background: #F7F7F7;
 }
 
-a.topicNew {
+.button {
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -129,8 +129,11 @@ a.topicNew {
     border: 1px solid #DADADA;
     padding: 0.5em 1em;
     text-decoration: none;
+    color: #444;
+    font-weight: bold;
+    cursor: pointer;
 }
-a.topicNew:hover {
+.button:hover {
     color: #fff;
     background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
@@ -167,6 +170,49 @@ div.post .createdAt {
 
 div.post .message {
     margin-top: 1.5em;
+}
+
+form {
+    margin-top: 2em;
+    font-size: 1.3em;
+}
+form label {
+    display: block;
+    margin-bottom: 2em;
+}
+
+form label span {
+    float: left;
+    display: block;
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+form label span.required:after {
+    content: "*";
+    color: #FF6666;
+    margin-left: 3px;
+}
+
+form input.subject {
+    width: 500px;
+    padding: 0.5em;
+    border: 1px solid #D4D4D4;
+}
+form textarea {
+    width: 500px;
+    height: 150px;
+    padding: 0.5em;
+    border: 1px solid #D4D4D4;
+}
+form input.authorName {
+    padding: 0.5em;
+    width: 300px;
+    border: 1px solid #D4D4D4;
+}
+form .submit {
+    margin-left: 110px;
 }
 
 div.pagination {

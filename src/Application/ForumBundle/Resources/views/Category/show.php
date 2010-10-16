@@ -8,9 +8,9 @@
     <div class="topics">
         <?php $pager = $view->render('ForumBundle::pagination.php', array('pager' => $topics->getPages(), 'url' => $view['router']->generate('forum_category_show', array('slug' => $category->getSlug())))) ?>
         <div class="pagination top"><?php echo $pager ?></div>
-        <a href="<?php echo $view['router']->generate('forum_topic_new', array('categorySlug' => $category->getSlug())) ?>" class="topicNew top">Create a new topic</a>
+        <a href="<?php echo $view['router']->generate('forum_topic_new', array('categorySlug' => $category->getSlug())) ?>" class="topicNew top button">Create a new topic</a>
         <?php echo $view->render('ForumBundle:Topic:list.php', array('topics' => $topics, 'title' => $category->getName())) ?>
         <div class="pagination bottom"><?php echo $pager ?></div>
-        <a href="<?php echo $view['router']->generate('forum_topic_new', array('categorySlug' => $category->getSlug())) ?>" class="topicNew bottom">Create a new topic</a>
+        <a href="<?php echo $view['router']->generate('forum_topic_new', array('categorySlug' => $category->getSlug())) ?>" class="topicNew bottom button">Create a new topic</a>
     </div>
 </div>

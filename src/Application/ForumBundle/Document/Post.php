@@ -16,11 +16,9 @@ class Post extends BasePost
      * The author name
      *
      * @mongodb:String
-     * @validation:NotBlank
-     * @validation:MinLength(3)
      * @var string
      */
-    protected $authorName = null;
+    protected $authorName = '';
 
     /**
      * Get authorName
