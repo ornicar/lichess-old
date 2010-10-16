@@ -20,7 +20,7 @@
                     <?php echo $view['translator']->_('%nb% connected players', array('%nb%' => $view['lichess']->getNbConnectedPlayers())) ?>
                 </div>
             </div>
-            <div id="lichess">
+            <div id="lichess_forum">
                 <?php $view['slots']->output('_content') ?>
             </div>
         </div>

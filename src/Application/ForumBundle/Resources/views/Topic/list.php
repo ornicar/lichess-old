@@ -1,18 +1,18 @@
 <table class="forum_topics_list">
     <thead>
         <tr>
-            <th></th>
-            <th>Views</th>
-            <th>Posts</th>
+            <th><h1><?php echo $title ?></h1></th>
+            <th class="right">Views</th>
+            <th class="right">Replies</th>
             <th>Last Post</th>
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($topics as $topic): ?>
-        <tr>
-            <td><a href="<?php echo $view['forum']->urlForTopic($topic) ?>"><?php echo $topic->getSubject() ?></a></td>
-            <td><?php echo $topic->getNumViews() ?></td>
-            <td><?php echo $topic->getNumPosts() ?></td>
+    <?php foreach ($topics as $index => $topic): ?>
+        <tr class="<?php echo $index%2 ? 'odd' : 'even' ?>">
+            <td class="subject"><a href="<?php echo $view['forum']->urlForTopic($topic) ?>"><?php echo $topic->getSubject() ?></a></td>
+            <td class="right"><?php echo $topic->getNumViews() ?></td>
+            <td class="right"><?php echo $topic->getNumPosts() - 1 ?></td>
             <td><a href="<?php echo $view['forum']->urlForPost($topic->getLastPost()) ?>"><?php echo $view['time']->ago($topic->getLastPost()->getCreatedAt()) ?></a> by <?php echo $topic->getLastPost()->getAuthorName() ?></td>
         </tr>
     <?php endforeach ?>

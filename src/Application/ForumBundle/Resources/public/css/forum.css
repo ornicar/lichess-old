@@ -1,1 +1,260 @@
-body { background: red; }
+/* YUI reset version: 2.8.0r4 */
+html{color:#000;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+.clearfix:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.clearfix {display:inline-block;}
+/* Hide from IE Mac \*/
+.clearfix {display:block;}
+/* End hide from IE Mac */
+
+body {
+    font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
+    color: #888;
+    background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
+}
+
+a, a:visited {
+    color: #888;
+    text-decoration: underline;
+    cursor: pointer;
+}
+a:hover {
+    text-decoration: none;
+}
+strong {
+    font-weight: bold;
+}
+
+div.header {
+    width: 200px;
+    float: left;
+    position: relative;
+}
+div.header strong {
+    font-weight: normal;
+}
+
+div.content {
+    width: 1010px;
+    margin: 30px auto 50px auto;
+    position: relative;
+}
+
+#lichess_forum {
+    margin-left: 211px;
+    box-shadow: 0 0 7px #bbb;
+    -moz-box-shadow: 0 0 7px #bbb;
+    -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: #fff;
+    padding: 2em;
+}
+
+ol.crumbs li {
+    display: inline;
+    margin-left: 1em;
+}
+
+ol.crumbs li:after {
+    content: "›";
+    padding-left: 1em;
+}
+
+ol.crumbs li:last-child:after {
+    display: none;
+}
+ol.crumbs li:first-child {
+    margin-left: 0;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+th {
+    padding: 1em 0;
+}
+
+td.subject {
+    padding: 2em 1em;
+}
+
+td.right, th.right {
+    text-align: right;
+    padding-right: 2em;
+}
+
+td.subject a {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #0090B0;
+    text-decoration: none;
+}
+
+td .description {
+    margin-top: 0.5em;
+    display: block;
+}
+
+th {
+    font-weight: bold;
+    color: #A0A0A0;
+}
+
+h1 {
+    font-size: 1.5em;
+    color: #666;
+    font-weight: normal;
+}
+
+tr.even {
+    background: #F7F7F7;
+}
+
+a.topicNew {
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: -moz-linear-gradient(center top , #FAFAFA, #EAEAEA) repeat scroll 0 0 #EFEFEF;                                                                    
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EAEAEA));
+    border: 1px solid #DADADA;
+    padding: 0.5em 1em;
+    text-decoration: none;
+}
+a.topicNew:hover {
+    color: #fff;
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+}
+a.topicNew.top {
+    float: left;
+    margin-top: 1.5em;
+}
+
+div.post {
+    font-size: 1.2em;
+    padding: 2em 0em 1em 0em;
+    border-top: 1px solid #D4D4D4;
+    margin-top: 1em;
+    position: relative;
+}
+
+div.post .anchor {
+    position: absolute;
+    top: 2em;
+    right: 0;
+}
+
+div.post .authorName {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+div.post .createdAt {
+    font-size: 0.8em;
+    font-style: italic;
+    color: #aaa;
+}
+
+div.post .message {
+    margin-top: 1.5em;
+}
+
+div.pagination {
+    float: right;
+}
+div.pagination.top {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+div.pagination.bottom {
+    margin-bottom: 1.5em;
+}
+div.pagination a, div.pagination span {
+    font-size: 1.1em;
+    padding: 0.1em 0.5em;
+    font-weight: bold;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    text-decoration: none;
+}
+div.pagination span.current {
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+    color: #FFF;
+    margin: 0 0.5em;
+}
+
+a.site_title {
+    width: 130px;
+    color: #666;
+    padding-top: 15px;
+    font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;
+    font-weight: bold;
+    font-size: 30px;
+    color: #aaa;
+    text-decoration: none;
+}
+
+div.nb_connected_players {
+    margin-top: 20px;
+}
+
+div.footer_wrap {
+    width: 100%;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #EEE;
+    padding: 20px 0;
+    display: block;
+}
+
+div.footer {
+    width: 1000px;
+    margin: auto;
+    line-height: 2em;
+}
+
+div.footer div.right {
+    float: right;
+    text-align: right;
+}
+
+ul.lichess_social {
+    text-align: center;
+}
+ul.lichess_social li {
+    display: inline;
+}
+li.lichess_facebook iframe,
+li.lichess_stumbleupon iframe {
+    border:none;
+    width: 110px;
+    height: 22px;
+    margin-left: 5px;
+    overflow: hidden; 
+    background: transparent;
+}
+li.lichess_stumbleupon iframe {
+    width: 80px;
+}
+li.lichess_add2any a img {
+    padding-top: 2px;
+    vertical-align: top;
+}
+#a2apage_BROWSER { display:none !important; }
+
+div.lichess_server {
+    margin: 20px 0;
+    text-align: center;
+}

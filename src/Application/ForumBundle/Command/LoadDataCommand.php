@@ -44,6 +44,7 @@ class LoadDataCommand extends BaseCommand
         for($iCateg = 1; $iCateg <= $nbCateg; $iCateg++) {
             $categ = new Category();
             $categ->setName('Test category number '.$iCateg);
+            $categ->setDescription('In this category you are gently encouraged to talk about the number '.$iCateg);
             for($iTopic = 1; $iTopic <= $nbTopic; $iTopic++) {
                 $topic = new Topic();
                 $topic->setCategory($categ);
