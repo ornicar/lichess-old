@@ -32,8 +32,11 @@ class LoadDataCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        foreach(array('Category', 'Topic', 'Post') as $model) {
+            $dm->getRepository('ForumBundle:'.$model)->createQuery()->remove()->execute();
+        }
 
-        $nbCateg = 21;
+        $nbCateg = 5;
         $nbTopic = 21;
         $nbPost  = 21;
         for($iCateg = 1; $iCateg <= $nbCateg; $iCateg++) {
