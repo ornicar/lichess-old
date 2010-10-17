@@ -6,11 +6,15 @@
     $assetsPack = $view['slots']->get('assets_pack');
     if('home' === $assetsPack) {
     }
-    elseif('analyse' === $view['slots']->get('assets_pack')) {
+    elseif('analyse' === $assetsPack) {
         $view['javascripts']->add('bundles/lichess/vendor/pgn4web/pgn4web.min.js');
         $view['javascripts']->add('bundles/lichess/js/analyse.js');
         $view['stylesheets']->add('bundles/lichess/css/analyse.css');
         $view['stylesheets']->add('bundles/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css');
+    }
+    elseif('gamelist' === $assetsPack) {
+        $view['stylesheets']->add('bundles/lichess/css/gamelist.css');
+        $view['javascripts']->add('bundles/lichess/js/gamelist.js');
     }
     else {
         $view['javascripts']->add('bundles/lichess/js/game.js');

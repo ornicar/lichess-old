@@ -1,0 +1,92 @@
+div.mini_board {
+    width: 192px;
+    height: 192px;
+    position: relative;
+    float: left;
+    margin: 0 20px 20px 0;
+    box-shadow:0 0 5px #444;
+    -moz-box-shadow:0 0 5px #444;
+    -webkit-box-shadow:0 0 5px #444;
+}
+
+div.lmcs {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+
+div.lmcs.white {
+    background: #FFFFFF;
+}
+div.lmcs.black {
+    background: #CFCFCF;
+}
+
+div.lmcsi {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+div.lmcs.moved div.lmcsi {
+    background: url(../images/over5.png) top left no-repeat;
+}
+div.lmcs.check div.lmcsi {
+    background: url(../images/over6.png) top left no-repeat;
+}
+div.my_turn.not_spectator div.lmcs:hover div.lmcsi {
+    background: url(../images/over.png) top left no-repeat;
+}
+div.lmcs.droppable-hover div.lmcsi {
+    background: url(../images/over4.png) top left no-repeat;
+}
+div.mini_board div.lmcs.selected div.lmcsi,
+div.mini_board div.lmcs.selectable div.lmcsi {
+    background: url(../images/over3.png) top left no-repeat !important;
+    cursor: pointer;
+}
+
+div.lcmp {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-image: url(../images/sprite_mini.png);
+}
+
+div.lcmp.pawn.white{
+    background-position: +0px +0px;
+}
+div.lcmp.bishop.white{
+    background-position: -24px +0px;
+}
+div.lcmp.knight.white{
+    background-position: -48px +0px;
+}
+div.lcmp.rook.white{
+    background-position: -72px +0px;
+}
+div.lcmp.queen.white{
+    background-position: -96px +0px;
+}
+div.lcmp.king.white{
+    background-position: -120px +0px;
+}
+
+div.lcmp.pawn.black{
+    background-position: +0px +24px;
+}
+div.lcmp.bishop.black{
+    background-position: -24px +24px;
+}
+div.lcmp.knight.black{
+    background-position: -48px +24px;
+}
+div.lcmp.rook.black{
+    background-position: -72px +24px;
+}
+div.lcmp.queen.black{
+    background-position: -96px +24px;
+}
+div.lcmp.king.black{
+    background-position: -120px +24px;
+}
+

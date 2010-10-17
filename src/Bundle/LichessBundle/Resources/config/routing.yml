@@ -58,6 +58,12 @@ lichess_ai_level:
     pattern:        /level/:hash
     defaults:       { _controller: LichessBundle:Player:aiLevel }
     requirements:   { hash: "[\w-]{10}" }
+lichess_games:
+    pattern:        /games
+    defaults:       { _controller: LichessBundle:Game:list }
+lichess_games_inner:
+    pattern:        /games-refresh
+    defaults:       { _controller: LichessBundle:Game:listInner }
 lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }

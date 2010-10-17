@@ -20,6 +20,7 @@ class MongoDBPersistence
     public function ensureIndexes()
     {
         $this->collection->ensureIndex(array('hash' => 1), array('unique' => true, 'safe' => true, 'name' => 'hash_index'));
+        $this->collection->ensureIndex(array('upd' => -1), array('unique' => false, 'safe' => true, 'name' => 'upd_index'));
     }
 
     public function getCollection()
@@ -30,6 +31,21 @@ class MongoDBPersistence
     public function getNbGames()
     {
         return $this->collection->count();
+    }
+
+    public function findAll(array $query = array(), array $sort = array(), $limit = 10)
+    {
+        $cursor = $this->collection->find($query);
+        if(!empty($sort)) {
+            $cursor->sort($sort);
+        }
+        $cursor->limit($limit);
+        $games = array();
+        foreach($cursor as $data) {
+            $games[] = unserialize($this->decode($data['bin']));
+        }
+
+        return $games;
     }
 
     public function save(Game $game)
