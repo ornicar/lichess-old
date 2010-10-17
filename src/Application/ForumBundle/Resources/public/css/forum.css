@@ -149,10 +149,6 @@ tr.even {
     background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
 }
-a.topicNew.top {
-    float: left;
-    margin-top: 1.5em;
-}
 
 div.post {
     font-size: 1.2em;
@@ -164,6 +160,7 @@ div.post {
 div.post:last-child {
     border-bottom: 1px solid #D4D4D4;
     padding-bottom: 2em;
+    margin-bottom: 2em;
 }
 
 div.post .anchor {
@@ -244,24 +241,6 @@ form .submit {
     margin-left: 110px;
 }
 
-div.pagination {
-    float: right;
-}
-div.topic div.pagination {
-    float: none;
-    text-align: right;
-}
-div.pagination.top {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-}
-div.pagination.bottom {
-    margin-bottom: 1.5em;
-}
-div.topic div.pagination.bottom {
-    margin-top: 1.5em;
-    margin-bottom: 0;
-}
 div.pagination a, div.pagination span {
     font-size: 1.1em;
     padding: 0.1em 0.5em;
@@ -279,6 +258,17 @@ div.pagination span.current {
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
     color: #FFF;
     margin: 0 0.5em;
+}
+
+div.bar.top {
+    margin-top: 1em;
+}
+div.bar .button {
+    float: left;
+}
+div.bar .pagination {
+    margin-top: 0.4em;
+    float: right;
 }
 
 a.site_title {
