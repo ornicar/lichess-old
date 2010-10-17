@@ -15,7 +15,7 @@ html{color:#000;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fiel
 body {
     font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
     color: #888;
-    background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
+    background: #F7F7F7 url(../../lichess/images/head_bg.png) top left repeat-x;
 }
 
 a, a:visited {
@@ -55,7 +55,7 @@ div.content {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     background: #fff;
-    padding: 2em;
+    padding: 1.5em 2em 2em 2em;
 }
 
 ol.crumbs li {
@@ -74,6 +74,11 @@ ol.crumbs li:last-child:after {
 ol.crumbs li:first-child {
     margin-left: 0;
 }
+ol.crumbs h1 {
+    display: inline;
+    margin: 0;
+    vertical-align: middle;
+}
 
 table {
     width: 100%;
@@ -81,7 +86,7 @@ table {
 }
 
 th {
-    padding: 1em 0;
+    padding: 1em 0 0.5em 0;
 }
 
 td.subject {
@@ -114,6 +119,7 @@ h1 {
     font-size: 1.5em;
     color: #666;
     font-weight: normal;
+    margin-bottom: 0.5em;
 }
 
 tr.even {
@@ -217,6 +223,10 @@ form .submit {
 
 div.pagination {
     float: right;
+}
+div.topic div.pagination {
+    float: none;
+    text-align: right;
 }
 div.pagination.top {
     margin-top: 1.5em;
