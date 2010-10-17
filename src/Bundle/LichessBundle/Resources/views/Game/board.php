@@ -3,7 +3,6 @@
 $board = $player->getGame()->getBoard();
 $squares = $board->getSquares();
 $isGameStarted = $player->getGame()->getIsStarted();
-$turnPlayer = $player->getGame()->getTurnPlayer();
 
 if ($player->isBlack())
 {

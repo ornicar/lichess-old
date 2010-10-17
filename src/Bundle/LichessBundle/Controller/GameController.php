@@ -11,6 +11,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
+    public function listAction()
+    {
+        return $this->render('LichessBundle:Game:list.php');
+    }
+
+    public function listInnerAction()
+    {
+        $games = $this['lichess_persistence']->findAll(array(), array('upd' => -1), 9);
+
+        return $this->render('LichessBundle:Game:listInner.php', array('games' => $games));
+    }
+
     /**
      * Join a game and start it if new, or see it as a spectator
      */
@@ -106,9 +118,9 @@ class GameController extends Controller
     }
 
     /**
-     * Return the game for this hash 
-     * 
-     * @param string $hash 
+     * Return the game for this hash
+     *
+     * @param string $hash
      * @return Game
      */
     protected function findGame($hash)
@@ -117,7 +129,7 @@ class GameController extends Controller
 
         if(!$game) {
             throw new NotFoundHttpException('Can\'t find game '.$hash);
-        } 
+        }
 
         return $game;
     }
