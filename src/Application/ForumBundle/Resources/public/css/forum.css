@@ -156,6 +156,10 @@ div.post {
     margin-top: 1em;
     position: relative;
 }
+div.post:last-child {
+    border-bottom: 1px solid #D4D4D4;
+    padding-bottom: 2em;
+}
 
 div.post .anchor {
     position: absolute;
@@ -172,10 +176,20 @@ div.post .createdAt {
     font-size: 0.8em;
     font-style: italic;
     color: #aaa;
+    margin-left: 0.5em;
 }
 
 div.post .message {
     margin-top: 1.5em;
+}
+
+div.topicReply {
+    margin-top: 1em;
+}
+.postNewTitle {
+    font-size: 1.5em;
+    color: #444;
+    font-style: italic;
 }
 
 form {
@@ -234,6 +248,10 @@ div.pagination.top {
 }
 div.pagination.bottom {
     margin-bottom: 1.5em;
+}
+div.topic div.pagination.bottom {
+    margin-top: 1.5em;
+    margin-bottom: 0;
 }
 div.pagination a, div.pagination span {
     font-size: 1.1em;

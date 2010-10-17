@@ -9,12 +9,13 @@
     <?php $pager = $view->render('ForumBundle::pagination.php', array('pager' => $posts->getPages(), 'url' => $view['router']->generate('forum_topic_show', array('id' => $topic->getId())))) ?>
     <div class="pagination top"><?php echo $pager ?></div>
     <?php echo $view->render('ForumBundle:Post:list.php', array('posts' => $posts)) ?>
-    <div class="pagination bottom"><?php echo $pager ?></div>
 
     <?php if($view['forum']->getTopicNumPages($topic) == $posts->getCurrentPageNumber()): ?>
-        <div class="topic_reply">
+        <div class="topicReply">
             <?php echo $view['actions']->render('ForumBundle:Post:new', array('topicId' => $topic->getId())) ?>
         </div>
     <?php endif ?>
+
+    <div class="pagination bottom"><?php echo $pager ?></div>
 
 </div>
