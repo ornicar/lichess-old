@@ -98,6 +98,11 @@ td.right, th.right {
     padding-right: 2em;
 }
 
+td:last-child {
+    min-width: 150px;
+    padding-right: 1em;
+}
+
 td.subject a {
     font-size: 1.2em;
     font-weight: bold;
@@ -260,7 +265,7 @@ div.pagination span.current {
     margin: 0 0.5em;
 }
 
-div.bar.top {
+div.bar {
     margin-top: 1em;
 }
 div.bar .button {

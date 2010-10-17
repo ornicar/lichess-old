@@ -16,7 +16,7 @@
             </td>
             <td class="right"><?php echo $category->getNumTopics() ?></td>
             <td class="right"><?php echo $category->getNumPosts() ?></td>
-            <td><a href="<?php echo $view['forum']->urlForPost($category->getLastPost()) ?>"><?php echo $view['time']->ago($category->getLastPost()->getCreatedAt()) ?></a> by <?php echo $view['lichess']->escape($category->getLastPost()->getAuthorName()) ?: 'Anonymous' ?></td>
+            <td><a href="<?php echo $view['forum']->urlForPost($category->getLastPost()) ?>"><?php echo $view['time']->ago($category->getLastPost()->getCreatedAt()) ?></a><br />by <?php echo $view['lichess']->escape($category->getLastPost()->getAuthorName()) ?: 'Anonymous' ?></td>
         </tr>
     <?php endforeach ?>
     </tbody>
