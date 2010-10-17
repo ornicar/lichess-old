@@ -40,6 +40,12 @@ $(function()
         location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
     });
 
+    if($('a.lichess_exchange').length) {
+        $newforum = $('<div>').attr('id', 'newforum');
+        $('body').append($newforum);
+        $newforum.css('left', $('a.goto_forum').offset().left-40);
+    }
+
     var elem = document.createElement('audio');
     var canPlayAudio = !!elem.canPlayType && elem.canPlayType('audio/ogg; codecs="vorbis"');
     
