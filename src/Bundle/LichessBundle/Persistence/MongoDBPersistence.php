@@ -33,16 +33,34 @@ class MongoDBPersistence
         return $this->collection->count();
     }
 
-    public function findAll(array $query = array(), array $sort = array(), $limit = 10)
+    public function findRecentGamesHashes($limit)
     {
-        $cursor = $this->collection->find($query);
-        if(!empty($sort)) {
-            $cursor->sort($sort);
+        $cursor = $this->getCollection()->find(array(), array('hash'))->sort(array('upd' => -1))->limit($limit);
+        $hashes = array();
+        foreach(iterator_to_array($cursor) as $result) {
+            $hashes[] = $result['hash'];
         }
-        $cursor->limit($limit);
+
+        return $hashes;
+    }
+
+    public function findGamesByHashes(array $hashes)
+    {
+        // fetch games from DB
+        $cursor = $this->getCollection()->find(array('hash' => array('$in' => $hashes)))->limit(9);
+        $data = iterator_to_array($cursor);
+
+        // sort games in the order of hashes
+        $hashPos = array_flip($hashes);
+        usort($data, function($a, $b) use ($hashPos)
+        {
+            return $hashPos[$a['hash']] > $hashPos[$b['hash']];
+        });
+
+        // hydrate games
         $games = array();
-        foreach($cursor as $data) {
-            $games[] = unserialize($this->decode($data['bin']));
+        foreach($data as $gameData) {
+            $games[] = unserialize($this->decode($gameData['bin']));
         }
 
         return $games;

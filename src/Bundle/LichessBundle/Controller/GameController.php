@@ -13,12 +13,16 @@ class GameController extends Controller
 {
     public function listAction()
     {
-        return $this->render('LichessBundle:Game:list.php');
+        $hashes = $this['lichess_persistence']->findRecentGamesHashes(9);
+        $hashes = implode(',', $hashes);
+
+        return $this->render('LichessBundle:Game:list.php', array('hashes' => $hashes));
     }
 
-    public function listInnerAction()
+    public function listInnerAction($hashes)
     {
-        $games = $this['lichess_persistence']->findAll(array(), array('upd' => -1), 9);
+        $hashes = explode(',', $hashes);
+        $games = $this['lichess_persistence']->findGamesByHashes($hashes);
 
         return $this->render('LichessBundle:Game:listInner.php', array('games' => $games));
     }
