@@ -62,10 +62,10 @@ class Board
      * Dump the game to visual block notation like:
 r bqkb r
  ppp ppp
-p n  n  
-    p   
-B   P   
-     N  
+p n  n
+    p
+B   P
+     N
 PPPP PPP
 RNBQK  R
     */
@@ -123,7 +123,7 @@ RNBQK  R
             return null;
         }
 
-        return $this->getSquareByKey($this->posToKey($x, $y));
+        return $this->getSquareByKey(self::posToKey($x, $y));
     }
 
     public function getPieceByKey($key)
@@ -142,7 +142,7 @@ RNBQK  R
             return null;
         }
 
-        return $this->getPieceByKey($this->posToKey($x, $y));
+        return $this->getPieceByKey(self::posToKey($x, $y));
     }
 
     protected function createSquares()

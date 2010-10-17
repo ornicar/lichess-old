@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface; 
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -24,8 +24,7 @@ require_once __DIR__.'/Entities/Piece/Queen.php';
 require_once __DIR__.'/Entities/Piece/Rook.php';
 require_once __DIR__.'/Entities/Player.php';
 require_once __DIR__.'/Entities/Game.php';
-require_once __DIR__.'/Entities/Chat/Room.php';
-require_once __DIR__.'/Persistence/FilePersistence.php';
+require_once __DIR__.'/Persistence/MongoDBPersistence.php';
 require_once __DIR__.'/I18N/Translator.php';
 
 class LichessBundle extends BaseBundle
