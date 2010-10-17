@@ -1,5 +1,6 @@
 <?php $view->extend('ForumBundle::layout.php') ?>
 <?php $view['slots']->set('title', $topic->getSubject()) ?>
+<?php $view['slots']->set('description', $topic->getSubject().' - '.$topic->getCategory()->getDescription()) ?>
 <div class="topic">
     <ol class="crumbs">
         <li><a href="<?php echo $view['forum']->urlFor() ?>">Forum</a></li>

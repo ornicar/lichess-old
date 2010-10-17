@@ -1,10 +1,12 @@
 <?php $view->extend('ForumBundle::layout.php') ?>
-<?php $view['slots']->set('title', 'Topics List') ?>
+<?php $view['slots']->set('title', $category->getName()) ?>
+<?php $view['slots']->set('description', $category->getDescription()) ?>
 <div class="category">
     <ol class="crumbs">
         <li><a href="<?php echo $view['forum']->urlFor() ?>">Forum</a></li>
         <li><h1><?php echo $category->getName() ?></h1></li>
     </ol>
+    <p class="description"><?php echo $category->getDescription() ?></p>
     <div class="topics">
         <?php $pager = $view->render('ForumBundle::pagination.php', array('pager' => $topics->getPages(), 'url' => $view['router']->generate('forum_category_show', array('slug' => $category->getSlug())))) ?>
         <div class="pagination top"><?php echo $pager ?></div>

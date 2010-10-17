@@ -103,6 +103,8 @@ td.subject a {
     font-weight: bold;
     color: #0090B0;
     text-decoration: none;
+    background: transparent url(../../lichess/images/balloon.png) top left no-repeat;
+    padding-left: 20px;
 }
 
 td .description {
@@ -120,6 +122,9 @@ h1 {
     color: #666;
     font-weight: normal;
     margin-bottom: 0.5em;
+}
+.forum_baseline {
+    margin-bottom: 1em;
 }
 
 tr.even {
@@ -190,6 +195,10 @@ div.topicReply {
     font-size: 1.5em;
     color: #444;
     font-style: italic;
+}
+
+div.category .description {
+    margin-top: 1em;
 }
 
 form {

@@ -3,9 +3,7 @@
 <a class="previous" href="<?php echo $url.'?page='.$pager->previous ?>">Prev</a>
 <?php else: ?>
 <span class="previous">Prev</span>
-<?php endif ?>
-|
-<!-- Numbered page links -->
+<?php endif ?> |
 <?php foreach ($pager->pagesInRange as $page): ?>
 <?php if ($page != $pager->current): ?>
     <a href="<?php echo $url.'?page='.$page; ?>"><?php echo $page; ?></a> |
