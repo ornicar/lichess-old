@@ -13,10 +13,8 @@ class LichessKernel extends Kernel
      */
     public function boot()
     {
-        $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
-
-        if(0 === strncmp($url, '/forum', 6)) {
-            $this->environment = 'forum_'.$this->environment;
+        if(0 !== strncmp($this->environment, 'forum_', 6)) {
+            $this->checkForumEnvironment();
         }
 
         return parent::boot();
@@ -54,6 +52,23 @@ class LichessKernel extends Kernel
     protected function isForumEnvironment()
     {
         return strncmp($this->environment, 'forum_', 6) === 0;
+    }
+
+    protected function checkForumEnvironment()
+    {
+        if(!empty($_SERVER['PATH_INFO'])) {
+            $url = $_SERVER['PATH_INFO'];
+        } elseif(!empty($_SERVER['REQUEST_URI'])) {
+            $url = $_SERVER['REQUEST_URI'];
+        } else {
+            $url = false;
+        }
+
+        if(false === $url || 0 === strncmp($url, '/forum', 6)) {
+            if(0 !== strncmp($this->environment, 'forum_', 6)) {
+                $this->environment = 'forum_'.$this->environment;
+            }
+        }
     }
 
     public function registerBundleDirs()
