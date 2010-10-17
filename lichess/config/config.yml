@@ -1,31 +1,12 @@
 app.config:
     charset:             UTF-8
     error_handler_level: null
-    validation: { enabled: true, annotations: true }
+    validation: { enabled: true, annotations: false }
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
     user:
         lifetime: 2592000 # one month 
     templating:
         escaping: false
-        assets_version: 39
-
-doctrine_odm.mongodb:
-    auto_generate_proxy_classes: true
-    default_database: lichess
-    metadata_cache_driver: apc
-    cache_driver: apc
+        assets_version: 40
 
 lichess.config: ~
-forum.config:
-    db_driver: odm
-    template_renderer: php
-    category_class: Application\ForumBundle\Document\Category
-    topic_class: Application\ForumBundle\Document\Topic
-    post_class: Application\ForumBundle\Document\Post
-    user_class: Application\ForumBundle\Document\User
-    post_form: Application\ForumBundle\Form\PostForm
-    topics_per_page: 10
-    posts_per_page: 10
-    search_results_per_page: 10
-lichess_forum.config: ~
-time.helper: ~

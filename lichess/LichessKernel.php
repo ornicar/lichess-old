@@ -8,6 +8,20 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class LichessKernel extends Kernel
 {
+    /**
+     * Switch to a forum environment if the url starts with /forum
+     */
+    public function boot()
+    {
+        $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+
+        if(0 === strncmp($url, '/forum', 6)) {
+            $this->environment = 'forum_'.$this->environment;
+        }
+
+        return parent::boot();
+    }
+
     public function registerRootDir()
     {
         return __DIR__;
@@ -18,18 +32,28 @@ class LichessKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\ZendBundle\ZendBundle(),
-            new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
-            new Bundle\TimeBundle\TimeBundle(),
-            new Bundle\ForumBundle\ForumBundle(),
-            new Application\ForumBundle\ForumBundle(),
             new Bundle\LichessBundle\LichessBundle()
         );
+
+        if($this->isForumEnvironment()) {
+            $bundles = array_merge($bundles, array(
+                new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
+                new Bundle\TimeBundle\TimeBundle(),
+                new Bundle\ForumBundle\ForumBundle(),
+                new Application\ForumBundle\ForumBundle()
+            ));
+        }
 
         if ($this->isDebug()) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
         }
 
         return $bundles;
+    }
+
+    protected function isForumEnvironment()
+    {
+        return strncmp($this->environment, 'forum_', 6) === 0;
     }
 
     public function registerBundleDirs()
