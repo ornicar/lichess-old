@@ -1,5 +1,5 @@
 jQuery(function() {
-    SetImagePath("/bundle/lichess/vendor/pgn4web/lichess/64"); // use "" path if images are in the same folder as this javascript file
+    SetImagePath("/bundles/lichess/vendor/pgn4web/lichess/64"); // use "" path if images are in the same folder as this javascript file
     SetImageType("png");
 });
 
