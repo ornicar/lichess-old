@@ -1,7 +1,7 @@
 <table class="categories">
     <thead>
         <tr>
-            <th><h1>Lichess Forum</h1></th>
+            <th>Categories</th>
             <th class="right">Topics</th>
             <th class="right">Posts</th>
             <th>Last Post</th>

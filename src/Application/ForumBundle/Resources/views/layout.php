@@ -14,7 +14,7 @@
     <body>
         <div class="content">
             <div class="header">
-                <h1><a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a></h1>
+                <div><a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a></div>
                 <?php $view['slots']->output('baseline', 'Don\'t register. Play Chess.') ?>
                 <div class="nb_connected_players" data-url="<?php echo $view['router']->generate('lichess_nb_players') ?>">
                     <?php echo $view['translator']->_('%nb% connected players', array('%nb%' => $view['lichess']->getNbConnectedPlayers())) ?>

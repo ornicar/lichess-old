@@ -1,7 +1,7 @@
 <table class="forum_topics_list">
     <thead>
         <tr>
-            <th><h1><?php echo $title ?></h1></th>
+            <th>Topics</th>
             <th class="right">Views</th>
             <th class="right">Replies</th>
             <th>Last Post</th>
