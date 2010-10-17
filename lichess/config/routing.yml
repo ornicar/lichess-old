@@ -17,3 +17,7 @@ forum_index:
     pattern:        /forum
     defaults:       { _controller: ForumBundle:Forum:index }
     requirements:   { _method: get }
+forum_index2:
+    pattern:        /forum/
+    defaults:       { _controller: ForumBundle:Forum:index }
+    requirements:   { _method: get }

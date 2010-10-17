@@ -705,6 +705,13 @@ a.goto_forum {
     background: transparent url(../images/balloon.png) top left no-repeat;
     padding-left: 20px;
 }
+#newforum {
+    background: transparent url(../images/newforum.png) top left no-repeat;
+    width: 129px;
+    height: 68px;
+    position: absolute;
+    top: 22px;
+}
 a.lichess_replay_link {
     margin-top: 20px;
     display: block;

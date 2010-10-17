@@ -6,7 +6,7 @@
     <div class="lichess_board_wrap">
         <?php $view->output('LichessBundle:Main:staticBoard_'.$color.'.php') ?>
         <a href="<?php echo $view['router']->generate('lichess_homepage', array('color' => 'white' === $color ? 'black' : 'white')) ?>" class="lichess_exchange" title="<?php echo $view['translator']->_('Change side') ?>"></a>
-    </div> 
+    </div>
     <div class="lichess_ground">
         <div class="lichess_table lichess_table_not_started">
             <a href="<?php echo $view['router']->generate('lichess_invite_friend', array('color' => $color)) ?>" class="lichess_button" title="<?php echo $view['translator']->_('Invite a friend to play with you') ?>"><?php echo $view['translator']->_('Play with a friend') ?></a>
