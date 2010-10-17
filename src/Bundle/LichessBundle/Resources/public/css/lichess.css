@@ -702,7 +702,7 @@ a.goto_forum {
     margin-right: 2em;
     float: right;
     text-decoration: none;
-    background: transparent url(../images/balloon) top left no-repeat;
+    background: transparent url(../images/balloon.png) top left no-repeat;
     padding-left: 20px;
 }
 a.lichess_replay_link {
