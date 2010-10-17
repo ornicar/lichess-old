@@ -3,6 +3,8 @@
 /lichess/data
 /lichess/translation
 /web/*_dev.php
+/src/vendor/zend/documentation/manual
+/src/vendor/zend/tests
 tags
 .git*
 .svn
