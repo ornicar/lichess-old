@@ -27,11 +27,6 @@ class TopicController extends BaseTopicController
 
     public function createAction($categorySlug)
     {
-        $category = $this['forum.category_repository']->findOneBySlug($categorySlug);
-        if (!$category) {
-            throw new NotFoundHttpException('The category does not exist.');
-        }
-
         $form = $this->createForm('forum_topic_new');
         $form->bind($this['request']->request->get($form->getName()));
 
