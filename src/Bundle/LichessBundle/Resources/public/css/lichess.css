@@ -641,14 +641,18 @@ div.lichess_chat.hidden ol.lichess_messages, div.lichess_chat.hidden form {
     opacity: 0.2;
 }
 
+#top_menu {
+    position: absolute;
+    top: 5px;
+    right: 120px;
+    width: 300px;
+}
 a#sound_state {
     display: none;
+    float: right;
     width: 18px;
     height: 15px;
     opacity: 0.7;
-    position: absolute;
-    top: 5px;
-    right: 100px;
 }
 a#sound_state:hover {
     opacity: 1;
@@ -660,9 +664,9 @@ a.sound_state_off {
     background: url(../images/sound-off.gif) top left no-repeat;
 }
 div.lichess_language {
-    position: absolute;
-    top: 5px;
-    right: 140px;
+    margin-right: 1em;
+    float: right;
+    position: relative;
 }
 div.lichess_language span {
     background: url(../images/down16.png) center right no-repeat;
@@ -693,6 +697,13 @@ ul.lichess_language_links a:hover {
 }
 ul.lichess_language_links li:last-child {
     border-top: 1px solid #ddd;
+}
+a.goto_forum {
+    margin-right: 2em;
+    float: right;
+    text-decoration: none;
+    background: transparent url(../images/balloon) top left no-repeat;
+    padding-left: 20px;
 }
 a.lichess_replay_link {
     margin-top: 20px;
