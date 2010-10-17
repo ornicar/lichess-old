@@ -1,4 +1,6 @@
 <?php $view['stylesheets']->add('bundles/forum/css/forum.css'); ?>
+<?php $view['javascripts']->add('bundles/lichess/js/jquery.min.js'); ?>
+<?php $view['javascripts']->add('bundles/lichess/js/ctrl.js'); ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>

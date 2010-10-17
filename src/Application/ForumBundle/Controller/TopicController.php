@@ -46,7 +46,7 @@ class TopicController extends BaseTopicController
         $this->saveTopic($topic);
 
         $this['session']->setFlash('forum_topic_create/success', true);
-        $url = $this->generateUrl('forum_topic_show', array('id' => $topic->getId()));
+        $url = $this['templating.helper.forum']->urlForTopic($topic);
 
         return $this->redirect($url);
     }

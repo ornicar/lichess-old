@@ -10,7 +10,7 @@
     <tbody>
     <?php foreach ($topics as $index => $topic): ?>
         <tr class="<?php echo $index%2 ? 'odd' : 'even' ?>">
-            <td class="subject"><a href="<?php echo $view['forum']->urlForTopic($topic) ?>"><?php echo $topic->getSubject() ?></a></td>
+            <td class="subject"><a href="<?php echo $view['forum']->urlForTopic($topic) ?>"><?php echo $view['lichess']->escape($topic->getSubject()) ?></a></td>
             <td class="right"><?php echo $topic->getNumViews() ?></td>
             <td class="right"><?php echo $topic->getNumPosts() - 1 ?></td>
             <td><a href="<?php echo $view['forum']->urlForPost($topic->getLastPost()) ?>"><?php echo $view['time']->ago($topic->getLastPost()->getCreatedAt()) ?></a> by <?php echo $view['lichess']->escape($topic->getLastPost()->getAuthorName()) ?: 'Anonymous' ?></td>
