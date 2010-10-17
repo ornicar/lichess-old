@@ -21,7 +21,7 @@ $(function()
         }
     }
 
-    $('div.lichess_language').hoverIntent({
+    $.fn.hoverIntent && $('div.lichess_language').hoverIntent({
         over: function() { $(this).find('ul').show(); },
         out: function() { $(this).find('ul').hide(); },
         timeout: 100
@@ -34,7 +34,7 @@ $(function()
 
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
-    $('a, input, label, div.lichess_server').tipsy({fade: true});
+    $.fn.tipsy && $('a, input, label, div.lichess_server').tipsy({fade: true});
 
     $('#translation_code').change(function() {
         location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
