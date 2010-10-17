@@ -60,22 +60,24 @@
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a class="lichess_uservoice" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="<?php echo $view['router']->generate('lichess_translate') ?>">help translate Lichess</a><br />
                 <?php echo $view['translator']->_('Open Source software built with %php%, %symfony% and %jqueryui%', array('%php%' => 'PHP 5.3', '%symfony%' => '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%' => '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>')) ?><br />
-                <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="<?php echo $view['assets']->getUrl('bundles/lichess/images/cc-80x15.png') ?>" /></a>
             </div>
         </div>
         <div title="Come on, make my server suffer :)" class="lichess_server">
             <?php $loadAverage = sys_getloadavg() ?>
             <?php echo $view['translator']->_('Server load') ?>: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
         </div>
-        <a href="<?php echo $view['router']->generate('lichess_toggle_sound') ?>" id="sound_state" class="sound_state_<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>"></a>
-        <div class="lichess_language">
-            <span><?php echo $view['translator']->getLocaleName() ?></span>
-            <ul class="lichess_language_links">
-                <?php foreach($view['translator']->getOtherLocales() as $code => $name): ?>
-                    <li><a lang="<?php echo $code ?>" href="<?php echo $view['router']->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a></li>
-                <?php endforeach ?>
-                <li><a href="<?php echo $view['router']->generate('lichess_translate') ?>">Help translate Lichess!</a></li>
-            </ul>
+        <div id="top_menu">
+            <a href="<?php echo $view['router']->generate('lichess_toggle_sound') ?>" id="sound_state" class="sound_state_<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>"></a>
+            <div class="lichess_language">
+                <span><?php echo $view['translator']->getLocaleName() ?></span>
+                <ul class="lichess_language_links">
+                    <?php foreach($view['translator']->getOtherLocales() as $code => $name): ?>
+                        <li><a lang="<?php echo $code ?>" href="<?php echo $view['router']->generate('lichess_locale', array('locale' => $code)) ?>"><?php echo $name ?></a></li>
+                    <?php endforeach ?>
+                    <li><a href="<?php echo $view['router']->generate('lichess_translate') ?>">Help translate Lichess!</a></li>
+                </ul>
+            </div>
+            <a class="goto_forum" href="<?php echo $view['router']->generate('forum_index') ?>" target="_blank">Forum</a>
         </div>
         <?php echo $view['javascripts'] ?>
     </body>
