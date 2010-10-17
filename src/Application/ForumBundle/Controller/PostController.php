@@ -46,7 +46,21 @@ class PostController extends BasePostController
         $this['session']->setFlash('forum_post_create/success', true);
         $url = $this['templating.helper.forum']->urlForPost($post);
 
-        return $this->redirect($url);
+        $response = $this->redirect($url);
+        $response->headers->setCookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
+
+        return $response;
+    }
+
+    protected function createForm($name, Topic $topic)
+    {
+        $form = parent::createForm($name, $topic);
+
+        if($authorName = $this['request']->cookies->get('lichess_forum_authorName')) {
+            $form->getData()->setAuthorName($authorName);
+        }
+
+        return $form;
     }
 
 }

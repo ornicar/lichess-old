@@ -43,6 +43,20 @@ class TopicController extends BaseTopicController
         $this['session']->setFlash('forum_topic_create/success', true);
         $url = $this['templating.helper.forum']->urlForTopic($topic);
 
-        return $this->redirect($url);
+        $response = $this->redirect($url);
+        $response->headers->setCookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
+
+        return $response;
+    }
+
+    protected function createForm($name, Category $category = null)
+    {
+        $form = parent::createForm($name, $category);
+
+        if($authorName = $this['request']->cookies->get('lichess_forum_authorName')) {
+            $form['firstPost']['authorName']->setData($authorName);
+        }
+
+        return $form;
     }
 }
