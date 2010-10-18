@@ -8,10 +8,32 @@
  * If this script returns, the normal Symfony application is run.
  **/
 
+// Configuration
+$timeout = 20;
+
 // Get url
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
-// Handle only sync urls
+// Handle number of connected players requests
+
+if('/how-many-players-now' === $url) {
+    $cleanup = 0 === rand(0, 50);
+    $it = new \APCIterator('user', '/alive$/', $cleanup ? APC_ITER_MTIME | APC_ITER_KEY : APC_ITER_MTIME, 100, APC_LIST_ACTIVE);
+    $nb = 0;
+    $limit = time() - $timeout;
+    foreach($it as $i) {
+        if($cleanup) apc_fetch($i['key']);
+        if($i['mtime'] >= $limit) ++$nb;
+    }
+
+    // Return minimalist JSON response telling the number of connected players
+    header('HTTP/1.0 200 OK');
+    header('content-type: text/plain');
+    die((string)$nb);
+}
+
+// Handle game synchronization
+
 if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<hash>[\w-]{6})/(?P<color>(white|black))/(?P<version>\d+)/(?P<playerFullHash>([\w-]{10}|))$#x', $url, $matches)) {
     $hash = $matches['hash'];
     $color = $matches['color'];
@@ -20,9 +42,6 @@ if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<hash>[\w-]{6})/(?P<c
     $opponentColor = 'white' === $color ? 'black' : 'white';
 }
 else return;
-
-// Configuration
-$timeout = 20;
 
 // Get user cache from APC
 $userVersion = apc_fetch($hash.'.'.$color.'.data');
