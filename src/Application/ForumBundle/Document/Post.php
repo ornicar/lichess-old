@@ -21,6 +21,11 @@ class Post extends BasePost
     protected $authorName = '';
 
     /**
+     * @validation:MaxLength(10000)
+     */
+    protected $message;
+
+    /**
      * Get authorName
      * @return string
      */
@@ -37,5 +42,18 @@ class Post extends BasePost
     public function setAuthorName($authorName)
     {
       $this->authorName = $authorName;
+    }
+
+    public function setMessage($message)
+    {
+        $this->message = $this->processMessage($message);
+    }
+
+    protected function processMessage($message)
+    {
+        $message = wordwrap($message, 200);
+        $message = preg_replace('#(?:http://)?lichess\.org/([\w-]{6})[\w-]{4}#si', 'http://lichess.org/$1', $message);
+
+        return $message;
     }
 }

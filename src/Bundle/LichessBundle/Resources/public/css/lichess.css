@@ -735,6 +735,7 @@ div.lichess_share_game input {
 }
 
 ul.lichess_social {
+    height: 25px;
     text-align: center;
 }
 ul.lichess_social li {
