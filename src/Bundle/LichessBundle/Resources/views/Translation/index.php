@@ -58,6 +58,7 @@
             <li><strong>Czech</strong> Martin</li>
             <li><strong>Slovak</strong> taiga</li>
             <li><strong>Magyar</strong> LTBakemono</li>
+            <li><strong>Catalan</strong> AI8</li>
         </ul>
     </div>
 </div>
