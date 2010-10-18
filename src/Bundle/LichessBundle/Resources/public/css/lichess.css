@@ -698,19 +698,20 @@ ul.lichess_language_links a:hover {
 ul.lichess_language_links li:last-child {
     border-top: 1px solid #ddd;
 }
-a.goto_gamelist {
+a.goto_nav {
     margin-right: 2em;
     float: right;
     text-decoration: none;
-    background: transparent url(../images/eye.png) top left no-repeat;
     padding-left: 20px;
 }
+a.goto_nav:hover {
+    text-decoration: underline;
+}
+a.goto_gamelist {
+    background: transparent url(../images/eye.png) top left no-repeat;
+}
 a.goto_forum {
-    margin-right: 2em;
-    float: right;
-    text-decoration: none;
     background: transparent url(../images/balloon.png) top left no-repeat;
-    padding-left: 20px;
 }
 #newforum {
     background: transparent url(../images/newforum.png) top left no-repeat;
