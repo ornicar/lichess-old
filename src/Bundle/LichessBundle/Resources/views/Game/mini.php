@@ -10,7 +10,10 @@ if ($player->isBlack()) {
 
 $x = $y = 1;
 
-print '<div class="mini_board">';
+printf('<a href="%s" title="%s" class="mini_board notipsy">',
+    $view['router']->generate('lichess_game', array('hash' => $game->getHash())),
+    $view['translator']->_('View in full size')
+);
 
 foreach($squares as $squareKey => $square)
 {
@@ -33,5 +36,4 @@ foreach($squares as $squareKey => $square)
     }
 }
 
-print '</div>';
-
+print '</a>';
