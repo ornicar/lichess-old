@@ -36,6 +36,7 @@ class PostController extends BasePostController
         if(!$form->isValid()) {
             $lastPage = $this['templating.helper.forum']->getTopicNumPages($topic);
             return $this->forward('ForumBundle:Topic:show', array(
+                'categorySlug' => $topic->getCategory()->getSlug(),
                 'id' => $topicId
             ), array('page' => $lastPage));
         }
