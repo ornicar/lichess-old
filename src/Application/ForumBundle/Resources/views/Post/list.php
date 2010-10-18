@@ -6,7 +6,7 @@
             <a class="anchor" href="<?php echo $view['forum']->urlForPost($post) ?>">#<?php echo $post->getNumber() ?></a>
         </div>
         <div class="message">
-            <?php echo nl2br($view['lichess']->escape($post->getMessage())) ?>
+            <?php echo nl2br($view['forum']->autoLink($view['lichess']->escape($post->getMessage()))) ?>
         </div>
     </div>
     <?php endforeach ?>
