@@ -21,6 +21,7 @@ class MongoDBPersistence
     {
         $this->collection->ensureIndex(array('hash' => 1), array('unique' => true, 'safe' => true, 'name' => 'hash_index'));
         $this->collection->ensureIndex(array('upd' => -1), array('unique' => false, 'safe' => true, 'name' => 'upd_index'));
+        $this->collection->ensureIndex(array('status' => 1), array('unique' => false, 'safe' => true, 'name' => 'status_index'));
     }
 
     public function getCollection()
