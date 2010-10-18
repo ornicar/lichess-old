@@ -1,8 +1,16 @@
-div.mini_board {
+h1 {
+    font-size: 1.5em;
+    color: #666;
+    font-weight: normal;
+    margin-bottom: 0.5em;
+}
+
+a.mini_board {
     width: 192px;
     height: 192px;
     position: relative;
     float: left;
+    display: block;
     margin: 0 20px 20px 0;
     box-shadow:0 0 5px #444;
     -moz-box-shadow:0 0 5px #444;
