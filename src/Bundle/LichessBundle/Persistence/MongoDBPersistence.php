@@ -36,7 +36,7 @@ class MongoDBPersistence
 
     public function findRecentGamesHashes($limit)
     {
-        $cursor = $this->getCollection()->find(array(), array('hash'))->sort(array('upd' => -1))->limit($limit);
+        $cursor = $this->getCollection()->find(array('status' => Game::STARTED), array('hash'))->sort(array('upd' => -1))->limit($limit);
         $hashes = array();
         foreach(iterator_to_array($cursor) as $result) {
             $hashes[] = $result['hash'];
