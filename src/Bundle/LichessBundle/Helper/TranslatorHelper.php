@@ -60,6 +60,7 @@ class TranslatorHelper implements HelperInterface
     {
         $locales = $this->translator->getLocales();
         unset($locales[$this->translator->getLocale()]);
+        ksort($locales);
 
         return $locales;
     }
