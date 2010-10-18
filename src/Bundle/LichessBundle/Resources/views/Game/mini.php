@@ -1,6 +1,6 @@
 <?php
 
-$player = $game->getPlayer('white');
+$player = $game->getCreator();
 $board = $player->getGame()->getBoard();
 $squares = $board->getSquares();
 
