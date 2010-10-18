@@ -10,11 +10,12 @@ use Bundle\ForumBundle\DAO\Category;
 
 class TopicController extends BaseTopicController
 {
-    public function newAction($categorySlug)
+    public function newAction($categorySlug = null)
     {
-        $category = $this['forum.category_repository']->findOneBySlug($categorySlug);
-        if (!$category) {
-            throw new NotFoundHttpException('The category does not exist.');
+        if($categorySlug) {
+            $category = $this['forum.category_repository']->findOneBySlug($categorySlug);
+        } else {
+            $category = null;
         }
 
         $form = $this->createForm('forum_topic_new', $category);
@@ -25,9 +26,15 @@ class TopicController extends BaseTopicController
         ));
     }
 
-    public function createAction($categorySlug)
+    public function createAction($categorySlug = null)
     {
-        $form = $this->createForm('forum_topic_new');
+        if($categorySlug) {
+            $category = $this['forum.category_repository']->findOneBySlug($categorySlug);
+        } else {
+            $category = null;
+        }
+
+        $form = $this->createForm('forum_topic_new', $category);
         $form->bind($this['request']->request->get($form->getName()));
 
         if(!$form->isValid()) {
