@@ -188,6 +188,8 @@ div.post .createdAt {
 
 div.post .message {
     margin-top: 1.5em;
+    color: #555;
+    line-height: 1.5em;
 }
 
 div.topicReply {
@@ -312,6 +314,7 @@ div.footer div.right {
 }
 
 ul.lichess_social {
+    height: 25px;
     text-align: center;
 }
 ul.lichess_social li {
