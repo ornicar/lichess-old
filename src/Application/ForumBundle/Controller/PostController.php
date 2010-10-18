@@ -3,8 +3,8 @@
 namespace Application\ForumBundle\Controller;
 
 use Bundle\ForumBundle\Controller\PostController as BasePostController;
-use Bundle\ForumBundle\DAO\Topic;
-use Bundle\ForumBundle\DAO\Post;
+use Bundle\ForumBundle\Model\Topic;
+use Bundle\ForumBundle\Model\Post;
 
 class PostController extends BasePostController
 {

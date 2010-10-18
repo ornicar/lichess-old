@@ -5,8 +5,8 @@ namespace Application\ForumBundle\Controller;
 use Bundle\ForumBundle\Controller\TopicController as BaseTopicController;
 use Bundle\ForumBundle\Form\TopicForm;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Bundle\ForumBundle\DAO\Topic;
-use Bundle\ForumBundle\DAO\Category;
+use Bundle\ForumBundle\Model\Topic;
+use Bundle\ForumBundle\Model\Category;
 
 class TopicController extends BaseTopicController
 {
