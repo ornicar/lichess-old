@@ -6,7 +6,7 @@
 	url = git://github.com/ornicar/pgn4web.git
 [submodule "src/Bundle/ForumBundle"]
 	path = src/Bundle/ForumBundle
-	url = git://github.com/Exercise/ForumBundle.git
+	url = git://github.com/Herzult/ForumBundle.git
 [submodule "src/vendor/mongodb-odm"]
 	path = src/vendor/mongodb-odm
 	url = git://github.com/doctrine/mongodb-odm
