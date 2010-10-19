@@ -2,7 +2,7 @@ imports:
     - { resource: config.yml }
 
 webprofiler.config:
-    toolbar: true
+    toolbar: false
     intercept_redirects: false
 
 app.config:
