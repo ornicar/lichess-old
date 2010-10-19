@@ -61,7 +61,7 @@ class MongoDBPersistence
         // hydrate games
         $games = array();
         foreach($data as $gameData) {
-            $games[] = unserialize($this->decode($gameData['bin']));
+            $games[] = $this->decode($gameData['bin']);
         }
 
         return $games;
@@ -78,7 +78,7 @@ class MongoDBPersistence
         $hash = $game->getHash();
 
         $data = array(
-            'bin' => $this->encode(serialize($game)),
+            'bin' => $this->encode($game),
             'hash' => $hash,
             'status' => $game->getStatus(),
             'turns' => $game->getTurns(),
@@ -121,19 +121,24 @@ class MongoDBPersistence
         $data = $this->collection->findOne(array('hash' => $hash));
         if(!$data) return null;
 
-        $game = unserialize($this->decode($data['bin']));
+        $game = $this->decode($data['bin']);
         if(!$game) return null;
 
         return $this->games[$hash] = $game;
     }
 
-    public function encode($data)
+    protected function encode($game)
     {
-        return new \MongoBinData(gzcompress($data, 9));
+        return new \MongoBinData(gzcompress(serialize($game), 5));
     }
 
-    public function decode($data)
+    protected function decode($data)
     {
-        return gzuncompress($data->bin);
+        return unserialize(gzuncompress($data->bin));
+    }
+
+    public function getGameSize(Game $game)
+    {
+        return strlen($this->encode($game)->bin);
     }
 }
