@@ -40,12 +40,6 @@ $(function()
         location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
     });
 
-    if($('a.lichess_exchange').length) {
-        $newforum = $('<div>').attr('id', 'newforum');
-        $('body').append($newforum);
-        $newforum.css('left', $('a.goto_forum').offset().left-40);
-    }
-
     var elem = document.createElement('audio');
     var canPlayAudio = !!elem.canPlayType && elem.canPlayType('audio/ogg; codecs="vorbis"');
     
@@ -95,7 +89,7 @@ $(function()
                 var a = document.createElement('script'); a.type = 'text/javascript'; a.async = true; a.src = 'http://static.addtoany.com/menu/page.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
             })();
-        }, 700);
+        }, 800);
     }
 });
 

@@ -80,9 +80,9 @@ class Manipulator
 
     /**
      * Move a piece on the board
-     * Performs several validation before applying the move 
-     * 
-     * @param mixed $notation Valid algebraic notation (e.g. "a2 a4") 
+     * Performs several validation before applying the move
+     *
+     * @param mixed $notation Valid algebraic notation (e.g. "a2 a4")
      * @return string PGN notation of the move
      */
     public function move($notation, array $options = array())
@@ -188,7 +188,7 @@ class Manipulator
      **/
     protected function enpassant(Pawn $pawn, Square $to)
     {
-        $passedSquare = $to->getSquareByRelativePos(0, $pawn->getPlayer()->isWhite() ? -1 : 1); 
+        $passedSquare = $to->getSquareByRelativePos(0, $pawn->getPlayer()->isWhite() ? -1 : 1);
         $killed = $passedSquare->getPiece();
 
         if(!$killed || $killed->getPlayer() === $pawn->getPlayer()) {

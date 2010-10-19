@@ -18,7 +18,7 @@ class Crafty
 
     protected function getNewForsythe($forsytheNotation, $level)
     {
-        $file = tempnam(sys_get_temp_dir(), 'lichess_crafty_'.md5(time().mt_rand(0, 1000)));
+        $file = tempnam(sys_get_temp_dir(), 'lichess_crafty_'.md5(uniqid().mt_rand(0, 1000)));
         touch($file);
 
         $command = $this->getPlayCommand($forsytheNotation, $file, $level);
@@ -70,7 +70,7 @@ EOF",
             /*
             * st is the time in seconds crafty can think about the situation
             */
-            'st='.(round($level/10, 2)),
+            'st='.$this->getTimeForLevel($level),
         );
 
         if($level < 4) {
@@ -78,5 +78,10 @@ EOF",
         }
 
         return implode(' ', $config);
+    }
+
+    protected function getTimeForLevel($level)
+    {
+        return 8 === $level ? 1 : round($level/10, 2);
     }
 }
