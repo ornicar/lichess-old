@@ -703,6 +703,7 @@ a.goto_nav {
     float: right;
     text-decoration: none;
     padding-left: 20px;
+    color: #555;
 }
 a.goto_nav:hover {
     text-decoration: underline;
@@ -712,13 +713,6 @@ a.goto_gamelist {
 }
 a.goto_forum {
     background: transparent url(../images/balloon.png) top left no-repeat;
-}
-#newforum {
-    background: transparent url(../images/newforum.png) top left no-repeat;
-    width: 129px;
-    height: 68px;
-    position: absolute;
-    top: 22px;
 }
 a.lichess_replay_link {
     margin-top: 20px;
@@ -757,7 +751,6 @@ li.lichess_add2any a img {
     padding-top: 2px;
     vertical-align: top;
 }
-#a2apage_BROWSER { display:none !important; }
 
 div.lichess_server {
     margin: 20px 0;
