@@ -224,9 +224,4 @@ RNBQK  R
 
         return array($xPos[$key{0}], (int)$key{1});
     }
-
-    public function __clone()
-    {
-        $this->createSquares();
-    }
 }
