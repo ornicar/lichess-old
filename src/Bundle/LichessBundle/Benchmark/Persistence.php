@@ -7,7 +7,6 @@ use Bundle\LichessBundle\Entities\Game;
 
 require_once(__DIR__.'/bootstrap.php');
 
-require_once(__DIR__.'/../Persistence/FilePersistence.php');
 require_once(__DIR__.'/../Persistence/MongoDBPersistence.php');
 
 $totalTime = 0;
@@ -15,10 +14,9 @@ $dir = sys_get_temp_dir().'/lichess';
 if(!is_dir($dir)) {
     mkdir($dir);
 }
-$driver = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : 'file';
-$driver = function() use($driver, $dir)
+$driver = function()
 {
-    return 'file' == $driver ? new FilePersistence($dir) : new MongoDBPersistence();
+    return new MongoDBPersistence();
 };
 
 $generator = new Generator();
@@ -26,6 +24,7 @@ $game = $generator->createGame();
 $driver()->save($game);
 
 print "Empty game\n";
+printf('Size: %d B'."\n", $driver()->getGameSize($game));
 lichess_test_performance_file_persistence($game, $driver);
 
 $game = $generator->createGame();
@@ -37,6 +36,7 @@ for($it=0; $it<300; $it++) {
 $driver();
 
 print "Real world game\n";
+printf('Size: %d B'."\n", $driver()->getGameSize($game));
 lichess_test_performance_file_persistence($game, $driver);
 
 printf('Total: %01.2f ms'."\n", $totalTime);
