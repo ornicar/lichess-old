@@ -5,7 +5,6 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="Content-Language" content="en">
         <title><?php $view['slots']->output('title', 'Forum') ?> | Lichess free online Chess game<?php $view['slots']->output('title_suffix', '') ?></title>
         <meta content="<?php $view['slots']->output('description', 'Lichess form') ?>" name="description">
         <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
