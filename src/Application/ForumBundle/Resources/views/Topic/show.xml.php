@@ -7,6 +7,6 @@
     <updated><?php echo $topic->getPulledAt()->format('c') ?></updated>
     <author>
         <name><?php echo $view['lichess']->escape($topic->getFirstPost()->getAuthorname()) ?></name>
-    <name>
+    </author>
     <?php echo $view->render('ForumBundle:Post:list.php', array('posts' => $posts)) ?>
 </feed>

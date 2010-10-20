@@ -10,6 +10,7 @@
         <meta content="<?php $view['slots']->output('description', 'Lichess form') ?>" name="description">
         <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
         <meta content="index, follow" name="robots">
+        <?php $view['slots']->output('links') ?>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <?php echo $view['stylesheets'] ?>
     </head>

@@ -1,6 +1,7 @@
 <?php $view->extend('ForumBundle::layout.php') ?>
 <?php $view['slots']->set('title', $category->getName()) ?>
 <?php $view['slots']->set('description', $category->getDescription()) ?>
+<?php $view['slots']->set('links', '<link rel="alternate" type="application/rss+xml" title="Latest topics" href="'.$view['router']->generate('forum_category_show', array('slug' => $category->getSlug(), '_format' => 'xml'), true).'" />') ?>
 
 <?php $pager = $view->render('ForumBundle::pagination.php', array('pager' => $topics->getPages(), 'url' => $view['forum']->urlForCategory($category))) ?>
 <?php $newTopicUrl = $view['router']->generate('forum_topic_new', array('categorySlug' => $category->getSlug())) ?>
