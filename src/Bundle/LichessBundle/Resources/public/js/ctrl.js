@@ -1,24 +1,23 @@
 $(function()
 {
-    $game = $('div.lichess_game');
-    if ($game.length) {
+    if ($game = $('div.lichess_game').orNot()) {
         $game.game(lichess_data);
         $('input').click(function() { this.select(); });
     }
-    else {
-        // Update number of connected players
-        var $nbConnectedPlayers = $('div.nb_connected_players');
-        if($nbConnectedPlayers.length) {
-            function reloadNbConnectedPlayers() {
-                setTimeout(function() {
-                    $.get($nbConnectedPlayers.attr('data-url'), function(nb) {
-                        $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
-                        reloadNbConnectedPlayers();
-                    });
-                }, 5000);
-            }
-            reloadNbConnectedPlayers();
-        }
+    else if($nbConnectedPlayers = $('div.nb_connected_players').orNot()) {
+        function reloadNbConnectedPlayers() {
+            setTimeout(function() {
+                $.get($nbConnectedPlayers.attr('data-url'), function(nb) {
+                    $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
+                    reloadNbConnectedPlayers();
+                });
+            }, 5000);
+        };
+        reloadNbConnectedPlayers();
+    }
+
+    if($overboard = $('div.lichess_overboard').orNot()) {
+        $overboard.css('top', (238-$overboard.height()/2)+'px');
     }
 
     $.fn.hoverIntent && $('div.lichess_language').hoverIntent({
@@ -28,7 +27,7 @@ $(function()
     });
 
     // Append marks 1-8 && a-h
-    if(($bw = $('div.lichess_board_wrap')).length) {
+    if($bw = $('div.lichess_board_wrap').orNot()) {
         $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
     }
 
@@ -68,7 +67,6 @@ $(function()
         $('div.lichess_goodies_wrap').append('<br />Your browser is deprecated, please consider upgrading!<br /><a href="http://getfirefox.com" target="_blank"><img src="http://sfx-images.mozilla.org/firefox/3.6/96x31_edit_green.png" width="96" height="31" /></a>');
     }
 
-    //uservoice
     if(document.domain == 'lichess.org') {
         setTimeout(function() {
             // share links
@@ -100,6 +98,10 @@ $.ajax = function(o) {
     }
     return _jQueryAjax(o);
 }
+jQuery.fn.orNot = function()
+{
+    return this.length == 0 ? false : this;
+};
 
 $.displayBoardMarks = function($board, isWhite)
 {
