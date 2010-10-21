@@ -269,6 +269,10 @@ class Game
     public function setStatus($status)
     {
         $this->status = $status;
+
+        if($this->status >= static::MATE && $this->hasClock()) {
+            $this->getClock()->stop();
+        }
     }
 
     /**
@@ -282,6 +286,9 @@ class Game
         if(!$this->getInvited()->getIsAi()) {
             $this->getRoom()->addMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
             $this->getRoom()->addMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
+        }
+        if($this->hasClock()) {
+            $this->getClock()->start();
         }
     }
 

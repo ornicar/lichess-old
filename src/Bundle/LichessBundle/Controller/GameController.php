@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Chess\Clock;
 use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Form\FriendGameConfig;
 use Bundle\LichessBundle\Form\FriendGameConfigForm;
@@ -75,6 +76,10 @@ class GameController extends Controller
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
                 $player = $this['lichess_generator']->createGameForPlayer($color);
+                if($config->time) {
+                    $clock = new Clock($config->time * 60);
+                    $player->getGame()->setClock($clock);
+                }
                 $this['lichess_persistence']->save($player->getGame());
                 return $this->redirect($this->generateUrl('lichess_wait_friend', array('hash' => $player->getFullHash())));
             }

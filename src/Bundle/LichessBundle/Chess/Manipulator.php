@@ -75,6 +75,10 @@ class Manipulator
 
         $this->game->addPgnMove($pgn);
 
+        if($this->game->hasClock()) {
+            $this->game->getClock()->step();
+        }
+
         return $opponentPossibleMoves;
     }
 
