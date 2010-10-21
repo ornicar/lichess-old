@@ -7,6 +7,8 @@ use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Stack;
+use Bundle\LichessBundle\Form\GameConfig;
+use Bundle\LichessBundle\Form\GameConfigForm;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
@@ -67,9 +69,18 @@ class GameController extends Controller
 
     public function inviteFriendAction($color)
     {
-        $player = $this->container->getLichessGeneratorService()->createGameForPlayer($color);
-        $this->container->getLichessPersistenceService()->save($player->getGame());
-        return $this->redirect($this->generateUrl('lichess_wait_friend', array('hash' => $player->getFullHash())));
+        $config = new GameConfig($this['lichess_translator']);
+        $form = new GameConfigForm('config', $config, $this['validator']);
+        if('POST' === $this['request']->getMethod()) {
+            $form->bind($this['request']->request->get($form->getName()));
+            if($form->isValid()) {
+                $player = $this['lichess_generator']->createGameForPlayer($color);
+                $this['lichess_persistence']->save($player->getGame());
+                return $this->redirect($this->generateUrl('lichess_wait_friend', array('hash' => $player->getFullHash())));
+            }
+        }
+
+        return $this->render('LichessBundle:Game:inviteFriend.php', array('form' => $this['templating.form']->get($form), 'color' => $color));
     }
 
     public function inviteAiAction($color)
