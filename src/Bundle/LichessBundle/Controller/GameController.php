@@ -43,7 +43,7 @@ class GameController extends Controller
             'type' => 'redirect',
             'url' => $this->generateUrl('lichess_player', array('hash' => $game->getCreator()->getFullHash()))
         ));
-        $this->container->getLichessPersistenceService()->save($game);
+        $this['lichess_persistence']->save($game);
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $game->getInvited()->getFullHash())));
     }
 
@@ -74,7 +74,7 @@ class GameController extends Controller
 
     public function inviteAiAction($color)
     {
-        $player = $this->container->getLichessGeneratorService()->createGameForPlayer($color);
+        $player = $this['lichess_generator']->createGameForPlayer($color);
         $game = $player->getGame();
         $opponent = $player->getOpponent();
         $opponent->setIsAi(true);
@@ -85,7 +85,7 @@ class GameController extends Controller
             $manipulator = new Manipulator($game, new Stack());
             $manipulator->play($this->container->getLichessAiService()->move($game, $opponent->getAiLevel()));
         }
-        $this->container->getLichessPersistenceService()->save($game);
+        $this['lichess_persistence']->save($game);
 
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
     }
@@ -93,7 +93,7 @@ class GameController extends Controller
     public function inviteAnybodyAction($color)
     {
         $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
-        $persistence = $this->container->getLichessPersistenceService();
+        $persistence = $this['lichess_persistence'];
         $sessionInvites = $this['session']->get('lichess.invites', array());
         if(file_exists($connectionFile)) {
             $opponentHash = file_get_contents($connectionFile);
@@ -113,7 +113,7 @@ class GameController extends Controller
             }
         }
 
-        $player = $this->container->getLichessGeneratorService()->createGameForPlayer($color);
+        $player = $this['lichess_generator']->createGameForPlayer($color);
         $persistence->save($player->getGame());
         file_put_contents($connectionFile, $player->getFullHash());
         $sessionInvites[] = $player->getFullHash();
@@ -129,7 +129,7 @@ class GameController extends Controller
      */
     protected function findGame($hash)
     {
-        $game = $this->container->getLichessPersistenceService()->find($hash);
+        $game = $this['lichess_persistence']->find($hash);
 
         if(!$game) {
             throw new NotFoundHttpException('Can\'t find game '.$hash);
