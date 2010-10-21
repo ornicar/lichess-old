@@ -9,13 +9,7 @@
             <?php echo $view['translator']->_('Waiting for opponent') ?>...
         </div>
     </div>
-    <div class="lichess_ground">
-        <div class="lichess_table lichess_table_not_started">
-        <a href="<?php echo $view['router']->generate('lichess_invite_friend', array('color' => $player->getColor())) ?>" class="lichess_button" title="<?php echo $view['translator']->_('Invite a friend to play with you') ?>"><?php echo $view['translator']->_('Play with a friend') ?></a>
-        <a href="<?php echo $view['router']->generate('lichess_invite_ai', array('color' => $player->getColor())) ?>" class="lichess_button" title="<?php echo $view['translator']->_('Challenge the artificial intelligence') ?>"><?php echo $view['translator']->_('Play with the machine') ?></a>
-        <span class="lichess_button active"><?php echo $view['translator']->_('Play with anybody') ?></span>
-        </div>
-    </div>
+    <?php echo $view->output('LichessBundle:Game:bootGround.php', array('color' => $player->getColor(), 'active' => 'anybody')) ?>
 </div>
 
 <?php $view->output('LichessBundle:Game:data.php', array('player' => $player, 'possibleMoves' => null, 'parameters' => $parameters, 'isOpponentConnected' => false)) ?>
