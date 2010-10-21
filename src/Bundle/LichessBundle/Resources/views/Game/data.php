@@ -9,6 +9,8 @@ $data = array(
         'hash' => $game->getHash(),
         'started' => $game->getIsStarted(),
         'finished' => $game->getIsFinished(),
+        'clock' => $game->hasClock(),
+        'player' => $game->getTurnPlayer()->getColor()
     ),
     'player' => array(
         'color' => $player->getColor(),
@@ -28,7 +30,8 @@ $data = array(
         'opponent' => $view['router']->generate('lichess_opponent', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => $playerFullHash)),
         'move' => $view['router']->generate('lichess_move', array('hash' => $playerFullHash, 'version' => 9999999)),
         'say' => $view['router']->generate('lichess_say', array('hash' => $playerFullHash, 'version' => 9999999)),
-        'ai_level' => $opponent->getIsAi() ? $view['router']->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null
+        'ai_level' => $opponent->getIsAi() ? $view['router']->generate('lichess_ai_level', array('hash' => $playerFullHash)) : null,
+        'outoftime' => $game->hasClock() ? $view['router']->generate('lichess_outoftime', array('hash' => $playerFullHash, 'version' => 9999999)) : null
     ),
     'i18n' => array(
         'Game Over' => $view['translator']->_('Game Over'),

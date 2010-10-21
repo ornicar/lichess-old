@@ -46,6 +46,10 @@ lichess_resign:
     pattern:        /resign/:hash
     defaults:       { _controller: LichessBundle:Player:resign }
     requirements:   { hash: "[\w-]{10}" }
+lichess_outoftime:
+    pattern:        /outoftime/:hash/:version
+    defaults:       { _controller: LichessBundle:Player:outoftime }
+    requirements:   { hash: "[\w-]{10}", version: "\d+" }
 lichess_table:
     pattern:        /table/:hash/:color/:playerFullHash
     defaults:       { _controller: LichessBundle:Player:table, playerFullHash: "" }

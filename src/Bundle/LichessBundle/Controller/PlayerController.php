@@ -15,6 +15,21 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PlayerController extends Controller
 {
+    public function outoftimeAction($hash, $version)
+    {
+        $player = $this->findPlayer($hash);
+        $opponent = $player->getOpponent();
+        $game = $player->getGame();
+
+        if($game->checkOutOfTime()) {
+            $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
+            $player->getStack()->addEvents($events);
+            $opponent->getStack()->addEvents($events);
+            $this->getPersistence()->save($game);
+        }
+
+        return $this->renderJson($this->getPlayerSyncData($player, $version));
+    }
 
     public function rematchAction($hash)
     {
@@ -27,6 +42,9 @@ class PlayerController extends Controller
             if($nextOpponent->getColor() == $player->getColor()) {
                 $nextGame = $nextOpponent->getGame();
                 $nextGame->setRoom(clone $game->getRoom());
+                if($game->hasClock()) {
+                    $nextGame->setClock(clone $game->getClock());
+                }
                 $this->getPersistence()->save($nextGame);
                 $opponent->getStack()->addEvent(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $nextOpponent->getFullHash()))));
                 $this->getPersistence()->save($game);
@@ -68,8 +86,10 @@ class PlayerController extends Controller
 
     protected function getPlayerSyncData($player, $clientVersion)
     {
+        $game = $player->getGame();
         $version = $player->getStack()->getVersion();
         $isOpponentConnected = $this->getSynchronizer()->isConnected($player->getOpponent());
+        $currentPlayerColor = $game->getTurnPlayer()->getColor();
         try {
             $events = $version != $clientVersion ? $this->getSynchronizer()->getDiffEvents($player, $clientVersion) : array();
         }
@@ -77,8 +97,11 @@ class PlayerController extends Controller
             $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $player->getFullHash()))));
         }
 
-        $data = array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events);
+        $data = array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events, 'p' => $currentPlayerColor);
         $data['ncp'] = $this->getSynchronizer()->getNbConnectedPlayers();
+        if($game->hasClock()) {
+            $data['c'] = $game->getClock()->getRemainingTimes();
+        }
 
         return $data;
     }
@@ -117,7 +140,7 @@ class PlayerController extends Controller
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-    
+
     public function moveAction($hash, $version)
     {
         $player = $this->findPlayer($hash);
@@ -135,7 +158,7 @@ class PlayerController extends Controller
         $player->getStack()->addEvents($stack->getEvents());
         $player->getStack()->addEvent(array('type' => 'possible_moves', 'possible_moves' => null));
         $response = $this->renderJson($this->getPlayerSyncData($player, $version));
-        
+
         if($opponent->getIsAi()) {
             if(!empty($opponentPossibleMoves)) {
                 $stack->reset();
@@ -182,7 +205,7 @@ class PlayerController extends Controller
     }
 
     /**
-     * Add a message to the chat room 
+     * Add a message to the chat room
      */
     public function sayAction($hash, $version)
     {
@@ -293,9 +316,9 @@ class PlayerController extends Controller
     }
 
     /**
-     * Get the player for this hash 
-     * 
-     * @param string $hash 
+     * Get the player for this hash
+     *
+     * @param string $hash
      * @return Player
      */
     protected function findPlayer($hash)
@@ -306,20 +329,20 @@ class PlayerController extends Controller
         $game = $this->getPersistence()->find($gameHash);
         if(!$game) {
             throw new NotFoundHttpException('Can\'t find game '.$gameHash);
-        } 
+        }
 
         $player = $game->getPlayerByHash($playerHash);
         if(!$player) {
             throw new NotFoundHttpException('Can\'t find player '.$playerHash);
-        } 
+        }
 
         return $player;
     }
 
     /**
-     * Get the public player for this hash 
-     * 
-     * @param string $hash 
+     * Get the public player for this hash
+     *
+     * @param string $hash
      * @return Player
      */
     protected function findPublicPlayer($hash, $color)
@@ -327,12 +350,12 @@ class PlayerController extends Controller
         $game = $this->getPersistence()->find($hash);
         if(!$game) {
             throw new NotFoundHttpException('Can\'t find game '.$gameHash);
-        } 
+        }
 
         $player = $game->getPlayer($color);
         if(!$player) {
             throw new NotFoundHttpException('Can\'t find player '.$color);
-        } 
+        }
 
         return $player;
     }

@@ -401,12 +401,37 @@ div.lichess_table {
 div.lichess_table.spectator {
     top: 160px;
 }
-div.clock_wrap {
-    margin-left: 89px;
-    width: 60px;
+div.lichess_table_not_started {
+    position: absolute;
+    top: 176px;
+    left: 0px;
+    width: 242px;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    border: none;
+    padding: 0;
+    top: 100px;
+}
+div.clock {
+    margin-left: 78px;
+    width: 50px;
     border: 1px solid #ccc;
-    padding: 3px 0;
-    text-align: center;
+    padding: 3px 0 3px 25px;
+    background: url(../images/clock.png) top left no-repeat;
+    background-position: +5px +3px;
+    height: 16px;
+    font-size: 14px;
+    font-family: monospace;
+}
+div.clock.running {
+    background-color: #FAFAAA;
+    font-weight: bold;
+}
+div.clock.outoftime {
+    background-color: #eFAAAA;
+    font-weight: bold;
+    color: #444;
 }
 div.clock_top {
     border-bottom: 0;
@@ -419,15 +444,6 @@ div.clock_bottom {
     border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
-}
-
-div.lichess_table_not_started {
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    border: none;
-    padding: 0;
-    top: 100px;
 }
 
 div.lichess_table_next {
@@ -512,6 +528,7 @@ div.lichess_current_player {
 }
 div.lichess_current_player div.lichess_player {
     position: absolute;
+    margin-left: -5px;
 }
 div.lichess_current_player div.lichess_player div.lichess_piece {
     top: 0;
@@ -520,7 +537,7 @@ div.lichess_current_player div.lichess_player div.lichess_piece {
 div.lichess_current_player div.lichess_player p {
     height: 64px;
     line-height: 64px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: #888;
     margin: 0 0 0 64px;
