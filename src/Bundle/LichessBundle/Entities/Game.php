@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Entities;
 
 use Bundle\LichessBundle\Chess\Board;
+use Bundle\LichessBundle\Chess\Clock;
 use Bundle\LichessBundle\Entities\Chat\Room;
 
 /**
@@ -28,8 +29,8 @@ class Game
     const DRAW = 34;
 
     /**
-     * The two players 
-     * 
+     * The two players
+     *
      * @var array
      */
     protected $players = array();
@@ -84,11 +85,18 @@ class Game
     protected $next = null;
 
     /**
-     * Array of position hashes, used to detect threefold repetition 
-     * 
+     * Array of position hashes, used to detect threefold repetition
+     *
      * @var array
      */
     protected $positionHashes = array();
+
+    /**
+     * The game clock
+     *
+     * @var Clock
+     */
+    protected $clock = null;
 
     public function __construct()
     {
@@ -98,6 +106,35 @@ class Game
         }
         $this->status = self::CREATED;
         $this->room = new Room();
+    }
+
+    /**
+     * Get clock
+     * @return Clock
+     */
+    public function getClock()
+    {
+        return $this->clock;
+    }
+
+    /**
+     * Set clock
+     * @param  Clock
+     * @return null
+     */
+    public function setCLock(Clock $clock)
+    {
+        $this->clock = $clock;
+    }
+
+    /**
+     * Tell if the game has a clock
+     *
+     * @return boolean
+     **/
+    public function hasClock()
+    {
+        return null !== $this->clock;
     }
 
     /**
@@ -114,8 +151,8 @@ class Game
 
     /**
      * Sometime we can safely clear the position hashes,
-     * for example when a pawn moved 
-     * 
+     * for example when a pawn moved
+     *
      * @return void
      */
     public function clearPositionHashes()
