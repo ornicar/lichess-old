@@ -21,11 +21,7 @@ $(function()
         }
     }
 
-    $.fn.hoverIntent && $('div.lichess_language').hoverIntent({
-        over: function() { $(this).find('ul').show(); },
-        out: function() { $(this).find('ul').hide(); },
-        timeout: 100
-    });
+    $('div.lichess_language').hover(function() { $(this).find('ul').fadeIn(300); }, function() { $(this).find('ul').fadeOut(300); });
 
     // Append marks 1-8 && a-h
     if(($bw = $('div.lichess_board_wrap')).length) {
