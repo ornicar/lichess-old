@@ -15,11 +15,11 @@ html{color:#000;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fiel
 .tipsy-e .tipsy-arrow { top: 50%; margin-top: -4px; right: 0; width: 5px; height: 9px; background-position: top right; }
 .tipsy-w .tipsy-arrow { top: 50%; margin-top: -4px; left: 0; width: 5px; height: 9px; }
 .clearfix:after {
-  content:".";
-  display:block;
-  height:0;
-  clear:both;
-  visibility:hidden;
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
 }
 .clearfix {display:inline-block;}
 /* Hide from IE Mac \*/
@@ -31,9 +31,9 @@ html{color:#000;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fiel
 }
 
 body {
-  font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
-  color: #888;
-  background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
+    font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
+    color: #888;
+    background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
 }
 
 a, a:visited {
@@ -65,24 +65,24 @@ div.header strong {
 }
 
 div.content {
-  width: 1010px;
-  margin: 30px auto 50px auto;
-  position: relative;
+    width: 1010px;
+    margin: 30px auto 50px auto;
+    position: relative;
 }
 
 #lichess {
-  margin-left: 211px;
+    margin-left: 211px;
 }
 
 a.site_title {
-  width: 130px;
-  color: #666;
-  padding-top: 15px;
-  font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;
-  font-weight: bold;
-  font-size: 30px;
-  color: #aaa;
-  text-decoration: none;
+    width: 130px;
+    color: #666;
+    padding-top: 15px;
+    font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;
+    font-weight: bold;
+    font-size: 30px;
+    color: #aaa;
+    text-decoration: none;
 }
 
 div.nb_connected_players {
@@ -90,18 +90,18 @@ div.nb_connected_players {
 }
 
 div.footer_wrap {
-  width: 100%;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background: #EEE;
-  padding: 20px 0;
-  display: block;
+    width: 100%;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #EEE;
+    padding: 20px 0;
+    display: block;
 }
 
 div.footer {
-  width: 1000px;
-  margin: auto;
-  line-height: 2em;
+    width: 1000px;
+    margin: auto;
+    line-height: 2em;
 }
 
 div.footer div.right {
@@ -383,11 +383,13 @@ div.lichess_ground {
     height: 514px;
 }
 
-div.lichess_table {
+div.lichess_table_wrap {
     position: absolute;
     top: 176px;
     left: 0px;
     width: 242px;
+}
+div.lichess_table {
     background: #F7F7F7;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -398,6 +400,25 @@ div.lichess_table {
 }
 div.lichess_table.spectator {
     top: 160px;
+}
+div.clock_wrap {
+    margin-left: 89px;
+    width: 60px;
+    border: 1px solid #ccc;
+    padding: 3px 0;
+    text-align: center;
+}
+div.clock_top {
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+}
+div.clock_bottom {
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
 }
 
 div.lichess_table_not_started {
@@ -506,8 +527,8 @@ div.lichess_current_player div.lichess_player p {
 }
 
 div.lichess_table.finished div.lichess_player p {
-  line-height: 2em;
-  margin-top: 3px;
+    line-height: 2em;
+    margin-top: 3px;
 }
 
 div.lichess_cemetery {
@@ -557,7 +578,7 @@ div.lichess_box .lichess_title {
 }
 
 div.lichess_box p {
-  margin: 1em;
+    margin: 1em;
 }
 
 div.lichess_box div.lichess_text {
@@ -575,7 +596,7 @@ div.lichess_box li {
 }
 
 div.lichess_box a.lichess_new_game {
-  font-size: 150%;
+    font-size: 150%;
 }
 
 div.lichess_box p.license_images {
