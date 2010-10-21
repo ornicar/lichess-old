@@ -7,8 +7,8 @@ use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Stack;
-use Bundle\LichessBundle\Form\GameConfig;
-use Bundle\LichessBundle\Form\GameConfigForm;
+use Bundle\LichessBundle\Form\FriendGameConfig;
+use Bundle\LichessBundle\Form\FriendGameConfigForm;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
@@ -69,8 +69,8 @@ class GameController extends Controller
 
     public function inviteFriendAction($color)
     {
-        $config = new GameConfig($this['lichess_translator']);
-        $form = new GameConfigForm('config', $config, $this['validator']);
+        $config = new FriendGameConfig($this['lichess_translator']);
+        $form = new FriendGameConfigForm('config', $config, $this['validator']);
         if('POST' === $this['request']->getMethod()) {
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {

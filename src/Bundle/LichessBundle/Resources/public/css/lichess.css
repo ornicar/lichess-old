@@ -252,6 +252,14 @@ div.lichess_overboard {
     -webkit-box-shadow: 0px 0px 20px #444;
     text-align: center;
 }
+div.lichess_overboard.time_config h2, div.lichess_overboard.time_config button {
+    font-size: 1.4em;
+    padding: 0 2em;
+}
+div.lichess_overboard.time_config div.choices {
+    margin: 1em 0 1em 6em;
+    text-align: left;
+}
 
 div.lichess_overboard.wait_anybody,
 div.lichess_overboard .wait_next {

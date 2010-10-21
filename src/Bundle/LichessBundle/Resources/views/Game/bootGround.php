@@ -16,7 +16,7 @@
     <div class="lichess_table lichess_table_not_started">
         <?php foreach($links as $name => $link): ?>
             <?php if(isset($active) && $name == $active): ?>
-                <span class="lichess_button_active"><?php echo $link[0] ?></span>
+                <span class="lichess_button active"><?php echo $link[0] ?></span>
             <?php else: ?>
                 <a class="lichess_button" href="<?php echo $link[1] ?>"><?php echo $link[0] ?></a>
             <?php endif ?>
