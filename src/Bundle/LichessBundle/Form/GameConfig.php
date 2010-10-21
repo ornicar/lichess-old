@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Form;
 
-class NewGame
+class GameConfig
 {
     public static $timeChoices = array(
         5, 10, 20, 30, 0
