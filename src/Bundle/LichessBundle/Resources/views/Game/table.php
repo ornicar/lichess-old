@@ -1,7 +1,6 @@
 <?php $game = $player->getGame() ?>
 <?php $turnPlayer = $game->getTurnPlayer() ?>
 <?php $opponent = $player->getOpponent() ?>
-<div class="lichess_table_wrap">
 <?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $player->getGame()->getClock(), 'color' => $opponent->getColor(), 'position' => 'top')) ?>
 <div class="lichess_table">
     <div class="lichess_opponent">
@@ -41,4 +40,3 @@
     <?php endif; ?>
 </div>
 <?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $player->getGame()->getClock(), 'color' => $player->getColor(), 'position' => 'bottom')) ?>
-</div>

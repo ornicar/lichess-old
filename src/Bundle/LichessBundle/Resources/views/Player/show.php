@@ -8,7 +8,9 @@
     </div>
     <div class="lichess_ground">
         <?php $view->output('LichessBundle:Game:cemetery.php', array('player' => $player, 'position' => 'top')) ?>
-        <?php $view['actions']->output('LichessBundle:Player:table', array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash())) ?>
+        <div class="lichess_table_wrap">
+            <?php $view['actions']->output('LichessBundle:Player:table', array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash())) ?>
+        </div>
         <?php $view->output('LichessBundle:Game:cemetery.php', array('player' => $player->getOpponent(), 'position' => 'bottom')) ?>
     </div>
 </div>
@@ -16,7 +18,7 @@
 <?php $view->output('LichessBundle:Game:data.php', array('player' => $player, 'possibleMoves' => $possibleMoves, 'isOpponentConnected' => $isOpponentConnected, 'parameters' => $parameters)) ?>
 
 <?php if(!$player->getOpponent()->getIsAi()): ?>
-    <?php $view['slots']->set('chat', $view->render('LichessBundle:Player:room.php', array('player' => $player))) ?>
+<?php $view['slots']->set('chat', $view->render('LichessBundle:Player:room.php', array('player' => $player))) ?>
 <?php endif; ?>
 
 <?php $view['slots']->set('goodies', $view->render('LichessBundle:Game:goodies.php', array('game' => $player->getGame(), 'color' => $player->getColor()))) ?>

@@ -27,6 +27,7 @@ class Game
     const STALEMATE = 32;
     const TIMEOUT = 33;
     const DRAW = 34;
+    const OUTOFTIME = 35;
 
     /**
      * The two players
@@ -135,6 +136,29 @@ class Game
     public function hasClock()
     {
         return null !== $this->clock;
+    }
+
+    /**
+     * Verify if one of the player exceeded his time limit,
+     * and terminate the game in this case
+     *
+     * @return boolean true if the game has been terminated
+     **/
+    public function checkOutOfTime()
+    {
+        if(!$this->hasClock()) {
+            throw new \LogicException('This game has no clock');
+        }
+        if($this->getIsFinished()) {
+            return;
+        }
+        foreach($this->getPlayers() as $color => $player) {
+            if($this->getClock()->isOutOfTime($color)) {
+                $this->setStatus(static::OUTOFTIME);
+                $player->getOpponent()->setIsWinner(true);
+                return true;
+            }
+        }
     }
 
     /**
@@ -256,6 +280,7 @@ class Game
         case self::STALEMATE: $message = 'Stalemate'; break;
         case self::TIMEOUT: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
         case self::DRAW: $message = 'Draw'; break;
+        case self::OUTOFTIME: $message = 'Time out'; break;
         default: $message = '';
         }
         return $message;
@@ -270,7 +295,7 @@ class Game
     {
         $this->status = $status;
 
-        if($this->status >= static::MATE && $this->hasClock()) {
+        if($this->getIsFinished() && $this->hasClock()) {
             $this->getClock()->stop();
         }
     }

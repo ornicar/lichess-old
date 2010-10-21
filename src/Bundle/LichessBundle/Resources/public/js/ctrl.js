@@ -57,7 +57,7 @@ $(function()
             });
             return false;
         });
-        $game.trigger('lichess.audio_ready');
+        $game && $game.trigger('lichess.audio_ready');
     }
     else {
         $('div.lichess_goodies_wrap').append('<br />Your browser is deprecated, please consider upgrading!<br /><a href="http://getfirefox.com" target="_blank"><img src="http://sfx-images.mozilla.org/firefox/3.6/96x31_edit_green.png" width="96" height="31" /></a>');

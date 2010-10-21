@@ -7,7 +7,7 @@ class Clock
     /**
      * Maximum time of the clock per player
      *
-     * @var int
+     * @var float
      */
     private $limit = null;
 
@@ -21,25 +21,34 @@ class Clock
     /**
      * Times for white and black players
      *
-     * @var array of int
+     * @var array of float
      */
     private $times = null;
 
     /**
      * Internal timer
      *
-     * @var int
+     * @var float
      */
     private $timer = null;
 
     public function __construct($limit)
     {
         $this->limit = (int) $limit;
-
         if($this->limit < 60) {
             throw new \InvalidArgumentException(sprintf('Invalid time limit "%s"', $limit));
         }
 
+        $this->reset();
+    }
+
+    /**
+     * initializes the clock
+     *
+     * @return null
+     **/
+    public function reset()
+    {
         $this->color = 'white';
         $this->times = array('white' => 0, 'black' => 0);
         $this->timer = null;
@@ -74,6 +83,7 @@ class Clock
      **/
     public function stop()
     {
+        $this->times[$this->color] += microtime(true) - $this->timer;
         $this->timer = null;
     }
 
@@ -84,23 +94,25 @@ class Clock
      **/
     public function isOutOfTime($color)
     {
-        return $this->getRemainingTime($color) < 0;
+        return 0 === $this->getRemainingTime($color);
     }
 
     /**
      * Tell the time a player has to finish the game
      *
-     * @return int
+     * @return float
      **/
     public function getRemainingTime($color)
     {
-        return $this->limit - $this->getElapsedTime($color);
+        $time = $this->limit - $this->getElapsedTime($color);
+
+        return max(0, round($time, 3));
     }
 
     /**
      * Tell the time a player has used
      *
-     * @return int
+     * @return float
      **/
     public function getElapsedTime($color)
     {
@@ -109,7 +121,15 @@ class Clock
             $time += microtime(true) - $this->timer;
         }
 
-        return $time;
+        return round($time, 3);
+    }
+
+    public function getRemainingTimes()
+    {
+        return array(
+            'white' => $this->getRemainingTime('white'),
+            'black' => $this->getRemainingTime('black')
+        );
     }
 
     /**
@@ -161,31 +181,16 @@ class Clock
     }
 
     /**
-     * Set limit
-     * @param  int
-     * @return null
-     */
-    public function setLimit($limit)
-    {
-      $this->limit = $limit;
-    }
-
-    /**
      * Get times
-     * @return array of int
+     * @return array of float
      */
     public function getTimes()
     {
       return $this->times;
     }
 
-    /**
-     * Set times
-     * @param  array of int
-     * @return null
-     */
-    public function setTimes($times)
+    public function __clone()
     {
-      $this->times = $times;
+        $this->reset();
     }
 }
