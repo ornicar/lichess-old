@@ -6,7 +6,7 @@
 /web/bundles
 /src/vendor/zend/documentation/manual
 /src/vendor/zend/tests
-/dump
+/dump*
 tags
 .git*
 .svn
