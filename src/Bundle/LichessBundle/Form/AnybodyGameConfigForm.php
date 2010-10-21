@@ -4,8 +4,9 @@ namespace Bundle\LichessBundle\Form;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\ChoiceField;
+use Symfony\Component\Validator\Validator;
 
-class GameConfigForm extends Form
+class AnybodyGameConfigForm extends Form
 {
     public function configure()
     {
