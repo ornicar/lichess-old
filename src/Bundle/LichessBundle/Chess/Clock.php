@@ -32,18 +32,17 @@ class Clock
      */
     private $timer = null;
 
-    private $isRunning = null;
-
     public function __construct($limit)
     {
         $this->limit = (int) $limit;
 
-        if($this->limit < 60*1000) {
+        if($this->limit < 60) {
             throw new \InvalidArgumentException(sprintf('Invalid time limit "%s"', $limit));
         }
 
         $this->color = 'white';
-        $this->isRunning = false;
+        $this->times = array('white' => 0, 'black' => 0);
+        $this->timer = null;
     }
 
     /**
@@ -53,9 +52,9 @@ class Clock
      **/
     public function step()
     {
-        $this->times[$this->color] += microtime() - $this->timer;
+        $this->times[$this->color] += microtime(true) - $this->timer;
         $this->color = 'white' === $this->color ? 'black' : 'white';
-        $this->timer = microtime();
+        $this->timer = microtime(true);
     }
 
     /**
@@ -65,8 +64,7 @@ class Clock
      **/
     public function start()
     {
-        $this->timer = microtime();
-        $this->isRunning = true;
+        $this->timer = microtime(true);
     }
 
     /**
@@ -76,7 +74,7 @@ class Clock
      **/
     public function stop()
     {
-        $this->isRunning = false;
+        $this->timer = null;
     }
 
     /**
@@ -107,8 +105,8 @@ class Clock
     public function getElapsedTime($color)
     {
         $time = $this->times[$color];
-        if($this->isRunning && $color === $this->color) {
-            $time += microtime() - $this->timer;
+        if($this->isRunning() && $color === $this->color) {
+            $time += microtime(true) - $this->timer;
         }
 
         return $time;
@@ -150,7 +148,7 @@ class Clock
      **/
     public function isRunning()
     {
-        return $this->isRunning;
+        return (boolean) $this->timer;
     }
 
     /**
