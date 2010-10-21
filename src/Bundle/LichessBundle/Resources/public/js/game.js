@@ -46,6 +46,10 @@
             }, 400);
         }
       }
+
+      self.$table.find('div.clock').each(function() {
+        $(this).startTimer($(this).text());
+      });
     },
     syncUrl: function(url, callback, postData)
     {
