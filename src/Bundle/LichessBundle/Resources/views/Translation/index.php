@@ -52,7 +52,7 @@
             <li><strong>Ukrainian</strong> alterionisto</li>
             <li><strong>Portuguese</strong> Arthur Braz</li>
             <li><strong>polski</strong> M3n747</li>
-            <li><strong>Dutch</strong> [?]</li>
+            <li><strong>Dutch</strong> Kintaro</li>
             <li><strong>Vietnamese</strong> Xiblack</li>
             <li><strong>Swedish</strong> nizleib</li>
             <li><strong>Czech</strong> Martin</li>
