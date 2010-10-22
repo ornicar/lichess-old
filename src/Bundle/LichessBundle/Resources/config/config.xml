@@ -7,7 +7,7 @@
     <parameters>
 
         <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\MongoDBPersistence</parameter>
-        <parameter key="lichess.persistence.dir">%kernel.root_dir%/data</parameter>
+        <parameter key="lichess.queue.class">Bundle\LichessBundle\Persistence\MongoDBQueue</parameter>
 
         <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
 
@@ -73,7 +73,10 @@
         </service>
 
         <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
-            <argument>%lichess.persistence.dir%</argument>
+        </service>
+
+        <service id="lichess_queue" class="%lichess.queue.class%" shared="true">
+            <argument type="service" id="lichess_generator" />
         </service>
 
         <service id="lichess_ai" class="%lichess.ai.class%" shared="true">

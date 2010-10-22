@@ -44,6 +44,9 @@ class Generator
 
     public function createGameForPlayer($color)
     {
+        if(!in_array($color, array('white', 'black'))) {
+            throw new \InvalidArgumentException(sprintf('%s is not a valid player color', $color));
+        }
         $game = $this->createGame();
         $player = $game->getPlayer($color);
         $game->setCreator($player);
@@ -54,10 +57,10 @@ class Generator
      * Create a game from a visual block notation like:
 r bqkb r
  ppp ppp
-p n  n  
-    p   
-B   P   
-     N  
+p n  n
+    p
+B   P
+     N
 PPPP PPP
 RNBQK  R
     */

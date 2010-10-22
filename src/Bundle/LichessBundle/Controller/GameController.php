@@ -8,8 +8,7 @@ use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Clock;
 use Bundle\LichessBundle\Stack;
-use Bundle\LichessBundle\Form\FriendGameConfig;
-use Bundle\LichessBundle\Form\FriendGameConfigForm;
+use Bundle\LichessBundle\Form;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
@@ -70,8 +69,8 @@ class GameController extends Controller
 
     public function inviteFriendAction($color)
     {
-        $config = new FriendGameConfig($this['lichess_translator']);
-        $form = new FriendGameConfigForm('config', $config, $this['validator']);
+        $config = new Form\FriendGameConfig($this['lichess_translator']);
+        $form = new Form\FriendGameConfigForm('config', $config, $this['validator']);
         if('POST' === $this['request']->getMethod()) {
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
@@ -107,6 +106,19 @@ class GameController extends Controller
     }
 
     public function inviteAnybodyAction($color)
+    {
+        $config = new Form\AnybodyGameConfig($this['lichess_translator']);
+        $form = new Form\AnybodyGameConfigForm('config', $config, $this['validator']);
+        if('POST' === $this['request']->getMethod()) {
+            $form->bind($this['request']->request->get($form->getName()));
+            if($form->isValid()) {
+            }
+        }
+
+        return $this->render('LichessBundle:Game:inviteAnybody.php', array('form' => $this['templating.form']->get($form), 'color' => $color));
+    }
+
+    public function inviteAnybodyActionOld($color)
     {
         $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
         $persistence = $this['lichess_persistence'];
