@@ -125,6 +125,9 @@ class Game
      */
     public function setCLock(Clock $clock)
     {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not add clock, game is already started');
+        }
         $this->clock = $clock;
     }
 
