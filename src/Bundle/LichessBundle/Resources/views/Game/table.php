@@ -1,5 +1,4 @@
 <?php $game = $player->getGame() ?>
-<?php $turnPlayer = $game->getTurnPlayer() ?>
 <?php $opponent = $player->getOpponent() ?>
 <?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $player->getGame()->getClock(), 'color' => $opponent->getColor(), 'position' => 'top')) ?>
 <div class="lichess_table">
@@ -20,11 +19,11 @@
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
-        <div class="lichess_player white <?php echo $turnPlayer->isBlack() ? ' none' : '' ?>">
+        <div class="lichess_player white <?php echo $game->getTurnPlayer()->isBlack() ? ' none' : '' ?>">
             <div class="lichess_piece king white"></div>
             <p><?php echo $view['translator']->_($player->isWhite() ? 'Your turn' : 'Waiting') ?></p>
         </div>
-        <div class="lichess_player black <?php echo $turnPlayer->isWhite() ? ' none' : '' ?>">
+        <div class="lichess_player black <?php echo $game->getTurnPlayer()->isWhite() ? ' none' : '' ?>">
             <div class="lichess_piece king black"></div>
             <p><?php echo $view['translator']->_($player->isBlack() ? 'Your turn' : 'Waiting') ?></p>
         </div>
