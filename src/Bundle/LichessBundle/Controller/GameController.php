@@ -10,6 +10,8 @@ use Bundle\LichessBundle\Chess\Clock;
 use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Form;
 use Bundle\LichessBundle\Persistence\QueueEntry;
+use Bundle\LichessBundle\Zend\Paginator\Adapter\GameAdapter;
+use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
@@ -18,8 +20,9 @@ class GameController extends Controller
     {
         $hashes = $this['lichess_persistence']->findRecentGamesHashes(9);
         $hashes = implode(',', $hashes);
+        $nbGames = $this['lichess_persistence']->getNbGames();
 
-        return $this->render('LichessBundle:Game:list.php', array('hashes' => $hashes));
+        return $this->render('LichessBundle:Game:list.php', array('hashes' => $hashes, 'nbGames' => $nbGames));
     }
 
     public function listInnerAction($hashes)
@@ -28,6 +31,18 @@ class GameController extends Controller
         $games = $this['lichess_persistence']->findGamesByHashes($hashes);
 
         return $this->render('LichessBundle:Game:listInner.php', array('games' => $games));
+    }
+
+    public function allAction()
+    {
+        $page = $this['request']->query->get('page', 1);
+        $games = new Paginator(new GameAdapter($this['lichess_persistence']));
+        $games->setCurrentPageNumber($page);
+        $games->setItemCountPerPage(10);
+        $games->setPageRange(10);
+        $nbGames = $this['lichess_persistence']->getNbGames();
+
+        return $this->render('LichessBundle:Game:all.php', array('games' => $games, 'nbGames' => $nbGames));
     }
 
     /**

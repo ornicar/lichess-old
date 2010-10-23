@@ -132,7 +132,7 @@ class MongoDBPersistence
         return new \MongoBinData(gzcompress(serialize($game), 5));
     }
 
-    protected function decode($data)
+    public function decode($data)
     {
         return unserialize(gzuncompress($data->bin));
     }
