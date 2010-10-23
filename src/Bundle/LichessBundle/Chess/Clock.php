@@ -32,6 +32,12 @@ class Clock
      */
     private $timer = null;
 
+    /**
+     *  Assume that an HTTP request lasts O.5 seconds
+     *  and remove this time from each move time
+     */
+    const HTTP_DELAY = 0.5;
+
     public function __construct($limit)
     {
         $this->limit = (int) $limit;
@@ -64,7 +70,8 @@ class Clock
         if(!$this->isRunning()) {
             throw new \LogicException('Can not step clock as it is not running');
         }
-        $this->times[$this->color] += microtime(true) - $this->timer;
+        $moveTime = microtime(true) - $this->timer;
+        $this->times[$this->color] += max(0, $moveTime - static::HTTP_DELAY);
         $this->color = 'white' === $this->color ? 'black' : 'white';
         $this->timer = microtime(true);
     }
