@@ -130,6 +130,9 @@ class GameController extends Controller
 
     public function inviteAnybodyAction($color)
     {
+        if($this['request']->getMethod() == 'HEAD') {
+            return $this->redirect($this->generateUrl('lichess_homepage'));
+        }
         $config = new Form\AnybodyGameConfig($this['lichess_translator']);
         if($this['session']->has('lichess.game_config.times')) {
             $config->times = $this['session']->get('lichess.game_config.times');
