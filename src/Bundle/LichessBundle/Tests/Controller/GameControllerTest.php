@@ -2,9 +2,7 @@
 
 namespace Bundle\LichessBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class GameControllerTest extends WebTestCase
+class GameControllerTest extends AbstractControllerTest
 {
     public function testInviteAi()
     {
@@ -34,11 +32,8 @@ class GameControllerTest extends WebTestCase
 
     public function testInviteFriend()
     {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->selectLink('Play with a friend')->link());
-        $crawler = $client->followRedirect();
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        list($client, $crawler) = $this->inviteFriend();
+
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
         $this->assertEquals(1, $crawler->filter($selector)->count());
 
@@ -68,11 +63,7 @@ class GameControllerTest extends WebTestCase
 
     public function testInviteFriendAsBlack()
     {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/black');
-        $crawler = $client->click($crawler->selectLink('Play with a friend')->link());
-        $crawler = $client->followRedirect();
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        list($client, $crawler) = $this->inviteFriend('black');
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
         $this->assertEquals(1, $crawler->filter($selector)->count());
 
@@ -102,25 +93,14 @@ class GameControllerTest extends WebTestCase
 
     public function testInviteAnybody()
     {
-        $client = $this->createClient();
-        $connectionFile = $client->getContainer()->getParameter('lichess.anybody.connection_file');
-        @unlink($connectionFile);
-        $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->selectLink('Play with anybody')->link());
-        $crawler = $client->followRedirect();
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        list($client, $crawler) = $this->inviteAnybody();
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard.wait_anybody';
         $this->assertEquals(1, $crawler->filter($selector)->count());
 
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
-        $this->assertRegexp('#^/sync/[\w-]{6}/white/0/[\w-]{10}$#', $syncUrl);
+        $this->assertRegexp('#^/sync/[\w-]{6}/white/0/[\w-]{10}$#i', $syncUrl);
 
-        $friend = $this->createClient();
-        $crawler = $friend->request('GET', '/');
-        $crawler = $friend->click($crawler->selectLink('Play with anybody')->link());
-        $crawler = $friend->followRedirect();
-        $crawler = $friend->followRedirect();
-        $this->assertTrue($friend->getResponse()->isSuccessful());
+        list($friend, $crawler) = $this->inviteAnybody('black', false);
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
@@ -145,7 +125,7 @@ class GameControllerTest extends WebTestCase
         $friend = $this->createClient();
         $friend->request('GET', $inviteUrl);
         $crawler = $friend->followRedirect();
-        
+
         $spectator = $this->createClient();
         $crawler = $spectator->request('GET', $inviteUrl);
         $this->assertTrue($spectator->getResponse()->isSuccessful());

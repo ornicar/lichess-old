@@ -9,6 +9,7 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Clock;
 use Bundle\LichessBundle\Stack;
 use Bundle\LichessBundle\Form;
+use Bundle\LichessBundle\Persistence\QueueEntry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
@@ -70,10 +71,14 @@ class GameController extends Controller
     public function inviteFriendAction($color)
     {
         $config = new Form\FriendGameConfig($this['lichess_translator']);
+        if($this['session']->has('lichess.game_config.time')) {
+            $config->time = $this['session']->get('lichess.game_config.time');
+        }
         $form = new Form\FriendGameConfigForm('config', $config, $this['validator']);
         if('POST' === $this['request']->getMethod()) {
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
+                $this['session']->set('lichess.game_config.time', $config->time);
                 $player = $this['lichess_generator']->createGameForPlayer($color);
                 if($config->time) {
                     $clock = new Clock($config->time * 60);
@@ -108,10 +113,33 @@ class GameController extends Controller
     public function inviteAnybodyAction($color)
     {
         $config = new Form\AnybodyGameConfig($this['lichess_translator']);
+        if($this['session']->has('lichess.game_config.times')) {
+            $config->times = $this['session']->get('lichess.game_config.times');
+        }
         $form = new Form\AnybodyGameConfigForm('config', $config, $this['validator']);
         if('POST' === $this['request']->getMethod()) {
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
+                $this['session']->set('lichess.game_config.times', $config->times);
+                $queueEntry = new QueueEntry($config->times, $this['session']->get('lichess.user_id'));
+                $queue = $this['lichess_queue'];
+                $result = $queue->add($queueEntry, $color);
+                if($result['status'] === $queue::FOUND) {
+                    $game = $this->findGame($result['game_hash']);
+                    if($result['time']) {
+                        $clock = new Clock($result['time'] * 60);
+                        $game->setClock($clock);
+                        $this['lichess_persistence']->save($game);
+                    }
+                    if($this['lichess_synchronizer']->isConnected($game->getCreator())) {
+                        return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
+                    }
+                    $this['lichess_persistence']->remove($game);
+                    return $this->inviteAnybodyAction($color);
+                }
+                $game = $result['game'];
+                $this['lichess_persistence']->save($game);
+                return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $game->getCreator()->getFullHash())));
             }
         }
 
@@ -133,7 +161,7 @@ class GameController extends Controller
             $gameHash = substr($opponentHash, 0, 6);
             $game = $persistence->find($gameHash);
             if($game) {
-                if($this->container->getLichessSynchronizerService()->isConnected($game->getCreator())) {
+                if($this['lichess_synchronizer']->isConnected($game->getCreator())) {
                     return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
                 }
                 // if the game creator is disconnected, remove the game

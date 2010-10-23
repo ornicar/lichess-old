@@ -22,20 +22,22 @@ class MongoDBQueue
 
     public function add(QueueEntry $entry, $color)
     {
-        if($existing = $this->search($entry)) {
+        if($existing = $this->searchMatching($entry)) {
             $this->remove($existing);
 
-            return array('status' => static::FOUND, 'game_hash' => $existing->gameHash);
+            return array('status' => static::FOUND, 'game_hash' => $existing->gameHash, 'time' => $entry->getCommonTime($existing));
         }
 
-        $game = $this->generator->createGameForPlayer($color);
+        $game = $this->generator->createGameForPlayer($color)->getGame();
 
         $this->collection->insert(array(
             'times' => $entry->times,
-            'game_hash' => $game->getHash()
+            'gameHash' => $game->getHash(),
+            'userId' => $entry->userId,
+            'date' => time()
         ));
 
-        return array('status' => static::QUEUED, 'game_hash' => $game->getHash());
+        return array('status' => static::QUEUED, 'game' => $game);
     }
 
     public function clear()
@@ -53,9 +55,9 @@ class MongoDBQueue
         return $this->collection->count();
     }
 
-    protected function search(QueueEntry $entry)
+    protected function searchMatching(QueueEntry $entry)
     {
-        $cursor = $this->collection->find(array());
+        $cursor = $this->collection->find()->sort(array('date' => -1));
         foreach($cursor as $data) {
             $existing = $this->hydrate($data);
             if($existing->match($entry)) {
@@ -66,9 +68,9 @@ class MongoDBQueue
 
     protected function hydrate(array $data)
     {
-        $entry = new QueueEntry($data['times']);
+        $entry = new QueueEntry($data['times'], $data['userId']);
         $entry->id = $data['_id']->__toString();
-        $entry->gameHash = $data['game_hash'];
+        $entry->gameHash = $data['gameHash'];
 
         return $entry;
     }
