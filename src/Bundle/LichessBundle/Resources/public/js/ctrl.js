@@ -3,6 +3,7 @@ $(function()
     if ($game = $('div.lichess_game').orNot()) {
         $game.game(lichess_data);
         $('input').click(function() { this.select(); });
+        if(!lichess_data.player.spectator) $('a.blank_if_play').attr('target', '_blank');
     }
     else if($nbConnectedPlayers = $('div.nb_connected_players').orNot()) {
         function reloadNbConnectedPlayers() {

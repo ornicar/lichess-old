@@ -82,8 +82,8 @@
                     <li><a href="<?php echo $view['router']->generate('lichess_translate') ?>">Help translate Lichess!</a></li>
                 </ul>
             </div>
-            <a class="goto_forum goto_nav" title="<?php echo $view['translator']->_('Talk about chess and discuss lichess features in the forum') ?>" href="<?php echo $view['router']->generate('forum_index') ?>" target="_blank">Forum</a>
-            <a class="goto_gamelist goto_nav" title="<?php echo $view['translator']->_('See the games being played in real time') ?>" href="<?php echo $view['router']->generate('lichess_games') ?>" target="_blank">Games</a>
+            <a class="goto_forum goto_nav blank_if_play" title="<?php echo $view['translator']->_('Talk about chess and discuss lichess features in the forum') ?>" href="<?php echo $view['router']->generate('forum_index') ?>">Forum</a>
+            <a class="goto_gamelist goto_nav blank_if_play" title="<?php echo $view['translator']->_('See the games being played in real time') ?>" href="<?php echo $view['router']->generate('lichess_games') ?>">Games</a>
         </div>
         <?php echo $view['javascripts'] ?>
     </body>
