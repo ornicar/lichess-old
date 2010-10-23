@@ -61,6 +61,9 @@ class Clock
      **/
     public function step()
     {
+        if(!$this->isRunning()) {
+            throw new \LogicException('Can not step clock as it is not running');
+        }
         $this->times[$this->color] += microtime(true) - $this->timer;
         $this->color = 'white' === $this->color ? 'black' : 'white';
         $this->timer = microtime(true);
@@ -83,8 +86,10 @@ class Clock
      **/
     public function stop()
     {
-        $this->times[$this->color] += microtime(true) - $this->timer;
-        $this->timer = null;
+        if($this->isRunning()) {
+            $this->times[$this->color] += microtime(true) - $this->timer;
+            $this->timer = null;
+        }
     }
 
     /**
@@ -117,6 +122,7 @@ class Clock
     public function getElapsedTime($color)
     {
         $time = $this->times[$color];
+
         if($this->isRunning() && $color === $this->color) {
             $time += microtime(true) - $this->timer;
         }
@@ -168,7 +174,7 @@ class Clock
      **/
     public function isRunning()
     {
-        return (boolean) $this->timer;
+        return null !== $this->timer;
     }
 
     /**

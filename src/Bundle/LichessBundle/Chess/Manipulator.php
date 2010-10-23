@@ -75,7 +75,7 @@ class Manipulator
 
         $this->game->addPgnMove($pgn);
 
-        if($this->game->hasClock()) {
+        if($this->game->hasClock() && $this->game->getClock()->isRunning()) {
             $this->game->getClock()->step();
         }
 
