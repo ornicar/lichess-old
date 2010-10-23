@@ -86,7 +86,7 @@ class MongoDBPersistence
         );
 
         $criteria = array('hash' => $hash);
-        $options = array('upsert' => true);
+        $options = array('upsert' => true, 'safe' => true);
         $this->collection->update($criteria, $data, $options);
     }
 
