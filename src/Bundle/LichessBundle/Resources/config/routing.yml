@@ -68,6 +68,9 @@ lichess_games:
 lichess_games_inner:
     pattern:        /games-refresh/:hashes
     defaults:       { _controller: LichessBundle:Game:listInner }
+lichess_all_games:
+    pattern:        /games/all
+    defaults:       { _controller: LichessBundle:Game:all }
 lichess_about:
     pattern:        /about
     defaults:       { _controller: LichessBundle:Main:about }
