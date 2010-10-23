@@ -51,12 +51,27 @@ class GameController extends Controller
     {
         $game = $this->findGame($hash);
 
+        if($game->getIsStarted()) {
+            return $this->forward('LichessBundle:Game:watch', array('hash' => $hash));
+        }
+
         if($this['request']->getMethod() == 'HEAD') {
             return $this->createResponse(sprintf('Game #%s', $hash));
         }
 
+        return $this->render('LichessBundle:Game:join.php', array('game' => $game, 'color' => $game->getCreator()->getOpponent()->getColor()));
+    }
+
+    public function joinAction($hash)
+    {
+        $game = $this->findGame($hash);
+
         if($game->getIsStarted()) {
-            return $this->forward('LichessBundle:Game:watch', array('hash' => $hash));
+            return $this->redirect($this->generateUrl('lichess_game', array('hash' => $hash)));
+        }
+
+        if($this['request']->getMethod() == 'HEAD') {
+            return $this->createResponse(sprintf('Game #%s', $hash));
         }
 
         $game->start();
