@@ -9,4 +9,9 @@ app.config:
         escaping: false
         assets_version: 51
 
+zend.config:
+    logger:
+        priority: notice
+        path:     %kernel.logs_dir%/%kernel.environment%.log
+
 lichess.config: ~

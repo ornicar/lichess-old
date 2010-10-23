@@ -144,7 +144,10 @@ class GameController extends Controller
                 $queue = $this['lichess_queue'];
                 $result = $queue->add($queueEntry, $color);
                 if($result['status'] === $queue::FOUND) {
-                    $game = $this->findGame($result['game_hash']);
+                    $game = $this['lichess_persistence']->find($result['game_hash']);
+                    if(!$game) {
+                        return $this->inviteAnybodyAction($color);
+                    }
                     if(!$this['lichess_synchronizer']->isConnected($game->getCreator())) {
                         $this['lichess_persistence']->remove($game);
                         return $this->inviteAnybodyAction($color);
