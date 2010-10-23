@@ -16,10 +16,10 @@ class MongoDBQueueTest extends \PHPUnit_Framework_TestCase
         $queue = $this->getQueue($generator);
         $queue->clear();
         $config = new Form\AnybodyGameConfig();
-        $entry = new QueueEntry($config->times);
+        $entry = new QueueEntry($config->times, uniqid());
         $result = $queue->add($entry, 'white');
         $this->assertEquals($queue::QUEUED, $result['status']);
-        $this->assertNotNull($result['game_hash']);
+        $this->assertNotNull($result['game']);
     }
 
     /**
@@ -49,16 +49,16 @@ class MongoDBQueueTest extends \PHPUnit_Framework_TestCase
         $queue = $this->getQueue($generator);
         $queue->clear();
         $config = new Form\AnybodyGameConfig();
-        $entry = new QueueEntry($config->times);
+        $entry = new QueueEntry($config->times, uniqid());
         $result = $queue->add($entry, 'white');
         $this->assertEquals($queue::QUEUED, $result['status']);
         $this->assertEquals(1, $queue->count());
 
         $config2 = new Form\AnybodyGameConfig();
-        $entry2 = new QueueEntry($config2->times);
+        $entry2 = new QueueEntry($config2->times, uniqid());
         $result2 = $queue->add($entry2, 'white');
         $this->assertEquals($queue::FOUND, $result2['status']);
-        $this->assertEquals($result['game_hash'], $result2['game_hash']);
+        $this->assertEquals($result['game']->getHash(), $result2['game_hash']);
         $this->assertEquals(0, $queue->count());
     }
 
@@ -69,31 +69,6 @@ class MongoDBQueueTest extends \PHPUnit_Framework_TestCase
 
     protected function getGeneratorMock()
     {
-        $generator = $this->getMock('Bundle\LichessBundle\Chess\Generator');
-        $generator->expects($this->any())
-            ->method('createGameForPlayer')
-            ->will($this->returnValue($this->getGameMock()));
-
-        return $generator;
-    }
-
-    protected function getGameMock()
-    {
-        $game = $this->getMock('Bundle\LichessBundle\Entities\Game');
-        $game->expects($this->any())
-            ->method('getPlayer')
-            ->will($this->returnValue($this->getPlayerMock()));
-        $game->expects($this->any())
-            ->method('getHash')
-            ->will($this->returnValue('abcdef'));
-
-        return $game;
-    }
-
-    protected function getPlayerMock()
-    {
-        $player = $this->getMock('Bundle\LichessBundle\Entities\Player', array(), array('white'));
-
-        return $player;
+        return new Generator();
     }
 }
