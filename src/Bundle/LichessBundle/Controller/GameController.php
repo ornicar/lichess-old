@@ -37,6 +37,10 @@ class GameController extends Controller
     {
         $game = $this->findGame($hash);
 
+        if($this['request']->getMethod() == 'HEAD') {
+            return $this->createResponse(sprintf('Game #%s', $hash));
+        }
+
         if($game->getIsStarted()) {
             return $this->forward('LichessBundle:Game:watch', array('hash' => $hash));
         }
