@@ -12,7 +12,7 @@
             <?php echo $view->render('LichessBundle:Game:mini.php', array('game' => $game)) ?>
             <div class="infos">
                 <br />
-                <a class="link" href="<?php $url = $view['router']->generate('lichess_game', array('hash' => $game->getHash()), true) ?>"><?php echo $url ?></a>
+                <a class="link" href="<?php echo $url = $view['router']->generate('lichess_game', array('hash' => $game->getHash()), true) ?>"><?php echo $url ?></a>
                 <br /><br />
                 <?php foreach($game->getPlayers() as $color => $player): ?>
                     <?php echo $view['translator']->_(ucfirst($player->getOpponent()->getColor())) ?> -
