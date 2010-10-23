@@ -79,6 +79,8 @@ RNBQK  R
         $game->setCreator($game->getPlayer('white'));
 
         foreach(explode("\n", $data) as $_y => $line) {
+            // add missing spaces
+            $line .= str_repeat(' ', 8 - strlen($line));
             $y = 8-$_y;
             for($x=1; $x<9; $x++) {
                 $byte = $line{$x-1};
