@@ -46,7 +46,7 @@ class GameAdapter implements Adapter
      */
     public function count()
     {
-        return $this->persistence->getCollection()->count($this->getQuery());
+        return $this->persistence->getNbGames();
     }
 
     protected function getQuery()
