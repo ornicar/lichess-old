@@ -8,6 +8,8 @@ $data = array(
         'hash' => $game->getHash(),
         'started' => $game->getIsStarted(),
         'finished' => $game->getIsFinished(),
+        'clock' => $game->hasClock(),
+        'player' => $game->getTurnPlayer()->getColor()
     ),
     'player' => array(
         'color' => $player->getColor(),
