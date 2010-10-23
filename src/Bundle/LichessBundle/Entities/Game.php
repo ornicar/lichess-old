@@ -296,6 +296,10 @@ class Game
      */
     public function setStatus($status)
     {
+        if($this->getIsFinished()) {
+            return;
+        }
+
         $this->status = $status;
 
         if($this->getIsFinished() && $this->hasClock()) {
