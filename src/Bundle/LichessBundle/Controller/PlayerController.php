@@ -263,7 +263,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($hash);
         if($player->getGame()->getIsFinished()) {
-            throw new NotFoundHttpException('Game is already finished, can not resign');
+            return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
         }
         $opponent = $player->getOpponent();
 
