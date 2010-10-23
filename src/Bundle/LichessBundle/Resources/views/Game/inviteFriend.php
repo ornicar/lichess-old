@@ -5,7 +5,7 @@
     <div class="lichess_board_wrap">
         <?php $view->output('LichessBundle:Main:staticBoard_'.$color.'.php') ?>
         <div class="lichess_overboard time_config">
-            <h2>Play with a friend</h2>
+            <h2><?php echo $view['translator']->_('Play with a friend') ?></h2>
             <div class="clock_config_form">
                 <form action="<?php echo $view['router']->generate('lichess_invite_friend', array('color' => $color)) ?>" method="post">
                     <div class="choices">
