@@ -24,6 +24,9 @@ div.pager {
     text-align:center;
     margin-top: 2em;
 }
+div.pager .position {
+    margin-right: 2em;
+}
 div.pager a, div.pager span {
     font-size: 1.1em;
     padding: 0.1em 0.5em;
@@ -34,7 +37,7 @@ div.pager a, div.pager span {
     text-decoration: none;
 }
 div.pager span {
-    color: #aaa;
+    color: #ccc;
 }
 div.pager span.current {
     background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    

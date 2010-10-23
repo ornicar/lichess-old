@@ -1,11 +1,12 @@
 <?php $view->extend('LichessBundle::layout.php') ?>
 <?php $view['slots']->set('title', $view['translator']->_('View all %nb% games', array('%nb%' => number_format($nbGames)))) ?>
 <?php $view['slots']->set('assets_pack', 'gamelist') ?>
+<?php $pager = $games->getPages() ?>
 
-<h1 class="title"><?php echo $view['translator']->_('View all %nb% games', array('%nb%' => number_format($nbGames))) ?></h1>
+<h1 class="title">Games <?php echo $pager->firstItemNumber; ?> - <?php echo $pager->lastItemNumber; ?> of <?php echo $pager->totalItemCount; ?></h1>
 <a class="game_list" href="<?php echo $view['router']->generate('lichess_games') ?>"><?php echo $view['translator']->_('Games being played right now') ?></a>
 <div class="all_games">
-    <div class="pager pager_top"><?php echo $pagination = $view->render('LichessBundle::pagination.php', array('pager' => $games->getPages(), 'url' => $view['router']->generate('lichess_all_games'))) ?></div>
+    <div class="pager pager_top"><?php echo $pagination = $view->render('LichessBundle::pagination.php', array('pager' => $pager, 'url' => $view['router']->generate('lichess_all_games'))) ?></div>
     <div class="all_games_inner">
     <?php foreach($games as $game): ?>
         <div class="game_row clearfix">
