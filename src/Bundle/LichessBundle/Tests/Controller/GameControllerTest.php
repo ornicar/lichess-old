@@ -100,7 +100,7 @@ class GameControllerTest extends AbstractControllerTest
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
         $this->assertRegexp('#^/sync/[\w-]{6}/white/0/[\w-]{10}$#i', $syncUrl);
 
-        list($friend, $crawler) = $this->inviteAnybody('black', false);
+        list($friend, $crawler) = $this->inviteAnybody('black', true);
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
@@ -117,11 +117,11 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testWatchGame()
     {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/');
-        $client->click($crawler->selectLink('Play with a friend')->link());
-        $crawler = $client->followRedirect();
-        $inviteUrl = $crawler->filter('div.lichess_game_not_started.waiting_opponent div.lichess_overboard input')->attr('value');
+        list($client, $crawler) = $this->inviteFriend();
+
+        $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
+        $inviteUrl = $crawler->filter($selector)->attr('value');
+
         $friend = $this->createClient();
         $friend->request('GET', $inviteUrl);
         $crawler = $friend->followRedirect();
