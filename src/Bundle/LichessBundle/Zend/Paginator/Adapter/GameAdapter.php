@@ -51,6 +51,6 @@ class GameAdapter implements Adapter
 
     protected function getQuery()
     {
-        return array('status' => array('$gte' => Game::STARTED));
+        return array('status' => array('$ne' => Game::CREATED));
     }
 }
