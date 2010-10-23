@@ -28,7 +28,7 @@ class GameAdapter implements Adapter
     public function getItems($offset, $itemCountPerPage)
     {
         $cursor = $this->persistence->getCollection()
-            ->find(array())
+            ->find($this->getQuery())
             ->sort(array('upd' => -1))
             ->skip($offset)
             ->limit($itemCountPerPage);
@@ -46,6 +46,11 @@ class GameAdapter implements Adapter
      */
     public function count()
     {
-        return $this->persistence->getNbGames();
+        return $this->persistence->getCollection()->count($this->getQuery());
+    }
+
+    protected function getQuery()
+    {
+        return array('status' => array('$gte' => Game::STARTED));
     }
 }
