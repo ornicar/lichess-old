@@ -200,7 +200,6 @@
          for (var i in events)
          {
              if(events[i].type == 'end') {
-                 console.debug('this is the end');
                  self.options.game.finished = true;
                  self.element.find("div.ui-draggable").draggable("destroy");
              }
