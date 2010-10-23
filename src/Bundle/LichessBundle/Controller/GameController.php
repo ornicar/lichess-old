@@ -126,16 +126,16 @@ class GameController extends Controller
                 $result = $queue->add($queueEntry, $color);
                 if($result['status'] === $queue::FOUND) {
                     $game = $this->findGame($result['game_hash']);
+                    if(!$this['lichess_synchronizer']->isConnected($game->getCreator())) {
+                        $this['lichess_persistence']->remove($game);
+                        return $this->inviteAnybodyAction($color);
+                    }
                     if($result['time']) {
                         $clock = new Clock($result['time'] * 60);
                         $game->setClock($clock);
                         $this['lichess_persistence']->save($game);
                     }
-                    if($this['lichess_synchronizer']->isConnected($game->getCreator())) {
-                        return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
-                    }
-                    $this['lichess_persistence']->remove($game);
-                    return $this->inviteAnybodyAction($color);
+                    return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
                 }
                 $game = $result['game'];
                 $this['lichess_persistence']->save($game);
@@ -144,37 +144,6 @@ class GameController extends Controller
         }
 
         return $this->render('LichessBundle:Game:inviteAnybody.php', array('form' => $this['templating.form']->get($form), 'color' => $color));
-    }
-
-    public function inviteAnybodyActionOld($color)
-    {
-        $connectionFile = $this->container->getParameter('lichess.anybody.connection_file');
-        $persistence = $this['lichess_persistence'];
-        $sessionInvites = $this['session']->get('lichess.invites', array());
-        if(file_exists($connectionFile)) {
-            $opponentHash = file_get_contents($connectionFile);
-            // if I'm about to join my own game
-            if(in_array($opponentHash, $sessionInvites)) {
-                return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $opponentHash)));
-            }
-            unlink($connectionFile);
-            $gameHash = substr($opponentHash, 0, 6);
-            $game = $persistence->find($gameHash);
-            if($game) {
-                if($this['lichess_synchronizer']->isConnected($game->getCreator())) {
-                    return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
-                }
-                // if the game creator is disconnected, remove the game
-                $persistence->remove($game);
-            }
-        }
-
-        $player = $this['lichess_generator']->createGameForPlayer($color);
-        $persistence->save($player->getGame());
-        file_put_contents($connectionFile, $player->getFullHash());
-        $sessionInvites[] = $player->getFullHash();
-        $this['session']->set('lichess.invites', $sessionInvites);
-        return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $player->getFullHash())));
     }
 
     /**
