@@ -13,13 +13,6 @@ use Bundle\LichessBundle\Entities\Chat\Room;
  */
 class Game
 {
-    /**
-     * The current state of the game, like CREATED, STARTED or MATE.
-     *
-     * @var int
-     */
-    protected $status = self::CREATED;
-
     const CREATED = 10;
     const STARTED = 20;
     const MATE = 30;
@@ -28,6 +21,13 @@ class Game
     const TIMEOUT = 33;
     const DRAW = 34;
     const OUTOFTIME = 35;
+
+    /**
+     * The current state of the game, like CREATED, STARTED or MATE.
+     *
+     * @var int
+     */
+    protected $status = self::CREATED;
 
     /**
      * The two players
