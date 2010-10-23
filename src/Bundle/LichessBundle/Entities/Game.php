@@ -501,7 +501,7 @@ class Game
 
     public function __toString()
     {
-        return '#'.$this->getId(). 'turn '.$this->getTurns();
+        return '#'.$this->getHash(). 'turn '.$this->getTurns();
     }
 
     public function getPersistentPropertyNames()
