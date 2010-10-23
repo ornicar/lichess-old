@@ -1,7 +1,7 @@
 <?php $turnPlayer = $player->getGame()->getTurnPlayer() ?>
 <?php $opponent = $player->getOpponent() ?>
 <?php $game = $player->getGame() ?>
-<?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $player->getGame()->getClock(), 'color' => $opponent->getColor(), 'position' => 'top')) ?>
+<?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $game->getClock(), 'color' => $opponent->getColor(), 'position' => 'top')) ?>
 <div class="lichess_table <?php $game->getIsFinished() && print 'finished ' ?>spectator">
     <div class="lichess_opponent">
         <?php $view['actions']->output('LichessBundle:Player:opponent', array('hash' => $game->getHash(), 'color' => $player->getColor(), 'playerFullHash' => '')) ?>
@@ -33,4 +33,4 @@
     <div class="lichess_separator"></div>
         <?php $view['actions']->output('LichessBundle:Player:opponent', array('hash' => $game->getHash(), 'color' => $opponent->getColor(), 'playerFullHash' => '')) ?>
 </div>
-<?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $player->getGame()->getClock(), 'color' => $player->getColor(), 'position' => 'bottom')) ?>
+<?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $game->getClock(), 'color' => $player->getColor(), 'position' => 'bottom')) ?>
