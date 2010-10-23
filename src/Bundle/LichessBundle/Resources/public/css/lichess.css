@@ -259,6 +259,9 @@ div.lichess_overboard.time_config div.choices {
     margin: 1em 0 1em 6em;
     text-align: left;
 }
+div.lichess_overboard.time_config div.choices label {
+    cursor: pointer;
+}
 
 div.lichess_overboard.wait_anybody,
 div.lichess_overboard .wait_next {

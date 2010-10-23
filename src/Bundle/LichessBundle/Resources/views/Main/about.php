@@ -19,15 +19,18 @@
         <ul>
             <li>Multiplayer</li>
             <li>Single player with Artificial Intelligence</li>
+            <li>Time control</li>
             <li><a href="http://en.wikipedia.org/wiki/Castling">Castling</a></li>
             <li><a href="http://en.wikipedia.org/wiki/En_passant">En passant</a></li>
             <li><a href="http://en.wikipedia.org/wiki/Promotion_%28chess%29">Promotion</a></li>
             <li><a href="http://en.wikipedia.org/wiki/Check_%28chess%29">Check</a>, <a href="http://en.wikipedia.org/wiki/Checkmate">Chekmate</a> &amp; <a href="http://en.wikipedia.org/wiki/Stale_mate">Stalemate</a> detection</li>
             <li><a href="http://en.wikipedia.org/wiki/Threefold_repetition">Threefold repetition</a></li>
+            <li>Integrated chat</li>
             <li>Move hints and validation</li>
             <li>Replay and analysis</li>
+            <li>Spectator mode</li>
             <li>Export in PGN</li>
-            <li>Translated to 22 languages (<a href="<?php echo $view['router']->generate('lichess_translate') ?>">help with translation</a>)</li>
+            <li>Translated to 23 languages (<a href="<?php echo $view['router']->generate('lichess_translate') ?>">help with translation</a>)</li>
             <li>Run in any browser (excepted IE6, of course) without flash</li>
         </ul>
         <p class="license_images">
@@ -55,7 +58,8 @@
         </ul>
         <p>
             Lichess works better with a modern browser like <a href="http://www.mozilla.com/firefox/">Firefox</a>, Chrome, Safari or Opera.<br />
-            To report a bug or request a new feature, please email me at <span class="js_email"></span>.<br />
+            Check the <a href="<?php echo $view['router']->generate('forum_index') ?>">Lichess Forum</a> to talk about your games, report bugs and request features.
+            You can also email me at <span class="js_email"></span>.<br />
             Thanks for reading.
         </p>
     </div>
