@@ -17,12 +17,7 @@
 <?php endif; ?>
 <?php endforeach; ?>
 <?php if(isset($pager->next)): ?>
-<a class="next" href="<?php echo $url.'?page='.$pager->next ?>">Next</a> |
+<a class="next" href="<?php echo $url.'?page='.$pager->next ?>">Next</a>
 <?php else: ?>
-<span class="next">Next</span> |
-<?php endif ?>
-<?php if(isset($pager->last) && $pager->last != $pager->current): ?>
-<a class="last" href="<?php echo $url.'?page='.$pager->last ?>">Last</a>
-<?php else: ?>
-<span class="last">Last</span>
+<span class="next">Next</span>
 <?php endif ?>

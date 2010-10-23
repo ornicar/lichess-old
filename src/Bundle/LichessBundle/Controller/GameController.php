@@ -40,9 +40,8 @@ class GameController extends Controller
         $games->setCurrentPageNumber($page);
         $games->setItemCountPerPage(10);
         $games->setPageRange(10);
-        $nbGames = $this['lichess_persistence']->getNbGames();
 
-        return $this->render('LichessBundle:Game:all.php', array('games' => $games, 'nbGames' => $nbGames));
+        return $this->render('LichessBundle:Game:all.php', array('games' => $games));
     }
 
     /**
