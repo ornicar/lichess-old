@@ -18,7 +18,6 @@
     }
     else {
         $view['javascripts']->add('bundles/lichess/js/game.js');
-        $view['javascripts']->add('bundles/lichess/js/clock.js');
     }
     if($view['translator']->getLocale() !== 'en'):
         $view['javascripts']->add('http://static.addtoany.com/menu/locale/'.$view['translator']->getLocale().'.js');
