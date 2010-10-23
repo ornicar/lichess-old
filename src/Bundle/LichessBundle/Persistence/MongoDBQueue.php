@@ -57,7 +57,7 @@ class MongoDBQueue
 
     protected function searchMatching(QueueEntry $entry)
     {
-        $cursor = $this->collection->find()->sort(array('date' => -1));
+        $cursor = $this->collection->find()->sort(array('date' => 1));
         foreach($cursor as $data) {
             $existing = $this->hydrate($data);
             if($existing->match($entry)) {
