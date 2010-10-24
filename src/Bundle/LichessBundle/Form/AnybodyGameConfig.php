@@ -6,14 +6,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class AnybodyGameConfig extends GameConfig
 {
-    public $times = array();
-
-    public function __construct($translator = null)
-    {
-        parent::__construct($translator);
-
-        $this->times = $this->timeChoices;
-    }
+    public $times = array(0);
 
     public function getCountTimes()
     {
