@@ -17,7 +17,7 @@
 
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">20</parameter>
-        <parameter key="lichess.synchronizer.delay">1.5</parameter>
+        <parameter key="lichess.synchronizer.delay">1</parameter>
 
         <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
 
