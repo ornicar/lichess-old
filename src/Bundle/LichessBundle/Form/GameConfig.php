@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle\Form;
 
 abstract class GameConfig
 {
-    protected $timeChoices = array(5, 10, 20, 30, 0);
+    protected $timeChoices = array(5, 10, 20, 0);
     protected $translator;
 
     public function __construct($translator = null)
