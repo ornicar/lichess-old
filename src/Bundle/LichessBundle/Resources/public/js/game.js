@@ -340,7 +340,7 @@
          self.$board.find("div.lichess_piece." + self.options.player.color).each(function()
                  {
                      $(this).draggable({
-                         distance: 3,
+                         distance: 10,
                          containment: self.$board,
                          helper: function()
                      {
