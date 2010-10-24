@@ -75,7 +75,7 @@ RNBQK  R
         for($y=8; $y>0; $y--) {
             for($x=1; $x<9; $x++) {
                 if($piece = $this->getPieceByPos($x, $y)) {
-                    $string .= $piece->getForsythe();
+                    $string .= $piece->getForsyth();
                 }
                 else {
                     $string .= ' ';

@@ -6,7 +6,7 @@ use Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Analyser;
 
-class Forsythe
+class Forsyth
 {
 
     /**
@@ -31,7 +31,7 @@ class Forsythe
                         $emptySquare = 0;
                     }
 
-                    $forsythe .= $this->pieceToForsythe($piece);
+                    $forsythe .= $this->pieceToForsyth($piece);
                 }
                 else
                 {
@@ -90,9 +90,9 @@ class Forsythe
         $board = $game->getBoard();
         $forsythe = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsythe));
 
-        for($itForsythe = 0, $forsytheLen = strlen($forsythe); $itForsythe < $forsytheLen; $itForsythe++)
+        for($itForsyth = 0, $forsytheLen = strlen($forsythe); $itForsythe < $forsytheLen; $itForsythe++)
         {
-            $letter = $forsythe{$itForsythe};
+            $letter = $forsythe{$itForsyth};
             $key = Board::posToKey($x, $y);
 
             if (is_numeric($letter))
@@ -174,7 +174,7 @@ class Forsythe
         return $from.' '.$to;
     }
 
-    protected function pieceToForsythe(Piece $piece)
+    protected function pieceToForsyth(Piece $piece)
     {
         $class = $piece->getClass();
 
