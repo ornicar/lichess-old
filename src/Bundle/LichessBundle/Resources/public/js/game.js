@@ -534,7 +534,7 @@
              if (self.options.state == 'running') {
                  var current_time = Math.round(end_time - new Date().getTime());
                  if (current_time <= 0) {
-                     clearInterval(interval);
+                     clearInterval(self.options.interval);
                      current_time = 0;
                  }
 
