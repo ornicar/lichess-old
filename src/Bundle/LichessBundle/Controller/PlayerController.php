@@ -39,6 +39,11 @@ class PlayerController extends Controller
         $opponent = $player->getOpponent();
         $game = $player->getGame();
 
+        if(!$game->getIsFinished()) {
+            $this['logger']->warn(sprintf('Game:rematch not finished game:%s', $game->getHash()));
+            return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+        }
+
         if($nextPlayerHash = $game->getNext()) {
             $nextOpponent = $this->findPlayer($nextPlayerHash);
             if($nextOpponent->getColor() == $player->getColor()) {
