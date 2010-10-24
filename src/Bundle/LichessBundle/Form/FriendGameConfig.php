@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class FriendGameConfig extends GameConfig
 {
-    public $time = 10;
+    public $time = 0;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
