@@ -28,8 +28,12 @@ class QueueEntry
 
     public function getCommonTime(QueueEntry $entry)
     {
-        $matches = array_intersect($entry->times, $this->times);
+        $matches = array_values(array_intersect($entry->times, $this->times));
 
-        return reset($matches);
+        if(count($matches) < 3) {
+            return $matches[0];
+        }
+
+        return $matches[1];
     }
 }
