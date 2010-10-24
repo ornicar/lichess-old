@@ -19,3 +19,6 @@
 [submodule "src/vendor/ZendPaginatorAdapter"]
 	path = src/vendor/ZendPaginatorAdapter
 	url = git://github.com/ornicar/ZendPaginatorAdapter.git
+[submodule "src/Bundle/ApcBundle"]
+	path = src/Bundle/ApcBundle
+	url = git://github.com/ornicar/ApcBundle.git
