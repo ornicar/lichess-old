@@ -26,10 +26,10 @@ class PlayerController extends Controller
             $player->getStack()->addEvents($events);
             $opponent->getStack()->addEvents($events);
             $this['lichess_persistence']->save($game);
-            $this['logger']->notice(sprintf('Game:outoftime game:%s', $game->getHash()));
+            $this['logger']->notice(sprintf('Player:outoftime game:%s', $game->getHash()));
         }
 
-        $this['logger']->warn(sprintf('Game:outoftime finished game:%s', $game->getHash()));
+        $this['logger']->warn(sprintf('Player:outoftime finished game:%s', $game->getHash()));
         return $this->renderJson($this->getPlayerSyncData($player, $version));
     }
 
@@ -40,7 +40,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
 
         if(!$game->getIsFinished()) {
-            $this['logger']->warn(sprintf('Game:rematch not finished game:%s', $game->getHash()));
+            $this['logger']->warn(sprintf('Player:rematch not finished game:%s', $game->getHash()));
             return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
         }
 
@@ -61,10 +61,10 @@ class PlayerController extends Controller
                     if($this['lichess_synchronizer']->isConnected($opponent)) {
                         $this['lichess_synchronizer']->setAlive($nextOpponent);
                     }
-                    $this['logger']->notice(sprintf('Game:rematch join game:%s', $nextGame->getHash()));
+                    $this['logger']->notice(sprintf('Player:rematch join game:%s', $nextGame->getHash()));
                 }
                 else {
-                    $this['logger']->warn(sprintf('Game:rematch join already started game:%s', $nextGame->getHash()));
+                    $this['logger']->warn(sprintf('Player:rematch join already started game:%s', $nextGame->getHash()));
                 }
                 return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayer->getFullHash())));
             }
@@ -74,7 +74,7 @@ class PlayerController extends Controller
             $this['lichess_persistence']->save($nextPlayer->getGame());
             $opponent->getStack()->addEvent(array('type' => 'reload_table'));
             $this['lichess_synchronizer']->setAlive($player);
-            $this['logger']->notice(sprintf('Game:rematch proposal for game:%s', $game->getHash()));
+            $this['logger']->notice(sprintf('Player:rematch proposal for game:%s', $game->getHash()));
             $this['lichess_persistence']->save($game);
         }
 
@@ -132,10 +132,10 @@ class PlayerController extends Controller
             $player->getStack()->addEvent(array('type' => 'end'));
             $player->getOpponent()->getStack()->addEvent(array('type' => 'end'));
             $this['lichess_persistence']->save($game);
-            $this['logger']->notice(sprintf('Game:forceResign game:%s', $game->getHash()));
+            $this['logger']->notice(sprintf('Player:forceResign game:%s', $game->getHash()));
         }
         else {
-            $this['logger']->warn(sprintf('Game:forceResign FAIL game:%s', $game->getHash()));
+            $this['logger']->warn(sprintf('Player:forceResign FAIL game:%s', $game->getHash()));
         }
 
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
@@ -150,10 +150,10 @@ class PlayerController extends Controller
             $player->getStack()->addEvent(array('type' => 'end'));
             $player->getOpponent()->getStack()->addEvent(array('type' => 'end'));
             $this['lichess_persistence']->save($game);
-            $this['logger']->notice(sprintf('Game:claimDraw game:%s', $game->getHash()));
+            $this['logger']->notice(sprintf('Player:claimDraw game:%s', $game->getHash()));
         }
         else {
-            $this['logger']->warn(sprintf('Game:claimDraw FAIL game:%s', $game->getHash()));
+            $this['logger']->warn(sprintf('Player:claimDraw FAIL game:%s', $game->getHash()));
         }
 
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
@@ -172,7 +172,7 @@ class PlayerController extends Controller
         $this['lichess_synchronizer']->setAlive($player);
         $game = $player->getGame();
         if(!$player->isMyTurn()) {
-            throw new \LogicException(sprintf('Game:move not my turn game:%s', $game->getHash()));
+            throw new \LogicException(sprintf('Player:move not my turn game:%s', $game->getHash()));
         }
         $opponent = $player->getOpponent();
         $postData = $this['request']->request;
@@ -198,7 +198,7 @@ class PlayerController extends Controller
         }
         $this['lichess_persistence']->save($game);
         if($game->getIsFinished()) {
-            $this['logger']->notice(sprintf('Game:move finish game:%s, %s', $game->getHash(), $game->getStatusMessage()));
+            $this['logger']->notice(sprintf('Player:move finish game:%s, %s', $game->getHash(), $game->getStatusMessage()));
         }
 
         return $response;
