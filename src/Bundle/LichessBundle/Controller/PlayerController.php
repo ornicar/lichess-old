@@ -48,19 +48,25 @@ class PlayerController extends Controller
             $nextOpponent = $this->findPlayer($nextPlayerHash);
             if($nextOpponent->getColor() == $player->getColor()) {
                 $nextGame = $nextOpponent->getGame();
-                $nextGame->setRoom(clone $game->getRoom());
-                if($game->hasClock()) {
-                    $nextGame->setClock(clone $game->getClock());
+                $nextPlayer = $nextOpponent->getOpponent();
+                if(!$nextGame->getIsStarted()) {
+                    $nextGame->setRoom(clone $game->getRoom());
+                    if($game->hasClock()) {
+                        $nextGame->setClock(clone $game->getClock());
+                    }
+                    $nextGame->start();
+                    $this['lichess_persistence']->save($nextGame);
+                    $opponent->getStack()->addEvent(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $nextOpponent->getFullHash()))));
+                    $this['lichess_persistence']->save($game);
+                    if($this['lichess_synchronizer']->isConnected($opponent)) {
+                        $this['lichess_synchronizer']->setAlive($nextOpponent);
+                    }
+                    $this['logger']->notice(sprintf('Game:rematch join game:%s', $nextGame->getHash()));
                 }
-                $nextGame->start();
-                $this['lichess_persistence']->save($nextGame);
-                $opponent->getStack()->addEvent(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $nextOpponent->getFullHash()))));
-                $this['lichess_persistence']->save($game);
-                if($this['lichess_synchronizer']->isConnected($opponent)) {
-                    $this['lichess_synchronizer']->setAlive($nextOpponent);
+                else {
+                    $this['logger']->warn(sprintf('Game:rematch join already started game:%s', $nextGame->getHash()));
                 }
-                $this['logger']->notice(sprintf('Game:rematch join game:%s', $nextGame->getHash()));
-                return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayerHash)));
+                return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayer->getFullHash())));
             }
         }
         else {
