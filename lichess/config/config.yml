@@ -14,4 +14,6 @@ zend.config:
         priority: notice
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
-lichess.config: ~
+lichess.config:
+    ai:
+        class: Bundle\LichessBundle\Ai\Stupid # also available: Bundle\LichessBundle\Ai\Stupid
