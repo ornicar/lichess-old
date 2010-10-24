@@ -1,10 +1,10 @@
 Very fast Chess game designed to run on a small server and play hundreds of concurrent games.
-Allows to play with a friend, a random player or an Artificial Intelligence.
-Supports castling, en passant, selective promotion, color selection, check and mate detection, threefold repetition, and move validation.
-Chess clock, integrated chat, real time spectator mode and analysis interface available.
-The interface is translated to 23 languages thanks to contributors.
-Uses only open source languages: PHP 5.3, HTML5, Javascript and CSS.
-Powered by Symfony2 and jQuery 1.4.
+
+- Allows to play with a friend, a random player or an Artificial Intelligence.
+- Supports castling, en passant, selective promotion, color selection, check and mate detection, threefold repetition, and move validation.
+- Chess clock, integrated chat, real time spectator mode and analysis interface available.
+- Translated to 23 languages thanks to contributors.
+- Uses only open source languages: PHP 5.3, HTML5, Javascript and CSS. Powered by Symfony2 and jQuery 1.4.
   
 PLAY
 ----
@@ -48,7 +48,7 @@ You can also run checks from command line, but the results may differ:
 
 ### Install assets
 
-   php lichess/console assets:install web --symlink
+    php lichess/console assets:install web --symlink
 
 ### Run
 
@@ -68,6 +68,8 @@ If you can't or don't want to install crafty, you can use a `Stupid` AI:
     lichess.config:
         ai:
             class: Bundle\LichessBundle\Ai\Stupid
+
+It's dumb as hell but it plays :)
 
 TEST
 ----
