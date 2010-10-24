@@ -1,38 +1,54 @@
 Very fast Chess game designed to run on a small server and play hundreds of concurrent games.
-Allows to play with a friend or an Artificial Intelligence.
-Supports castling, en passant, selective promotion, color selection, check and mate detection, and move validation.
+Allows to play with a friend, a random player or an Artificial Intelligence.
+Supports castling, en passant, selective promotion, color selection, check and mate detection, threefold repetition, and move validation.
+Chess clock, integrated chat, real time spectator mode and analysis interface available.
+The interface is translated to 23 languages thanks to contributors.
 Uses only open source languages: PHP 5.3, HTML5, Javascript and CSS.
 Powered by Symfony2 and jQuery 1.4.
   
 PLAY
 ----
 
-[http://lichess.org](http://lichess.org)
+- [Homepage](http://lichess.org)
+- [Play Chess with a friend](http://lichess.org/friend)
+- [Play Chess with a random player](http://lichess.org/anybody)
+- [Play Chess with the computer](http://lichess.org/ai)
+- [Real time list of games beeing played](http://lichess.org/games)
+- [List of all games](http://lichess.org/games/all)
+- [Game analysis](http://lichess.org/analyse/0Zcvl5)
 
 FEEDBACK
 --------
 
-I'm waiting for bug reports and feature requests in [GitHub issue tracker](http://github.com/ornicar/lichess/issues)
-
-Users can give feedback in [Uservoice](http://lichess.uservoice.com/forums/62479-general)
+I'm eagerly waiting for bug reports and feature requests in [Lichess Forum](http://lichess.org/forum/lichess-feedback)
 
 INSTALL
 -------
 
-Lichess is built on Symfony2, which is under heavy development and has very few [documentation](http://symfony-reloaded.org/) at the moment.
+Lichess is built on Symfony2, which is under heavy development at the moment.
 
 It requires [APC](http://www.php.net/manual/en/book.apc.php). It's a free and open opcode cache for PHP.
+
+It uses [MongoDB](http://mongodb.org) for game storage.
 
 ### Get the code
 
     git clone git://github.com/ornicar/lichess.git
     cd lichess
     git submodule init
-    git submodule update
+    git submodule update --init --recursive
 
-### Create data folder
+### Check your server requirements
 
-    mkdir lichess/data
+Open your browser at http://myhostname/check.php
+
+You can also run checks from command line, but the results may differ:
+
+    php web/check.php
+
+### Install assets
+
+   php lichess/console assets:install web --symlink
 
 ### Run
 
@@ -48,14 +64,14 @@ The default AI is crafty, a opensource program written in C.
 
 If you can't or don't want to install crafty, you can use a `Stupid` AI:
 
-    # lichess/config/lichess.yml
-    parameters:
-        lichess.ai.class: "Bundle\LichessBundle\Ai\Stupid"
+    # lichess/config/config.yml
+    lichess.config:
+        ai:
+            class: Bundle\LichessBundle\Ai\Stupid
 
 TEST
 ----
 
-Before doing any modification to the code, you should be able to run the test suite.
 You need [PHPUnit 3.5](http://github.com/sebastianbergmann/phpunit) installed.
 
 Run all unit and functional tests
