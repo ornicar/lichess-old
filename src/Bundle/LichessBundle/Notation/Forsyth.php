@@ -101,7 +101,7 @@ class Forsyth
         $board = $game->getBoard();
         $forsythe = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsythe));
 
-        for($itForsyth = 0, $forsytheLen = strlen($forsythe); $itForsythe < $forsytheLen; $itForsythe++)
+        for($itForsyth = 0, $forsytheLen = strlen($forsythe); $itForsyth < $forsytheLen; $itForsyth++)
         {
             $letter = $forsythe{$itForsyth};
             $key = Board::posToKey($x, $y);
