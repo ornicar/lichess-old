@@ -44,10 +44,20 @@ class LichessBundle extends BaseBundle
                     $languages = $container->getRequestService()->getLanguages() ?: array();
                     $bestLocale = $translator->getBestLocale($languages);
                     $session->setLocale($bestLocale);
-                    $session->set('lichess.user_id', uniqid());
+                    $session->set('lichess.user_id', $this->generateId());
                 }
                 $translator->setLocale($session->getLocale());
             }
         });
+    }
+
+    protected function generateId()
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+        for ( $i = 0; $i < 6; $i++ ) {
+            $id .= $chars[mt_rand( 0, 63 )];
+        }
+
+        return $id;
     }
 }
