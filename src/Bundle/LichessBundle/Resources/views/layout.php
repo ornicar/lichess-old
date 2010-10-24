@@ -35,7 +35,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <?php echo $view['stylesheets'] ?>
     </head>
-    <body data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>" data-sound-file="<?php echo $view['assets']->getUrl('bundles/lichess/sound/alert.ogg') ?>">
+    <body class="<?php echo $view['slots']->get('body_class', 'normal') ?>" data-sound-enabled="<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>" data-sound-file="<?php echo $view['assets']->getUrl('bundles/lichess/sound/alert.ogg') ?>">
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a></h1>

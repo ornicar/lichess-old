@@ -63,6 +63,9 @@ div.header {
 div.header strong {
     font-weight: normal;
 }
+body.small_box div.header {
+    height: auto;
+}
 
 div.content {
     width: 1010px;
