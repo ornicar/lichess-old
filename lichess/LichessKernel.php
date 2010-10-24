@@ -30,6 +30,7 @@ class LichessKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\ZendBundle\ZendBundle(),
+            new Bundle\ApcBundle\ApcBundle(),
             new Bundle\LichessBundle\LichessBundle()
         );
 
