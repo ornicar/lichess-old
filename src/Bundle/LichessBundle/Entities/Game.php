@@ -278,13 +278,13 @@ class Game
     public function getStatusMessage()
     {
         switch($this->getStatus()) {
-        case self::MATE: $message = 'Checkmate'; break;
-        case self::RESIGN: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
-        case self::STALEMATE: $message = 'Stalemate'; break;
-        case self::TIMEOUT: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
-        case self::DRAW: $message = 'Draw'; break;
-        case self::OUTOFTIME: $message = 'Time out'; break;
-        default: $message = '';
+            case self::MATE: $message      = 'Checkmate'; break;
+            case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
+            case self::STALEMATE: $message = 'Stalemate'; break;
+            case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
+            case self::DRAW: $message      = 'Draw'; break;
+            case self::OUTOFTIME: $message = 'Time out'; break;
+            default: $message              = '';
         }
         return $message;
     }
