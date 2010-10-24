@@ -389,6 +389,7 @@
              })
              .click(function() {
                  if(!$(this).hasClass('selectable')) return;
+                 $(this).removeClass('selectable');
                  var $selected = self.$board.find('div.lcs.selected');
                  self.dropPiece($selected.find('div.lichess_piece'), $selected, $(this));
              });
