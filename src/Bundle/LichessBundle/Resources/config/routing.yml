@@ -14,6 +14,14 @@ lichess_say:
     pattern:        /talk/:hash/:version
     defaults:       { _controller: LichessBundle:Player:say }
     requirements:   { hash: "[\w-]{10}", version: "\d+" }
+lichess_invite_friend:
+    pattern:        /friend/:color
+    defaults:       { _controller: LichessBundle:Game:inviteFriend, color: white }
+    requirements:   { color: (white|black) }
+lichess_wait_friend:
+    pattern:        /friend/:hash
+    defaults:       { _controller: LichessBundle:Player:waitFriend }
+    requirements:   { hash: "[\w-]{10}" }
 lichess_game:
     pattern:        /:hash
     defaults:       { _controller: LichessBundle:Game:show }
