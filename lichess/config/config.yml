@@ -16,4 +16,4 @@ zend.config:
 
 lichess.config:
     ai:
-        class: Bundle\LichessBundle\Ai\Stupid # also available: Bundle\LichessBundle\Ai\Stupid
+        class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid
