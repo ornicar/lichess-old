@@ -530,7 +530,7 @@
          self.options.state = 'running';
          self.element.addClass('running');
          var end_time = new Date().getTime() + self.options.time;
-         var interval = setInterval(function() {
+         self.options.interval = setInterval(function() {
              if (self.options.state == 'running') {
                  var current_time = Math.round(end_time - new Date().getTime());
                  if (current_time <= 0) {
@@ -544,7 +544,7 @@
                  //If the timer completed, fire the buzzer callback
                  current_time == 0 && $.isFunction(self.options.buzzer) && self.options.buzzer(self.element);
              } else {
-                 clearInterval(interval);
+                 clearInterval(self.options.interval);
              }
          }, 1000);
      },
@@ -557,6 +557,7 @@
 
      stop: function()
      {
+         clearInterval(this.options.interval);
          this.options.state = 'stop';
          this.element.removeClass('running');
      },
