@@ -45,13 +45,15 @@ class PlayerController extends Controller
                 if($game->hasClock()) {
                     $nextGame->setClock(clone $game->getClock());
                 }
+                $nextGame->start();
                 $this['lichess_persistence']->save($nextGame);
                 $opponent->getStack()->addEvent(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $nextOpponent->getFullHash()))));
                 $this['lichess_persistence']->save($game);
                 if($this['lichess_synchronizer']->isConnected($opponent)) {
                     $this['lichess_synchronizer']->setAlive($nextOpponent);
                 }
-                return $this->redirect($this->generateUrl('lichess_game', array('hash' => $nextGame->getHash())));
+                $this['logger']->notice(sprintf('Game:rematch join game:%s', $nextGame->getHash()));
+                return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayerHash)));
             }
         }
         else {
