@@ -19,7 +19,9 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $h1 = preg_replace('#^.+([\w-]{10}+)$#', '$1', $p1->getRequest()->getUri());
 
         $p2 = $this->createClient();
-        $p2->request('GET', $inviteUrl);
+        $crawler = $p2->request('GET', $inviteUrl);
+        $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
+        $p2->request('GET', $redirectUrl);
         $crawler = $p2->followRedirect();
         $this->assertTrue($p2->getResponse()->isSuccessful());
         $h2 = preg_replace('#^.+([\w-]{10}+)$#', '$1', $p2->getRequest()->getUri());

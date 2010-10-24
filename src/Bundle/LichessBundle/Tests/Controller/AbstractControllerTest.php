@@ -32,6 +32,9 @@ abstract class AbstractControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         if($join) {
+            $this->assertTrue($client->getResponse()->isSuccessful());
+            $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
+            $client->request('GET', $redirectUrl);
             $this->assertTrue($client->getResponse()->isRedirect());
             $crawler = $client->followRedirect();
         }

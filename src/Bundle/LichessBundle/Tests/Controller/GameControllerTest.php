@@ -44,7 +44,10 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertRegexp('#^/sync/[\w-]{6}/white/0/[\w-]{10}$#', $syncUrl);
 
         $friend = $this->createClient();
-        $friend->request('GET', $inviteUrl);
+        $crawler = $friend->request('GET', $inviteUrl);
+        $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
+        $friend->request('GET', $redirectUrl);
+        $this->assertTrue($friend->getResponse()->isRedirect());
         $crawler = $friend->followRedirect();
         $this->assertTrue($friend->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
@@ -74,7 +77,10 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertRegexp('#^/sync/[\w-]{6}/black/0/[\w-]{10}$#', $syncUrl);
 
         $friend = $this->createClient();
-        $friend->request('GET', $inviteUrl);
+        $crawler = $friend->request('GET', $inviteUrl);
+        $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
+        $friend->request('GET', $redirectUrl);
+        $this->assertTrue($friend->getResponse()->isRedirect());
         $crawler = $friend->followRedirect();
         $this->assertTrue($friend->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
@@ -123,7 +129,9 @@ class GameControllerTest extends AbstractControllerTest
         $inviteUrl = $crawler->filter($selector)->attr('value');
 
         $friend = $this->createClient();
-        $friend->request('GET', $inviteUrl);
+        $crawler = $friend->request('GET', $inviteUrl);
+        $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
+        $friend->request('GET', $redirectUrl);
         $crawler = $friend->followRedirect();
 
         $spectator = $this->createClient();
