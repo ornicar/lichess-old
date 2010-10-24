@@ -33,10 +33,10 @@ class Clock
     private $timer = null;
 
     /**
-     *  Assume that an HTTP request lasts O.5 seconds
+     *  Assume that a move takes some time to go from player1 -> server -> player2
      *  and remove this time from each move time
      */
-    const HTTP_DELAY = 0.5;
+    const HTTP_DELAY = 1.5;
 
     public function __construct($limit)
     {
