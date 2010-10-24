@@ -8,6 +8,29 @@ use Bundle\LichessBundle\Notation\Forsyth;
 
 class ForsythTest extends \PHPUnit_Framework_TestCase
 {
+    public function testImportStandardFen()
+    {
+        $this->markTestSkipped();
+
+        $forsyth = new Forsyth();
+        $fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq';
+        $game = new Game();
+        $game = $forsyth->import($game, $fen);
+
+        foreach($game->players as $color => $player) {
+            foreach(explode(' ', 'Rook Knight Bishop Queen King Bishop Knight Rook') as $x => $class) {
+                $pawn = $game->getBoard()->getPieceByPos($x+1, 'white' === $color ? 2 : 7);
+                $this->assertNotNull($pawn);
+                $this->assertEquals($pawn->getClass(), 'Pawn');
+                $this->assertEquals($pawn->getPlayer(), $player);
+                $piece = $game->getBoard()->getPieceByPos($x+1, 'white' === $color ? 1 : 8);
+                $this->assertNotNull($piece);
+                $this->assertEquals($piece->getClass(), $class);
+                $this->assertEquals($piece->getPlayer(), $player);
+            }
+        }
+    }
+
     public function testExport()
     {
         $generator = new Generator();

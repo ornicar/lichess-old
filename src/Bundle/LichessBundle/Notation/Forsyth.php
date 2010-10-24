@@ -8,7 +8,6 @@ use Bundle\LichessBundle\Chess\Analyser;
 
 class Forsyth
 {
-
     /**
      * Transform a game to standart Forsyth Edwards Notation
      * http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
@@ -75,6 +74,18 @@ class Forsyth
         }
 
         return $forsythe;
+    }
+
+    /**
+     * Create and position pieces of the game for the forsyth string
+     *
+     * @param Game $game
+     * @param string $forsythe
+     * @return Game $game
+     */
+    public function import(Game $game, $forsythe)
+    {
+        throw new \Exception('Not implemented');
     }
 
     public function diffToMove(Game $game, $forsythe)
