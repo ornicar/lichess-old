@@ -131,7 +131,6 @@ class TestSessionStorage implements SessionStorageInterface
      */
     public function sessionWrite($id, $data)
     {
-        var_dump($data);
         $current_umask = umask(0000);
         if (!is_dir($this->options['session_path']))
         {
