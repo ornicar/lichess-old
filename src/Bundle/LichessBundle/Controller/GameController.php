@@ -193,7 +193,7 @@ class GameController extends Controller
                 }
                 $game = $result['game'];
                 $this['lichess_persistence']->save($game);
-                $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getHash(), implode(',', $config->variants), implode(',', $config->times)));
+                $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getHash(), implode(',', $config->getVariantNames()), implode(',', $config->times)));
                 return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $game->getCreator()->getFullHash())));
             }
         }
