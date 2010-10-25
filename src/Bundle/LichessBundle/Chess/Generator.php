@@ -6,34 +6,31 @@ use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Entities\Player;
 use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
+use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
 
 class Generator
 {
-    protected $positionGenerator;
-
-    public function __construct(PositionGenerator $positionGenerator = null)
-    {
-        $this->positionGenerator = $positionGenerator ?: new StandardPositionGenerator();
-    }
-
-    public function setPositionGenerator(PositionGenerator $positionGenerator)
-    {
-        $this->positionGenerator = $positionGenerator;
-    }
 
     /**
      * @return Game
      */
-    public function createGame()
+    public function createGame($variant = Game::VARIANT_STANDARD)
     {
         $game = new Game();
+        $game->setVariant($variant);
 
         $game->setPlayers(array(
             'white' => $this->createPlayer($game, 'white'),
             'black' => $this->createPlayer($game, 'black')
         ));
 
-        $this->positionGenerator->createPieces($game);
+        if($variant === Game::VARIANT_960) {
+            $generator = new Chess960PositionGenerator();
+        }
+        else {
+            $generator = new StandardPositionGenerator();
+        }
+        $generator->createPieces($game);
 
         $game->setCreator($game->getPlayer('white'));
 
@@ -49,7 +46,8 @@ class Generator
      **/
     public function createReturnGame(Player $player)
     {
-        $nextGame = $this->createGame();
+        $variant = $player->getGame()->getVariant();
+        $nextGame = $this->createGame($variant);
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
         $player->getGame()->setNext($nextPlayer->getFullHash());
@@ -57,12 +55,12 @@ class Generator
         return $nextPlayer;
     }
 
-    public function createGameForPlayer($color)
+    public function createGameForPlayer($color, $variant = Game::VARIANT_STANDARD)
     {
         if(!in_array($color, array('white', 'black'))) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid player color', $color));
         }
-        $game = $this->createGame();
+        $game = $this->createGame($variant);
         $player = $game->getPlayer($color);
         $game->setCreator($player);
         return $player;
