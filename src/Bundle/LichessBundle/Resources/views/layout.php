@@ -7,7 +7,7 @@
     if('home' === $assetsPack) {
     }
     elseif('analyse' === $assetsPack) {
-        $view['javascripts']->add('bundles/lichess/vendor/pgn4web/pgn4web.min.js');
+        $view['javascripts']->add('bundles/lichess/vendor/pgn4web/pgn4web.js');
         $view['javascripts']->add('bundles/lichess/js/analyse.js');
         $view['stylesheets']->add('bundles/lichess/css/analyse.css');
         $view['stylesheets']->add('bundles/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css');
