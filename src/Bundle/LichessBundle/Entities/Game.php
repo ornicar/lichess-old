@@ -160,7 +160,7 @@ class Game
     static public function getVariantNames()
     {
         return array(
-            self::VARIANT_STANDARD => 'standart',
+            self::VARIANT_STANDARD => 'standard',
             self::VARIANT_960 => 'chess960'
         );
     }
