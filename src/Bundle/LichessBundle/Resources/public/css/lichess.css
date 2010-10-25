@@ -270,6 +270,8 @@ div.lichess_overboard p.explanations {
     padding-top:1em;
     font-size: 12px;
     line-height: 1.4em;
+    text-align: left;
+    padding-left: 1em;
 }
 
 div.lichess_overboard.time_config div.variants {

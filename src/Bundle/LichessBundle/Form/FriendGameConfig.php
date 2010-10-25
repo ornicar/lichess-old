@@ -15,6 +15,21 @@ class FriendGameConfig extends GameConfig
         $metadata->addPropertyConstraint('time', new Constraints\Min(array('limit' => 0)));
     }
 
+    public function getCountTimes()
+    {
+        return count($this->times);
+    }
+
+    public function getTimeNames()
+    {
+        $names = array();
+        foreach($this->times as $time) {
+            $names[] = $time ? $time.' min.' : 'no clock';
+        }
+
+        return $names;
+    }
+
     public function toArray()
     {
         return array('time' => $this->time, 'variant' => $this->variant);

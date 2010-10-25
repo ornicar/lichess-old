@@ -193,6 +193,11 @@ class Clock
       return $this->limit;
     }
 
+    public function getLimitInMinutes()
+    {
+        return round($this->getLimit()/60, 1);
+    }
+
     /**
      * Get times
      * @return array of float

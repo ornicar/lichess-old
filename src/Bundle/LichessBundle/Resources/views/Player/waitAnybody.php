@@ -7,6 +7,13 @@
         <div class="lichess_overboard wait_anybody">
             <img src="<?php echo $view['assets']->getUrl('/bundles/lichess/images/hloader.gif') ?>" width="220" height="33" /><br />
             <?php echo $view['translator']->_('Waiting for opponent') ?>...
+            <p class="explanations">
+                Variant: <?php echo implode(' or ', $config->getVariantNames()) ?><br />
+                Clock: <?php echo implode(' or ', $config->getTimeNames()) ?>
+            </p>
+            <p class="explanations">
+                <?php echo $view['translator']->_('Hold on, we are searching for a game that matches your criterias') ?>
+            </p>
         </div>
     </div>
     <?php echo $view->output('LichessBundle:Game:bootGround.php', array('color' => $player->getColor(), 'active' => 'anybody')) ?>
