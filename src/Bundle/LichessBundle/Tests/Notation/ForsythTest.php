@@ -37,13 +37,13 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
         $game = $generator->createGame();
         $manipulator = new Manipulator($game);
         $forsyth = new Forsyth();
-        $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq', $forsyth->export($game));
+        $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', $forsyth->export($game));
         $manipulator->play('e2 e4');
-        $this->assertEquals('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq', $forsyth->export($game));
+        $this->assertEquals('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1', $forsyth->export($game));
         $manipulator->play('c7 c5');
-        $this->assertEquals('rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq', $forsyth->export($game));
+        $this->assertEquals('rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2', $forsyth->export($game));
         $manipulator->play('g1 f3');
-        $this->assertEquals('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq', $forsyth->export($game));
+        $this->assertEquals('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', $forsyth->export($game));
     }
 
     public function testExportCastling()
@@ -54,7 +54,7 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
         $game->getBoard()->getPieceByKey('h8')->setFirstMove(1);
         $manipulator = new Manipulator($game);
         $forsyth = new Forsyth();
-        $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w Kq', $forsyth->export($game));
+        $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w Kq - 0 1', $forsyth->export($game));
     }
 
     public function testDiffToMove()
