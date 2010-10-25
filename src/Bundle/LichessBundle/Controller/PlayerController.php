@@ -10,6 +10,7 @@ use Bundle\LichessBundle\Ai\Crafty;
 use Bundle\LichessBundle\Ai\Stupid;
 use Bundle\LichessBundle\Entities\Player;
 use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Form;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -280,7 +281,9 @@ class PlayerController extends Controller
         }
         $this['lichess_synchronizer']->setAlive($player);
 
-        return $this->render('LichessBundle:Player:waitAnybody.php', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
+        $config = new Form\AnybodyGameConfig($this['lichess_translator']);
+        $config->fromArray($this['session']->get('lichess.game_config.anybody', array()));
+        return $this->render('LichessBundle:Player:waitAnybody.php', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all(), 'config' => $config));
     }
 
     public function waitFriendAction($hash)

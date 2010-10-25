@@ -15,6 +15,27 @@ class AnybodyGameConfig extends GameConfig
         return count($this->times);
     }
 
+    public function getTimeNames()
+    {
+        $names = array();
+        foreach($this->times as $time) {
+            $names[] = $time ? $time.' min.' : 'no clock';
+        }
+
+        return $names;
+    }
+
+    public function getVariantNames()
+    {
+        $variantNames = Game::getVariantNames();
+        $names = array();
+        foreach($this->variants as $variant) {
+            $names[] = $variantNames[$variant];
+        }
+
+        return $names;
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addGetterConstraint('countTimes', new Constraints\Min(array('limit' => 1)));
