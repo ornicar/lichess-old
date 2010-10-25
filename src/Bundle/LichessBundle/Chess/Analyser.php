@@ -284,6 +284,9 @@ class Analyser
 
     protected function canCastle(King $king, $relativeX)
     {
+        if(!$this->game->isStandartVariant()) {
+            return false;
+        }
         $_x = $king->getX() + $relativeX;
         return
         $_x > 0 && $_x < 9 &&
