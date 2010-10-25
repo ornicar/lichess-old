@@ -16,8 +16,8 @@ abstract class GameConfig
     public function getVariantChoices()
     {
         $choices = array();
-        foreach(Game::getVariants() as $code) {
-            $choices[$code] = Game::getVariantName($code);
+        foreach(Game::getVariantNames() as $code => $name) {
+            $choices[$code] = $name;
         }
 
         return $choices;
