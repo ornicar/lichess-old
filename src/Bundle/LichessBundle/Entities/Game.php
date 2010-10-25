@@ -136,7 +136,7 @@ class Game
      */
     public function setVariant($variant)
     {
-        if(!in_array($variant, self::getVariants())) {
+        if(!array_key_exists($variant, self::getVariantNames())) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid game variant', $variant));
         }
         if($this->getIsStarted()) {
@@ -150,19 +150,19 @@ class Game
         return static::VARIANT_STANDARD === $this->variant;
     }
 
-    static public function getVariantName($code)
+    public function getVariantName()
     {
-        switch($code) {
-        case self::VARIANT_STANDARD: return 'standart';
-        case self::VARIANT_960: return 'chess960';
-        }
+        $variants = self::getVariantNames();
 
-        throw new \InvalidArgumentException(sprintf('%s is not a valid game variant', $variant));
+        return $variants[$this->getVariant()];
     }
 
-    static public function getVariants()
+    static public function getVariantNames()
     {
-        return array(self::VARIANT_STANDARD, self::VARIANT_960);
+        return array(
+            self::VARIANT_STANDARD => 'standart',
+            self::VARIANT_960 => 'chess960'
+        );
     }
 
     /**
@@ -566,7 +566,7 @@ class Game
 
     public function getPersistentPropertyNames()
     {
-        return array('hash', 'status', 'players', 'turns', 'creator', 'positionHashes');
+        return array('hash', 'variant', 'status', 'players', 'turns', 'creator', 'positionHashes');
     }
 
     public function serialize()
