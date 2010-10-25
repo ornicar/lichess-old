@@ -109,6 +109,14 @@ class Game
      */
     protected $clock = null;
 
+    /**
+     * Fen notation of the initial position
+     * Can be null if equals to standard position
+     *
+     * @var string
+     */
+    protected $initialFen = null;
+
     public function __construct($variant = self::VARIANT_STANDARD)
     {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
@@ -118,6 +126,30 @@ class Game
         $this->setVariant($variant);
         $this->status = self::CREATED;
         $this->room = new Room();
+    }
+
+    /**
+     * Fen notation of initial position
+     *
+     * @return string
+     **/
+    public function getInitialFen()
+    {
+        if(null === $this->initialFen) {
+            return 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq';
+        }
+
+        return $this->initialFen;
+    }
+
+    /**
+     * Set initialFen
+     * @param  string
+     * @return null
+     */
+    public function setInitialFen($fen)
+    {
+        $this->initialFen = $fen;
     }
 
     /**
@@ -566,7 +598,7 @@ class Game
 
     public function getPersistentPropertyNames()
     {
-        return array('hash', 'variant', 'status', 'players', 'turns', 'creator', 'positionHashes');
+        return array('hash', 'variant', 'status', 'players', 'turns', 'creator', 'positionHashes', 'initialFen');
     }
 
     public function serialize()

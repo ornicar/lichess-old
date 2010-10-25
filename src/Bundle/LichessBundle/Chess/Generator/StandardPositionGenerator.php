@@ -19,5 +19,7 @@ class StandardPositionGenerator extends PositionGenerator
 
         $player->setPieces($pieces);
         $player->getOpponent()->setPieces($this->mirrorPieces($pieces));
+
+        $game->setInitialFen(null);
     }
 }

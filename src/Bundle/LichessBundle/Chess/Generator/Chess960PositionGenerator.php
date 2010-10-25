@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Chess\Generator;
 
 use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Notation\Forsyth;
 
 class Chess960PositionGenerator extends PositionGenerator
 {
@@ -39,6 +40,9 @@ class Chess960PositionGenerator extends PositionGenerator
         $pieces = array_values($pieces);
         $player->setPieces($pieces);
         $player->getOpponent()->setPieces($this->mirrorPieces($pieces));
+
+        $forsyth = new Forsyth();
+        $game->setInitialFen($forsyth->export($game));
     }
 
     protected function getEmptyFile($pieces, $num)
