@@ -129,21 +129,32 @@ class GameController extends Controller
 
     public function inviteAiAction($color)
     {
-        $player = $this['lichess_generator']->createGameForPlayer($color);
-        $game = $player->getGame();
-        $opponent = $player->getOpponent();
-        $opponent->setIsAi(true);
-        $opponent->setAiLevel(1);
-        $game->start();
+        $config = new Form\AiGameConfig($this['lichess_translator']);
+        $config->fromArray($this['session']->get('lichess.game_config.ai', array()));
+        $form = new Form\AiGameConfigForm('config', $config, $this['validator']);
+        if('POST' === $this['request']->getMethod()) {
+            $form->bind($this['request']->request->get($form->getName()));
+            if($form->isValid()) {
+                $this['session']->set('lichess.game_config.ai', $config->toArray());
+                $player = $this['lichess_generator']->createGameForPlayer($color, $config->variant);
+                $game = $player->getGame();
+                $opponent = $player->getOpponent();
+                $opponent->setIsAi(true);
+                $opponent->setAiLevel(1);
+                $game->start();
 
-        if($player->isBlack()) {
-            $manipulator = new Manipulator($game, new Stack());
-            $manipulator->play($this->container->getLichessAiService()->move($game, $opponent->getAiLevel()));
+                if($player->isBlack()) {
+                    $manipulator = new Manipulator($game, new Stack());
+                    $manipulator->play($this['lichess_ai']->move($game, $opponent->getAiLevel()));
+                }
+                $this['lichess_persistence']->save($game);
+                $this['logger']->notice(sprintf('Game:inviteAi create game:%s, variant:%s', $game->getHash(), $game->getVariantName()));
+
+                return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+            }
         }
-        $this['lichess_persistence']->save($game);
-        $this['logger']->notice(sprintf('Game:inviteAi create game:%s, variant:%s', $game->getHash(), $game->getVariantName()));
 
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+        return $this->render('LichessBundle:Game:inviteAi.php', array('form' => $this['templating.form']->get($form), 'color' => $color));
     }
 
     public function inviteAnybodyAction($color)

@@ -9,7 +9,7 @@ use Bundle\LichessBundle\Chess\Analyser;
 class Forsyth
 {
     /**
-     * Transform a game to standart Forsyth Edwards Notation
+     * Transform a game to standard Forsyth Edwards Notation
      * http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
      */
     public function export(Game $game)
