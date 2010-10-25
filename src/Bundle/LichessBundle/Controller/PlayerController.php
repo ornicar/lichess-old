@@ -191,7 +191,7 @@ class PlayerController extends Controller
                     $possibleMoves = $manipulator->play($this->container->getLichessAiService()->move($game, $opponent->getAiLevel()));
                 }
                 catch(\Exception $e) {
-                    $this['logger']->err(sprintf('Player:move Crafty game:%s turn:%d - %s %s', $game->getHash(), $game->getTurns(), get_class($e), $e->getMessage()));
+                    $this['logger']->err(sprintf('Player:move Crafty game:%s, variant:%s, turn:%d - %s %s', $game->getHash(), $game->getVariantName(), $game->getTurns(), get_class($e), $e->getMessage()));
                     $ai = new \Bundle\LichessBundle\Ai\Stupid();
                     $possibleMoves = $manipulator->play($ai->move($game, $opponent->getAiLevel()));
                 }
