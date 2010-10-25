@@ -16,7 +16,7 @@ class MongoDBQueueTest extends \PHPUnit_Framework_TestCase
         $queue = $this->getQueue($generator);
         $queue->clear();
         $config = new Form\AnybodyGameConfig();
-        $entry = new QueueEntry($config->times, uniqid());
+        $entry = new QueueEntry($config->times, $config->variants, uniqid());
         $result = $queue->add($entry, 'white');
         $this->assertEquals($queue::QUEUED, $result['status']);
         $this->assertNotNull($result['game']);
@@ -49,13 +49,13 @@ class MongoDBQueueTest extends \PHPUnit_Framework_TestCase
         $queue = $this->getQueue($generator);
         $queue->clear();
         $config = new Form\AnybodyGameConfig();
-        $entry = new QueueEntry($config->times, uniqid());
+        $entry = new QueueEntry($config->times, $config->variants, uniqid());
         $result = $queue->add($entry, 'white');
         $this->assertEquals($queue::QUEUED, $result['status']);
         $this->assertEquals(1, $queue->count());
 
         $config2 = new Form\AnybodyGameConfig();
-        $entry2 = new QueueEntry($config2->times, uniqid());
+        $entry2 = new QueueEntry($config2->times, $config2->variants, uniqid());
         $result2 = $queue->add($entry2, 'white');
         $this->assertEquals($queue::FOUND, $result2['status']);
         $this->assertEquals($result['game']->getHash(), $result2['game_hash']);

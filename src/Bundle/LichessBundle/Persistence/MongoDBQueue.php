@@ -25,13 +25,19 @@ class MongoDBQueue
         if($existing = $this->searchMatching($entry)) {
             $this->remove($existing);
 
-            return array('status' => static::FOUND, 'game_hash' => $existing->gameHash, 'time' => $entry->getCommonTime($existing));
+            return array(
+                'status' => static::FOUND,
+                'game_hash' => $existing->gameHash,
+                'time' => $entry->getCommonTime($existing),
+                'variant' => $entry->getCommonVariant($existing)
+            );
         }
 
         $game = $this->generator->createGameForPlayer($color)->getGame();
 
         $this->collection->insert(array(
             'times' => $entry->times,
+            'variants' => $entry->variants,
             'gameHash' => $game->getHash(),
             'userId' => $entry->userId,
             'date' => time()
@@ -68,7 +74,7 @@ class MongoDBQueue
 
     protected function hydrate(array $data)
     {
-        $entry = new QueueEntry($data['times'], $data['userId']);
+        $entry = new QueueEntry($data['times'], $data['variants'], $data['userId']);
         $entry->id = $data['_id']->__toString();
         $entry->gameHash = $data['gameHash'];
 

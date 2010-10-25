@@ -1,50 +1,50 @@
 <?php
 
 namespace Bundle\LichessBundle\Ai;
-use Bundle\LichessBundle\Notation\Forsythe;
+use Bundle\LichessBundle\Notation\Forsyth;
 use Bundle\LichessBundle\Entities\Game;
 
 class Crafty
 {
     public function move(Game $game, $level)
     {
-        $forsythe = new Forsythe();
-        $oldForsythe = $forsythe->export($game);
-        $newForsythe = $this->getNewForsythe($oldForsythe, $level);
-        $move = $forsythe->diffToMove($game, $newForsythe);
+        $forsyth = new Forsyth();
+        $oldForsyth = $forsyth->export($game);
+        $newForsyth = $this->getNewForsyth($oldForsyth, $level);
+        $move = $forsyth->diffToMove($game, $newForsyth);
 
         return $move;
     }
 
-    protected function getNewForsythe($forsytheNotation, $level)
+    protected function getNewForsyth($forsythNotation, $level)
     {
         $file = tempnam(sys_get_temp_dir(), 'lichess_crafty_'.md5(uniqid().mt_rand(0, 1000)));
         touch($file);
 
-        $command = $this->getPlayCommand($forsytheNotation, $file, $level);
+        $command = $this->getPlayCommand($forsythNotation, $file, $level);
         exec($command, $output, $code);
         if($code !== 0)
         {
             throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
         }
 
-        $forsythe = $this->extractForsythe(file($file, FILE_IGNORE_NEW_LINES));
+        $forsyth = $this->extractForsyth(file($file, FILE_IGNORE_NEW_LINES));
         unlink($file);
 
-        if(!$forsythe)
+        if(!$forsyth)
         {
             throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
         }
 
-        return $forsythe;
+        return $forsyth;
     }
 
-    protected function extractForsythe($results)
+    protected function extractForsyth($results)
     {
         return str_replace('setboard ', '', $results[0]);
     }
 
-    protected function getPlayCommand($forsytheNotation, $file, $level)
+    protected function getPlayCommand($forsythNotation, $file, $level)
     {
         return sprintf("cd %s && %s log=off ponder=off smpmt=1 %s <<EOF
 setboard %s
@@ -55,7 +55,7 @@ EOF",
             dirname($file),
             '/usr/games/crafty',
             $this->getCraftyLevel($level),
-            $forsytheNotation,
+            $forsythNotation,
             basename($file)
         );
     }

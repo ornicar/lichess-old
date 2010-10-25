@@ -22,6 +22,16 @@ class Game
     const DRAW = 34;
     const OUTOFTIME = 35;
 
+    const VARIANT_STANDARD = 1;
+    const VARIANT_960 = 2;
+
+    /**
+     * Game variant (like standard or 960)
+     *
+     * @var int
+     */
+    protected $variant = self::VARIANT_STANDARD;
+
     /**
      * The current state of the game, like CREATED, STARTED or MATE.
      *
@@ -99,14 +109,60 @@ class Game
      */
     protected $clock = null;
 
-    public function __construct()
+    public function __construct($variant = self::VARIANT_STANDARD)
     {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
         for ( $i = 0; $i < 6; $i++ ) {
             $this->hash .= $chars[mt_rand( 0, 63 )];
         }
+        $this->setVariant($variant);
         $this->status = self::CREATED;
         $this->room = new Room();
+    }
+
+    /**
+     * Get variant
+     * @return int
+     */
+    public function getVariant()
+    {
+        return $this->variant;
+    }
+
+    /**
+     * Set variant
+     * @param  int
+     * @return null
+     */
+    public function setVariant($variant)
+    {
+        if(!array_key_exists($variant, self::getVariantNames())) {
+            throw new \InvalidArgumentException(sprintf('%s is not a valid game variant', $variant));
+        }
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not change variant, game is already started');
+        }
+        $this->variant = $variant;
+    }
+
+    public function isStandartVariant()
+    {
+        return static::VARIANT_STANDARD === $this->variant;
+    }
+
+    public function getVariantName()
+    {
+        $variants = self::getVariantNames();
+
+        return $variants[$this->getVariant()];
+    }
+
+    static public function getVariantNames()
+    {
+        return array(
+            self::VARIANT_STANDARD => 'standard',
+            self::VARIANT_960 => 'chess960'
+        );
     }
 
     /**
@@ -278,13 +334,13 @@ class Game
     public function getStatusMessage()
     {
         switch($this->getStatus()) {
-            case self::MATE: $message      = 'Checkmate'; break;
-            case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
-            case self::STALEMATE: $message = 'Stalemate'; break;
-            case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
-            case self::DRAW: $message      = 'Draw'; break;
-            case self::OUTOFTIME: $message = 'Time out'; break;
-            default: $message              = '';
+        case self::MATE: $message      = 'Checkmate'; break;
+        case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
+        case self::STALEMATE: $message = 'Stalemate'; break;
+        case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
+        case self::DRAW: $message      = 'Draw'; break;
+        case self::OUTOFTIME: $message = 'Time out'; break;
+        default: $message              = '';
         }
         return $message;
     }
@@ -510,7 +566,7 @@ class Game
 
     public function getPersistentPropertyNames()
     {
-        return array('hash', 'status', 'players', 'turns', 'creator', 'positionHashes');
+        return array('hash', 'variant', 'status', 'players', 'turns', 'creator', 'positionHashes');
     }
 
     public function serialize()

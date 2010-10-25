@@ -8,6 +8,11 @@
             <h2>Play with anybody</h2>
             <div class="clock_config_form">
                 <form action="<?php echo $view['router']->generate('lichess_invite_anybody', array('color' => $color)) ?>" method="post">
+                    <div class="variants">
+                    <?php foreach($form['variants'] as $variant): ?>
+                        <div><?php echo $variant->widget() ?></div>
+                    <?php endforeach ?>
+                    </div>
                     <div class="choices">
                     <?php foreach($form['times'] as $time): ?>
                         <div><?php echo $time->widget() ?></div>

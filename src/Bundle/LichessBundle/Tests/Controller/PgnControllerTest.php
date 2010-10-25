@@ -9,7 +9,11 @@ class PgnControllerTest extends WebTestCase
     public function testExportAction()
     {
         $client = $this->createClient();
-        $client->request('GET', '/ai/white');
+        $crawler = $client->request('GET', '/ai/white');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('Start')->form();
+        $client->submit($form);
+        $this->assertTrue($client->getResponse()->isRedirect());
         $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
         $hash = preg_replace('#^.+([\w-]{10}+)$#', '$1', $client->getRequest()->getUri());
