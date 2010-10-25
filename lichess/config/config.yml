@@ -7,7 +7,7 @@ app.config:
         lifetime: 2592000 # one month 
     templating:
         escaping: false
-        assets_version: 61
+        assets_version: 62
 
 zend.config:
     logger:
