@@ -107,14 +107,12 @@ class GameController extends Controller
     public function inviteFriendAction($color)
     {
         $config = new Form\FriendGameConfig($this['lichess_translator']);
-        if($this['session']->has('lichess.game_config.time')) {
-            $config->time = $this['session']->get('lichess.game_config.time');
-        }
+        $config->fromArray($this['session']->get('lichess.game_config.friend', array()));
         $form = new Form\FriendGameConfigForm('config', $config, $this['validator']);
         if('POST' === $this['request']->getMethod()) {
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
-                $this['session']->set('lichess.game_config.time', $config->time);
+                $this['session']->set('lichess.game_config.friend', $config->toArray());
                 $player = $this['lichess_generator']->createGameForPlayer($color, $config->variant);
                 if($config->time) {
                     $clock = new Clock($config->time * 60);
@@ -154,14 +152,12 @@ class GameController extends Controller
             return $this->redirect($this->generateUrl('lichess_homepage'));
         }
         $config = new Form\AnybodyGameConfig($this['lichess_translator']);
-        if($this['session']->has('lichess.game_config.times')) {
-            $config->times = $this['session']->get('lichess.game_config.times');
-        }
+        $config->fromArray($this['session']->get('lichess.game_config.anybody', array()));
         $form = new Form\AnybodyGameConfigForm('config', $config, $this['validator']);
         if('POST' === $this['request']->getMethod()) {
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
-                $this['session']->set('lichess.game_config.times', $config->times);
+                $this['session']->set('lichess.game_config.anybody', $config->toArray());
                 $queueEntry = new QueueEntry($config->times, $this['session']->get('lichess.user_id'));
                 $queue = $this['lichess_queue'];
                 $result = $queue->add($queueEntry, $color);
@@ -172,7 +168,7 @@ class GameController extends Controller
                     }
                     if(!$this['lichess_synchronizer']->isConnected($game->getCreator())) {
                         $this['lichess_persistence']->remove($game);
-                        $this['logger']->notice(sprintf('Game:inviteAnybody remove game:%s, variant:%s', $game->getHash(), $game->getVariantName()));
+                        $this['logger']->notice(sprintf('Game:inviteAnybody remove game:%s', $game->getHash()));
                         return $this->inviteAnybodyAction($color);
                     }
                     if($result['time']) {
@@ -185,7 +181,7 @@ class GameController extends Controller
                 }
                 $game = $result['game'];
                 $this['lichess_persistence']->save($game);
-                $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getHash(), $game->getVariantName(), implode(',', $config->times)));
+                $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getHash(), implode(',', $config->variants), implode(',', $config->times)));
                 return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $game->getCreator()->getFullHash())));
             }
         }

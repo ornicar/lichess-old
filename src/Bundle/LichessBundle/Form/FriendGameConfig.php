@@ -14,4 +14,15 @@ class FriendGameConfig extends GameConfig
     {
         $metadata->addPropertyConstraint('time', new Constraints\Min(array('limit' => 0)));
     }
+
+    public function toArray()
+    {
+        return array('time' => $this->time, 'variant' => $this->variant);
+    }
+
+    public function fromArray(array $data)
+    {
+        if(isset($data['time'])) $this->time = $data['time'];
+        if(isset($data['variant'])) $this->variant = $data['variant'];
+    }
 }
