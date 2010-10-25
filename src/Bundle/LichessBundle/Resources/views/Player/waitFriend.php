@@ -1,7 +1,7 @@
 <?php $game = $player->getGame() ?>
 <?php $view->extend('LichessBundle::layout.php') ?>
 <?php $view['slots']->set('title', 'Lichess - '.$view['translator']->_('Play with a friend').' - '.$player->getColor()) ?>
-<?php if(!$game->isStandartVariant()) $view['slots']->set('body_class', 'hide_pieces') ?>
+<?php if(!$game->isStandardVariant()) $view['slots']->set('body_class', 'hide_pieces') ?>
 
 <div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_<?php echo $player->getColor() ?>">
     <div class="lichess_board_wrap">
