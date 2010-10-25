@@ -69,6 +69,9 @@ class Forsyth
                 $forsyth .= $player->isWhite() ? 'Q' : 'q';
             }
         }
+        if(!$hasCastle) {
+            $forsyth .= '-';
+        }
 
         // en passant
         $enPassant = '-';
