@@ -90,10 +90,11 @@
                      $.isFunction(callback) && callback();
                  }
              },
-             error: function()
+             error: function(xhr)
              {
                  // client is corrupted, resynchronize with server
-                 location.reload();
+                 if(self.options.debug) $('html').html(xhr.responseText);
+                 else location.reload();
              }
          });
      },

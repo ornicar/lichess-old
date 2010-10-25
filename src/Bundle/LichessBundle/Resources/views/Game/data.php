@@ -39,7 +39,8 @@ $data = array(
         'Your turn' => $view['translator']->_('Your turn'),
         'Your opponent has arrived!' => $view['translator']->_('Your opponent has arrived!')
     ),
-    'possible_moves' => $possibleMoves
+    'possible_moves' => $possibleMoves,
+    'debug' => $parameters['kernel.debug']
 );
 ?>
 <script type="text/javascript">var lichess_data = <?php echo json_encode($data) ?>;</script>
