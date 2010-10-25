@@ -19,7 +19,8 @@
         <ul>
             <li>Multiplayer</li>
             <li>Single player with Artificial Intelligence</li>
-            <li>Time control</li>
+            <li>Time control with <a href="http://en.wikipedia.org/wiki/Game_clock">Chess clock</a></li>
+            <li>Chess variants: Standard and <a href="http://en.wikipedia.org/wiki/Chess960">Chess960</a></li>
             <li><a href="http://en.wikipedia.org/wiki/Castling">Castling</a></li>
             <li><a href="http://en.wikipedia.org/wiki/En_passant">En passant</a></li>
             <li><a href="http://en.wikipedia.org/wiki/Promotion_%28chess%29">Promotion</a></li>
