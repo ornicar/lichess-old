@@ -23,7 +23,7 @@ $data = array(
         'connected' => $isOpponentConnected
     ),
     'sync_delay' => $parameters['lichess.synchronizer.delay'] * 1000,
-    'animation_delay' => 500,
+    'animation_delay' => 400,
     'url' => array(
         'sync' => $view['router']->generate('lichess_sync', array('hash' => $gameHash, 'color' => $color, 'version' => 9999999, 'playerFullHash' => $playerFullHash)),
         'table' => $view['router']->generate('lichess_table', array('hash' => $gameHash, 'color' => $color, 'playerFullHash' => $playerFullHash)),
