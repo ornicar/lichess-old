@@ -246,11 +246,11 @@ class PlayerController extends Controller
     public function sayAction($hash, $version)
     {
         if('POST' !== $this['request']->getMethod()) {
-            throw new NotFoundHttpException(sprintf('Player:say game:%s, POST method required', $game->getHash()));
+            throw new NotFoundHttpException(sprintf('Player:say game:%s, POST method required', $hash));
         }
         $message = trim($this['request']->get('message'));
         if('' === $message) {
-            throw new NotFoundHttpException(sprintf('Player:say game:%s, No message', $game->getHash()));
+            throw new NotFoundHttpException(sprintf('Player:say game:%s, No message', $hash));
         }
         $message = substr($message, 0, 140);
         $player = $this->findPlayer($hash);
