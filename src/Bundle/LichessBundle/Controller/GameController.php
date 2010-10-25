@@ -82,7 +82,7 @@ class GameController extends Controller
             'url' => $this->generateUrl('lichess_player', array('hash' => $game->getCreator()->getFullHash()))
         ));
         $this['lichess_persistence']->save($game);
-        $this['logger']->notice(sprintf('Game:join game:%s', $game->getHash()));
+        $this['logger']->notice(sprintf('Game:join game:%s, variant:%s', $game->getHash(), $game->getVariantName()));
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $game->getInvited()->getFullHash())));
     }
 
@@ -101,7 +101,6 @@ class GameController extends Controller
         }
         $possibleMoves = ($player->isMyTurn() && !$game->getIsFinished()) ? 1 : null;
 
-        $this['logger']->notice(sprintf('Game:watch watch game:%s', $game->getHash()));
         return $this->render('LichessBundle:Game:watch.php', array('game' => $game, 'player' => $player, 'checkSquareKey' => $checkSquareKey, 'parameters' => $this->container->getParameterBag()->all(), 'possibleMoves' => $possibleMoves));
     }
 
@@ -122,7 +121,7 @@ class GameController extends Controller
                     $player->getGame()->setClock($clock);
                 }
                 $this['lichess_persistence']->save($player->getGame());
-                $this['logger']->notice(sprintf('Game:inviteFriend create game:%s, time:%d', $player->getGame()->getHash(), $config->time));
+                $this['logger']->notice(sprintf('Game:inviteFriend create game:%s, variant:%s, time:%d', $player->getGame()->getHash(), $player->getGame()->getVariantName(), $config->time));
                 return $this->redirect($this->generateUrl('lichess_wait_friend', array('hash' => $player->getFullHash())));
             }
         }
@@ -144,7 +143,7 @@ class GameController extends Controller
             $manipulator->play($this->container->getLichessAiService()->move($game, $opponent->getAiLevel()));
         }
         $this['lichess_persistence']->save($game);
-        $this['logger']->notice(sprintf('Game:inviteAi create game:%s', $game->getHash()));
+        $this['logger']->notice(sprintf('Game:inviteAi create game:%s, variant:%s', $game->getHash(), $game->getVariantName()));
 
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
     }
@@ -173,7 +172,7 @@ class GameController extends Controller
                     }
                     if(!$this['lichess_synchronizer']->isConnected($game->getCreator())) {
                         $this['lichess_persistence']->remove($game);
-                        $this['logger']->notice(sprintf('Game:inviteAnybody remove game:%s', $game->getHash()));
+                        $this['logger']->notice(sprintf('Game:inviteAnybody remove game:%s, variant:%s', $game->getHash(), $game->getVariantName()));
                         return $this->inviteAnybodyAction($color);
                     }
                     if($result['time']) {
@@ -181,12 +180,12 @@ class GameController extends Controller
                         $game->setClock($clock);
                         $this['lichess_persistence']->save($game);
                     }
-                    $this['logger']->notice(sprintf('Game:inviteAnybody join game:%s, time:%s', $game->getHash(), $result['time']));
+                    $this['logger']->notice(sprintf('Game:inviteAnybody join game:%s, variant:%s, time:%s', $game->getHash(), $game->getVariantName(), $result['time']));
                     return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
                 }
                 $game = $result['game'];
                 $this['lichess_persistence']->save($game);
-                $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, time:%s', $game->getHash(), implode(',', $config->times)));
+                $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getHash(), $game->getVariantName(), implode(',', $config->times)));
                 return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $game->getCreator()->getFullHash())));
             }
         }
