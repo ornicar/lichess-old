@@ -116,7 +116,7 @@ class GameController extends Controller
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
                 $this['session']->set('lichess.game_config.time', $config->time);
-                $player = $this['lichess_generator']->createGameForPlayer($color);
+                $player = $this['lichess_generator']->createGameForPlayer($color, $config->variant);
                 if($config->time) {
                     $clock = new Clock($config->time * 60);
                     $player->getGame()->setClock($clock);

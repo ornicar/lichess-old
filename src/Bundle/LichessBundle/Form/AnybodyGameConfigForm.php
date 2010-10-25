@@ -10,7 +10,7 @@ class AnybodyGameConfigForm extends Form
 {
     public function configure()
     {
-        $this->add(new ChoiceField('variant', array(
+        $this->add(new ChoiceField('variants', array(
             'choices' => $this->getData()->getVariantChoices(),
             'multiple' => true,
             'expanded' => true
