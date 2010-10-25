@@ -44,7 +44,7 @@
                     <?php echo $view['translator']->_('%nb% connected players', array('%nb%' => $view['lichess']->getNbConnectedPlayers())) ?>
                 </div>
                 <div class="lichess_goodies_wrap">
-                    <?php $view['slots']->output('goodies', '') ?>
+                    <?php $view['slots']->output('goodies', '<h2 class="postcast">New Chess variant: Chess960</h2><br /><a href="http://en.wikipedia.org/wiki/Chess960" target="_blank">Learn about Chess960</a>') ?>
                 </div>
                 <div class="lichess_chat_wrap">
                     <?php $view['slots']->output('chat', '') ?>

@@ -67,6 +67,13 @@ body.small_box div.header {
     height: auto;
 }
 
+div.header .postcast {
+    margin-top: 1em;
+    border-top: 1px solid #ddd;
+    padding-top: 1em;
+    font-size: 1.2em;
+}
+
 div.content {
     width: 1010px;
     margin: 30px auto 50px auto;
@@ -288,6 +295,7 @@ div.lichess_overboard.time_config div.choices {
 }
 div.lichess_overboard.time_config label {
     cursor: pointer;
+    text-transform: capitalize;
 }
 
 div.lichess_overboard.wait_anybody,
