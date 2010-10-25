@@ -293,6 +293,27 @@ class Game
     }
 
     /**
+     * Halfmove clock: This is the number of halfmoves since the last pawn advance or capture.
+     * This is used to determine if a draw can be claimed under the fifty-move rule.
+     *
+     * @return int
+     **/
+    public function getHalfmoveClock()
+    {
+        return max(0, count($this->positionHashes) - 1);
+    }
+
+    /**
+     * Fullmove number: The number of the full move. It starts at 1, and is incremented after Black's move.
+     *
+     * @return int
+     **/
+    public function getFullmoveNumber()
+    {
+        return floor(1+$this->getTurns() / 2);
+    }
+
+    /**
      * Return true if the game can not be won anymore
      * and can be declared as draw automatically
      *
