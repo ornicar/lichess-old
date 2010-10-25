@@ -115,7 +115,7 @@ class Game
         for ( $i = 0; $i < 6; $i++ ) {
             $this->hash .= $chars[mt_rand( 0, 63 )];
         }
-        $this->variant = $variant;
+        $this->setVariant($variant);
         $this->status = self::CREATED;
         $this->room = new Room();
     }
@@ -126,7 +126,7 @@ class Game
      */
     public function getVariant()
     {
-      return $this->variant;
+        return $this->variant;
     }
 
     /**
@@ -136,12 +136,33 @@ class Game
      */
     public function setVariant($variant)
     {
-      $this->variant = $variant;
+        if(!in_array($variant, self::getVariants())) {
+            throw new \InvalidArgumentException(sprintf('%s is not a valid game variant', $variant));
+        }
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not change variant, game is already started');
+        }
+        $this->variant = $variant;
     }
 
     public function isStandartVariant()
     {
         return static::VARIANT_STANDARD === $this->variant;
+    }
+
+    static public function getVariantName($code)
+    {
+        switch($code) {
+        case self::VARIANT_STANDARD: return 'standart';
+        case self::VARIANT_960: return 'chess960';
+        }
+
+        throw new \InvalidArgumentException(sprintf('%s is not a valid game variant', $variant));
+    }
+
+    static public function getVariants()
+    {
+        return array(self::VARIANT_STANDARD, self::VARIANT_960);
     }
 
     /**
@@ -313,13 +334,13 @@ class Game
     public function getStatusMessage()
     {
         switch($this->getStatus()) {
-            case self::MATE: $message      = 'Checkmate'; break;
-            case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
-            case self::STALEMATE: $message = 'Stalemate'; break;
-            case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
-            case self::DRAW: $message      = 'Draw'; break;
-            case self::OUTOFTIME: $message = 'Time out'; break;
-            default: $message              = '';
+        case self::MATE: $message      = 'Checkmate'; break;
+        case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
+        case self::STALEMATE: $message = 'Stalemate'; break;
+        case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
+        case self::DRAW: $message      = 'Draw'; break;
+        case self::OUTOFTIME: $message = 'Time out'; break;
+        default: $message              = '';
         }
         return $message;
     }

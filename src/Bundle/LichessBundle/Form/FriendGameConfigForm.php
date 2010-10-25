@@ -10,6 +10,11 @@ class FriendGameConfigForm extends Form
 {
     public function configure()
     {
+        $this->add(new ChoiceField('variant', array(
+            'choices' => $this->getData()->getVariantChoices(),
+            'multiple' => false,
+            'expanded' => true
+        )));
         $this->add(new ChoiceField('time', array(
             'choices' => $this->getData()->getTimeChoices(),
             'multiple' => false,
