@@ -19,4 +19,15 @@ class AnybodyGameConfig extends GameConfig
     {
         $metadata->addGetterConstraint('countTimes', new Constraints\Min(array('limit' => 1)));
     }
+
+    public function toArray()
+    {
+        return array('times' => $this->times, 'variants' => $this->variants);
+    }
+
+    public function fromArray(array $data)
+    {
+        if(isset($data['times'])) $this->times = $data['times'];
+        if(isset($data['variants'])) $this->variants = $data['variants'];
+    }
 }
