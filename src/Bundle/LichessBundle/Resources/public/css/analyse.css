@@ -3,7 +3,17 @@ h1 {
     margin-bottom: 5px;
 }
 #pgnText {
-    display: none;
+    color: #666;
+    width: 182px;
+    height: 300px;
+    border: 1px solid #C0C0C0;
+    overflow: auto;
+    padding: 5px;
+    margin-top: 0.5em;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: transparent;
 }
 
 div.board_wrap {

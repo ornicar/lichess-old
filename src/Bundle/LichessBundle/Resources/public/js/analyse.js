@@ -1,6 +1,10 @@
 jQuery(function() {
     SetImagePath("/bundles/lichess/vendor/pgn4web/lichess/64"); // use "" path if images are in the same folder as this javascript file
     SetImageType("png");
+    setTimeout(function() {
+        SetAutoplayDelay(2000);
+        SetAutoPlay(true);
+    }, 1000);
 });
 
 function customFunctionOnPgnGameLoad() {
