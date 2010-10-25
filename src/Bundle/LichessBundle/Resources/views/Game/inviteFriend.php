@@ -8,6 +8,11 @@
             <h2><?php echo $view['translator']->_('Play with a friend') ?></h2>
             <div class="clock_config_form">
                 <form action="<?php echo $view['router']->generate('lichess_invite_friend', array('color' => $color)) ?>" method="post">
+                    <div class="variants">
+                    <?php foreach($form['variant'] as $variant): ?>
+                        <div><?php echo $variant->widget() ?></div>
+                    <?php endforeach ?>
+                    </div>
                     <div class="choices">
                     <?php foreach($form['time'] as $time): ?>
                         <div><?php echo $time->widget() ?></div>

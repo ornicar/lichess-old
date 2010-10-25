@@ -16,8 +16,7 @@ class Generator
      */
     public function createGame($variant = Game::VARIANT_STANDARD)
     {
-        $game = new Game();
-        $game->setVariant($variant);
+        $game = new Game($variant);
 
         $game->setPlayers(array(
             'white' => $this->createPlayer($game, 'white'),
