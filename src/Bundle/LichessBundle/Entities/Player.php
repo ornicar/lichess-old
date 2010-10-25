@@ -230,6 +230,9 @@ class Player
     public function setPieces($pieces)
     {
         $this->pieces = $pieces;
+        foreach($this->pieces as $piece) {
+            $piece->setPlayer($this);
+        }
     }
 
     public function addPiece(Piece $piece)
