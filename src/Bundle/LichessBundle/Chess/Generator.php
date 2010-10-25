@@ -22,18 +22,38 @@ class Generator
             'white' => $this->createPlayer($game, 'white'),
             'black' => $this->createPlayer($game, 'black')
         ));
+        $this->getVariantGenerator($variant)->createPieces($game);
 
+        $game->setCreator($game->getPlayer('white'));
+
+        return $game;
+    }
+
+    protected function getVariantGenerator($variant)
+    {
         if($variant === Game::VARIANT_960) {
             $generator = new Chess960PositionGenerator();
         }
         else {
             $generator = new StandardPositionGenerator();
         }
-        $generator->createPieces($game);
 
-        $game->setCreator($game->getPlayer('white'));
+        return $generator;
+    }
 
-        return $game;
+    /**
+     * Regenerate game pieces for the given variant
+     *
+     * @return Game
+     **/
+    public function applyVariant(Game $game, $variant)
+    {
+        if($game->getVariant() === $variant) {
+            return $game;
+        }
+        $game->setVariant($variant);
+
+        $this->getVariantGenerator($variant)->createPieces($game);
     }
 
     /**

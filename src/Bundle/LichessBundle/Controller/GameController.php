@@ -149,7 +149,7 @@ class GameController extends Controller
     public function inviteAnybodyAction($color)
     {
         if($this['request']->getMethod() == 'HEAD') {
-            return $this->redirect($this->generateUrl('lichess_homepage'));
+            return $this->createResponse('Lichess play chess with anybody');
         }
         $config = new Form\AnybodyGameConfig($this['lichess_translator']);
         $config->fromArray($this['session']->get('lichess.game_config.anybody', array()));
@@ -158,7 +158,7 @@ class GameController extends Controller
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
                 $this['session']->set('lichess.game_config.anybody', $config->toArray());
-                $queueEntry = new QueueEntry($config->times, $this['session']->get('lichess.user_id'));
+                $queueEntry = new QueueEntry($config->times, $config->variants, $this['session']->get('lichess.user_id'));
                 $queue = $this['lichess_queue'];
                 $result = $queue->add($queueEntry, $color);
                 if($result['status'] === $queue::FOUND) {
@@ -171,11 +171,12 @@ class GameController extends Controller
                         $this['logger']->notice(sprintf('Game:inviteAnybody remove game:%s', $game->getHash()));
                         return $this->inviteAnybodyAction($color);
                     }
+                    $this['lichess_generator']->applyVariant($game, $result['variant']);
                     if($result['time']) {
                         $clock = new Clock($result['time'] * 60);
                         $game->setClock($clock);
-                        $this['lichess_persistence']->save($game);
                     }
+                    $this['lichess_persistence']->save($game);
                     $this['logger']->notice(sprintf('Game:inviteAnybody join game:%s, variant:%s, time:%s', $game->getHash(), $game->getVariantName(), $result['time']));
                     return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
                 }
