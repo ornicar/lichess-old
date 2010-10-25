@@ -536,7 +536,17 @@ class Game
      */
     public function getTurnPlayer()
     {
-        return $this->turns%2 ? $this->getPlayer('black') : $this->getPlayer('white');
+        return $this->getPlayer($this->getTurnColor());
+    }
+
+    /**
+     * Color who plays
+     *
+     * @return string
+     **/
+    public function getTurnColor()
+    {
+        return $this->turns%2 ? 'black' : 'white';
     }
 
     /**

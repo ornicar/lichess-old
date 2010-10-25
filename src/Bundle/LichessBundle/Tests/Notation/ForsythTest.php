@@ -46,6 +46,8 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', $forsyth->export($game));
         $manipulator->play('g8 h6');
         $this->assertEquals('rnbqkb1r/pp1ppppp/7n/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3', $forsyth->export($game));
+        $manipulator->play('a2 a3');
+        $this->assertEquals('rnbqkb1r/pp1ppppp/7n/2p5/4P3/P4N2/1PPP1PPP/RNBQKB1R b KQkq - 0 3', $forsyth->export($game));
     }
 
     public function testExportCastling()
