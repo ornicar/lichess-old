@@ -10,7 +10,7 @@ class QueueEntry
     public $gameHash;
     public $userId;
 
-    public function __construct(array $times, $variants, $userId)
+    public function __construct(array $times, array $variants, $userId)
     {
         $this->times = $times;
         $this->variants = $variants;
