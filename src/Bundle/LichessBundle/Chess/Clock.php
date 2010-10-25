@@ -49,6 +49,16 @@ class Clock
     }
 
     /**
+     * Name of the clock
+     *
+     * @return string
+     **/
+    public function getName()
+    {
+        return sprintf('%d minutes/side', round($this->limit / 60, 1));
+    }
+
+    /**
      * initializes the clock
      *
      * @return null
