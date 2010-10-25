@@ -3,15 +3,17 @@
 namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
+use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
 use Bundle\LichessBundle\Entities as Entities;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testCreation()
+    public function testChess960()
     {
-        $generator = new Generator();
-        $this->assertEquals('Bundle\LichessBundle\Chess\Generator', get_class($generator));
+        $generator = new Generator(new Chess960PositionGenerator());
+
+        $game = $generator->createGame();
     }
 
     public function testGameCreation()
@@ -33,16 +35,16 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $visual = <<<EOF
 r bqkb r
  ppp ppp
-p n  n  
-    p   
-B   P   
-     N  
+p n  n
+    p
+B   P
+     N
 PPPP PPP
 RNBQK  R
 EOF;
         $generator = new Generator();
         $game = $generator->createGameFromVisualBlock($visual);
-        $this->assertEquals("\n".$visual."\n", $game->getBoard()->dump());
+        $this->assertEquals("\n".$generator->fixVisualBlock($visual)."\n", $game->getBoard()->dump());
     }
 
     /**

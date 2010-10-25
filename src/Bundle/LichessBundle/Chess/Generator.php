@@ -4,10 +4,23 @@ namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Entities\Player;
-use Bundle\LichessBundle\Entities\Piece as Piece;
+use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
+use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
 
 class Generator
 {
+    protected $positionGenerator;
+
+    public function __construct(PositionGenerator $positionGenerator = null)
+    {
+        $this->positionGenerator = $positionGenerator ?: new StandardPositionGenerator();
+    }
+
+    public function setPositionGenerator(PositionGenerator $positionGenerator)
+    {
+        $this->positionGenerator = $positionGenerator;
+    }
+
     /**
      * @return Game
      */
@@ -19,6 +32,8 @@ class Generator
             'white' => $this->createPlayer($game, 'white'),
             'black' => $this->createPlayer($game, 'black')
         ));
+
+        $this->positionGenerator->createPieces($game);
 
         $game->setCreator($game->getPlayer('white'));
 
@@ -66,6 +81,7 @@ RNBQK  R
     */
     public function createGameFromVisualBlock($data)
     {
+        $data = $this->fixVisualBlock($data);
         $game = new Game();
 
         $players = array();
@@ -79,8 +95,6 @@ RNBQK  R
         $game->setCreator($game->getPlayer('white'));
 
         foreach(explode("\n", $data) as $_y => $line) {
-            // add missing spaces
-            $line .= str_repeat(' ', 8 - strlen($line));
             $y = 8-$_y;
             for($x=1; $x<9; $x++) {
                 $byte = $line{$x-1};
@@ -107,6 +121,17 @@ RNBQK  R
         return $game;
     }
 
+    public function fixVisualBlock($data)
+    {
+        $lines = explode("\n", $data);
+        foreach($lines as $y => $line) {
+            // add missing spaces
+            $lines[$y] .= str_repeat(' ', 8 - strlen($line));
+        }
+
+        return implode("\n", $lines);
+    }
+
     /**
      * @return Player
      */
@@ -114,40 +139,7 @@ RNBQK  R
     {
         $player = new Player($color);
         $player->setGame($game);
-        $player->setPieces($this->createPieces($player));
 
         return $player;
-    }
-
-    public function createPieces(Player $player)
-    {
-        $pieces = array();
-
-        foreach(explode(' ', 'Rook Knight Bishop Queen King Bishop Knight Rook') as $x => $class)
-        {
-            $pieces[] = $this->createPiece('Pawn', $player, $x+1);
-            $pieces[] = $this->createPiece($class, $player, $x+1);
-        }
-
-        return $pieces;
-    }
-
-    /**
-     * @return Piece
-     */
-    public function createPiece($class, Player $player, $x)
-    {
-        if('white' === $player->getColor()) {
-            $y = 'Pawn' === $class ? 2 : 1;
-        } else {
-            $y = 'Pawn' === $class ? 7 : 8;
-        }
-
-        $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
-
-        $piece = new $fullClass($x, $y);
-        $piece->setPlayer($player);
-
-        return $piece;
     }
 }
