@@ -177,9 +177,14 @@ class Game
         $this->variant = $variant;
     }
 
-    public function isStandartVariant()
+    public function isStandardVariant()
     {
         return static::VARIANT_STANDARD === $this->variant;
+    }
+
+    public function supportCastling()
+    {
+        return $this->isStandardVariant();
     }
 
     public function getVariantName()

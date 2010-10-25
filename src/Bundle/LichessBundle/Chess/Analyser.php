@@ -16,24 +16,7 @@ class Analyser
      */
     protected $board = null;
 
-    /**
-     * Get board
-     * @return Board
-     */
-    public function getBoard()
-    {
-        return $this->board;
-    }
-
-    /**
-     * Set board
-     * @param  Board
-     * @return null
-     */
-    public function setBoard($board)
-    {
-        $this->board = $board;
-    }
+    protected $game;
 
     public function __construct(Board $board)
     {
@@ -231,6 +214,9 @@ class Analyser
      **/
     protected function addCastlingSquares(King $king, array $squares)
     {
+        if(!$this->game->supportCastling()) {
+            return $squares;
+        }
         $player = $king->getPlayer();
         $rooks = PieceFilter::filterNotMoved(PieceFilter::filterClass(PieceFilter::filterAlive($player->getPieces()), 'Rook'));
         if(empty($rooks)) {
@@ -284,7 +270,7 @@ class Analyser
 
     protected function canCastle(King $king, $relativeX)
     {
-        if(!$this->game->isStandartVariant()) {
+        if(!$this->game->supportCastling()) {
             return false;
         }
         $_x = $king->getX() + $relativeX;
