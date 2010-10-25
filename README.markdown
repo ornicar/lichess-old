@@ -3,6 +3,7 @@ Very fast Chess game designed to run on a small server and play hundreds of conc
 - Allows to play with a friend, a random player or an Artificial Intelligence.
 - Supports castling, en passant, selective promotion, color selection, check and mate detection, threefold repetition, and move validation.
 - Chess clock, integrated chat, real time spectator mode and analysis interface available.
+- Chess variants abailable: Standard and Chess960
 - Translated to 23 languages thanks to contributors.
 - Uses only open source languages: PHP 5.3, HTML5, Javascript and CSS. Powered by Symfony2 and jQuery 1.4.
   
