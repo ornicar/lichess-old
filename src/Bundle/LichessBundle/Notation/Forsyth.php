@@ -6,11 +6,10 @@ use Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Analyser;
 
-class Forsythe
+class Forsyth
 {
-
     /**
-     * Transform a game to standart Forsyth Edwards Notation
+     * Transform a game to standard Forsyth Edwards Notation
      * http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
      */
     public function export(Game $game)
@@ -31,7 +30,7 @@ class Forsythe
                         $emptySquare = 0;
                     }
 
-                    $forsythe .= $this->pieceToForsythe($piece);
+                    $forsythe .= $this->pieceToForsyth($piece);
                 }
                 else
                 {
@@ -77,6 +76,18 @@ class Forsythe
         return $forsythe;
     }
 
+    /**
+     * Create and position pieces of the game for the forsyth string
+     *
+     * @param Game $game
+     * @param string $forsythe
+     * @return Game $game
+     */
+    public function import(Game $game, $forsythe)
+    {
+        throw new \Exception('Not implemented');
+    }
+
     public function diffToMove(Game $game, $forsythe)
     {
         $moves = array(
@@ -90,9 +101,9 @@ class Forsythe
         $board = $game->getBoard();
         $forsythe = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsythe));
 
-        for($itForsythe = 0, $forsytheLen = strlen($forsythe); $itForsythe < $forsytheLen; $itForsythe++)
+        for($itForsyth = 0, $forsytheLen = strlen($forsythe); $itForsyth < $forsytheLen; $itForsyth++)
         {
-            $letter = $forsythe{$itForsythe};
+            $letter = $forsythe{$itForsyth};
             $key = Board::posToKey($x, $y);
 
             if (is_numeric($letter))
@@ -174,7 +185,7 @@ class Forsythe
         return $from.' '.$to;
     }
 
-    protected function pieceToForsythe(Piece $piece)
+    protected function pieceToForsyth(Piece $piece)
     {
         $class = $piece->getClass();
 

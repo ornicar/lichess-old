@@ -9,6 +9,10 @@ class GameControllerTest extends AbstractControllerTest
         $client = $this->createClient();
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('Start')->form();
+        $client->submit($form);
+        $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Opponent: Crafty A.I.")')->count());
@@ -22,6 +26,10 @@ class GameControllerTest extends AbstractControllerTest
         $client = $this->createClient();
         $crawler = $client->request('GET', '/black');
         $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('Start')->form();
+        $client->submit($form);
+        $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Opponent: Crafty A.I.")')->count());

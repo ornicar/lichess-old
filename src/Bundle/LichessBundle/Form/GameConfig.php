@@ -1,6 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Form;
+use Bundle\LichessBundle\Entities\Game;
 
 abstract class GameConfig
 {
@@ -12,6 +13,20 @@ abstract class GameConfig
         $this->translator = $translator;
     }
 
+    abstract public function toArray();
+
+    abstract public function fromArray(array $data);
+
+    public function getVariantChoices()
+    {
+        $choices = array();
+        foreach(Game::getVariantNames() as $code => $name) {
+            $choices[$code] = $name;
+        }
+
+        return $choices;
+    }
+
     public function getTimeChoices()
     {
         if(!$this->translator) {
@@ -20,13 +35,13 @@ abstract class GameConfig
 
         $choices = array();
         foreach($this->timeChoices as $time) {
-            $choices[$time] = $this->getName($time);
+            $choices[$time] = $this->getTimeName($time);
         }
 
         return $choices;
     }
 
-    protected function getName($time)
+    protected function getTimeName($time)
     {
         return $time ? $this->translator->_('%nb% minutes/side', array('%nb%' => $time)) : $this->translator->_('no clock');
     }

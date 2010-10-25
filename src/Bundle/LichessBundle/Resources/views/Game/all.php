@@ -12,7 +12,6 @@
         <div class="game_row clearfix">
             <?php echo $view->render('LichessBundle:Game:mini.php', array('game' => $game)) ?>
             <div class="infos">
-                <br />
                 <a class="link" href="<?php echo $url = $view['router']->generate('lichess_game', array('hash' => $game->getHash()), true) ?>"><?php echo $url ?></a>
                 <br /><br />
                 <?php foreach($game->getPlayers() as $color => $player): ?>
@@ -22,8 +21,9 @@
                     <?php else: ?>
                         <?php echo $view['translator']->_('Human') ?>
                     <?php endif; ?>
-                    <br /><br />
+                    <br />
                 <?php endforeach ?>
+                <br />
                 <?php echo 1+floor($game->getTurns()/2) ?>.
                 <?php if($game->getIsFinished()): ?>
                     <?php if($winner = $game->getWinner()): ?>
@@ -38,6 +38,8 @@
                         <?php echo $view['translator']->_('Black plays') ?>
                     <?php endif; ?>
                 <?php endif; ?>
+                <br /><br />
+                Variant: <?php echo $game->getVariantName() ?>
                 <br /><br />
                 Time control: <?php echo $game->hasClock() ? ($game->getClock()->getLimit() / 60).' minutes/side' : 'no' ?>
                 <br /><br />
