@@ -6,7 +6,6 @@ use Bundle\LichessBundle\Entities\Game;
 abstract class GameConfig
 {
     protected $timeChoices = array(5, 10, 20, 0);
-    protected $variantChoices = array(Game::VARIANT_STANDARD, Game::VARIANT_960);
     protected $translator;
 
     public function __construct($translator = null)
@@ -17,7 +16,7 @@ abstract class GameConfig
     public function getVariantChoices()
     {
         $choices = array();
-        foreach($this->variantChoices as $code) {
+        foreach(Game::getVariants() as $code) {
             $choices[$code] = Game::getVariantName($code);
         }
 
