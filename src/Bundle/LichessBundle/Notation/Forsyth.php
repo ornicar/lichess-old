@@ -50,7 +50,7 @@ class Forsyth
 
         // b ou w to indicate turn
         $forsyth .= ' ';
-        $forsyth .= substr($game->getTurnPlayer()->getColor(), 0, 1);
+        $forsyth .= substr($game->getTurnColor(), 0, 1);
 
         // possibles castles
         $forsyth .= ' ';
@@ -77,8 +77,12 @@ class Forsyth
         $enPassant = '-';
         foreach(PieceFilter::filterClass(PieceFilter::filterAlive($game->getPieces()), 'Pawn') as $piece) {
             if($piece->getFirstMove() === ($game->getTurns() - 1)) {
-                $enPassant = Board::posToKey($piece->getX(), $piece->getPlayer()->isWhite() ? $piece->getY() - 1 : $piece->getY() + 1);
-                break;
+                $color = $piece->getPlayer()->getColor();
+                $y = $piece->getY();
+                if(($color === 'white' && 4 === $y) || ($color === 'black' && 5 === $y)) {
+                    $enPassant = Board::posToKey($piece->getX(), 'white' === $color ? $y - 1 : $y + 1);
+                    break;
+                }
             }
         }
         $forsyth .= ' '.$enPassant;
