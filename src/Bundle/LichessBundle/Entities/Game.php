@@ -22,6 +22,16 @@ class Game
     const DRAW = 34;
     const OUTOFTIME = 35;
 
+    const VARIANT_STANDARD = 1;
+    const VARIANT_960 = 2;
+
+    /**
+     * Game variant (like standard or 960)
+     *
+     * @var int
+     */
+    protected $variant = self::VARIANT_STANDARD;
+
     /**
      * The current state of the game, like CREATED, STARTED or MATE.
      *
@@ -99,14 +109,39 @@ class Game
      */
     protected $clock = null;
 
-    public function __construct()
+    public function __construct($variant = self::VARIANT_STANDARD)
     {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
         for ( $i = 0; $i < 6; $i++ ) {
             $this->hash .= $chars[mt_rand( 0, 63 )];
         }
+        $this->variant = $variant;
         $this->status = self::CREATED;
         $this->room = new Room();
+    }
+
+    /**
+     * Get variant
+     * @return int
+     */
+    public function getVariant()
+    {
+      return $this->variant;
+    }
+
+    /**
+     * Set variant
+     * @param  int
+     * @return null
+     */
+    public function setVariant($variant)
+    {
+      $this->variant = $variant;
+    }
+
+    public function isStandartVariant()
+    {
+        return static::VARIANT_STANDARD === $this->variant;
     }
 
     /**
