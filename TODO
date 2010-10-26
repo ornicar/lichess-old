@@ -3,3 +3,7 @@
 * show game in forum
 * secure forum
 * admin forum
+* castling in chess960
+* rematch chess960 keeps piece position
+* simplify game config GUI
+* fischer clock
