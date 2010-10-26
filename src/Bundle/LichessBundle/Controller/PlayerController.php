@@ -393,7 +393,7 @@ class PlayerController extends Controller
     {
         $game = $this['lichess_persistence']->find($hash);
         if(!$game) {
-            throw new NotFoundHttpException('Player:findPublicPlayer Can\'t find game '.$gameHash);
+            throw new NotFoundHttpException('Player:findPublicPlayer Can\'t find game '.$hash);
         }
 
         $player = $game->getPlayer($color);
