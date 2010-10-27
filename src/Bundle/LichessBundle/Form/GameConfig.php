@@ -6,7 +6,7 @@ use Bundle\LichessBundle\Chess\Clock;
 
 abstract class GameConfig
 {
-    protected $timeChoices = array(5, 10, 20, 0);
+    protected $timeChoices = array(2, 5, 10, 20, 0);
     protected $translator;
 
     public function __construct($translator = null)
