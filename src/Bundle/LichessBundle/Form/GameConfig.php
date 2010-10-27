@@ -2,6 +2,7 @@
 
 namespace Bundle\LichessBundle\Form;
 use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Chess\Clock;
 
 abstract class GameConfig
 {
@@ -21,7 +22,7 @@ abstract class GameConfig
     {
         $choices = array();
         foreach(Game::getVariantNames() as $code => $name) {
-            $choices[$code] = $name;
+            $choices[$code] = ucfirst($name);
         }
 
         return $choices;
@@ -43,6 +44,11 @@ abstract class GameConfig
 
     protected function getTimeName($time)
     {
-        return $time ? $this->translator->_('%nb% minutes/side', array('%nb%' => $time)) : $this->translator->_('no clock');
+        if($time) {
+            $clock = new Clock($time * 60);
+            return $clock->getName();
+        }
+
+        return 'no clock - unlimited time';
     }
 }
