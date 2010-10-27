@@ -37,7 +37,6 @@ $data = array(
         'Game Over' => $view['translator']->_('Game Over'),
         'Waiting for opponent' => $view['translator']->_('Waiting for opponent'),
         'Your turn' => $view['translator']->_('Your turn'),
-        'Your opponent has arrived!' => $view['translator']->_('Your opponent has arrived!')
     ),
     'possible_moves' => $possibleMoves,
     'debug' => $parameters['kernel.debug']
