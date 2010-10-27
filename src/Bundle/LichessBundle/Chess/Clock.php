@@ -36,14 +36,22 @@ class Clock
      *  Assume that a move takes some time to go from player1 -> server -> player2
      *  and remove this time from each move time
      */
-    const HTTP_DELAY = 1.5;
+    const HTTP_DELAY = 1;
 
-    public function __construct($limit)
+    /**
+     * Fisher clock bonus per move in seconds
+     *
+     * @var int
+     */
+    protected $moveBonus;
+
+    public function __construct($limit, $moveBonus = 5)
     {
         $this->limit = (int) $limit;
         if($this->limit < 60) {
             throw new \InvalidArgumentException(sprintf('Invalid time limit "%s"', $limit));
         }
+        $this->moveBonus = (int) $moveBonus;
 
         $this->reset();
     }
@@ -55,7 +63,7 @@ class Clock
      **/
     public function getName()
     {
-        return sprintf('%d minutes/side', round($this->limit / 60, 1));
+        return sprintf('%d minutes/side + %d seconds/move', round($this->limit / 60, 1), $this->moveBonus);
     }
 
     /**
@@ -80,8 +88,14 @@ class Clock
         if(!$this->isRunning()) {
             throw new \LogicException('Can not step clock as it is not running');
         }
+        // Get absolute time
         $moveTime = microtime(true) - $this->timer;
-        $this->times[$this->color] += max(0, $moveTime - static::HTTP_DELAY);
+        // Substract http delay
+        $moveTime = max(0, $moveTime - static::HTTP_DELAY);
+        // Substract move bonus
+        $moveTime -= $this->moveBonus;
+        // Update player time
+        $this->times[$this->color] += $moveTime;
         $this->color = 'white' === $this->color ? 'black' : 'white';
         $this->timer = microtime(true);
     }
@@ -153,6 +167,25 @@ class Clock
             'white' => $this->getRemainingTime('white'),
             'black' => $this->getRemainingTime('black')
         );
+    }
+
+    /**
+     * Get moveBonus
+     * @return int
+     */
+    public function getMoveBonus()
+    {
+      return $this->moveBonus;
+    }
+
+    /**
+     * Set moveBonus
+     * @param  int
+     * @return null
+     */
+    public function setMoveBonus($moveBonus)
+    {
+      $this->moveBonus = (int) $moveBonus;
     }
 
     /**
