@@ -1,5 +1,5 @@
-* castling in chess960
 * start time on white move
+* castling in chess960
 * make rematch offer more prominent
 * rematch chess960 keeps piece position
 * simplify game config GUI, make it more user friendly
