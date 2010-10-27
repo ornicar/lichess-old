@@ -617,10 +617,6 @@ class Game
     public function addTurn()
     {
         ++$this->turns;
-
-        if(2 === $this->turns && $this->hasClock()) {
-            $this->getClock()->start();
-        }
     }
 
     public function getPieces()
