@@ -10,7 +10,8 @@ $data = array(
         'started' => $game->getIsStarted(),
         'finished' => $game->getIsFinished(),
         'clock' => $game->hasClock(),
-        'player' => $game->getTurnPlayer()->getColor()
+        'player' => $game->getTurnPlayer()->getColor(),
+        'turns' => $game->getTurns()
     ),
     'player' => array(
         'color' => $player->getColor(),
