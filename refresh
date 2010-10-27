@@ -1,5 +1,6 @@
 #!/bin/sh
 
+php lichess/console apc:clear
 rm -r lichess/cache/prod/*
 rm -r lichess/cache/forum_prod/*
-php lichess/console apc:clear --opcode
+php lichess/console apc:clear
