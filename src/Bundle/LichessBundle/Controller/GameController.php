@@ -82,7 +82,7 @@ class GameController extends Controller
             'url' => $this->generateUrl('lichess_player', array('hash' => $game->getCreator()->getFullHash()))
         ));
         $this['lichess_persistence']->save($game);
-        $this['logger']->notice(sprintf('Game:join game:%s, variant:%s', $game->getHash(), $game->getVariantName()));
+        $this['logger']->notice(sprintf('Game:join game:%s, variant:%s, time:%d', $game->getHash(), $game->getVariantName(), $game->getClockMinutes()));
         return $this->redirect($this->generateUrl('lichess_player', array('hash' => $game->getInvited()->getFullHash())));
     }
 
