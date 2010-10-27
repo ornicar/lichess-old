@@ -50,6 +50,9 @@ class Manipulator
             ));
             $pgn .= '+';
         }
+        if($this->game->hasClock() && $this->game->getClock()->isRunning()) {
+            $this->game->getClock()->step();
+        }
         $this->game->addTurn();
         $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($opponent, $isOpponentKingAttacked);
         if(empty($opponentPossibleMoves)) {
@@ -74,10 +77,6 @@ class Manipulator
         }
 
         $this->game->addPgnMove($pgn);
-
-        if($this->game->hasClock() && $this->game->getClock()->isRunning()) {
-            $this->game->getClock()->step();
-        }
 
         return $opponentPossibleMoves;
     }

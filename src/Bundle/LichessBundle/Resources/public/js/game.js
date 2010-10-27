@@ -74,6 +74,9 @@
                      self.options.player.version = data.v;
                      self.applyEvents(data.e);
                  }
+                 if(data.t) {
+                     self.options.game.turns = data.t;
+                 }
                  if(data.ncp) {
                      self.$connectedPlayers.text(self.$connectedPlayers.text().replace(/\d+/, data.ncp));
                  }
@@ -492,7 +495,9 @@
              }
          }
          self.$table.find('div.clock').clock('stop');
-         self.$table.find('div.clock_'+self.options.game.player).clock('start');
+         if(self.options.game.turns > 1) {
+            self.$table.find('div.clock_'+self.options.game.player).clock('start');
+         }
      },
      canRunClock: function()
      {
