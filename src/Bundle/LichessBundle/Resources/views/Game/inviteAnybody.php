@@ -19,6 +19,9 @@
                     <?php endforeach ?>
                     </div>
                     <button type="submit" class="submit">Start</button>
+                    <p class="explanations">
+                        <?php echo $view['translator']->_('Tip: The more options you check, the faster you find a game') ?>
+                    </p>
                 </form>
             </div>
         </div>
