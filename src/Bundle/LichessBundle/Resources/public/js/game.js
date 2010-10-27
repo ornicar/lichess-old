@@ -495,7 +495,7 @@
              }
          }
          self.$table.find('div.clock').clock('stop');
-         if(self.options.game.turns > 1) {
+         if(self.options.game.turns > 0) {
             self.$table.find('div.clock_'+self.options.game.player).clock('start');
          }
      },

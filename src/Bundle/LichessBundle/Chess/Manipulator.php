@@ -50,10 +50,16 @@ class Manipulator
             ));
             $pgn .= '+';
         }
-        if($this->game->hasClock() && $this->game->getClock()->isRunning()) {
-            $this->game->getClock()->step();
-        }
         $this->game->addTurn();
+        if($this->game->hasClock()) {
+            if(1 === $this->game->getTurns()) {
+                $this->game->getClock()->setColor($this->game->getTurnColor());
+                $this->game->getClock()->start();
+            }
+            else {
+                $this->game->getClock()->step();
+            }
+        }
         $opponentPossibleMoves = $this->analyser->getPlayerPossibleMoves($opponent, $isOpponentKingAttacked);
         if(empty($opponentPossibleMoves)) {
             if($isOpponentKingAttacked) {
