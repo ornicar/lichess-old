@@ -216,7 +216,7 @@ class Game
      * @param  Clock
      * @return null
      */
-    public function setCLock(Clock $clock)
+    public function setClock(Clock $clock)
     {
         if($this->getIsStarted()) {
             throw new \LogicException('Can not add clock, game is already started');
@@ -232,6 +232,16 @@ class Game
     public function hasClock()
     {
         return null !== $this->clock;
+    }
+
+    /**
+     * Get the minutes of the clock if any, or 0
+     *
+     * @return int
+     **/
+    public function getClockMinutes()
+    {
+        return $this->hasClock() ? $this->getClock()->getLimitInMinutes() : 0;
     }
 
     /**
