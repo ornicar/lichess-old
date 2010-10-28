@@ -20,8 +20,6 @@ class PgnControllerTest extends WebTestCase
         $publicHash = substr($hash, 0, 6);
         $crawler = $client->request('GET', '/analyse/'.$publicHash);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $client->click($crawler->selectLink('Export PGN')->link());
-        $this->assertTrue($client->getResponse()->isSuccessful());
         $site = 'http://localhost/analyse/'.$publicHash;
         $expected = <<<EOF
 [Site "$site"]
@@ -33,6 +31,6 @@ class PgnControllerTest extends WebTestCase
 
 *
 EOF;
-        $this->assertEquals($expected, $client->getResponse()->getContent());
+        $this->assertEquals($expected, $crawler->filter('#pgnText')->text());
     }
 }
