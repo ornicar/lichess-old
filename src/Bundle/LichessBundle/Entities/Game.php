@@ -119,13 +119,27 @@ class Game
 
     public function __construct($variant = self::VARIANT_STANDARD)
     {
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
-        for ( $i = 0; $i < 6; $i++ ) {
-            $this->hash .= $chars[mt_rand( 0, 63 )];
-        }
+        $this->generateHash();
         $this->setVariant($variant);
         $this->status = self::CREATED;
         $this->room = new Room();
+    }
+
+    /**
+     * Generate a new hash - don't use once the game is saved
+     *
+     * @return null
+     **/
+    public function generateHash()
+    {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not change the hash of a started game');
+        }
+        $this->hash = '';
+        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_-';
+        for ( $i = 0; $i < 6; $i++ ) {
+            $this->hash .= $chars[mt_rand( 0, 37 )];
+        }
     }
 
     /**

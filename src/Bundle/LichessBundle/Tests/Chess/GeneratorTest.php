@@ -9,18 +9,25 @@ use Bundle\LichessBundle\Entities as Entities;
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testChess960()
-    {
-        $generator = new Generator(new Chess960PositionGenerator());
-
-        $game = $generator->createGame();
-    }
-
-    public function testGameCreation()
+    public function testGameCreationStandard()
     {
         $generator = new Generator();
 
         $game = $generator->createGame();
+
+        $this->assertTrue($game instanceof Entities\Game);
+        $this->assertEquals(0, $game->getTurns());
+        $this->assertEquals(false, $game->getIsStarted());
+        $this->assertEquals(false, $game->getIsFinished());
+
+        return $game;
+    }
+
+    public function testGameCreationStandard960()
+    {
+        $generator = new Generator();
+
+        $game = $generator->createGame(Entities\Game::VARIANT_960);
 
         $this->assertTrue($game instanceof Entities\Game);
         $this->assertEquals(0, $game->getTurns());
@@ -48,7 +55,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testGamePlayers(Entities\Game $game)
     {
@@ -67,7 +74,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testGamePlayerTurn(Entities\Game $game)
     {
@@ -81,7 +88,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testGameGetWinner(Entities\Game $game)
     {
@@ -92,7 +99,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testGamePieces(Entities\Game $game)
     {
@@ -100,7 +107,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerPieces(Entities\Game $game)
     {
@@ -109,7 +116,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerKing(Entities\Game $game)
     {
@@ -123,7 +130,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerPawns(Entities\Game $game)
     {
@@ -138,7 +145,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerRooks(Entities\Game $game)
     {
@@ -153,7 +160,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerKnights(Entities\Game $game)
     {
@@ -168,7 +175,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerBishops(Entities\Game $game)
     {
@@ -183,7 +190,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerQueens(Entities\Game $game)
     {
