@@ -8,6 +8,16 @@ use Bundle\LichessBundle\Entities as Entities;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
+    public function testGameHashUnique()
+    {
+        $persistence = $this->getMock('Bundle\LichessBundle\Persistence\MongoDBPersistence');
+        $persistence->expects($this->exactly(1))
+            ->method('isHashFree')
+            ->will($this->returnValue(true));
+
+        $generator = new Generator($persistence);
+        $game = $generator->createGame();
+    }
 
     public function testGameCreationStandard()
     {
