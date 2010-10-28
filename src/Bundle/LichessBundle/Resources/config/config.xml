@@ -83,6 +83,7 @@
         </service>
 
         <service id="lichess_generator" class="%lichess.generator.class%" shared="true">
+            <argument type="service" id="lichess_persistence" />
         </service>
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">

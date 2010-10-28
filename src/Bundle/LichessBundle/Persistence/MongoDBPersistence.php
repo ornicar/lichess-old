@@ -127,6 +127,11 @@ class MongoDBPersistence
         return $this->games[$hash] = $game;
     }
 
+    public function isHashFree($hash)
+    {
+        return 0 === $this->collection->count(array('hash' => $hash));
+    }
+
     protected function encode($game)
     {
         return new \MongoBinData(gzcompress(serialize($game), 5));

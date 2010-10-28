@@ -7,9 +7,16 @@ use Bundle\LichessBundle\Entities\Player;
 use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
+use Bundle\LichessBundle\Persistence\MongoDBPersistence;
 
 class Generator
 {
+    protected $persistence;
+
+    public function __construct(MongoDBPersistence $persistence = null)
+    {
+        $this->persistence = $persistence;
+    }
 
     /**
      * @return Game
@@ -17,6 +24,7 @@ class Generator
     public function createGame($variant = Game::VARIANT_STANDARD)
     {
         $game = new Game($variant);
+        $this->makeGameHashUnique($game);
 
         $game->setPlayers(array(
             'white' => $this->createPlayer($game, 'white'),
@@ -27,6 +35,17 @@ class Generator
         $game->setCreator($game->getPlayer('white'));
 
         return $game;
+    }
+
+    protected function makeGameHashUnique(Game $game)
+    {
+        if(!$this->persistence) {
+            return;
+        }
+
+        while(!$this->persistence->isHashFree($game->getHash())) {
+            $game->generateHash();
+        }
     }
 
     protected function getVariantGenerator($variant)
@@ -100,6 +119,7 @@ RNBQK  R
     {
         $data = $this->fixVisualBlock($data);
         $game = new Game();
+        $this->makeGameHashUnique($game);
 
         $players = array();
         foreach(array('white', 'black') as $color) {
