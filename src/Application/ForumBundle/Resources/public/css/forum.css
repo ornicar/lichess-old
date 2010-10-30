@@ -350,3 +350,26 @@ div.lichess_server {
     margin: 20px 0;
     text-align: center;
 }
+
+#top_menu {
+    position: absolute;
+    top: 5px;
+    right: 120px;
+    width: 300px;
+}
+a.goto_nav {
+    margin-right: 2em;
+    float: right;
+    text-decoration: none;
+    padding-left: 20px;
+    font-size: 13px;
+}
+a.goto_nav:hover {
+    text-decoration: underline;
+}
+a.goto_gamelist {
+    background: transparent url(../../lichess/images/eye.png) top left no-repeat;
+}
+a.goto_play {
+    background: transparent url(../../lichess/images/control.png) top left no-repeat;
+}

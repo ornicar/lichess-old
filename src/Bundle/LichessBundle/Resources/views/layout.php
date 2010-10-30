@@ -71,7 +71,7 @@
             <?php echo $view['translator']->_('Server load') ?>: <span class="value"><?php echo round(25*$loadAverage[1]) ?></span>%
         </div>
         <div id="top_menu">
-            <a href="<?php echo $view['router']->generate('lichess_toggle_sound') ?>" id="sound_state" class="sound_state_<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>"></a>
+            <a title="<?php echo $view['translator']->_('Toggle sound') ?>" href="<?php echo $view['router']->generate('lichess_toggle_sound') ?>" id="sound_state" class="sound_state_<?php echo $view['session']->get('lichess.sound.enabled') ? 'on' : 'off' ?>"></a>
             <div class="lichess_language">
                 <span><?php echo $view['translator']->getLocaleName() ?></span>
                 <ul class="lichess_language_links">

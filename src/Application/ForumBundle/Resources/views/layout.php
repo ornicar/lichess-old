@@ -42,6 +42,10 @@
             <?php $loadAverage = sys_getloadavg() ?>
             <?php echo $view['translator']->_('Server load') ?>: <span class="value"><?php echo round(25*$loadAverage[1]) ?></span>%
         </div>
+        <div id="top_menu">
+            <a class="goto_play goto_nav" title="<?php echo $view['translator']->_('Play a new game') ?>" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Play</a>
+            <a class="goto_gamelist goto_nav" title="<?php echo $view['translator']->_('See the games being played in real time') ?>" href="<?php echo $view['router']->generate('lichess_games') ?>">Games</a>
+        </div>
         <?php echo $view['javascripts'] ?>
     </body>
 </html>
