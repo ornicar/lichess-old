@@ -39,7 +39,7 @@
         </div>
         <div title="Come on, make my server suffer :)" class="lichess_server">
             <?php $loadAverage = sys_getloadavg() ?>
-            <?php echo $view['translator']->_('Server load') ?>: <span class="value"><?php echo round(100*$loadAverage[1]) ?></span>%
+            <?php echo $view['translator']->_('Server load') ?>: <span class="value"><?php echo round(25*$loadAverage[1]) ?></span>%
         </div>
         <?php echo $view['javascripts'] ?>
     </body>
