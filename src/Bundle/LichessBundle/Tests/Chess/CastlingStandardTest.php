@@ -7,24 +7,46 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Entities\Game;
 
-class CastlingTest extends \PHPUnit_Framework_TestCase
+class CastlingStandardTest extends CastlingAbstractTest
 {
-    protected $game;
-    protected $analyzer;
+    public function getVariant()
+    {
+        return Game::VARIANT_STANDARD;
+    }
+
+    public function testInitialPosition()
+    {
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
+
+
+
+
+PPPPPPPP
+RNBQKBNR
+EOF;
+        $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
+        $this->assertMoves('e1', null);
+    }
 
     public function testPossibleWhite()
     {
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-        
-        
-        
+
+
+
+
+
 R   K  R
 EOF;
         $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e1', 'd1 d2 e2 f2 f1 c1 g1');
     }
 
@@ -33,14 +55,16 @@ EOF;
         $data = <<<EOF
   bqkb r
 p ppp pp
-pr      
-   P p  
-   QnB  
- PP  N  
+pr
+   P p
+   QnB
+ PP  N
 P    PPP
 RN  K  R
 EOF;
         $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e1', 'd1 e2 f1 g1');
     }
 
@@ -48,15 +72,17 @@ EOF;
     {
         $data = <<<EOF
 r   k  r
-        
-        
-        
-        
-        
+
+
+
+
+
 PPPPPPPP
 RNBQKBNR
 EOF;
         $this->createGame($data, true);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e8', 'd8 d7 e7 f7 f8 c8 g8');
     }
 
@@ -65,30 +91,34 @@ EOF;
         $data = <<<EOF
 r   k nr
 pp n ppp
-  p p   
-q       
- b P B  
+  p p
+q
+ b P B
 P N  Q P
- PP BPP 
+ PP BPP
 R   K  R
 EOF;
         $this->createGame($data, true);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e8', 'c8 d8 e7 f8');
     }
-    
+
     public function testFromCheckWhite()
     {
         $data = <<<EOF
-rnbqkbn 
+rnbqkbn
 pppppppp
-        
-        
-        
-    r   
-        
+
+
+
+    r
+
 R   K  R
 EOF;
         $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e1', 'd1 d2 f2 f1');
     }
 
@@ -96,15 +126,17 @@ EOF;
     {
         $data = <<<EOF
 r   k  r
-        
-    R   
-        
-        
-        
+
+    R
+
+
+
 PPPPPPPP
 RNBQKBNR
 EOF;
         $this->createGame($data, true);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e8', 'd8 d7 f7 f8');
     }
 
@@ -113,14 +145,16 @@ EOF;
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-      b 
-        
-        
+
+
+      b
+
+
 R   K  R
 EOF;
         $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e1', 'd2 f2 f1 g1');
     }
 
@@ -128,15 +162,17 @@ EOF;
     {
         $data = <<<EOF
 r   k  r
-        
-        
-      B 
-        
-        
+
+
+      B
+
+
 PPPPPPPP
 RNBQKBNR
 EOF;
         $this->createGame($data, true);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e8', 'd7 f7 f8 g8');
     }
 
@@ -145,14 +181,16 @@ EOF;
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-  b     
-        
-        
+
+
+  b
+
+
 R   K  R
 EOF;
         $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e1', 'd1 d2 f2 c1');
     }
 
@@ -160,15 +198,17 @@ EOF;
     {
         $data = <<<EOF
 r   k  r
-        
-        
-  B     
-        
-        
+
+
+  B
+
+
 PPPPPPPP
 RNBQKBNR
 EOF;
         $this->createGame($data, true);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e8', 'd8 d7 f7 c8');
     }
 
@@ -177,14 +217,16 @@ EOF;
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-        
-    n   
-        
+
+
+
+    n
+
 R   K  R
 EOF;
         $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e1', 'd2 e2 f2');
     }
 
@@ -192,15 +234,17 @@ EOF;
     {
         $data = <<<EOF
 r   k  r
-        
-    N   
-        
-        
-        
+
+    N
+
+
+
 PPPPPPPP
 RNBQKBNR
 EOF;
         $this->createGame($data, true);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e8', 'd7 e7 f7');
     }
 
@@ -209,14 +253,16 @@ EOF;
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-     b  
-        
-        
+
+
+     b
+
+
 R   K  R
 EOF;
         $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e1', 'd1 e2 f2 f1 g1');
     }
 
@@ -225,41 +271,58 @@ EOF;
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-   b    
-        
-        
+
+
+   b
+
+
 R   K  R
 EOF;
         $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
         $this->assertMoves('e1', 'd1 d2 e2 f1 c1');
     }
 
-    /**
-     * Get a game from visual data block
-     *
-     * @return Game
-     **/
-    protected function createGame($data, $blackTurn = false)
+    public function testMovedRookWhite()
     {
-        $generator = new Generator();
-        $this->game = $generator->createGameFromVisualBlock($data);
-        $this->game->setStatus(Game::STARTED);
-        $this->game->setTurns($blackTurn ? 11 : 10);
-        $this->analyser = new Analyser($this->game->getBoard());
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
+
+
+
+
+
+R   K  R
+EOF;
+        $this->createGame($data);
+        foreach($this->game->getTurnPlayer()->getPieces() as $piece) {
+            if('Rook' === $piece->getClass()) {
+                $piece->setFirstMove(4);
+            }
+        }
+        $this->assertCanCastleQueenSide(false);
+        $this->assertCanCastleKingSide(false);
+        $this->assertMoves('e1', 'd1 d2 e2 f2 f1');
     }
 
-    protected function assertMoves($pieceKey, $moves)
+    public function testMovedKingWhite()
     {
-        $moves = explode(' ', $moves);
-        $possibleMoves = $this->analyser->getPlayerPossibleMoves($this->game->getTurnPlayer());
-        $this->assertEquals($this->sort($moves), isset($possibleMoves[$pieceKey]) ? $this->sort($possibleMoves[$pieceKey]) : null);
-    }
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
 
-    protected function sort($array)
-    {
-        sort($array);
-        return $array;
+
+
+
+
+R   K  R
+EOF;
+        $this->createGame($data);
+        $this->game->getTurnPlayer()->getKing()->setFirstMove(4);
+        $this->assertCanCastleQueenSide(false);
+        $this->assertCanCastleKingSide(false);
+        $this->assertMoves('e1', 'd1 d2 e2 f2 f1');
     }
 }
