@@ -73,7 +73,7 @@ EOF;
         $manipulator = new Manipulator($this->game, $stack);
         $manipulator->play('e1 c1');
         $this->assertEquals(array(
-            array('type' => 'castling', 'from' => 'a1', 'to' => 'd1'),
+            array('type' => 'castling', 'king' => array('e1', 'c1'), 'rook' => array('a1', 'd1')),
             array('type' => 'move', 'from' => 'e1', 'to' => 'c1'),
         ), $stack->getEvents());
     }
