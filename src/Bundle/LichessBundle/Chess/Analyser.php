@@ -228,26 +228,44 @@ class Analyser
         {
             $kingX = $king->getX();
             $kingY = $king->getY();
-            $dx = $kingX > $rook->getX() ? -1 : 1;
+            $rookX = $rook->getX();
+            $dx = $kingX > $rookX ? -1 : 1;
+            $newKingX = 1 === $dx ? 7 : 3;
+            $newRookX = 1 === $dx ? 6 : 4;
             $possible = true;
-            foreach(array($kingX+$dx, $kingX+2*$dx) as $_x) {
-                $key = Board::posToKey($_x, $kingY);
-                if ($this->board->hasPieceByKey($key) || in_array($key, $opponentControlledKeys)) {
+            // Unattacked
+            $rangeMin = min($kingX, $newKingX);
+            $rangeMax = min(8, max($kingX, $newKingX) + 1);
+            for($_x = $rangeMin; $_x !== $rangeMax; $_x++) {
+                if(in_array(Board::posToKey($_x, $kingY), $opponentControlledKeys)) {
                     $possible = false;
                     break;
                 }
             }
-            if($possible) {
-                if(-1 === $dx && $this->board->hasPieceByKey(Board::posToKey($kingX-3, $kingY))) {
-                }
-                else {
-                    $squares[] = $this->board->getSquareByKey($key);
+            // Unimpeded
+            $rangeMin = min($kingX, $rookX, $newKingX, $newRookX);
+            $rangeMax = min(8, max($kingX, $rookX, $newKingX, $newRookX) + 1);
+            for($_x = $rangeMin; $_x !== $rangeMax; $_x++) {
+                if ($piece = $this->board->getPieceByKey(Board::posToKey($_x, $kingY))) {
+                    if($piece !== $king && $piece !== $rook) {
+                        $possible = false;
+                        break;
+                    }
                 }
             }
-            else {
-                    $squares[] = $rook->getSquare();
+            if($possible) {
+                // If King moves one square or less (Chess variant)
+                if(1 >= abs($kingX - $newKingX)) {
+                    $newKingSquare = $rook->getSquare();
+                }
+                // (Chess standard)
+                else {
+                    $newKingSquare = $this->board->getSquareByPos($newKingX, $kingY);
+                }
+                $squares[] = $newKingSquare;
             }
         }
+
         return $squares;
     }
 
