@@ -12,5 +12,4 @@ class ManipulatorStandardTest extends ManipulatorAbstractTest
     {
         return Game::VARIANT_STANDARD;
     }
-
 }
