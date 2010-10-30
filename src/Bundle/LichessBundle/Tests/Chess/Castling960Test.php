@@ -7,7 +7,7 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Entities\Game;
 
-class Castling960Test extends CastlingStandardTest
+class Castling960Test extends CastlingAbstractTest
 {
     public function getVariant()
     {
