@@ -11,6 +11,7 @@
         <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
         <meta content="index, follow" name="robots">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <?php echo $view['slots']->get('feed_link') ?>
         <?php echo $view['stylesheets'] ?>
     </head>
     <body>
