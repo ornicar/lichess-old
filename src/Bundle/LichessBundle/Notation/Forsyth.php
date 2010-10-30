@@ -203,6 +203,14 @@ class Forsyth
             $to = $moves['to'][0];
         }
 
+        if(!$from || !$to) {
+            throw new \RuntimeException('Forsyth:diffToMove game:%s, variant:%s, moves: %s',
+                $game->getHash(),
+                $game->getVariantName(),
+                str_replace("\n", " ", var_export($moves, true))
+            );
+        }
+
         return $from.' '.$to;
     }
 
