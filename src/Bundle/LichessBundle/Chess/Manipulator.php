@@ -136,11 +136,11 @@ class Manipulator
         $isCastling = false;
         if('King' === $pieceClass) {
             // standard castling
-            if(2 === abs($from->getX() - $to->getX())) {
+            if(1 < abs($from->getX() - $to->getX())) {
                 $isCastling = true;
             }
             // in case of chess variant, castling can be done by bringing the king to the rook
-            elseif($killed->getColor() === $piece->getColor()) {
+            elseif($killed && $killed->getColor() === $piece->getColor()) {
                 $isCastling = true;
                 $killed = null;
             }
@@ -165,26 +165,25 @@ class Manipulator
         $pgnDumper = new PgnDumper();
         $pgn = $pgnDumper->dumpMove($this->game, $piece, $from, $to, $playerPossibleMoves, $killed, $isCastling, $isPromotion, $isEnPassant, $options);
 
-        if($killed) {
-            $killed->setIsDead(true);
-            $this->board->remove($killed);
+        if($isCastling) {
+            $this->castle($piece, $to);
         }
-
-        $this->board->move($piece, $to->getX(), $to->getY());
+        else {
+            if($killed) {
+                $killed->setIsDead(true);
+                $this->board->remove($killed);
+            }
+            $this->board->move($piece, $to->getX(), $to->getY());
+            if(null === $piece->getFirstMove()) {
+                $piece->setFirstMove($this->game->getTurns());
+            }
+        }
 
         $this->stack->addEvent(array(
             'type' => 'move',
             'from' => $from->getKey(),
             'to'   => $to->getKey()
         ));
-
-        if(null === $piece->getFirstMove()) {
-            $piece->setFirstMove($this->game->getTurns());
-        }
-
-        if($isCastling) {
-            $this->castle($piece, $to);
-        }
 
         if($isPromotion) {
             $this->promotion($piece, $options['promotion']);
@@ -264,20 +263,22 @@ class Manipulator
         if ($isKingSide)
         {
             $rook = $this->analyser->getCastleRookKingSide($king->getPlayer());
-            $rookSquare = $rook->getSquare();
             $newRookSquare = $this->board->getSquareByPos(6, $y);
             $newKingSquare = $this->board->getSquareByPos(7, $y);
         }
         else
         {
             $rook = $this->analyser->getCastleRookQueenSide($king->getPlayer());
-            $rookSquare = $rook->getSquare();
             $newRookSquare = $this->board->getSquareByPos(4, $y);
             $newKingSquare = $this->board->getSquareByPos(3, $y);
         }
+        if(!$rook) {
+            throw new \LogicException(sprintf('No rook for castle on %s side, king %s to %s', $isKingSide ? 'King' : 'Queen', $king->getSquareKey(), $to->getKey()));
+        }
+        $rookSquare = $rook->getSquare();
 
-        $this->board->move($rook, $newRookSquare->getX(), $y);
-        $this->board->move($king, $newKingSquare->getX(), $y);
+        $this->board->castle($king, $rook, $newKingSquare->getX(), $newRookSquare->getX());
+        $king->setFirstMove($this->game->getTurns());
         $rook->setFirstMove($this->game->getTurns());
 
         $this->stack->addEvent(array(
