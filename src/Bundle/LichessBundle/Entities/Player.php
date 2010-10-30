@@ -126,7 +126,11 @@ class Player
      */
     public function supportCastling()
     {
-        return $this->game->supportCastling() || !$this->getIsAi();
+        if(Game::VARIANT_960 === $this->game->getVariant()) {
+            return !$this->getIsAi();
+        }
+
+        return true;
     }
 
     /**
