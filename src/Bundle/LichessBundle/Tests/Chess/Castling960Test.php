@@ -29,6 +29,8 @@ EOF;
         $this->createGame($data);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('d1');
+        $this->assertCastleRookKingSide('f1');
         $this->assertMoves('e1', 'c1 d2 e2 f2 g1');
     }
 
@@ -47,6 +49,8 @@ EOF;
         $this->createGame($data);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('a1');
+        $this->assertCastleRookKingSide('e1');
         $this->assertMoves('b1', 'a1 a2 b2 c2 c1 g1');
     }
 
@@ -65,6 +69,8 @@ EOF;
         $this->createGame($data);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('a1');
+        $this->assertCastleRookKingSide('h1');
         $this->assertMoves('f1', 'e1 e2 f2 g2 c1');
     }
 
@@ -83,6 +89,8 @@ EOF;
         $this->createGame($data);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('a1');
+        $this->assertCastleRookKingSide('h1');
         $this->assertMoves('b1', 'a1 a2 b2 c2 c1');
     }
 
@@ -101,6 +109,8 @@ EOF;
         $this->createGame($data);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('a1');
+        $this->assertCastleRookKingSide('h1');
         $this->assertMoves('c1', 'b2 c2 d2 d1 g1');
     }
 
@@ -120,6 +130,8 @@ EOF;
         $this->createGame($data);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('a1');
+        $this->assertCastleRookKingSide('h1');
         $this->assertMoves('g1', 'h2 g2 f2');
     }
 
@@ -139,6 +151,8 @@ EOF;
         $this->createGame($data);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('a1');
+        $this->assertCastleRookKingSide('h1');
         $this->assertMoves('b1', 'a2 b2 c2 c1');
     }
 
@@ -157,6 +171,8 @@ EOF;
         $this->createGame($data, true);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('a8');
+        $this->assertCastleRookKingSide('e8');
         $this->assertMoves('b8', 'a8 a7 b7 c7 c8 g8');
     }
 
@@ -175,6 +191,8 @@ EOF;
         $this->createGame($data, true);
         $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('e8');
+        $this->assertCastleRookKingSide('g8');
         $this->assertMoves('f8', 'c8 e7 f7 g7 g8');
     }
 }
