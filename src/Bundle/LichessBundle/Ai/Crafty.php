@@ -10,10 +10,16 @@ class Crafty
     {
         $forsyth = new Forsyth();
         $oldForsyth = $forsyth->export($game);
+        $oldForsyth = $this->removeCastlingInfos($oldForsyth);
         $newForsyth = $this->getNewForsyth($oldForsyth, $level);
         $move = $forsyth->diffToMove($game, $newForsyth);
 
         return $move;
+    }
+
+    protected function removeCastlingInfos($forsyth)
+    {
+        return preg_replace('#^([\w\d/]+)\s(w|b)\s(?:[kq\-]+)\s(.+)$#i', '$1 $2 - $3', $forsyth);
     }
 
     protected function getNewForsyth($forsythNotation, $level)
