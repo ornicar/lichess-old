@@ -23,6 +23,20 @@ class Generator
      */
     public function createGame($variant = Game::VARIANT_STANDARD)
     {
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
+
+
+
+
+
+R   KR
+EOF;
+        $game = $this->createGameFromVisualBlock($data);
+        $game->setVariant($variant);
+        return $game;
+
         $game = new Game($variant);
         $this->makeGameHashUnique($game);
 

@@ -214,10 +214,10 @@ class Analyser
      **/
     protected function addCastlingSquares(King $king, array $squares)
     {
-        if(!$this->game->supportCastling()) {
+        $player = $king->getPlayer();
+        if(!$player->supportCastling()) {
             return $squares;
         }
-        $player = $king->getPlayer();
         $rooks = PieceFilter::filterNotMoved(PieceFilter::filterClass(PieceFilter::filterAlive($player->getPieces()), 'Rook'));
         if(empty($rooks)) {
             return $squares;
@@ -231,18 +231,21 @@ class Analyser
             $dx = $kingX > $rook->getX() ? -1 : 1;
             $possible = true;
             foreach(array($kingX+$dx, $kingX+2*$dx) as $_x) {
-                $key = Board::postoKey($_x, $kingY);
+                $key = Board::posToKey($_x, $kingY);
                 if ($this->board->hasPieceByKey($key) || in_array($key, $opponentControlledKeys)) {
                     $possible = false;
                     break;
                 }
             }
             if($possible) {
-                if(-1 === $dx && $this->board->hasPieceByKey(Board::postoKey($kingX-3, $kingY))) {
+                if(-1 === $dx && $this->board->hasPieceByKey(Board::posToKey($kingX-3, $kingY))) {
                 }
                 else {
                     $squares[] = $this->board->getSquareByKey($key);
                 }
+            }
+            else {
+                    $squares[] = $rook->getSquare();
             }
         }
         return $squares;
