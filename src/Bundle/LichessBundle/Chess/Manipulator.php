@@ -275,6 +275,7 @@ class Manipulator
         if(!$rook) {
             throw new \LogicException(sprintf('No rook for castle on %s side, king %s to %s', $isKingSide ? 'King' : 'Queen', $king->getSquareKey(), $to->getKey()));
         }
+        $kingSquare = $king->getSquare();
         $rookSquare = $rook->getSquare();
 
         $this->board->castle($king, $rook, $newKingSquare->getX(), $newRookSquare->getX());
@@ -283,8 +284,8 @@ class Manipulator
 
         $this->stack->addEvent(array(
             'type' => 'castling',
-            'from' => $rookSquare->getKey(),
-            'to'   => $newRookSquare->getKey()
+            'king' => array($kingSquare->getKey(), $newKingSquare->getKey()),
+            'rook' => array($rookSquare->getKey(), $newRookSquare->getKey()),
         ));
     }
 
