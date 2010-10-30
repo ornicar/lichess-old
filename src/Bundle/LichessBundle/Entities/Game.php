@@ -196,16 +196,6 @@ class Game
         return static::VARIANT_STANDARD === $this->variant;
     }
 
-    /**
-     * Tell if this game supports castling
-     *
-     * @return boolean
-     */
-    public function supportCastling()
-    {
-        return true;
-    }
-
     public function getVariantName()
     {
         $variants = self::getVariantNames();

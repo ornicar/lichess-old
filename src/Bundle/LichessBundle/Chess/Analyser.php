@@ -215,9 +215,6 @@ class Analyser
     protected function addCastlingSquares(King $king, array $squares)
     {
         $player = $king->getPlayer();
-        if(!$player->supportCastling()) {
-            return $squares;
-        }
         $rooks = PieceFilter::filterNotMoved(PieceFilter::filterClass(PieceFilter::filterAlive($player->getPieces()), 'Rook'));
         if(empty($rooks)) {
             return $squares;
@@ -302,7 +299,7 @@ class Analyser
     protected function getCastleRookInDirection(Player $player, $dx)
     {
         $king = $player->getKing();
-        if(!$player->supportCastling() || $king->hasMoved()) {
+        if($king->hasMoved()) {
             return null;
         }
         for($x = $king->getX()+$dx; $x < 9 && $x > 0; $x += $dx) {
