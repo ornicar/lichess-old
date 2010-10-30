@@ -276,7 +276,7 @@ class Analyser
      **/
     public function canCastleKingSide(Player $player)
     {
-       return $this->canCastle($player->getKing(), 3);
+       return $this->canCastle($player->getKing(), 1);
     }
 
     /**
@@ -286,19 +286,22 @@ class Analyser
      **/
     public function canCastleQueenSide(Player $player)
     {
-       return $this->canCastle($player->getKing(), -4);
+       return $this->canCastle($player->getKing(), -1);
     }
 
-    protected function canCastle(King $king, $relativeX)
+    protected function canCastle(King $king, $dx)
     {
-        if(!$this->game->supportCastling()) {
+        if(!$king->getPlayer()->supportCastling() || $king->hasMoved()) {
             return false;
         }
-        $_x = $king->getX() + $relativeX;
-        return
-        $_x > 0 && $_x < 9 &&
-        !$king->hasMoved() &&
-        ($rook = $this->board->getSquareByPos($king->getX()+$relativeX, $king->getY())->getPiece()) &&
-        ($rook->isClass('Rook') && !$rook->hasMoved());
+        for($x = $king->getX()+$dx; $x < 9 && $x > 0; $x += $dx) {
+            if($piece = $this->board->getPieceByPos($x, $king->getY())) {
+                if('Rook' === $piece->getClass() && !$piece->hasMoved() && $piece->getColor() === $king->getColor()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
