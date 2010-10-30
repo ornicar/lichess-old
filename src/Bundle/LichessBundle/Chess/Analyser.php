@@ -214,10 +214,10 @@ class Analyser
      **/
     protected function addCastlingSquares(King $king, array $squares)
     {
-        if(!$this->game->supportCastling()) {
+        $player = $king->getPlayer();
+        if(!$player->supportCastling()) {
             return $squares;
         }
-        $player = $king->getPlayer();
         $rooks = PieceFilter::filterNotMoved(PieceFilter::filterClass(PieceFilter::filterAlive($player->getPieces()), 'Rook'));
         if(empty($rooks)) {
             return $squares;
@@ -228,23 +228,44 @@ class Analyser
         {
             $kingX = $king->getX();
             $kingY = $king->getY();
-            $dx = $kingX > $rook->getX() ? -1 : 1;
+            $rookX = $rook->getX();
+            $dx = $kingX > $rookX ? -1 : 1;
+            $newKingX = 1 === $dx ? 7 : 3;
+            $newRookX = 1 === $dx ? 6 : 4;
             $possible = true;
-            foreach(array($kingX+$dx, $kingX+2*$dx) as $_x) {
-                $key = Board::postoKey($_x, $kingY);
-                if ($this->board->hasPieceByKey($key) || in_array($key, $opponentControlledKeys)) {
+            // Unattacked
+            $rangeMin = min($kingX, $newKingX);
+            $rangeMax = min(8, max($kingX, $newKingX) + 1);
+            for($_x = $rangeMin; $_x !== $rangeMax; $_x++) {
+                if(in_array(Board::posToKey($_x, $kingY), $opponentControlledKeys)) {
                     $possible = false;
                     break;
                 }
             }
-            if($possible) {
-                if(-1 === $dx && $this->board->hasPieceByKey(Board::postoKey($kingX-3, $kingY))) {
-                }
-                else {
-                    $squares[] = $this->board->getSquareByKey($key);
+            // Unimpeded
+            $rangeMin = min($kingX, $rookX, $newKingX, $newRookX);
+            $rangeMax = min(8, max($kingX, $rookX, $newKingX, $newRookX) + 1);
+            for($_x = $rangeMin; $_x !== $rangeMax; $_x++) {
+                if ($piece = $this->board->getPieceByKey(Board::posToKey($_x, $kingY))) {
+                    if($piece !== $king && $piece !== $rook) {
+                        $possible = false;
+                        break;
+                    }
                 }
             }
+            if($possible) {
+                // If King moves one square or less (Chess variant)
+                if(1 >= abs($kingX - $newKingX)) {
+                    $newKingSquare = $rook->getSquare();
+                }
+                // (Chess standard)
+                else {
+                    $newKingSquare = $this->board->getSquareByPos($newKingX, $kingY);
+                }
+                $squares[] = $newKingSquare;
+            }
         }
+
         return $squares;
     }
 
@@ -255,7 +276,7 @@ class Analyser
      **/
     public function canCastleKingSide(Player $player)
     {
-       return $this->canCastle($player->getKing(), 3);
+       return $this->canCastleInDirection($player, 1);
     }
 
     /**
@@ -265,19 +286,36 @@ class Analyser
      **/
     public function canCastleQueenSide(Player $player)
     {
-       return $this->canCastle($player->getKing(), -4);
+       return $this->canCastleInDirection($player, -1);
     }
 
-    protected function canCastle(King $king, $relativeX)
+    public function getCastleRookKingSide(Player $player)
     {
-        if(!$this->game->supportCastling()) {
-            return false;
+        return $this->getCastleRookInDirection($player, 1);
+    }
+
+    public function getCastleRookQueenSide(Player $player)
+    {
+        return $this->getCastleRookInDirection($player, -1);
+    }
+
+    protected function getCastleRookInDirection(Player $player, $dx)
+    {
+        $king = $player->getKing();
+        if(!$player->supportCastling() || $king->hasMoved()) {
+            return null;
         }
-        $_x = $king->getX() + $relativeX;
-        return
-        $_x > 0 && $_x < 9 &&
-        !$king->hasMoved() &&
-        ($rook = $this->board->getSquareByPos($king->getX()+$relativeX, $king->getY())->getPiece()) &&
-        ($rook->isClass('Rook') && !$rook->hasMoved());
+        for($x = $king->getX()+$dx; $x < 9 && $x > 0; $x += $dx) {
+            if($piece = $this->board->getPieceByPos($x, $king->getY())) {
+                if('Rook' === $piece->getClass() && !$piece->hasMoved() && $piece->getColor() === $king->getColor()) {
+                    return $piece;
+                }
+            }
+        }
+    }
+
+    protected function canCastleInDirection(Player $player, $dx)
+    {
+        return (bool) $this->getCastleRookInDirection($player, $dx);
     }
 }

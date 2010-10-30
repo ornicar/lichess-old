@@ -158,7 +158,7 @@ RNBQK  R
         return $game;
     }
 
-    public function fixVisualBlock($data)
+    static public function fixVisualBlock($data)
     {
         $lines = explode("\n", $data);
         foreach($lines as $y => $line) {
