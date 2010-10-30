@@ -120,6 +120,20 @@ class Player
     }
 
     /**
+     * Tell if this player supports castling
+     *
+     * @return boolean
+     */
+    public function supportCastling()
+    {
+        if(Game::VARIANT_960 === $this->game->getVariant()) {
+            return !$this->getIsAi();
+        }
+
+        return true;
+    }
+
+    /**
      * @return int
      */
     public function getAiLevel()

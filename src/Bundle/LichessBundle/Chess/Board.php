@@ -4,6 +4,8 @@ namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Entities\Piece;
+use Bundle\LichessBundle\Entities\Piece\King;
+use Bundle\LichessBundle\Entities\Piece\Rook;
 
 class Board
 {
@@ -41,6 +43,16 @@ class Board
         $piece->setX($x);
         $piece->setY($y);
         $this->pieces[$piece->getSquareKey()] = $piece;
+    }
+
+    public function castle(King $king, Rook $rook, $kingX, $rookX)
+    {
+        unset($this->pieces[$king->getSquareKey()]);
+        unset($this->pieces[$rook->getSquareKey()]);
+        $king->setX($kingX);
+        $rook->setX($rookX);
+        $this->pieces[$king->getSquareKey()] = $king;
+        $this->pieces[$rook->getSquareKey()] = $rook;
     }
 
     public function remove(Piece $piece)
