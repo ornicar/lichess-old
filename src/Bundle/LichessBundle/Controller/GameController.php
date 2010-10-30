@@ -66,14 +66,14 @@ class GameController extends Controller
     {
         $game = $this->findGame($hash);
 
-        if($game->getIsStarted()) {
-            $this['logger']->warn(sprintf('Game:join started game:%s', $game->getHash()));
-            return $this->redirect($this->generateUrl('lichess_game', array('hash' => $hash)));
-        }
-
         if($this['request']->getMethod() == 'HEAD') {
             $this['logger']->warn(sprintf('Game:join HEAD game:%s', $game->getHash()));
             return $this->createResponse(sprintf('Game #%s', $hash));
+        }
+
+        if($game->getIsStarted()) {
+            $this['logger']->warn(sprintf('Game:join started game:%s', $game->getHash()));
+            return $this->redirect($this->generateUrl('lichess_game', array('hash' => $hash)));
         }
 
         $game->start();
