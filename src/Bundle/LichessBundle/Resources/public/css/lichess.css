@@ -516,8 +516,8 @@ div.lichess_control a.lichess_play_again {
 }
 
 div.lichess_control div.lichess_play_again_join {
-    background: url(../images/loader2.gif) center left no-repeat;
-    padding-left: 45px;
+    background: url(../images/big-right.png) center left no-repeat;
+    padding-left: 60px;
 }
 div.lichess_control div.lichess_play_again_join a {
     margin-left: 0;
