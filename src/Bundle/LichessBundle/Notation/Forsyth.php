@@ -177,8 +177,12 @@ class Forsyth
         if(empty($moves['from'])) {
             return null;
         }
+        elseif(1 === count($moves['from']) && 1 === count($moves['to'])) {
+            $from = $moves['from'][0];
+            $to = $moves['to'][0];
+        }
         // two pieces moved: it's a castle
-        if(2 === count($moves['from']))
+        elseif(2 === count($moves['from']) && 2 === count($moves['to']))
         {
             if ($board->getPieceByKey($moves['from'][0])->isClass('King'))
             {
@@ -199,16 +203,12 @@ class Forsyth
             }
         }
         else {
-            $from = $moves['from'][0];
-            $to = $moves['to'][0];
-        }
-
-        if(!$from || !$to) {
-            throw new \RuntimeException('Forsyth:diffToMove game:%s, variant:%s, moves: %s',
+            throw new \RuntimeException(sprintf('Forsyth:diffToMove game:%s, variant:%s, moves: %s, forsyth:%s',
                 $game->getHash(),
                 $game->getVariantName(),
-                str_replace("\n", " ", var_export($moves, true))
-            );
+                str_replace("\n", " ", var_export($moves, true)),
+                $forsyth
+            ));
         }
 
         return $from.' '.$to;
