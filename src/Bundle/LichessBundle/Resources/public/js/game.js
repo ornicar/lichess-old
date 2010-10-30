@@ -148,8 +148,15 @@
          var $to = $("div#" + to, self.$board).addClass("moved"), to_offset = $to.offset();
          var isMyPiece = $piece.hasClass(self.options.player.color);
          var animation = self.options.animation_delay*(isMyPiece ? 1 : 2);
+         var $killed = $to.find("div.lichess_piece");
+         var castling = $killed.length && self.getPieceColor($piece) == self.getPieceColor($killed);
 
          if(!isMyPiece || this.options.player.spectator) $.playSound();
+
+         if(castling) {
+            $.isFunction(callback || null) && callback();
+            return;
+         }
 
          $("body").append($piece.css({
              top: from_offset.top,
@@ -251,7 +258,8 @@
                          .removeClass("pawn");
                      break;
                  case "castling":
-                     $("div#" + event.to, self.$board).append($("div#" + event.from + " div.lichess_piece", self.$board));
+                     $("div#" + event.rook[1], self.$board).append($("div#" + event.rook[0] + " div.lichess_piece.rook", self.$board));
+                     $("div#" + event.king[1], self.$board).append($("div#" + event.king[0] + " div.lichess_piece.king", self.$board));
                      break;
                  case "enpassant":
                      self.killPiece($("div#" + event.killed + " div.lichess_piece", self.$board));
@@ -502,6 +510,10 @@
      canRunClock: function()
      {
          return this.options.game.clock && this.options.game.started && !this.options.game.finished;
+     },
+     getPieceColor: function($piece)
+     {
+         return $piece.hasClass('white') ? 'white' : 'black';
      },
      translate: function(message)
      {
