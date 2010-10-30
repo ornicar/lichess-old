@@ -120,6 +120,16 @@ class Player
     }
 
     /**
+     * Tell if this player supports castling
+     *
+     * @return boolean
+     */
+    public function supportCastling()
+    {
+        return $this->game->supportCastling() || !$this->getIsAi();
+    }
+
+    /**
      * @return int
      */
     public function getAiLevel()
