@@ -382,6 +382,7 @@
                  {
                      $(this).click(function() {
                          var $square = $(this).parent();
+                         if($square.hasClass('selectable')) return;
                          var isSelected = $square.hasClass('selected');
                          self.$board.find('div.lcs.selected').removeClass('selected');
                          if(isSelected) return;

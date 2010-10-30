@@ -173,6 +173,9 @@ div.lichess_board div.lcs.selectable div.lcsi {
     background: url(../images/over3.png) top left no-repeat !important;
     cursor: pointer;
 }
+div.lichess_board div.lcs.selectable div.lichess_piece {
+    cursor: pointer;
+}
 
 div.lichess_piece {
     position: absolute;
