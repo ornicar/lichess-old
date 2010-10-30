@@ -16,6 +16,11 @@ $(function()
         };
         reloadNbConnectedPlayers();
     }
+    if($config = $('div.game_config_form').orNot()) {
+        $config.find('div.variants').buttonset();
+        $config.find('div.clocks').buttonset();
+        $config.find('button.submit').button();
+    }
 
     if($overboard = $('div.lichess_overboard').orNot()) {
         $overboard.css('top', (238-$overboard.height()/2)+'px');

@@ -281,7 +281,7 @@ class PlayerController extends Controller
         }
         $this['lichess_synchronizer']->setAlive($player);
 
-        $config = new Form\AnybodyGameConfig($this['lichess_translator']);
+        $config = new Form\AnybodyGameConfig();
         $config->fromArray($this['session']->get('lichess.game_config.anybody', array()));
         return $this->render('LichessBundle:Player:waitAnybody.php', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all(), 'config' => $config));
     }

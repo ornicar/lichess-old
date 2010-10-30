@@ -6,7 +6,7 @@
         <?php $view->output('LichessBundle:Main:staticBoard_'.$color.'.php') ?>
         <div class="lichess_overboard time_config">
             <h2><?php echo $view['translator']->_('Play with the machine') ?></h2>
-            <div class="clock_config_form">
+            <div class="game_config_form">
                 <form action="<?php echo $view['router']->generate('lichess_invite_ai', array('color' => $color)) ?>" method="post">
                     <div class="variants">
                     <?php foreach($form['variant'] as $variant): ?>
