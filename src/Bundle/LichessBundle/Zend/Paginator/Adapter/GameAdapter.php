@@ -14,12 +14,17 @@ class GameAdapter implements Adapter
 {
     protected $persistence = null;
 
+    const STARTED = 1;
+    const MATE = 2;
+
     /**
      * @see PaginatorAdapterInterface::__construct
      */
-    public function __construct(MongoDBPersistence $persistence)
+    public function __construct(MongoDBPersistence $persistence, $mode = self::STARTED)
     {
         $this->persistence = $persistence;
+
+        $this->mode = $mode;
     }
 
     /**
@@ -46,11 +51,25 @@ class GameAdapter implements Adapter
      */
     public function count()
     {
-        return $this->persistence->getNbGames();
+        switch($this->mode) {
+            case self::STARTED:
+                return $this->persistence->getNbGames();
+            case self::MATE:
+                return $this->persistence->getNbMates();
+        }
+
+        throw new \InvalidArgumentException(sprintf('Mode "%s" is not valid', $this->mode));
     }
 
     protected function getQuery()
     {
-        return array('status' => array('$ne' => Game::CREATED));
+        switch($this->mode) {
+            case self::STARTED:
+                return array('status' => array('$ne' => Game::CREATED));
+            case self::MATE:
+                return array('status' => GAME::MATE);
+        }
+
+        throw new \InvalidArgumentException(sprintf('Mode "%s" is not valid', $this->mode));
     }
 }

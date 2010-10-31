@@ -4,6 +4,30 @@ namespace Bundle\LichessBundle\Tests\Controller;
 
 class GameControllerTest extends AbstractControllerTest
 {
+    public function testViewCurrentGames()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/games');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(9, $crawler->filter('div.game_mini')->count());
+    }
+
+    public function testViewAllGames()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/games/all');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(10, $crawler->filter('div.game_row')->count());
+    }
+
+    public function testViewMateGames()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/games/checkmate');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(10, $crawler->filter('div.game_row')->count());
+    }
+
     public function testInviteAi()
     {
         $client = $this->createClient();
