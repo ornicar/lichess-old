@@ -772,7 +772,7 @@ div.lichess_chat.hidden ol.lichess_messages, div.lichess_chat.hidden form {
     position: absolute;
     top: 5px;
     right: 120px;
-    width: 300px;
+    width: 400px;
 }
 a#sound_state {
     display: none;

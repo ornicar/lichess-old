@@ -17,9 +17,8 @@ $(function()
         reloadNbConnectedPlayers();
     }
     if($config = $('div.game_config_form').orNot()) {
-        $config.find('div.variants').buttonset();
-        $config.find('div.clocks').buttonset();
-        $config.find('button.submit').button();
+        $config.find('div.variants, div.clocks').buttonset().disableSelection();
+        $config.find('button.submit').button().disableSelection();
     }
 
     if($overboard = $('div.lichess_overboard').orNot()) {
