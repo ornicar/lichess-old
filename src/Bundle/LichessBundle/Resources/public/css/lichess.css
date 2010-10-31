@@ -335,7 +335,11 @@ div.lichess_overboard.game_config div.variants {
 }
 
 div.lichess_overboard.game_config div.clocks {
-    margin: 0.5em 0 1.5em 0;
+    margin-bottom: 1.5em;
+}
+
+div.lichess_overboard.game_config_ai button.submit {
+    margin-top: 0.5em;
 }
 
 div.lichess_overboard.wait_anybody,
