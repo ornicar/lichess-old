@@ -29,9 +29,14 @@ class MongoDBPersistence
         return $this->collection;
     }
 
-    public function getNbGames()
+    public function getNbGames(array $query = array())
     {
-        return $this->collection->count();
+        return $this->collection->count($query);
+    }
+
+    public function getNbMates()
+    {
+        return $this->getNbGames(array('status' => Game::MATE));
     }
 
     public function findRecentGamesHashes($limit)

@@ -21,8 +21,9 @@ class GameController extends Controller
         $hashes = $this['lichess_persistence']->findRecentGamesHashes(9);
         $hashes = implode(',', $hashes);
         $nbGames = $this['lichess_persistence']->getNbGames();
+        $nbMates = $this['lichess_persistence']->getNbMates();
 
-        return $this->render('LichessBundle:Game:list.php', array('hashes' => $hashes, 'nbGames' => $nbGames));
+        return $this->render('LichessBundle:Game:listCurrent.php', compact('hashes', 'nbGames', 'nbMates'));
     }
 
     public function listInnerAction($hashes)
@@ -30,18 +31,35 @@ class GameController extends Controller
         $hashes = explode(',', $hashes);
         $games = $this['lichess_persistence']->findGamesByHashes($hashes);
 
-        return $this->render('LichessBundle:Game:listInner.php', array('games' => $games));
+        return $this->render('LichessBundle:Game:listCurrentInner.php', array('games' => $games));
     }
 
-    public function allAction()
+    public function listAllAction()
     {
         $page = $this['request']->query->get('page', 1);
-        $games = new Paginator(new GameAdapter($this['lichess_persistence']));
+        $games = new Paginator(new GameAdapter($this['lichess_persistence'], GameAdapter::STARTED));
         $games->setCurrentPageNumber($page);
         $games->setItemCountPerPage(10);
         $games->setPageRange(10);
 
-        return $this->render('LichessBundle:Game:all.php', array('games' => $games));
+        $nbGames = $this['lichess_persistence']->getNbGames();
+        $nbMates = $this['lichess_persistence']->getNbMates();
+        $pagerUrl = $this->generateUrl('lichess_list_all');
+        return $this->render('LichessBundle:Game:listAll.php', compact('games', 'nbGames', 'nbMates', 'pagerUrl'));
+    }
+
+    public function listCheckmateAction()
+    {
+        $page = $this['request']->query->get('page', 1);
+        $games = new Paginator(new GameAdapter($this['lichess_persistence'], GameAdapter::MATE));
+        $games->setCurrentPageNumber($page);
+        $games->setItemCountPerPage(10);
+        $games->setPageRange(10);
+
+        $nbGames = $this['lichess_persistence']->getNbGames();
+        $nbMates = $this['lichess_persistence']->getNbMates();
+        $pagerUrl = $this->generateUrl('lichess_list_mates');
+        return $this->render('LichessBundle:Game:listMates.php', compact('games', 'nbGames', 'nbMates', 'pagerUrl'));
     }
 
     /**
