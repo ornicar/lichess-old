@@ -19,9 +19,6 @@
             <div class="header">
                 <div><a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a></div>
                 <?php $view['slots']->output('baseline', 'Don\'t register. Play Chess.') ?>
-                <div class="nb_connected_players" data-url="<?php echo $view['router']->generate('lichess_nb_players') ?>">
-                    <?php echo $view['translator']->_('%nb% connected players', array('%nb%' => $view['lichess']->getNbConnectedPlayers())) ?>
-                </div>
             </div>
             <div id="lichess_forum">
                 <?php $view['slots']->output('_content') ?>
@@ -33,6 +30,9 @@
                 <div class="right">
                     <?php echo $view['translator']->_('Contact') ?>: <span class="js_email"></span><br />
                     <a href="<?php echo $view['router']->generate('lichess_about') ?>" target="_blank">Learn more about Lichess</a>
+                </div>
+                <div class="nb_connected_players" data-url="<?php echo $view['router']->generate('lichess_nb_players') ?>">
+                    <?php echo $view['translator']->_('%nb% connected players', array('%nb%' => $view['lichess']->getNbConnectedPlayers())) ?>
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a href="<?php echo $view['router']->generate('forum_category_show', array('slug' => 'lichess-feedback')) ?>" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="<?php echo $view['router']->generate('lichess_translate') ?>">help translate Lichess</a><br />
                 <?php echo $view['translator']->_('Open Source software built with %php%, %symfony% and %jqueryui%', array('%php%' => 'PHP 5.3', '%symfony%' => '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%' => '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>')) ?><br />
