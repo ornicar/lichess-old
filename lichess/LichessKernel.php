@@ -8,18 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class LichessKernel extends Kernel
 {
-    /**
-     * Switch to a forum environment if the url starts with /forum
-     */
-    public function boot()
-    {
-        if(0 !== strncmp($this->environment, 'forum_', 6)) {
-            $this->checkForumEnvironment();
-        }
-
-        return parent::boot();
-    }
-
     public function registerRootDir()
     {
         return __DIR__;
@@ -32,45 +20,17 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\ZendBundle\ZendBundle(),
             new Bundle\ApcBundle\ApcBundle(),
             new Bundle\TimeBundle\TimeBundle(),
-            new Bundle\LichessBundle\LichessBundle()
+            new Bundle\LichessBundle\LichessBundle(),
+            new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
+            new Bundle\ForumBundle\ForumBundle(),
+            new Application\ForumBundle\ForumBundle()
         );
-
-        if($this->isForumEnvironment()) {
-            $bundles = array_merge($bundles, array(
-                new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
-                new Bundle\TimeBundle\TimeBundle(),
-                new Bundle\ForumBundle\ForumBundle(),
-                new Application\ForumBundle\ForumBundle()
-            ));
-        }
 
         if ($this->isDebug()) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
         }
 
         return $bundles;
-    }
-
-    protected function isForumEnvironment()
-    {
-        return strncmp($this->environment, 'forum_', 6) === 0;
-    }
-
-    protected function checkForumEnvironment()
-    {
-        if(!empty($_SERVER['PATH_INFO'])) {
-            $url = $_SERVER['PATH_INFO'];
-        } elseif(!empty($_SERVER['REQUEST_URI'])) {
-            $url = $_SERVER['REQUEST_URI'];
-        } else {
-            $url = false;
-        }
-
-        if(false === $url || 0 === strncmp($url, '/forum', 6)) {
-            if(0 !== strncmp($this->environment, 'forum_', 6)) {
-                $this->environment = 'forum_'.$this->environment;
-            }
-        }
     }
 
     public function registerBundleDirs()
