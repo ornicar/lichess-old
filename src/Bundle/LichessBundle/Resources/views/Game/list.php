@@ -12,6 +12,8 @@
             <?php echo $view->render('LichessBundle:Game:mini.php', array('game' => $game)) ?>
             <div class="infos">
                 <a class="link" href="<?php echo $url = $view['router']->generate('lichess_game', array('hash' => $game->getHash()), true) ?>"><?php echo $url ?></a>
+                <br />
+                <?php echo $view['time']->ago($game->getUpdatedAt($game->getUpdatedAt())) ?>
                 <br /><br />
                 <?php foreach($game->getPlayers() as $color => $player): ?>
                     <?php echo $view['translator']->_(ucfirst($player->getOpponent()->getColor())) ?> -
@@ -26,7 +28,7 @@
                 <?php echo 1+floor($game->getTurns()/2) ?>.
                 <?php if($game->getIsFinished()): ?>
                     <?php if($winner = $game->getWinner()): ?>
-                        <?php echo $view['translator']->_($game->getStatusMessage()) ?><br /><?php echo $view['translator']->_(ucfirst($winner->getColor()).' is victorious') ?>
+                        <?php echo $view['translator']->_($game->getStatusMessage()) ?>, <?php echo $view['translator']->_(ucfirst($winner->getColor()).' is victorious') ?>
                     <?php else: ?>
                         <?php echo $view['translator']->_($game->getStatusMessage()) ?>
                     <?php endif; ?>

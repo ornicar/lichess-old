@@ -117,6 +117,14 @@ class Game
      */
     protected $initialFen = null;
 
+    /**
+     * Last update time
+     * Not persisted
+     *
+     * @var \DateTime
+     */
+    protected $updatedAt = null;
+
     public function __construct($variant = self::VARIANT_STANDARD)
     {
         $this->generateHash();
@@ -641,6 +649,25 @@ class Game
     public function getPieces()
     {
         return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
+    }
+
+    /**
+     * Get updatedAt
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+      return $this->updatedAt;
+    }
+
+    /**
+     * Set updatedAt
+     * @param  \DateTime
+     * @return null
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+      $this->updatedAt = $updatedAt;
     }
 
     public function __toString()

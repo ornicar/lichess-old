@@ -40,7 +40,11 @@ class GameAdapter implements Adapter
 
         $games = array();
         foreach($cursor as $data) {
-            $games[] = $this->persistence->decode($data['bin']);
+            $game = $this->persistence->decode($data['bin']);
+            $date = new \DateTime();
+            $date->setTimestamp($data['upd']);
+            $game->setUpdatedAt($date);
+            $games[] = $game;
         }
 
         return $games;
