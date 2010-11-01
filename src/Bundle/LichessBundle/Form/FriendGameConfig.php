@@ -15,11 +15,6 @@ class FriendGameConfig extends GameConfig
         $metadata->addPropertyConstraint('time', new Constraints\Min(array('limit' => 0)));
     }
 
-    public function getCountTimes()
-    {
-        return count($this->times);
-    }
-
     public function getTimeNames()
     {
         $names = array();
