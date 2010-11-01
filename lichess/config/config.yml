@@ -18,6 +18,8 @@ apc.config:
     host: http://lichess.org
     web_dir: %kernel.root_dir%/../web
 
+time.helper: ~
+
 lichess.config:
     ai:
         class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid

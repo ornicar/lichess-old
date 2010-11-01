@@ -31,6 +31,7 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\ZendBundle\ZendBundle(),
             new Bundle\ApcBundle\ApcBundle(),
+            new Bundle\TimeBundle\TimeBundle(),
             new Bundle\LichessBundle\LichessBundle()
         );
 
