@@ -58,7 +58,7 @@ class PostController extends BasePostController
         $form = parent::createForm($name, $topic);
 
         if($authorName = $this['request']->cookies->get('lichess_forum_authorName')) {
-            $form->getData()->setAuthorName($authorName);
+            $form->getData()->setAuthorName(urldecode($authorName));
         }
 
         return $form;
