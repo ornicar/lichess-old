@@ -21,4 +21,16 @@ class AnybodyGameConfigForm extends Form
             'expanded' => true
         )));
     }
+
+    protected function doBind(array $taintedData)
+    {
+        if(empty($taintedData['variants'])) {
+            $taintedData['variants'] = $this->getData()->getVariantChoices();
+        }
+        if(empty($taintedData['times'])) {
+            $taintedData['times'] = $this->getData()->getTimeChoices();
+        }
+
+        return parent::doBind($taintedData);
+    }
 }

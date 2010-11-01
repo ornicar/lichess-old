@@ -15,6 +15,11 @@ class AnybodyGameConfig extends GameConfig
         return count($this->times);
     }
 
+    public function getCountVariants()
+    {
+        return count($this->variants);
+    }
+
     public function getTimeNames()
     {
         $names = array();
@@ -39,6 +44,7 @@ class AnybodyGameConfig extends GameConfig
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addGetterConstraint('countTimes', new Constraints\Min(array('limit' => 1)));
+        $metadata->addGetterConstraint('countVariants', new Constraints\Min(array('limit' => 1)));
     }
 
     public function toArray()
