@@ -8,6 +8,7 @@ use Bundle\LichessBundle\Stack;
 /**
  * Represents a single Chess player for one game
  *
+ * @mongodb:EmbeddedDocument
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
  */
 class Player
@@ -16,6 +17,7 @@ class Player
      * Unique hash of the player
      *
      * @var string
+     * @mongodb:Field(type="string")
      */
     protected $hash;
 
@@ -23,8 +25,48 @@ class Player
      * the player color, white or black
      *
      * @var string
+     * @mongodb:Field(type="string")
      */
     protected $color = null;
+
+    /**
+     * Whether the player won the game or not
+     *
+     * @var boolean
+     * @mongodb:Field(type="boolean")
+     */
+    protected $isWinner = false;
+
+    /**
+     * Whether this player is an Artificial intelligence or not
+     *
+     * @var boolean
+     * @mongodb:Field(type="boolean")
+     */
+    protected $isAi = false;
+
+    /**
+     * If the player is an AI, its level represents the AI intelligence
+     *
+     * @var int
+     * @mongodb:Field(type="int")
+     */
+    protected $aiLevel = null;
+
+    /**
+     * Binary data containing stack and pieces
+     *
+     * @var \MongoBin
+     * @mongodb:Field(type="Bin")
+     */
+    protected $binaryData = null;
+
+    /**
+     * Event stack
+     *
+     * @var Stack
+     */
+    protected $stack = null;
 
     /**
      * the player current game
@@ -39,34 +81,6 @@ class Player
      * @var array
      */
     protected $pieces = array();
-
-    /**
-     * Whether the player won the game or not
-     *
-     * @var boolean
-     */
-    protected $isWinner = false;
-
-    /**
-     * Whether this player is an Artificial intelligence or not
-     *
-     * @var boolean
-     */
-    protected $isAi = false;
-
-    /**
-     * If the player is an AI, its level represents the AI intelligence
-     *
-     * @var int
-     */
-    protected $aiLevel = null;
-
-    /**
-     * Event stack
-     *
-     * @var Stack
-     */
-    protected $stack = null;
 
     public function __construct($color)
     {
@@ -315,13 +329,19 @@ class Player
         return $this->getGame()->getBoard();
     }
 
-    public function getPersistentPropertyNames()
+    public function encode()
     {
-        return array('hash', 'aiLevel', 'isAi', 'game', 'pieces', 'color', 'isWinner', 'stack');
+        $data = array(
+            'pieces' => $this->pieces,
+            'stack' => $this->stack
+        );
+        $this->binaryData = gzcompress(serialize($data), 5);
     }
 
-    public function serialize()
+    public function decode()
     {
-        return $this->getPersistentPropertyNames();
+        $data = unserialize(gzuncompress($this->binaryData));
+        $this->pieces = $data['pieces'];
+        $this->stack = $data['stack'];
     }
 }

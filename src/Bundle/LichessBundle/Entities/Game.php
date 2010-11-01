@@ -10,6 +10,13 @@ use Bundle\LichessBundle\Entities\Chat\Room;
  * Represents a single Chess game
  *
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
+ *
+ * @mongodb:Document(
+ *   collection="game",
+ *   repositoryClass="Bundle\LichessBundle\Document\GameRepository"
+ * )
+ * @mongodb:UniqueIndex(keys={"hash"="asc"}, options={"unique"="true", "safe"=true, "dropDups"="true"})
+ * @mongodb:HasLifecycleCallbacks
  */
 class Game
 {
@@ -29,6 +36,7 @@ class Game
      * Game variant (like standard or 960)
      *
      * @var int
+     * @mongodb:Field(type="int")
      */
     protected $variant = self::VARIANT_STANDARD;
 
@@ -36,27 +44,23 @@ class Game
      * The current state of the game, like CREATED, STARTED or MATE.
      *
      * @var int
+     * @mongodb:Field(type="int")
      */
     protected $status = self::CREATED;
 
     /**
      * The two players
      *
-     * @var array
+     * @var Collection
+     * @mongodb:EmbedMany(targetDocument="Player")
      */
-    protected $players = array();
-
-    /**
-     * The player who created the game
-     *
-     * @var Player
-     */
-    protected $creator = null;
+    protected $players = null;
 
     /**
      * Number of turns passed
      *
      * @var integer
+     * @mongodb:Field(type="int")
      */
     protected $turns = 0;
 
@@ -64,6 +68,7 @@ class Game
      * unique hash of the game
      *
      * @var string
+     * @mongodb:Field(type="string")
      */
     protected $hash = '';
 
@@ -78,22 +83,50 @@ class Game
      * PGN moves of the game, separed by spaces
      *
      * @var string
+     * @mongodb:Field(type="string")
      */
     protected $pgnMoves = null;
-
-    /**
-     * The chat room
-     *
-     * @var Room
-     */
-    protected $room = null;
 
     /**
      * The hash code of the next game the players will start
      *
      * @var string
+     * @mongodb:Field(type="string")
      */
     protected $next = null;
+
+    /**
+     * Fen notation of the initial position
+     * Can be null if equals to standard position
+     *
+     * @var string
+     * @mongodb:Field(type="string")
+     */
+    protected $initialFen = null;
+
+    /**
+     * Last update time
+     *
+     * @var \DateTime
+     * @mongodb:Field(type="date")
+     */
+    protected $updatedAt = null;
+
+    /**
+     * Creation date
+     *
+     * @var \DateTime
+     * @mongodb:Field(type="date")
+     */
+    protected $createdAt = null;
+
+    /**
+     * Binary data containing chat room, chess clock and position hashes
+     *
+     * @var \MongoBin
+     * @mongodb:Field(type="Bin")
+     */
+    protected $binaryData = null;
 
     /**
      * Array of position hashes, used to detect threefold repetition
@@ -110,20 +143,11 @@ class Game
     protected $clock = null;
 
     /**
-     * Fen notation of the initial position
-     * Can be null if equals to standard position
+     * The chat room
      *
-     * @var string
+     * @var Room
      */
-    protected $initialFen = null;
-
-    /**
-     * Last update time
-     * Not persisted
-     *
-     * @var \DateTime
-     */
-    protected $updatedAt = null;
+    protected $room = null;
 
     public function __construct($variant = self::VARIANT_STANDARD)
     {
@@ -131,6 +155,7 @@ class Game
         $this->setVariant($variant);
         $this->status = self::CREATED;
         $this->room = new Room();
+        $this->players = new ArrayCollection();
     }
 
     /**
@@ -524,11 +549,6 @@ class Game
         return $this->getStatus() === self::TIMEOUT;
     }
 
-    public function setPlayers(array $players)
-    {
-        $this->players = $players;
-    }
-
     public function getPlayers()
     {
         return $this->players;
@@ -539,7 +559,7 @@ class Game
      */
     public function getPlayer($color)
     {
-        return $this->players[$color];
+        return $this->players->get($color);
     }
 
     /**
@@ -614,7 +634,7 @@ class Game
 
     public function setPlayer($color, $player)
     {
-        $this->players[$color] = $player;
+        $this->players->set($color, $player);
     }
 
     /**
@@ -665,9 +685,28 @@ class Game
      * @param  \DateTime
      * @return null
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
       $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * Get createdAt
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+      return $this->createdAt;
+    }
+
+    /**
+     * Set createdAt
+     * @param  \DateTime
+     * @return null
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+      $this->createdAt = $createdAt;
     }
 
     public function __toString()
@@ -675,23 +714,56 @@ class Game
         return '#'.$this->getHash(). 'turn '.$this->getTurns();
     }
 
-    public function getPersistentPropertyNames()
+    /**
+     * @mongodb:PrePersist
+     * @mongodb:PreUpdate
+     */
+    public function encode()
     {
-        return array('hash', 'variant', 'status', 'players', 'turns', 'creator', 'positionHashes', 'initialFen');
+        $data = array(
+            'clock' => $this->clock,
+            'room' => $this->room,
+            'positionHashes' => $this->positionHashes
+        );
+        $this->binaryData = gzcompress(serialize($data), 5);
+        foreach($this->getPlayers() as $player) {
+            $player->encode();
+        }
     }
 
-    public function serialize()
+    /**
+     * @PostLoad
+     */
+    public function decode()
     {
-        return $this->getPersistentPropertyNames();
-    }
+        $data = unserialize(gzuncompress($this->binaryData));
+        $this->clock = $data['clock'];
+        $this->room = $data['room'];
+        $this->positionHashes = $data['positionHashes'];
 
-    public function unserialize()
-    {
         $board = $this->getBoard();
         foreach($this->getPlayers() as $player) {
+            $player->decode();
+            $player->setGame($this);
             foreach ($player->getPieces() as $piece) {
                 $piece->setBoard($board);
             }
         }
+    }
+
+    /**
+     * @mongodb:PrePersist
+     */
+    public function setCreatedNow()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * @mongodb:PreUpdate
+     */
+    public function setUpdatedNow()
+    {
+        $this->updatedAt = new \DateTime();
     }
 }
