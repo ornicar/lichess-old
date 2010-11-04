@@ -7,7 +7,7 @@
 </ol>
 <br />
 <h1>New topic</h1>
-<form action="<?php echo $view['router']->generate('forum_topic_create', array('categorySlug' => $category->getSlug())) ?>" method="post">
+<form action="<?php echo $view['router']->generate('forum_category_topic_create', array('slug' => $category->getSlug())) ?>" method="post">
     <label><span class="required">Category</span> <?php echo $form['category']->widget() ?></label>
     <label><span class="required">Subject</span> <?php echo $form['subject']->widget(array('class' => 'subject')) ?></label>
     <label><span class="required">Message</span> <?php echo $form['firstPost']['message']->widget() ?></label>

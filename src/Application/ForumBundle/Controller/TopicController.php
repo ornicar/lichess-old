@@ -10,30 +10,18 @@ use Bundle\ForumBundle\Model\Category;
 
 class TopicController extends BaseTopicController
 {
-    public function newAction($categorySlug = null)
+    public function newAction(Category $category = null)
     {
-        if($categorySlug) {
-            $category = $this['forum.category_repository']->findOneBySlug($categorySlug);
-        } else {
-            $category = null;
-        }
-
         $form = $this->createForm('forum_topic_new', $category);
 
         return $this->render('ForumBundle:Topic:new.'.$this->getRenderer(), array(
-            'form' => $this['templating.form']->get($form),
-            'category' => $category
+            'form'      => $this['templating.form']->get($form),
+            'category'  => $category
         ));
     }
 
-    public function createAction($categorySlug = null)
+    public function createAction(Category $category = null)
     {
-        if($categorySlug) {
-            $category = $this['forum.category_repository']->findOneBySlug($categorySlug);
-        } else {
-            $category = null;
-        }
-
         $form = $this->createForm('forum_topic_new', $category);
         $form->bind($this['request']->request->get($form->getName()));
 
@@ -61,7 +49,7 @@ class TopicController extends BaseTopicController
         $form = parent::createForm($name, $category);
 
         if($authorName = $this['request']->cookies->get('lichess_forum_authorName')) {
-            $form['firstPost']['authorName']->setData($authorName);
+            $form['firstPost']['authorName']->setData(urldecode($authorName));
         }
 
         return $form;
