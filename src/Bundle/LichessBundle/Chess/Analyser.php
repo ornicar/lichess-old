@@ -16,24 +16,7 @@ class Analyser
      */
     protected $board = null;
 
-    /**
-     * Get board
-     * @return Board
-     */
-    public function getBoard()
-    {
-        return $this->board;
-    }
-
-    /**
-     * Set board
-     * @param  Board
-     * @return null
-     */
-    public function setBoard($board)
-    {
-        $this->board = $board;
-    }
+    protected $game;
 
     public function __construct(Board $board)
     {
@@ -77,8 +60,9 @@ class Analyser
             $kingSquareKey = $king->getSquareKey();
             $pieceOriginalX = $piece->getX();
             $pieceOriginalY = $piece->getY();
+            $pieceClass = $piece->getClass();
             //if we are not moving the king, and the king is not attacked, don't check pawns nor knights
-            if($piece instanceof King) {
+            if('King' === $pieceClass) {
                 $opponentPieces = $allOpponentPieces;
             }
             elseif($isKingAttacked) {
@@ -89,13 +73,13 @@ class Analyser
             }
 
             $squares = $this->board->keysToSquares($piece->getBasicTargetKeys());
-            if($piece instanceOf King && !$isKingAttacked && !$piece->hasMoved()) {
+            if('King' === $pieceClass && !$isKingAttacked && !$piece->hasMoved()) {
                 $squares = $this->addCastlingSquares($piece, $squares);
             }
             foreach($squares as $it => $square)
             {
                 // king move to its target so we update its position
-                if ($piece instanceof King)
+                if ('King' === $pieceClass)
                 {
                     $kingSquareKey = $square->getKey();
                 }
@@ -103,6 +87,12 @@ class Analyser
                 // kill opponent piece
                 if ($killedPiece = $square->getPiece())
                 {
+                    $killedPiece->setIsDead(true);
+                }
+                // kill with en passant
+                elseif('Pawn' === $pieceClass && $square->getX() !== $pieceOriginalX)
+                {
+                    $killedPiece = $square->getSquareByRelativePos(0, $player->isWhite() ? -1 : 1)->getPiece();
                     $killedPiece->setIsDead(true);
                 }
 
@@ -149,19 +139,20 @@ class Analyser
         $kingSquareKey = $king->getSquareKey();
         $pieceOriginalX = $piece->getX();
         $pieceOriginalY = $piece->getY();
+        $pieceClass = $piece->getClass();
         $opponentPieces = PieceFilter::filterProjection($allOpponentPieces);
         //if we are not moving the king, and the king is not attacked, don't check pawns nor knights
-        if (!$piece instanceof King && !$isKingAttacked) {
+        if ('King' !== $pieceClass && !$isKingAttacked) {
             $opponentPieces = PieceFilter::filterProjection($opponentPieces);
         }
         $squares = $this->board->keysToSquares($piece->getBasicTargetKeys());
-        if($piece instanceOf King && !$isKingAttacked && !$piece->hasMoved()) {
+        if('King' === $pieceClass && !$isKingAttacked && !$piece->hasMoved()) {
             $squares = $this->addCastlingSquares($piece, $squares);
         }
         foreach($squares as $it => $square)
         {
             // kings move to its target so we update its position
-            if ($piece instanceof King)
+            if ('King' === $pieceClass)
             {
                 $kingSquareKey = $square->getKey();
             }
@@ -169,6 +160,12 @@ class Analyser
             // kill opponent piece
             if ($killedPiece = $square->getPiece())
             {
+                $killedPiece->setIsDead(true);
+            }
+            // kill with en passant
+            elseif('Pawn' === $pieceClass && $square->getX() !== $piece->getX())
+            {
+                $killedPiece = $square->getSquareByRelativePos(0, $player->isWhite() ? -1 : 1)->getPiece();
                 $killedPiece->setIsDead(true);
             }
 
@@ -182,7 +179,7 @@ class Analyser
                 }
 
                 // if our king gets attacked
-                if (in_array($kingSquareKey, $this->getPieceControlledKeys($opponentPiece, $piece instanceof King)))
+                if (in_array($kingSquareKey, $this->getPieceControlledKeys($opponentPiece, 'King' === $pieceClass)))
                 {
                     // can't go here
                     unset($squares[$it]);
@@ -228,23 +225,44 @@ class Analyser
         {
             $kingX = $king->getX();
             $kingY = $king->getY();
-            $dx = $kingX > $rook->getX() ? -1 : 1;
+            $rookX = $rook->getX();
+            $dx = $kingX > $rookX ? -1 : 1;
+            $newKingX = 1 === $dx ? 7 : 3;
+            $newRookX = 1 === $dx ? 6 : 4;
             $possible = true;
-            foreach(array($kingX+$dx, $kingX+2*$dx) as $_x) {
-                $key = Board::postoKey($_x, $kingY);
-                if ($this->board->hasPieceByKey($key) || in_array($key, $opponentControlledKeys)) {
+            // Unattacked
+            $rangeMin = min($kingX, $newKingX);
+            $rangeMax = min(8, max($kingX, $newKingX) + 1);
+            for($_x = $rangeMin; $_x !== $rangeMax; $_x++) {
+                if(in_array(Board::posToKey($_x, $kingY), $opponentControlledKeys)) {
                     $possible = false;
                     break;
                 }
             }
-            if($possible) {
-                if(-1 === $dx && $this->board->hasPieceByKey(Board::postoKey($kingX-3, $kingY))) {
-                }
-                else {
-                    $squares[] = $this->board->getSquareByKey($key);
+            // Unimpeded
+            $rangeMin = min($kingX, $rookX, $newKingX, $newRookX);
+            $rangeMax = min(8, max($kingX, $rookX, $newKingX, $newRookX) + 1);
+            for($_x = $rangeMin; $_x !== $rangeMax; $_x++) {
+                if ($piece = $this->board->getPieceByKey(Board::posToKey($_x, $kingY))) {
+                    if($piece !== $king && $piece !== $rook) {
+                        $possible = false;
+                        break;
+                    }
                 }
             }
+            if($possible) {
+                // If King moves one square or less (Chess variant)
+                if(1 >= abs($kingX - $newKingX)) {
+                    $newKingSquare = $rook->getSquare();
+                }
+                // (Chess standard)
+                else {
+                    $newKingSquare = $this->board->getSquareByPos($newKingX, $kingY);
+                }
+                $squares[] = $newKingSquare;
+            }
         }
+
         return $squares;
     }
 
@@ -255,7 +273,7 @@ class Analyser
      **/
     public function canCastleKingSide(Player $player)
     {
-       return $this->canCastle($player->getKing(), 3); 
+       return $this->canCastleInDirection($player, 1);
     }
 
     /**
@@ -265,16 +283,36 @@ class Analyser
      **/
     public function canCastleQueenSide(Player $player)
     {
-       return $this->canCastle($player->getKing(), -4); 
+       return $this->canCastleInDirection($player, -1);
     }
 
-    protected function canCastle(King $king, $relativeX)
+    public function getCastleRookKingSide(Player $player)
     {
-        $_x = $king->getX() + $relativeX;
-        return
-        $_x > 0 && $_x < 9 &&
-        !$king->hasMoved() &&
-        ($rook = $this->board->getSquareByPos($king->getX()+$relativeX, $king->getY())->getPiece()) &&
-        ($rook->isClass('Rook') && !$rook->hasMoved());
+        return $this->getCastleRookInDirection($player, 1);
+    }
+
+    public function getCastleRookQueenSide(Player $player)
+    {
+        return $this->getCastleRookInDirection($player, -1);
+    }
+
+    protected function getCastleRookInDirection(Player $player, $dx)
+    {
+        $king = $player->getKing();
+        if($king->hasMoved()) {
+            return null;
+        }
+        for($x = $king->getX()+$dx; $x < 9 && $x > 0; $x += $dx) {
+            if($piece = $this->board->getPieceByPos($x, $king->getY())) {
+                if('Rook' === $piece->getClass() && !$piece->hasMoved() && $piece->getColor() === $king->getColor()) {
+                    return $piece;
+                }
+            }
+        }
+    }
+
+    protected function canCastleInDirection(Player $player, $dx)
+    {
+        return (bool) $this->getCastleRookInDirection($player, $dx);
     }
 }

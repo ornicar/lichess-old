@@ -3,6 +3,47 @@ h1 {
     color: #666;
     font-weight: normal;
     margin-bottom: 0.5em;
+    display: inline;
+}
+
+a.game_list, a.all_games {
+    margin-left: 2em;
+}
+
+div.game_list, div.all_games {
+    margin-top: 1em;
+}
+
+div.game_row {
+    display: block;
+    margin-top: 2em;
+    height: 190px;
+}
+
+div.pager {
+    text-align:center;
+    margin-top: 2em;
+}
+div.pager .position {
+    margin-right: 2em;
+}
+div.pager a, div.pager span {
+    font-size: 1.1em;
+    padding: 0.1em 0.5em;
+    font-weight: bold;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    text-decoration: none;
+}
+div.pager span {
+    color: #ccc;
+}
+div.pager span.current {
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+    color: #FFF;
+    margin: 0 0.5em;
 }
 
 a.mini_board {

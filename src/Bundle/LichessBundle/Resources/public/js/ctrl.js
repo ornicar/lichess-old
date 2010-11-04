@@ -1,34 +1,34 @@
 $(function()
 {
-    $game = $('div.lichess_game');
-    if ($game.length) {
+    if ($game = $('div.lichess_game').orNot()) {
         $game.game(lichess_data);
         $('input').click(function() { this.select(); });
+        if(!lichess_data.player.spectator) $('a.blank_if_play').attr('target', '_blank');
     }
-    else {
-        // Update number of connected players
-        var $nbConnectedPlayers = $('div.nb_connected_players');
-        if($nbConnectedPlayers.length) {
-            function reloadNbConnectedPlayers() {
-                setTimeout(function() {
-                    $.get($nbConnectedPlayers.attr('data-url'), function(nb) {
-                        $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
-                        reloadNbConnectedPlayers();
-                    });
-                }, 5000);
-            }
-            reloadNbConnectedPlayers();
-        }
+    else if($nbConnectedPlayers = $('div.nb_connected_players').orNot()) {
+        function reloadNbConnectedPlayers() {
+            setTimeout(function() {
+                $.get($nbConnectedPlayers.attr('data-url'), function(nb) {
+                    $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
+                    reloadNbConnectedPlayers();
+                });
+            }, 5000);
+        };
+        reloadNbConnectedPlayers();
+    }
+    if($config = $('div.game_config_form').orNot()) {
+        $config.find('div.variants, div.clocks').buttonset().disableSelection();
+        $config.find('button.submit').button().disableSelection();
     }
 
-    $.fn.hoverIntent && $('div.lichess_language').hoverIntent({
-        over: function() { $(this).find('ul').show(); },
-        out: function() { $(this).find('ul').hide(); },
-        timeout: 100
-    });
+    if($overboard = $('div.lichess_overboard').orNot()) {
+        $overboard.css('top', (238-$overboard.height()/2)+'px');
+    }
+
+    $('div.lichess_language').hover(function() { $(this).find('ul').fadeIn(300); }, function() { $(this).find('ul').fadeOut(300); });
 
     // Append marks 1-8 && a-h
-    if(($bw = $('div.lichess_board_wrap')).length) {
+    if($bw = $('div.lichess_board_wrap').orNot()) {
         $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
     }
 
@@ -62,24 +62,15 @@ $(function()
             });
             return false;
         });
-        $game.trigger('lichess.audio_ready');
+        $game && $game.trigger('lichess.audio_ready');
     } else if($('a.lichess_exchange').length) {
         $('div.lichess_goodies_wrap').append('<br />Your browser is deprecated, please consider upgrading!<br /><a href="http://getfirefox.com" target="_blank"><img src="http://sfx-images.mozilla.org/firefox/3.6/96x31_edit_green.png" width="96" height="31" /></a>');
     }
 
-    //uservoice
     if(document.domain == 'lichess.org') {
         setTimeout(function() {
             // share links
             $('ul.lichess_social').html('<li class="lichess_stumbleupon"><iframe src="http://www.stumbleupon.com/badge/embed/2/?url=http://lichess.org/"></iframe></li><li class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></li><li class="lichess_add2any"><a class="a2a_dd" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Flichess.org%2F&amp;linkname=Best%20web%20Chess%20game%20ever!"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" alt="Share/Bookmark"/></a></li>');
-            // uservoice
-            (function() {
-                var uservoice = document.createElement('script'); uservoice.type = 'text/javascript'; uservoice.async = true; uservoice.src = 'http://cdn.uservoice.com/javascripts/widgets/tab.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uservoice, s);
-            })();
-            $('a.lichess_uservoice').click(function() {
-                UserVoice.Popin.show({ key: 'lichess', host: 'lichess.uservoice.com', forum: '62479', showTab: false });
-            });
             //add2any
             var a2a_config = a2a_config || {};
             a2a_config.linkname = "I'm playing Chess on lichess.org";
@@ -99,6 +90,10 @@ $.ajax = function(o) {
     }
     return _jQueryAjax(o);
 }
+jQuery.fn.orNot = function()
+{
+    return this.length == 0 ? false : this;
+};
 
 $.displayBoardMarks = function($board, isWhite)
 {

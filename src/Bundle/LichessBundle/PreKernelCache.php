@@ -47,7 +47,7 @@ else return;
 $userVersion = apc_fetch($hash.'.'.$color.'.data');
 
 // If the user has no cache, hit the application
-if(!$userVersion) return;
+if(false === $userVersion) return;
 
 // If the client and server version differ, update the client
 if($userVersion != $clientVersion) return;

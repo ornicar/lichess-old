@@ -16,13 +16,13 @@ class EnPassantTest extends \PHPUnit_Framework_TestCase
     {
         $data = <<<EOF
        k
-        
-        
-pP      
-        
-        
-        
-K       
+
+
+pP
+
+
+
+K
 EOF;
         $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('a5')->setFirstMove($this->game->getTurns()-1);
@@ -38,18 +38,38 @@ EOF;
     {
         $data = <<<EOF
        k
-        
-pP      
-        
-        
-        
-        
-K       
+
+pP
+
+
+
+
+K
 EOF;
         $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('a6')->setFirstMove($this->game->getTurns()-1);
         $this->game->getBoard()->getPieceByKey('b6')->setFirstMove(0);
         $this->assertMoves('b6', 'b7');
+    }
+
+    public function testEnPassantCanSaveTheKing()
+    {
+        $data = <<<EOF
+    r  k
+
+   p
+  pP b
+  PK
+
+  r
+
+EOF;
+        $this->createGame($data);
+        $this->game->getBoard()->getPieceByKey('c5')->setFirstMove($this->game->getTurns()-1);
+        // King can not move
+        $this->assertMoves('d4', '');
+        // En passant is possible
+        $this->assertMoves('d5', 'c6');
     }
 
     /**
@@ -81,9 +101,12 @@ EOF;
 
     protected function assertMoves($pieceKey, $moves)
     {
-        $moves = explode(' ', $moves);
+        $moves = empty($moves) ? null : $this->sort(explode(' ', $moves));
         $possibleMoves = $this->analyser->getPlayerPossibleMoves($this->game->getTurnPlayer());
-        $this->assertEquals($this->sort($moves), isset($possibleMoves[$pieceKey]) ? $this->sort($possibleMoves[$pieceKey]) : null);
+        $this->assertEquals($moves, isset($possibleMoves[$pieceKey]) ? $this->sort($possibleMoves[$pieceKey]) : null);
+
+        //$piecePossibleMoves = $this->analyser->getPiecePossibleMoves($this->game->getBoard()->getPieceByKey($pieceKey));
+        //$this->assertEquals($moves, $this->sort($piecePossibleMoves));
     }
 
     protected function sort($array)

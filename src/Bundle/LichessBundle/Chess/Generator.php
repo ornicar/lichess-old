@@ -4,25 +4,75 @@ namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Entities\Player;
-use Bundle\LichessBundle\Entities\Piece as Piece;
+use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
+use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
+use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
+use Bundle\LichessBundle\Persistence\MongoDBPersistence;
 
 class Generator
 {
+    protected $persistence;
+
+    public function __construct(MongoDBPersistence $persistence = null)
+    {
+        $this->persistence = $persistence;
+    }
+
     /**
      * @return Game
      */
-    public function createGame()
+    public function createGame($variant = Game::VARIANT_STANDARD)
     {
-        $game = new Game();
+        $game = new Game($variant);
+        $this->makeGameHashUnique($game);
 
         $game->setPlayers(array(
             'white' => $this->createPlayer($game, 'white'),
             'black' => $this->createPlayer($game, 'black')
         ));
+        $this->getVariantGenerator($variant)->createPieces($game);
 
         $game->setCreator($game->getPlayer('white'));
 
         return $game;
+    }
+
+    protected function makeGameHashUnique(Game $game)
+    {
+        if(!$this->persistence) {
+            return;
+        }
+
+        while(!$this->persistence->isHashFree($game->getHash())) {
+            $game->generateHash();
+        }
+    }
+
+    protected function getVariantGenerator($variant)
+    {
+        if($variant === Game::VARIANT_960) {
+            $generator = new Chess960PositionGenerator();
+        }
+        else {
+            $generator = new StandardPositionGenerator();
+        }
+
+        return $generator;
+    }
+
+    /**
+     * Regenerate game pieces for the given variant
+     *
+     * @return Game
+     **/
+    public function applyVariant(Game $game, $variant)
+    {
+        if($game->getVariant() === $variant) {
+            return $game;
+        }
+        $game->setVariant($variant);
+
+        $this->getVariantGenerator($variant)->createPieces($game);
     }
 
     /**
@@ -34,7 +84,8 @@ class Generator
      **/
     public function createReturnGame(Player $player)
     {
-        $nextGame = $this->createGame();
+        $variant = $player->getGame()->getVariant();
+        $nextGame = $this->createGame($variant);
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
         $player->getGame()->setNext($nextPlayer->getFullHash());
@@ -42,9 +93,12 @@ class Generator
         return $nextPlayer;
     }
 
-    public function createGameForPlayer($color)
+    public function createGameForPlayer($color, $variant = Game::VARIANT_STANDARD)
     {
-        $game = $this->createGame();
+        if(!in_array($color, array('white', 'black'))) {
+            throw new \InvalidArgumentException(sprintf('%s is not a valid player color', $color));
+        }
+        $game = $this->createGame($variant);
         $player = $game->getPlayer($color);
         $game->setCreator($player);
         return $player;
@@ -54,16 +108,18 @@ class Generator
      * Create a game from a visual block notation like:
 r bqkb r
  ppp ppp
-p n  n  
-    p   
-B   P   
-     N  
+p n  n
+    p
+B   P
+     N
 PPPP PPP
 RNBQK  R
     */
     public function createGameFromVisualBlock($data)
     {
+        $data = $this->fixVisualBlock($data);
         $game = new Game();
+        $this->makeGameHashUnique($game);
 
         $players = array();
         foreach(array('white', 'black') as $color) {
@@ -102,6 +158,17 @@ RNBQK  R
         return $game;
     }
 
+    static public function fixVisualBlock($data)
+    {
+        $lines = explode("\n", $data);
+        foreach($lines as $y => $line) {
+            // add missing spaces
+            $lines[$y] .= str_repeat(' ', 8 - strlen($line));
+        }
+
+        return implode("\n", $lines);
+    }
+
     /**
      * @return Player
      */
@@ -109,40 +176,7 @@ RNBQK  R
     {
         $player = new Player($color);
         $player->setGame($game);
-        $player->setPieces($this->createPieces($player));
 
         return $player;
-    }
-
-    public function createPieces(Player $player)
-    {
-        $pieces = array();
-
-        foreach(explode(' ', 'Rook Knight Bishop Queen King Bishop Knight Rook') as $x => $class)
-        {
-            $pieces[] = $this->createPiece('Pawn', $player, $x+1);
-            $pieces[] = $this->createPiece($class, $player, $x+1);
-        }
-
-        return $pieces;
-    }
-
-    /**
-     * @return Piece
-     */
-    public function createPiece($class, Player $player, $x)
-    {
-        if('white' === $player->getColor()) {
-            $y = 'Pawn' === $class ? 2 : 1;
-        } else {
-            $y = 'Pawn' === $class ? 7 : 8;
-        }
-
-        $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
-
-        $piece = new $fullClass($x, $y);
-        $piece->setPlayer($player);
-
-        return $piece;
     }
 }

@@ -5,19 +5,19 @@ use Bundle\LichessBundle\Entities\Game;
 use Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Analyser;
+use Bundle\LichessBundle\Chess\PieceFilter;
 
-class Forsythe
+class Forsyth
 {
-
     /**
-     * Transform a game to standart Forsyth Edwards Notation
+     * Transform a game to standard Forsyth Edwards Notation
      * http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
      */
     public function export(Game $game)
     {
         $board = $game->getBoard();
         $emptySquare = 0;
-        $forsythe = '';
+        $forsyth = '';
 
         for($y = 8; $y > 0; $y --)
         {
@@ -27,11 +27,11 @@ class Forsythe
                 {
                     if ($emptySquare)
                     {
-                        $forsythe .= $emptySquare;
+                        $forsyth .= $emptySquare;
                         $emptySquare = 0;
                     }
 
-                    $forsythe .= $this->pieceToForsythe($piece);
+                    $forsyth .= $this->pieceToForsyth($piece);
                 }
                 else
                 {
@@ -40,20 +40,20 @@ class Forsythe
             }
             if ($emptySquare)
             {
-                $forsythe .= $emptySquare;
+                $forsyth .= $emptySquare;
                 $emptySquare = 0;
             }
-            $forsythe .= '/';
+            $forsyth .= '/';
         }
 
-        $forsythe = trim($forsythe, '/');
+        $forsyth = trim($forsyth, '/');
 
         // b ou w to indicate turn
-        $forsythe .= ' ';
-        $forsythe .= $game->getTurns()%2 ? 'b' : 'w';
+        $forsyth .= ' ';
+        $forsyth .= substr($game->getTurnColor(), 0, 1);
 
         // possibles castles
-        $forsythe .= ' ';
+        $forsyth .= ' ';
         $hasCastle = false;
         $analyser = new Analyser($board);
         foreach($game->getPlayers() as $player)
@@ -61,23 +61,55 @@ class Forsythe
             if ($analyser->canCastleKingside($player))
             {
                 $hasCastle = true;
-                $forsythe .= $player->isWhite() ? 'K' : 'k';
+                $forsyth .= $player->isWhite() ? 'K' : 'k';
             }
             if ($analyser->canCastleQueenside($player))
             {
                 $hasCastle = true;
-                $forsythe .= $player->isWhite() ? 'Q' : 'q';
+                $forsyth .= $player->isWhite() ? 'Q' : 'q';
             }
         }
-        if (!$hasCastle)
-        {
-            $forsythe .= '-';
+        if(!$hasCastle) {
+            $forsyth .= '-';
         }
 
-        return $forsythe;
+        // en passant
+        $enPassant = '-';
+        foreach(PieceFilter::filterClass(PieceFilter::filterAlive($game->getPieces()), 'Pawn') as $piece) {
+            if($piece->getFirstMove() === ($game->getTurns() - 1)) {
+                $color = $piece->getPlayer()->getColor();
+                $y = $piece->getY();
+                if(($color === 'white' && 4 === $y) || ($color === 'black' && 5 === $y)) {
+                    $enPassant = Board::posToKey($piece->getX(), 'white' === $color ? $y - 1 : $y + 1);
+                    break;
+                }
+            }
+        }
+        $forsyth .= ' '.$enPassant;
+
+        // Halfmove clock: This is the number of halfmoves since the last pawn advance or capture.
+        // This is used to determine if a draw can be claimed under the fifty-move rule.
+        $forsyth .= ' '.$game->getHalfmoveClock();
+
+        // Fullmove number: The number of the full move. It starts at 1, and is incremented after Black's move.
+        $forsyth .= ' '.$game->getFullMoveNumber();
+
+        return $forsyth;
     }
 
-    public function diffToMove(Game $game, $forsythe)
+    /**
+     * Create and position pieces of the game for the forsyth string
+     *
+     * @param Game $game
+     * @param string $forsyth
+     * @return Game $game
+     */
+    public function import(Game $game, $forsyth)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function diffToMove(Game $game, $forsyth)
     {
         $moves = array(
             'from'  => array(),
@@ -88,11 +120,11 @@ class Forsythe
         $y = 8;
 
         $board = $game->getBoard();
-        $forsythe = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsythe));
+        $forsyth = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsyth));
 
-        for($itForsythe = 0, $forsytheLen = strlen($forsythe); $itForsythe < $forsytheLen; $itForsythe++)
+        for($itForsyth = 0, $forsythLen = strlen($forsyth); $itForsyth < $forsythLen; $itForsyth++)
         {
-            $letter = $forsythe{$itForsythe};
+            $letter = $forsyth{$itForsyth};
             $key = Board::posToKey($x, $y);
 
             if (is_numeric($letter))
@@ -145,8 +177,12 @@ class Forsythe
         if(empty($moves['from'])) {
             return null;
         }
+        elseif(1 === count($moves['from']) && 1 === count($moves['to'])) {
+            $from = $moves['from'][0];
+            $to = $moves['to'][0];
+        }
         // two pieces moved: it's a castle
-        if(2 === count($moves['from']))
+        elseif(2 === count($moves['from']) && 2 === count($moves['to']))
         {
             if ($board->getPieceByKey($moves['from'][0])->isClass('King'))
             {
@@ -167,14 +203,18 @@ class Forsythe
             }
         }
         else {
-            $from = $moves['from'][0];
-            $to = $moves['to'][0];
+            throw new \RuntimeException(sprintf('Forsyth:diffToMove game:%s, variant:%s, moves: %s, forsyth:%s',
+                $game->getHash(),
+                $game->getVariantName(),
+                str_replace("\n", " ", var_export($moves, true)),
+                $forsyth
+            ));
         }
 
         return $from.' '.$to;
     }
 
-    protected function pieceToForsythe(Piece $piece)
+    protected function pieceToForsyth(Piece $piece)
     {
         $class = $piece->getClass();
 

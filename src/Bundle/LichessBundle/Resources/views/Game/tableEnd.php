@@ -1,6 +1,7 @@
 <?php $game = $player->getGame() ?>
 <?php $winner = $game->getWinner() ?>
 <?php $opponent = $player->getOpponent() ?>
+<?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $player->getGame()->getClock(), 'color' => $opponent->getColor(), 'position' => 'top')) ?>
 <div class="lichess_table finished <?php echo $game->getNext() ? ' lichess_table_next' : '' ?>">
     <div class="lichess_opponent">
         <?php if ($opponent->getIsAi()): ?>
@@ -46,3 +47,4 @@
         <?php endif; ?>
     </div>
 </div>
+<?php if($game->hasClock()) $view->output('LichessBundle:Game:clock.php', array('clock' => $player->getGame()->getClock(), 'color' => $player->getColor(), 'position' => 'bottom')) ?>

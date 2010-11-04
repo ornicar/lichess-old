@@ -5,7 +5,7 @@
 <div class="lichess_game clearfix lichess_player_<?php echo $player->getColor() ?> not_spectator">
     <div class="lichess_board_wrap">
         <?php $view->output('LichessBundle:Game:board.php', array('player' => $player, 'checkSquareKey' => $checkSquareKey)) ?>
-    </div> 
+    </div>
     <div class="lichess_ground">
         <?php $view->output('LichessBundle:Game:cemetery.php', array('player' => $player, 'position' => 'top')) ?>
         <div class="lichess_table_wrap">
@@ -18,7 +18,7 @@
 <?php $view->output('LichessBundle:Game:data.php', array('player' => $player, 'possibleMoves' => $possibleMoves, 'isOpponentConnected' => $isOpponentConnected, 'parameters' => $parameters)) ?>
 
 <?php if(!$player->getOpponent()->getIsAi()): ?>
-    <?php $view['slots']->set('chat', $view->render('LichessBundle:Player:room.php', array('player' => $player))) ?>
+<?php $view['slots']->set('chat', $view->render('LichessBundle:Player:room.php', array('player' => $player))) ?>
 <?php endif; ?>
 
 <?php $view['slots']->set('goodies', $view->render('LichessBundle:Game:goodies.php', array('game' => $player->getGame(), 'color' => $player->getColor()))) ?>

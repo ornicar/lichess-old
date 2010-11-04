@@ -9,7 +9,11 @@ class PlayerWithAiControllerTest extends WebTestCase
     public function testStartWithAi()
     {
         $client = $this->createClient();
-        $client->request('GET', '/ai/white');
+        $crawler = $client->request('GET', '/ai/white');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('Start')->form();
+        $client->submit($form);
+        $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
         $hash = preg_replace('#^.+([\w-]{10}+)$#', '$1', $client->getRequest()->getUri());
@@ -28,7 +32,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $client->request('GET', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $nbConnectedPlayers = $client->getContainer()->getLichessSynchronizerService()->getNbConnectedPlayers();
-        $this->assertEquals('{"v":0,"o":true,"e":[],"ncp":'.$nbConnectedPlayers.'}', $client->getResponse()->getContent());
+        $this->assertEquals('{"v":0,"o":true,"e":[],"p":"white","t":0,"ncp":'.$nbConnectedPlayers.'}', $client->getResponse()->getContent());
     }
 
     /**
@@ -42,7 +46,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $client->request('POST', $moveUrl, array('from' => 'b1', 'to' => 'c3'));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $nbConnectedPlayers = $client->getContainer()->getLichessSynchronizerService()->getNbConnectedPlayers();
-        $this->assertEquals('{"v":2,"o":true,"e":[{"type":"move","from":"b1","to":"c3"},{"type":"possible_moves","possible_moves":null}],"ncp":'.$nbConnectedPlayers.'}', $client->getResponse()->getContent());
+        $this->assertEquals('{"v":2,"o":true,"e":[{"type":"move","from":"b1","to":"c3"},{"type":"possible_moves","possible_moves":null}],"p":"black","t":1,"ncp":'.$nbConnectedPlayers.'}', $client->getResponse()->getContent());
 
         return $hash;
     }
@@ -57,7 +61,7 @@ class PlayerWithAiControllerTest extends WebTestCase
 
         $client->request('GET', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertRegexp('#^\{"v":4,"o":true,"e":\[.+\],"ncp":\d+\}$#', $client->getResponse()->getContent());
+        $this->assertRegexp('#^\{"v":4,"o":true,"e":\[.+\],"p":"(white|black)","t":\d+,"ncp":\d+\}$#', $client->getResponse()->getContent());
     }
 
     /**
@@ -112,7 +116,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('h1:contains("Replay and analyse")')->count());
         $this->assertEquals(1, $crawler->filter('a:contains("Flip board")')->count());
-        $this->assertEquals(1, $crawler->filter('a:contains("Export PGN")')->count());
+        $this->assertEquals(1, $crawler->filter('textarea#pgnText')->count());
     }
 
     protected function getSyncUrl($hash)

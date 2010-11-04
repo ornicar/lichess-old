@@ -40,11 +40,16 @@ class LichessBundle extends BaseBundle
                 if(!$session->has('lichess.sound.enabled')) {
                     $session->set('lichess.sound.enabled', true);
                 }
-                if(!$session->get('lichess.flag')) {
+                if(!$session->get('lichess.user_id')) {
                     $languages = $container->getRequestService()->getLanguages() ?: array();
                     $bestLocale = $translator->getBestLocale($languages);
                     $session->setLocale($bestLocale);
-                    $session->set('lichess.flag', true);
+                    $id = '';
+                    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+                    for ( $i = 0; $i < 6; $i++ ) {
+                        $id .= $chars[mt_rand( 0, 63 )];
+                    }
+                    $session->set('lichess.user_id', $id);
                 }
                 $translator->setLocale($session->getLocale());
             }

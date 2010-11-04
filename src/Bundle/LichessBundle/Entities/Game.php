@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Entities;
 
 use Bundle\LichessBundle\Chess\Board;
+use Bundle\LichessBundle\Chess\Clock;
 use Bundle\LichessBundle\Entities\Chat\Room;
 
 /**
@@ -12,13 +13,6 @@ use Bundle\LichessBundle\Entities\Chat\Room;
  */
 class Game
 {
-    /**
-     * The current state of the game, like CREATED, STARTED or MATE.
-     *
-     * @var int
-     */
-    protected $status = self::CREATED;
-
     const CREATED = 10;
     const STARTED = 20;
     const MATE = 30;
@@ -26,10 +20,28 @@ class Game
     const STALEMATE = 32;
     const TIMEOUT = 33;
     const DRAW = 34;
+    const OUTOFTIME = 35;
+
+    const VARIANT_STANDARD = 1;
+    const VARIANT_960 = 2;
 
     /**
-     * The two players 
-     * 
+     * Game variant (like standard or 960)
+     *
+     * @var int
+     */
+    protected $variant = self::VARIANT_STANDARD;
+
+    /**
+     * The current state of the game, like CREATED, STARTED or MATE.
+     *
+     * @var int
+     */
+    protected $status = self::CREATED;
+
+    /**
+     * The two players
+     *
      * @var array
      */
     protected $players = array();
@@ -84,20 +96,192 @@ class Game
     protected $next = null;
 
     /**
-     * Array of position hashes, used to detect threefold repetition 
-     * 
+     * Array of position hashes, used to detect threefold repetition
+     *
      * @var array
      */
     protected $positionHashes = array();
 
-    public function __construct()
+    /**
+     * The game clock
+     *
+     * @var Clock
+     */
+    protected $clock = null;
+
+    /**
+     * Fen notation of the initial position
+     * Can be null if equals to standard position
+     *
+     * @var string
+     */
+    protected $initialFen = null;
+
+    /**
+     * Last update time
+     * Not persisted
+     *
+     * @var \DateTime
+     */
+    protected $updatedAt = null;
+
+    public function __construct($variant = self::VARIANT_STANDARD)
     {
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
-        for ( $i = 0; $i < 6; $i++ ) {
-            $this->hash .= $chars[mt_rand( 0, 63 )];
-        }
+        $this->generateHash();
+        $this->setVariant($variant);
         $this->status = self::CREATED;
         $this->room = new Room();
+    }
+
+    /**
+     * Generate a new hash - don't use once the game is saved
+     *
+     * @return null
+     **/
+    public function generateHash()
+    {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not change the hash of a started game');
+        }
+        $this->hash = '';
+        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_-';
+        for ( $i = 0; $i < 6; $i++ ) {
+            $this->hash .= $chars[mt_rand( 0, 37 )];
+        }
+    }
+
+    /**
+     * Fen notation of initial position
+     *
+     * @return string
+     **/
+    public function getInitialFen()
+    {
+        if(null === $this->initialFen) {
+            return 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq';
+        }
+
+        return $this->initialFen;
+    }
+
+    /**
+     * Set initialFen
+     * @param  string
+     * @return null
+     */
+    public function setInitialFen($fen)
+    {
+        $this->initialFen = $fen;
+    }
+
+    /**
+     * Get variant
+     * @return int
+     */
+    public function getVariant()
+    {
+        return $this->variant;
+    }
+
+    /**
+     * Set variant
+     * @param  int
+     * @return null
+     */
+    public function setVariant($variant)
+    {
+        if(!array_key_exists($variant, self::getVariantNames())) {
+            throw new \InvalidArgumentException(sprintf('%s is not a valid game variant', $variant));
+        }
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not change variant, game is already started');
+        }
+        $this->variant = $variant;
+    }
+
+    public function isStandardVariant()
+    {
+        return static::VARIANT_STANDARD === $this->variant;
+    }
+
+    public function getVariantName()
+    {
+        $variants = self::getVariantNames();
+
+        return $variants[$this->getVariant()];
+    }
+
+    static public function getVariantNames()
+    {
+        return array(
+            self::VARIANT_STANDARD => 'standard',
+            self::VARIANT_960 => 'chess960'
+        );
+    }
+
+    /**
+     * Get clock
+     * @return Clock
+     */
+    public function getClock()
+    {
+        return $this->clock;
+    }
+
+    /**
+     * Set clock
+     * @param  Clock
+     * @return null
+     */
+    public function setClock(Clock $clock)
+    {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not add clock, game is already started');
+        }
+        $this->clock = $clock;
+    }
+
+    /**
+     * Tell if the game has a clock
+     *
+     * @return boolean
+     **/
+    public function hasClock()
+    {
+        return null !== $this->clock;
+    }
+
+    /**
+     * Get the minutes of the clock if any, or 0
+     *
+     * @return int
+     **/
+    public function getClockMinutes()
+    {
+        return $this->hasClock() ? $this->getClock()->getLimitInMinutes() : 0;
+    }
+
+    /**
+     * Verify if one of the player exceeded his time limit,
+     * and terminate the game in this case
+     *
+     * @return boolean true if the game has been terminated
+     **/
+    public function checkOutOfTime()
+    {
+        if(!$this->hasClock()) {
+            throw new \LogicException('This game has no clock');
+        }
+        if($this->getIsFinished()) {
+            return;
+        }
+        foreach($this->getPlayers() as $color => $player) {
+            if($this->getClock()->isOutOfTime($color)) {
+                $this->setStatus(static::OUTOFTIME);
+                $player->getOpponent()->setIsWinner(true);
+                return true;
+            }
+        }
     }
 
     /**
@@ -114,8 +298,8 @@ class Game
 
     /**
      * Sometime we can safely clear the position hashes,
-     * for example when a pawn moved 
-     * 
+     * for example when a pawn moved
+     *
      * @return void
      */
     public function clearPositionHashes()
@@ -133,6 +317,27 @@ class Game
         $hash = end($this->positionHashes);
 
         return count(array_keys($this->positionHashes, $hash)) >= 3;
+    }
+
+    /**
+     * Halfmove clock: This is the number of halfmoves since the last pawn advance or capture.
+     * This is used to determine if a draw can be claimed under the fifty-move rule.
+     *
+     * @return int
+     **/
+    public function getHalfmoveClock()
+    {
+        return max(0, count($this->positionHashes) - 1);
+    }
+
+    /**
+     * Fullmove number: The number of the full move. It starts at 1, and is incremented after Black's move.
+     *
+     * @return int
+     **/
+    public function getFullmoveNumber()
+    {
+        return floor(1+$this->getTurns() / 2);
     }
 
     /**
@@ -214,12 +419,13 @@ class Game
     public function getStatusMessage()
     {
         switch($this->getStatus()) {
-        case self::MATE: $message = 'Checkmate'; break;
-        case self::RESIGN: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
+        case self::MATE: $message      = 'Checkmate'; break;
+        case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
         case self::STALEMATE: $message = 'Stalemate'; break;
-        case self::TIMEOUT: $message = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
-        case self::DRAW: $message = 'Draw'; break;
-        default: $message = '';
+        case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
+        case self::DRAW: $message      = 'Draw'; break;
+        case self::OUTOFTIME: $message = 'Time out'; break;
+        default: $message              = '';
         }
         return $message;
     }
@@ -231,7 +437,15 @@ class Game
      */
     public function setStatus($status)
     {
+        if($this->getIsFinished()) {
+            return;
+        }
+
         $this->status = $status;
+
+        if($this->getIsFinished() && $this->hasClock()) {
+            $this->getClock()->stop();
+        }
     }
 
     /**
@@ -346,7 +560,17 @@ class Game
      */
     public function getTurnPlayer()
     {
-        return $this->turns%2 ? $this->getPlayer('black') : $this->getPlayer('white');
+        return $this->getPlayer($this->getTurnColor());
+    }
+
+    /**
+     * Color who plays
+     *
+     * @return string
+     **/
+    public function getTurnColor()
+    {
+        return $this->turns%2 ? 'black' : 'white';
     }
 
     /**
@@ -427,14 +651,33 @@ class Game
         return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
     }
 
+    /**
+     * Get updatedAt
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+      return $this->updatedAt;
+    }
+
+    /**
+     * Set updatedAt
+     * @param  \DateTime
+     * @return null
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+      $this->updatedAt = $updatedAt;
+    }
+
     public function __toString()
     {
-        return '#'.$this->getId(). 'turn '.$this->getTurns();
+        return '#'.$this->getHash(). 'turn '.$this->getTurns();
     }
 
     public function getPersistentPropertyNames()
     {
-        return array('hash', 'status', 'players', 'turns', 'creator', 'positionHashes');
+        return array('hash', 'variant', 'status', 'players', 'turns', 'creator', 'positionHashes', 'initialFen');
     }
 
     public function serialize()

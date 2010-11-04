@@ -32,14 +32,14 @@ class StackTest extends \PHPUnit_Framework_TestCase
     public function testEnPassant()
     {
         $data = <<<EOF
-        
-        
-        
-    Pp  
-        
-        
-        
-k  K    
+
+
+
+    Pp
+
+
+
+k  K
 EOF;
         $game = $this->createGame($data);
         $game->setTurns(30);
@@ -59,12 +59,12 @@ EOF;
     public function testCastling()
     {
         $data = <<<EOF
-r  q rk 
+r  q rk
 pp  ppbp
- np  np 
-  Q   B 
-   pp b 
-  N  N  
+ np  np
+  Q   B
+   pp b
+  N  N
 PP   PPP
 R   K  R
 EOF;
@@ -73,22 +73,22 @@ EOF;
         $manipulator = new Manipulator($this->game, $stack);
         $manipulator->play('e1 c1');
         $this->assertEquals(array(
+            array('type' => 'castling', 'king' => array('e1', 'c1'), 'rook' => array('a1', 'd1')),
             array('type' => 'move', 'from' => 'e1', 'to' => 'c1'),
-            array('type' => 'castling', 'from' => 'a1', 'to' => 'd1')
         ), $stack->getEvents());
     }
 
     public function testPromotionQueen()
     {
         $data = <<<EOF
-        
+
  P     k
-        
-        
-        
-        
-        
-K       
+
+
+
+
+
+K
 EOF;
         $game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
@@ -104,14 +104,14 @@ EOF;
     public function testPromotionKnight()
     {
         $data = <<<EOF
-        
- P      
-   k    
-        
-        
-        
-        
-K       
+
+ P
+   k
+
+
+
+
+K
 EOF;
         $game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
@@ -127,14 +127,14 @@ EOF;
     public function testCheck()
     {
         $data = <<<EOF
-        
- Q      
-   k    
-        
-        
-        
-        
-K       
+
+ Q
+   k
+
+
+
+
+K
 EOF;
         $game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
@@ -150,12 +150,12 @@ EOF;
     protected function getData()
     {
         $data = <<<EOF
-r  q rk 
+r  q rk
 pp  ppbp
- np  np 
-  Q   B 
-   pp b 
-  N  N  
+ np  np
+  Q   B
+   pp b
+  N  N
 PP   PPP
 R   KB R
 EOF;
@@ -171,6 +171,6 @@ EOF;
     {
         $generator = new Generator();
         $this->game = $generator->createGameFromVisualBlock($data);
-        return $this->game; 
+        return $this->game;
     }
 }
