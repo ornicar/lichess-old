@@ -3,8 +3,8 @@
 namespace Bundle\LichessBundle\Document;
 
 use Bundle\LichessBundle\Chess\Board;
-use Bundle\LichessBundle\Chess\Clock;
-use Bundle\LichessBundle\Entities\Chat\Room;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Represents a single Chess game
@@ -668,9 +668,10 @@ class Game
         }
     }
 
-    public function setPlayer($color, $player)
+    public function setPlayer(Player $player)
     {
-        $this->players->set($color, $player);
+        $this->players->set($player->getColor(), $player);
+        $player->setGame($this);
     }
 
     /**

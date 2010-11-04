@@ -3,7 +3,8 @@
 namespace Bundle\LichessBundle\Document;
 
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Stack;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Represents a single Chess player for one game
@@ -54,17 +55,10 @@ class Player
     protected $aiLevel = null;
 
     /**
-     * Binary data containing stack and pieces
-     *
-     * @var \MongoBin
-     * @mongodb:Field(type="Bin")
-     */
-    protected $binaryData = null;
-
-    /**
      * Event stack
      *
      * @var Stack
+     * @mongodb:EmbedOne(targetDocument="Stack")
      */
     protected $stack = null;
 
@@ -78,12 +72,26 @@ class Player
     /**
      * the player pieces
      *
-     * @var array
+     * @var Collection
+     * @mongodb:EmbedMany(
+     *   discriminatorMap={
+     *     "p"="Pawn",
+     *     "r"="Rook",
+     *     "b"="Bishop",
+     *     "n"="Knight",
+     *     "q"="Queen",
+     *     "k"="King"
+     *   },
+     *   discriminatorField="type"
+     * )
      */
-    protected $pieces = array();
+    protected $pieces = null;
 
     public function __construct($color)
     {
+        if(!in_array($color, array('white', 'black'))) {
+            throw new \InvalidArgumentException(sprintf('"%s" is not a valid player color'));
+        }
         $this->color = $color;
         $this->generateId();
         $this->stack = new Stack();
@@ -164,7 +172,7 @@ class Player
      */
     public function getKing()
     {
-        foreach($this->pieces as $piece) {
+        foreach($this->getPieces() as $piece) {
             if($piece instanceof Piece\King) {
                 return $piece;
             }
@@ -177,7 +185,7 @@ class Player
     public function getPiecesByClass($class) {
         $class = '\\Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
         $pieces = array();
-        foreach($this->pieces as $piece) {
+        foreach($this->getPieces() as $piece) {
             if($piece instanceof $class) {
                 $pieces[] = $piece;
             }
@@ -188,7 +196,7 @@ class Player
     public function getNbAlivePieces()
     {
         $nb = 0;
-        foreach($this->pieces as $piece) {
+        foreach($this->getPieces() as $piece) {
             if(!$piece->getIsDead()) {
                 ++$nb;
             }
@@ -241,7 +249,7 @@ class Player
     }
 
     /**
-     * @return array
+     * @return Collection
      */
     public function getPieces()
     {
@@ -251,23 +259,19 @@ class Player
     /**
      * @param array
      */
-    public function setPieces($pieces)
+    public function setPieces(array $pieces)
     {
-        $this->pieces = $pieces;
-        foreach($this->pieces as $piece) {
-            $piece->setPlayer($this);
-        }
+        $this->pieces = new ArrayCollection($pieces);
     }
 
     public function addPiece(Piece $piece)
     {
-        $this->pieces[] = $piece;
+        $this->getPieces()->add($piece);
     }
 
     public function removePiece(Piece $piece)
     {
-        $index = array_search($piece, $this->pieces);
-        unset($this->pieces[$index]);
+        $this->getPieces()->removeElement($piece);
     }
 
     /**
@@ -281,7 +285,7 @@ class Player
     /**
      * @param Game
      */
-    public function setGame($game)
+    public function setGame(Game $game)
     {
         $this->game = $game;
     }
@@ -292,14 +296,6 @@ class Player
     public function getColor()
     {
         return $this->color;
-    }
-
-    /**
-     * @param string
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
     }
 
     public function getOpponent()
@@ -337,21 +333,5 @@ class Player
     public function getBoard()
     {
         return $this->getGame()->getBoard();
-    }
-
-    public function encode()
-    {
-        $data = array(
-            'pieces' => $this->pieces,
-            'stack' => $this->stack
-        );
-        $this->binaryData = gzcompress(serialize($data), 5);
-    }
-
-    public function decode()
-    {
-        $data = unserialize(gzuncompress($this->binaryData));
-        $this->pieces = $data['pieces'];
-        $this->stack = $data['stack'];
     }
 }

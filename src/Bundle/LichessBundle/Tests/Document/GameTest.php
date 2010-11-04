@@ -1,9 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Tests\Entities;
-
-use Bundle\LichessBundle\Entities\Game;
-use Bundle\LichessBundle\Chess\Clock;
+namespace Bundle\LichessBundle\Document;
 
 class GameTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,13 +8,15 @@ class GameTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $game = new Game();
-        $this->assertEquals('Bundle\LichessBundle\Entities\Game', get_class($game));
+        $this->assertEquals('Bundle\LichessBundle\Document\Game', get_class($game));
     }
 
-    public function setPlayers()
+    public function testSetPlayers()
     {
         $game = new Game();
-        $game->setPlayers($this->createPlayerStubs());
+        $players = $this->createPlayerStubs();
+        $game->setPlayer($players['white']);
+        $game->setPlayer($players['black']);
 
         $this->assertEquals(2, count($game->getPlayers()));
     }
@@ -41,14 +40,14 @@ class GameTest extends \PHPUnit_Framework_TestCase
 
     protected function getClockMock()
     {
-        return $this->getMock('Bundle\LichessBundle\Chess\Clock', array(), array(10*60*1000));
+        return $this->getMock('Bundle\LichessBundle\Document\Clock', array(), array(10*60*1000));
     }
 
     protected function createPlayerStubs()
     {
         $stubs = array();
         foreach(array('white', 'black') as $color) {
-            $stubs[$color] = $this->getMock('Player', array());
+            $stubs[$color] = $this->getMock('Bundle\LichessBundle\Document\Player', array(), array($color));
         }
 
         return $stubs;
