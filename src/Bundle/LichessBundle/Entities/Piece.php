@@ -37,7 +37,7 @@ abstract class Piece
     protected $isDead = false;
 
     /**
-     * When this piece moved for the first time (usefull for en passant)
+     * When this piece moved for the first time (useful for en passant)
      *
      * @var int
      */
@@ -254,16 +254,7 @@ abstract class Piece
 
     public function getForsyth()
     {
-        $class = $this->getClass();
-
-        if ('Knight' === $class)
-        {
-            $notation = 'N';
-        }
-        else
-        {
-            $notation = $class{0};
-        }
+        $notation = $this->getPgn();
 
         if('black' === $this->getColor())
         {
