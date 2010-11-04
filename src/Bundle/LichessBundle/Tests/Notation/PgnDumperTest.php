@@ -18,7 +18,11 @@ class PgnDumperTest extends \PHPUnit_Framework_TestCase
         $this->createGame();
 
         $pgn = '[Site "http://lichess.org/"]
+[White "Human"]
+[Black "Human"]
 [Result "*"]
+[Variant "Standard"]
+[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"]
 
 *';
 
@@ -40,10 +44,10 @@ class PgnDumperTest extends \PHPUnit_Framework_TestCase
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-    N   
-        
+
+
+    N
+
 PPPPPPPP
 RNBQKB R
 EOF;
@@ -60,10 +64,10 @@ EOF;
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-        
- N      
+
+
+
+ N
 PPP PPPP
 RNBQKB R
 EOF;
@@ -80,10 +84,10 @@ EOF;
         $data = <<<EOF
 rnbqkbnr
 pppppppp
-        
-        
-        
- N      
+
+
+
+ N
 PPP PPPP
 RNBQKN R
 EOF;
@@ -99,10 +103,10 @@ EOF;
         $data = <<<EOF
 rnbqkbnr
 pppppp p
-        
-     Pp 
-        
- N      
+
+     Pp
+
+ N
 PPP PPPP
 RNBQKN R
 EOF;
@@ -117,12 +121,12 @@ EOF;
     public function testPromotionKnight()
     {
         $data = <<<EOF
-rnbqk   
-ppppp P 
-        
-     Pp 
-        
- N      
+rnbqk
+ppppp P
+
+     Pp
+
+ N
 PPP PPPP
 RNBQKN R
 EOF;
@@ -137,12 +141,12 @@ EOF;
     public function testPromotionQueenWithCheckMate()
     {
         $data = <<<EOF
-rnbqk   
-ppppp P 
-        
-     Pp 
-        
- N      
+rnbqk
+ppppp P
+
+     Pp
+
+ N
 PPP PPPP
 RNBQKN R
 EOF;
@@ -164,7 +168,11 @@ EOF;
 
         $pgn = <<<EOF
 [Site "http://lichess.org/"]
+[White "Human"]
+[Black "Human"]
 [Result "1-0"]
+[Variant "Standard"]
+[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"]
 
 1.d4 d5 2.c4 dxc4 3.e3 b5 4.a4 c6 5.axb5 cxb5 6.Qf3 1-0
 EOF;
@@ -208,7 +216,11 @@ EOF;
 
         $pgn = <<<EOF
 [Site "http://lichess.org/"]
+[White "Human"]
+[Black "Human"]
 [Result "1-0"]
+[Variant "Standard"]
+[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"]
 
 1.e4 d5 2.exd5 Qxd5 3.Nc3 Qa5 4.d4 c6 5.Nf3 Bg4 6.Bf4 e6 7.h3 Bxf3 8.Qxf3 Bb4 9.Be2 Nd7 10.a3 O-O-O 11.axb4 Qxa1+ 12.Kd2 Qxh1 13.Qxc6+ bxc6 14.Ba6# 1-0
 EOF;

@@ -7,6 +7,19 @@ app.config:
         lifetime: 2592000 # one month 
     templating:
         escaping: false
-        assets_version: 46
+        assets_version: 74
 
-lichess.config: ~
+zend.config:
+    logger:
+        priority: notice
+        path:     %kernel.logs_dir%/%kernel.environment%.log
+
+apc.config:
+    host: http://lichess.org
+    web_dir: %kernel.root_dir%/../web
+
+time.helper: ~
+
+lichess.config:
+    ai:
+        class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid

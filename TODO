@@ -1,6 +1,9 @@
-* time control
+* fix castling notation with chess960 (http://lichess.org/forum/lichess-feedback/4ccf7c7e30c353196f010000)
+* rematch chess960 keeps piece position
+* cancel invitation
 * reverse board in watch mode
-* step back
+* analysis anchor (http://lichess.org/forum/lichess-feedback/4cd1967630c3534159000000)
+* secure forum (captcha?)
+* propose to cancel a move
 * show game in forum
-* secure forum
 * admin forum

@@ -9,7 +9,9 @@ class PlayerWithOpponentControllerTest extends WebTestCase
     protected function createGameWithFriend()
     {
         $p1 = $this->createClient();
-        $p1->request('GET', '/friend/white');
+        $crawler = $p1->request('GET', '/friend/white');
+        $form = $crawler->selectButton('Start')->form();
+        $p1->submit($form);
         $crawler = $p1->followRedirect();
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
@@ -17,7 +19,9 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $h1 = preg_replace('#^.+([\w-]{10}+)$#', '$1', $p1->getRequest()->getUri());
 
         $p2 = $this->createClient();
-        $p2->request('GET', $inviteUrl);
+        $crawler = $p2->request('GET', $inviteUrl);
+        $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
+        $p2->request('GET', $redirectUrl);
         $crawler = $p2->followRedirect();
         $this->assertTrue($p2->getResponse()->isSuccessful());
         $h2 = preg_replace('#^.+([\w-]{10}+)$#', '$1', $p2->getRequest()->getUri());

@@ -3,22 +3,41 @@
 namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
+use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
 use Bundle\LichessBundle\Entities as Entities;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
-
-    public function testCreation()
+    public function testGameHashUnique()
     {
-        $generator = new Generator();
-        $this->assertEquals('Bundle\LichessBundle\Chess\Generator', get_class($generator));
+        $persistence = $this->getMock('Bundle\LichessBundle\Persistence\MongoDBPersistence');
+        $persistence->expects($this->exactly(1))
+            ->method('isHashFree')
+            ->will($this->returnValue(true));
+
+        $generator = new Generator($persistence);
+        $game = $generator->createGame();
     }
 
-    public function testGameCreation()
+    public function testGameCreationStandard()
     {
         $generator = new Generator();
 
         $game = $generator->createGame();
+
+        $this->assertTrue($game instanceof Entities\Game);
+        $this->assertEquals(0, $game->getTurns());
+        $this->assertEquals(false, $game->getIsStarted());
+        $this->assertEquals(false, $game->getIsFinished());
+
+        return $game;
+    }
+
+    public function testGameCreationStandard960()
+    {
+        $generator = new Generator();
+
+        $game = $generator->createGame(Entities\Game::VARIANT_960);
 
         $this->assertTrue($game instanceof Entities\Game);
         $this->assertEquals(0, $game->getTurns());
@@ -33,20 +52,20 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $visual = <<<EOF
 r bqkb r
  ppp ppp
-p n  n  
-    p   
-B   P   
-     N  
+p n  n
+    p
+B   P
+     N
 PPPP PPP
 RNBQK  R
 EOF;
         $generator = new Generator();
         $game = $generator->createGameFromVisualBlock($visual);
-        $this->assertEquals("\n".$visual."\n", $game->getBoard()->dump());
+        $this->assertEquals("\n".$generator->fixVisualBlock($visual)."\n", $game->getBoard()->dump());
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testGamePlayers(Entities\Game $game)
     {
@@ -65,7 +84,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testGamePlayerTurn(Entities\Game $game)
     {
@@ -79,7 +98,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testGameGetWinner(Entities\Game $game)
     {
@@ -90,7 +109,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testGamePieces(Entities\Game $game)
     {
@@ -98,7 +117,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerPieces(Entities\Game $game)
     {
@@ -107,7 +126,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerKing(Entities\Game $game)
     {
@@ -121,7 +140,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerPawns(Entities\Game $game)
     {
@@ -136,7 +155,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerRooks(Entities\Game $game)
     {
@@ -151,7 +170,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerKnights(Entities\Game $game)
     {
@@ -166,7 +185,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerBishops(Entities\Game $game)
     {
@@ -181,7 +200,7 @@ EOF;
     }
 
     /**
-     * @depends testGameCreation
+     * @depends testGameCreationStandard
      */
     public function testPlayerQueens(Entities\Game $game)
     {

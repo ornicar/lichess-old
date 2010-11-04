@@ -58,6 +58,14 @@ div.content {
     padding: 1.5em 2em 2em 2em;
 }
 
+a.forum_feed_link {
+    width: 16px;
+    height: 16px;
+    display: block;
+    background: url(../../lichess/images/feed-balloon.png) top left no-repeat;
+    float: right;
+}
+
 ol.crumbs li {
     display: inline;
     margin-left: 1em;
@@ -289,10 +297,6 @@ a.site_title {
     text-decoration: none;
 }
 
-div.nb_connected_players {
-    margin-top: 20px;
-}
-
 div.footer_wrap {
     width: 100%;
     border-top: 1px solid #ddd;
@@ -341,4 +345,27 @@ li.lichess_add2any a img {
 div.lichess_server {
     margin: 20px 0;
     text-align: center;
+}
+
+#top_menu {
+    position: absolute;
+    top: 5px;
+    right: 120px;
+    width: 300px;
+}
+a.goto_nav {
+    margin-right: 2em;
+    float: right;
+    text-decoration: none;
+    padding-left: 20px;
+    font-size: 13px;
+}
+a.goto_nav:hover {
+    text-decoration: underline;
+}
+a.goto_gamelist {
+    background: transparent url(../../lichess/images/eye.png) top left no-repeat;
+}
+a.goto_play {
+    background: transparent url(../../lichess/images/control.png) top left no-repeat;
 }

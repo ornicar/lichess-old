@@ -45,7 +45,7 @@ abstract class Piece
 
     /**
      * Performance pointer to the player game board
-     * 
+     *
      * @var Board
      */
     protected $board = null;
@@ -53,11 +53,11 @@ abstract class Piece
     /**
      * Cache of the player color
      * This attribute is not persisted
-     * 
+     *
      * @var string
      */
     protected $color = null;
-    
+
     public function __construct($x, $y)
     {
         $this->x = $x;
@@ -252,7 +252,7 @@ abstract class Piece
         return $this->toDebug();
     }
 
-    public function getForsythe()
+    public function getForsyth()
     {
         $class = $this->getClass();
 

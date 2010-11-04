@@ -2,6 +2,7 @@
 
 namespace Bundle\LichessBundle\Notation;
 use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Entities\Player;
 use Bundle\LichessBundle\Entities\Piece;
 use Bundle\LichessBundle\Chess\Square;
 use Symfony\Component\Routing\Router;
@@ -11,7 +12,7 @@ use Symfony\Component\Routing\Router;
  */
 class PgnDumper
 {
-    protected $generator;
+    protected $urlGenerator;
 
     /**
      * Constructor.
@@ -21,7 +22,7 @@ class PgnDumper
     public function __construct(Router $router = null)
     {
         if($router) {
-            $this->generator = $router->getGenerator();
+            $this->urlGenerator = $router->getGenerator();
         }
     }
 
@@ -152,18 +153,23 @@ class PgnDumper
 
     protected function getPgnHeader(Game $game)
     {
-        return sprintf('[Site "%s"]%s[Result "%s"]',
-            $this->getGameUrl($game), "\n", $this->getPgnResult($game)
+        return sprintf('[Site "%s"]%s[White "%s"]%s[Black "%s"]%s[Result "%s"]%s[Variant "%s"]%s[FEN "%s"]',
+            $this->getGameUrl($game), "\n",
+            $this->getPgnPlayer($game->getPlayer('white')), "\n",
+            $this->getPgnPlayer($game->getPlayer('black')), "\n",
+            $this->getPgnResult($game), "\n",
+            ucfirst($game->getVariantName()), "\n",
+            $game->getInitialFen()
         );
     }
 
     protected function getGameUrl(Game $game)
     {
-        if(null === $this->generator) {
+        if(null === $this->urlGenerator) {
             return 'http://lichess.org/';
         }
 
-        return $this->generator->generate('lichess_pgn_viewer', array('hash' => $game->getHash()), true);
+        return $this->urlGenerator->generate('lichess_pgn_viewer', array('hash' => $game->getHash()), true);
     }
 
     protected function getPgnResult(Game $game)
@@ -178,5 +184,10 @@ class PgnDumper
             return '1/2-1/2';
         }
         return '*';
+    }
+
+    protected function getPgnPlayer(Player $player)
+    {
+        return $player->getIsAi() ? 'Crafty level '.$player->getAiLevel() : 'Human';
     }
 }

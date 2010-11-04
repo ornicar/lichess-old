@@ -72,9 +72,9 @@ class Player
     {
         $this->color = $color;
         $this->hash = '';
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_-';
         for ( $i = 0; $i < 4; $i++ ) {
-            $this->hash .= $chars[mt_rand( 0, 63 )];
+            $this->hash .= $chars[mt_rand( 0, 37 )];
         }
         $this->stack = new Stack();
         $this->stack->addEvent(array('type' => 'start'));
@@ -230,6 +230,9 @@ class Player
     public function setPieces($pieces)
     {
         $this->pieces = $pieces;
+        foreach($this->pieces as $piece) {
+            $piece->setPlayer($this);
+        }
     }
 
     public function addPiece(Piece $piece)

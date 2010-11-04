@@ -47,8 +47,14 @@ EOF
 echo_title("Mandatory requirements");
 check(version_compare(phpversion(), '5.3.1', '>='), sprintf('Checking that PHP version is at least 5.3.1 (%s installed)', phpversion()), 'Install PHP 5.3.1 or newer (current version is '.phpversion(), true);
 check(ini_get('date.timezone'), 'Checking that the "date.timezone" setting is set', 'Set the "date.timezone" setting in php.ini (like Europe/Paris)', true);
-check(is_writable(__DIR__.'/../hello/cache'), sprintf('Checking that cache/ directory is writable'), 'Change the permissions of the hello/cache/ directory so that the web server can write in it', true);
-check(is_writable(__DIR__.'/../hello/logs'), sprintf('Checking that the logs/ directory is writable'), 'Change the permissions of the hello/logs/ directory so that the web server can write in it', true);
+check(is_writable(__DIR__.'/../lichess/cache'), sprintf('Checking that cache/ directory is writable'), 'Change the permissions of the lichess/cache/ directory so that the web server can write in it', true);
+check(is_writable(__DIR__.'/../lichess/logs'), sprintf('Checking that the logs/ directory is writable'), 'Change the permissions of the lichess/logs/ directory so that the web server can write in it', true);
+
+$accelerator = (function_exists('apc_store') && ini_get('apc.enabled'));
+check($accelerator, 'Checking that APC is installed', 'Install APC', true);
+
+$mongo = (class_exists('Mongo'));
+check($mongo, 'Checking that MongoDB is installed', 'Install MongoDB', true);
 
 // warnings
 echo_title("Optional checks");
@@ -59,29 +65,10 @@ check(function_exists('iconv'), 'Checking that the iconv() function is available
 check(function_exists('utf8_decode'), 'Checking that the utf8_decode() is available', 'Install and enable the XML extension', false);
 check(function_exists('posix_isatty'), 'Checking that the posix_isatty() is available', 'Install and enable the php_posix extension (used to colorized the CLI output)', false);
 
-$accelerator = 
-  (function_exists('apc_store') && ini_get('apc.enabled'))
-  ||
-  function_exists('eaccelerator_put') && ini_get('eaccelerator.enable')
-  ||
-  function_exists('xcache_set')
-;
-check($accelerator, 'Checking that that a PHP accelerator is installed', 'Install a PHP accelerator like APC (highly recommended)', false);
-
 check(!ini_get('short_open_tag'), 'Checking that php.ini has short_open_tag set to off', 'Set short_open_tag to off in php.ini', false);
 check(!ini_get('magic_quotes_gpc'), 'Checking that php.ini has magic_quotes_gpc set to off', 'Set magic_quotes_gpc to off in php.ini', false);
 check(!ini_get('register_globals'), 'Checking that php.ini has register_globals set to off', 'Set register_globals to off in php.ini', false);
 check(!ini_get('session.auto_start'), 'Checking that php.ini has session.auto_start set to off', 'Set session.auto_start to off in php.ini', false);
-
-echo_title("Optional checks (Propel/Doctrine)");
-
-check(class_exists('PDO'), 'Checking that PDO is installed', 'Install PDO (mandatory for Propel and Doctrine)', false);
-if (class_exists('PDO'))
-{
-  $drivers = PDO::getAvailableDrivers();
-  check(count($drivers), 'Checking that PDO has some drivers installed: '.implode(', ', $drivers), 'Install PDO drivers (mandatory for Propel and Doctrine)');
-}
-check(class_exists('XSLTProcessor'), 'Checking that XSL module is installed', 'Install the XSL module (recommended for Propel)', false);
 
 if (!is_cli())
 {

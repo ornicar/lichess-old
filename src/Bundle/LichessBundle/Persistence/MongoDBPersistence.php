@@ -29,9 +29,14 @@ class MongoDBPersistence
         return $this->collection;
     }
 
-    public function getNbGames()
+    public function getNbGames(array $query = array())
     {
-        return $this->collection->count();
+        return $this->collection->count($query);
+    }
+
+    public function getNbMates()
+    {
+        return $this->getNbGames(array('status' => Game::MATE));
     }
 
     public function findRecentGamesHashes($limit)
@@ -86,7 +91,7 @@ class MongoDBPersistence
         );
 
         $criteria = array('hash' => $hash);
-        $options = array('upsert' => true);
+        $options = array('upsert' => true, 'safe' => true);
         $this->collection->update($criteria, $data, $options);
     }
 
@@ -127,12 +132,17 @@ class MongoDBPersistence
         return $this->games[$hash] = $game;
     }
 
+    public function isHashFree($hash)
+    {
+        return 0 === $this->collection->count(array('hash' => $hash));
+    }
+
     protected function encode($game)
     {
         return new \MongoBinData(gzcompress(serialize($game), 5));
     }
 
-    protected function decode($data)
+    public function decode($data)
     {
         return unserialize(gzuncompress($data->bin));
     }

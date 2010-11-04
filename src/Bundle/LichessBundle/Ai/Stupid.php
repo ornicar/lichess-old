@@ -5,6 +5,9 @@ namespace Bundle\LichessBundle\Ai;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Entities\Game;
 
+/**
+ * This stupid AI plays a valid move randomly chosen
+ */
 class Stupid
 {
 
