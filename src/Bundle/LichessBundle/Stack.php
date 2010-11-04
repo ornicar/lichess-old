@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle;
 
 class Stack
 {
-    const MAX_EVENTS = 10;
+    const MAX_EVENTS = 20;
 
     /**
      * Events in the stack
@@ -18,7 +18,7 @@ class Stack
         end($this->events);
         return key($this->events);
     }
-    
+
     /**
      * Get events
      * @return array
@@ -40,7 +40,7 @@ class Stack
         }
         return $this->events[$version];
     }
-    
+
     /**
      * Set events
      * @param  array
