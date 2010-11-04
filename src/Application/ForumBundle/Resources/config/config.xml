@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="doctrine_user.user_object.class">Application\ForumBundle\Document\User</parameter>
+        <parameter key="templating.helper.forum.class">Application\ForumBundle\Templating\Helper\ForumHelper</parameter>
     </parameters>
 
     <services>

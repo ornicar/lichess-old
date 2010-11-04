@@ -8,13 +8,8 @@ use Bundle\ForumBundle\Model\Post;
 
 class PostController extends BasePostController
 {
-    public function newAction($topicId)
+    public function newAction(Topic $topic)
     {
-        $topic = $this['forum.topic_repository']->findOneById($topicId);
-        if (!$topic) {
-            throw new NotFoundHttpException('The topic does not exist.');
-        }
-
         $form = $this->createForm('forum_post_new', $topic);
 
         return $this->render('ForumBundle:Post:new.'.$this->getRenderer(), array(
@@ -23,13 +18,8 @@ class PostController extends BasePostController
         ));
     }
 
-    public function createAction($topicId)
+    public function createAction(Topic $topic)
     {
-        $topic = $this['forum.topic_repository']->findOneById($topicId);
-        if (!$topic) {
-            throw new NotFoundHttpException('The topic does not exist.');
-        }
-
         $form = $this->createForm('forum_post_new', $topic);
         $form->bind($this['request']->request->get($form->getName()));
 
@@ -37,7 +27,8 @@ class PostController extends BasePostController
             $lastPage = $this['templating.helper.forum']->getTopicNumPages($topic);
             return $this->forward('ForumBundle:Topic:show', array(
                 'categorySlug' => $topic->getCategory()->getSlug(),
-                'id' => $topicId
+                'slug' => $topic->getSlug(),
+                'id' => $topic->getId()
             ), array('page' => $lastPage));
         }
 

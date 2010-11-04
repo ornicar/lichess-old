@@ -1,3 +1,11 @@
+<?php $pager = $view->render('ForumBundle::pagination.php', array('pager' => $topics->getPages(), 'url' => $view['forum']->urlForCategory($category))) ?>
+<?php $newTopicUrl = $view['router']->generate('forum_category_topic_new', array('slug' => $category->getSlug())) ?>
+
+<div class="bar top clearfix">
+    <div class="pagination"><?php echo $pager ?></div>
+    <a href="<?php echo $newTopicUrl ?>" class="action button">Create a new topic</a>
+</div>
+
 <table class="forum_topics_list">
     <thead>
         <tr>
@@ -18,3 +26,8 @@
     <?php endforeach ?>
     </tbody>
 </table>
+
+<div class="bar bottom clearfix">
+    <div class="pagination"><?php echo $pager ?></div>
+    <a href="<?php echo $newTopicUrl ?>" class="action button">Create a new topic</a>
+</div>

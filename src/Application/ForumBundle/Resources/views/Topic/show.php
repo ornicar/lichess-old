@@ -1,7 +1,7 @@
 <?php $view->extend('ForumBundle::layout.php') ?>
 <?php $view['slots']->set('title', $topic->getSubject()) ?>
 <?php $view['slots']->set('description', $topic->getSubject().' - '.$topic->getCategory()->getDescription()) ?>
-<?php $view['slots']->set('feed_link', '<link href="'.$view['router']->generate('forum_topic_show', array('categorySlug' => $topic->getCategory()->getSlug(), 'id' => $topic->getId(), '_format' => 'xml')).'" type="application/atom+xml" rel="alternate" title="'.$view['lichess']->escape($topic->getSubject()).' - Lichess Forum" />') ?>
+<?php $view['slots']->set('feed_link', '<link href="'.$view['forum']->urlForTopicAtomFeed($topic).'" type="application/atom+xml" rel="alternate" title="'.$view['lichess']->escape($topic->getSubject()).' - Lichess Forum" />') ?>
 
 <?php $pager = $view->render('ForumBundle::pagination.php', array('pager' => $posts->getPages(), 'url' => $view['forum']->urlForTopic($topic))) ?>
 <?php $replyUrl = $view['forum']->urlForTopicReply($topic) ?>
@@ -9,7 +9,7 @@
 
 <div class="topic">
 
-    <a href="<?php echo $view['router']->generate('forum_topic_show', array('categorySlug' => $topic->getCategory()->getSlug(), 'id' => $topic->getId(), '_format' => 'xml')) ?>" title="<?php echo $view['translator']->_('Follow this topic') ?>" class="forum_feed_link"></a>
+    <a href="<?php echo $view['forum']->urlForTopicAtomFeed($topic) ?>" title="<?php echo $view['translator']->_('Follow this topic') ?>" class="forum_feed_link"></a>
     <ol class="crumbs">
         <li><a href="<?php echo $view['forum']->urlFor() ?>">Forum</a></li>
         <li><a href="<?php echo $view['forum']->urlForCategory($topic->getCategory()) ?>"><?php echo $topic->getCategory()->getName() ?></a></li>
@@ -25,7 +25,7 @@
 
     <?php if($isLastPage): ?>
         <div class="topicReply">
-            <?php echo $view['actions']->render('ForumBundle:Post:new', array('topicId' => $topic->getId())) ?>
+            <?php echo $view['actions']->render('ForumBundle:Post:new', array('topic' => $topic)) ?>
         </div>
     <?php endif ?>
 
