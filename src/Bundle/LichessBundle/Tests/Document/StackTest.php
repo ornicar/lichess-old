@@ -1,10 +1,9 @@
 <?php
 
-namespace Bundle\LichessBundle\Tests\Stack;
+namespace Bundle\LichessBundle\Document;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Stack;
 
 class StackTest extends \PHPUnit_Framework_TestCase
 {

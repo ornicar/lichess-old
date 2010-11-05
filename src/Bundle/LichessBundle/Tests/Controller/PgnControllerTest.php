@@ -16,11 +16,11 @@ class PgnControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
         $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $hash = preg_replace('#^.+([\w-]{10}+)$#', '$1', $client->getRequest()->getUri());
-        $publicHash = substr($hash, 0, 6);
-        $crawler = $client->request('GET', '/analyse/'.$publicHash);
+        $id = preg_replace('#^.+([\w-]{12}+)$#', '$1', $client->getRequest()->getUri());
+        $publicId = substr($id, 0, 8);
+        $crawler = $client->request('GET', '/analyse/'.$publicId);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $site = 'http://localhost/analyse/'.$publicHash;
+        $site = 'http://localhost/analyse/'.$publicId;
         $expected = <<<EOF
 [Site "$site"]
 [White "Human"]

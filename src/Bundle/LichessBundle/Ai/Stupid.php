@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Ai;
 
 use Bundle\LichessBundle\Chess\Analyser;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 /**
  * This stupid AI plays a valid move randomly chosen

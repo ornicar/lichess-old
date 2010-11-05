@@ -8,9 +8,9 @@ use Bundle\LichessBundle\Notation\PgnDumper;
 
 class PgnController extends Controller
 {
-    public function analyseAction($hash, $color)
+    public function analyseAction($id, $color)
     {
-        $game = $this->findGame($hash);
+        $game = $this->findGame($id);
         $pgn = $this['lichess_pgn_dumper']->dumpGame($game);
 
         return $this->render('LichessBundle:Pgn:analyse.php', array(
@@ -20,9 +20,9 @@ class PgnController extends Controller
         ));
     }
 
-    public function exportAction($hash)
+    public function exportAction($id)
     {
-        $game = $this->findGame($hash);
+        $game = $this->findGame($id);
         $pgn = $this['lichess_pgn_dumper']->dumpGame($game);
 
         $response = $this->createResponse($pgn);
@@ -31,18 +31,18 @@ class PgnController extends Controller
     }
 
     /**
-     * Return the game for this hash 
-     * 
-     * @param string $hash 
+     * Return the game for this id
+     *
+     * @param string $id
      * @return Game
      */
-    protected function findGame($hash)
+    protected function findGame($id)
     {
-        $game = $this->container->getLichessPersistenceService()->find($hash);
+        $game = $this->container->getLichessPersistenceService()->find($id);
 
         if(!$game) {
-            throw new NotFoundHttpException('Can\'t find game '.$hash);
-        } 
+            throw new NotFoundHttpException('Can\'t find game '.$id);
+        }
 
         return $game;
     }

@@ -2,8 +2,8 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Entities\Game;
-use Bundle\LichessBundle\Entities\Player;
+use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
@@ -24,28 +24,15 @@ class Generator
     public function createGame($variant = Game::VARIANT_STANDARD)
     {
         $game = new Game($variant);
-        $this->makeGameHashUnique($game);
 
-        $game->setPlayers(array(
-            'white' => $this->createPlayer($game, 'white'),
-            'black' => $this->createPlayer($game, 'black')
-        ));
+        $game->addPlayer(new Player('white'));
+        $game->addPlayer(new Player('black'));
+
         $this->getVariantGenerator($variant)->createPieces($game);
 
         $game->setCreator($game->getPlayer('white'));
 
         return $game;
-    }
-
-    protected function makeGameHashUnique(Game $game)
-    {
-        if(!$this->persistence) {
-            return;
-        }
-
-        while(!$this->persistence->isHashFree($game->getHash())) {
-            $game->generateHash();
-        }
     }
 
     protected function getVariantGenerator($variant)
@@ -88,7 +75,7 @@ class Generator
         $nextGame = $this->createGame($variant);
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
-        $player->getGame()->setNext($nextPlayer->getFullHash());
+        $player->getGame()->setNext($nextPlayer->getFullId());
 
         return $nextPlayer;
     }
@@ -119,16 +106,11 @@ RNBQK  R
     {
         $data = $this->fixVisualBlock($data);
         $game = new Game();
-        $this->makeGameHashUnique($game);
 
         $players = array();
         foreach(array('white', 'black') as $color) {
-            $player = new Player($color);
-            $player->setGame($game);
-            $players[$color] = $player;
+            $game->addPlayer(new Player($color));
         }
-
-        $game->setPlayers($players);
         $game->setCreator($game->getPlayer('white'));
 
         foreach(explode("\n", $data) as $_y => $line) {
@@ -148,10 +130,8 @@ RNBQK  R
                     case 'q': $class = 'Queen'; break;
                     case 'k': $class = 'King'; break;
                 }
-                $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
-                $piece = new $fullClass($x, $y);
-                $piece->setPlayer($player);
-                $player->addPiece($piece);
+                $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
+                $player->addPiece(new $fullClass($x, $y));
             }
         }
 
@@ -167,16 +147,5 @@ RNBQK  R
         }
 
         return implode("\n", $lines);
-    }
-
-    /**
-     * @return Player
-     */
-    public function createPlayer(Game $game, $color)
-    {
-        $player = new Player($color);
-        $player->setGame($game);
-
-        return $player;
     }
 }

@@ -6,7 +6,7 @@ use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 class AutoDrawTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,12 +38,12 @@ class AutoDrawTest extends \PHPUnit_Framework_TestCase
         $data = <<<EOF
        k
        P
-        
-        
-        
-        
-        
-K       
+
+
+
+
+
+K
 EOF;
         $game = $this->game = $this->createGame($data);
         $game->setTurns(41);
@@ -90,7 +90,7 @@ EOF;
             $game = $generator->createGame();
         }
         $game->setStatus(Game::STARTED);
-        return $game; 
+        return $game;
     }
 }
 

@@ -13,7 +13,7 @@
             </select>
         <?php else: ?>
             <div class="opponent_status">
-              <?php $view['actions']->output('LichessBundle:Player:opponent', array('hash' => $game->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash())) ?>
+              <?php $view['actions']->output('LichessBundle:Player:opponent', array('id' => $game->getId(), 'color' => $player->getColor(), 'playerFullId' => $player->getFullId())) ?>
             </div>
         <?php endif; ?>
     </div>
@@ -29,12 +29,12 @@
         </div>
     </div>
     <div class="lichess_control clearfix">
-        <a href="<?php echo $view['router']->generate('lichess_resign', array('hash' => $player->getFullHash())) ?>" class="lichess_resign" title="<?php echo $view['translator']->_('Give up') ?>"><?php echo $view['translator']->_('Resign') ?></a>
+        <a href="<?php echo $view['router']->generate('lichess_resign', array('id' => $player->getFullId())) ?>" class="lichess_resign" title="<?php echo $view['translator']->_('Give up') ?>"><?php echo $view['translator']->_('Resign') ?></a>
     </div>
     <?php if($player->isMyTurn() && $game->isThreefoldRepetition()): ?>
     <div class="lichess_claim_draw_zone">
         <?php echo $view['translator']->_('Threefold repetition') ?>.&nbsp;
-        <a class="lichess_claim_draw" href="<?php echo $view['router']->generate('lichess_claim_draw', array('hash' => $player->getFullHash())) ?>"><?php echo $view['translator']->_('Claim a draw') ?></a>
+        <a class="lichess_claim_draw" href="<?php echo $view['router']->generate('lichess_claim_draw', array('id' => $player->getFullId())) ?>"><?php echo $view['translator']->_('Claim a draw') ?></a>
     </div>
     <?php endif; ?>
 </div>

@@ -97,6 +97,7 @@ class Player
         $this->generateId();
         $this->stack = new Stack();
         $this->stack->addEvent(array('type' => 'start'));
+        $this->pieces = new ArrayCollection();
     }
 
     /**
@@ -184,10 +185,9 @@ class Player
      * @return array
      */
     public function getPiecesByClass($class) {
-        $class = '\\Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
         $pieces = array();
         foreach($this->getPieces() as $piece) {
-            if($piece instanceof $class) {
+            if($piece->isClass($class)) {
                 $pieces[] = $piece;
             }
         }
@@ -250,11 +250,11 @@ class Player
     }
 
     /**
-     * @return Collection
+     * @return array
      */
     public function getPieces()
     {
-        return $this->pieces;
+        return $this->pieces->toArray();
     }
 
     /**
@@ -262,17 +262,21 @@ class Player
      */
     public function setPieces(array $pieces)
     {
-        $this->pieces = new ArrayCollection($pieces);
+        $this->pieces->clear();
+        foreach($pieces as $piece) {
+            $this->addPiece($piece);
+        }
     }
 
     public function addPiece(Piece $piece)
     {
-        $this->getPieces()->add($piece);
+        $this->pieces->add($piece);
+        $piece->setPlayer($this);
     }
 
     public function removePiece(Piece $piece)
     {
-        $this->getPieces()->removeElement($piece);
+        $this->pieces->removeElement($piece);
     }
 
     /**

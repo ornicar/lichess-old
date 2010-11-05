@@ -8,7 +8,7 @@
         <?php $view->output('LichessBundle:Main:staticBoard_'.$player->getColor().'.php') ?>
         <div class="lichess_overboard">
             <?php echo $view['translator']->_('To invite someone to play, give this url') ?>:
-            <input class="lichess_hash_input" readonly="readonly" value="<?php echo $view['router']->generate('lichess_game', array('hash' => $game->getHash()), true) ?>" />
+            <input class="lichess_id_input" readonly="readonly" value="<?php echo $view['router']->generate('lichess_game', array('id' => $game->getId()), true) ?>" />
             <p class="explanations"><?php echo $view['translator']->_('The first person to come on this url will play with you.') ?><p>
             <p class="explanations">
                 Variant: <?php echo $game->getVariantName() ?><br />

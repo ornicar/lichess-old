@@ -16,18 +16,18 @@ class PlayerWithAiControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $hash = preg_replace('#^.+([\w-]{10}+)$#', '$1', $client->getRequest()->getUri());
+        $id = preg_replace('#^.+([\w-]{12}+)$#', '$1', $client->getRequest()->getUri());
 
-        return $hash;
+        return $id;
     }
 
     /**
      * @depends testStartWithAi
      */
-    public function testSyncWithAi($hash)
+    public function testSyncWithAi($id)
     {
         $client = $this->createClient();
-        $syncUrl = $this->getSyncUrl($hash);
+        $syncUrl = $this->getSyncUrl($id);
 
         $client->request('GET', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -38,26 +38,26 @@ class PlayerWithAiControllerTest extends WebTestCase
     /**
      * @depends testStartWithAi
      */
-    public function testMoveWithAi($hash)
+    public function testMoveWithAi($id)
     {
         $client = $this->createClient();
-        $moveUrl = $this->getMoveUrl($hash);
+        $moveUrl = $this->getMoveUrl($id);
 
         $client->request('POST', $moveUrl, array('from' => 'b1', 'to' => 'c3'));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $nbConnectedPlayers = $client->getContainer()->getLichessSynchronizerService()->getNbConnectedPlayers();
         $this->assertEquals('{"v":2,"o":true,"e":[{"type":"move","from":"b1","to":"c3"},{"type":"possible_moves","possible_moves":null}],"p":"black","t":1,"ncp":'.$nbConnectedPlayers.'}', $client->getResponse()->getContent());
 
-        return $hash;
+        return $id;
     }
 
     /**
      * @depends testMoveWithAi
      */
-    public function testReSyncWithAi($hash)
+    public function testReSyncWithAi($id)
     {
         $client = $this->createClient();
-        $syncUrl = $this->getSyncUrl($hash);
+        $syncUrl = $this->getSyncUrl($id);
 
         $client->request('GET', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -67,10 +67,10 @@ class PlayerWithAiControllerTest extends WebTestCase
     /**
      * @depends testMoveWithAi
      */
-    public function testIllegalMoveWithAi($hash)
+    public function testIllegalMoveWithAi($id)
     {
         $client = $this->createClient();
-        $moveUrl = $this->getMoveUrl($hash);
+        $moveUrl = $this->getMoveUrl($id);
 
         $client->request('POST', $moveUrl, array('from' => 'a1', 'to' => 'a8'));
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -79,10 +79,10 @@ class PlayerWithAiControllerTest extends WebTestCase
     /**
      * @depends testMoveWithAi
      */
-    public function testChangeAiLevelValid($hash)
+    public function testChangeAiLevelValid($id)
     {
         $client = $this->createClient();
-        $changeLevelUrl = $this->getChangeLevelUrl($hash);
+        $changeLevelUrl = $this->getChangeLevelUrl($id);
 
         $client->request('POST', $changeLevelUrl, array('level' => 3));
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -92,10 +92,10 @@ class PlayerWithAiControllerTest extends WebTestCase
     /**
      * @depends testMoveWithAi
      */
-    public function testResign($hash)
+    public function testResign($id)
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', $hash);
+        $crawler = $client->request('GET', $id);
 
         $client->click($crawler->selectLink('Resign')->link());
         $crawler = $client->followRedirect();
@@ -107,10 +107,10 @@ class PlayerWithAiControllerTest extends WebTestCase
     /**
      * @depends testMoveWithAi
      */
-    public function testReplay($hash)
+    public function testReplay($id)
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', $hash);
+        $crawler = $client->request('GET', $id);
 
         $crawler = $client->click($crawler->selectLink('Replay and analyse')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -119,24 +119,24 @@ class PlayerWithAiControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('textarea#pgnText')->count());
     }
 
-    protected function getSyncUrl($hash)
+    protected function getSyncUrl($id)
     {
         $client = $this->createClient();
-        $client->request('GET', $hash);
+        $client->request('GET', $id);
         return str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
     }
 
-    protected function getMoveUrl($hash)
+    protected function getMoveUrl($id)
     {
         $client = $this->createClient();
-        $client->request('GET', $hash);
+        $client->request('GET', $id);
         return str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"move":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
     }
 
-    protected function getChangeLevelUrl($hash)
+    protected function getChangeLevelUrl($id)
     {
         $client = $this->createClient();
-        $client->request('GET', $hash);
+        $client->request('GET', $id);
         return str_replace('\\', '', preg_replace('#.+"ai_level":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
     }
 }

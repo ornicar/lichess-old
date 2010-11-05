@@ -5,7 +5,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Square;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Entities as Entities;
+use Bundle\LichessBundle\Document as Entities;
 
 class SquareTest extends \PHPUnit_Framework_TestCase
 {

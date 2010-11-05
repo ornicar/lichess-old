@@ -2,10 +2,10 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Entities\Game;
-use Bundle\LichessBundle\Entities\Piece;
-use Bundle\LichessBundle\Entities\Piece\King;
-use Bundle\LichessBundle\Entities\Piece\Rook;
+use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Piece;
+use Bundle\LichessBundle\Document\Piece\King;
+use Bundle\LichessBundle\Document\Piece\Rook;
 
 class Board
 {
@@ -28,12 +28,6 @@ class Board
         foreach(PieceFilter::filterAlive($this->getPieces()) as $piece)
         {
             $this->pieces[$piece->getSquareKey()] = $piece;
-        }
-        foreach($this->game->getPlayers() as $player) {
-            foreach ($player->getPieces() as $piece)
-            {
-                $piece->setBoard($this);
-            }
         }
     }
 

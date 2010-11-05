@@ -106,7 +106,7 @@ abstract class Piece
      */
     public function getIsDead()
     {
-        return $this->isDead;
+        return (boolean) $this->isDead;
     }
 
     /**

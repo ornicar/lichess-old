@@ -3,12 +3,12 @@
 namespace Bundle\LichessBundle\Zend\Paginator\Adapter;
 use Zend\Paginator\Adapter;
 use Bundle\LichessBundle\Persistence\MongoDBPersistence;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 /**
  * Implements the Zend\Paginator\Adapter Interface for use with Zend\Paginator\Paginator
  *
- * Allows pagination of Bundle\LichessBundle\Entities\Game objects
+ * Allows pagination of Bundle\LichessBundle\Document\Game objects
  */
 class GameAdapter implements Adapter
 {

@@ -7,13 +7,13 @@ class SyncBenchmark extends Benchmark
     public function testSyncSpeed()
     {
         $player = $this->createPlayer();
-        $playerHash = $player->getFullHash();
+        $playerId = $player->getFullId();
 
         $iterations = 100;
 
         $start = microtime(true);
         for($it=0; $it<$iterations; $it++) {
-            $this->client->request('POST', '/sync/'.$playerHash.'/0');
+            $this->client->request('POST', '/sync/'.$playerId.'/0');
         }
         $time = 1000 * (microtime(true) - $start);
         printf('%d syncs in %01.2f ms'."\n", $iterations, $time);

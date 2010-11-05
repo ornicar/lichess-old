@@ -4,8 +4,8 @@ namespace Bundle\LichessBundle\Tests\Piece;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Board;
-use Bundle\LichessBundle\Entities\Piece\Bishop;
-use Bundle\LichessBundle\Entities\Piece;
+use Bundle\LichessBundle\Document\Piece\Bishop;
+use Bundle\LichessBundle\Document\Piece;
 
 class BishopTest extends \PHPUnit_Framework_TestCase
 {

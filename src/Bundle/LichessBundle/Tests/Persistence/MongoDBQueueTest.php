@@ -58,7 +58,7 @@ class MongoDBQueueTest extends \PHPUnit_Framework_TestCase
         $entry2 = new QueueEntry($config2->times, $config2->variants, uniqid());
         $result2 = $queue->add($entry2, 'white');
         $this->assertEquals($queue::FOUND, $result2['status']);
-        $this->assertEquals($result['game']->getHash(), $result2['game_hash']);
+        $this->assertEquals($result['game']->getId(), $result2['game_id']);
         $this->assertEquals(0, $queue->count());
     }
 
