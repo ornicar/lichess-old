@@ -531,6 +531,10 @@ class Game
      */
     public function getBoard()
     {
+        if(null === $this->board) {
+            $this->ensureDependencies();
+        }
+
         return $this->board;
     }
 
@@ -579,11 +583,10 @@ class Game
      */
     public function getPlayer($color)
     {
-        if($color === $this->players->get(0)->getColor()) {
-            return $this->players->get(0);
-        }
-        elseif($color === $this->players->get(1)->getColor()) {
-            return $this->players->get(1);
+        foreach($this->getPlayers() as $player) {
+            if($color === $player->getColor()) {
+                return $player;
+            }
         }
     }
 
@@ -785,7 +788,7 @@ class Game
      */
     public function rotatePlayerStacks()
     {
-        foreach($game->getPlayers() as $player) {
+        foreach($this->getPlayers() as $player) {
             if(!$player->getIsAi()) {
                 $player->getStack()->rotate();
             }
@@ -800,8 +803,18 @@ class Game
     {
         foreach($this->getPlayers() as $player) {
             if(!$player->getIsAi()) {
-                apc_store($this->getId().'.'.$this->getColor().'.data', $player->getStack()->getVersion(), 3600);
+                apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
             }
+        }
+    }
+
+    /**
+     * @mongodb:PostRemove
+     */
+    public function clearPlayerVersionCache()
+    {
+        foreach($this->getPlayers() as $player) {
+            apc_delete($this->getId().'.'.$player->getColor().'.data');
         }
     }
 }

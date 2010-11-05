@@ -52,12 +52,8 @@ class PieceFilter
   // only keep asked class
   public static function filterClass(array $pieces, $class)
   {
-    $class = '\\Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
-
-    foreach($pieces as $it => $piece)
-    {
-      if (!$piece instanceof $class)
-      {
+    foreach($pieces as $it => $piece) {
+      if (!$piece->isClass($class)) {
         unset($pieces[$it]);
       }
     }
@@ -73,12 +69,8 @@ class PieceFilter
   // remove asked class
   public static function filterNotClass(array $pieces, $class)
   {
-    $class = '\\Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
-
-    foreach($pieces as $it => $piece)
-    {
-      if ($piece instanceof $class)
-      {
+    foreach($pieces as $it => $piece) {
+      if ($piece->isClass($class)) {
         unset($pieces[$it]);
       }
     }

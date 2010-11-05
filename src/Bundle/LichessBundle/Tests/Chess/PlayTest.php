@@ -194,7 +194,7 @@ EOF
      **/
     protected function assertDump($dump)
     {
-        $dump = "\n".$dump."\n";
+        $dump = "\n".Generator::fixVisualBlock($dump)."\n";
         $this->assertEquals($dump, $this->game->getBoard()->dump());
     }
 
