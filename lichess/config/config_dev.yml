@@ -13,4 +13,4 @@ zend.config:
 doctrine_odm.mongodb:
     metadata_cache_driver: array
     cache_driver: array
-    default_database: lichess_dev
+    default_database: lichess_test

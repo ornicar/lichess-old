@@ -88,8 +88,8 @@ class GameFunctionalTest extends WebTestCase
         $this->dm->flush();
         $game->getRoom()->addMessage('white', 'Rock\' n roll');
         $game->getRoom()->addMessage('black', 'Ain\'t noise pollution');
-        $game->getPlayer('white')->getStack()->addEvent(array('type' => 'test white'));
-        $game->getPlayer('black')->getStack()->addEvent(array('type' => 'test black'));
+        $game->getPlayer('white')->addEventToStack(array('type' => 'test white'));
+        $game->getPlayer('black')->addEventToStack(array('type' => 'test black'));
         $this->dm->flush();
 
         return $game->getId();

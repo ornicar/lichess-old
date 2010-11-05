@@ -14,7 +14,7 @@
 
         <service id="lichess.object_manager" alias="doctrine.odm.mongodb.document_manager" />
 
-        <service id="lichess.model.game.repository" class="Bundle\LichessBundle\LichessBundle" factory-method="getRepository" shared="true">
+        <service id="lichess.repository.game" class="Bundle\LichessBundle\LichessBundle" factory-method="getRepository" shared="true">
             <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <argument type="string">%lichess.model.game.class%</argument>
         </service>

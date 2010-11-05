@@ -23,11 +23,13 @@ class GameRepository extends DocumentRepository
     public function findRecentStartedGameIds($nb)
     {
         $data = $this->createRecentQuery()
+            ->hydrate(false)
             ->field('status')->equals(Game::STARTED)
             ->select('id')
             ->execute();
+        $ids = array_keys(iterator_to_array($data));
 
-        return array_map(function($d) { return $d['id']; }, $data);
+        return $ids;
     }
 
     /**
@@ -35,7 +37,7 @@ class GameRepository extends DocumentRepository
      *
      * @return array
      **/
-    public function findGamesById($ids)
+    public function findGamesByIds($ids)
     {
         if(is_string($ids)) {
             $ids = explode(',', $ids);
@@ -46,6 +48,8 @@ class GameRepository extends DocumentRepository
         $games = $this->createQuery()
             ->field('_id')->in($mongoIds)
             ->execute();
+
+        $games = iterator_to_array($games);
 
         // sort games in the order of ids
         $idPos = array_flip($ids);

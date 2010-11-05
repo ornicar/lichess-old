@@ -96,7 +96,7 @@ class Player
         $this->color = $color;
         $this->generateId();
         $this->stack = new Stack();
-        $this->stack->addEvent(array('type' => 'start'));
+        $this->addEventToStack(array('type' => 'start'));
         $this->pieces = new ArrayCollection();
     }
 
@@ -135,6 +135,20 @@ class Player
     public function setStack($stack)
     {
         $this->stack = $stack;
+    }
+
+    public function addEventsToStack(array $events)
+    {
+        if(!$this->getIsAi()) {
+            $this->getStack()->addEvents($events);
+        }
+    }
+
+    public function addEventToStack(array $event)
+    {
+        if(!$this->getIsAi()) {
+            $this->getStack()->addEvent($event);
+        }
     }
 
     /**
@@ -231,6 +245,10 @@ class Player
     public function setIsAi($isAi)
     {
         $this->isAi = $isAi;
+
+        if($this->isAi) {
+            $this->getStack()->reset();
+        }
     }
 
     /**
