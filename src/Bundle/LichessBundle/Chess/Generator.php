@@ -7,17 +7,9 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
-use Bundle\LichessBundle\Persistence\MongoDBPersistence;
 
 class Generator
 {
-    protected $persistence;
-
-    public function __construct(MongoDBPersistence $persistence = null)
-    {
-        $this->persistence = $persistence;
-    }
-
     /**
      * @return Game
      */

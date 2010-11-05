@@ -10,6 +10,7 @@
         <parameter key="lichess.queue.class">Bundle\LichessBundle\Persistence\MongoDBQueue</parameter>
 
         <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
+        <parameter key="lichess.ai_fallback.class">Bundle\LichessBundle\Ai\Stupid</parameter>
 
         <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
 
@@ -72,9 +73,6 @@
             <argument>%kernel.debug%</argument>
         </service>
 
-        <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
-        </service>
-
         <service id="lichess_queue" class="%lichess.queue.class%" shared="true">
             <argument type="service" id="lichess_generator" />
         </service>
@@ -82,8 +80,10 @@
         <service id="lichess_ai" class="%lichess.ai.class%" shared="true">
         </service>
 
+        <service id="lichess_ai_fallback" class="%lichess.ai_fallback.class%" shared="true">
+        </service>
+
         <service id="lichess_generator" class="%lichess.generator.class%" shared="true">
-            <argument type="service" id="lichess_persistence" />
         </service>
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">

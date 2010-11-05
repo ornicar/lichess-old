@@ -17,6 +17,11 @@ class Stack
      */
     protected $events = array();
 
+    public function hasVersion($version)
+    {
+        return isset($this->events[$version]);
+    }
+
     public function getVersion()
     {
         end($this->events);
