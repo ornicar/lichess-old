@@ -5,7 +5,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 class PossibleMovesTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,10 +16,10 @@ class PossibleMovesTest extends \PHPUnit_Framework_TestCase
         $data = <<<EOF
  nbqkp r
 pppppppp
-        
-        
-        
-    rr  
+
+
+
+    rr
 PPPP  PP
 RNBPKPRR
 EOF;
@@ -32,13 +32,13 @@ EOF;
     {
         $data = <<<EOF
        k
-        
-        
-        
-        
-        
-        
-K       
+
+
+
+
+
+
+K
 EOF;
         $expectedMoveTree = array('a1' => array('a2', 'b1', 'b2'));
         $moveTree = $this->computePossibleMoves($data);
@@ -52,12 +52,12 @@ EOF;
     public function test3()
     {
         $data = <<<EOF
-r  q rk 
+r  q rk
 pp  ppbp
- np  np 
-  Q   B 
-   pp b 
-  N  N  
+ np  np
+  Q   B
+   pp b
+  N  N
 PP   PPP
 R   KB R
 EOF;
@@ -74,14 +74,14 @@ EOF;
     public function testKings()
     {
         $data = <<<EOF
-        
-        
-        
-        
-        
-        
-  k     
-K       
+
+
+
+
+
+
+  k
+K
 EOF;
         $expectedMoveTree = array('a1' => array('a2'));
         $moveTree = $this->computePossibleMoves($data);
@@ -91,12 +91,12 @@ EOF;
     public function testCastling()
     {
         $data = <<<EOF
-r  q rk 
+r  q rk
 pp  ppbp
- np  np 
-  Q   B 
-   pp b 
-  N  N  
+ np  np
+  Q   B
+   pp b
+  N  N
 PP   PPP
 R   K  R
 EOF;
@@ -107,12 +107,12 @@ EOF;
     public function testCastlingImpossibleDueToRemainingPiece()
     {
         $data = <<<EOF
-r  q rk 
+r  q rk
 pp  ppbp
- np  np 
-  Q   B 
-   pp   
-        
+ np  np
+  Q   B
+   pp
+
 PP   PPP
 RN  K NR
 EOF;
@@ -123,12 +123,12 @@ EOF;
     public function test4()
     {
         $data = <<<EOF
-r    rk 
+r    rk
 pp  p bp
- np  np 
-   Q  B 
-   pp b 
- q   N  
+ np  np
+   Q  B
+   pp b
+ q   N
 PPP  PPP
 R  K B R
 EOF;
@@ -141,14 +141,14 @@ EOF;
     public function testEnPassant()
     {
         $data = <<<EOF
-        
-        
-        
-    Pp  
-        
-        
-        
-k  K    
+
+
+
+    Pp
+
+
+
+k  K
 EOF;
         $game = $this->createGame($data);
         $game->setTurns(30);
@@ -172,7 +172,7 @@ EOF;
         $game = $this->createGame($data);
         $game->setTurns($turn);
         $game->setStatus(Game::STARTED);
-        
+
         $analyser = new Analyser($game->getBoard());
         $moveTree = $analyser->getPlayerPossibleMoves($game->getTurnPlayer());
         return $moveTree;
@@ -187,7 +187,7 @@ EOF;
     {
         $generator = new Generator();
         $this->game = $generator->createGameFromVisualBlock($data);
-        return $this->game; 
+        return $this->game;
     }
 
     protected function sort($array)

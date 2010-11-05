@@ -5,7 +5,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 abstract class CastlingAbstractTest extends \PHPUnit_Framework_TestCase
 {

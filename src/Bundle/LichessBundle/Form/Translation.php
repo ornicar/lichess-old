@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Entities;
+namespace Bundle\LichessBundle\Document;
 use Symfony\Component\Yaml\Yaml;
 
 class Translation
@@ -29,7 +29,7 @@ class Translation
     public $comment;
 
     public $author;
-    
+
     /**
      * Get code
      * @return string
@@ -38,7 +38,7 @@ class Translation
     {
       return $this->code;
     }
-    
+
     /**
      * Set code
      * @param  string
@@ -48,7 +48,7 @@ class Translation
     {
       $this->code = $code;
     }
-    
+
     /**
      * Get name
      * @return string
@@ -57,7 +57,7 @@ class Translation
     {
       return $this->name;
     }
-    
+
     /**
      * Set name
      * @param  string
@@ -67,7 +67,7 @@ class Translation
     {
       $this->name = $name;
     }
-    
+
     /**
      * Get messages
      * @return array
@@ -76,7 +76,7 @@ class Translation
     {
       return $this->messages;
     }
-    
+
     /**
      * Set messages
      * @param  array
@@ -109,7 +109,7 @@ class Translation
 
         return implode("\n", $lines);
     }
-    
+
     /**
      * Set yamlMessages
      * @param  string
@@ -119,5 +119,5 @@ class Translation
     {
         $this->messages = Yaml::load($yamlMessages);
     }
-    
+
 }

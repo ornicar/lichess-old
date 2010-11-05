@@ -4,8 +4,8 @@ namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Entities as Entities;
-use Bundle\LichessBundle\Entities\Piece as Piece;
+use Bundle\LichessBundle\Document as Entities;
+use Bundle\LichessBundle\Document\Piece as Piece;
 
 class PieceFilterTest extends \PHPUnit_Framework_TestCase
 {

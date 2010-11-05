@@ -1,8 +1,8 @@
 <?php
 
 namespace Bundle\LichessBundle\Notation;
-use Bundle\LichessBundle\Entities\Game;
-use Bundle\LichessBundle\Entities\Piece;
+use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Piece;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
@@ -204,7 +204,7 @@ class Forsyth
         }
         else {
             throw new \RuntimeException(sprintf('Forsyth:diffToMove game:%s, variant:%s, moves: %s, forsyth:%s',
-                $game->getHash(),
+                $game->getId(),
                 $game->getVariantName(),
                 str_replace("\n", " ", var_export($moves, true)),
                 $forsyth

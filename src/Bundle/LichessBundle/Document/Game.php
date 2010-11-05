@@ -15,7 +15,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   collection="game2",
  *   repositoryClass="Bundle\LichessBundle\Document\GameRepository"
  * )
- * @mongodb:UniqueIndex(keys={"hash"="asc"}, options={"unique"="true", "safe"=true, "dropDups"="true"})
  * @mongodb:HasLifecycleCallbacks
  */
 class Game
@@ -53,6 +52,7 @@ class Game
      *
      * @var int
      * @mongodb:Field(type="int", name="s")
+     * @mongodb:Index()
      */
     protected $status = self::CREATED;
 
@@ -110,6 +110,7 @@ class Game
      *
      * @var \DateTime
      * @mongodb:Field(type="date", name="ua")
+     * @mongodb:Index(order="desc")
      */
     protected $updatedAt = null;
 
@@ -176,7 +177,7 @@ class Game
     protected function generateId()
     {
         if(null !== $this->id) {
-            throw new \LogicException('Can not change the hash of a saved game');
+            throw new \LogicException('Can not change the id of a saved game');
         }
         $this->id = '';
         $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_-';
@@ -530,9 +531,6 @@ class Game
      */
     public function getBoard()
     {
-        if(null === $this->board) {
-            $this->board = new Board($this);
-        }
         return $this->board;
     }
 
@@ -592,12 +590,12 @@ class Game
     /**
      * @return Player
      */
-    public function getPlayerByHash($hash)
+    public function getPlayerById($id)
     {
-        if($this->getPlayer('white')->getId() === $hash) {
+        if($this->getPlayer('white')->getId() === $id) {
             return $this->getPlayer('white');
         }
-        elseif($this->getPlayer('black')->getId() === $hash) {
+        elseif($this->getPlayer('black')->getId() === $id) {
             return $this->getPlayer('black');
         }
     }
@@ -764,5 +762,46 @@ class Game
     public function setUpdatedNow()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @mongodb:PostLoad
+     */
+    public function ensureDependencies()
+    {
+        $this->board = new Board($this);
+
+        foreach($this->getPlayers() as $player) {
+            $player->setGame($this);
+            foreach($player->getPieces() as $piece) {
+                $piece->setPlayer($player);
+                $piece->setBoard($this->board);
+            }
+        }
+    }
+
+    /**
+     * @mongodb:PreUpdate
+     */
+    public function rotatePlayerStacks()
+    {
+        foreach($game->getPlayers() as $player) {
+            if(!$player->getIsAi()) {
+                $player->getStack()->rotate();
+            }
+        }
+    }
+
+    /**
+     * @mongodb:PreUpdate
+     * @mongodb:PrePersist
+     */
+    public function cachePlayerVersions()
+    {
+        foreach($this->getPlayers() as $player) {
+            if(!$player->getIsAi()) {
+                apc_store($this->getId().'.'.$this->getColor().'.data', $player->getStack()->getVersion(), 3600);
+            }
+        }
     }
 }

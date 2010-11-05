@@ -11,7 +11,7 @@
         <div class="game_row clearfix">
             <?php echo $view->render('LichessBundle:Game:mini.php', array('game' => $game)) ?>
             <div class="infos">
-                <a class="link" href="<?php echo $url = $view['router']->generate('lichess_game', array('hash' => $game->getHash()), true) ?>"><?php echo $url ?></a>
+                <a class="link" href="<?php echo $url = $view['router']->generate('lichess_game', array('id' => $game->getId()), true) ?>"><?php echo $url ?></a>
                 <br />
                 <?php echo $view['time']->ago($game->getUpdatedAt($game->getUpdatedAt())) ?>
                 <br /><br />
@@ -44,7 +44,7 @@
                 <br /><br />
                 Time control: <?php echo $game->hasClock() ? ($game->getClock()->getLimit() / 60).' minutes/side' : 'no' ?>
                 <br /><br />
-                <a href="<?php echo $view['router']->generate('lichess_pgn_viewer', array('hash' => $game->getHash(), 'color' => $game->getCreator()->getColor())) ?>">&gt;&gt; Replay and Analyse</a>
+                <a href="<?php echo $view['router']->generate('lichess_pgn_viewer', array('id' => $game->getId(), 'color' => $game->getCreator()->getColor())) ?>">&gt;&gt; Replay and Analyse</a>
             </div>
         </div>
     <?php endforeach ?>

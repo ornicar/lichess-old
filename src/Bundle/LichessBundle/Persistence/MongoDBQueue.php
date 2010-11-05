@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Persistence;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Chess\Generator;
 
 class MongoDBQueue
@@ -27,7 +27,7 @@ class MongoDBQueue
 
             return array(
                 'status' => static::FOUND,
-                'game_hash' => $existing->gameHash,
+                'game_id' => $existing->gameId,
                 'time' => $entry->getCommonTime($existing),
                 'variant' => $entry->getCommonVariant($existing)
             );
@@ -38,7 +38,7 @@ class MongoDBQueue
         $this->collection->insert(array(
             'times' => $entry->times,
             'variants' => $entry->variants,
-            'gameHash' => $game->getHash(),
+            'gameId' => $game->getId(),
             'userId' => $entry->userId,
             'date' => time()
         ));
@@ -76,7 +76,7 @@ class MongoDBQueue
     {
         $entry = new QueueEntry($data['times'], $data['variants'], $data['userId']);
         $entry->id = $data['_id']->__toString();
-        $entry->gameHash = $data['gameHash'];
+        $entry->gameId = $data['gameId'];
 
         return $entry;
     }

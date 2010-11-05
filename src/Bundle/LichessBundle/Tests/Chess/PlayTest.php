@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 class PlayTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,11 +26,11 @@ class PlayTest extends \PHPUnit_Framework_TestCase
         ));
         $this->assertDump(<<<EOF
 rnbqkb r
-pp p pp 
+pp p pp
   p  n p
-    p B 
-  B P   
-   P    
+    p B
+  B P
+   P
 PPP  PPP
 RN QK NR
 EOF
@@ -38,11 +38,11 @@ EOF
         $this->applyMoves(array('g5 f6'));
         $this->assertDump(<<<EOF
 rnbqkb r
-pp p pp 
+pp p pp
   p  B p
-    p   
-  B P   
-   P    
+    p
+  B P
+   P
 PPP  PPP
 RN QK NR
 EOF
@@ -50,11 +50,11 @@ EOF
         $this->applyMoves(array('d8 f6'));
         $this->assertDump(<<<EOF
 rnb kb r
-pp p pp 
+pp p pp
   p  q p
-    p   
-  B P   
-   P    
+    p
+  B P
+   P
 PPP  PPP
 RN QK NR
 EOF
@@ -75,10 +75,10 @@ EOF
         $this->assertDump(<<<EOF
 rnbqkbnr
 pp  pppp
-        
-  pP    
-        
-  P     
+
+  pP
+
+  P
 PP P PPP
 RNBQKBNR
 EOF
@@ -98,12 +98,12 @@ EOF
         $this->assertDump(<<<EOF
 rn  kb r
 pp   ppp
-    pn  
+    pn
   pq   b
-   P    
+   P
   P  N P
-PP  BPP 
-RNBQ RK 
+PP  BPP
+RNBQ RK
 EOF
         );
         $this->applyMoves(array(
@@ -116,12 +116,12 @@ EOF
         $this->assertDump(<<<EOF
 r   k  r
 pp   ppp
-  n pn  
+  n pn
    q   b
- b P    
+ b P
     BN P
-PP  BPP 
-RN Q RK 
+PP  BPP
+RN Q RK
 EOF
         );
     }
@@ -155,11 +155,11 @@ EOF
         $this->assertDump(<<<EOF
   kr  nr
 pp n ppp
-  p p   
-q       
- b P B  
+  p p
+q
+ b P B
 P N  Q P
- PP BPP 
+ PP BPP
 R   K  R
 EOF
         );
@@ -175,11 +175,11 @@ EOF
         $this->assertDump(<<<EOF
   kr  nr
 p  n ppp
-B p p   
-        
- P P B  
+B p p
+
+ P P B
   N    P
- PPK PP 
+ PPK PP
        q
 EOF
         );
@@ -225,6 +225,6 @@ EOF
             $game = $generator->createGame();
         }
         $game->setStatus(Game::STARTED);
-        return $game; 
+        return $game;
     }
 }

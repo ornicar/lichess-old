@@ -11,7 +11,7 @@ if ($player->isBlack()) {
 $x = $y = 1;
 
 printf('<a href="%s" title="%s" class="mini_board notipsy">',
-    $view['router']->generate('lichess_game', array('hash' => $game->getHash())),
+    $view['router']->generate('lichess_game', array('id' => $game->getId())),
     $view['translator']->_('View in full size')
 );
 

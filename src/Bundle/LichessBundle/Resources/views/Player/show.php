@@ -1,6 +1,6 @@
 <?php $view->extend('LichessBundle::layout.php') ?>
 <?php $view['slots']->set('robots', 'noindex, nofollow') ?>
-<?php $view['slots']->set('title_suffix', ' #'.$player->getFullHash()) ?>
+<?php $view['slots']->set('title_suffix', ' #'.$player->getFullId()) ?>
 
 <div class="lichess_game clearfix lichess_player_<?php echo $player->getColor() ?> not_spectator">
     <div class="lichess_board_wrap">
@@ -9,7 +9,7 @@
     <div class="lichess_ground">
         <?php $view->output('LichessBundle:Game:cemetery.php', array('player' => $player, 'position' => 'top')) ?>
         <div class="lichess_table_wrap">
-            <?php $view['actions']->output('LichessBundle:Player:table', array('hash' => $player->getGame()->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash())) ?>
+            <?php $view['actions']->output('LichessBundle:Player:table', array('id' => $player->getGame()->getId(), 'color' => $player->getColor(), 'playerFullId' => $player->getFullId())) ?>
         </div>
         <?php $view->output('LichessBundle:Game:cemetery.php', array('player' => $player->getOpponent(), 'position' => 'bottom')) ?>
     </div>

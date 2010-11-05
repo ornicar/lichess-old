@@ -1,8 +1,8 @@
 <?php
 
 namespace Bundle\LichessBundle\Persistence;
-use Bundle\LichessBundle\Entities\Game;
-use Bundle\LichessBundle\Entities\Player;
+use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
 
 class MongoDBPersistence
 {
@@ -13,6 +13,7 @@ class MongoDBPersistence
 
     public function __construct()
     {
+        throw new \RuntimeException('Do not use me');
         $this->mongo = new \Mongo($this->server, array('persist' => 'lichess_connection'));
         $this->collection = $this->mongo->selectCollection('lichess', 'game');
     }
@@ -39,18 +40,18 @@ class MongoDBPersistence
         return $this->getNbGames(array('status' => Game::MATE));
     }
 
-    public function findRecentGamesHashes($limit)
+    public function findRecentGamesIdes($limit)
     {
         $cursor = $this->getCollection()->find(array('status' => Game::STARTED), array('hash'))->sort(array('upd' => -1))->limit($limit);
-        $hashes = array();
+        $ids = array();
         foreach(iterator_to_array($cursor) as $result) {
-            $hashes[] = $result['hash'];
+            $ids[] = $result['hash'];
         }
 
-        return $hashes;
+        return $ids;
     }
 
-    public function findGamesByHashes(array $hashes)
+    public function findGamesByIdes(array $hashes)
     {
         // fetch games from DB
         $cursor = $this->getCollection()->find(array('hash' => array('$in' => $hashes)))->limit(9);
@@ -80,7 +81,7 @@ class MongoDBPersistence
                 $this->storePlayerCache($player);
             }
         }
-        $hash = $game->getHash();
+        $hash = $game->getId();
 
         $data = array(
             'bin' => $this->encode($game),
@@ -97,7 +98,7 @@ class MongoDBPersistence
 
     public function storePlayerCache(Player $player)
     {
-        apc_store($player->getGame()->getHash().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
+        apc_store($player->getGame()->getId().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
     }
 
     public function remove(Game $game)
@@ -107,12 +108,12 @@ class MongoDBPersistence
                 $this->clearPlayerCache($player);
             }
         }
-        $this->collection->remove(array('hash' => $game->getHash()));
+        $this->collection->remove(array('hash' => $game->getId()));
     }
 
     public function clearPlayerCache(Player $player)
     {
-        apc_delete($player->getGame()->getHash().'.'.$player->getColor().'.data');
+        apc_delete($player->getGame()->getId().'.'.$player->getColor().'.data');
     }
 
     /**

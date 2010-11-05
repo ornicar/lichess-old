@@ -21,7 +21,7 @@ class ProofCommand extends BaseCommand
     {
         $this
             ->setDefinition(array(
-                new InputArgument('hash', InputArgument::REQUIRED, 'The player hash'),
+                new InputArgument('id', InputArgument::REQUIRED, 'The player id'),
             ))
             ->setName('lichess:proof')
         ;
@@ -34,20 +34,20 @@ class ProofCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $hash = $input->getArgument('hash');
-        if(6 === strlen($hash)) {
-            $game = $this->container->getLichessPersistenceService()->find($hash);
+        $id = $input->getArgument('id');
+        if(8 === strlen($id)) {
+            $game = $this->container->getLichessPersistenceService()->find($id);
             if(!$game) {
-                throw new \Exception('Can\'t find game '.$hash);
+                throw new \Exception('Can\'t find game '.$id);
             }
             foreach(array('white', 'black') as $color) {
-                $output->writeLn(sprintf('%s: %s', $color, $game->getPlayer($color)->getFullHash()));
+                $output->writeLn(sprintf('%s: %s', $color, $game->getPlayer($color)->getFullId()));
             }
         }
         else {
-            $player = $this->findPlayer($input->getArgument('hash'));
+            $player = $this->findPlayer($input->getArgument('id'));
             $opponent = $player->getOpponent();
-            $output->writeLn(sprintf('Opponent hash is %s', $opponent->getFullHash()));
+            $output->writeLn(sprintf('Opponent id is %s', $opponent->getFullId()));
             $message = '--- please believe me ---';
             $player->getGame()->getRoom()->addMessage($opponent->getColor(), $message);
             $htmlMessage = \Bundle\LichessBundle\Helper\TextHelper::autoLink(htmlentities($message, ENT_COMPAT, 'UTF-8'));
@@ -63,24 +63,24 @@ class ProofCommand extends BaseCommand
     }
 
     /**
-     * Get the player for this hash
+     * Get the player for this id
      *
-     * @param string $hash
+     * @param string $id
      * @return Player
      */
-    protected function findPlayer($hash)
+    protected function findPlayer($id)
     {
-        $gameHash = substr($hash, 0, 6);
-        $playerHash = substr($hash, 6, 10);
+        $gameId = substr($id, 0, 8);
+        $playerId = substr($id, 8, 12);
 
-        $game = $this->container->getLichessPersistenceService()->find($gameHash);
+        $game = $this->container->getLichessPersistenceService()->find($gameId);
         if(!$game) {
-            throw new \Exception('Can\'t find game '.$gameHash);
+            throw new \Exception('Can\'t find game '.$gameId);
         }
 
-        $player = $game->getPlayerByHash($playerHash);
+        $player = $game->getPlayerById($playerId);
         if(!$player) {
-            throw new \Exception('Can\'t find player '.$playerHash);
+            throw new \Exception('Can\'t find player '.$playerId);
         }
 
         return $player;

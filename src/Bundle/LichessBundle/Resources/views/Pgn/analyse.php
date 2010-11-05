@@ -1,7 +1,7 @@
 <?php $view->extend('LichessBundle::layout.php') ?>
 <?php $view['slots']->set('assets_pack', 'analyse') ?>
 <?php $view['slots']->set('title', 'Lichess - '.$view['translator']->_('Replay and analyse')) ?>
-<?php $view['slots']->set('title_suffix', ' #'.$game->getHash()) ?>
+<?php $view['slots']->set('title_suffix', ' #'.$game->getId()) ?>
 
 <div class="analyse clearfix">
     <div class="board_wrap">
@@ -16,7 +16,7 @@
 
 <?php $view['slots']->start('goodies') ?>
 <div class="lichess_goodies">
-    <a class="rotate_board" href="<?php echo $view['router']->generate('lichess_pgn_viewer', array('hash' => $game->getHash(), 'color' => 'white' === $color ? 'black' : 'white')) ?>"><?php echo $view['translator']->_('Flip board') ?></a><br />
+    <a class="rotate_board" href="<?php echo $view['router']->generate('lichess_pgn_viewer', array('id' => $game->getId(), 'color' => 'white' === $color ? 'black' : 'white')) ?>"><?php echo $view['translator']->_('Flip board') ?></a><br />
     <br />
     <?php foreach(array('white', 'black') as $_color): ?>
         <div>

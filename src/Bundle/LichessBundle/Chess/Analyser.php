@@ -3,9 +3,9 @@
 namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Chess\Board;
-use Bundle\LichessBundle\Entities\Player;
-use Bundle\LichessBundle\Entities\Piece;
-use Bundle\LichessBundle\Entities\Piece\King;
+use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Piece;
+use Bundle\LichessBundle\Document\Piece\King;
 
 class Analyser
 {

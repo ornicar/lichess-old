@@ -6,7 +6,7 @@ use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 class PromotionTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,13 +17,13 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
     {
         $data = <<<EOF
        k
- P      
-        
-        
-        
-        
-        
-K       
+ P
+
+
+
+
+
+K
 EOF;
         $game = $this->game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
@@ -37,14 +37,14 @@ EOF;
     public function testPromotionKnight()
     {
         $data = <<<EOF
-        
- P k    
-        
-        
-        
-        
-        
-K       
+
+ P k
+
+
+
+
+
+K
 EOF;
         $game = $this->game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
@@ -59,13 +59,13 @@ EOF;
     {
         $data = <<<EOF
        k
- P      
-        
-        
-        
-        
-        
-K       
+ P
+
+
+
+
+
+K
 EOF;
         $game = $this->game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
@@ -126,6 +126,6 @@ EOF;
         $this->analyser = new Analyser($game->getBoard());
         $game->setStatus(Game::STARTED);
         $game->setTurns(30);
-        return $game; 
+        return $game;
     }
 }

@@ -3,7 +3,7 @@
 use Bundle\LichessBundle\Persistence\FilePersistence;
 use Bundle\LichessBundle\Persistence\MongoDBPersistence;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 require_once(__DIR__.'/bootstrap.php');
 
@@ -44,7 +44,7 @@ printf('Total: %01.2f ms'."\n", $totalTime);
 function lichess_test_performance_file_persistence(Game $game, $driver)
 {
     global $totalTime;
-    $hash = $game->getHash();
+    $hash = $game->getId();
     $iterations = 1000;
 
     $start = microtime(true);

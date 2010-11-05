@@ -8,7 +8,7 @@
             <span><?php echo $view['translator']->_('Opponent: %ai_name% level %ai_level%', array('%ai_name%' => 'Crafty A.I.', '%ai_level%' => $opponent->getAiLevel())) ?></span>
         <?php else: ?>
             <div class="opponent_status">
-              <?php $view['actions']->output('LichessBundle:Player:opponent', array('hash' => $game->getHash(), 'color' => $player->getColor(), 'playerFullHash' => $player->getFullHash())) ?>
+              <?php $view['actions']->output('LichessBundle:Player:opponent', array('id' => $game->getId(), 'color' => $player->getColor(), 'playerFullId' => $player->getFullId())) ?>
             </div>
         <?php endif; ?>
     </div>
@@ -33,7 +33,7 @@
                 <?php if($player->getColor() == $nextGame->getCreator()->getColor()): ?>
                     <div class="lichess_play_again_join">
 <?php echo $view['translator']->_('Your opponent wants to play a new game with you') ?>.&nbsp;
-<a class="lichess_play_again" title="<?php echo $view['translator']->_('Play with the same opponent again') ?>" href="<?php echo $view['router']->generate('lichess_rematch', array('hash' => $player->getFullHash())) ?>"><?php echo $view['translator']->_('Join the game') ?></a>
+<a class="lichess_play_again" title="<?php echo $view['translator']->_('Play with the same opponent again') ?>" href="<?php echo $view['router']->generate('lichess_rematch', array('id' => $player->getFullId())) ?>"><?php echo $view['translator']->_('Join the game') ?></a>
                     </div>
                 <?php else: ?>
                     <div class="lichess_play_again_join">
@@ -42,7 +42,7 @@
                     </div>
                 <?php endif; ?>
             <?php else: ?>
-                | <a class="lichess_rematch" title="<?php echo $view['translator']->_('Play with the same opponent again') ?>" href="<?php echo $view['router']->generate('lichess_rematch', array('hash' => $player->getFullHash())) ?>"><?php echo $view['translator']->_('Rematch') ?></a>
+                | <a class="lichess_rematch" title="<?php echo $view['translator']->_('Play with the same opponent again') ?>" href="<?php echo $view['router']->generate('lichess_rematch', array('id' => $player->getFullId())) ?>"><?php echo $view['translator']->_('Rematch') ?></a>
             <?php endif; ?>
         <?php endif; ?>
     </div>
