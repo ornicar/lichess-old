@@ -70,7 +70,7 @@ lichess_games:
     pattern:        /games
     defaults:       { _controller: LichessBundle:Game:list }
 lichess_games_inner:
-    pattern:        /games-refresh/:ides
+    pattern:        /games-refresh/:ids
     defaults:       { _controller: LichessBundle:Game:listInner }
 lichess_list_all:
     pattern:        /games/all

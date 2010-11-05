@@ -9,6 +9,7 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Document\Clock;
 use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Persistence\QueueEntry;
+use Bundle\LichessBundle\Form;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,7 +19,7 @@ class GameController extends Controller
     public function listAction()
     {
         return $this->render('LichessBundle:Game:listCurrent.php', array(
-            'ids'     => $this['lichess.repository.game']->findRecentStartedGamesIds(9),
+            'ids'     => $this['lichess.repository.game']->findRecentStartedGameIds(9),
             'nbGames' => $this['lichess.repository.game']->getNbGames(),
             'nbMates' => $this['lichess.repository.game']->getNbMates()
         ));
@@ -36,7 +37,7 @@ class GameController extends Controller
         $query = $this['lichess.repository.game']->createRecentStartedOrFinishedQuery();
 
         return $this->render('LichessBundle:Game:listCurrent.php', array(
-            'games'    => $this->getPaginatorForQuery($query),
+            'games'    => $this->createPaginatorForQuery($query),
             'nbGames'  => $this['lichess.repository.game']->getNbGames(),
             'nbMates'  => $this['lichess.repository.game']->getNbMates(),
             'pagerUrl' => $this->generateUrl('lichess_list_all')
@@ -48,7 +49,7 @@ class GameController extends Controller
         $query = $this['lichess.repository.game']->createRecentMateQuery();
 
         return $this->render('LichessBundle:Game:listCurrent.php', array(
-            'games'    => $this->getPaginatorForQuery($query),
+            'games'    => $this->createPaginatorForQuery($query),
             'nbGames'  => $this['lichess.repository.game']->getNbGames(),
             'nbMates'  => $this['lichess.repository.game']->getNbMates(),
             'pagerUrl' => $this->generateUrl('lichess_list_mates')
@@ -90,7 +91,7 @@ class GameController extends Controller
         }
 
         $game->start();
-        $game->getCreator()->getStack()->addEvent(array(
+        $game->getCreator()->addEventToStack(array(
             'type' => 'redirect',
             'url'  => $this->generateUrl('lichess_player', array('id' => $game->getCreator()->getFullId()))
         ));
@@ -252,7 +253,7 @@ class GameController extends Controller
     protected function createPaginatorForQuery($query)
     {
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($this['query']->request->get('page', 1));
+        $games->setCurrentPageNumber($this['request']->request->get('page', 1));
         $games->setItemCountPerPage(10);
         $games->setPageRange(10);
 

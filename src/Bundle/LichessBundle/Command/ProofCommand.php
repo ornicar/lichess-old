@@ -55,8 +55,8 @@ class ProofCommand extends BaseCommand
                 'type' => 'message',
                 'html' => sprintf('<li class="%s">%s</li>', $opponent->getColor(), $htmlMessage)
             );
-            $player->getStack()->addEvent($sayEvent);
-            $opponent->getStack()->addEvent($sayEvent);
+            $player->addEventToStack($sayEvent);
+            $opponent->addEventToStack($sayEvent);
             $this->container->getLichessPersistenceService()->save($player->getGame());
         }
         $output->writeLn('Done.');
