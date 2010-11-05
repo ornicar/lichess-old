@@ -81,7 +81,7 @@ class Game
     protected $turns = 0;
 
     /**
-     * PGN moves of the game, separed by spaces
+     * PGN moves of the game, separated by spaces
      *
      * @var string
      * @mongodb:Field(type="string", name="pgn")
@@ -89,7 +89,7 @@ class Game
     protected $pgnMoves = null;
 
     /**
-     * The ID of the next game the players will start
+     * The ID of the player that starts the next game the players will play
      *
      * @var string
      * @mongodb:Field(type="string")

@@ -55,13 +55,17 @@ class Synchronizer
 
     public function getDiffEvents(Player $player, $clientVersion)
     {
-        $stackVersion = $player->getStack()->getVersion();
-        if($stackVersion == $clientVersion) {
+        $playerStack = $player->getStack();
+        $stackVersion = $playerStack->getVersion();
+        if($stackVersion === $clientVersion) {
             return array();
+        }
+        if(!$playerStack->hasVersion($clientVersion)) {
+            throw new \OutOfBoundsException();
         }
         $events = array();
         for($version = $clientVersion+1; $version <= $stackVersion; $version++) {
-            $events[] = $player->getStack()->getEvent($version);
+            $events[] = $playerStack->getEvent($version);
         }
 
         return $events;

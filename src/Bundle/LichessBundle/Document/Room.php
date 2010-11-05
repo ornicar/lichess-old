@@ -11,7 +11,7 @@ class Room
      * List of room messages
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @mongodb:Field(type="collection", name="m")
      */
     protected $messages = array();
 
@@ -47,5 +47,4 @@ class Room
     {
         return count($this->messages);
     }
-
 }
