@@ -38,7 +38,7 @@ class PgnController extends Controller
      */
     protected function findGame($id)
     {
-        $game = $this->container->getLichessPersistenceService()->find($id);
+        $game = $this['lichess.repository.game']->findOneById($id);
 
         if(!$game) {
             throw new NotFoundHttpException('Can\'t find game '.$id);
