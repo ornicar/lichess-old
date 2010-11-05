@@ -1,8 +1,6 @@
 <?php
 
 namespace Bundle\LichessBundle\Document;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @mongodb:EmbeddedDocument
@@ -12,15 +10,10 @@ class Room
     /**
      * List of room messages
      *
-     * @var Collection
+     * @var array
      * @mongodb:Field(type="collection")
      */
-    protected $messages = null;
-
-    public function __construct()
-    {
-        $this->messages = new ArrayCollection();
-    }
+    protected $messages = array();
 
     /**
      * Get messages
@@ -42,7 +35,17 @@ class Room
     {
         $user = (string) $user;
         $message = (string) $message;
-        $this->messages->add(array($user, $message));
+        $this->messages[] = array($user, $message);
+    }
+
+    /**
+     * Get the number of messages
+     *
+     * @return int
+     **/
+    public function getNbMessages()
+    {
+        return count($this->messages);
     }
 
 }

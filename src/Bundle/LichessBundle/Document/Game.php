@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
  *
  * @mongodb:Document(
- *   collection="game",
+ *   collection="game2",
  *   repositoryClass="Bundle\LichessBundle\Document\GameRepository"
  * )
  * @mongodb:UniqueIndex(keys={"hash"="asc"}, options={"unique"="true", "safe"=true, "dropDups"="true"})
@@ -44,7 +44,7 @@ class Game
      * Game variant (like standard or 960)
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @mongodb:Field(type="int", name="v")
      */
     protected $variant = self::VARIANT_STANDARD;
 
@@ -52,15 +52,15 @@ class Game
      * The current state of the game, like CREATED, STARTED or MATE.
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @mongodb:Field(type="int", name="s")
      */
     protected $status = self::CREATED;
 
     /**
      * The two players
      *
-     * @var Collection
-     * @mongodb:EmbedMany(targetDocument="Player")
+     * @var array
+     * @mongodb:EmbedMany(targetDocument="Player", name="p")
      */
     protected $players = null;
 
@@ -68,6 +68,7 @@ class Game
      * Color of the player who created the game
      *
      * @var string
+     * @mongodb:Field(type="string", name="cc")
      */
     protected $creatorColor = null;
 
@@ -75,22 +76,15 @@ class Game
      * Number of turns passed
      *
      * @var integer
-     * @mongodb:Field(type="int")
+     * @mongodb:Field(type="int", name="t")
      */
     protected $turns = 0;
-
-    /**
-     * The game board
-     *
-     * @var Board
-     */
-    protected $board = null;
 
     /**
      * PGN moves of the game, separed by spaces
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @mongodb:Field(type="string", name="pgn")
      */
     protected $pgnMoves = null;
 
@@ -107,7 +101,7 @@ class Game
      * Can be null if equals to standard position
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @mongodb:Field(type="string", name="ifen")
      */
     protected $initialFen = null;
 
@@ -115,7 +109,7 @@ class Game
      * Last update time
      *
      * @var \DateTime
-     * @mongodb:Field(type="date")
+     * @mongodb:Field(type="date", name="ua")
      */
     protected $updatedAt = null;
 
@@ -123,23 +117,23 @@ class Game
      * Creation date
      *
      * @var \DateTime
-     * @mongodb:Field(type="date")
+     * @mongodb:Field(type="date", name="ca")
      */
     protected $createdAt = null;
 
     /**
      * Array of position hashes, used to detect threefold repetition
      *
-     * @var Collection
-     * @mongodb:Field(type="collection")
+     * @var array
+     * @mongodb:Field(type="collection", name="ph")
      */
-    protected $positionHashes = null;
+    protected $positionHashes = array();
 
     /**
      * The game clock
      *
      * @var Clock
-     * @mongodb:EmbedOne(targetDocument="Clock", nullable=true)
+     * @mongodb:EmbedOne(targetDocument="Clock", nullable=true, name="c")
      */
     protected $clock = null;
 
@@ -147,9 +141,16 @@ class Game
      * The chat room
      *
      * @var Room
-     * @mongodb:EmbedOne(targetDocument="Room", nullable=true)
+     * @mongodb:EmbedOne(targetDocument="Room", nullable=true, name="r")
      */
     protected $room = null;
+
+    /**
+     * The game board
+     *
+     * @var Board
+     */
+    protected $board = null;
 
     public function __construct($variant = self::VARIANT_STANDARD)
     {
@@ -157,7 +158,6 @@ class Game
         $this->setVariant($variant);
         $this->status = self::CREATED;
         $this->players = new ArrayCollection();
-        $this->positionHashes = new ArrayCollection();
     }
 
     /**
@@ -311,8 +311,8 @@ class Game
         if($this->getIsFinished()) {
             return;
         }
-        foreach($this->getPlayers() as $color => $player) {
-            if($this->getClock()->isOutOfTime($color)) {
+        foreach($this->getPlayers() as $player) {
+            if($this->getClock()->isOutOfTime($player->getColor())) {
                 $this->setStatus(static::OUTOFTIME);
                 $player->getOpponent()->setIsWinner(true);
                 return true;
@@ -568,6 +568,9 @@ class Game
         return $this->getStatus() === self::TIMEOUT;
     }
 
+    /**
+     * @return Collection
+     */
     public function getPlayers()
     {
         return $this->players;
@@ -578,7 +581,12 @@ class Game
      */
     public function getPlayer($color)
     {
-        return $this->players->get($color);
+        if($color === $this->players->get(0)->getColor()) {
+            return $this->players->get(0);
+        }
+        elseif($color === $this->players->get(1)->getColor()) {
+            return $this->players->get(1);
+        }
     }
 
     /**
@@ -660,17 +668,16 @@ class Game
 
     public function getWinner()
     {
-        if($this->getPlayer('white')->getIsWinner()) {
-            return $this->getPlayer('white');
-        }
-        elseif($this->getPlayer('black')->getIsWinner()) {
-            return $this->getPlayer('black');
+        foreach($this->getPlayers() as $player) {
+            if($player->getIsWinner()) {
+                return $player;
+            }
         }
     }
 
-    public function setPlayer(Player $player)
+    public function addPlayer(Player $player)
     {
-        $this->players->set($player->getColor(), $player);
+        $this->players->add($player);
         $player->setGame($this);
     }
 

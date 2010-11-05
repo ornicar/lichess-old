@@ -1,8 +1,6 @@
 <?php
 
 namespace Bundle\LichessBundle\Document;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @mongodb:EmbeddedDocument
@@ -14,25 +12,21 @@ class Stack
     /**
      * Events in the stack
      *
-     * @var Collection
+     * @var array
      * @mongodb:Field(type="hash")
      */
-    protected $events = null;
-
-    public function __construct()
-    {
-        $this->events = new ArrayCollection();
-    }
+    protected $events = array();
 
     public function getVersion()
     {
-        $this->getEvents()->last();
-        return $this->getEvents()->key();
+        end($this->events);
+
+        return key($this->events);
     }
 
     /**
      * Get events
-     * @return Collection
+     * @return array
      */
     public function getEvents()
     {
@@ -46,7 +40,7 @@ class Stack
      **/
     public function getEvent($version)
     {
-        return $this->events->get($version);
+        return $this->events[$version];
     }
 
     /**
@@ -63,17 +57,18 @@ class Stack
 
     public function addEvent(array $event)
     {
-        $this->getEvents()->add($event);
+        $this->events[] = $event;
     }
 
     public function reset()
     {
-        $this->getEvents()->clear();
+        $this->events = array();
     }
 
     public function rotate()
     {
-        if($this->getEvents()->count() > static::MAX_EVENTS) {
+        if(count($this->events) > static::MAX_EVENTS) {
+            $this->events = array_slice($this->events, -static::MAX_EVENTS, null, true);
         }
     }
 }
