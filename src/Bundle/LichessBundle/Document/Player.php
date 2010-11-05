@@ -26,7 +26,7 @@ class Player
      * the player color, white or black
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @mongodb:Field(type="string", name="c")
      */
     protected $color = null;
 
@@ -34,7 +34,7 @@ class Player
      * Whether the player won the game or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean")
+     * @mongodb:Field(type="boolean", name="w")
      */
     protected $isWinner = false;
 
@@ -42,7 +42,7 @@ class Player
      * Whether this player is an Artificial intelligence or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean")
+     * @mongodb:Field(type="boolean", name="ai")
      */
     protected $isAi = false;
 
@@ -50,7 +50,7 @@ class Player
      * If the player is an AI, its level represents the AI intelligence
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @mongodb:Field(type="int", name="lv")
      */
     protected $aiLevel = null;
 
@@ -58,16 +58,9 @@ class Player
      * Event stack
      *
      * @var Stack
-     * @mongodb:EmbedOne(targetDocument="Stack")
+     * @mongodb:EmbedOne(targetDocument="Stack", name="s")
      */
     protected $stack = null;
-
-    /**
-     * the player current game
-     *
-     * @var Game
-     */
-    protected $game = null;
 
     /**
      * the player pieces
@@ -75,17 +68,25 @@ class Player
      * @var Collection
      * @mongodb:EmbedMany(
      *   discriminatorMap={
-     *     "p"="Pawn",
-     *     "r"="Rook",
-     *     "b"="Bishop",
-     *     "n"="Knight",
-     *     "q"="Queen",
-     *     "k"="King"
+     *     "p"="Bundle\LichessBundle\Document\Piece\Pawn",
+     *     "r"="Bundle\LichessBundle\Document\Piece\Rook",
+     *     "b"="Bundle\LichessBundle\Document\Piece\Bishop",
+     *     "n"="Bundle\LichessBundle\Document\Piece\Knight",
+     *     "q"="Bundle\LichessBundle\Document\Piece\Queen",
+     *     "k"="Bundle\LichessBundle\Document\Piece\King"
      *   },
-     *   discriminatorField="type"
+     *   discriminatorField="t",
+     *   name="p"
      * )
      */
     protected $pieces = null;
+
+    /**
+     * the player current game
+     *
+     * @var Game
+     */
+    protected $game = null;
 
     public function __construct($color)
     {

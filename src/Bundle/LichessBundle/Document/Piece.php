@@ -32,7 +32,7 @@ abstract class Piece
      * @var boolean
      * @mongodb:Field(type="boolean", name="d")
      */
-    protected $isDead = false;
+    protected $isDead = null;
 
     /**
      * When this piece moved for the first time (useful for en passant)
