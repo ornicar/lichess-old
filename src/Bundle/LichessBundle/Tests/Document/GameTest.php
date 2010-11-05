@@ -15,8 +15,8 @@ class GameTest extends \PHPUnit_Framework_TestCase
     {
         $game = new Game();
         $players = $this->createPlayerStubs();
-        $game->setPlayer($players['white']);
-        $game->setPlayer($players['black']);
+        $game->addPlayer($players['white']);
+        $game->addPlayer($players['black']);
 
         $this->assertEquals(2, count($game->getPlayers()));
     }
