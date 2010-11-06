@@ -114,5 +114,5 @@ lichess_pgn_export:
     defaults:       { _controller: LichessBundle:Pgn:export }
     requirements:   { id: "[\w\-]{8}" }
 lichess_nb_players:
-    pattern:        /how\-many-players-now
+    pattern:        /how-many-players-now
     defaults:       { _controller: LichessBundle:Main:howManyPlayersNow }
