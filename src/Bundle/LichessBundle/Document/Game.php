@@ -43,7 +43,7 @@ class Game
      * Game variant (like standard or 960)
      *
      * @var int
-     * @mongodb:Field(type="int", name="v")
+     * @mongodb:Field(type="int")
      */
     protected $variant;
 
@@ -51,7 +51,7 @@ class Game
      * The current state of the game, like CREATED, STARTED or MATE.
      *
      * @var int
-     * @mongodb:Field(type="int", name="s")
+     * @mongodb:Field(type="int")
      * @mongodb:Index()
      */
     protected $status;
@@ -60,7 +60,7 @@ class Game
      * The two players
      *
      * @var array
-     * @mongodb:EmbedMany(targetDocument="Player", name="p")
+     * @mongodb:EmbedMany(targetDocument="Player")
      */
     protected $players;
 
@@ -68,7 +68,7 @@ class Game
      * Color of the player who created the game
      *
      * @var string
-     * @mongodb:Field(type="string", name="cc")
+     * @mongodb:Field(type="string")
      */
     protected $creatorColor;
 
@@ -76,7 +76,7 @@ class Game
      * Number of turns passed
      *
      * @var integer
-     * @mongodb:Field(type="int", name="t")
+     * @mongodb:Field(type="int")
      */
     protected $turns;
 
@@ -84,7 +84,7 @@ class Game
      * PGN moves of the game, separated by spaces
      *
      * @var string
-     * @mongodb:Field(type="string", name="pgn")
+     * @mongodb:Field(type="string")
      */
     protected $pgnMoves;
 
@@ -101,7 +101,7 @@ class Game
      * Can be null if equals to standard position
      *
      * @var string
-     * @mongodb:Field(type="string", name="ifen")
+     * @mongodb:Field(type="string")
      */
     protected $initialFen;
 
@@ -109,7 +109,7 @@ class Game
      * Last update time
      *
      * @var \DateTime
-     * @mongodb:Field(type="date", name="ua")
+     * @mongodb:Field(type="date")
      * @mongodb:Index(order="desc")
      */
     protected $updatedAt;
@@ -118,7 +118,7 @@ class Game
      * Creation date
      *
      * @var \DateTime
-     * @mongodb:Field(type="date", name="ca")
+     * @mongodb:Field(type="date")
      */
     protected $createdAt;
 
@@ -126,7 +126,7 @@ class Game
      * Array of position hashes, used to detect threefold repetition
      *
      * @var array
-     * @mongodb:Field(type="collection", name="ph")
+     * @mongodb:Field(type="collection")
      */
     protected $positionHashes = array();
 
@@ -134,7 +134,7 @@ class Game
      * The game clock
      *
      * @var Clock
-     * @mongodb:EmbedOne(targetDocument="Clock", nullable=true, name="c")
+     * @mongodb:EmbedOne(targetDocument="Clock", nullable=true)
      */
     protected $clock;
 
@@ -142,7 +142,7 @@ class Game
      * The chat room
      *
      * @var Room
-     * @mongodb:EmbedOne(targetDocument="Room", nullable=true, name="r")
+     * @mongodb:EmbedOne(targetDocument="Room", nullable=true)
      */
     protected $room;
 

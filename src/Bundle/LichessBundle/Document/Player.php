@@ -26,7 +26,7 @@ class Player
      * the player color, white or black
      *
      * @var string
-     * @mongodb:Field(type="string", name="c")
+     * @mongodb:Field(type="string")
      */
     protected $color;
 
@@ -34,7 +34,7 @@ class Player
      * Whether the player won the game or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean", name="w")
+     * @mongodb:Field(type="boolean")
      */
     protected $isWinner;
 
@@ -42,15 +42,15 @@ class Player
      * Whether this player is an Artificial intelligence or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean", name="ai")
+     * @mongodb:Field(type="boolean")
      */
-    protected $isAi = false;
+    protected $isAi;
 
     /**
      * If the player is an AI, its level represents the AI intelligence
      *
      * @var int
-     * @mongodb:Field(type="int", name="lv")
+     * @mongodb:Field(type="int")
      */
     protected $aiLevel;
 
@@ -58,7 +58,7 @@ class Player
      * Event stack
      *
      * @var Stack
-     * @mongodb:EmbedOne(targetDocument="Stack", name="s")
+     * @mongodb:EmbedOne(targetDocument="Stack")
      */
     protected $stack;
 
@@ -75,8 +75,7 @@ class Player
      *     "q"="Bundle\LichessBundle\Document\Piece\Queen",
      *     "k"="Bundle\LichessBundle\Document\Piece\King"
      *   },
-     *   discriminatorField="t",
-     *   name="p"
+     *   discriminatorField="t"
      * )
      */
     protected $pieces;
@@ -236,7 +235,7 @@ class Player
      */
     public function getIsAi()
     {
-        return $this->isAi;
+        return (boolean) $this->isAi;
     }
 
     /**
