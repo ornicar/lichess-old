@@ -30,7 +30,7 @@ abstract class Piece
      * Whether the piece is dead or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean", name="d")
+     * @mongodb:Field(type="boolean")
      */
     protected $isDead = null;
 
@@ -38,7 +38,7 @@ abstract class Piece
      * When this piece moved for the first time (useful for en passant)
      *
      * @var int
-     * @mongodb:Field(type="int", name="f")
+     * @mongodb:Field(type="int")
      */
     protected $firstMove = null;
 

@@ -11,7 +11,7 @@ class Room
      * List of room messages
      *
      * @var array
-     * @mongodb:Field(type="collection", name="m")
+     * @mongodb:Field(type="collection")
      */
     protected $messages = array();
 

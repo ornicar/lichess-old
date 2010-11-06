@@ -7,7 +7,7 @@ namespace Bundle\LichessBundle\Document;
  */
 class Stack
 {
-    const MAX_EVENTS = 20;
+    const MAX_EVENTS = 10;
 
     /**
      * Events in the stack
