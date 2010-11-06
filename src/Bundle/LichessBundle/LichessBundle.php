@@ -1,6 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle;
+use Bundle\LichessBundle\Util\KeyGenerator;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 
@@ -20,11 +21,11 @@ class LichessBundle extends BaseBundle
                 if(!$session->has('lichess.sound.enabled')) {
                     $session->set('lichess.sound.enabled', true);
                 }
-                if(!$session->get('lichess.user_id')) {
+                if(!$session->get('lichess.session_id')) {
                     $languages = $container->getRequestService()->getLanguages() ?: array();
                     $bestLocale = $translator->getBestLocale($languages);
                     $session->setLocale($bestLocale);
-                    $session->set('lichess.user_id', session_id());
+                    $session->set('lichess.session_id', KeyGenerator::generate(10));
                 }
                 $translator->setLocale($session->getLocale());
             }

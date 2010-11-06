@@ -2,6 +2,7 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Bundle\LichessBundle\Util\KeyGenerator;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -109,12 +110,7 @@ class Player
         if(null !== $this->id) {
             throw new \LogicException('Can not change the id of a saved player');
         }
-        $this->id = '';
-        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_-';
-        $nbChars = strlen($chars);
-        for ( $i = 0; $i < 4; $i++ ) {
-            $this->id .= $chars[mt_rand(0, $nbChars-1)];
-        }
+        $this->id = KeyGenerator::generate(4);
     }
 
     /**

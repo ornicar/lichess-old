@@ -23,7 +23,7 @@ abstract class AbstractControllerTest extends WebTestCase
     protected function inviteAnybody($color = 'white', $join = false)
     {
         $client = $this->createClient();
-        !$join && $client->getContainer()->get('lichess_queue')->clear();
+        !$join && $client->getContainer()->get('lichess.repository.seek')->createQuery()->remove()->execute();
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with anybody')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());

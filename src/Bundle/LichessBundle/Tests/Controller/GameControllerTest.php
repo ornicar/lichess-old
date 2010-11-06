@@ -25,7 +25,8 @@ class GameControllerTest extends AbstractControllerTest
         $client = $this->createClient();
         $crawler = $client->request('GET', '/games/checkmate');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(10, $crawler->filter('div.game_row')->count());
+        $nbMates = min(10, $client->getContainer()->get('lichess.repository.game')->getNbMates());
+        $this->assertEquals($nbMates, $crawler->filter('div.game_row')->count());
     }
 
     public function testInviteAi()

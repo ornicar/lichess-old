@@ -26,6 +26,7 @@ class GameRepository extends DocumentRepository
             ->hydrate(false)
             ->field('status')->equals(Game::STARTED)
             ->select('id')
+            ->limit($nb)
             ->execute();
         $ids = array_keys(iterator_to_array($data));
 
@@ -43,10 +44,8 @@ class GameRepository extends DocumentRepository
             $ids = explode(',', $ids);
         }
 
-        $mongoIds = array_map(function($id) { return new \MongoId($id); }, $ids);
-
         $games = $this->createQuery()
-            ->field('_id')->in($mongoIds)
+            ->field('_id')->in($ids)
             ->execute();
 
         $games = iterator_to_array($games);
@@ -102,7 +101,7 @@ class GameRepository extends DocumentRepository
     public function createRecentStartedOrFinishedQuery()
     {
         return $this->createRecentQuery()
-            ->field('status', '>', Game::STARTED);
+            ->field('status')->greaterThanOrEq(Game::STARTED);
     }
 
     /**
@@ -113,6 +112,6 @@ class GameRepository extends DocumentRepository
     public function createRecentMateQuery()
     {
         return $this->createRecentQuery()
-            ->field('status', Game::MATE);
+            ->field('status')->equals(Game::MATE);
     }
 }
