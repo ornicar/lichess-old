@@ -76,4 +76,14 @@ class Stack
             $this->events = array_slice($this->events, -static::MAX_EVENTS, null, true);
         }
     }
+
+    public function getNbEvents()
+    {
+        return count($this->events);
+    }
+
+    public function getMaxEvents()
+    {
+        return self::MAX_EVENTS;
+    }
 }

@@ -28,7 +28,7 @@ class Player
      * @var string
      * @mongodb:Field(type="string", name="c")
      */
-    protected $color = null;
+    protected $color;
 
     /**
      * Whether the player won the game or not
@@ -36,7 +36,7 @@ class Player
      * @var boolean
      * @mongodb:Field(type="boolean", name="w")
      */
-    protected $isWinner = false;
+    protected $isWinner;
 
     /**
      * Whether this player is an Artificial intelligence or not
@@ -52,7 +52,7 @@ class Player
      * @var int
      * @mongodb:Field(type="int", name="lv")
      */
-    protected $aiLevel = null;
+    protected $aiLevel;
 
     /**
      * Event stack
@@ -60,7 +60,7 @@ class Player
      * @var Stack
      * @mongodb:EmbedOne(targetDocument="Stack", name="s")
      */
-    protected $stack = null;
+    protected $stack;
 
     /**
      * the player pieces
@@ -79,14 +79,14 @@ class Player
      *   name="p"
      * )
      */
-    protected $pieces = null;
+    protected $pieces;
 
     /**
      * the player current game
      *
      * @var Game
      */
-    protected $game = null;
+    protected $game;
 
     public function __construct($color)
     {
@@ -256,7 +256,7 @@ class Player
      */
     public function getIsWinner()
     {
-        return $this->isWinner;
+        return (boolean) $this->isWinner;
     }
 
     /**

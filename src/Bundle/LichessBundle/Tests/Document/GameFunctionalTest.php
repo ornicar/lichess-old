@@ -106,6 +106,36 @@ class GameFunctionalTest extends WebTestCase
         $this->assertEquals(4, $game->getRoom()->getNbMessages());
     }
 
+    public function testAddEventToPlayerStack()
+    {
+        $game = $this->createGame();
+        $player = $game->getPlayer('white');
+        $this->assertEquals(1, $player->getStack()->getNbEvents());
+        $this->dm->persist($game);
+        var_dump('----will save----');
+        $this->dm->flush();
+        $this->dm->clear();
+        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
+        $player = $game->getPlayer('white');
+        $this->assertEquals(1, $player->getStack()->getNbEvents());
+        $player->addEventsToStack(array(array(), array()));
+        var_dump('----will update----');
+        $this->dm->flush();
+        $this->dm->clear();
+        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
+        $player = $game->getPlayer('white');
+        $this->assertEquals(3, $player->getStack()->getNbEvents());
+        for($i=0; $i<$player->getStack()->getMaxEvents(); $i++) {
+            $player->addEventToStack(array('test' => 'event '.$i));
+        }
+        $this->assertEquals($player->getStack()->getMaxEvents() + 3, $player->getStack()->getNbEvents());
+        $this->dm->flush();
+        $this->dm->clear();
+        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
+        $player = $game->getPlayer('white');
+        $this->assertEquals($player->getStack()->getMaxEvents(), $player->getStack()->getNbEvents());
+    }
+
     protected function createGame()
     {
         $game = new Game();
@@ -113,7 +143,7 @@ class GameFunctionalTest extends WebTestCase
         $game->addPlayer(new Player('black'));
         $game->setCreatorColor('white');
         $positionGenerator = new StandardPositionGenerator();
-        $positionGenerator->createPieces($game);
+        $positionGenerator->createPiecesMinimal($game);
         return $game;
     }
 

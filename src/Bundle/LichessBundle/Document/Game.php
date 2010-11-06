@@ -37,7 +37,7 @@ class Game
      * @var string
      * @mongodb:Id(custom="true")
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * Game variant (like standard or 960)
@@ -45,7 +45,7 @@ class Game
      * @var int
      * @mongodb:Field(type="int", name="v")
      */
-    protected $variant = self::VARIANT_STANDARD;
+    protected $variant;
 
     /**
      * The current state of the game, like CREATED, STARTED or MATE.
@@ -54,7 +54,7 @@ class Game
      * @mongodb:Field(type="int", name="s")
      * @mongodb:Index()
      */
-    protected $status = self::CREATED;
+    protected $status;
 
     /**
      * The two players
@@ -62,7 +62,7 @@ class Game
      * @var array
      * @mongodb:EmbedMany(targetDocument="Player", name="p")
      */
-    protected $players = null;
+    protected $players;
 
     /**
      * Color of the player who created the game
@@ -70,7 +70,7 @@ class Game
      * @var string
      * @mongodb:Field(type="string", name="cc")
      */
-    protected $creatorColor = null;
+    protected $creatorColor;
 
     /**
      * Number of turns passed
@@ -78,7 +78,7 @@ class Game
      * @var integer
      * @mongodb:Field(type="int", name="t")
      */
-    protected $turns = 0;
+    protected $turns;
 
     /**
      * PGN moves of the game, separated by spaces
@@ -86,7 +86,7 @@ class Game
      * @var string
      * @mongodb:Field(type="string", name="pgn")
      */
-    protected $pgnMoves = null;
+    protected $pgnMoves;
 
     /**
      * The ID of the player that starts the next game the players will play
@@ -94,7 +94,7 @@ class Game
      * @var string
      * @mongodb:Field(type="string")
      */
-    protected $next = null;
+    protected $next;
 
     /**
      * Fen notation of the initial position
@@ -103,7 +103,7 @@ class Game
      * @var string
      * @mongodb:Field(type="string", name="ifen")
      */
-    protected $initialFen = null;
+    protected $initialFen;
 
     /**
      * Last update time
@@ -112,7 +112,7 @@ class Game
      * @mongodb:Field(type="date", name="ua")
      * @mongodb:Index(order="desc")
      */
-    protected $updatedAt = null;
+    protected $updatedAt;
 
     /**
      * Creation date
@@ -120,7 +120,7 @@ class Game
      * @var \DateTime
      * @mongodb:Field(type="date", name="ca")
      */
-    protected $createdAt = null;
+    protected $createdAt;
 
     /**
      * Array of position hashes, used to detect threefold repetition
@@ -136,7 +136,7 @@ class Game
      * @var Clock
      * @mongodb:EmbedOne(targetDocument="Clock", nullable=true, name="c")
      */
-    protected $clock = null;
+    protected $clock;
 
     /**
      * The chat room
@@ -144,20 +144,21 @@ class Game
      * @var Room
      * @mongodb:EmbedOne(targetDocument="Room", nullable=true, name="r")
      */
-    protected $room = null;
+    protected $room;
 
     /**
      * The game board
      *
      * @var Board
      */
-    protected $board = null;
+    protected $board;
 
     public function __construct($variant = self::VARIANT_STANDARD)
     {
         $this->generateId();
         $this->setVariant($variant);
         $this->status = self::CREATED;
+        $this->turns = 0;
         $this->players = new ArrayCollection();
     }
 
