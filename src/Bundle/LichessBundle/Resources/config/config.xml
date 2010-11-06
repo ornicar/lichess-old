@@ -6,9 +6,6 @@
 
     <parameters>
 
-        <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\MongoDBPersistence</parameter>
-        <parameter key="lichess.queue.class">Bundle\LichessBundle\Persistence\MongoDBQueue</parameter>
-
         <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
         <parameter key="lichess.ai_fallback.class">Bundle\LichessBundle\Ai\Stupid</parameter>
 
@@ -21,6 +18,8 @@
         <parameter key="lichess.synchronizer.delay">1</parameter>
 
         <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
+
+        <parameter key="lichess.seek_queue.class">Bundle\LichessBundle\Chess\SeekQueue</parameter>
 
         <parameter key="lichess.translator.class">Bundle\LichessBundle\I18N\Translator</parameter>
         <parameter key="lichess.translator.locales" type="collection">
@@ -73,7 +72,9 @@
             <argument>%kernel.debug%</argument>
         </service>
 
-        <service id="lichess_queue" class="%lichess.queue.class%" shared="true">
+        <service id="lichess.seek_queue" class="%lichess.seek_queue.class%" shared="true">
+            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="lichess.repository.seek" />
             <argument type="service" id="lichess_generator" />
         </service>
 

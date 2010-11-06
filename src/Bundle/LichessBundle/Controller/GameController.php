@@ -197,31 +197,22 @@ class GameController extends Controller
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
                 $this['session']->set('lichess.game_config.anybody', $config->toArray());
-                $queueEntry = new QueueEntry($config->times, $config->variants, $this['session']->get('lichess.user_id'));
-                $queue = $this['lichess_queue'];
-                $result = $queue->add($queueEntry, $color);
+                $queue = $this['lichess.seek_queue'];
+                $result = $queue->add($config->variants, $config->times, session_id(), $color);
+                $game = $result['game'];
+                if(!$game) {
+                    return $this->inviteAnybodyAction($color);
+                }
                 if($result['status'] === $queue::FOUND) {
-                    $game = $this['lichess.repository.game']->findOneById($result['game_id']);
-                    if(!$game) {
-                        return $this->inviteAnybodyAction($color);
-                    }
                     if(!$this['lichess_synchronizer']->isConnected($game->getCreator())) {
                         $this['lichess.object_manager']->remove($game);
+                        $this['lichess.object_manager']->flush();
                         $this['logger']->notice(sprintf('Game:inviteAnybody remove game:%s', $game->getId()));
                         return $this->inviteAnybodyAction($color);
                     }
-                    $this['lichess_generator']->applyVariant($game, $result['variant']);
-                    if($result['time']) {
-                        $clock = new Clock($result['time'] * 60);
-                        $game->setClock($clock);
-                    }
-                    $this['lichess.object_manager']->flush();
-                    $this['logger']->notice(sprintf('Game:inviteAnybody join game:%s, variant:%s, time:%s', $game->getId(), $game->getVariantName(), $result['time']));
+                    $this['logger']->notice(sprintf('Game:inviteAnybody join game:%s, variant:%s, time:%s', $game->getId(), $game->getVariantName(), $game->getClockName()));
                     return $this->redirect($this->generateUrl('lichess_game', array('id' => $game->getId())));
                 }
-                $game = $result['game'];
-                $this['lichess.object_manager']->persist($game);
-                $this['lichess.object_manager']->flush();
                 $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getId(), implode(',', $config->getVariantNames()), implode(',', $config->times)));
                 return $this->redirect($this->generateUrl('lichess_wait_anybody', array('id' => $game->getCreator()->getFullId())));
             }

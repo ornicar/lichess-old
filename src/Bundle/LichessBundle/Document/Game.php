@@ -279,6 +279,11 @@ class Game
         $this->clock = $clock;
     }
 
+    public function setClockTime($time)
+    {
+        $this->setClock($time ? new Clock($time) : null);
+    }
+
     /**
      * Tell if the game has a clock
      *
@@ -297,6 +302,11 @@ class Game
     public function getClockMinutes()
     {
         return $this->hasClock() ? $this->getClock()->getLimitInMinutes() : 0;
+    }
+
+    public function getClockName()
+    {
+        return $this->hasClock() ? $this->getClock()->getName() : 'No clock';
     }
 
     /**
@@ -627,7 +637,7 @@ class Game
      */
     public function getCreatorColor()
     {
-      return $this->creatorColor;
+        return $this->creatorColor;
     }
 
     /**
@@ -636,7 +646,7 @@ class Game
      */
     public function setCreatorColor($creatorColor)
     {
-      $this->creatorColor = $creatorColor;
+        $this->creatorColor = $creatorColor;
     }
 
     /**
@@ -715,7 +725,7 @@ class Game
      */
     public function getUpdatedAt()
     {
-      return $this->updatedAt;
+        return $this->updatedAt;
     }
 
     /**
@@ -725,7 +735,7 @@ class Game
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
-      $this->updatedAt = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -734,7 +744,7 @@ class Game
      */
     public function getCreatedAt()
     {
-      return $this->createdAt;
+        return $this->createdAt;
     }
 
     /**
@@ -744,7 +754,7 @@ class Game
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
-      $this->createdAt = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     public function __toString()

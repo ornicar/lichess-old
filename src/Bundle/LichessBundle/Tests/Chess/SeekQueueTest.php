@@ -1,13 +1,13 @@
 <?php
 
-namespace Bundle\LichessBundle\Tests\Persistence;
+namespace Bundle\LichessBundle\Chess;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-use Bundle\LichessBundle\Persistence\MongoDBQueue;
-use Bundle\LichessBundle\Persistence\QueueEntry;
 use Bundle\LichessBundle\Form;
 use Bundle\LichessBundle\Chess\Generator;
+use Bundle\LichessBundle\Document\SeekRepository;
 
-class MongoDBQueueTest extends \PHPUnit_Framework_TestCase
+class SeekFunctionalTest extends WebTestCase
 {
 
     public function testAddQueued()
