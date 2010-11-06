@@ -251,7 +251,9 @@ class PlayerController extends Controller
         if('' === $message) {
             throw new NotFoundHttpException(sprintf('Player:say game:%s, No message', $id));
         }
-        $message = substr($message, 0, 140);
+        if(mb_strlen($message) > 140) {
+            throw new NotFoundHttpException(sprintf('Player:say game:%s, too long message', $id));
+        }
         $player = $this->findPlayer($id);
         $this['lichess_synchronizer']->setAlive($player);
         $player->getGame()->getRoom()->addMessage($player->getColor(), $message);
