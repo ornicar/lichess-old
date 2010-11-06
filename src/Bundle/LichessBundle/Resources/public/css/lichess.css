@@ -351,7 +351,7 @@ div.lichess_table_wait_next {
     background-image: url(../images/loader2.gif);
 }
 
-input.lichess_hash_input {
+input.lichess_id_input {
     margin-top: 10px;
     border: none;
     background: #fff;
