@@ -1,8 +1,6 @@
 <?php
 
 namespace Bundle\LichessBundle\Document;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @mongodb:EmbeddedDocument
@@ -28,8 +26,8 @@ class Clock
     /**
      * Times for white and black players
      *
-     * @var Collection
-     * @omngodb:Field(type="hash")
+     * @var array
+     * @mongodb:Field(type="hash")
      */
     private $times = null;
 
@@ -81,7 +79,7 @@ class Clock
     public function reset()
     {
         $this->color = 'white';
-        $this->times = new ArrayCollection(array('white' => 0, 'black' => 0));
+        $this->times = array('white' => 0, 'black' => 0);
         $this->timer = null;
     }
 
@@ -132,7 +130,7 @@ class Clock
 
     public function addTime($color, $time)
     {
-        $this->times->set($color, $this->times->get($color) + $time);
+        $this->times[$color] = $this->times[$color] + $time;
     }
 
     /**
@@ -164,7 +162,7 @@ class Clock
      **/
     public function getElapsedTime($color)
     {
-        $time = $this->times->get($color);
+        $time = $this->times[$color];
 
         if($this->isRunning() && $color === $this->color) {
             $time += microtime(true) - $this->timer;
@@ -255,7 +253,7 @@ class Clock
 
     /**
      * Get times
-     * @return Collection
+     * @return array
      */
     public function getTimes()
     {
