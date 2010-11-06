@@ -112,14 +112,12 @@ class GameFunctionalTest extends WebTestCase
         $player = $game->getPlayer('white');
         $this->assertEquals(1, $player->getStack()->getNbEvents());
         $this->dm->persist($game);
-        var_dump('----will save----');
         $this->dm->flush();
         $this->dm->clear();
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
         $player = $game->getPlayer('white');
         $this->assertEquals(1, $player->getStack()->getNbEvents());
         $player->addEventsToStack(array(array(), array()));
-        var_dump('----will update----');
         $this->dm->flush();
         $this->dm->clear();
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
