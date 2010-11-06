@@ -66,12 +66,12 @@ lichess_ai_level:
     pattern:        /level/:id
     defaults:       { _controller: LichessBundle:Player:aiLevel }
     requirements:   { id: "[\w\-]{12}" }
-lichess_games:
+lichess_list_current:
     pattern:        /games
-    defaults:       { _controller: LichessBundle:Game:list }
-lichess_games_inner:
+    defaults:       { _controller: LichessBundle:Game:listCurrent }
+lichess_list_current_inner:
     pattern:        /games-refresh/:ids
-    defaults:       { _controller: LichessBundle:Game:listInner }
+    defaults:       { _controller: LichessBundle:Game:listCurrentInner }
 lichess_list_all:
     pattern:        /games/all
     defaults:       { _controller: LichessBundle:Game:listAll }

@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Document;
 
 use Bundle\LichessBundle\Chess\Board;
+use Bundle\LichessBundle\Util\KeyGenerator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -180,12 +181,7 @@ class Game
         if(null !== $this->id) {
             throw new \LogicException('Can not change the id of a saved game');
         }
-        $this->id = '';
-        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789_-';
-        $nbChars = strlen($chars);
-        for ( $i = 0; $i < 8; $i++ ) {
-            $this->id .= $chars[mt_rand(0, $nbChars-1)];
-        }
+        $this->id = KeyGenerator::generate(8);
     }
 
     /**

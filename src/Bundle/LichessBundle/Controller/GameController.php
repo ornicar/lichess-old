@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
-    public function listAction()
+    public function listCurrentAction()
     {
         return $this->render('LichessBundle:Game:listCurrent.php', array(
             'ids'     => $this['lichess.repository.game']->findRecentStartedGameIds(9),
@@ -25,7 +25,7 @@ class GameController extends Controller
         ));
     }
 
-    public function listInnerAction($ids)
+    public function listCurrentInnerAction($ids)
     {
         return $this->render('LichessBundle:Game:listCurrentInner.php', array(
             'games' => $this['lichess.repository.game']->findGamesByIds($ids)
@@ -36,7 +36,7 @@ class GameController extends Controller
     {
         $query = $this['lichess.repository.game']->createRecentStartedOrFinishedQuery();
 
-        return $this->render('LichessBundle:Game:listCurrent.php', array(
+        return $this->render('LichessBundle:Game:listAll.php', array(
             'games'    => $this->createPaginatorForQuery($query),
             'nbGames'  => $this['lichess.repository.game']->getNbGames(),
             'nbMates'  => $this['lichess.repository.game']->getNbMates(),
@@ -48,7 +48,7 @@ class GameController extends Controller
     {
         $query = $this['lichess.repository.game']->createRecentMateQuery();
 
-        return $this->render('LichessBundle:Game:listCurrent.php', array(
+        return $this->render('LichessBundle:Game:listMates.php', array(
             'games'    => $this->createPaginatorForQuery($query),
             'nbGames'  => $this['lichess.repository.game']->getNbGames(),
             'nbMates'  => $this['lichess.repository.game']->getNbMates(),
@@ -198,7 +198,7 @@ class GameController extends Controller
             if($form->isValid()) {
                 $this['session']->set('lichess.game_config.anybody', $config->toArray());
                 $queue = $this['lichess.seek_queue'];
-                $result = $queue->add($config->variants, $config->times, session_id(), $color);
+                $result = $queue->add($config->variants, $config->times, $this['session']->get('lichess.session_id'), $color);
                 $game = $result['game'];
                 if(!$game) {
                     return $this->inviteAnybodyAction($color);
@@ -244,7 +244,7 @@ class GameController extends Controller
     protected function createPaginatorForQuery($query)
     {
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($this['request']->request->get('page', 1));
+        $games->setCurrentPageNumber($this['request']->query->get('page', 1));
         $games->setItemCountPerPage(10);
         $games->setPageRange(10);
 
