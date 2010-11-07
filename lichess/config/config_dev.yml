@@ -1,8 +1,12 @@
 imports:
     - { resource: config.yml }
 
+app.config:
+    profiler:
+        only_exceptions: false
+
 webprofiler.config:
-    toolbar: false
+    toolbar: true
     intercept_redirects: false
 
 zend.config:
