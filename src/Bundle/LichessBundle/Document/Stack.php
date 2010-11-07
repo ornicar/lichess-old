@@ -7,7 +7,7 @@ namespace Bundle\LichessBundle\Document;
  */
 class Stack
 {
-    const MAX_EVENTS = 10;
+    const MAX_EVENTS = 8;
 
     /**
      * Events in the stack
@@ -41,6 +41,11 @@ class Stack
         }
 
         return $events;
+    }
+
+    public function getEncodedEvents()
+    {
+        return $this->events;
     }
 
     /**
