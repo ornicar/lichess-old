@@ -1,0 +1,48 @@
+{% extends "LichessBundle:Game:layoutGameList.twig" %}
+{% block body %}
+{% block list_menu %}{% endblock %}
+{% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": games.pages, "url": url] %}{% endset %}
+<h1 class="title">{% block list_type %}{% endblock %} {{ games.pages.firstItemNumber }} - {{ games.pages.firstItemNumber }} of {{ games.pages.totalItemCount }}</h1>
+<div class="all_games">
+    <div class="pager pager_top">{{ pagination|raw }}</div>
+    <div class="all_games_inner">
+    {% for game in games %}
+        <div class="game_row clearfix">
+            {{ _view.lichess_game.renderMini(game)|raw }}
+            <div class="infos">
+                <a class="link" href="{% path "lichess_game" with ["id": game.id] %}">{% url "lichess_game" with ["id": game.id] %}</a>
+                <br />
+                {{ _view.time.ago(game.updatedAt) }}
+                <br /><br />
+                {% for player in game.players %}
+                    {% trans player.opponent.color|capitalize %}
+                    {% if player.opponent.isAi %}
+                        {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel] %}
+                    {% else %}
+                        {% trans "Human" %}
+                    {% endif %}
+                    <br />
+                {% endfor %}
+                <br />
+                {{ game.fullMoveNumber }}.
+                {% if game.isFinished %}
+                    {% trans game.statusMessage %}
+                    {% if game.winner %}
+                        , {% trans game.winner.color|capitalize %} is victorious
+                    {% endif %}
+                {% else %}
+                    {% trans game.turnColor|capitalize ~ " plays" %}
+                {% endif %}
+                <br /><br />
+                Variant: {{ game.variantName }}
+                <br /><br />
+                Time control: {{ game.clockName }}
+                <br /><br />
+                <a href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": game.creatorColor] %}">&gt;&gt; {% trans "Replay and Analyse" %}</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="pager pager_bottom">{{ pagination|raw }}</div>
+</div>
+{% endblock %}
