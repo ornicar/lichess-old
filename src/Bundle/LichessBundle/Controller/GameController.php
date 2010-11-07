@@ -117,11 +117,9 @@ class GameController extends Controller
         }
         $possibleMoves = ($player->isMyTurn() && !$game->getIsFinished()) ? 1 : null;
 
-        return $this->render('LichessBundle:Game:watch.twig', array(
-            'game'           => $game,
+        return $this->render('LichessBundle:Player:watch.twig', array(
             'player'         => $player,
             'checkSquareKey' => $checkSquareKey,
-            'parameters'     => $this->container->getParameterBag()->all(),
             'possibleMoves'  => $possibleMoves
         ));
     }

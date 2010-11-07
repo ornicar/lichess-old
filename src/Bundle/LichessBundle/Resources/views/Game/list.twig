@@ -28,7 +28,7 @@
                 {% if game.isFinished %}
                     {% trans game.statusMessage %}
                     {% if game.winner %}
-                        , {% trans game.winner.color|capitalize %} is victorious
+                    , {% trans game.winner.color|capitalize ~ " is victorious" %}
                     {% endif %}
                 {% else %}
                     {% trans game.turnColor|capitalize ~ " plays" %}

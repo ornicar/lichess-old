@@ -26,7 +26,7 @@ class LichessGameHelper extends Helper
         $this->translator = $container->get('lichess_translator');
     }
 
-    public function renderData(Player $player, array $possibleMoves, $isOpponentConnected)
+    public function renderData(Player $player, $possibleMoves, $isOpponentConnected)
     {
         $game = $player->getGame();
         $gameId = $game->getId();
@@ -70,6 +70,49 @@ class LichessGameHelper extends Helper
             'sync_delay'      => $this->container->getParameter('lichess.synchronizer.delay') * 1000,
             'animation_delay' => $this->container->getParameter('lichess.animation.delay'),
             'debug'           => $this->container->getParameter('kernel.debug')
+        );
+
+        return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
+    }
+
+    public function renderWatchData(Player $player, $possibleMoves)
+    {
+        $game = $player->getGame();
+        $gameId = $game->getId();
+        $color = $player->getColor();
+        $opponent = $player->getOpponent();
+        $data = array(
+            'game' => array(
+                'id'       => $game->getId(),
+                'started'  => $game->getIsStarted(),
+                'finished' => $game->getIsFinished(),
+                'clock'    => $game->hasClock(),
+                'player'   => $game->getTurnPlayer()->getColor(),
+                'turns'    => $game->getTurns()
+            ),
+            'player' => array(
+                'color'     => $player->getColor(),
+                'version'   => $player->getStack()->getVersion(),
+                'spectator' => true
+            ),
+            'opponent' => array(
+                'color'     => $opponent->getColor(),
+                'ai'        => $opponent->getIsAi(),
+                'connected' => true
+            ),
+            'sync_delay'      => $this->container->getParameter('lichess.synchronizer.delay') * 1000,
+            'animation_delay' => $this->container->getParameter('lichess.animation.delay'),
+            'url' => array(
+                'sync'     => $this->generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
+                'table'    => $this->generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
+                'opponent' => $this->generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
+            ),
+            'i18n' => array(
+                'Game Over'            => $this->translator->_('Game Over'),
+                'Waiting for opponent' => $this->translator->_('Waiting for opponent'),
+                'Your turn'            => $this->translator->_('Your turn')
+            ),
+            'possible_moves' => $possibleMoves
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));

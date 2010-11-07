@@ -1,0 +1,4 @@
+{% set time = clock.getRemainingTime(color) %}
+<div class="clock clock_{{ position }} clock_{{ color }}{{ time == 0 ? " outoftime" : "" }}" data-time="{{ time }}">
+    {{ clock.renderTime(time) }}
+</div>

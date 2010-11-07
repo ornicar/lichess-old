@@ -41,6 +41,16 @@ class AnybodyGameConfig extends GameConfig
         return $names;
     }
 
+    public function renderTimeNames()
+    {
+        return implode(' or ', $this->getTimeNames());
+    }
+
+    public function renderVariantNames()
+    {
+        return implode(' or ', $this->getVariantNames());
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addGetterConstraint('countTimes', new Constraints\Min(array('limit' => 1)));

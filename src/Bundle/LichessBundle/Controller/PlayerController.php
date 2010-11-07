@@ -285,7 +285,6 @@ class PlayerController extends Controller
         $config->fromArray($this['session']->get('lichess.game_config.anybody', array()));
         return $this->render('LichessBundle:Player:waitAnybody.twig', array(
             'player'     => $player,
-            'parameters' => $this->container->getParameterBag()->all(),
             'config'     => $config
         ));
     }
@@ -299,8 +298,7 @@ class PlayerController extends Controller
         $this['lichess_synchronizer']->setAlive($player);
 
         return $this->render('LichessBundle:Player:waitFriend.twig', array(
-            'player'     => $player,
-            'parameters' => $this->container->getParameterBag()->all()
+            'player'     => $player
         ));
     }
 
