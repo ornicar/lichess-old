@@ -24,6 +24,13 @@ class LichessHelper extends Helper
         return $this->synchronizer->getNbConnectedPlayers();
     }
 
+    public function getLoadAverage()
+    {
+        $loadAverage = sys_getloadavg();
+
+        return round(25*$loadAverage[1]);
+    }
+
     /**
      * Returns the canonical name of this helper.
      *
