@@ -122,7 +122,7 @@ class Stack
 
     protected function decodeEvent(array $event)
     {
-        if(isset($event['pm'])) {
+        if(array_key_exists('pm', $event)) {
             if(empty($event['pm'])) {
                 $possibleMoves = null;
             } else {
