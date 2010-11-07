@@ -10,6 +10,9 @@ zend.config:
         priority: info
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
+twig.config:
+    auto_reload: true
+
 doctrine_odm.mongodb:
     metadata_cache_driver: array
     cache_driver: array
