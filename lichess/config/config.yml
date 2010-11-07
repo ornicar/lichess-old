@@ -23,6 +23,12 @@ doctrine_odm.mongodb:
     default_database: lichess
     metadata_cache_driver: apc
     cache_driver: apc
+    connections:
+        default:
+            server: mongodb://localhost:27017
+            options:
+                connect: true
+                persistent: lichess
 
 forum.config:
     db_driver: odm
