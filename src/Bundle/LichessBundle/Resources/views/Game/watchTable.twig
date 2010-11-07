@@ -1,0 +1,38 @@
+{% set game = player.game %}
+{% if game.hasClock %}
+    {% include "LichessBundle:Game:clock.twig" with ["clock": game.clock, "color": player.opponent.color, "position": "top"] %}
+{% endif %}
+<div class="lichess_table {{ game.isFinished ? "finished " : "" }}spectator">
+    <div class="lichess_opponent">
+        {% render "LichessBundle:Player:opponent" with ["id": game.id, "color": player.color, "playerFullId": ""] %}
+    </div>
+    <div class="lichess_separator"></div>
+    <div class="lichess_current_player">
+        {% if game.isFinished %}
+            {% if game.winner %}
+                <div class="lichess_player {{ game.winner.color }}">
+                    <div class="lichess_piece king {{ game.winner.color }}"></div>
+                    <p>{% trans game.statusMessage %}<br />{% trans game.winner.color|capitalize ~ " is victorious" %}</p>
+                </div>
+            {% else %}
+                <div class="lichess_player">
+                    <p>{% trans game.statusMessage %}</p>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
+                <div class="lichess_piece king white"></div>
+                <p>{% trans "White plays" %}</p>
+            </div>
+            <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
+                <div class="lichess_piece king black"></div>
+                <p>{% trans 'Black plays' %}</p>
+            </div>
+        {% endif %}
+    </div>
+    <div class="lichess_separator"></div>
+    {% render "LichessBundle:Player:opponent" with ["id": game.id, "color": player.opponent.color, "playerFullId": ""] %}
+</div>
+{% if player.game.hasClock %}
+    {% include "LichessBundle:Game:clock.twig" with ["clock": game.clock, "color": player.color, "position": "bottom"] %}
+{% endif %}

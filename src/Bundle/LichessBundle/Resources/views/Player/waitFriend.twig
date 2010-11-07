@@ -1,0 +1,25 @@
+{% extends "LichessBundle:Player:layoutPlayer.twig" %}
+{% block title %}Lichess - {% trans "Play with a friend" %} - {{ player.color }}{% endblock %}
+{% block body_class %}
+{% if player.game.isStandardVariant %}normal{% else %}hide_pieces{% endif %}
+{% endblock %}
+{% block body %}
+<div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_{{ player.color }}">
+    <div class="lichess_board_wrap">
+        {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".twig" %}
+        <div class="lichess_overboard">
+            {% trans "To invite someone to play, give this url" %}:
+            <input class="lichess_id_input" readonly="readonly" value="{% url "lichess_game" with ["id": player.game.id] %}" />
+            <p class="explanations">{% trans "The first person to come on this url will play with you." %}<p>
+            <p class="explanations">
+                Variant: {{ player.game.variantName }}<br />
+                Clock: {{ player.game.clockName }}
+            </p>
+        </div>
+    </div>
+    {% include "LichessBundle:Game:bootGround.twig" with ["color": player.color, "active": "friend"] %}
+</div>
+{% endblock %}
+{% block js_data %}
+    {{ _view.lichess_game.renderData(player, null, false)|raw }}
+{% endblock %}

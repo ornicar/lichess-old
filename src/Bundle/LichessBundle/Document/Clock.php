@@ -260,6 +260,11 @@ class Clock
       return $this->times;
     }
 
+    public function renderTime($time)
+    {
+        return sprintf('%02d:%02d', floor($time/60), $time%60);
+    }
+
     public function __clone()
     {
         $this->reset();
