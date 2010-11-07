@@ -133,10 +133,11 @@ class PgnDumper
 
     public function getPgnMoves(Game $game)
     {
-        if('' == $game->getPgnMoves()) {
+        $pgnMoves = $game->getPgnMoves();
+        if(empty($pgnMoves)) {
             return '';
         }
-        $moves = explode(' ', $game->getPgnMoves());
+        $moves = $game->getPgnMoves();
         $nbMoves = count($moves);
         $nbTurns = ceil($nbMoves/2);
         $string = '';

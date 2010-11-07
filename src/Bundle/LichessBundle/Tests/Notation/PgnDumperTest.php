@@ -32,7 +32,7 @@ class PgnDumperTest extends \PHPUnit_Framework_TestCase
     public function testDumpMoves()
     {
         $this->createGame();
-        $this->game->setPgnMoves('e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O Be7 Re1 b5 Bb3 d6 c3 O-O h3 Nb8 d4 Nbd7');
+        $this->game->setPgnMoves(explode(' ', 'e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O Be7 Re1 b5 Bb3 d6 c3 O-O h3 Nb8 d4 Nbd7'));
         $dumper = new PgnDumper();
         $moves = $dumper->getPgnMoves($this->game);
         $expected = '1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 d6 8.c3 O-O 9.h3 Nb8 10.d4 Nbd7';
@@ -56,7 +56,7 @@ EOF;
         $piece = $this->game->getBoard()->getPieceByKey('b1');
         $manipulator = new Manipulator($this->game);
         $manipulator->play('b1 c3');
-        $this->assertEquals('Nbc3', $this->game->getPgnMoves());
+        $this->assertEquals(array('Nbc3'), $this->game->getPgnMoves());
     }
 
     public function testDisambiguationRank()
@@ -76,7 +76,7 @@ EOF;
         $piece = $this->game->getBoard()->getPieceByKey('b1');
         $manipulator = new Manipulator($this->game);
         $manipulator->play('b1 d2');
-        $this->assertEquals('N1d2', $this->game->getPgnMoves());
+        $this->assertEquals(array('N1d2'), $this->game->getPgnMoves());
     }
 
     public function testDisambiguationFileAndRank()
@@ -95,7 +95,7 @@ EOF;
         $this->createGame($data);
         $manipulator = new Manipulator($this->game);
         $manipulator->play('b1 d2');
-        $this->assertEquals('Nb1d2', $this->game->getPgnMoves());
+        $this->assertEquals(array('Nb1d2'), $this->game->getPgnMoves());
     }
 
     public function testEnPassant()
@@ -115,7 +115,7 @@ EOF;
         $this->game->getBoard()->getPieceByKey('g5')->setFirstMove(9);
         $manipulator = new Manipulator($this->game);
         $manipulator->play('f5 g6');
-        $this->assertEquals('fxg6', $this->game->getPgnMoves());
+        $this->assertEquals(array('fxg6'), $this->game->getPgnMoves());
     }
 
     public function testPromotionKnight()
@@ -135,7 +135,7 @@ EOF;
         $this->game->getBoard()->getPieceByKey('g7')->setFirstMove(2);
         $manipulator = new Manipulator($this->game);
         $manipulator->play('g7 g8', array('promotion' => 'Knight'));
-        $this->assertEquals('g8=N', $this->game->getPgnMoves());
+        $this->assertEquals(array('g8=N'), $this->game->getPgnMoves());
     }
 
     public function testPromotionQueenWithCheckMate()
@@ -155,7 +155,7 @@ EOF;
         $this->game->getBoard()->getPieceByKey('g7')->setFirstMove(2);
         $manipulator = new Manipulator($this->game);
         $manipulator->play('g7 g8', array('promotion' => 'Queen'));
-        $this->assertEquals('g8=Q#', $this->game->getPgnMoves());
+        $this->assertEquals(array('g8=Q#'), $this->game->getPgnMoves());
     }
 
     public function testGioachinoGreco()

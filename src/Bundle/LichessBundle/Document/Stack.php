@@ -35,7 +35,12 @@ class Stack
      */
     public function getEvents()
     {
-      return $this->events;
+        $events = array();
+        foreach($this->events as $version => $event) {
+            $events[$version] = $this->decodeEvent($event);
+        }
+
+        return $events;
     }
 
     /**
@@ -45,7 +50,7 @@ class Stack
      **/
     public function getEvent($version)
     {
-        return $this->events[$version];
+        return $this->decodeEvent($this->events[$version]);
     }
 
     /**
@@ -62,7 +67,7 @@ class Stack
 
     public function addEvent(array $event)
     {
-        $this->events[] = $event;
+        $this->events[] = $this->encodeEvent($event);
     }
 
     public function reset()
@@ -85,5 +90,55 @@ class Stack
     public function getMaxEvents()
     {
         return self::MAX_EVENTS;
+    }
+
+    protected function encodeEvent(array $event)
+    {
+        if('possible_moves' === $event['type']) {
+            if(empty($event['possible_moves'])) {
+                $possibleMoves = null;
+            } else {
+                $possibleMoves = array();
+                foreach($event['possible_moves'] as $from => $tos) {
+                    $possibleMoves[$from] = implode(' ', $tos);
+                }
+            }
+            $event = array(
+                'pm' => $possibleMoves
+            );
+        } elseif('move' === $event['type']) {
+            $event = array(
+                'm' => $event['from'].' '.$event['to']
+            );
+        }
+
+        return $event;
+    }
+
+    protected function decodeEvent(array $event)
+    {
+        if(isset($event['pm'])) {
+            if(empty($event['pm'])) {
+                $possibleMoves = null;
+            } else {
+                $possibleMoves = array();
+                foreach($event['pm'] as $from => $tos) {
+                    $possibleMoves[$from] = explode(' ', $tos);
+                }
+            }
+            $event = array(
+                'type' => 'possible_moves',
+                'possible_moves' => $possibleMoves
+            );
+        } elseif(isset($event['m'])) {
+            list($from, $to) = explode(' ', $event['m']);
+            $event = array(
+                'type' => 'move',
+                'from' => $from,
+                'to' => $to
+            );
+        }
+
+        return $event;
     }
 }

@@ -114,7 +114,7 @@ abstract class Piece
      */
     public function setIsDead($isDead)
     {
-        $this->isDead = $isDead;
+        $this->isDead = $isDead ?: null;
     }
 
     /**

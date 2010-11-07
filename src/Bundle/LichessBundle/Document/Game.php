@@ -82,10 +82,10 @@ class Game
     protected $turns;
 
     /**
-     * PGN moves of the game, separated by spaces
+     * PGN moves of the game
      *
-     * @var string
-     * @mongodb:Field(type="string")
+     * @var array
+     * @mongodb:Field(type="collection")
      */
     protected $pgnMoves;
 
@@ -161,6 +161,7 @@ class Game
         $this->status = self::CREATED;
         $this->turns = 0;
         $this->players = new ArrayCollection();
+        $this->pgnMoves = array();
     }
 
     /**
@@ -401,7 +402,7 @@ class Game
 
     /**
      * Get pgn moves
-     * @return string
+     * @return array
      */
     public function getPgnMoves()
     {
@@ -410,10 +411,10 @@ class Game
 
     /**
      * Set pgn moves
-     * @param  string
+     * @param  array
      * @return null
      */
-    public function setPgnMoves($pgnMoves)
+    public function setPgnMoves(array $pgnMoves)
     {
         $this->pgnMoves = $pgnMoves;
     }
@@ -426,10 +427,7 @@ class Game
      **/
     public function addPgnMove($pgnMove)
     {
-        if(null !== $this->pgnMoves) {
-            $this->pgnMoves .= ' ';
-        }
-        $this->pgnMoves .= $pgnMove;
+        $this->pgnMoves[] = $pgnMove;
     }
 
     /**
