@@ -117,14 +117,14 @@ class GameFunctionalTest extends WebTestCase
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
         $player = $game->getPlayer('white');
         $this->assertEquals(1, $player->getStack()->getNbEvents());
-        $player->addEventsToStack(array(array(), array()));
+        $player->addEventsToStack(array(array('type' => 'test'), array('type' => 'test')));
         $this->dm->flush();
         $this->dm->clear();
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
         $player = $game->getPlayer('white');
         $this->assertEquals(3, $player->getStack()->getNbEvents());
         for($i=0; $i<$player->getStack()->getMaxEvents(); $i++) {
-            $player->addEventToStack(array('test' => 'event '.$i));
+            $player->addEventToStack(array('type' => 'event '.$i));
         }
         $this->assertEquals($player->getStack()->getMaxEvents() + 3, $player->getStack()->getNbEvents());
         $this->dm->flush();
