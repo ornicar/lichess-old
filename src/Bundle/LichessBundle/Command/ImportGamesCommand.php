@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Command;
 
 use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Stack;
 use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -65,7 +66,7 @@ class ImportGamesCommand extends BaseCommand
             'variant' => isset($o->variant) ? $o->variant : Game::VARIANT_STANDARD
         );
         if(isset($o->pgnMoves)) {
-            $data['pgnMoves'] = $o->pgnMoves;
+            $data['pgnMoves'] = explode(' ', $o->pgnMoves);
         }
         if(isset($o->next)) {
             $data['next'] = $o->next;
@@ -105,8 +106,15 @@ class ImportGamesCommand extends BaseCommand
             if($p->isWinner) {
                 $player['isWinner'] = true;
             }
+            $events = array();
+            if($p->stack->events && !$p->isAi) {
+                $stack = new Stack();
+                $stack->addEvents($p->stack->events);
+                $stack->rotate();
+                $events = $stack->getEncodedEvents();
+            }
             $player['stack'] = array(
-                'events' => $p->stack->events ?: array()
+                'events' => $events
             );
             $player['pieces'] = array();
             foreach($p->pieces as $pi) {
