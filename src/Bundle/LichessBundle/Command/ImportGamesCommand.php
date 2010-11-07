@@ -39,17 +39,19 @@ class ImportGamesCommand extends BaseCommand
         $collection = $manager->getMongo()->getMongo()->selectCollection('lichess', 'game');
         $newCollection = $manager->getDocumentCollection('Bundle\LichessBundle\Document\Game')->getMongoCollection();
         $nbGames = $collection->count(array());
-        $nbSteps = ceil($nbGames/100);
+        $batchSize = 500;
+        $nbSteps = ceil($nbGames/$batchSize);
         for($step=0; $step<$nbSteps; $step++) {
-            $cursor = $collection->find(array())->sort(array('upd' => -1))->limit(100)->skip($step*100);
+            $time = microtime(true);
+            $cursor = $collection->find(array())->sort(array('upd' => -1))->limit($batchSize)->skip($step*$batchSize);
             $newGames = array();
             foreach($cursor as $gameArray) {
                 $game = $this->decodeOldGame($gameArray);
                 $newGames[] = $this->transformData($game);
             }
-            $newCollection->batchInsert($newGames, array('safe' => true, 'fsync' => true));
+            $newCollection->batchInsert($newGames, array('safe' => false, 'fsync' => false));
             unset($newGames, $cursor);
-            $output->writeLn(sprintf('%d/%d', ($step+1)*100, $nbGames));
+            $output->writeLn(sprintf('%d/%d %d/s', ($step+1)*$batchSize, $nbGames, $batchSize/(microtime(true) - $time)));
         }
     }
 
@@ -107,7 +109,7 @@ class ImportGamesCommand extends BaseCommand
                 $player['isWinner'] = true;
             }
             $events = array();
-            if($p->stack->events && !$p->isAi) {
+            if($p->stack && $p->stack->events && !$p->isAi) {
                 $stack = new Stack();
                 $stack->addEvents($p->stack->events);
                 $stack->rotate();
