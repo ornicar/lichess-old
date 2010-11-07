@@ -9,7 +9,3 @@
     </div>
     <?php $view->output('LichessBundle:Game:bootGround.php', array('color' => $color)) ?>
 </div>
-
-<?php $view['slots']->start('baseline') ?>
-Don't register. <strong>Play Chess</strong>.
-<?php $view['slots']->stop() ?>
