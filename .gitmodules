@@ -22,3 +22,6 @@
 [submodule "src/Bundle/ApcBundle"]
 	path = src/Bundle/ApcBundle
 	url = git://github.com/ornicar/ApcBundle.git
+[submodule "src/vendor/twig"]
+	path = src/vendor/twig
+	url = git://github.com/fabpot/Twig.git
