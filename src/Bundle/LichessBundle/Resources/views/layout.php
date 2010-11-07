@@ -38,7 +38,6 @@
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Lichess</a></h1>
-                <?php $view['slots']->output('baseline', '') ?>
                 <div class="lichess_goodies_wrap">
                     <?php $view['slots']->output('goodies') ?>
                 </div>
