@@ -28,7 +28,7 @@ class LichessHelper extends Helper
     {
         $loadAverage = sys_getloadavg();
 
-        return round(25*$loadAverage[1]);
+        return round(25*$loadAverage[1]).'%';
     }
 
     /**
