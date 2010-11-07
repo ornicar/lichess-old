@@ -1,0 +1,88 @@
+{% stylesheet 'bundles/lichess/css/lichess.css' %}
+
+{% javascript 'bundles/lichess/js/lib.min.js' %}
+{% javascript 'bundles/lichess/js/ctrl.js' %}
+{#
+    $assetsPack = $view['slots']->get('assets_pack');
+    if('home' === $assetsPack) {
+    }
+    elseif('analyse' === $assetsPack) {
+        $view['javascripts']->add('bundles/lichess/vendor/pgn4web/pgn4web.js');
+        $view['javascripts']->add('bundles/lichess/js/analyse.js');
+        $view['stylesheets']->add('bundles/lichess/css/analyse.css');
+        $view['stylesheets']->add('bundles/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css');
+    }
+    elseif('gamelist' === $assetsPack) {
+        $view['stylesheets']->add('bundles/lichess/css/gamelist.css');
+        $view['javascripts']->add('bundles/lichess/js/gamelist.js');
+    }
+    else {
+        $view['javascripts']->add('bundles/lichess/js/game.js');
+    }
+    if($view['translator']->getLocale() !== 'en'):
+        $view['javascripts']->add('http://static.addtoany.com/menu/locale/'.$view['translator']->getLocale().'.js');
+    endif;
+#}
+<!DOCTYPE html>
+<html lang="{{ _view.session.locale }}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Lichess{% endblock %} | free online Chess game{% block title_suffix %}{% endblock %}</title>
+        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and JavaScript with jQuery 1.4" name="description">
+        <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
+        <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        {% stylesheets %}
+    </head>
+    <body class="{% block body_class %}normal{% endblock %}" data-sound-enabled="{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{% asset 'bundles/lichess/sound/alert.ogg' %}">
+        <div class="content">
+            <div class="header">
+                <h1><a class="site_title" href="{% path 'lichess_homepage' %}">Lichess</a></h1>
+                <div class="lichess_goodies_wrap">
+                    {% block goodies %}{% endblock %}
+                </div>
+                <div class="lichess_chat_wrap">
+                    {% block chat %}{% endblock %}
+                </div>
+            </div>
+            <div id="lichess">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+        <div class="footer_wrap">
+            <ul class="lichess_social"></ul>
+            <div class="footer">
+                <div class="right">
+                    {% trans "Contact" %}: <span class="js_email"></span><br />
+                    <a href="{% path "lichess_about" %}" target="_blank">{% trans "Learn more about Lichess" %}</a>
+                </div>
+                <div class="nb_connected_players" data-url="{% path "lichess_nb_players" %}">
+                    {% trans "%nb% connected players" with["%nb%": _view.lichess.nbConnectedPlayers] %}
+                </div>
+                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a href="{% path "forum_category_show" with ["slug": "lichess-feedback"] %}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="{% path "lichess_translate" %}">help translate Lichess</a><br />
+                {% trans "Open Source software built with %php%, %symfony% and %jqueryui%" with['%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'] %}<br />
+            </div>
+        </div>
+        <div title="Come on, make my server suffer :)" class="lichess_server">
+            {% trans "Server load" %}: <span class="value">{{ _view.lichess.loadAverage }}</span>
+        </div>
+        <div id="top_menu">
+            <a title="{% trans "Toggle sound" %}" href="{% path "lichess_toggle_sound" %}" id="sound_state" class="sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
+            <div class="lichess_language">
+                <span>{{ _view.translator.localeName }}</span>
+                <ul class="lichess_language_links">
+                    {% set localePath %}
+                        {% path "lichess_locale" with ["locale": "__"] %}
+                    {% endset %}
+                    {% for code, name in _view.translator.otherLocales() %}
+                        <li><a lang="{{ code }}" href="{{ localePath|format(["__": code]) }}">{{ name }}</a></li>
+                    {% endfor %}
+                    <li><a href="{% path "lichess_translate" %}">Help translate Lichess!</a></li>
+                </ul>
+            </div>
+            <a class="goto_forum goto_nav blank_if_play" title="{% trans 'Talk about chess and discuss lichess features in the forum' %}" href="{% path "forum_index" %}">Forum</a>
+            <a class="goto_gamelist goto_nav blank_if_play" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
+        </div>
+        {% javascripts %}
+    </body>
+</html>

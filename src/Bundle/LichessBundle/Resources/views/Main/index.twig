@@ -1,0 +1,10 @@
+{% extends 'LichessBundle::layout.twig' %}
+{% block body %}
+<div class="lichess_game_not_started clearfix lichess_player_{{ color }}">
+    <div class="lichess_board_wrap">
+        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".twig" %}
+        <a href="{% path "lichess_homepage" with ["color": reverseColor] %}" class="lichess_exchange" title="{% trans "Change side" %}"></a>
+    </div>
+    {% include "LichessBundle:Game:bootGround.twig" with ["color": color] %}
+</div>
+{% endblock %}
