@@ -1,5 +1,5 @@
-<?php $view->extend('LichessBundle::layout.php') ?>
-
+{% extends "LichessBundle::layout.twig" %}
+{% block body %}
 <div class="lichess_box">
     <h1 class="lichess_title">About Lichess</h1>
     <div class="lichess_text">
@@ -31,11 +31,11 @@
             <li>Replay and analysis</li>
             <li>Spectator mode</li>
             <li>Export in PGN</li>
-            <li>Translated to 23 languages (<a href="<?php echo $view['router']->generate('lichess_translate') ?>">help with translation</a>)</li>
+            <li>Translated to 23 languages (<a href="{% path "lichess_translate" %}">help with translation</a>)</li>
             <li>Run in any browser (excepted IE6, of course) without flash</li>
         </ul>
         <p class="license_images">
-            <a href="http://www.opensource.org/"><img src="<?php echo $view['assets']->getUrl('bundles/lichess/images/opensource.png') ?>" alt="OpenSource" /></a>
+            <a href="http://www.opensource.org/"><img src="{% asset 'bundles/lichess/images/opensource.png' %}" alt="OpenSource" /></a>
             <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a>
         </p>
         <p>
@@ -59,10 +59,11 @@
         </ul>
         <p>
             Lichess works better with a modern browser like <a href="http://www.mozilla.com/firefox/">Firefox</a>, Chrome, Safari or Opera.<br />
-            Check the <a href="<?php echo $view['router']->generate('forum_index') ?>">Lichess Forum</a> to talk about your games, report bugs and request features.
+            Check the <a href="{% path "forum_index" %}">Lichess Forum</a> to talk about your games, report bugs and request features.
             You can also email me at <span class="js_email"></span>.<br />
             Thanks for reading.
         </p>
     </div>
-    <a class="lichess_new_game" href="<?php echo $view['router']->generate('lichess_homepage') ?>">Start a new game</a>
+    <a class="lichess_new_game" href="{% path "lichess_homepage" %}">Start a new game</a>
 </div>
+{% endblock %}
