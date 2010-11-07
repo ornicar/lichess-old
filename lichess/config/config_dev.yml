@@ -7,7 +7,7 @@ webprofiler.config:
 
 zend.config:
     logger:
-        priority: notice
+        priority: info
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
 doctrine_odm.mongodb:

@@ -130,7 +130,7 @@ class Clock
 
     public function addTime($color, $time)
     {
-        $this->times[$color] = $this->times[$color] + $time;
+        $this->times[$color] = round($this->times[$color] + $time, 2);
     }
 
     /**
