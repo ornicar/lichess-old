@@ -235,6 +235,14 @@ class Player
     }
 
     /**
+     * @return boolean
+     */
+    public function getIsHuman()
+    {
+        return !$this->getIsAi();
+    }
+
+    /**
      * @param boolean
      */
     public function setIsAi($isAi)

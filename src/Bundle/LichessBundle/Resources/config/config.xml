@@ -16,6 +16,7 @@
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">20</parameter>
         <parameter key="lichess.synchronizer.delay">1</parameter>
+        <parameter key="lichess.animation.delay">400</parameter>
 
         <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
 
@@ -70,8 +71,7 @@
 
         <service id="templating.helper.lichess_game" class="%templating.helper.lichess_game.class%">
             <tag name="templating.helper" alias="lichess_game" />
-            <argument type="service" id="router" />
-            <argument type="service" id="lichess_translator" />
+            <argument type="service" id="service_container" />
         </service>
 
         <service id="lichess_translator" class="%lichess.translator.class%" shared="true">

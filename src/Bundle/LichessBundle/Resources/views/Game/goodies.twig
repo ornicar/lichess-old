@@ -1,0 +1,6 @@
+<div class="lichess_goodies">
+    <a class="lichess_replay_link blank_if_play" href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": color ? color : "white"] %}">{% trans "Replay and analyse" %}</a>
+    <div class="lichess_share_game">
+        Share: <a class="lichess_share_url blank_if_play" href="{% path "lichess_game" with ["id": game.id] %}" title="{% trans "Share this url to let spectators see the game" %}">{% url "lichess_game" with ["id": game.id] %}</a>
+    </div>
+</div>

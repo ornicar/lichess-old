@@ -83,6 +83,7 @@
             <a class="goto_forum goto_nav blank_if_play" title="{% trans 'Talk about chess and discuss lichess features in the forum' %}" href="{% path "forum_index" %}">Forum</a>
             <a class="goto_gamelist goto_nav blank_if_play" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
         </div>
+        {% block js_data %}{% endblock %}
         {% javascripts %}
     </body>
 </html>

@@ -1,0 +1,13 @@
+<div class="lichess_chat">
+    <div class="lichess_chat_inner">
+        <input title="{% trans "Toggle the chat" %}" class="toggle_chat" type="checkbox" checked="checked" />
+        <ol class="lichess_messages">
+        {% for message in player.game.room.messages %}
+            <li class="{{ message[0]|raw }}">{{ "system" == message[0] ? message[1]|trans|raw : _view.lichess.autoLink(message[1]) }}</li>
+        {% endfor %}
+        </ol>
+        <form action="" method="post">
+            <input class="lichess_say lichess_hint" value="{% trans "Talk in chat" %}" />
+        </form>
+    </div>
+</div>
