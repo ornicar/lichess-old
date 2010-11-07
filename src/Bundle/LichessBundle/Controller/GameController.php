@@ -149,7 +149,7 @@ class GameController extends Controller
         }
 
         return $this->render('LichessBundle:Game:inviteFriend.twig', array(
-            'form'  => $this['templating.form']->get($form),
+            'form'  => $form,
             'color' => $color
         ));
     }
@@ -183,7 +183,7 @@ class GameController extends Controller
         }
 
         return $this->render('LichessBundle:Game:inviteAi.twig', array(
-            'form'  => $this['templating.form']->get($form),
+            'form'  => $form,
             'color' => $color
         ));
     }
@@ -222,7 +222,7 @@ class GameController extends Controller
         }
 
         return $this->render('LichessBundle:Game:inviteAnybody.twig', array(
-            'form'  => $this['templating.form']->get($form),
+            'form'  => $form,
             'color' => $color
         ));
     }
