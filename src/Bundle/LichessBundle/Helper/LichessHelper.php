@@ -31,6 +31,11 @@ class LichessHelper extends Helper
         return round(25*$loadAverage[1]).'%';
     }
 
+    public function autoLink($text)
+    {
+        return TextHelper::autoLink($text);
+    }
+
     /**
      * Returns the canonical name of this helper.
      *
