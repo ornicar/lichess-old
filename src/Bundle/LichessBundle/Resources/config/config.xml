@@ -22,34 +22,6 @@
 
         <parameter key="lichess.seek_queue.class">Bundle\LichessBundle\Chess\SeekQueue</parameter>
 
-        <parameter key="lichess.translator.class">Bundle\LichessBundle\I18N\Translator</parameter>
-        <parameter key="lichess.translator.locales" type="collection">
-            <parameter key="en">English</parameter>
-            <parameter key="fr">français</parameter>
-            <parameter key="ru">русский язык</parameter>
-            <parameter key="de">Deutsch</parameter>
-            <parameter key="tr">Türkçe</parameter>
-            <parameter key="sr">српски јези</parameter>
-            <parameter key="lv">latviešu valoda</parameter>
-            <parameter key="bs">bosanski jezik</parameter>
-            <parameter key="da">Dansk</parameter>
-            <parameter key="es">Español</parameter>
-            <parameter key="ro">Română</parameter>
-            <parameter key="it">Italian</parameter>
-            <parameter key="fi">suomi, suomen kieli</parameter>
-            <parameter key="uk">українськ</parameter>
-            <parameter key="pt">Portuguê</parameter>
-            <parameter key="pl">polski</parameter>
-            <parameter key="nl">Nederlands, Vlaam</parameter>
-            <parameter key="vi">Tiếng Việt</parameter>
-            <parameter key="sv">svensk</parameter>
-            <parameter key="cs">česky, čeština</parameter>
-            <parameter key="sk">slovenčin</parameter>
-            <parameter key="hu">magyar nyelv</parameter>
-            <parameter key="ca">Català</parameter>
-        </parameter>
-
-        <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
         <parameter key="templating.helper.lichess.class">Bundle\LichessBundle\Helper\LichessHelper</parameter>
         <parameter key="templating.helper.lichess_game.class">Bundle\LichessBundle\Helper\LichessGameHelper</parameter>
 
@@ -59,9 +31,8 @@
 
     <services>
 
-        <service id="templating.helper.translator" class="%templating.helper.translator.class%">
-            <tag name="templating.helper" alias="translator" />
-            <argument type="service" id="lichess_translator" />
+        <service id="translation.loader.yml" class="Bundle\LichessBundle\Translation\Loader\YamlLoader">
+            <tag name="translation.loader" alias="yml" />
         </service>
 
         <service id="templating.helper.lichess" class="%templating.helper.lichess.class%">
@@ -72,11 +43,6 @@
         <service id="templating.helper.lichess_game" class="%templating.helper.lichess_game.class%">
             <tag name="templating.helper" alias="lichess_game" />
             <argument type="service" id="service_container" />
-        </service>
-
-        <service id="lichess_translator" class="%lichess.translator.class%" shared="true">
-            <argument>%lichess.translator.locales%</argument>
-            <argument>%kernel.debug%</argument>
         </service>
 
         <service id="lichess.seek_queue" class="%lichess.seek_queue.class%" shared="true">

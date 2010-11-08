@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+
+        <parameter key="templating.helper.locale.class">Bundle\LichessBundle\Helper\LocaleHelper</parameter>
+
+        <parameter key="lichess.locales" type="collection">
+            <parameter key="en">English</parameter>
+            <parameter key="fr">français</parameter>
+            <parameter key="ru">русский язык</parameter>
+            <parameter key="de">Deutsch</parameter>
+            <parameter key="tr">Türkçe</parameter>
+            <parameter key="sr">српски јези</parameter>
+            <parameter key="lv">latviešu valoda</parameter>
+            <parameter key="bs">bosanski jezik</parameter>
+            <parameter key="da">Dansk</parameter>
+            <parameter key="es">Español</parameter>
+            <parameter key="ro">Română</parameter>
+            <parameter key="it">Italian</parameter>
+            <parameter key="fi">suomi, suomen kieli</parameter>
+            <parameter key="uk">українськ</parameter>
+            <parameter key="pt">Portuguê</parameter>
+            <parameter key="pl">polski</parameter>
+            <parameter key="nl">Nederlands, Vlaam</parameter>
+            <parameter key="vi">Tiếng Việt</parameter>
+            <parameter key="sv">svensk</parameter>
+            <parameter key="cs">česky, čeština</parameter>
+            <parameter key="sk">slovenčin</parameter>
+            <parameter key="hu">magyar nyelv</parameter>
+            <parameter key="ca">Català</parameter>
+        </parameter>
+
+    </parameters>
+
+    <services>
+
+        <service id="templating.helper.locale" class="%templating.helper.locale.class%">
+            <tag name="templating.helper" alias="locale" />
+            <argument type="service" id="session" />
+            <argument>%lichess.locales%</argument>
+        </service>
+
+    </services>
+
+</container>

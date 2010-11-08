@@ -12,6 +12,7 @@ class LichessExtension extends Extension
     {
         $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
         $loader->load('config.xml');
+        $loader->load('locale.xml');
         $loader->load('model.xml');
 
         if(isset($config['ai']['class'])) {
