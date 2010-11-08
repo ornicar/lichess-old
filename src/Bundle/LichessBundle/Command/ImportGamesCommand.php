@@ -36,7 +36,9 @@ class ImportGamesCommand extends BaseCommand
         require_once __DIR__.'/Pieces.php';
         $manager = $this->container->get('lichess.object_manager');
         $this->container->get('lichess.repository.game')->createQuery()->remove()->execute();
-        $collection = $manager->getMongo()->getMongo()->selectCollection('lichess', 'game');
+        $config = $this->container->get('doctrine.odm.mongodb.default_configuration');
+        $database = $config->getDefaultDB();
+        $collection = $manager->getMongo()->getMongo()->selectCollection($database, 'game');
         $newCollection = $manager->getDocumentCollection('Bundle\LichessBundle\Document\Game')->getMongoCollection();
         $nbGames = $collection->count(array());
         $batchSize = 500;
