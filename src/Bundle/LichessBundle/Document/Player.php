@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Util\KeyGenerator;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Bundle\DoctrineUserBundle\Model\User;
 
 /**
  * Represents a single Chess player for one game
@@ -98,6 +99,14 @@ class Player
         $this->stack = new Stack();
         $this->addEventToStack(array('type' => 'start'));
         $this->pieces = new ArrayCollection();
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->getGame()->getUser($this->getColor());
     }
 
     /**
