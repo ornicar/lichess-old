@@ -1,6 +1,13 @@
 lichess:
   resource: LichessBundle/Resources/config/routing.yml
 
+user:
+    resource: DoctrineUserBundle/Resources/config/routing/user.xml
+    prefix: /user
+session:
+    resource: DoctrineUserBundle/Resources/config/routing/session.xml
+    prefix: /session
+
 forum:
     resource: ForumBundle/Resources/config/routing/forum.xml
     prefix: /forum

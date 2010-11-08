@@ -44,6 +44,12 @@ forum.config:
     posts_per_page: 10
     search_results_per_page: 10
 
+doctrine_user.config:
+    db_driver: odm
+    class:
+        model:
+            user: Application\DoctrineUserBundle\Document\User
+
 lichess_forum.config: ~
 
 time.helper: ~

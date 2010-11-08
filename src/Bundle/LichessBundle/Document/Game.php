@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Util\KeyGenerator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Bundle\DoctrineUserBundle\Model\User;
 
 /**
  * Represents a single Chess game
@@ -64,6 +65,22 @@ class Game
      * @mongodb:EmbedMany(targetDocument="Player")
      */
     protected $players;
+
+    /**
+     * User bound to the white player - optional
+     *
+     * @var User
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User", nullable="true")
+     */
+    protected $whiteUser = null;
+
+    /**
+     * User bound to the black player - optional
+     *
+     * @var User
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User", nullable="true")
+     */
+    protected $blackUser = null;
 
     /**
      * Color of the player who created the game
@@ -162,6 +179,57 @@ class Game
         $this->turns = 0;
         $this->players = new ArrayCollection();
         $this->pgnMoves = array();
+    }
+
+    /**
+     * @return User
+     */
+    public function getWhiteUser()
+    {
+        return $this->whiteUser;
+    }
+
+    /**
+     * @param  User
+     * @return null
+     */
+    public function setWhiteUser(User $user)
+    {
+        $this->whiteUser = $user;
+    }
+
+    /**
+     * @return User
+     */
+    public function getBlackUser()
+    {
+        return $this->blackUser;
+    }
+
+    /**
+     * @param  User
+     * @return null
+     */
+    public function setBlackUser(User $user)
+    {
+        $this->blackUser = $user;
+    }
+
+    /**
+     * Get the user bound to the player with this colo
+     *
+     * @return User
+     **/
+    public function getUser($color)
+    {
+        if('white' === $color) {
+            return $this->getWhiteUser();
+        }
+        if('black' === $color) {
+            return $this->getBlackUser();
+        }
+
+        throw new \InvalidArgumentException(sprintf('"%s" is not a regular chess color', $color));
     }
 
     /**
