@@ -3,110 +3,109 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Chess\Clock;
-use Bundle\LichessBundle\Stack;
-use Bundle\LichessBundle\Form;
+use Bundle\LichessBundle\Document\Clock;
+use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Persistence\QueueEntry;
-use Bundle\LichessBundle\Zend\Paginator\Adapter\GameAdapter;
+use Bundle\LichessBundle\Form;
+use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
-    public function listAction()
+    public function listCurrentAction()
     {
-        $hashes = $this['lichess_persistence']->findRecentGamesHashes(9);
-        $hashes = implode(',', $hashes);
-        $nbGames = $this['lichess_persistence']->getNbGames();
-        $nbMates = $this['lichess_persistence']->getNbMates();
+        $ids = $this['lichess.repository.game']->findRecentStartedGameIds(9);
 
-        return $this->render('LichessBundle:Game:listCurrent.php', compact('hashes', 'nbGames', 'nbMates'));
+        return $this->render('LichessBundle:Game:listCurrent.twig', array(
+            'ids'         => $ids,
+            'implodedIds' => implode(',', $ids),
+            'nbGames'     => $this['lichess.repository.game']->getNbGames(),
+            'nbMates'     => $this['lichess.repository.game']->getNbMates()
+        ));
     }
 
-    public function listInnerAction($hashes)
+    public function listCurrentInnerAction($ids)
     {
-        $hashes = explode(',', $hashes);
-        $games = $this['lichess_persistence']->findGamesByHashes($hashes);
-
-        return $this->render('LichessBundle:Game:listCurrentInner.php', array('games' => $games));
+        return $this->render('LichessBundle:Game:listCurrentInner.twig', array(
+            'games' => $this['lichess.repository.game']->findGamesByIds($ids)
+        ));
     }
 
     public function listAllAction()
     {
-        $page = $this['request']->query->get('page', 1);
-        $games = new Paginator(new GameAdapter($this['lichess_persistence'], GameAdapter::STARTED));
-        $games->setCurrentPageNumber($page);
-        $games->setItemCountPerPage(10);
-        $games->setPageRange(10);
+        $query = $this['lichess.repository.game']->createRecentStartedOrFinishedQuery();
 
-        $nbGames = $this['lichess_persistence']->getNbGames();
-        $nbMates = $this['lichess_persistence']->getNbMates();
-        $pagerUrl = $this->generateUrl('lichess_list_all');
-        return $this->render('LichessBundle:Game:listAll.php', compact('games', 'nbGames', 'nbMates', 'pagerUrl'));
+        return $this->render('LichessBundle:Game:listAll.twig', array(
+            'games'    => $this->createPaginatorForQuery($query),
+            'nbGames'  => $this['lichess.repository.game']->getNbGames(),
+            'nbMates'  => $this['lichess.repository.game']->getNbMates(),
+            'pagerUrl' => $this->generateUrl('lichess_list_all')
+        ));
     }
 
     public function listCheckmateAction()
     {
-        $page = $this['request']->query->get('page', 1);
-        $games = new Paginator(new GameAdapter($this['lichess_persistence'], GameAdapter::MATE));
-        $games->setCurrentPageNumber($page);
-        $games->setItemCountPerPage(10);
-        $games->setPageRange(10);
+        $query = $this['lichess.repository.game']->createRecentMateQuery();
 
-        $nbGames = $this['lichess_persistence']->getNbGames();
-        $nbMates = $this['lichess_persistence']->getNbMates();
-        $pagerUrl = $this->generateUrl('lichess_list_mates');
-        return $this->render('LichessBundle:Game:listMates.php', compact('games', 'nbGames', 'nbMates', 'pagerUrl'));
+        return $this->render('LichessBundle:Game:listMates.twig', array(
+            'games'    => $this->createPaginatorForQuery($query),
+            'nbGames'  => $this['lichess.repository.game']->getNbGames(),
+            'nbMates'  => $this['lichess.repository.game']->getNbMates(),
+            'pagerUrl' => $this->generateUrl('lichess_list_mates')
+        ));
     }
 
     /**
      * Join a game and start it if new, or see it as a spectator
      */
-    public function showAction($hash)
+    public function showAction($id)
     {
-        $game = $this->findGame($hash);
+        $game = $this->findGame($id);
 
-        if($this['request']->getMethod() == 'HEAD') {
-            return $this->createResponse(sprintf('Game #%s', $hash));
+        if($this['request']->getMethod() === 'HEAD') {
+            return $this->createResponse(sprintf('Game #%s', $id));
         }
 
         if($game->getIsStarted()) {
-            return $this->forward('LichessBundle:Game:watch', array('hash' => $hash));
+            return $this->forward('LichessBundle:Game:watch', array('id' => $id));
         }
 
-        return $this->render('LichessBundle:Game:join.php', array('game' => $game, 'color' => $game->getCreator()->getOpponent()->getColor()));
+        return $this->render('LichessBundle:Game:join.twig', array(
+            'game'  => $game,
+            'color' => $game->getCreator()->getOpponent()->getColor()
+        ));
     }
 
-    public function joinAction($hash)
+    public function joinAction($id)
     {
-        $game = $this->findGame($hash);
+        $game = $this->findGame($id);
 
-        if($this['request']->getMethod() == 'HEAD') {
-            $this['logger']->warn(sprintf('Game:join HEAD game:%s', $game->getHash()));
-            return $this->createResponse(sprintf('Game #%s', $hash));
+        if($this['request']->getMethod() === 'HEAD') {
+            return $this->createResponse(sprintf('Game #%s', $id));
         }
 
         if($game->getIsStarted()) {
-            $this['logger']->warn(sprintf('Game:join started game:%s', $game->getHash()));
-            return $this->redirect($this->generateUrl('lichess_game', array('hash' => $hash)));
+            $this['logger']->warn(sprintf('Game:join started game:%s', $game->getId()));
+            return $this->redirect($this->generateUrl('lichess_game', array('id' => $id)));
         }
 
         $game->start();
-        $game->getCreator()->getStack()->addEvent(array(
+        $game->getCreator()->addEventToStack(array(
             'type' => 'redirect',
-            'url' => $this->generateUrl('lichess_player', array('hash' => $game->getCreator()->getFullHash()))
+            'url'  => $this->generateUrl('lichess_player', array('id' => $game->getCreator()->getFullId()))
         ));
-        $this['lichess_persistence']->save($game);
-        $this['logger']->notice(sprintf('Game:join game:%s, variant:%s, time:%d', $game->getHash(), $game->getVariantName(), $game->getClockMinutes()));
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $game->getInvited()->getFullHash())));
+        $this['lichess.object_manager']->flush();
+        $this['logger']->notice(sprintf('Game:join game:%s, variant:%s, time:%d', $game->getId(), $game->getVariantName(), $game->getClockMinutes()));
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }
 
-    public function watchAction($hash)
+    public function watchAction($id)
     {
-        $game = $this->findGame($hash);
+        $game = $this->findGame($id);
         $player = $game->getCreator();
         $analyser = new Analyser($game->getBoard());
         $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
@@ -118,7 +117,11 @@ class GameController extends Controller
         }
         $possibleMoves = ($player->isMyTurn() && !$game->getIsFinished()) ? 1 : null;
 
-        return $this->render('LichessBundle:Game:watch.php', array('game' => $game, 'player' => $player, 'checkSquareKey' => $checkSquareKey, 'parameters' => $this->container->getParameterBag()->all(), 'possibleMoves' => $possibleMoves));
+        return $this->render('LichessBundle:Player:watch.twig', array(
+            'player'         => $player,
+            'checkSquareKey' => $checkSquareKey,
+            'possibleMoves'  => $possibleMoves
+        ));
     }
 
     public function inviteFriendAction($color)
@@ -131,17 +134,22 @@ class GameController extends Controller
             if($form->isValid()) {
                 $this['session']->set('lichess.game_config.friend', $config->toArray());
                 $player = $this['lichess_generator']->createGameForPlayer($color, $config->variant);
+                $game = $player->getGame();
                 if($config->time) {
                     $clock = new Clock($config->time * 60);
-                    $player->getGame()->setClock($clock);
+                    $game->setClock($clock);
                 }
-                $this['lichess_persistence']->save($player->getGame());
-                $this['logger']->notice(sprintf('Game:inviteFriend create game:%s, variant:%s, time:%d', $player->getGame()->getHash(), $player->getGame()->getVariantName(), $config->time));
-                return $this->redirect($this->generateUrl('lichess_wait_friend', array('hash' => $player->getFullHash())));
+                $this['lichess.object_manager']->persist($game);
+                $this['lichess.object_manager']->flush();
+                $this['logger']->notice(sprintf('Game:inviteFriend create game:%s, variant:%s, time:%d', $game->getId(), $game->getVariantName(), $config->time));
+                return $this->redirect($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteFriend.php', array('form' => $this['templating.form']->get($form), 'color' => $color));
+        return $this->render('LichessBundle:Game:inviteFriend.twig', array(
+            'form'  => $form,
+            'color' => $color
+        ));
     }
 
     public function inviteAiAction($color)
@@ -164,14 +172,18 @@ class GameController extends Controller
                     $manipulator = new Manipulator($game, new Stack());
                     $manipulator->play($this['lichess_ai']->move($game, $opponent->getAiLevel()));
                 }
-                $this['lichess_persistence']->save($game);
-                $this['logger']->notice(sprintf('Game:inviteAi create game:%s, variant:%s', $game->getHash(), $game->getVariantName()));
+                $this['lichess.object_manager']->persist($game);
+                $this['lichess.object_manager']->flush();
+                $this['logger']->notice(sprintf('Game:inviteAi create game:%s, variant:%s', $game->getId(), $game->getVariantName()));
 
-                return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+                return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteAi.php', array('form' => $this['templating.form']->get($form), 'color' => $color));
+        return $this->render('LichessBundle:Game:inviteAi.twig', array(
+            'form'  => $form,
+            'color' => $color
+        ));
     }
 
     public function inviteAnybodyAction($color)
@@ -186,52 +198,57 @@ class GameController extends Controller
             $form->bind($this['request']->request->get($form->getName()));
             if($form->isValid()) {
                 $this['session']->set('lichess.game_config.anybody', $config->toArray());
-                $queueEntry = new QueueEntry($config->times, $config->variants, $this['session']->get('lichess.user_id'));
-                $queue = $this['lichess_queue'];
-                $result = $queue->add($queueEntry, $color);
-                if($result['status'] === $queue::FOUND) {
-                    $game = $this['lichess_persistence']->find($result['game_hash']);
-                    if(!$game) {
-                        return $this->inviteAnybodyAction($color);
-                    }
-                    if(!$this['lichess_synchronizer']->isConnected($game->getCreator())) {
-                        $this['lichess_persistence']->remove($game);
-                        $this['logger']->notice(sprintf('Game:inviteAnybody remove game:%s', $game->getHash()));
-                        return $this->inviteAnybodyAction($color);
-                    }
-                    $this['lichess_generator']->applyVariant($game, $result['variant']);
-                    if($result['time']) {
-                        $clock = new Clock($result['time'] * 60);
-                        $game->setClock($clock);
-                    }
-                    $this['lichess_persistence']->save($game);
-                    $this['logger']->notice(sprintf('Game:inviteAnybody join game:%s, variant:%s, time:%s', $game->getHash(), $game->getVariantName(), $result['time']));
-                    return $this->redirect($this->generateUrl('lichess_game', array('hash' => $game->getHash())));
-                }
+                $queue = $this['lichess.seek_queue'];
+                $result = $queue->add($config->variants, $config->times, $this['session']->get('lichess.session_id'), $color);
                 $game = $result['game'];
-                $this['lichess_persistence']->save($game);
-                $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getHash(), implode(',', $config->getVariantNames()), implode(',', $config->times)));
-                return $this->redirect($this->generateUrl('lichess_wait_anybody', array('hash' => $game->getCreator()->getFullHash())));
+                if(!$game) {
+                    return $this->inviteAnybodyAction($color);
+                }
+                if($result['status'] === $queue::FOUND) {
+                    if(!$this['lichess_synchronizer']->isConnected($game->getCreator())) {
+                        $this['lichess.object_manager']->remove($game);
+                        $this['lichess.object_manager']->flush();
+                        $this['logger']->notice(sprintf('Game:inviteAnybody remove game:%s', $game->getId()));
+                        return $this->inviteAnybodyAction($color);
+                    }
+                    $this['logger']->notice(sprintf('Game:inviteAnybody join game:%s, variant:%s, time:%s', $game->getId(), $game->getVariantName(), $game->getClockName()));
+                    return $this->redirect($this->generateUrl('lichess_game', array('id' => $game->getId())));
+                }
+                $this['logger']->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getId(), implode(',', $config->getVariantNames()), implode(',', $config->times)));
+                return $this->redirect($this->generateUrl('lichess_wait_anybody', array('id' => $game->getCreator()->getFullId())));
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteAnybody.php', array('form' => $this['templating.form']->get($form), 'color' => $color));
+        return $this->render('LichessBundle:Game:inviteAnybody.twig', array(
+            'form'  => $form,
+            'color' => $color
+        ));
     }
 
     /**
-     * Return the game for this hash
+     * Return the game for this id
      *
-     * @param string $hash
+     * @param string $id
      * @return Game
      */
-    protected function findGame($hash)
+    protected function findGame($id)
     {
-        $game = $this['lichess_persistence']->find($hash);
+        $game = $this['lichess.repository.game']->findOneById($id);
 
         if(!$game) {
-            throw new NotFoundHttpException('Can\'t find game '.$hash);
+            throw new NotFoundHttpException('Can\'t find game '.$id);
         }
 
         return $game;
+    }
+
+    protected function createPaginatorForQuery($query)
+    {
+        $games = new Paginator(new DoctrineMongoDBAdapter($query));
+        $games->setCurrentPageNumber($this['request']->query->get('page', 1));
+        $games->setItemCountPerPage(10);
+        $games->setPageRange(10);
+
+        return $games;
     }
 }

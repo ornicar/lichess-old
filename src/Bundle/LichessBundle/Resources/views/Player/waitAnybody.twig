@@ -1,0 +1,24 @@
+{% extends "LichessBundle:Player:layoutPlayer.twig" %}
+{% block title %}Lichess - {% trans "Play with anybody" %} - {{ player.color }}{% endblock %}
+{% block body %}
+<div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_{{ player.color }}">
+    <div class="lichess_board_wrap">
+        {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".twig" %}
+        <div class="lichess_overboard wait_anybody">
+            <img src="{% asset 'bundles/lichess/images/hloader.gif' %}" width="220" height="33" /><br />
+            {% trans 'Waiting for opponent' %}...
+            <p class="explanations">
+                Variant: {{ config.renderVariantNames }}<br />
+                Clock: {{ config.renderTimeNames }}
+            </p>
+            <p class="explanations">
+                {% trans "Hold on, we are searching for a game that matches your criterias" %}
+            </p>
+        </div>
+    </div>
+    {% include "LichessBundle:Game:bootGround.twig" with ["color": player.color, "active": "anybody"] %}
+</div>
+{% endblock %}
+{% block js_data %}
+    {{ _view.lichess_game.renderData(player, null, false)|raw }}
+{% endblock %}

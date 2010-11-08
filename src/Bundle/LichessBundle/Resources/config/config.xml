@@ -6,10 +6,8 @@
 
     <parameters>
 
-        <parameter key="lichess.persistence.class">Bundle\LichessBundle\Persistence\MongoDBPersistence</parameter>
-        <parameter key="lichess.queue.class">Bundle\LichessBundle\Persistence\MongoDBQueue</parameter>
-
         <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
+        <parameter key="lichess.ai_fallback.class">Bundle\LichessBundle\Ai\Stupid</parameter>
 
         <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
 
@@ -18,8 +16,11 @@
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">20</parameter>
         <parameter key="lichess.synchronizer.delay">1</parameter>
+        <parameter key="lichess.animation.delay">400</parameter>
 
         <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
+
+        <parameter key="lichess.seek_queue.class">Bundle\LichessBundle\Chess\SeekQueue</parameter>
 
         <parameter key="lichess.translator.class">Bundle\LichessBundle\I18N\Translator</parameter>
         <parameter key="lichess.translator.locales" type="collection">
@@ -50,6 +51,7 @@
 
         <parameter key="templating.helper.translator.class">Bundle\LichessBundle\Helper\TranslatorHelper</parameter>
         <parameter key="templating.helper.lichess.class">Bundle\LichessBundle\Helper\LichessHelper</parameter>
+        <parameter key="templating.helper.lichess_game.class">Bundle\LichessBundle\Helper\LichessGameHelper</parameter>
 
         <parameter key="session.storage.test.class">Bundle\LichessBundle\SessionStorage\TestSessionStorage</parameter>
 
@@ -67,23 +69,29 @@
             <argument type="service" id="lichess_synchronizer" />
         </service>
 
+        <service id="templating.helper.lichess_game" class="%templating.helper.lichess_game.class%">
+            <tag name="templating.helper" alias="lichess_game" />
+            <argument type="service" id="service_container" />
+        </service>
+
         <service id="lichess_translator" class="%lichess.translator.class%" shared="true">
             <argument>%lichess.translator.locales%</argument>
             <argument>%kernel.debug%</argument>
         </service>
 
-        <service id="lichess_persistence" class="%lichess.persistence.class%" shared="true">
-        </service>
-
-        <service id="lichess_queue" class="%lichess.queue.class%" shared="true">
+        <service id="lichess.seek_queue" class="%lichess.seek_queue.class%" shared="true">
+            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="lichess.repository.seek" />
             <argument type="service" id="lichess_generator" />
         </service>
 
         <service id="lichess_ai" class="%lichess.ai.class%" shared="true">
         </service>
 
+        <service id="lichess_ai_fallback" class="%lichess.ai_fallback.class%" shared="true">
+        </service>
+
         <service id="lichess_generator" class="%lichess.generator.class%" shared="true">
-            <argument type="service" id="lichess_persistence" />
         </service>
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">

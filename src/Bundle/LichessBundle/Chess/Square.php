@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Entities\Player;
+use Bundle\LichessBundle\Document\Player;
 
 class Square
 {

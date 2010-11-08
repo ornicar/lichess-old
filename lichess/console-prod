@@ -5,7 +5,7 @@ require_once __DIR__.'/LichessKernel.php';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-$kernel = new LichessKernel('forum_prod', false);
+$kernel = new LichessKernel('prod', false);
 
 $application = new Application($kernel);
 $application->run();

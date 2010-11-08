@@ -1,0 +1,37 @@
+{% extends "LichessBundle:Pgn:layoutAnalyse.twig" %}
+{% block title %}Lichess - {% trans "Replay and analyse" %}{% endblock %}
+{% block title_suffix %} #{{ game.id }}{% endblock %}
+{% block body %}
+<div class="analyse clearfix">
+    <div class="board_wrap">
+        <div id="GameBoard"{{ color == "black" ? ' class="flip"' : "" }}></div>
+        <div id="GameButtons"></div>
+    </div>
+    <div class="moves_wrap">
+        <h1>{% trans "Replay and analyse" %}</h1>
+        <div id="GameText"></div>
+    </div>
+</div>
+{% endblock %}
+{% block goodies %}
+<div class="lichess_goodies">
+    <a class="rotate_board" href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": reverseColor] %}">{% trans "Flip board" %}</a><br />
+    <br />
+    {% for _color in ["white", "black"] %}
+        <div>
+            {% trans _color|capitalize %} -
+            {% if game.getPlayer(_color).isAi %}
+            {% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': game.getPlayer(_color).aiLevel] %}
+            {% else %}
+            {% trans "Human" %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    <br />
+    Variant - {{ game.variantName|capitalize }}<br />
+    Clock - {{ game.clockName }}<br />
+    <br />
+    {% trans "Export PGN" %}:
+    <textarea id="pgnText" readonly="readonly">{{ pgn }}</textarea>
+</div>
+{% endblock %}

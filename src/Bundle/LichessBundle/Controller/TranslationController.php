@@ -7,7 +7,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\ChoiceField;
 use Symfony\Component\Form\TextareaField;
 use Symfony\Component\Form\TextField;
-use Bundle\LichessBundle\Entities\Translation;
+use Bundle\LichessBundle\Document\Translation;
 use Symfony\Component\Finder\Finder;
 
 class TranslationController extends Controller

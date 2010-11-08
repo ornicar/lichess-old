@@ -34,17 +34,17 @@ if('/how-many-players-now' === $url) {
 
 // Handle game synchronization
 
-if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<hash>[\w-]{6})/(?P<color>(white|black))/(?P<version>\d+)/(?P<playerFullHash>([\w-]{10}|))$#x', $url, $matches)) {
-    $hash = $matches['hash'];
+if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<id>[\w-]{8})/(?P<color>(white|black))/(?P<version>\d+)/(?P<playerFullId>([\w-]{12}|))$#x', $url, $matches)) {
+    $id = $matches['id'];
     $color = $matches['color'];
     $clientVersion = $matches['version'];
-    $playerFullHash = $matches['playerFullHash'];
+    $playerFullId = $matches['playerFullId'];
     $opponentColor = 'white' === $color ? 'black' : 'white';
 }
 else return;
 
 // Get user cache from APC
-$userVersion = apc_fetch($hash.'.'.$color.'.data');
+$userVersion = apc_fetch($id.'.'.$color.'.data');
 
 // If the user has no cache, hit the application
 if(false === $userVersion) return;
@@ -52,14 +52,14 @@ if(false === $userVersion) return;
 // If the client and server version differ, update the client
 if($userVersion != $clientVersion) return;
 
-if($playerFullHash) {
+if($playerFullId) {
     // Set the client as connected
-    apc_store($hash.'.'.$color.'.alive', 1, $timeout);
+    apc_store($id.'.'.$color.'.alive', 1, $timeout);
 }
 
 // Check is opponent is connected
-if($playerFullHash) {
-    $isOpponentAlive = apc_fetch($hash.'.'.$opponentColor.'.alive') ? 1 : 0;
+if($playerFullId) {
+    $isOpponentAlive = apc_fetch($id.'.'.$opponentColor.'.alive') ? 1 : 0;
 }
 else {
     $isOpponentAlive = true;

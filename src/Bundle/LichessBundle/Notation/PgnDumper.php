@@ -1,9 +1,9 @@
 <?php
 
 namespace Bundle\LichessBundle\Notation;
-use Bundle\LichessBundle\Entities\Game;
-use Bundle\LichessBundle\Entities\Player;
-use Bundle\LichessBundle\Entities\Piece;
+use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Piece;
 use Bundle\LichessBundle\Chess\Square;
 use Symfony\Component\Routing\Router;
 
@@ -133,10 +133,11 @@ class PgnDumper
 
     public function getPgnMoves(Game $game)
     {
-        if('' == $game->getPgnMoves()) {
+        $pgnMoves = $game->getPgnMoves();
+        if(empty($pgnMoves)) {
             return '';
         }
-        $moves = explode(' ', $game->getPgnMoves());
+        $moves = $game->getPgnMoves();
         $nbMoves = count($moves);
         $nbTurns = ceil($nbMoves/2);
         $string = '';
@@ -169,7 +170,7 @@ class PgnDumper
             return 'http://lichess.org/';
         }
 
-        return $this->urlGenerator->generate('lichess_pgn_viewer', array('hash' => $game->getHash()), true);
+        return $this->urlGenerator->generate('lichess_pgn_viewer', array('id' => $game->getId()), true);
     }
 
     protected function getPgnResult(Game $game)

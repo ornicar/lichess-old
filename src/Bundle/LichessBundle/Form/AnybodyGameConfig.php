@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Form;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -39,6 +39,16 @@ class AnybodyGameConfig extends GameConfig
         }
 
         return $names;
+    }
+
+    public function renderTimeNames()
+    {
+        return implode(' or ', $this->getTimeNames());
+    }
+
+    public function renderVariantNames()
+    {
+        return implode(' or ', $this->getVariantNames());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

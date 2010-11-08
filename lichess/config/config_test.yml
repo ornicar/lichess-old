@@ -7,3 +7,14 @@ webprofiler.config:
 app.config:
     error_handler: false
     test: true
+
+doctrine_odm.mongodb:
+    metadata_cache_driver: array
+    cache_driver: array
+    default_database: lichess_test
+    connections:
+        default:
+            server: mongodb://localhost:27017
+            options:
+                connect: true
+                persistent: lichess

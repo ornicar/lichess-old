@@ -1,7 +1,0 @@
-imports:
-    - { resource: config_dev.yml }
-    - { resource: config_forum.yml }
-
-doctrine_odm.mongodb:
-    metadata_cache_driver: array
-    cache_driver: array

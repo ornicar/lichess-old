@@ -5,49 +5,47 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Stack;
-use Bundle\LichessBundle\Ai\Crafty;
-use Bundle\LichessBundle\Ai\Stupid;
-use Bundle\LichessBundle\Entities\Player;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Stack;
+use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Form;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PlayerController extends Controller
 {
-    public function outoftimeAction($hash, $version)
+    public function outoftimeAction($id, $version)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         $opponent = $player->getOpponent();
         $game = $player->getGame();
 
         if($game->checkOutOfTime()) {
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
-            $player->getStack()->addEvents($events);
-            $opponent->getStack()->addEvents($events);
-            $this['lichess_persistence']->save($game);
-            $this['logger']->notice(sprintf('Player:outoftime game:%s', $game->getHash()));
+            $player->addEventsToStack($events);
+            $opponent->addEventsToStack($events);
+            $this['lichess.object_manager']->flush();
+            $this['logger']->notice(sprintf('Player:outoftime game:%s', $game->getId()));
         }
 
-        $this['logger']->warn(sprintf('Player:outoftime finished game:%s', $game->getHash()));
+        $this['logger']->warn(sprintf('Player:outoftime finished game:%s', $game->getId()));
         return $this->renderJson($this->getPlayerSyncData($player, $version));
     }
 
-    public function rematchAction($hash)
+    public function rematchAction($id)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         $opponent = $player->getOpponent();
         $game = $player->getGame();
 
         if(!$game->getIsFinished()) {
-            $this['logger']->warn(sprintf('Player:rematch not finished game:%s', $game->getHash()));
-            return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+            $this['logger']->warn(sprintf('Player:rematch not finished game:%s', $game->getId()));
+            return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
         }
 
-        if($nextPlayerHash = $game->getNext()) {
-            $nextOpponent = $this->findPlayer($nextPlayerHash);
-            if($nextOpponent->getColor() == $player->getColor()) {
+        if($nextPlayerId = $game->getNext()) {
+            $nextOpponent = $this->findPlayer($nextPlayerId);
+            if($nextOpponent->getColor() === $player->getColor()) {
                 $nextGame = $nextOpponent->getGame();
                 $nextPlayer = $nextOpponent->getOpponent();
                 if(!$nextGame->getIsStarted()) {
@@ -56,48 +54,48 @@ class PlayerController extends Controller
                         $nextGame->setClock(clone $game->getClock());
                     }
                     $nextGame->start();
-                    $this['lichess_persistence']->save($nextGame);
-                    $opponent->getStack()->addEvent(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $nextOpponent->getFullHash()))));
-                    $this['lichess_persistence']->save($game);
+                    $opponent->addEventToStack(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $nextOpponent->getFullId()))));
+                    $this['lichess.object_manager']->flush();
                     if($this['lichess_synchronizer']->isConnected($opponent)) {
                         $this['lichess_synchronizer']->setAlive($nextOpponent);
                     }
-                    $this['logger']->notice(sprintf('Player:rematch join game:%s', $nextGame->getHash()));
+                    $this['logger']->notice(sprintf('Player:rematch join game:%s', $nextGame->getId()));
                 }
                 else {
-                    $this['logger']->warn(sprintf('Player:rematch join already started game:%s', $nextGame->getHash()));
+                    $this['logger']->warn(sprintf('Player:rematch join already started game:%s', $nextGame->getId()));
                 }
-                return $this->redirect($this->generateUrl('lichess_player', array('hash' => $nextPlayer->getFullHash())));
+                return $this->redirect($this->generateUrl('lichess_player', array('id' => $nextPlayer->getFullId())));
             }
         }
         else {
             $nextPlayer = $this->container->getLichessGeneratorService()->createReturnGame($player);
-            $this['lichess_persistence']->save($nextPlayer->getGame());
-            $opponent->getStack()->addEvent(array('type' => 'reload_table'));
+            $this['lichess.object_manager']->persist($nextPlayer->getGame());
+            $opponent->addEventToStack(array('type' => 'reload_table'));
             $this['lichess_synchronizer']->setAlive($player);
-            $this['logger']->notice(sprintf('Player:rematch proposal for game:%s', $game->getHash()));
-            $this['lichess_persistence']->save($game);
+            $this['logger']->notice(sprintf('Player:rematch proposal for game:%s', $game->getId()));
+            $this['lichess.object_manager']->flush();
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $player->getFullHash())));
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }
 
-    public function syncAction($hash, $color, $version, $playerFullHash)
+    public function syncAction($id, $color, $version, $playerFullId)
     {
-        $player = $this->findPublicPlayer($hash, $color);
-        if($playerFullHash) {
+        $player = $this->findPublicPlayer($id, $color);
+        if($playerFullId) {
             $this['lichess_synchronizer']->setAlive($player);
-            $this['lichess_persistence']->save($player->getGame());
         }
+        $player->getGame()->cachePlayerVersions();
         $data = $this->getPlayerSyncData($player, $version);
         // remove private events if user is spectator
-        if(!$playerFullHash) {
+        if(!$playerFullId) {
             foreach($data['e'] as $index => $event) {
                 if('message' === $event['type'] || 'redirect' === $event['type']) {
                     unset($data['e'][$index]);
                 }
             }
         }
+
         return $this->renderJson($data);
     }
 
@@ -106,12 +104,12 @@ class PlayerController extends Controller
         $game = $player->getGame();
         $version = $player->getStack()->getVersion();
         $isOpponentConnected = $this['lichess_synchronizer']->isConnected($player->getOpponent());
-        $currentPlayerColor = $game->getTurnPlayer()->getColor();
+        $currentPlayerColor = $game->getTurnColor();
         try {
             $events = $version != $clientVersion ? $this['lichess_synchronizer']->getDiffEvents($player, $clientVersion) : array();
         }
         catch(\OutOfBoundsException $e) {
-            $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('hash' => $player->getFullHash()))));
+            $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $player->getFullId()))));
         }
 
         $data = array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events, 'p' => $currentPlayerColor, 't' => $game->getTurns());
@@ -123,41 +121,41 @@ class PlayerController extends Controller
         return $data;
     }
 
-    public function forceResignAction($hash)
+    public function forceResignAction($id)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         $game = $player->getGame();
         if(!$game->getIsFinished() && $this['lichess_synchronizer']->isTimeout($player->getOpponent())) {
             $game->setStatus(Game::TIMEOUT);
             $player->setIsWinner(true);
-            $player->getStack()->addEvent(array('type' => 'end'));
-            $player->getOpponent()->getStack()->addEvent(array('type' => 'end'));
-            $this['lichess_persistence']->save($game);
-            $this['logger']->notice(sprintf('Player:forceResign game:%s', $game->getHash()));
+            $player->addEventToStack(array('type' => 'end'));
+            $player->getOpponent()->addEventToStack(array('type' => 'end'));
+            $this['lichess.object_manager']->flush();
+            $this['logger']->notice(sprintf('Player:forceResign game:%s', $game->getId()));
         }
         else {
-            $this['logger']->warn(sprintf('Player:forceResign FAIL game:%s', $game->getHash()));
+            $this['logger']->warn(sprintf('Player:forceResign FAIL game:%s', $game->getId()));
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
-    public function claimDrawAction($hash)
+    public function claimDrawAction($id)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         $game = $player->getGame();
         if(!$game->getIsFinished() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
             $game->setStatus(GAME::DRAW);
-            $player->getStack()->addEvent(array('type' => 'end'));
-            $player->getOpponent()->getStack()->addEvent(array('type' => 'end'));
-            $this['lichess_persistence']->save($game);
-            $this['logger']->notice(sprintf('Player:claimDraw game:%s', $game->getHash()));
+            $player->addEventToStack(array('type' => 'end'));
+            $player->getOpponent()->addEventToStack(array('type' => 'end'));
+            $this['lichess.object_manager']->flush();
+            $this['logger']->notice(sprintf('Player:claimDraw game:%s', $game->getId()));
         }
         else {
-            $this['logger']->warn(sprintf('Player:claimDraw FAIL game:%s', $game->getHash()));
+            $this['logger']->warn(sprintf('Player:claimDraw FAIL game:%s', $game->getId()));
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     protected function renderJson($data)
@@ -167,13 +165,13 @@ class PlayerController extends Controller
         return $response;
     }
 
-    public function moveAction($hash, $version)
+    public function moveAction($id, $version)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         $this['lichess_synchronizer']->setAlive($player);
         $game = $player->getGame();
         if(!$player->isMyTurn()) {
-            throw new \LogicException(sprintf('Player:move not my turn game:%s', $game->getHash()));
+            throw new \LogicException(sprintf('Player:move not my turn game:%s', $game->getId()));
         }
         $opponent = $player->getOpponent();
         $postData = $this['request']->request;
@@ -181,46 +179,47 @@ class PlayerController extends Controller
         $stack = new Stack();
         $manipulator = new Manipulator($game, $stack);
         $opponentPossibleMoves = $manipulator->play($move, $postData->get('options', array()));
-        $player->getStack()->addEvents($stack->getEvents());
-        $player->getStack()->addEvent(array('type' => 'possible_moves', 'possible_moves' => null));
+        $player->addEventsToStack($stack->getEvents());
+        $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => null));
         $response = $this->renderJson($this->getPlayerSyncData($player, $version));
 
         if($opponent->getIsAi()) {
             if(!empty($opponentPossibleMoves)) {
                 $stack->reset();
+                $ai = $this['lichess_ai'];
                 try {
-                    $possibleMoves = $manipulator->play($this->container->getLichessAiService()->move($game, $opponent->getAiLevel()));
-                }
-                catch(\Exception $e) {
-                    $this['logger']->err(sprintf('Player:move Crafty game:%s, variant:%s, turn:%d - %s %s', $game->getHash(), $game->getVariantName(), $game->getTurns(), get_class($e), $e->getMessage()));
-                    $ai = new \Bundle\LichessBundle\Ai\Stupid();
                     $possibleMoves = $manipulator->play($ai->move($game, $opponent->getAiLevel()));
                 }
-                $player->getStack()->addEvents($stack->getEvents());
-                $player->getStack()->addEvent(array('type' => 'possible_moves', 'possible_moves' => $possibleMoves));
+                catch(\Exception $e) {
+                    $this['logger']->err(sprintf('Player:move Crafty game:%s, variant:%s, turn:%d - %s %s', $game->getId(), $game->getVariantName(), $game->getTurns(), get_class($e), $e->getMessage()));
+                    $ai = $this['lichess_ai_fallback'];
+                    $possibleMoves = $manipulator->play($ai->move($game, $opponent->getAiLevel()));
+                }
+                $player->addEventsToStack($stack->getEvents());
+                $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $possibleMoves));
             }
         }
         else {
-            $opponent->getStack()->addEvents($stack->getEvents());
-            $opponent->getStack()->addEvent(array('type' => 'possible_moves', 'possible_moves' => $opponentPossibleMoves));
+            $opponent->addEventsToStack($stack->getEvents());
+            $opponent->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $opponentPossibleMoves));
         }
-        $this['lichess_persistence']->save($game);
+        $this['lichess.object_manager']->flush();
         if($game->getIsFinished()) {
-            $this['logger']->notice(sprintf('Player:move finish game:%s, %s', $game->getHash(), $game->getStatusMessage()));
+            $this['logger']->notice(sprintf('Player:move finish game:%s, %s', $game->getId(), $game->getStatusMessage()));
         }
 
         return $response;
     }
 
-    public function showAction($hash)
+    public function showAction($id)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         $game = $player->getGame();
 
         $this['lichess_synchronizer']->setAlive($player);
 
         if(!$game->getIsStarted()) {
-            throw new HttpException(sprintf('Player:show game:%s, Game not started', $game->getHash()), 410);
+            throw new HttpException(sprintf('Player:show game:%s, Game not started', $game->getId()), 410);
         }
 
         $analyser = new Analyser($game->getBoard());
@@ -231,11 +230,10 @@ class PlayerController extends Controller
         else {
             $checkSquareKey = null;
         }
-        return $this->render('LichessBundle:Player:show.php', array(
+        return $this->render('LichessBundle:Player:show.twig', array(
             'player' => $player,
             'isOpponentConnected' => $this['lichess_synchronizer']->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
-            'parameters' => $this->container->getParameterBag()->all(),
             'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
@@ -243,17 +241,19 @@ class PlayerController extends Controller
     /**
      * Add a message to the chat room
      */
-    public function sayAction($hash, $version)
+    public function sayAction($id, $version)
     {
         if('POST' !== $this['request']->getMethod()) {
-            throw new NotFoundHttpException(sprintf('Player:say game:%s, POST method required', $hash));
+            throw new NotFoundHttpException(sprintf('Player:say game:%s, POST method required', $id));
         }
         $message = trim($this['request']->get('message'));
         if('' === $message) {
-            throw new NotFoundHttpException(sprintf('Player:say game:%s, No message', $hash));
+            throw new NotFoundHttpException(sprintf('Player:say game:%s, No message', $id));
         }
-        $message = substr($message, 0, 140);
-        $player = $this->findPlayer($hash);
+        if(mb_strlen($message) > 140) {
+            throw new NotFoundHttpException(sprintf('Player:say game:%s, too long message', $id));
+        }
+        $player = $this->findPlayer($id);
         $this['lichess_synchronizer']->setAlive($player);
         $player->getGame()->getRoom()->addMessage($player->getColor(), $message);
         $htmlMessage = \Bundle\LichessBundle\Helper\TextHelper::autoLink(htmlentities($message, ENT_COMPAT, 'UTF-8'));
@@ -261,139 +261,152 @@ class PlayerController extends Controller
             'type' => 'message',
             'html' => sprintf('<li class="%s">%s</li>', $player->getColor(), $htmlMessage)
         );
-        $player->getStack()->addEvent($sayEvent);
-        $player->getOpponent()->getStack()->addEvent($sayEvent);
-        $this['lichess_persistence']->save($player->getGame());
+        $player->addEventToStack($sayEvent);
+        $player->getOpponent()->addEventToStack($sayEvent);
+        $this['lichess.object_manager']->flush();
 
         return $this->renderJson($this->getPlayerSyncData($player, $version));
     }
 
-    public function waitAnybodyAction($hash)
+    public function waitAnybodyAction($id)
     {
         try {
-            $player = $this->findPlayer($hash);
+            $player = $this->findPlayer($id);
         }
         catch(NotFoundHttpException $e) {
             return $this->redirect($this->generateUrl('lichess_invite_anybody'));
         }
         if($player->getGame()->getIsStarted()) {
-            return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
+            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $this['lichess_synchronizer']->setAlive($player);
 
         $config = new Form\AnybodyGameConfig();
         $config->fromArray($this['session']->get('lichess.game_config.anybody', array()));
-        return $this->render('LichessBundle:Player:waitAnybody.php', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all(), 'config' => $config));
+        return $this->render('LichessBundle:Player:waitAnybody.twig', array(
+            'player'     => $player,
+            'config'     => $config
+        ));
     }
 
-    public function waitFriendAction($hash)
+    public function waitFriendAction($id)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         if($player->getGame()->getIsStarted()) {
-            return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
+            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $this['lichess_synchronizer']->setAlive($player);
 
-        return $this->render('LichessBundle:Player:waitFriend.php', array('player' => $player, 'parameters' => $this->container->getParameterBag()->all()));
+        return $this->render('LichessBundle:Player:waitFriend.twig', array(
+            'player'     => $player
+        ));
     }
 
-    public function resignAction($hash)
+    public function resignAction($id)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         $game = $player->getGame();
         if($game->getIsFinished()) {
-            $this['logger']->warn(sprintf('Player:resign finished game:%s', $game->getHash()));
-            return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
+            $this['logger']->warn(sprintf('Player:resign finished game:%s', $game->getId()));
+            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $opponent = $player->getOpponent();
 
         $game->setStatus(Game::RESIGN);
         $opponent->setIsWinner(true);
-        $player->getStack()->addEvent(array('type' => 'end'));
-        $opponent->getStack()->addEvent(array('type' => 'end'));
-        $this['lichess_persistence']->save($game);
-        $this['logger']->notice(sprintf('Player:resign game:%s', $game->getHash()));
+        $player->addEventToStack(array('type' => 'end'));
+        $opponent->addEventToStack(array('type' => 'end'));
+        $this['lichess.object_manager']->flush();
+        $this['logger']->notice(sprintf('Player:resign game:%s', $game->getId()));
 
-        return $this->redirect($this->generateUrl('lichess_player', array('hash' => $hash)));
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
-    public function aiLevelAction($hash)
+    public function aiLevelAction($id)
     {
-        $player = $this->findPlayer($hash);
+        $player = $this->findPlayer($id);
         $level = min(8, max(1, (int)$this['request']->get('level')));
         $player->getOpponent()->setAiLevel($level);
-        $this['lichess_persistence']->save($player->getGame());
+        $this['lichess.object_manager']->flush();
+
         return $this->createResponse('done');
     }
 
-    public function tableAction($hash, $color, $playerFullHash)
+    public function tableAction($id, $color, $playerFullId)
     {
-        if($playerFullHash) {
-            $player = $this->findPlayer($playerFullHash);
+        if($playerFullId) {
+            $player = $this->findPlayer($playerFullId);
             $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
-            if($nextPlayerHash = $player->getGame()->getNext()) {
-                $nextGame = $this->findPlayer($nextPlayerHash)->getGame();
+            if($nextPlayerId = $player->getGame()->getNext()) {
+                $nextGame = $this->findPlayer($nextPlayerId)->getGame();
             }
             else {
                 $nextGame = null;
             }
         }
         else {
-            $player = $this->findPublicPlayer($hash, $color);
+            $player = $this->findPublicPlayer($id, $color);
             $template = 'watchTable';
             $nextGame = null;
         }
-        return $this->render('LichessBundle:Game:'.$template.'.php', array('player' => $player, 'isOpponentConnected' => $this['lichess_synchronizer']->isConnected($player->getOpponent()), 'nextGame' => $nextGame));
+        return $this->render('LichessBundle:Game:'.$template.'.twig', array(
+            'player'              => $player,
+            'isOpponentConnected' => $this['lichess_synchronizer']->isConnected($player->getOpponent()),
+            'nextGame'            => $nextGame
+        ));
     }
 
-    public function opponentAction($hash, $color, $playerFullHash)
+    public function opponentAction($id, $color, $playerFullId)
     {
-        if($playerFullHash) {
-            $player = $this->findPlayer($playerFullHash);
+        if($playerFullId) {
+            $player = $this->findPlayer($playerFullId);
             $template = 'opponent';
         }
         else {
-            $player = $this->findPublicPlayer($hash, $color);
+            $player = $this->findPublicPlayer($id, $color);
             $template = 'watchOpponent';
         }
-        return $this->render('LichessBundle:Player:'.$template.'.php', array('player' => $player, 'isOpponentConnected' => $this['lichess_synchronizer']->isConnected($player->getOpponent())));
+        return $this->render('LichessBundle:Player:'.$template.'.twig', array(
+            'player'              => $player,
+            'isOpponentConnected' => $this['lichess_synchronizer']->isConnected($player->getOpponent())
+        ));
     }
 
     /**
-     * Get the player for this hash
+     * Get the player for this id
      *
-     * @param string $hash
+     * @param string $id
      * @return Player
      */
-    protected function findPlayer($hash)
+    protected function findPlayer($id)
     {
-        $gameHash = substr($hash, 0, 6);
-        $playerHash = substr($hash, 6, 10);
+        $gameId = substr($id, 0, 8);
+        $playerId = substr($id, 8, 12);
 
-        $game = $this['lichess_persistence']->find($gameHash);
+        $game = $this['lichess.repository.game']->findOneById($gameId);
         if(!$game) {
-            throw new NotFoundHttpException('Player:findPlayer Can\'t find game '.$gameHash);
+            throw new NotFoundHttpException('Player:findPlayer Can\'t find game '.$gameId);
         }
 
-        $player = $game->getPlayerByHash($playerHash);
+        $player = $game->getPlayerById($playerId);
         if(!$player) {
-            throw new NotFoundHttpException('Player:findPlayer Can\'t find player '.$playerHash);
+            throw new NotFoundHttpException('Player:findPlayer Can\'t find player '.$playerId);
         }
 
         return $player;
     }
 
     /**
-     * Get the public player for this hash
+     * Get the public player for this id
      *
-     * @param string $hash
+     * @param string $id
      * @return Player
      */
-    protected function findPublicPlayer($hash, $color)
+    protected function findPublicPlayer($id, $color)
     {
-        $game = $this['lichess_persistence']->find($hash);
+        $game = $this['lichess.repository.game']->findOneById($id);
         if(!$game) {
-            throw new NotFoundHttpException('Player:findPublicPlayer Can\'t find game '.$hash);
+            throw new NotFoundHttpException('Player:findPublicPlayer Can\'t find game '.$id);
         }
 
         $player = $game->getPlayer($color);

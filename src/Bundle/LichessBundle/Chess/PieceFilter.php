@@ -2,11 +2,11 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Entities\Piece;
+use Bundle\LichessBundle\Document\Piece;
 
 class PieceFilter
 {
-  
+
   // remove dead pieces
   public static function filterAlive(array $pieces)
   {
@@ -17,7 +17,7 @@ class PieceFilter
         unset($pieces[$it]);
       }
     }
-    
+
     return array_values($pieces);
   }
 
@@ -31,7 +31,7 @@ class PieceFilter
         unset($pieces[$it]);
       }
     }
-    
+
     return array_values($pieces);
   }
 
@@ -52,16 +52,12 @@ class PieceFilter
   // only keep asked class
   public static function filterClass(array $pieces, $class)
   {
-    $class = '\\Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
-    
-    foreach($pieces as $it => $piece)
-    {
-      if (!$piece instanceof $class)
-      {
+    foreach($pieces as $it => $piece) {
+      if (!$piece->isClass($class)) {
         unset($pieces[$it]);
       }
     }
-    
+
     return array_values($pieces);
   }
 
@@ -73,16 +69,12 @@ class PieceFilter
   // remove asked class
   public static function filterNotClass(array $pieces, $class)
   {
-    $class = '\\Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
-    
-    foreach($pieces as $it => $piece)
-    {
-      if ($piece instanceof $class)
-      {
+    foreach($pieces as $it => $piece) {
+      if ($piece->isClass($class)) {
         unset($pieces[$it]);
       }
     }
-    
+
     return array_values($pieces);
   }
 

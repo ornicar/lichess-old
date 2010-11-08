@@ -1,0 +1,25 @@
+{% set links = [
+    'friend': [
+        "Play with a friend",
+        "lichess_invite_friend"
+    ],
+    "anybody": [
+        "Play with anybody",
+        "lichess_invite_anybody"
+    ],
+    "ai": [
+        "Play with the machine",
+        "lichess_invite_ai"
+    ]
+] %}
+<div class="lichess_ground">
+    <div class="lichess_table lichess_table_not_started">
+        {% for name, link in links %}
+            {% if name == active %}
+                <span class="lichess_button active">{{ link[0] }}</span>
+            {% else %}
+                <a class="lichess_button" href="{% path link[1] with ["color": color] %}">{{ link[0] }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

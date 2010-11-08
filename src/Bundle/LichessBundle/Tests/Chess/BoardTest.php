@@ -5,7 +5,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Square;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Entities as Entities;
+use Bundle\LichessBundle\Document as Entities;
 
 class BoardTest extends \PHPUnit_Framework_TestCase
 {
@@ -147,17 +147,15 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testDump(Board $board)
     {
         $expected = <<<EOF
-
 rnbqkbnr
 pppppppp
-        
-        
-        
-        
+
+
+
+
 PPPPPPPP
 RNBQKBNR
-
 EOF;
-        $this->assertEquals($expected, $board->dump());
+        $this->assertEquals("\n".Generator::fixVisualBlock($expected)."\n", $board->dump());
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Ai;
 use Bundle\LichessBundle\Notation\Forsyth;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Game;
 
 class Crafty
 {

@@ -1,0 +1,27 @@
+{% extends "LichessBundle:Player:layoutPlayer.twig" %}
+{% block title_suffix %} #{{ player.game.id }}{% endblock %}
+{% block body %}
+<div class="lichess_game clearfix lichess_player_{{ player.color }}">
+    <div class="lichess_board_wrap">
+        {{ _view.lichess_game.renderBoard(player, checkSquareKey)|raw }}
+    </div>
+    <div class="lichess_ground">
+        {% include "LichessBundle:Game:cemetery.twig" with ["player": player, "position": "top"] %}
+        <div class="lichess_table_wrap">
+            {% render "LichessBundle:Player:table" with ["id": player.game.id, "color": player.color, "playerFullId": ""] %}
+        </div>
+        {% include "LichessBundle:Game:cemetery.twig" with ["player": player.opponent, "position": "bottom"] %}
+    </div>
+</div>
+{% endblock %}
+{% block js_data %}
+    {{ _view.lichess_game.renderWatchData(player, possibleMoves)|raw }}
+{% endblock %}
+{% block goodies %}
+<div class="lichess_goodies">
+    <a class="lichess_replay_link" href="{% path "lichess_pgn_viewer" with ["id": player.game.id, "color": player.color] %}">{% trans "Replay and analyse" %}</a>
+    <br /><br />
+    {% trans "You are viewing this game as a spectator" %}.<br /><br />
+    <a href="{% trans "lichess_homepage" %}"><strong>{% trans "Play a new game" %}</strong></a>
+</div>
+{% endblock %}

@@ -2,8 +2,8 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Entities\Player;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Game;
 
 class Synchronizer
 {
@@ -55,13 +55,17 @@ class Synchronizer
 
     public function getDiffEvents(Player $player, $clientVersion)
     {
-        $stackVersion = $player->getStack()->getVersion();
-        if($stackVersion == $clientVersion) {
+        $playerStack = $player->getStack();
+        $stackVersion = $playerStack->getVersion();
+        if($stackVersion === $clientVersion) {
             return array();
+        }
+        if(!$playerStack->hasVersion($clientVersion)) {
+            throw new \OutOfBoundsException();
         }
         $events = array();
         for($version = $clientVersion+1; $version <= $stackVersion; $version++) {
-            $events[] = $player->getStack()->getEvent($version);
+            $events[] = $playerStack->getEvent($version);
         }
 
         return $events;
@@ -69,7 +73,7 @@ class Synchronizer
 
     public function setAlive(Player $player)
     {
-        apc_store($player->getGame()->getHash().'.'.$player->getColor().'.alive', 1, $this->getTimeout());
+        apc_store($player->getGame()->getId().'.'.$player->getColor().'.alive', 1, $this->getTimeout());
     }
 
     public function isTimeout(Player $player)
@@ -79,6 +83,6 @@ class Synchronizer
 
     public function isConnected(Player $player)
     {
-        return $player->getIsAi() || (bool) apc_fetch($player->getGame()->getHash().'.'.$player->getColor().'.alive');
+        return $player->getIsAi() || (bool) apc_fetch($player->getGame()->getId().'.'.$player->getColor().'.alive');
     }
 }

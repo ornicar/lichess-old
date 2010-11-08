@@ -4,28 +4,17 @@ namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
-use Bundle\LichessBundle\Entities as Entities;
+use Bundle\LichessBundle\Document as Document;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGameHashUnique()
-    {
-        $persistence = $this->getMock('Bundle\LichessBundle\Persistence\MongoDBPersistence');
-        $persistence->expects($this->exactly(1))
-            ->method('isHashFree')
-            ->will($this->returnValue(true));
-
-        $generator = new Generator($persistence);
-        $game = $generator->createGame();
-    }
-
     public function testGameCreationStandard()
     {
         $generator = new Generator();
 
         $game = $generator->createGame();
 
-        $this->assertTrue($game instanceof Entities\Game);
+        $this->assertTrue($game instanceof Document\Game);
         $this->assertEquals(0, $game->getTurns());
         $this->assertEquals(false, $game->getIsStarted());
         $this->assertEquals(false, $game->getIsFinished());
@@ -37,9 +26,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $generator = new Generator();
 
-        $game = $generator->createGame(Entities\Game::VARIANT_960);
+        $game = $generator->createGame(Document\Game::VARIANT_960);
 
-        $this->assertTrue($game instanceof Entities\Game);
+        $this->assertTrue($game instanceof Document\Game);
         $this->assertEquals(0, $game->getTurns());
         $this->assertEquals(false, $game->getIsStarted());
         $this->assertEquals(false, $game->getIsFinished());
@@ -67,14 +56,12 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testGamePlayers(Entities\Game $game)
+    public function testGamePlayers(Document\Game $game)
     {
         $this->assertEquals(2, count($game->getPlayers()));
 
-        $this->assertEquals(array('white', 'black'), array_keys($game->getPlayers()));
-
         $player = $game->getPlayer('white');
-        $this->assertTrue($player instanceof Entities\Player);
+        $this->assertTrue($player instanceof Document\Player);
         $this->assertEquals('white', $player->getColor());
         $this->assertEquals(false, $player->getIsWinner());
         $this->assertEquals(false, $player->getIsAi());
@@ -86,7 +73,7 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testGamePlayerTurn(Entities\Game $game)
+    public function testGamePlayerTurn(Document\Game $game)
     {
         $player = $game->getPlayer('white');
         $this->assertTrue($player->getIsMyTurn());
@@ -100,7 +87,7 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testGameGetWinner(Entities\Game $game)
+    public function testGameGetWinner(Document\Game $game)
     {
         $this->assertNull($game->getWinner());
 
@@ -111,7 +98,7 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testGamePieces(Entities\Game $game)
+    public function testGamePieces(Document\Game $game)
     {
         $this->assertEquals(32, count($game->getPieces()));
     }
@@ -119,7 +106,7 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testPlayerPieces(Entities\Game $game)
+    public function testPlayerPieces(Document\Game $game)
     {
         $player = $game->getPlayer('white');
         $this->assertEquals(16, count($player->getPieces()));
@@ -128,11 +115,11 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testPlayerKing(Entities\Game $game)
+    public function testPlayerKing(Document\Game $game)
     {
         $player = $game->getPlayer('white');
         $king = $player->getKing();
-        $this->assertTrue($king instanceof Entities\Piece\King);
+        $this->assertTrue($king instanceof Document\Piece\King);
         $this->assertEquals(1, $king->getY());
         $this->assertSame($player, $king->getPlayer());
         $this->assertTrue($king->isClass('King'));
@@ -142,11 +129,11 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testPlayerPawns(Entities\Game $game)
+    public function testPlayerPawns(Document\Game $game)
     {
         $player = $game->getPlayer('white');
         $pawns = $player->getPiecesByClass('Pawn');
-        $this->assertTrue($pawns[0] instanceof Entities\Piece\Pawn);
+        $this->assertTrue($pawns[0] instanceof Document\Piece\Pawn);
         $this->assertEquals(2, $pawns[0]->getY());
         $this->assertEquals(8, count($pawns));
         $this->assertSame($player, $pawns[0]->getPlayer());
@@ -157,11 +144,11 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testPlayerRooks(Entities\Game $game)
+    public function testPlayerRooks(Document\Game $game)
     {
         $player = $game->getPlayer('white');
         $rooks = $player->getPiecesByClass('Rook');
-        $this->assertTrue($rooks[0] instanceof Entities\Piece\Rook);
+        $this->assertTrue($rooks[0] instanceof Document\Piece\Rook);
         $this->assertEquals(1, $rooks[0]->getY());
         $this->assertEquals(2, count($rooks));
         $this->assertSame($player, $rooks[0]->getPlayer());
@@ -172,11 +159,11 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testPlayerKnights(Entities\Game $game)
+    public function testPlayerKnights(Document\Game $game)
     {
         $player = $game->getPlayer('white');
         $knights = $player->getPiecesByClass('Knight');
-        $this->assertTrue($knights[0] instanceof Entities\Piece\Knight);
+        $this->assertTrue($knights[0] instanceof Document\Piece\Knight);
         $this->assertEquals(1, $knights[0]->getY());
         $this->assertEquals(2, count($knights));
         $this->assertSame($player, $knights[0]->getPlayer());
@@ -187,11 +174,11 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testPlayerBishops(Entities\Game $game)
+    public function testPlayerBishops(Document\Game $game)
     {
         $player = $game->getPlayer('white');
         $bishops = $player->getPiecesByClass('Bishop');
-        $this->assertTrue($bishops[0] instanceof Entities\Piece\Bishop);
+        $this->assertTrue($bishops[0] instanceof Document\Piece\Bishop);
         $this->assertEquals(1, $bishops[0]->getY());
         $this->assertEquals(2, count($bishops));
         $this->assertSame($player, $bishops[0]->getPlayer());
@@ -202,11 +189,11 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testPlayerQueens(Entities\Game $game)
+    public function testPlayerQueens(Document\Game $game)
     {
         $player = $game->getPlayer('white');
         $queens = $player->getPiecesByClass('Queen');
-        $this->assertTrue($queens[0] instanceof Entities\Piece\Queen);
+        $this->assertTrue($queens[0] instanceof Document\Piece\Queen);
         $this->assertEquals(1, $queens[0]->getY());
         $this->assertEquals(1, count($queens));
         $this->assertSame($player, $queens[0]->getPlayer());

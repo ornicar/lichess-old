@@ -2,8 +2,8 @@
 
 namespace Bundle\LichessBundle\Chess\Generator;
 
-use Bundle\LichessBundle\Entities\Game;
-use Bundle\LichessBundle\Entities\Player;
+use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
 
 abstract class PositionGenerator
 {
@@ -24,7 +24,7 @@ abstract class PositionGenerator
      */
     protected function createPiece($class, $x, $y)
     {
-        $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$class;
+        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
 
         $piece = new $fullClass($x, $y);
 

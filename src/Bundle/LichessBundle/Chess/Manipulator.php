@@ -2,13 +2,13 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Entities\Piece;
-use Bundle\LichessBundle\Entities\Piece\King;
-use Bundle\LichessBundle\Entities\Piece\Pawn;
+use Bundle\LichessBundle\Document\Piece;
+use Bundle\LichessBundle\Document\Piece\King;
+use Bundle\LichessBundle\Document\Piece\Pawn;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Notation\PgnDumper;
-use Bundle\LichessBundle\Stack;
-use Bundle\LichessBundle\Entities\Game;
+use Bundle\LichessBundle\Document\Stack;
+use Bundle\LichessBundle\Document\Game;
 
 class Manipulator
 {
@@ -100,20 +100,20 @@ class Manipulator
         list($fromKey, $toKey) = explode(' ', $notation);
 
         if(!$fromKey || !$toKey) {
-            throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, Invalid internal move notation "%s"', $this->game->getHash(), $notation));
+            throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, Invalid internal move notation "%s"', $this->game->getId(), $notation));
         }
         if(!$from = $this->board->getSquareByKey($fromKey)) {
-            throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, Square '.$fromKey.' does not exist', $this->game->getHash()));
+            throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, Square '.$fromKey.' does not exist', $this->game->getId()));
         }
         if(!$to = $this->board->getSquareByKey($toKey)) {
-            throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, Square '.$toKey.' does not exist', $this->game->getHash()));
+            throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, Square '.$toKey.' does not exist', $this->game->getId()));
         }
         if(!$piece = $from->getPiece()) {
-            throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, No piece on '.$from, $this->game->getHash()));
+            throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, No piece on '.$from, $this->game->getId()));
         }
         $player = $piece->getPlayer();
         if(!$player->isMyTurn()) {
-            throw new \LogicException(sprintf('Manipulator:move game:%s, Can not play '.$from.' '.$to.' - Not '.$piece->getColor().' player turn', $this->game->getHash()));
+            throw new \LogicException(sprintf('Manipulator:move game:%s, Can not play '.$from.' '.$to.' - Not '.$piece->getColor().' player turn', $this->game->getId()));
         }
 
         $pieceClass = $piece->getClass();
@@ -122,11 +122,11 @@ class Manipulator
         $possibleMoves = isset($playerPossibleMoves[$fromKey]) ? $playerPossibleMoves[$fromKey] : false;
 
         if(!$possibleMoves) {
-            throw new \LogicException(sprintf('Manipulator:move game:%s, %s can not move', $this->game->getHash(), $piece));
+            throw new \LogicException(sprintf('Manipulator:move game:%s, %s can not move', $this->game->getId(), $piece));
         }
 
         if(!in_array($toKey, $possibleMoves)) {
-            throw new \LogicException(sprintf('Manipulator:move game:%s, %s can not go to '.$to.' ('.implode(',', $possibleMoves).')', $this->game->getHash(), $piece));
+            throw new \LogicException(sprintf('Manipulator:move game:%s, %s can not go to '.$to.' ('.implode(',', $possibleMoves).')', $this->game->getId(), $piece));
         }
 
         // killed?
@@ -151,7 +151,7 @@ class Manipulator
             $isPromotion = true;
             $promotionClass = isset($options['promotion']) ? ucfirst($options['promotion']) : 'Queen';
             if(!in_array($promotionClass, array('Queen', 'Knight', 'Bishop', 'Rook'))) {
-                throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, Bad promotion class: '.$promotionClass, $this->game->getHash()));
+                throw new \InvalidArgumentException(sprintf('Manipulator:move game:%s, Bad promotion class: '.$promotionClass, $this->game->getId()));
             }
             $options['promotion'] = $promotionClass;
         }
@@ -211,7 +211,7 @@ class Manipulator
         $killed = $passedSquare->getPiece();
 
         if(!$killed || $killed->getPlayer() === $pawn->getPlayer()) {
-            throw new \LogicException(sprintf('Manipulator:move game:%s, Can not enpassant to '.$to, $this->game->getHash()));
+            throw new \LogicException(sprintf('Manipulator:move game:%s, Can not enpassant to '.$to, $this->game->getId()));
         }
 
         $killed->setIsDead(true);
@@ -233,9 +233,8 @@ class Manipulator
         $this->board->remove($pawn);
         $player->removePiece($pawn);
 
-        $fullClass = 'Bundle\\LichessBundle\\Entities\\Piece\\'.$promotionClass;
+        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$promotionClass;
         $new = new $fullClass($pawn->getX(), $pawn->getY());
-        $new->setPlayer($player);
         $new->setBoard($player->getGame()->getBoard());
         $player->addPiece($new);
         $this->board->add($new);

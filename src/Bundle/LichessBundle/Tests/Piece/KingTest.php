@@ -4,8 +4,8 @@ namespace Bundle\LichessBundle\Tests\Piece;
 
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Board;
-use Bundle\LichessBundle\Entities\Piece\King;
-use Bundle\LichessBundle\Entities\Piece;
+use Bundle\LichessBundle\Document\Piece\King;
+use Bundle\LichessBundle\Document\Piece;
 
 class KingTest extends \PHPUnit_Framework_TestCase
 {

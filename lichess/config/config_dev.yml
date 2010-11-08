@@ -1,11 +1,29 @@
 imports:
     - { resource: config.yml }
 
+app.config:
+    profiler:
+        only_exceptions: false
+
 webprofiler.config:
-    toolbar: false
+    toolbar: true
     intercept_redirects: false
 
 zend.config:
     logger:
-        priority: notice
+        priority: info
         path:     %kernel.logs_dir%/%kernel.environment%.log
+
+twig.config:
+    auto_reload: true
+
+doctrine_odm.mongodb:
+    metadata_cache_driver: array
+    cache_driver: array
+    default_database: lichess_test
+    connections:
+        default:
+            server: mongodb://localhost:27017
+            options:
+                connect: true
+                persistent: lichess
