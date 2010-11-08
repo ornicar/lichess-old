@@ -16,18 +16,16 @@ class LichessBundle extends BaseBundle
         $container = $this->container;
         $container->getEventDispatcherService()->connect('core.request', function(Event $event) use ($container) {
             if(HttpKernelInterface::MASTER_REQUEST === $event->getParameter('request_type')) {
-                $translator = $container->getLichessTranslatorService();
                 $session = $container->getSessionService();
                 if(!$session->has('lichess.sound.enabled')) {
                     $session->set('lichess.sound.enabled', true);
                 }
-                if(!$session->get('lichess.session_id')) {
-                    $languages = $container->getRequestService()->getLanguages() ?: array();
-                    $bestLocale = $translator->getBestLocale($languages);
-                    $session->setLocale($bestLocale);
+                if(!$session->has('lichess.session_id')) {
                     $session->set('lichess.session_id', KeyGenerator::generate(10));
+                    $languages = $container->getParameter('lichess.locales');
+                    $bestLocale = $container->get('request')->getPreferredLanguage($languages);
+                    $session->setLocale($languages);
                 }
-                $translator->setLocale($session->getLocale());
             }
         });
     }
