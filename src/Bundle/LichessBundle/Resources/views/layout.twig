@@ -1,28 +1,10 @@
 {% stylesheet 'bundles/lichess/css/lichess.css' %}
 {% javascript 'bundles/lichess/js/lib.min.js' %}
 {% javascript 'bundles/lichess/js/ctrl.js' %}
+{% if _view.translator.locale != "en" %}
+    {% javascript "http://static.addtoany.com/menu/locale/" ~ _view.translator.locale ~ ".js" %}
+{% endif %}
 {% block assets %}{% endblock %}
-{#
-    $assetsPack = $view['slots']->get('assets_pack');
-    if('home' === $assetsPack) {
-    }
-    elseif('analyse' === $assetsPack) {
-        $view['javascripts']->add('bundles/lichess/vendor/pgn4web/pgn4web.js');
-        $view['javascripts']->add('bundles/lichess/js/analyse.js');
-        $view['stylesheets']->add('bundles/lichess/css/analyse.css');
-        $view['stylesheets']->add('bundles/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css');
-    }
-    elseif('gamelist' === $assetsPack) {
-        $view['stylesheets']->add('bundles/lichess/css/gamelist.css');
-        $view['javascripts']->add('bundles/lichess/js/gamelist.js');
-    }
-    else {
-        $view['javascripts']->add('bundles/lichess/js/game.js');
-    }
-    if($view['translator']->getLocale() !== 'en'):
-        $view['javascripts']->add('http://static.addtoany.com/menu/locale/'.$view['translator']->getLocale().'.js');
-    endif;
-#}
 <!DOCTYPE html>
 <html lang="{{ _view.session.locale }}">
     <head>
