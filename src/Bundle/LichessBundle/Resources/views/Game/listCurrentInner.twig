@@ -1,0 +1,5 @@
+<div class="game_list_inner clearfix">
+{% for game in games %}
+<div class="game_mini">{{ _view.lichess_game.renderMini(game)|raw }}</div>
+{% endfor %}
+</div>

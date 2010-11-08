@@ -1,0 +1,10 @@
+{% extends "LichessBundle::layout.twig" %}
+{% block body_class %}small_box{% endblock %}
+{% block body %}
+<div class="lichess_box">
+    <h1 class="lichess_title">{% trans 'Page not found' %} (404)</h1>
+    <img src="{% asset '/bundles/lichess/images/sprite.png' %}" alt="Lichess - Open source online Chess game" />
+    <p>{% trans "There is nothing to see here. If you think it's a bug, you could send an email to %email%" with ['%email%': '<span class="js_email"></span>'] %}. Or <a href="{% path "forum_index" %}">check the Lichess Forum</a>.</p>
+    <a class="lichess_new_game" href="{% path "lichess_homepage" %}">{% trans 'Play a new game' %}</a>
+</div>
+{% endblock %}

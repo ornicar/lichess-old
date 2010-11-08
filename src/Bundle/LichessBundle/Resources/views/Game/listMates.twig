@@ -1,0 +1,7 @@
+{% extends "LichessBundle:Game:list.twig" %}
+{% block title %}{% trans 'View %nb% checkmates' with ['%nb%': nbMates] %}{% endblock %}
+{% block list_type %}Checkmates{% endblock %}
+{% block list_menu %}
+<a class="game_list" href="{% path "lichess_list_current" %}">{% trans 'Games being played right now' %}</a>
+<a class="game_list" href="{% path "lichess_list_all" %}">{% trans 'View all %nb% games' with ['%nb%': nbGames] %}</a>
+{% endblock %}

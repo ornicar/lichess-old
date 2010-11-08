@@ -18,6 +18,7 @@ class LichessKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\ZendBundle\ZendBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Bundle\ApcBundle\ApcBundle(),
             new Bundle\TimeBundle\TimeBundle(),
             new Bundle\LichessBundle\LichessBundle(),

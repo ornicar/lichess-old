@@ -9,7 +9,10 @@ class MainController extends Controller
 
     public function indexAction($color)
     {
-        return $this->render('LichessBundle:Main:index.php', array('color' => $color));
+        return $this->render('LichessBundle:Main:index.twig', array(
+            'color' => $color,
+            'reverseColor' => 'white' === $color ? 'black' : 'white'
+        ));
     }
 
     public function howManyPlayersNowAction()
@@ -44,7 +47,7 @@ class MainController extends Controller
 
     public function aboutAction()
     {
-        return $this->render('LichessBundle:Main:about.php');
+        return $this->render('LichessBundle:Main:about.twig');
     }
 
     public function notFoundAction()
@@ -53,7 +56,7 @@ class MainController extends Controller
             $response = $this->createResponse('You should not do that.');
         }
         else {
-            $response = $this->render('LichessBundle:Main:notFound.php');
+            $response = $this->render('LichessBundle:Main:notFound.twig');
         }
         $response->setStatusCode(404);
         return $response;
