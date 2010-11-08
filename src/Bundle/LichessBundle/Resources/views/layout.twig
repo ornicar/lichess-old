@@ -1,12 +1,12 @@
 {% stylesheet 'bundles/lichess/css/lichess.css' %}
 {% javascript 'bundles/lichess/js/lib.min.js' %}
 {% javascript 'bundles/lichess/js/ctrl.js' %}
-{% if _view.translator.locale != "en" %}
-    {% javascript "http://static.addtoany.com/menu/locale/" ~ _view.translator.locale ~ ".js" %}
+{% if _view.locale.locale != "en" %}
+    {% javascript "http://static.addtoany.com/menu/locale/" ~ _view.locale.locale ~ ".js" %}
 {% endif %}
 {% block assets %}{% endblock %}
 <!DOCTYPE html>
-<html lang="{{ _view.session.locale }}">
+<html lang="{{ _view.locale.locale }}">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Lichess{% endblock %} | free online Chess game{% block title_suffix %}{% endblock %}</title>
@@ -51,12 +51,12 @@
         <div id="top_menu">
             <a title="{% trans "Toggle sound" %}" href="{% path "lichess_toggle_sound" %}" id="sound_state" class="sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
             <div class="lichess_language">
-                <span>{{ _view.translator.localeName }}</span>
+                <span>{{ _view.locale.localeName }}</span>
                 <ul class="lichess_language_links">
                     {% set localePath %}
                         {% path "lichess_locale" with ["locale": "__"] %}
                     {% endset %}
-                    {% for code, name in _view.translator.otherLocales() %}
+                    {% for code, name in _view.locale.otherLocales() %}
                         <li><a lang="{{ code }}" href="{{ localePath|replace(["__": code]) }}">{{ name }}</a></li>
                     {% endfor %}
                     <li><a href="{% path "lichess_translate" %}">Help translate Lichess!</a></li>

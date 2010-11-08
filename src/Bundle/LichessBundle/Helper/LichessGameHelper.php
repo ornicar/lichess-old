@@ -17,13 +17,13 @@ class LichessGameHelper extends Helper
      * Constructor.
      *
      * @param Router $router A Router instance
-     * @param Translator $translator A Translator instance
+     * @param TranslatorInterface $translator A Translator instance
      */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->generator = $container->get('router')->getGenerator();
-        $this->translator = $container->get('lichess_translator');
+        $this->translator = $container->get('translator');
     }
 
     public function renderData(Player $player, $possibleMoves, $isOpponentConnected)
@@ -62,9 +62,9 @@ class LichessGameHelper extends Helper
                 'outoftime' => $game->hasClock() ? $this->generator->generate('lichess_outoftime', array('id' => $playerFullId, 'version' => 9999999)) : null
             ),
             'i18n' => array(
-                'Game Over'            => $this->translator->_('Game Over'),
-                'Waiting for opponent' => $this->translator->_('Waiting for opponent'),
-                'Your turn'            => $this->translator->_('Your turn'),
+                'Game Over'            => $this->translator->trans('Game Over'),
+                'Waiting for opponent' => $this->translator->trans('Waiting for opponent'),
+                'Your turn'            => $this->translator->trans('Your turn'),
             ),
             'possible_moves'  => $possibleMoves,
             'sync_delay'      => $this->container->getParameter('lichess.synchronizer.delay') * 1000,
@@ -108,9 +108,9 @@ class LichessGameHelper extends Helper
                 'opponent' => $this->generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
             ),
             'i18n' => array(
-                'Game Over'            => $this->translator->_('Game Over'),
-                'Waiting for opponent' => $this->translator->_('Waiting for opponent'),
-                'Your turn'            => $this->translator->_('Your turn')
+                'Game Over'            => $this->translator->trans('Game Over'),
+                'Waiting for opponent' => $this->translator->trans('Waiting for opponent'),
+                'Your turn'            => $this->translator->trans('Your turn')
             ),
             'possible_moves' => $possibleMoves
         );
@@ -132,7 +132,7 @@ class LichessGameHelper extends Helper
 
         $html = sprintf('<a href="%s" title="%s" class="mini_board notipsy">',
             $this->generator->generate('lichess_game', array('id' => $game->getId())),
-            $this->translator->_('View in full size')
+            $this->translator->trans('View in full size')
         );
 
         foreach($squares as $squareKey => $square) {
