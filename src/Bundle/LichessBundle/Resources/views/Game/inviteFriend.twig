@@ -1,0 +1,29 @@
+{% extends "LichessBundle::layout.twig" %}
+{% block title %}Lichess - {% trans "play with a friend" %} - {{ color }}{% endblock %}
+{% block body %}
+<div class="lichess_game_not_started waiting_opponent clearfix lichess_player_{{ color }}">
+    <div class="lichess_board_wrap">
+        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".twig" %}
+        <div class="lichess_overboard game_config">
+            <h2>{% trans "Play with a friend" %}</h2>
+            <div class="game_config_form">
+                <form action="{% path "lichess_invite_friend" with ["color": color] %}" method="post">
+                    <div class="variants">
+                        {% for variant in form.variant %}
+                            {{ variant|render_widget }}
+                        {% endfor %}
+                    </div>
+                    Minutes per side:
+                    <div class="clocks">
+                        {% for time in form.time %}
+                            {{ time|render_widget }}
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="submit">Start</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% include "LichessBundle:Game:bootGround.twig" with ["color": color, "active": "friend"] %}
+</div>
+{% endblock %}

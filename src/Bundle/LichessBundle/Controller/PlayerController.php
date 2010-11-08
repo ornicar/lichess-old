@@ -230,11 +230,10 @@ class PlayerController extends Controller
         else {
             $checkSquareKey = null;
         }
-        return $this->render('LichessBundle:Player:show.php', array(
+        return $this->render('LichessBundle:Player:show.twig', array(
             'player' => $player,
             'isOpponentConnected' => $this['lichess_synchronizer']->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
-            'parameters' => $this->container->getParameterBag()->all(),
             'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
@@ -284,9 +283,8 @@ class PlayerController extends Controller
 
         $config = new Form\AnybodyGameConfig();
         $config->fromArray($this['session']->get('lichess.game_config.anybody', array()));
-        return $this->render('LichessBundle:Player:waitAnybody.php', array(
+        return $this->render('LichessBundle:Player:waitAnybody.twig', array(
             'player'     => $player,
-            'parameters' => $this->container->getParameterBag()->all(),
             'config'     => $config
         ));
     }
@@ -299,9 +297,8 @@ class PlayerController extends Controller
         }
         $this['lichess_synchronizer']->setAlive($player);
 
-        return $this->render('LichessBundle:Player:waitFriend.php', array(
-            'player'     => $player,
-            'parameters' => $this->container->getParameterBag()->all()
+        return $this->render('LichessBundle:Player:waitFriend.twig', array(
+            'player'     => $player
         ));
     }
 
@@ -352,7 +349,7 @@ class PlayerController extends Controller
             $template = 'watchTable';
             $nextGame = null;
         }
-        return $this->render('LichessBundle:Game:'.$template.'.php', array(
+        return $this->render('LichessBundle:Game:'.$template.'.twig', array(
             'player'              => $player,
             'isOpponentConnected' => $this['lichess_synchronizer']->isConnected($player->getOpponent()),
             'nextGame'            => $nextGame
@@ -369,7 +366,7 @@ class PlayerController extends Controller
             $player = $this->findPublicPlayer($id, $color);
             $template = 'watchOpponent';
         }
-        return $this->render('LichessBundle:Player:'.$template.'.php', array(
+        return $this->render('LichessBundle:Player:'.$template.'.twig', array(
             'player'              => $player,
             'isOpponentConnected' => $this['lichess_synchronizer']->isConnected($player->getOpponent())
         ));
