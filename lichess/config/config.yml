@@ -8,6 +8,7 @@ app.config:
     templating:
         escaping: htmlspecialchars
         assets_version: 74
+    translator: { fallback: en }
 
 zend.config:
     logger:

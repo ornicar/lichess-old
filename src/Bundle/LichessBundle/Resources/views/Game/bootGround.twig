@@ -18,7 +18,7 @@
             {% if name == active %}
                 <span class="lichess_button active">{{ link[0] }}</span>
             {% else %}
-                <a class="lichess_button" href="{% path link[1] with ["color": color] %}">{{ link[0] }}</a>
+                <a class="lichess_button" href="{% path link[1] with ["color": color] %}">{% trans link[0] %}</a>
             {% endif %}
         {% endfor %}
     </div>
