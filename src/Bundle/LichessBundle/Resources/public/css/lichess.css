@@ -846,6 +846,9 @@ div.lichess_share_game {
     margin-top: 20px;
 }
 
+a.rpxnow {
+    display: none;
+}
 ul.lichess_social {
     height: 25px;
     text-align: center;

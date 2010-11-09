@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+
+        <parameter key="lichess.openid.janrain.class">Bundle\LichessBundle\OpenId\Janrain</parameter>
+        <parameter key="lichess.openid.janrain.api_key">830b2e1be477b95e101d884cb2f3b7e1ed72fa96</parameter>
+
+    </parameters>
+
+    <services>
+
+        <service id="lichess.openid.janrain" class="%lichess.openid.janrain.class%">
+            <argument>%lichess.openid.janrain.api_key%</argument>
+        </service>
+
+    </services>
+
+</container>

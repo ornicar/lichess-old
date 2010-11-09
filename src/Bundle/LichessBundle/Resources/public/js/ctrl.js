@@ -1,5 +1,4 @@
-$(function()
-{
+$(function() {
     if ($game = $('div.lichess_game').orNot()) {
         $game.game(lichess_data);
         $('input').click(function() { this.select(); });
@@ -122,3 +121,11 @@ if(document.domain == 'lichess.org') {
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
 }
+
+var rpx = document.createElement('script'); rpx.type = 'text/javascript'; rpx.async = true; rpx.src = 'http://rpxnow.com/js/lib/rpx.js';
+rpx.onload = function() {
+    RPXNOW.overlay = true;
+    RPXNOW.language_preference = $('html').attr('lang');
+    $('a.rpxnow').click(function() { return false; }).show();
+};
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(rpx, s);
