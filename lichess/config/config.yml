@@ -12,18 +12,22 @@ app.config:
 
 security.config:
     providers:
-        main:
-            users:
-                admin: { password: admin, roles: ROLE_USER }
-
+        doctrine_user:
+            password_encoder: sha1
+            document: { class: DoctrineUserBundle:User }
     firewalls:
         main:
-            pattern:    /.*
-            http-basic: true
-            logout:     true
-
-    access_control:
-        - { path: /.*, role: ROLE_USER }
+            pattern: /*
+            form_login:
+                provider:                       doctrine_user
+                login_path:                     /login
+                check_path:                     /login-check
+                failure_path:                   null
+                always_use_default_target_path: false
+                default_target_path:            /
+                target_path_parameter:          _target_path
+                use_referer:                    false
+            logout: true
 
 zend.config:
     logger:

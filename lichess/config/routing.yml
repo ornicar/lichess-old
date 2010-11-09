@@ -4,9 +4,8 @@ lichess:
 user:
     resource: DoctrineUserBundle/Resources/config/routing/user.xml
     prefix: /user
-session:
-    resource: DoctrineUserBundle/Resources/config/routing/session.xml
-    prefix: /session
+security:
+    resource: DoctrineUserBundle/Resources/config/routing/security.xml
 
 forum:
     resource: ForumBundle/Resources/config/routing/forum.xml
