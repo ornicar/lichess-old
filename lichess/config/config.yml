@@ -10,6 +10,21 @@ app.config:
         assets_version: 74
     translator: { fallback: en }
 
+security.config:
+    providers:
+        main:
+            users:
+                admin: { password: admin, roles: ROLE_USER }
+
+    firewalls:
+        main:
+            pattern:    /.*
+            http-basic: true
+            logout:     true
+
+    access_control:
+        - { path: /.*, role: ROLE_USER }
+
 zend.config:
     logger:
         priority: notice

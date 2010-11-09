@@ -116,3 +116,6 @@ lichess_pgn_export:
 lichess_nb_players:
     pattern:        /how-many-players-now
     defaults:       { _controller: LichessBundle:Main:howManyPlayersNow }
+lichess_janrain_token:
+    pattern:        /auth-token
+    defaults:       { _controller: LichessBundle:Main:authToken }

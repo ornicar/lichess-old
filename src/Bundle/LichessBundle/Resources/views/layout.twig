@@ -20,6 +20,8 @@
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="{% path 'lichess_homepage' %}">Lichess</a></h1>
+                {% set authUrl %}{% url "lichess_janrain_token" %}{% endset %}
+                <a class="rpxnow" href="https://lichess.rpxnow.com/openid/v2/signin?token_url={{ authUrl|url_encode }}">Sign In</a>
                 <div class="lichess_goodies_wrap">
                     {% block goodies %}{% endblock %}
                 </div>
