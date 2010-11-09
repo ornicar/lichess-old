@@ -14,7 +14,6 @@ class LichessExtension extends Extension
         $loader->load('config.xml');
         $loader->load('locale.xml');
         $loader->load('model.xml');
-        $loader->load('openid.xml');
 
         if(isset($config['ai']['class'])) {
             $container->setParameter('lichess.ai.class', $config['ai']['class']);
