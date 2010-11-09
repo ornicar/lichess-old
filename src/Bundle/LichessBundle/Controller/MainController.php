@@ -15,14 +15,6 @@ class MainController extends Controller
         ));
     }
 
-    public function authTokenAction()
-    {
-        $token = $this['query']->request->get('token');
-        $connection = $this['lichess.openid.janrain']->connect($token);
-
-        return $this->createResponse(var_export($connection, true));
-    }
-
     public function howManyPlayersNowAction()
     {
         $nbConnectedPlayers = $this['lichess_synchronizer']->getNbConnectedPlayers();
