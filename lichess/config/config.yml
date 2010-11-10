@@ -16,11 +16,12 @@ security.config:
             password_encoder: sha1
             document: { class: DoctrineUserBundle:User }
     firewalls:
-        main:
-            pattern: /*
+        profile:
+            pattern:  /profile
             form_login:
                 provider:                       doctrine_user
                 login_path:                     /login
+                use_forward:                    true
                 check_path:                     /login-check
                 failure_path:                   null
                 always_use_default_target_path: false
