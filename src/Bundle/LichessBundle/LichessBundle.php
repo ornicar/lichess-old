@@ -24,7 +24,7 @@ class LichessBundle extends BaseBundle
                     $session->set('lichess.session_id', KeyGenerator::generate(10));
                     $languages = $container->getParameter('lichess.locales');
                     $bestLocale = $container->get('request')->getPreferredLanguage($languages);
-                    $session->setLocale($languages);
+                    $session->setLocale($bestLocale);
                 }
             }
         });
