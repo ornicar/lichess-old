@@ -55,15 +55,22 @@ doctrine_odm.mongodb:
 
 forum.config:
     db_driver: odm
-    template_renderer: php
-    category_class: Application\ForumBundle\Document\Category
-    topic_class: Application\ForumBundle\Document\Topic
-    post_class: Application\ForumBundle\Document\Post
-    user_class: Application\ForumBundle\Document\User
-    post_form: Application\ForumBundle\Form\PostForm
-    topics_per_page: 10
-    posts_per_page: 10
-    search_results_per_page: 10
+    class:
+        model:
+            category: Application\ForumBundle\Document\Category
+            topic: Application\ForumBundle\Document\Topic
+            post: Application\ForumBundle\Document\Post
+        controller:
+            category: Application\ForumBundle\Controller\CategoryController
+            topic: Application\ForumBundle\Controller\TopicController
+            post: Application\ForumBundle\Controller\PostController
+        form:
+            post: Application\ForumBundle\Form\PostForm
+            first_post: Application\ForumBundle\Form\PostForm
+    paginator:
+        topics_per_page: 10
+        posts_per_page: 10
+        search_results_per_page: 10
 
 doctrine_user.config:
     db_driver: odm

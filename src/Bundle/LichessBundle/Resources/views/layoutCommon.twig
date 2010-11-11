@@ -1,0 +1,49 @@
+{% block assets %}
+{% javascript 'bundles/lichess/js/lib.min.js' %}
+{% javascript 'bundles/lichess/js/ctrl.js' %}
+{% if _view.locale.locale != "en" %}
+    {% javascript "http://static.addtoany.com/menu/locale/" ~ _view.locale.locale ~ ".js" %}
+{% endif %}
+{% endblock %}
+<!DOCTYPE html>
+<html lang="{{ _view.locale.locale }}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Lichess{% endblock %} | free online Chess game{% block title_suffix %}{% endblock %}</title>
+        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and JavaScript with jQuery 1.4" name="description">
+        <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
+        <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        {% stylesheets %}
+    </head>
+    <body class="{% block body_class %}normal{% endblock %}" data-sound-enabled="{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{% asset 'bundles/lichess/sound/alert.ogg' %}">
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="footer_wrap">
+            <ul class="lichess_social"></ul>
+            <div class="footer">
+                <div class="right">
+                    {% trans "Contact" %}: <span class="js_email"></span><br />
+                    <a href="{% path "lichess_about" %}" target="_blank">{% trans "Learn more about Lichess" %}</a>
+                </div>
+                <div class="nb_connected_players" data-url="{% path "lichess_nb_players" %}">
+                    {% trans "%nb% connected players" with["%nb%": _view.lichess.nbConnectedPlayers] %}
+                </div>
+                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a href="{% path "forum_category_show" with ["slug": "lichess-feedback"] %}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="{% path "lichess_translate" %}">help translate Lichess</a><br />
+                {% trans "Open Source software built with %php%, %symfony% and %jqueryui%" with['%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'] %}<br />
+            </div>
+        </div>
+        <div title="Come on, make my server suffer :)" class="lichess_server">
+            {% trans "Server load" %}: <span class="value">{{ _view.lichess.loadAverage }}</span>
+        </div>
+        <div id="top_menu">
+            {% block top_menu %}
+            <a class="goto_forum goto_nav blank_if_play" title="{% trans 'Talk about chess and discuss lichess features in the forum' %}" href="{% path "forum_index" %}">Forum</a>
+            <a class="goto_gamelist goto_nav blank_if_play" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
+            {% endblock %}
+        </div>
+        {% block js_data %}{% endblock %}
+        {% javascripts %}
+    </body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "LichessBundle::layoutCommon.twig" %}
+{% block assets %}
+{% parent %}
+{% stylesheet 'bundles/forum/css/forum.css' %}
+{% endblock %}
+{% block content %}
+<div class="header">
+    <h1><a class="site_title" href="{% path 'lichess_homepage' %}">Lichess</a></h1>
+</div>
+<div id="lichess_forum">
+    {% block body %}{% endblock %}
+</div>
+{% endblock %}
+{% block top_menu %}
+<a class="goto_play goto_nav" title="{% trans 'Play a new game' %}" href="{% path "lichess_homepage" %}">Play</a>
+<a class="goto_gamelist goto_nav" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
+{% endblock %}

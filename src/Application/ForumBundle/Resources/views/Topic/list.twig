@@ -1,0 +1,33 @@
+{% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": topics.pages, "url": _view.forum.urlForCategory(category)] %}{% endset %}
+{% set newTopicUrl %}{% path "forum_category_topic_new" with ["slug": category.slug] %}{% endset %}
+
+<div class="bar top clearfix">
+    <div class="pagination">{{ pagination|raw }}</div>
+    <a href="{{ newTopicUrl|raw }}" class="action button">Create a new topic</a>
+</div>
+
+<table class="forum_topics_list">
+    <thead>
+        <tr>
+            <th>Topics</th>
+            <th class="right">Views</th>
+            <th class="right">Replies</th>
+            <th>Last Post</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for topic in topics %}
+        <tr class="{{ loop.index is odd ? "odd": "even" }}">
+            <td class="subject"><a href="{{ _view.forum.urlForTopic(topic)|raw }}">{{ topic.subject }}</a></td>
+            <td class="right">{{ topic.numViews|raw }}</td>
+            <td class="right">{{ topic.numPosts-1 }}</td>
+            <td><a href="{{ _view.forum.urlForPost(topic.lastPost)|raw }}">{{ _view.time.ago(topic.lastPost.createdAt)|raw }}</a><br />by {{ topic.lastPost.authorName|default("Anonymous") }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="bar bottom clearfix">
+    <div class="pagination">{{ pagination|raw }}</div>
+    <a href="{{ newTopicUrl|raw }}" class="action button">Create a new topic</a>
+</div>
