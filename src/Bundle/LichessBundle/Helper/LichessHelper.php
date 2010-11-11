@@ -36,6 +36,16 @@ class LichessHelper extends Helper
         return TextHelper::autoLink($text);
     }
 
+    public function userText($text)
+    {
+        return nl2br($this->autoLink($this->escape($text)));
+    }
+
+    public function shorten($text, $length = 140)
+    {
+        return mb_substr(str_replace("\n", ' ', $this->escape($text)), 0, 140);
+    }
+
     /**
      * Returns the canonical name of this helper.
      *
