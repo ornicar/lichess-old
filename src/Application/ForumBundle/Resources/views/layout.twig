@@ -3,12 +3,12 @@
 {% parent %}
 {% stylesheet 'bundles/forum/css/forum.css' %}
 {% endblock %}
-{% block content %}
+{% block body %}
 <div class="header">
     <h1><a class="site_title" href="{% path 'lichess_homepage' %}">Lichess</a></h1>
 </div>
 <div id="lichess_forum">
-    {% block body %}{% endblock %}
+    {% block content %}{% endblock %}
 </div>
 {% endblock %}
 {% block top_menu %}

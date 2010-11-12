@@ -4,7 +4,7 @@
 {% block feed_link %}
     <link href="{% path "forum_category_show" with ["slug": category.slug, "_format": "xml"] %}" type="application/atom+xml" rel="alternate" title="{{ category.name|raw }} - Lichess Forum" />
 {% endblock %}
-{% block body %}
+{% block content %}
 <div class="category">
     <a href="{% path "forum_category_show" with ["slug": category.slug, "_format": "xml"] %}" title="{% trans "Follow this category" %}" class="forum_feed_link"></a>
     <ol class="crumbs">

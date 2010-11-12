@@ -1,10 +1,10 @@
 {% extends "ForumBundle::layout.twig" %}
 {% block title %}{{ category.name|raw }} - New topic{% endblock %}
-{% block body %}
+{% block content %}
 <ol class="crumbs">
     <li><a href="{% path "forum_index" %}">Forum</a></li>
     <li><a href="{{ _view.forum.urlForCategory(category)|raw }}">{{ category.name|raw }}</a></li>
-    <li>New topic</li>
+    <li><h1>New topic</h1></li>
 </ol>
 <br />
 <h1>New topic</h1>

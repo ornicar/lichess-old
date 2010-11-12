@@ -4,7 +4,7 @@
 {% block feed_link %}
 <link href="{{ _view.forum.urlForTopicAtomFeed(topic)|raw }}" type="application/atom+xml" rel="alternate" title="{{ topic.subject|raw }} - Lichess Forum" />
 {% endblock %}
-{% block body %}
+{% block content %}
 {% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": posts.pages, "url": _view.forum.urlForTopic(topic)] %}{% endset %}
 {% set replyUrl = _view.forum.urlForTopicReply(topic) %}
 {% set isLastPage = _view.forum.getTopicNumPages(topic) == posts.currentPageNumber %}
