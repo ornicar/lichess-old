@@ -1,5 +1,5 @@
 {% extends 'LichessBundle::layout.twig' %}
-{% block body %}
+{% block content %}
 <div class="lichess_game_not_started clearfix lichess_player_{{ color }}">
     <div class="lichess_board_wrap">
         {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".twig" %}

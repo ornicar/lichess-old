@@ -1,7 +1,7 @@
 {% extends "LichessBundle:Pgn:layoutAnalyse.twig" %}
 {% block title %}Lichess - {% trans "Replay and analyse" %}{% endblock %}
 {% block title_suffix %} #{{ game.id }}{% endblock %}
-{% block body %}
+{% block content %}
 <div class="analyse clearfix">
     <div class="board_wrap">
         <div id="GameBoard"{{ color == "black" ? ' class="flip"' : "" }}></div>

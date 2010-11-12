@@ -18,7 +18,7 @@
     </head>
     <body class="{% block body_class %}normal{% endblock %}" data-sound-enabled="{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{% asset 'bundles/lichess/sound/alert.ogg' %}">
         <div class="content">
-            {% block content %}{% endblock %}
+            {% block body %}{% endblock %}
         </div>
         <div class="footer_wrap">
             <ul class="lichess_social"></ul>

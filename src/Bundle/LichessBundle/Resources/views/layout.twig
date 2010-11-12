@@ -3,7 +3,7 @@
 {% parent %}
 {% stylesheet 'bundles/lichess/css/lichess.css' %}
 {% endblock %}
-{% block content %}
+{% block body %}
 <div class="header">
     <h1><a class="site_title" href="{% path 'lichess_homepage' %}">Lichess</a></h1>
     <div class="lichess_goodies_wrap">
@@ -14,7 +14,7 @@
     </div>
 </div>
 <div id="lichess">
-    {% block body %}{% endblock %}
+    {% block content %}{% endblock %}
 </div>
 {% endblock %}
 {% block top_menu %}
