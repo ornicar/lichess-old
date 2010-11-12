@@ -3,7 +3,7 @@ app.config:
     error_handler: null
     validation: { enabled: true, annotations: true }
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
-    user:
+    session:
         lifetime: 2592000 # one month 
     templating:
         escaping: htmlspecialchars
@@ -17,11 +17,11 @@ security.config:
             document: { class: DoctrineUserBundle:User }
     firewalls:
         profile:
-            pattern:  /profile
+            pattern:  "/(profile|login)"
             form_login:
                 provider:                       doctrine_user
                 login_path:                     /login
-                use_forward:                    true
+                use_forward:                    false
                 check_path:                     /login-check
                 failure_path:                   null
                 always_use_default_target_path: false
@@ -77,6 +77,8 @@ doctrine_user.config:
     class:
         model:
             user: Application\DoctrineUserBundle\Document\User
+        form:
+            user: Application\DoctrineUserBundle\Form\UserForm
 
 lichess_forum.config: ~
 
