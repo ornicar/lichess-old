@@ -1,8 +1,8 @@
 lichess:
   resource: LichessBundle/Resources/config/routing.yml
 
-#security:
-    #resource: DoctrineUserBundle/Resources/config/routing/security.xml
+security:
+    resource: DoctrineUserBundle/Resources/config/routing/security.xml
 user:
     resource: DoctrineUserBundle/Resources/config/routing/user.xml
     prefix: /user

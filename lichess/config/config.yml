@@ -16,8 +16,8 @@ security.config:
             password_encoder: sha1
             document: { class: DoctrineUserBundle:User }
     firewalls:
-        profile:
-            pattern:  "/(profile|login)"
+        public:
+            pattern: .*
             form_login:
                 provider:                       doctrine_user
                 login_path:                     /login
@@ -29,6 +29,7 @@ security.config:
                 target_path_parameter:          _target_path
                 use_referer:                    false
             logout: true
+            anonymous: true
 
 zend.config:
     logger:

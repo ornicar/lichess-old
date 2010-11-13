@@ -1,4 +1,8 @@
 {% extends 'LichessBundle::layout.twig' %}
+{% block assets %}
+{% parent %}
+{% stylesheet "bundles/lichess/css/board.css" %}
+{% endblock %}
 {% block content %}
 <div class="lichess_game_not_started clearfix lichess_player_{{ color }}">
     <div class="lichess_board_wrap">

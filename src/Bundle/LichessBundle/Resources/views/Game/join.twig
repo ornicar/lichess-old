@@ -1,4 +1,4 @@
-{% extends "LichessBundle::layout.twig" %}
+{% extends "LichessBundle:Game:layoutGame.twig" %}
 {% block title %}Lichess - {% trans "Play with a friend" %} - {{ color }}{% endblock %}
 {% block content %}
 <div class="lichess_game_not_started waiting_opponent clearfix lichess_player_{{ color }}">

@@ -1,4 +1,5 @@
 {% block assets %}
+{% stylesheet 'bundles/lichess/css/common.css' %}
 {% javascript 'bundles/lichess/js/lib.min.js' %}
 {% javascript 'bundles/lichess/js/ctrl.js' %}
 {% if _view.locale.locale != "en" %}
@@ -16,7 +17,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         {% stylesheets %}
     </head>
-    <body class="{% block body_class %}normal{% endblock %}" data-sound-enabled="{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{% asset 'bundles/lichess/sound/alert.ogg' %}">
+    <body data-sound-enabled="{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{% asset 'bundles/lichess/sound/alert.ogg' %}">
         <div class="content">
             {% block body %}{% endblock %}
         </div>
@@ -41,6 +42,7 @@
             {% block top_menu %}
             <a class="goto_forum goto_nav blank_if_play" title="{% trans 'Talk about chess and discuss lichess features in the forum' %}" href="{% path "forum_index" %}">Forum</a>
             <a class="goto_gamelist goto_nav blank_if_play" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
+            {% include "LichessBundle::security.twig" %}
             {% endblock %}
         </div>
         {% block js_data %}{% endblock %}

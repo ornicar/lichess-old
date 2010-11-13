@@ -1,8 +1,5 @@
 {% extends "LichessBundle:Player:layoutPlayer.twig" %}
 {% block title %}Lichess - {% trans "Play with a friend" %} - {{ player.color }}{% endblock %}
-{% block body_class %}
-{% if player.game.isStandardVariant %}normal{% else %}hide_pieces{% endif %}
-{% endblock %}
 {% block content %}
 <div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_{{ player.color }}">
     <div class="lichess_board_wrap">
