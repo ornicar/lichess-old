@@ -2,6 +2,7 @@
 
 namespace Application\ForumBundle\Document;
 use Bundle\ForumBundle\Document\Post as BasePost;
+use Application\DoctrineUserBundle\Document\User;
 
 /**
  * @mongodb:Document(
@@ -21,9 +22,35 @@ class Post extends BasePost
     protected $authorName = '';
 
     /**
+     * The author user if any
+     *
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User", nullable=true)
+     * @var User
+     */
+    protected $author = null;
+
+    /**
      * @validation:MaxLength(10000)
      */
     protected $message;
+
+    /**
+     * @return User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param  User
+     * @return null
+     */
+    public function setAuthor(User $author)
+    {
+        $this->author = $author;
+        $this->authorName = $author->getUsername();
+    }
 
     /**
      * Get authorName
@@ -31,7 +58,7 @@ class Post extends BasePost
      */
     public function getAuthorName()
     {
-      return $this->authorName;
+        return $this->authorName;
     }
 
     /**
@@ -41,7 +68,7 @@ class Post extends BasePost
      */
     public function setAuthorName($authorName)
     {
-      $this->authorName = $authorName;
+        $this->authorName = $authorName;
     }
 
     public function setMessage($message)

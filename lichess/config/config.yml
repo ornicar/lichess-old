@@ -68,6 +68,11 @@ forum.config:
         form:
             post: Application\ForumBundle\Form\PostForm
             first_post: Application\ForumBundle\Form\PostForm
+        blamer:
+            post: Application\ForumBundle\Blamer\PostBlamer
+            topic: Application\ForumBundle\Blamer\TopicBlamer
+        helper:
+            forum: Application\ForumBundle\Templating\Helper\ForumHelper
     paginator:
         topics_per_page: 10
         posts_per_page: 10
@@ -82,8 +87,6 @@ doctrine_user.config:
             user: Application\DoctrineUserBundle\Form\UserForm
         controller:
             user: Application\DoctrineUserBundle\Controller\UserController
-
-lichess_forum.config: ~
 
 time.helper: ~
 
