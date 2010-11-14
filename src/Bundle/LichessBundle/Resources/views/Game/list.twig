@@ -19,7 +19,7 @@
                     {% if player.opponent.isAi %}
                         {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel] %}
                     {% else %}
-                        {% trans "Human" %}
+                        {{ player.username }}
                     {% endif %}
                     <br />
                 {% endfor %}

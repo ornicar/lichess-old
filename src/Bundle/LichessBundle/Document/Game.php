@@ -70,7 +70,7 @@ class Game
      * User bound to the white player - optional
      *
      * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User", nullable="true")
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
      */
     protected $whiteUser = null;
 
@@ -78,7 +78,7 @@ class Game
      * User bound to the black player - optional
      *
      * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User", nullable="true")
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
      */
     protected $blackUser = null;
 
@@ -195,6 +195,9 @@ class Game
      */
     public function setWhiteUser(User $user)
     {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not assign user to a started game');
+        }
         $this->whiteUser = $user;
     }
 
@@ -212,6 +215,9 @@ class Game
      */
     public function setBlackUser(User $user)
     {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not assign user to a started game');
+        }
         $this->blackUser = $user;
     }
 

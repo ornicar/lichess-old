@@ -102,11 +102,37 @@ class Player
     }
 
     /**
-     * @return User
+     * Get the user bound to this player, if any
+     *
+     * @return User or null
      */
     public function getUser()
     {
         return $this->getGame()->getUser($this->getColor());
+    }
+
+    public function setUser(User $user)
+    {
+        if($this->isWhite()) {
+            $this->getGame()->setWhiteUser($user);
+        } elseif($this->isBlack()) {
+            $this->getGame()->setBlackUser($user);
+        }
+    }
+
+    /**
+     * Get the username of the player, or "Anonymous" if the player is not authenticated
+     *
+     * @return string
+     **/
+    public function getUsername($default = 'Anonymous')
+    {
+        $user = $this->getUser();
+        if(!$user) {
+            return $default;
+        }
+
+        return $user->getUsername();
     }
 
     /**
