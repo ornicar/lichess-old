@@ -12,7 +12,9 @@
     <label><span class="required">Category</span> {{ form.category|render_widget }}</label>
     <label><span class="required">Subject</span> {{ form.subject|render_widget(["class": "subject"]) }}</label>
     <label><span class="required">Message</span> {{ form.firstPost.message|render_widget }}</label>
-    <label><span>Author</span> {{ form.firstPost.authorName|render_widget(["class": "authorName"]) }}</label>
+    {% if form.firstPost.authorName %}
+        <label><span>Author</span> {{ form.firstPost.authorName|render_widget(["class": "authorName"]) }}</label>
+    {% endif %}
     <button class="submit button" type="submit">Create the topic</button>
 </form>
 {% endblock %}

@@ -23,13 +23,16 @@ class PostController extends BasePostController
         }
 
         $post = $form->getData();
+        $this['forum.blamer.post']->blame($post);
         $this->savePost($post);
 
         $this['session']->setFlash('forum_post_create/success', true);
         $url = $this['forum.templating.helper.forum']->urlForPost($post);
 
         $response = $this->redirect($url);
-        $response->headers->setCookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
+        if(!$this['security.context']->getUser()->hasRole('IS_AUTHENTICATED_FULLY')) {
+            $response->headers->setCookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
+        }
 
         return $response;
     }
@@ -38,7 +41,9 @@ class PostController extends BasePostController
     {
         $form = parent::createForm($name, $topic);
 
-        if($authorName = $this['request']->cookies->get('lichess_forum_authorName')) {
+        if($this['security.context']->getUser()->hasRole('IS_AUTHENTICATED_FULLY')) {
+            unset($form['authorName']);
+        } elseif($authorName = $this['request']->cookies->get('lichess_forum_authorName')) {
             $form['authorName']->setData(urldecode($authorName));
         }
 

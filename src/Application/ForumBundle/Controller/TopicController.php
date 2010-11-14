@@ -32,7 +32,9 @@ class TopicController extends BaseTopicController
         $url = $this['forum.templating.helper.forum']->urlForTopic($topic);
 
         $response = $this->redirect($url);
-        $response->headers->setCookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
+        if(!$this['security.context']->getUser()->hasRole('IS_AUTHENTICATED_FULLY')) {
+            $response->headers->setCookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
+        }
 
         return $response;
     }
@@ -41,7 +43,9 @@ class TopicController extends BaseTopicController
     {
         $form = parent::createForm($name, $category);
 
-        if($authorName = $this['request']->cookies->get('lichess_forum_authorName')) {
+        if($this['security.context']->getUser()->hasRole('IS_AUTHENTICATED_FULLY')) {
+            unset($form['authorName']);
+        } elseif($authorName = $this['request']->cookies->get('lichess_forum_authorName')) {
             $form['firstPost']['authorName']->setData(urldecode($authorName));
         }
 

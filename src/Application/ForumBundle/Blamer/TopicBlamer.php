@@ -1,7 +1,8 @@
 <?php
 
-namespace Bundle\ForumBundle\Blamer;
+namespace Application\ForumBundle\Blamer;
 use Bundle\ForumBundle\Blamer\AbstractSecurityBlamer;
+use Bundle\ForumBundle\Blamer\BlamerInterface;
 
 class TopicBlamer extends AbstractSecurityBlamer implements BlamerInterface
 {
