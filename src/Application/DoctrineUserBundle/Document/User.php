@@ -11,4 +11,9 @@ use Bundle\DoctrineUserBundle\Document\User as BaseUser;
  */
 class User extends BaseUser
 {
+    public function setUsername($username)
+    {
+        parent::setUsername($username);
+        $this->setEmail($username.'@lichess.org');
+    }
 }

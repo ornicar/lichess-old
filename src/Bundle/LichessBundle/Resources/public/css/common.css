@@ -158,6 +158,7 @@ div.lichess_box p.license_images a {
     width: 800px;
 }
 a#sound_state {
+    margin-top: 4px;
     display: none;
     float: right;
     width: 18px;
@@ -174,6 +175,7 @@ a.sound_state_off {
     background: url(../images/sound-off.gif) top left no-repeat;
 }
 div.lichess_language {
+    margin-top: 4px;
     margin-right: 1.5em;
     float: right;
     position: relative;
@@ -224,7 +226,11 @@ div.security input.username, div.security input.password {
     width: 100px;
     background: #fff;
 }
+div.security input.login {
+    padding: 0 3px;
+}
 a.goto_nav {
+    margin-top: 4px;
     padding-left: 20px;
 }
 a.goto_nav:hover {
@@ -235,6 +241,9 @@ a.goto_gamelist {
 }
 a.goto_forum {
     background: transparent url(../images/balloon.png) top left no-repeat;
+}
+a.goto_play {
+    background: transparent url(../images/control.png) top left no-repeat;
 }
 a.goto_logout {
     background: transparent url(../images/logout.png) top left no-repeat;
