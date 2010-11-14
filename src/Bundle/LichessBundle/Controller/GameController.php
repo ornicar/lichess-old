@@ -162,6 +162,7 @@ class GameController extends Controller
             if($form->isValid()) {
                 $this['session']->set('lichess.game_config.ai', $config->toArray());
                 $player = $this['lichess_generator']->createGameForPlayer($color, $config->variant);
+                $this['lichess.blamer.player']->blame($player);
                 $game = $player->getGame();
                 $opponent = $player->getOpponent();
                 $opponent->setIsAi(true);
