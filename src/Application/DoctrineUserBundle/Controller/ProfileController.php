@@ -8,7 +8,7 @@ use Bundle\DoctrineUserBundle\Model\User;
 /**
  * RESTful controller managing user CRUD
  */
-class UserController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Show the authenticated user

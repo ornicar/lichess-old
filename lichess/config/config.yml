@@ -80,6 +80,8 @@ doctrine_user.config:
             user: Application\DoctrineUserBundle\Document\User
         form:
             user: Application\DoctrineUserBundle\Form\UserForm
+        controller:
+            user: Application\DoctrineUserBundle\Controller\UserController
 
 lichess_forum.config: ~
 
