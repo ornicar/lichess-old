@@ -26,7 +26,7 @@
             <div class="footer">
                 <div class="right">
                     {% trans "Contact" %}: <span class="js_email"></span><br />
-                    <a href="{% path "lichess_about" %}" target="_blank">{% trans "Learn more about Lichess" %}</a>
+                    <a href="{% path "lichess_about" %}" class="blank_if_play">{% trans "Learn more about Lichess" %}</a>
                 </div>
                 <div class="nb_connected_players" data-url="{% path "lichess_nb_players" %}">
                     {% trans "%nb% connected players" with["%nb%": _view.lichess.nbConnectedPlayers] %}
@@ -42,7 +42,9 @@
             {% block top_menu %}
             <a class="goto_forum goto_nav blank_if_play" title="{% trans 'Talk about chess and discuss lichess features in the forum' %}" href="{% path "forum_index" %}">Forum</a>
             <a class="goto_gamelist goto_nav blank_if_play" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
-            {% include "LichessBundle::security.twig" %}
+            {% endblock %}
+            {% block security %}
+                {% include "LichessBundle::security.twig" %}
             {% endblock %}
         </div>
         {% block js_data %}{% endblock %}
