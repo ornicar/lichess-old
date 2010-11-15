@@ -1,0 +1,3 @@
+user_profile:
+    pattern:    /profile
+    defaults:   { _controller: DoctrineUserBundle:Profile:show }

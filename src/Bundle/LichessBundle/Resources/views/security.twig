@@ -1,0 +1,5 @@
+{% if _view.doctrine_user_security.isAnonymous %}
+    {% include "DoctrineUserBundle:Security:embeddedLogin.twig" %}
+{% else %}
+<a href="{% path "_security_logout" %}" title="{% trans "Sign out" %}" class="goto_nav goto_logout">{{ _view.doctrine_user_security.user.username }}</a>
+{% endif %}

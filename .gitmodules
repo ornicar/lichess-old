@@ -25,3 +25,6 @@
 [submodule "src/vendor/twig"]
 	path = src/vendor/twig
 	url = git://github.com/fabpot/Twig.git
+[submodule "src/Bundle/DoctrineUserBundle"]
+	path = src/Bundle/DoctrineUserBundle
+	url = git://github.com/knplabs/DoctrineUserBundle.git

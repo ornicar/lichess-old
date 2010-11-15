@@ -1,6 +1,6 @@
 {% extends "LichessBundle:Player:layoutPlayer.twig" %}
 {% block title %}Lichess - {% trans "Play with anybody" %} - {{ player.color }}{% endblock %}
-{% block body %}
+{% block content %}
 <div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_{{ player.color }}">
     <div class="lichess_board_wrap">
         {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".twig" %}

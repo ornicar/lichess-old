@@ -1,5 +1,4 @@
-$(function()
-{
+$(function() {
     if ($game = $('div.lichess_game').orNot()) {
         $game.game(lichess_data);
         $('input').click(function() { this.select(); });

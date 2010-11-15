@@ -21,9 +21,11 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Bundle\ApcBundle\ApcBundle(),
             new Bundle\TimeBundle\TimeBundle(),
-            new Bundle\LichessBundle\LichessBundle(),
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
+            new Bundle\LichessBundle\LichessBundle(),
+            new Bundle\DoctrineUserBundle\DoctrineUserBundle(),
             new Bundle\ForumBundle\ForumBundle(),
+            new Application\DoctrineUserBundle\DoctrineUserBundle(),
             new Application\ForumBundle\ForumBundle()
         );
 

@@ -1,0 +1,26 @@
+{% extends "DoctrineUserBundle::layout.twig" %}
+{% block security %}{% endblock %}
+{% block content %}
+<div class="lichess_box">
+    <h1 class="lichess_title">Sign up to lichess</h1>
+    <p>
+        It allows to be recognized by other players, and record your games.<br />
+        All you need is a username and a password.
+    </p>
+    {% form_theme form form.getOption('theme') %}
+    <form action="{% path 'doctrine_user_user_create' %}" method="POST" class="signup">
+        <ul>
+            <li class="username">
+                {{ form.username|render }}
+            </li>
+            <li class="password">
+                {{ form.password|render }}
+            </li>
+            <li>
+                <input type="submit" class="submit" value="{% trans "Sign up" %}" />
+            </li>
+        </ul>
+        {{ form|render_hidden }}
+    </form>
+</div>
+{% endblock %}

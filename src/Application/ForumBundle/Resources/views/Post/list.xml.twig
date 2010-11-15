@@ -1,0 +1,9 @@
+{% for post in posts %}
+    <entry>
+        <title>#{{ post.number|raw }}</title>
+        <summary>{{ _view.lichess.shorten(post.message) }}</summary>
+        <author>{{ post.author|default("Anonymous") }}</author>
+        <published>{{ post.createdAt|date("c") }}</published>
+        <link rel="alternate">{{ _view.forum.urlForPost(post, true )|raw }}</link>
+    </entry>
+{% endfor %}
