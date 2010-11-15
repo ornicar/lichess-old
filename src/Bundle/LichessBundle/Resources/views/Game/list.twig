@@ -14,10 +14,10 @@
                 <br />
                 {{ _view.time.ago(game.updatedAt) }}
                 <br /><br />
-                {% for player in game.players %}
-                    {% trans player.opponent.color|capitalize %}
-                    {% if player.opponent.isAi %}
-                        {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel] %}
+                {% for player in [game.invited, game.creator] %}
+                    {% trans player.color|capitalize %}
+                    {% if player.isAi %}
+                        {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
                     {% else %}
                         {{ player.username }}
                     {% endif %}

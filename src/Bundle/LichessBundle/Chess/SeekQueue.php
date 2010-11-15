@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Chess;
 use Bundle\LichessBundle\Document\SeekRepository;
 use Bundle\LichessBundle\Document\Seek;
+use Bundle\LichessBundle\Blamer\PlayerBlamer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
 class SeekQueue
@@ -28,14 +29,22 @@ class SeekQueue
      */
     protected $generator = null;
 
+    /**
+     * Player blamer
+     *
+     * @var PlayerBlamer
+     */
+    protected $playerBlamer = null;
+
     const QUEUED = 1;
     const FOUND = 2;
 
-    public function __construct(DocumentManager $objectManager, SeekRepository $repository, Generator $generator)
+    public function __construct(DocumentManager $objectManager, SeekRepository $repository, Generator $generator, PlayerBlamer $playerBlamer)
     {
         $this->objectManager = $objectManager;
         $this->repository = $repository;
         $this->generator = $generator;
+        $this->playerBlamer = $playerBlamer;
     }
 
     public function add(array $variants, array $times, $sessionId, $color)
@@ -47,18 +56,20 @@ class SeekQueue
             $this->generator->applyVariant($game, $seek->getCommonVariant($existing));
             $game->setClockTime($seek->getCommonTime($existing) * 60);
             $this->objectManager->remove($existing);
-            $response = array('status' => static::FOUND, 'game' => $existing->getGame());
+            $this->playerBlamer->blame($game->getInvited());
+            $status = static::FOUND;
         }
         else {
             $game = $this->generator->createGameForPlayer($color)->getGame();
             $seek->setGame($game);
             $this->objectManager->persist($game);
             $this->objectManager->persist($seek);
-            $response = array('status' => static::QUEUED, 'game' => $game);
+            $this->playerBlamer->blame($game->getCreator());
+            $status = static::QUEUED;
         }
 
         $this->objectManager->flush();
-        return $response;
+        return array('status' => $status, 'game' => $game);
     }
 
     protected function searchMatching(Seek $seek)

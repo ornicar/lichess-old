@@ -93,6 +93,7 @@ class GameController extends Controller
             return $this->redirect($this->generateUrl('lichess_game', array('id' => $id)));
         }
 
+        $this['lichess.blamer.player']->blame($game->getInvited());
         $game->start();
         $game->getCreator()->addEventToStack(array(
             'type' => 'redirect',
@@ -134,6 +135,7 @@ class GameController extends Controller
             if($form->isValid()) {
                 $this->get('session')->set('lichess.game_config.friend', $config->toArray());
                 $player = $this->get('lichess_generator')->createGameForPlayer($color, $config->variant);
+                $this['lichess.blamer.player']->blame($player);
                 $game = $player->getGame();
                 if($config->time) {
                     $clock = new Clock($config->time * 60);
