@@ -6,6 +6,17 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class GameRepository extends DocumentRepository
 {
     /**
+     * Find all games played by a user
+     *
+     * @return array
+     **/
+    public function findRecentByUser(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->execute();
+    }
+
+    /**
      * Find one game by its Id
      *
      * @return Game or null
@@ -90,6 +101,20 @@ class GameRepository extends DocumentRepository
     public function createRecentQuery()
     {
         return $this->createQuery()
+            ->sort('updatedAt', 'DESC');
+    }
+
+    /**
+     * Query of games played by a user ordered by updatedAt
+     *
+     * @param  User $user
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createRecentByUserQuery(User $user)
+    {
+        return $this->createQuery()
+            ->addOr($this->createQuery()->field('whiteUser')->equals($user)->getQuery())
+            ->addOr($this->createQuery()->field('blackUser')->equals($user)->getQuery())
             ->sort('updatedAt', 'DESC');
     }
 
