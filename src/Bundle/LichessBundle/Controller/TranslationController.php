@@ -39,10 +39,10 @@ class TranslationController extends Controller
         $form->add(new TextField('author'));
         $form->add(new TextField('comment'));
 
-        if ($this['request']->getMethod() == 'POST')
+        if ($this->get('request')->getMethod() == 'POST')
         {
             try {
-                $form->bind($this['request']->request->get('translation'));
+                $form->bind($this->get('request')->request->get('translation'));
                 $fileName = sprintf("%s_%s-%d", $translation->getCode(), date("Y-m-d_h-i-s"), time());
                 $fileContent = sprintf("#%s\n#%s\n#%s\n%s\n", $translation->getName(), $translation->comment, $translation->author, $translation->getYamlMessages());
                 $file = sprintf('%s/translation/%s', $this->container->getParameter('kernel.root_dir'), $fileName);
@@ -57,7 +57,7 @@ class TranslationController extends Controller
         }
 
         return $this->render('LichessBundle:Translation:index.php', array(
-            'form' => $this['templating.form']->get($form),
+            'form' => $this->get('templating.form')->get($form),
             'locale' => $locale,
             'message' => isset($message) ? $message : null,
             'error' => isset($error) ? $error : null,
