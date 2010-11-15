@@ -11,7 +11,7 @@ class PgnController extends Controller
     public function analyseAction($id, $color)
     {
         $game = $this->findGame($id);
-        $pgn = $this['lichess_pgn_dumper']->dumpGame($game);
+        $pgn = $this->get('lichess_pgn_dumper')->dumpGame($game);
 
         return $this->render('LichessBundle:Pgn:analyse.twig', array(
             'game'         => $game,
@@ -24,7 +24,7 @@ class PgnController extends Controller
     public function exportAction($id)
     {
         $game = $this->findGame($id);
-        $pgn = $this['lichess_pgn_dumper']->dumpGame($game);
+        $pgn = $this->get('lichess_pgn_dumper')->dumpGame($game);
 
         $response = $this->createResponse($pgn);
         $response->headers->set('Content-Type', 'text/plain');
@@ -39,7 +39,7 @@ class PgnController extends Controller
      */
     protected function findGame($id)
     {
-        $game = $this['lichess.repository.game']->findOneById($id);
+        $game = $this->get('lichess.repository.game')->findOneById($id);
 
         if(!$game) {
             throw new NotFoundHttpException('Can\'t find game '.$id);
