@@ -49,7 +49,6 @@ doctrine_odm.mongodb:
     cache_driver: apc
     connections:
         default:
-            server: mongodb://localhost:27017
             options:
                 connect: true
                 persistent: lichess

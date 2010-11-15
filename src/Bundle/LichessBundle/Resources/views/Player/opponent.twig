@@ -1,8 +1,8 @@
 {% if isOpponentConnected %}
-{% trans "Human opponent connected" %}
-{% elseif player.game.isFinished %}
-{% trans "Human opponent offline" %}
+<span title="{% trans "Human opponent connected" %}" class="username connected">{{ opponent.username }}</span>
+{% elseif game.isFinished %}
+<span title="{% trans "Human opponent offline" %}" class="username offline">{{ opponent.username }}</span>
 {% else %}
 {% trans "The other player has left the game. You can force resignation, or wait for him." %}<br />
-<a title="{% trans "Make your opponent resign" %}" class="force_resignation" href="{% path "lichess_force_resignation" with ["id": player.fullId] %}">{% trans "Force resignation" %}</a>
+<a title="{% trans "Make your opponent resign" %}" class="force_resignation" href="{% path "lichess_force_resignation" with ["id": playerFullId] %}">{% trans "Force resignation" %}</a>
 {% endif %}

@@ -231,7 +231,7 @@ class Game
         if('white' === $color) {
             return $this->getWhiteUser();
         }
-        if('black' === $color) {
+        elseif('black' === $color) {
             return $this->getBlackUser();
         }
 
@@ -730,15 +730,11 @@ class Game
      */
     public function getInvited()
     {
-        if(!$this->creatorColor) {
-            return null;
-        }
-
         if($this->getCreator()->isWhite()) {
             return $this->getPlayer('black');
+        } elseif($this->getCreator()->isBlack()) {
+            return $this->getPlayer('white');
         }
-
-        return $this->getPlayer('white');
     }
 
     public function setCreator(Player $player)

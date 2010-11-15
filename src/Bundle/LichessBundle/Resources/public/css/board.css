@@ -373,6 +373,14 @@ div.lichess_table_not_started {
     padding: 0;
     top: 100px;
 }
+span.username.connected {
+    background: url(../images/status.png) top left no-repeat;
+    padding-left: 16px;
+}
+span.username.offline {
+    background: url(../images/status-offline.png) top left no-repeat;
+    padding-left: 16px;
+}
 div.clock {
     margin-left: 78px;
     width: 50px;

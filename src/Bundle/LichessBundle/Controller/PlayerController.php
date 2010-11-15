@@ -366,9 +366,12 @@ class PlayerController extends Controller
             $player = $this->findPublicPlayer($id, $color);
             $template = 'watchOpponent';
         }
+        $opponent = $player->getOpponent();
         return $this->render('LichessBundle:Player:'.$template.'.twig', array(
             'player'              => $player,
-            'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent())
+            'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent()),
+            'game'                => $player->getGame(),
+            'playerFullId'        => $playerFullId
         ));
     }
 
