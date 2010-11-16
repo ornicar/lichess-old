@@ -11,6 +11,9 @@ use Bundle\DoctrineUserBundle\Document\User as BaseUser;
  */
 class User extends BaseUser
 {
+    /** @validation:Regex(pattern="/^[\w\-]+$/", message="Invalid username. Please use only letters, numbers and dash", groups={"Registration","FacebookRegistration"}) */
+    protected $username;
+
     public function setUsername($username)
     {
         parent::setUsername($username);
