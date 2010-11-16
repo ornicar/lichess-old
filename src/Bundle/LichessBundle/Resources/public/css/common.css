@@ -217,7 +217,19 @@ div.security, a.goto_nav {
     text-decoration: none;
     font-size: 13px;
 }
+div.security {
+    margin-top: 4px;
+}
 div.security form {
+    display: none;
+}
+div.security.show_signin_form {
+    margin-top: 0px;
+}
+div.security.show_signin_form a.toggle_signin {
+    display: none;
+}
+div.security.show_signin_form form {
     display: inline;
 }
 div.security input.username, div.security input.password {
@@ -245,8 +257,8 @@ a.goto_forum {
 a.goto_play {
     background: transparent url(../images/control.png) top left no-repeat;
 }
-a.goto_logout {
-    background: transparent url(../images/logout.png) top left no-repeat;
+a.goto_profile {
+    background: transparent url(../images/user.png) top left no-repeat;
 }
 a.lichess_replay_link {
     margin-top: 20px;

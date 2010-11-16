@@ -1,7 +1,7 @@
 {% if opponent.isAi %}
 {% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': opponent.aiLevel] %}
 {% else %}
-<span title="{% trans "Human opponent " ~ isOpponentConnected ? "connected" : "offline" %}" class="username {{ isOpponentConnected ? "connected" : "offline" }}">
+<span title="{% trans "Human opponent " ~ isOpponentConnected ? "connected" : "offline" %}" class="username">
     {% trans opponent.color|capitalize %} - {{ opponent.username }}
 </span>
 {% endif %}
