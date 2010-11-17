@@ -2,9 +2,31 @@
 
 namespace Bundle\LichessBundle\Document;
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Bundle\DoctrineUserBundle\Model\User;
 
 class GameRepository extends DocumentRepository
 {
+    /**
+     * Find all games played by a user
+     *
+     * @return array
+     **/
+    public function findRecentByUser(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->execute();
+    }
+
+    /**
+     * Count all games played by a user
+     *
+     * @return int
+     **/
+    public function countByUser(User $user)
+    {
+        return $this->createByUserQuery($user)->count();
+    }
+
     /**
      * Find one game by its Id
      *
@@ -91,6 +113,31 @@ class GameRepository extends DocumentRepository
     {
         return $this->createQuery()
             ->sort('updatedAt', 'DESC');
+    }
+
+    /**
+     * Query of games played by a user ordered by updatedAt
+     *
+     * @param  User $user
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createRecentByUserQuery(User $user)
+    {
+        return $this->createByUserQuery($user)
+            ->sort('updatedAt', 'DESC');
+    }
+
+    /**
+     * Query of games played by a user
+     *
+     * @param  User $user
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createByUserQuery(User $user)
+    {
+        return $this->createQuery()
+            ->addOr($this->createQuery()->field('whiteUser')->equals(new \MongoId($user->getId()))->getQuery())
+            ->addOr($this->createQuery()->field('blackUser')->equals(new \MongoId($user->getId()))->getQuery());
     }
 
     /**

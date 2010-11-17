@@ -63,11 +63,14 @@ class Generator
      **/
     public function createReturnGame(Player $player)
     {
-        $variant = $player->getGame()->getVariant();
+        $game = $player->getGame();
+        $variant = $game->getVariant();
         $nextGame = $this->createGame($variant);
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
-        $player->getGame()->setNext($nextPlayer->getFullId());
+        $nextGame->setWhiteUser($game->getBlackUser());
+        $nextGame->setBlackUser($game->getWhiteUser());
+        $game->setNext($nextPlayer->getFullId());
 
         return $nextPlayer;
     }
@@ -78,9 +81,8 @@ class Generator
             throw new \InvalidArgumentException(sprintf('%s is not a valid player color', $color));
         }
         $game = $this->createGame($variant);
-        $player = $game->getPlayer($color);
-        $game->setCreator($player);
-        return $player;
+        $game->setCreatorColor($color);
+        return $game->getCreator();
     }
 
     /**

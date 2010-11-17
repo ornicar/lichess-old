@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Util\KeyGenerator;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Bundle\DoctrineUserBundle\Model\User;
 
 /**
  * Represents a single Chess player for one game
@@ -98,6 +99,40 @@ class Player
         $this->stack = new Stack();
         $this->addEventToStack(array('type' => 'start'));
         $this->pieces = new ArrayCollection();
+    }
+
+    /**
+     * Get the user bound to this player, if any
+     *
+     * @return User or null
+     */
+    public function getUser()
+    {
+        return $this->getGame()->getUser($this->getColor());
+    }
+
+    public function setUser(User $user)
+    {
+        if($this->isWhite()) {
+            $this->getGame()->setWhiteUser($user);
+        } elseif($this->isBlack()) {
+            $this->getGame()->setBlackUser($user);
+        }
+    }
+
+    /**
+     * Get the username of the player, or "Anonymous" if the player is not authenticated
+     *
+     * @return string
+     **/
+    public function getUsername($default = 'Anonymous')
+    {
+        $user = $this->getUser();
+        if(!$user) {
+            return $default;
+        }
+
+        return $user->getUsername();
     }
 
     /**
