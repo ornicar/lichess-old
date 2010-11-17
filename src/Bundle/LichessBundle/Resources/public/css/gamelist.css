@@ -18,6 +18,7 @@ div.game_row {
     display: block;
     margin-top: 2em;
     height: 190px;
+    line-height: 1.2em;
 }
 
 div.pager {

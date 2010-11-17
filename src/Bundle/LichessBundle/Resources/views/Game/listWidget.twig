@@ -2,9 +2,13 @@
     <div class="game_row clearfix">
         {{ _view.lichess_game.renderMini(game)|raw }}
         <div class="infos">
-            <a class="link" href="{% path "lichess_game" with ["id": game.id] %}">{% url "lichess_game" with ["id": game.id] %}</a>
-            <br />
-            {{ _view.time.ago(game.updatedAt) }}
+            {% if game.isBeeingPlayed %}
+                <a class="link" href="{% path "lichess_game" with ["id": game.id] %}">
+                    Playing right now at {% url "lichess_game" with ["id": game.id] %}
+                </a>
+            {% else %}
+                {{ _view.time.ago(game.updatedAt) }}
+            {% endif %}
             <br /><br />
             {% for player in [game.invited, game.creator] %}
                 {% trans player.color|capitalize %}
@@ -33,4 +37,6 @@
             <a href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": game.creatorColor] %}">&gt;&gt; {% trans "Replay and Analyse" %}</a>
         </div>
     </div>
+{% else %}
+- No recent game at the moment -
 {% endfor %}
