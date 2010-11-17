@@ -9,12 +9,17 @@
     </p>
     {% form_theme form form.getOption('theme') %}
     <form action="{% path 'doctrine_user_user_create' %}" method="POST" class="signup">
+        {{ form|render_errors }}
         <ul>
             <li class="username">
+                {{ form.username|render_label }}
                 {{ form.username|render }}
+                {{ form.username|render_errors }}
             </li>
             <li class="password">
+                {{ form.password|render_label }}
                 {{ form.password|render }}
+                {{ form.password|render_errors }}
             </li>
             <li>
                 <input type="submit" class="submit" value="{% trans "Sign up" %}" />
