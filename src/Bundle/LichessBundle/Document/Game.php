@@ -328,6 +328,13 @@ class Game
         );
     }
 
+    static public function getVariantNameForCode($code)
+    {
+        $variants = self::getVariantNames();
+
+        return $variants[$code];
+    }
+
     /**
      * Get clock
      * @return Clock
