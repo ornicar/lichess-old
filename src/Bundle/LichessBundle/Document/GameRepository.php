@@ -17,6 +17,16 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Count all games played by a user
+     *
+     * @return int
+     **/
+    public function countByUser(User $user)
+    {
+        return $this->createByUserQuery($user)->count();
+    }
+
+    /**
      * Find one game by its Id
      *
      * @return Game or null
@@ -112,10 +122,21 @@ class GameRepository extends DocumentRepository
      **/
     public function createRecentByUserQuery(User $user)
     {
-        return $this->createQuery()
-            ->addOr($this->createQuery()->field('whiteUser')->equals($user)->getQuery())
-            ->addOr($this->createQuery()->field('blackUser')->equals($user)->getQuery())
+        return $this->createByUserQuery($user)
             ->sort('updatedAt', 'DESC');
+    }
+
+    /**
+     * Query of games played by a user
+     *
+     * @param  User $user
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createByUserQuery(User $user)
+    {
+        return $this->createQuery()
+            ->addOr($this->createQuery()->field('whiteUser')->equals(new \MongoId($user->getId()))->getQuery())
+            ->addOr($this->createQuery()->field('blackUser')->equals(new \MongoId($user->getId()))->getQuery());
     }
 
     /**
