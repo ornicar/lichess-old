@@ -21,6 +21,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
 
         if($game->checkOutOfTime()) {
+            $this->get('lichess_finisher')->finish($game);
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
             $player->addEventsToStack($events);
             $opponent->addEventsToStack($events);
@@ -128,6 +129,7 @@ class PlayerController extends Controller
         if(!$game->getIsFinished() && $this->get('lichess_synchronizer')->isTimeout($player->getOpponent())) {
             $game->setStatus(Game::TIMEOUT);
             $game->setWinner($player);
+            $this->get('lichess_finisher')->finish($game);
             $player->addEventToStack(array('type' => 'end'));
             $player->getOpponent()->addEventToStack(array('type' => 'end'));
             $this->get('lichess.object_manager')->flush();
@@ -146,6 +148,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
         if(!$game->getIsFinished() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
             $game->setStatus(GAME::DRAW);
+            $this->get('lichess_finisher')->finish($game);
             $player->addEventToStack(array('type' => 'end'));
             $player->getOpponent()->addEventToStack(array('type' => 'end'));
             $this->get('lichess.object_manager')->flush();
@@ -203,10 +206,11 @@ class PlayerController extends Controller
             $opponent->addEventsToStack($stack->getEvents());
             $opponent->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $opponentPossibleMoves));
         }
-        $this->get('lichess.object_manager')->flush();
         if($game->getIsFinished()) {
+            $this->get('lichess_finisher')->finnish($game);
             $this->get('logger')->notice(sprintf('Player:move finish game:%s, %s', $game->getId(), $game->getStatusMessage()));
         }
+        $this->get('lichess.object_manager')->flush();
 
         return $response;
     }
@@ -314,6 +318,7 @@ class PlayerController extends Controller
 
         $game->setStatus(Game::RESIGN);
         $game->setWinner($opponent);
+        $this->get('lichess_finisher')->finish($game);
         $player->addEventToStack(array('type' => 'end'));
         $opponent->addEventToStack(array('type' => 'end'));
         $this->get('lichess.object_manager')->flush();
