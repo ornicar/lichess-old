@@ -46,6 +46,11 @@ class LichessHelper extends Helper
         return mb_substr(str_replace("\n", ' ', $this->escape($text)), 0, 140);
     }
 
+    public function getCurrentUrl()
+    {
+        return $_SERVER['REQUEST_URI'];
+    }
+
     /**
      * Returns the canonical name of this helper.
      *
