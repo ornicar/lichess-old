@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Util\KeyGenerator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Bundle\DoctrineUserBundle\Model\User;
 
 /**
  * Represents a single Chess game
@@ -64,6 +65,22 @@ class Game
      * @mongodb:EmbedMany(targetDocument="Player")
      */
     protected $players;
+
+    /**
+     * User bound to the white player - optional
+     *
+     * @var User
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     */
+    protected $whiteUser = null;
+
+    /**
+     * User bound to the black player - optional
+     *
+     * @var User
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     */
+    protected $blackUser = null;
 
     /**
      * Color of the player who created the game
@@ -165,6 +182,63 @@ class Game
     }
 
     /**
+     * @return User
+     */
+    public function getWhiteUser()
+    {
+        return $this->whiteUser;
+    }
+
+    /**
+     * @param  User
+     * @return null
+     */
+    public function setWhiteUser(User $user)
+    {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not assign user to a started game');
+        }
+        $this->whiteUser = $user;
+    }
+
+    /**
+     * @return User
+     */
+    public function getBlackUser()
+    {
+        return $this->blackUser;
+    }
+
+    /**
+     * @param  User
+     * @return null
+     */
+    public function setBlackUser(User $user)
+    {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not assign user to a started game');
+        }
+        $this->blackUser = $user;
+    }
+
+    /**
+     * Get the user bound to the player with this colo
+     *
+     * @return User
+     **/
+    public function getUser($color)
+    {
+        if('white' === $color) {
+            return $this->getWhiteUser();
+        }
+        elseif('black' === $color) {
+            return $this->getBlackUser();
+        }
+
+        throw new \InvalidArgumentException(sprintf('"%s" is not a regular chess color', $color));
+    }
+
+    /**
      * @return string
      */
     public function getId()
@@ -252,6 +326,13 @@ class Game
             self::VARIANT_STANDARD => 'standard',
             self::VARIANT_960 => 'chess960'
         );
+    }
+
+    static public function getVariantNameForCode($code)
+    {
+        $variants = self::getVariantNames();
+
+        return $variants[$code];
     }
 
     /**
@@ -656,15 +737,11 @@ class Game
      */
     public function getInvited()
     {
-        if(!$this->creatorColor) {
-            return null;
-        }
-
         if($this->getCreator()->isWhite()) {
             return $this->getPlayer('black');
+        } elseif($this->getCreator()->isBlack()) {
+            return $this->getPlayer('white');
         }
-
-        return $this->getPlayer('white');
     }
 
     public function setCreator(Player $player)

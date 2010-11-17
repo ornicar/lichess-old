@@ -17,7 +17,7 @@ class MainController extends Controller
 
     public function howManyPlayersNowAction()
     {
-        $nbConnectedPlayers = $this['lichess_synchronizer']->getNbConnectedPlayers();
+        $nbConnectedPlayers = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
         $response = $this->createResponse($nbConnectedPlayers ?: "0");
         $response->headers->set('Content-Type', 'text/plain');
         return $response;
@@ -25,7 +25,7 @@ class MainController extends Controller
 
     public function toggleSoundAction()
     {
-        $session = $this['session'];
+        $session = $this->get('session');
         $attributeName = 'lichess.sound.enabled';
         $enableSound = !$session->get($attributeName);
         $session->set($attributeName, $enableSound);
@@ -52,7 +52,7 @@ class MainController extends Controller
 
     public function notFoundAction()
     {
-        if($this['request']->isXmlHttpRequest()) {
+        if($this->get('request')->isXmlHttpRequest()) {
             $response = $this->createResponse('You should not do that.');
         }
         else {

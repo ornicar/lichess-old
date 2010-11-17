@@ -1,5 +1,4 @@
-$(function()
-{
+$(function() {
     if ($game = $('div.lichess_game').orNot()) {
         $game.game(lichess_data);
         $('input').click(function() { this.select(); });
@@ -35,6 +34,10 @@ $(function()
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
     $.fn.tipsy && $('a, input, label, div.lichess_server').not('.notipsy').tipsy({fade: true});
+
+    $('#top_menu a.toggle_signin').one('click', function() {
+        $(this).closest('div.security').addClass('show_signin_form').find('input:first').focus();
+    });
 
     $('#translation_code').change(function() {
         location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());

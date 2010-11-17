@@ -1,0 +1,20 @@
+{% extends "ForumBundle::layout.twig" %}
+{% block title %}{{ category.name|raw }} - New topic{% endblock %}
+{% block content %}
+<ol class="crumbs">
+    <li><a href="{% path "forum_index" %}">Forum</a></li>
+    <li><a href="{{ _view.forum.urlForCategory(category)|raw }}">{{ category.name|raw }}</a></li>
+    <li><h1>New topic</h1></li>
+</ol>
+<br />
+<h1>New topic</h1>
+<form action="{% path "forum_category_topic_create" with ["slug": category.slug] %}" method="post">
+    <label><span class="required">Category</span> {{ form.category|render_widget }}</label>
+    <label><span class="required">Subject</span> {{ form.subject|render_widget(["class": "subject"]) }}</label>
+    <label><span class="required">Message</span> {{ form.firstPost.message|render_widget }}</label>
+    {% if form.firstPost.authorName %}
+        <label><span>Author</span> {{ form.firstPost.authorName|render_widget(["class": "authorName"]) }}</label>
+    {% endif %}
+    <button class="submit button" type="submit">Create the topic</button>
+</form>
+{% endblock %}

@@ -1,0 +1,48 @@
+#lichess_user {
+    margin-left: 211px;
+}
+#lichess_user .lichess_box {
+    text-align: left;
+}
+#lichess_user .lichess_title {
+    text-align: center;
+}
+
+form.signup {
+    font-size: 1.3em;
+}
+
+form.signup li {
+    list-style: none;
+    display: block;
+    margin: 1em 0 1em 1em;
+    position: relative;
+}
+
+form.signup label {
+    float: left;
+    display: block;
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+form.signup .username input, form.signup .password input {
+    width: 150px;
+    padding: 0 3px;
+}
+
+form.signup input.submit {
+    margin-left: 110px;
+    padding: 3px 1em;
+}
+
+/* Errors */
+form.signup li ul {
+    position: absolute;
+    left: 270px;
+    top: -9px;
+    font-size: 12px;
+    color: red;
+}

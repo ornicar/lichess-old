@@ -1,4 +1,5 @@
-{% extends "LichessBundle::layout.twig" %}
+{% extends "LichessBundle:Game:layoutGame.twig" %}
 {% block assets %}
-{% javascript 'bundles/lichess/js/game.js' %}
+{% parent %}
+{% javascript "bundles/lichess/js/game.js" %}
 {% endblock %}

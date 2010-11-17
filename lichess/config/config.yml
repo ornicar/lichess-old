@@ -3,12 +3,33 @@ app.config:
     error_handler: null
     validation: { enabled: true, annotations: true }
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
-    user:
+    session:
         lifetime: 2592000 # one month 
     templating:
         escaping: htmlspecialchars
         assets_version: 74
     translator: { fallback: en }
+
+security.config:
+    providers:
+        doctrine_user:
+            password_encoder: sha1
+            document: { class: DoctrineUserBundle:User }
+    firewalls:
+        public:
+            pattern: .*
+            form_login:
+                provider:                       doctrine_user
+                login_path:                     /login
+                use_forward:                    false
+                check_path:                     /login-check
+                failure_path:                   null
+                always_use_default_target_path: false
+                default_target_path:            /
+                target_path_parameter:          _target_path
+                use_referer:                    false
+            logout: true
+            anonymous: true
 
 zend.config:
     logger:
@@ -28,24 +49,43 @@ doctrine_odm.mongodb:
     cache_driver: apc
     connections:
         default:
-            server: mongodb://localhost:27017
             options:
                 connect: true
                 persistent: lichess
 
 forum.config:
     db_driver: odm
-    template_renderer: php
-    category_class: Application\ForumBundle\Document\Category
-    topic_class: Application\ForumBundle\Document\Topic
-    post_class: Application\ForumBundle\Document\Post
-    user_class: Application\ForumBundle\Document\User
-    post_form: Application\ForumBundle\Form\PostForm
-    topics_per_page: 10
-    posts_per_page: 10
-    search_results_per_page: 10
+    class:
+        model:
+            category: Application\ForumBundle\Document\Category
+            topic: Application\ForumBundle\Document\Topic
+            post: Application\ForumBundle\Document\Post
+        controller:
+            category: Application\ForumBundle\Controller\CategoryController
+            topic: Application\ForumBundle\Controller\TopicController
+            post: Application\ForumBundle\Controller\PostController
+        form:
+            post: Application\ForumBundle\Form\PostForm
+            first_post: Application\ForumBundle\Form\PostForm
+        blamer:
+            post: Application\ForumBundle\Blamer\PostBlamer
+            topic: Application\ForumBundle\Blamer\TopicBlamer
+        helper:
+            forum: Application\ForumBundle\Templating\Helper\ForumHelper
+    paginator:
+        topics_per_page: 10
+        posts_per_page: 10
+        search_results_per_page: 10
 
-lichess_forum.config: ~
+doctrine_user.config:
+    db_driver: odm
+    class:
+        model:
+            user: Application\DoctrineUserBundle\Document\User
+        form:
+            user: Application\DoctrineUserBundle\Form\UserForm
+        controller:
+            user: Application\DoctrineUserBundle\Controller\UserController
 
 time.helper: ~
 

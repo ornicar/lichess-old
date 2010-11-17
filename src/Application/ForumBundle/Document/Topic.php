@@ -12,4 +12,12 @@ use Bundle\ForumBundle\Document\Topic as BaseTopic;
  */
 class Topic extends BaseTopic
 {
+    /**
+     * Get authorName
+     * @return string
+     */
+    public function getAuthorName()
+    {
+        return $this->getFirstPost()->getAuthorName();
+    }
 }

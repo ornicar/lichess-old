@@ -1,0 +1,7 @@
+{% extends "ForumBundle::layout.twig" %}
+{% block content %}
+<div class="forum forum_index">
+    <h1>Lichess Forum</h1>
+    {% render "ForumBundle:Category:list" %}
+</div>
+{% endblock %}

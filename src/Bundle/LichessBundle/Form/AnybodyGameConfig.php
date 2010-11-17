@@ -8,7 +8,12 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class AnybodyGameConfig extends GameConfig
 {
     public $times = array(20, 0);
-    public $variants = array(Game::VARIANT_STANDARD);
+    public $variants = array();
+
+    public function __construct()
+    {
+        $this->variants = array(Game::getVariantNameForCode(Game::VARIANT_STANDARD));
+    }
 
     public function getCountTimes()
     {

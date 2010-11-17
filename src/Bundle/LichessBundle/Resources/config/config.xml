@@ -49,6 +49,7 @@
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.repository.seek" />
             <argument type="service" id="lichess_generator" />
+            <argument type="service" id="lichess.blamer.player" />
         </service>
 
         <service id="lichess_ai" class="%lichess.ai.class%" shared="true">

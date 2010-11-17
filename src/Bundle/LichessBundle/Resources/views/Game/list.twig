@@ -1,5 +1,5 @@
 {% extends "LichessBundle:Game:layoutGameList.twig" %}
-{% block body %}
+{% block content %}
 {% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": games.pages, "url": url] %}{% endset %}
 <h1 class="title">{% block list_type %}{% endblock %} {{ games.pages.firstItemNumber }} - {{ games.pages.firstItemNumber }} of {{ games.pages.totalItemCount }}</h1>
 {% block list_menu %}{% endblock %}
@@ -14,12 +14,12 @@
                 <br />
                 {{ _view.time.ago(game.updatedAt) }}
                 <br /><br />
-                {% for player in game.players %}
-                    {% trans player.opponent.color|capitalize %}
-                    {% if player.opponent.isAi %}
-                        {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel] %}
+                {% for player in [game.invited, game.creator] %}
+                    {% trans player.color|capitalize %}
+                    {% if player.isAi %}
+                        {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
                     {% else %}
-                        {% trans "Human" %}
+                        {{ player.username }}
                     {% endif %}
                     <br />
                 {% endfor %}
