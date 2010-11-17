@@ -830,6 +830,23 @@ class Game
     }
 
     /**
+     * Tell if the game is beeing played right now
+     * This method is not accurate
+     *
+     * @return bool
+     **/
+    public function isBeeingPlayed()
+    {
+        if($this->getIsFinished()) {
+            return false;
+        }
+
+        $interval = time() - $this->getUpdatedAt()->getTimestamp();
+
+        return $interval < 20;
+    }
+
+    /**
      * Get createdAt
      * @return \DateTime
      */

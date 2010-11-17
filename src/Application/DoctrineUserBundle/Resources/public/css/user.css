@@ -61,3 +61,13 @@ div.user_show div.dashboard {
     padding: 1em;
     border: 1px solid #dadada;
 }
+div.user_show div.dashboard hr {
+    background-color: #dadada;
+    color: #dadada;
+    border: 0;
+    height: 1px;
+}
+div.user_show div.games {
+    border-top: 1px solid #dadada;
+    padding-top: 1em;
+}
