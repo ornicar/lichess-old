@@ -10,7 +10,8 @@
                 <form action="{% path "lichess_invite_ai" with ["color": color] %}" method="post">
                     <div class="variants">
                         {% for variant in form.variant %}
-                            {{ variant|render_widget }}
+                            {{ variant|render_label }}
+                            {{ variant|render }}
                         {% endfor %}
                     </div>
                     <button type="submit" class="submit">Start</button>
