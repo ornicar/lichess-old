@@ -9,17 +9,11 @@
             <div class="game_config_form">
                 <form action="{% path "lichess_invite_friend" with ["color": color] %}" method="post">
                     <div class="variants">
-                        {% for variant in form.variant %}
-                            {{ variant|render_label }}
-                            {{ variant|render }}
-                        {% endfor %}
+                        {{ form.variant|render }}
                     </div>
                     Minutes per side:
                     <div class="clocks">
-                        {% for time in form.time %}
-                            {{ time|render_label }}
-                            {{ time|render }}
-                        {% endfor %}
+                        {{ form.time|render }}
                     </div>
                     <button type="submit" class="submit">Start</button>
                 </form>

@@ -15,7 +15,7 @@ abstract class GameConfig
     {
         $choices = array();
         foreach(Game::getVariantNames() as $code => $name) {
-            $choices[$name] = ucfirst($name);
+            $choices[$code] = ucfirst($name);
         }
 
         return $choices;

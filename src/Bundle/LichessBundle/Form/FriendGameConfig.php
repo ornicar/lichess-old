@@ -8,12 +8,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class FriendGameConfig extends GameConfig
 {
     public $time = 0;
-    public $variant = null;
-
-    public function __construct()
-    {
-        $this->variant = Game::getVariantNameForCode(Game::VARIANT_STANDARD);
-    }
+    public $variant = Game::VARIANT_STANDARD;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
