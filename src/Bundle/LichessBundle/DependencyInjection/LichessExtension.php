@@ -16,6 +16,7 @@ class LichessExtension extends Extension
         $loader->load('model.xml');
         $loader->load('blamer.xml');
         $loader->load('critic.xml');
+        $loader->load('elo.xml');
 
         if(isset($config['ai']['class'])) {
             $container->setParameter('lichess.ai.class', $config['ai']['class']);
