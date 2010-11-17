@@ -6,7 +6,9 @@
         {% include "DoctrineUserBundle:User:dashboard.twig" %}
     {% endif %}
     <p>
-        Games: {{ critic.nbGames }}
+        Games: {{ critic.nbGames }}<br >
+        Wins: {{ critic.nbWins }}<br >
+        Losses: {{ critic.nbDefeats }}<br >
     </p>
 </div>
 {% endblock %}

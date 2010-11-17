@@ -71,6 +71,7 @@ class Game
      *
      * @var User
      * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     * @mongodb:Index()
      */
     protected $whiteUser = null;
 
@@ -79,8 +80,17 @@ class Game
      *
      * @var User
      * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     * @mongodb:Index()
      */
     protected $blackUser = null;
+
+    /**
+     * Id of the user who won the game
+     *
+     * @mongodb:Field(type="id")
+     * @mongodb:Index()
+     */
+    protected $winnerUserId = null;
 
     /**
      * Color of the player who created the game
@@ -222,7 +232,7 @@ class Game
     }
 
     /**
-     * Get the user bound to the player with this colo
+     * Get the user bound to the player with this color
      *
      * @return User
      **/
@@ -236,6 +246,17 @@ class Game
         }
 
         throw new \InvalidArgumentException(sprintf('"%s" is not a regular chess color', $color));
+    }
+
+    public function setWinner(Player $player)
+    {
+        $player->setIsWinner(true);
+        $player->getOpponent()->setIsWinner(null);
+
+        // Denormalization
+        if($user = $player->getUser()) {
+            $this->winnerUserId = $user->getId();
+        }
     }
 
     /**
@@ -397,7 +418,7 @@ class Game
         foreach($this->getPlayers() as $player) {
             if($this->getClock()->isOutOfTime($player->getColor())) {
                 $this->setStatus(static::OUTOFTIME);
-                $player->getOpponent()->setIsWinner(true);
+                $this->setWinner($player->getOpponent());
                 return true;
             }
         }

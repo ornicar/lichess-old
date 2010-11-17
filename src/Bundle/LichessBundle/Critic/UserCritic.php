@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Critic;
 use Bundle\DoctrineUserBundle\Document\User;
 use Bundle\LichessBundle\Document\GameRepository;
+use Bundle\LichessBundle\Document\Game;
 
 class UserCritic
 {
@@ -22,5 +23,20 @@ class UserCritic
     public function getNbGames()
     {
         return $this->gameRepository->countByUser($this->user);
+    }
+
+    public function getNbWins()
+    {
+        return $this->gameRepository->createByUserQuery($this->user)
+            ->where('winnerUserId')->equals(new \MongoId($this->user->getId()))
+            ->count();
+    }
+
+    public function getNbDefeats()
+    {
+        return $this->gameRepository->createByUserQuery($this->user)
+            ->where('winnerUserId')->exists(true)
+            ->where('winnerUserId')->notEqual(new \MongoId($this->user->getId()))
+            ->count();
     }
 }
