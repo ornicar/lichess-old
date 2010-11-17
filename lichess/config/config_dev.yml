@@ -2,6 +2,7 @@ imports:
     - { resource: config.yml }
 
 app.config:
+    router: { resource: "%kernel.root_dir%/config/routing_dev.yml" }
     profiler:
         only_exceptions: false
 
