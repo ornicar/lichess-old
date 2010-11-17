@@ -86,8 +86,11 @@ class Game
 
     /**
      * Id of the user who won the game
+     * - string if the winner has a user
+     * - false if the winner has no user
+     * - null if there is no winner
      *
-     * @mongodb:Field(type="id")
+     * @mongodb:Field(type="string")
      * @mongodb:Index()
      */
     protected $winnerUserId = null;
@@ -203,7 +206,7 @@ class Game
      * @param  User
      * @return null
      */
-    public function setWhiteUser(User $user)
+    public function setWhiteUser(User $user = null)
     {
         if($this->getIsStarted()) {
             throw new \LogicException('Can not assign user to a started game');
@@ -223,7 +226,7 @@ class Game
      * @param  User
      * @return null
      */
-    public function setBlackUser(User $user)
+    public function setBlackUser(User $user = null)
     {
         if($this->getIsStarted()) {
             throw new \LogicException('Can not assign user to a started game');
@@ -255,7 +258,10 @@ class Game
 
         // Denormalization
         if($user = $player->getUser()) {
-            $this->winnerUserId = $user->getId();
+            $this->winnerUserId = (string) $user->getId();
+        }
+        else {
+            $this->winnerUserId = false;
         }
     }
 

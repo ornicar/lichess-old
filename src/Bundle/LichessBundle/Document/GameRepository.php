@@ -18,16 +18,6 @@ class GameRepository extends DocumentRepository
     }
 
     /**
-     * Count all games played by a user
-     *
-     * @return int
-     **/
-    public function countByUser(User $user)
-    {
-        return $this->createByUserQuery($user)->count();
-    }
-
-    /**
      * Find one game by its Id
      *
      * @return Game or null
