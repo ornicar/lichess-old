@@ -93,7 +93,7 @@ class GameController extends Controller
             return $this->redirect($this->generateUrl('lichess_game', array('id' => $id)));
         }
 
-        $this['lichess.blamer.player']->blame($game->getInvited());
+        $this->get('lichess.blamer.player')->blame($game->getInvited());
         $game->start();
         $game->getCreator()->addEventToStack(array(
             'type' => 'redirect',
