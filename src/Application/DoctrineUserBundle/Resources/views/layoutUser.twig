@@ -1,7 +1,7 @@
 {% extends "LichessBundle::layoutCommon.twig" %}
 {% block assets %}
 {% parent %}
-{% stylesheet 'bundles/lichess/css/user.css' %}
+{% stylesheet 'bundles/doctrineuser/css/user.css' %}
 {% endblock %}
 {% block body %}
 <div class="header">
@@ -13,6 +13,5 @@
 {% endblock %}
 {% block top_menu %}
 <a class="goto_play goto_nav" title="{% trans 'Play a new game' %}" href="{% path "lichess_homepage" %}">Play</a>
-<a class="goto_gamelist goto_nav" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
-<a class="goto_forum goto_nav" title="{% trans 'Talk about chess and discuss lichess features in the forum' %}" href="{% path "forum_index" %}">Forum</a>
+{% parent %}
 {% endblock %}

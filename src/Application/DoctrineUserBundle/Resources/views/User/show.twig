@@ -1,8 +1,10 @@
-{% extends "DoctrineUserBundle::layout.twig" %}
-{% block security %}{% endblock %}
+{% extends "DoctrineUserBundle::layoutUser.twig" %}
 {% block content %}
-<div class="lichess_box">
+<div class="lichess_box user_show">
     <h1 class="lichess_title">{{ user.username }}</h1>
+    {% if _view.doctrine_user_security.isUser(user) %}
+        {% include "DoctrineUserBundle:User:dashboard.twig" %}
+    {% endif %}
     <p>
         Games: {{ critic.nbGames }}
     </p>
