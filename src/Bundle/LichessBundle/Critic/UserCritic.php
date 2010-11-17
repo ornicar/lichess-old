@@ -9,6 +9,7 @@ class UserCritic
 {
     protected $user;
     protected $gameRepository;
+    protected $cache;
 
     public function __construct(GameRepository $gameRepository)
     {
@@ -17,26 +18,62 @@ class UserCritic
 
     public function setUser(User $user)
     {
+        $this->cache = array();
         $this->user = $user;
+    }
+
+    public function cacheable($cacheKey, \Closure $closure)
+    {
+        if(array_key_exists($cacheKey, $this->cache)) {
+            return $this->cache[$cacheKey];
+        }
+
+        return $this->cache[$cacheKey] = $closure($this->gameRepository, $this->user);
     }
 
     public function getNbGames()
     {
-        return $this->gameRepository->countByUser($this->user);
+        return $this->cacheable('nbGames', function($games, $user) {
+            return $games->createByUserQuery($user)
+                ->field('status')->greaterThanOrEq(Game::MATE)
+                ->count();
+        });
     }
 
     public function getNbWins()
     {
-        return $this->gameRepository->createByUserQuery($this->user)
-            ->where('winnerUserId')->equals(new \MongoId($this->user->getId()))
-            ->count();
+        return $this->cacheable('nbWins', function($games, $user) {
+            return $games->createByUserQuery($user)
+                ->field('winnerUserId')->equals((string) $user->getId())
+                ->count();
+        });
     }
 
     public function getNbDefeats()
     {
-        return $this->gameRepository->createByUserQuery($this->user)
-            ->where('winnerUserId')->exists(true)
-            ->where('winnerUserId')->notEqual(new \MongoId($this->user->getId()))
-            ->count();
+        return $this->cacheable('nbDefeats', function($games, $user) {
+            return $games->createByUserQuery($user)
+                ->field('winnerUserId')->exists(true)
+                ->field('winnerUserId')->notEqual((string) $user->getId())
+                ->count();
+        });
+    }
+
+    public function getNbDraws()
+    {
+        return $this->cacheable('nbDraws', function($games, $user) {
+            $games->createByUserQuery($user)
+                ->field('status')->equals(Game::DRAW)
+                ->count();
+        });
+    }
+
+    public function getPercentWins()
+    {
+        if($this->getNbGames() > 0) {
+            return round(100 * ($this->getNbWins() / $this->getNbGames()));
+        }
+
+        return 0;
     }
 }

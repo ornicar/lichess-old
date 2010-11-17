@@ -6,9 +6,10 @@
         {% include "DoctrineUserBundle:User:dashboard.twig" %}
     {% endif %}
     <p>
-        Games: {{ critic.nbGames }}<br >
-        Wins: {{ critic.nbWins }}<br >
-        Losses: {{ critic.nbDefeats }}<br >
+        Games: {{ critic.nbGames|default("0") }}<br >
+        Wins: {{ critic.nbWins|default("0") }} - {{ critic.percentWins|default("0") }}%<br >
+        Defeats: {{ critic.nbDefeats|default("0") }}<br >
+        Draws: {{ critic.nbDraws|default("0") }}<br >
     </p>
 </div>
 {% endblock %}
