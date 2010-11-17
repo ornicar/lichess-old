@@ -44,4 +44,9 @@ class User extends BaseUser
         parent::setUsername($username);
         $this->setEmail($username.'@lichess.org');
     }
+
+    public function getUsernameWithElo()
+    {
+        return sprintf('%s (%d)', $this->getUsername(), round($this->getElo()));
+    }
 }

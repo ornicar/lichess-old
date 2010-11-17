@@ -136,6 +136,21 @@ class Player
     }
 
     /**
+     * Get the username and ELO of the player, or "Anonymous" if the player is not authenticated
+     *
+     * @return string
+     **/
+    public function getUsernameWithElo($default = 'Anonymous')
+    {
+        $user = $this->getUser();
+        if(!$user) {
+            return $default;
+        }
+
+        return $user->getUsernameWithElo();
+    }
+
+    /**
      * Generate a new ID - don't use once the player is saved
      *
      * @return null

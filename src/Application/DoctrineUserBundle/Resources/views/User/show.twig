@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="lichess_box user_show">
-    <h1 class="lichess_title">{{ user.username }}</h1>
+    <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
     {% if _view.doctrine_user_security.isUser(user) %}
         {% include "DoctrineUserBundle:User:dashboard.twig" %}
     {% endif %}
