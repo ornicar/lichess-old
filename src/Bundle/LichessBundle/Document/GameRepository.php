@@ -131,6 +131,17 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Query of at least started games of a user
+     *
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createRecentStartedOrFinishedByUserQuery(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->field('status')->greaterThanOrEq(Game::STARTED);
+    }
+
+    /**
      * Query of at least started games
      *
      * @return Doctrine\ODM\Mongodb\Query

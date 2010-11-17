@@ -1,4 +1,8 @@
 {% extends "DoctrineUserBundle::layoutUser.twig" %}
+{% block assets %}
+{% parent %}
+{% stylesheet 'bundles/lichess/css/gamelist.css' %}
+{% endblock %}
 {% block content %}
 <div class="lichess_box user_show">
     <h1 class="lichess_title">{{ user.username }}</h1>
@@ -11,5 +15,12 @@
         Defeats: {{ critic.nbDefeats|default("0") }}<br >
         Draws: {{ critic.nbDraws|default("0") }}<br >
     </p>
+    <div class="games">
+        <h2>Recent games</h2>
+        {% include "LichessBundle:Game:listWidget.twig" with ["games": games] %}
+        <div class="pager pager_bottom">
+            {% include "LichessBundle::pagination.twig" with ["pager": games.pages, "url": pagerUrl] %}
+        </div>
+    </div>
 </div>
 {% endblock %}

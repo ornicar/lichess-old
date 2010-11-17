@@ -6,6 +6,11 @@
 }
 #lichess_user .lichess_title {
     text-align: center;
+    font-size: 2em;
+}
+
+#lichess_user h2 {
+    font-size: 1.5em;
 }
 
 form.signup {
