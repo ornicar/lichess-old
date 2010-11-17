@@ -6,7 +6,7 @@
 <div class="all_games">
     <div class="pager pager_top">{{ pagination|raw }}</div>
     <div class="all_games_inner">
-        {% include "LichessBundle:Game:listWidget" with ["games": games] %}
+        {% include "LichessBundle:Game:listWidget.twig" with ["games": games] %}
     </div>
     <div class="pager pager_bottom">{{ pagination|raw }}</div>
 </div>

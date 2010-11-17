@@ -15,7 +15,7 @@
                 {% if player.isAi %}
                     {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
                 {% else %}
-                    {{ player.username }}
+                    {{ player.usernameWithElo }}
                 {% endif %}
                 <br />
             {% endfor %}
