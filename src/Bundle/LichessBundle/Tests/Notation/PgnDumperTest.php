@@ -164,7 +164,7 @@ EOF;
         $this->applyMoves(array('d2 d4', 'd7 d5', 'c2 c4', 'd5 c4', 'e2 e3', 'b7 b5', 'a2 a4', 'c7 c6', 'a4 b5', 'c6 b5', 'd1 f3'));
 
         $this->game->setStatus(Game::RESIGN);
-        $this->game->getPlayer('white')->setIsWinner(true);
+        $this->game->setWinner($this->game->getPlayer('white'));
 
         $pgn = <<<EOF
 [Site "http://lichess.org/"]

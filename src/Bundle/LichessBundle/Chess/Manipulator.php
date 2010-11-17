@@ -65,7 +65,7 @@ class Manipulator
         if(empty($opponentPossibleMoves)) {
             if($isOpponentKingAttacked) {
                 $this->game->setStatus(Game::MATE);
-                $player->setIsWinner(true);
+                $this->game->setWinner($player);
                 $pgn = preg_replace('/\+$/', '#', $pgn);
             }
             else {

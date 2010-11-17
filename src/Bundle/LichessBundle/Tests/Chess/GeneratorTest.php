@@ -91,7 +91,7 @@ EOF;
     {
         $this->assertNull($game->getWinner());
 
-        $game->getPlayer('white')->setIsWinner(true);
+        $game->setWinner($game->getPlayer('white'));
         $this->assertSame($game->getPlayer('white'), $game->getWinner());
     }
 
