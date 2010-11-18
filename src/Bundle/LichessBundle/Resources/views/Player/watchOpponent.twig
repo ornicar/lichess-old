@@ -2,6 +2,6 @@
 {% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': opponent.aiLevel] %}
 {% else %}
 <div title="{% trans "Human opponent " ~ isOpponentConnected ? "connected" : "offline" %}" class="username">
-    {% trans opponent.color|capitalize %} - {{ view.lichess_user.link(opponent)|raw }}
+    {% trans opponent.color|capitalize %} - {{ _view.lichess_user.link(opponent)|raw }}
 </div>
 {% endif %}
