@@ -67,22 +67,22 @@ class Game
     protected $players;
 
     /**
-     * User bound to the white player - optional
+     * Id of the user bound to the white player
      *
-     * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     * @var string
+     * @mongodb:Field(type="string")
      * @mongodb:Index()
      */
-    protected $whiteUser = null;
+    protected $whiteUserId = null;
 
     /**
-     * User bound to the black player - optional
+     * Id of the user bound to the black player
      *
-     * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     * @var string
+     * @mongodb:Field(type="string")
      * @mongodb:Index()
      */
-    protected $blackUser = null;
+    protected $blackUserId = null;
 
     /**
      * Id of the user who won the game
@@ -90,6 +90,7 @@ class Game
      * - false if the winner has no user
      * - null if there is no winner
      *
+     * @var string
      * @mongodb:Field(type="string")
      * @mongodb:Index()
      */
@@ -195,77 +196,6 @@ class Game
     }
 
     /**
-     * @return User
-     */
-    public function getWhiteUser()
-    {
-        return $this->whiteUser;
-    }
-
-    /**
-     * @param  User
-     * @return null
-     */
-    public function setWhiteUser(User $user = null)
-    {
-        if($this->getIsStarted()) {
-            throw new \LogicException('Can not assign user to a started game');
-        }
-        $this->whiteUser = $user;
-    }
-
-    /**
-     * @return User
-     */
-    public function getBlackUser()
-    {
-        return $this->blackUser;
-    }
-
-    /**
-     * @param  User
-     * @return null
-     */
-    public function setBlackUser(User $user = null)
-    {
-        if($this->getIsStarted()) {
-            throw new \LogicException('Can not assign user to a started game');
-        }
-        $this->blackUser = $user;
-    }
-
-    /**
-     * Get the user bound to the player with this color
-     *
-     * @return User
-     **/
-    public function getUser($color)
-    {
-        if('white' === $color) {
-            return $this->getWhiteUser();
-        }
-        elseif('black' === $color) {
-            return $this->getBlackUser();
-        }
-
-        throw new \InvalidArgumentException(sprintf('"%s" is not a regular chess color', $color));
-    }
-
-    public function setWinner(Player $player)
-    {
-        $player->setIsWinner(true);
-        $player->getOpponent()->setIsWinner(null);
-
-        // Denormalization
-        if($user = $player->getUser()) {
-            $this->winnerUserId = (string) $user->getId();
-        }
-        else {
-            $this->winnerUserId = false;
-        }
-    }
-
-    /**
      * @return string
      */
     public function getId()
@@ -284,6 +214,30 @@ class Game
             throw new \LogicException('Can not change the id of a saved game');
         }
         $this->id = KeyGenerator::generate(8);
+    }
+
+    public function setWhiteUserId($whiteUserId)
+    {
+        $this->whiteUserId = (string)$whiteUserId;
+    }
+
+    public function setBlackUserId($blackUserId)
+    {
+        $this->blackUserId = (string)$blackUserId;
+    }
+
+    public function setWinner(Player $player)
+    {
+        $player->setIsWinner(true);
+        $player->getOpponent()->setIsWinner(null);
+
+        // Denormalization
+        if($user = $player->getUser()) {
+            $this->winnerUserId = (string) $user->getId();
+        }
+        else {
+            $this->winnerUserId = false;
+        }
     }
 
     /**
