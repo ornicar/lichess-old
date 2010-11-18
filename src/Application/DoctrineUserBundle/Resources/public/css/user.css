@@ -10,6 +10,10 @@
     display: block;
 }
 
+#lichess_user .stats {
+    font-size: 1.2em;
+}
+
 #lichess_user h2 {
     font-size: 1.5em;
 }

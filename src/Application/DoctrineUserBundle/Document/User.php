@@ -26,7 +26,7 @@ class User extends BaseUser
     /**
      * History of user ELO
      *
-     * @mongodb:Field(type="collection")
+     * @mongodb:Field(type="hash")
      * @var array
      */
     protected $eloHistory = array(1200);
@@ -36,14 +36,12 @@ class User extends BaseUser
      */
     public function getEloHistory()
     {
-        $h = array(1200);
-        $e = $h[0];
-        for($i=0;$i<100;$i++) {
-            $e = $e+rand(0, 20)-10;
-            $h[] = $e;
-        }
-        return $h;
         return $this->eloHistory;
+    }
+
+    public function setEloHistory(array $eloHistory)
+    {
+        $this->eloHistory = $eloHistory;
     }
 
     /**
@@ -61,7 +59,23 @@ class User extends BaseUser
     public function setElo($elo)
     {
         $this->elo = round($elo, 2);
-        $this->eloHistory[] = round($elo);
+        $this->eloHistory[time()] = round($elo);
+    }
+
+    public function getMaxElo()
+    {
+        $eloHistory = $this->getEloHistory();
+
+        return max($eloHistory);
+    }
+
+    public function getMaxEloDate()
+    {
+        $eloHistory = $this->getEloHistory();
+        $times = array_keys($eloHistory, max($eloHistory));
+        $time =  max($times);
+
+        return date_create()->setTimestamp($time);
     }
 
     public function setUsername($username)
