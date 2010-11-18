@@ -17,8 +17,8 @@ class Finisher
 
     public function finish(Game $game)
     {
-        $white = $game->getWhiteUser();
-        $black = $game->getBlackUser();
+        $white = $game->getPlayer('white')->getUser();
+        $black = $game->getPlayer('black')->getUser();
         if($white && $black) {
             if($winner = $game->getWinner()) {
                 $win = $winner->isWhite() ? -1 : 1;

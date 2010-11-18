@@ -68,8 +68,8 @@ class Generator
         $nextGame = $this->createGame($variant);
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
-        $nextGame->setWhiteUser($game->getBlackUser());
-        $nextGame->setBlackUser($game->getWhiteUser());
+        $nextGame->getPlayer('white')->setUser($game->getPlayer('black')->getUser());
+        $nextGame->getPlayer('black')->setUser($game->getPlayer('white')->getUser());
         $game->setNext($nextPlayer->getFullId());
 
         return $nextPlayer;

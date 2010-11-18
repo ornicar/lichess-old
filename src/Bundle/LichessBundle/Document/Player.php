@@ -25,6 +25,14 @@ class Player
     protected $id;
 
     /**
+     * User bound to the player - optional
+     *
+     * @var User
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     */
+    protected $user = null;
+
+    /**
      * the player color, white or black
      *
      * @var string
@@ -108,15 +116,22 @@ class Player
      */
     public function getUser()
     {
-        return $this->getGame()->getUser($this->getColor());
+        return $this->user;
     }
 
+    /**
+     * Set the user bound to this player
+     *
+     * @param User $user
+     * @return null
+     */
     public function setUser(User $user)
     {
+        $this->user = $user;
         if($this->isWhite()) {
-            $this->getGame()->setWhiteUser($user);
+            $this->getGame()->setWhiteUserId($user->getId());
         } elseif($this->isBlack()) {
-            $this->getGame()->setBlackUser($user);
+            $this->getGame()->setBlackUserId($user->getId());
         }
     }
 
