@@ -18,6 +18,7 @@ class User extends BaseUser
      * ELO score of the user
      *
      * @mongodb:Field(type="float")
+     * @mongodb:Index(order="desc")
      * @var float
      */
     protected $elo = 1200.00;
