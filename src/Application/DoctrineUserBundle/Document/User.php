@@ -5,7 +5,7 @@ use Bundle\DoctrineUserBundle\Document\User as BaseUser;
 
 /**
  * @mongodb:Document(
- *   repositoryClass="Bundle\DoctrineUserBundle\Document\UserRepository",
+ *   repositoryClass="Application\DoctrineUserBundle\Document\UserRepository",
  *   collection="user"
  * )
  */

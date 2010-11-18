@@ -12,6 +12,7 @@
 
         <service id="lichess.critic.user" class="%lichess.critic.user.class%" shared="false">
             <argument type="service" id="lichess.repository.game" />
+            <argument type="service" id="doctrine_user.repository.user" />
         </service>
 
     </services>

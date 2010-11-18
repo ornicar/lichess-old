@@ -5,7 +5,7 @@ security:
     resource: DoctrineUserBundle/Resources/config/routing/security.xml
 user:
     resource: DoctrineUserBundle/Resources/config/routing/user.xml
-    prefix: /user
+    prefix: /@
 lichess_user:
     resource: DoctrineUserBundle/Resources/config/routing/lichess_user.yml
 

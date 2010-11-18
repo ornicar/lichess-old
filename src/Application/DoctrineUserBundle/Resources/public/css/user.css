@@ -5,12 +5,17 @@
     text-align: left;
 }
 #lichess_user .lichess_title {
-    text-align: center;
+    text-align: left;
     font-size: 2em;
+    display: block;
 }
 
 #lichess_user h2 {
     font-size: 1.5em;
+}
+
+#lichess_user img.elo_history {
+    float:right;
 }
 
 form.signup {
@@ -68,6 +73,7 @@ div.user_show div.dashboard hr {
     height: 1px;
 }
 div.user_show div.games {
+    margin-top: 1em;
     border-top: 1px solid #dadada;
     padding-top: 1em;
 }
