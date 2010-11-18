@@ -3,11 +3,11 @@ doctrine_user_user_list:
     defaults:   { _controller: DoctrineUserBundle:User:list }
 
 doctrine_user_user_new:
-    pattern:    /signin
+    pattern:    /signup
     defaults:   { _controller: DoctrineUserBundle:User:new, _method: get }
 
 doctrine_user_user_create:
-    pattern:    /signin
+    pattern:    /signup
     defaults:   { _controller: DoctrineUserBundle:User:new, _method: post }
 
 doctrine_user_user_show:

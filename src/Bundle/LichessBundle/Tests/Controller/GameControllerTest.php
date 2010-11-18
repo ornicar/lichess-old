@@ -83,7 +83,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertTrue($friend->getResponse()->isRedirect());
         $crawler = $friend->followRedirect();
         $this->assertTrue($friend->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
@@ -91,7 +91,7 @@ class GameControllerTest extends AbstractControllerTest
         $client->reload();
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
@@ -116,7 +116,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertTrue($friend->getResponse()->isRedirect());
         $crawler = $friend->followRedirect();
         $this->assertTrue($friend->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
@@ -124,7 +124,7 @@ class GameControllerTest extends AbstractControllerTest
         $client->reload();
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
@@ -140,7 +140,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertRegexp('#^/sync/[\w-]{8}/white/0/[\w-]{12}$#i', $syncUrl);
 
         list($friend, $crawler) = $this->inviteAnybody('black', true);
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
@@ -148,7 +148,7 @@ class GameControllerTest extends AbstractControllerTest
         $client->reload();
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Human opponent connected")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
