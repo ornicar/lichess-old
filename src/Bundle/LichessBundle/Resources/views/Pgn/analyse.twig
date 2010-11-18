@@ -17,13 +17,13 @@
 <div class="lichess_goodies">
     <a class="rotate_board" href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": reverseColor] %}">{% trans "Flip board" %}</a><br />
     <br />
-    {% for _color in ["white", "black"] %}
+    {% for player in [game.invited, game.creator] %}
         <div>
-            {% trans _color|capitalize %} -
-            {% if game.getPlayer(_color).isAi %}
-            {% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': game.getPlayer(_color).aiLevel] %}
+            {% trans player.color|capitalize %} -
+            {% if player.isAi %}
+                {% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
             {% else %}
-            {% trans "Human" %}
+                {{ _view.lichess_user.link(player)|raw }}
             {% endif %}
         </div>
     {% endfor %}
