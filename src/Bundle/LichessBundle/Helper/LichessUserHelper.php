@@ -23,11 +23,9 @@ class LichessUserHelper extends Helper
 
     public function link($player, $class = null)
     {
-        $username = $this->escape($player->getUsernameWithElo());
-
         if($player instanceof Player) {
             if(!$user = $player->getUser()) {
-                return $username;
+                return $this->escape($player->getUsernameWithElo());
             }
         } elseif($player instanceof User) {
             $user = $player;
@@ -35,6 +33,7 @@ class LichessUserHelper extends Helper
             throw new \InvalidArgumentException($player.' is not a user nor a player');
         }
 
+        $username = $this->escape($user->getUsernameWithElo());
         $url = $this->generator->generate('doctrine_user_user_show', array('username' => $user->getUsername()));
 
         return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $username);
