@@ -39,11 +39,19 @@ class LichessUserHelper extends Helper
         return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $username);
     }
 
-    public function eloChartUrl($user, $size)
+    public function eloChartUrl(User $user, $size)
     {
-        return sprintf('http://chart.apis.google.com/chart?cht=lc&chs=%s&chd=t:%s',
+        $elos = $user->getEloHistory();
+        $min = 100*round((min($elos) - 100)/100);
+        $max = 100*round((max($elos) + 50)/100);
+        $dots = array_map(function($e) use($min, $max) { return round(($e - $min) / ($max - $min) * 100); }, $elos);
+        $yStep = ($max - $min) / 4 ;
+        return sprintf('%scht=lc&chs=%s&chd=t:%s&chxt=y&chxr=%s&chf=%s',
+            'http://chart.apis.google.com/chart?',
             $size,
-            implode(',', $user->getEloHistory())
+            implode(',', $dots),
+            implode(',', array(0, $min, $max, $yStep)),
+            'bg,s,65432100'
         );
     }
 

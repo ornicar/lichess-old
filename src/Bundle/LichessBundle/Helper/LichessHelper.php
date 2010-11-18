@@ -48,7 +48,7 @@ class LichessHelper extends Helper
 
     public function getCurrentUrl()
     {
-        return $_SERVER['REQUEST_URI'];
+        return isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'http://test/';
     }
 
     /**
