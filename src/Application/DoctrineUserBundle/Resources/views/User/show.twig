@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="lichess_box user_show">
-    <img class="elo_history" src="{{ _view.lichess_user.eloChartUrl(user, "300x100") }}" width="300" height="100" alt="ELO history" />
+    <img class="elo_history" src="{{ _view.lichess_user.eloChartUrl(user, "300x120") }}" width="300" height="120" alt="ELO history" />
     <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
     <div class="stats">
         Lichess rank: {{ critic.rank }} / {{ critic.nbUsers }}<br />
@@ -13,7 +13,8 @@
         {{ critic.nbWins|default("0") }} wins,
         {{ critic.nbDefeats|default("0") }} defeats and
         {{ critic.nbDraws|default("0") }} draws<br />
-        Registered {{ _view.time.ago(user.createdAt) }}
+        Registered {{ _view.time.ago(user.createdAt) }}<br />
+        Best ELO: {{ user.maxElo }}, {{ _view.time.ago(user.maxEloDate) }}
     </div>
     <div class="games">
         <h2>Recent games</h2>
