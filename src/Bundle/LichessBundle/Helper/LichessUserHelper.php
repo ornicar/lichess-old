@@ -42,8 +42,8 @@ class LichessUserHelper extends Helper
     public function eloChartUrl(User $user, $size)
     {
         $elos = $user->getEloHistory();
-        $min = 100*round((min($elos) - 100)/100);
-        $max = 100*round((max($elos) + 50)/100);
+        $min = 20*round((min($elos) - 10)/20);
+        $max = 20*round((max($elos) + 10)/20);
         $dots = array_map(function($e) use($min, $max) { return round(($e - $min) / ($max - $min) * 100); }, $elos);
         $yStep = ($max - $min) / 4 ;
         return sprintf('%scht=lc&chs=%s&chd=t:%s&chxt=y&chxr=%s&chf=%s',

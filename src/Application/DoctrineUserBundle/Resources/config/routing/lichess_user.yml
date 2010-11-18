@@ -1,3 +1,15 @@
-user_profile:
-    pattern:    /profile
-    defaults:   { _controller: DoctrineUserBundle:Profile:show }
+doctrine_user_user_list:
+    pattern:    /people
+    defaults:   { _controller: DoctrineUserBundle:User:list }
+
+doctrine_user_user_new:
+    pattern:    /signin
+    defaults:   { _controller: DoctrineUserBundle:User:new, _method: get }
+
+doctrine_user_user_create:
+    pattern:    /signin
+    defaults:   { _controller: DoctrineUserBundle:User:new, _method: post }
+
+doctrine_user_user_show:
+    pattern:    /@/:username
+    defaults:   { _controller: DoctrineUserBundle:User:show }
