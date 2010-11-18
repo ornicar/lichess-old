@@ -44,7 +44,12 @@
             <a class="goto_gamelist goto_nav blank_if_play" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
             {% endblock %}
             {% block security %}
-                {% include "LichessBundle::security.twig" %}
+                {% if _view.doctrine_user_security.isAnonymous %}
+                    {% include "DoctrineUserBundle:Security:embeddedLogin.twig" %}
+                {% else %}
+                    <a class="goto_nav goto_logout" href="{% path "_security_logout" %}">Log out</a>
+                    <a href="{% path "doctrine_user_user_show" with["username": _view.doctrine_user_security.user.username] %}" class="goto_nav goto_profile">{{ _view.doctrine_user_security.user.usernameWithElo }}</a>
+                {% endif %}
             {% endblock %}
         </div>
         {% block js_data %}{% endblock %}

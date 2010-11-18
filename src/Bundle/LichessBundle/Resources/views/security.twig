@@ -1,5 +1,0 @@
-{% if _view.doctrine_user_security.isAnonymous %}
-    {% include "DoctrineUserBundle:Security:embeddedLogin.twig" %}
-{% else %}
-<a href="{% path "doctrine_user_user_show" with["username": _view.doctrine_user_security.user.username] %}" class="goto_nav goto_profile">{{ _view.doctrine_user_security.user.usernameWithElo }}</a>
-{% endif %}
