@@ -15,7 +15,7 @@ class User extends BaseUser
     protected $username;
 
     /**
-     * ELO score of the player
+     * ELO score of the user
      *
      * @mongodb:Field(type="float")
      * @var float
@@ -23,11 +23,34 @@ class User extends BaseUser
     protected $elo = 1200.00;
 
     /**
+     * History of user ELO
+     *
+     * @mongodb:Field(type="collection")
+     * @var array
+     */
+    protected $eloHistory = array(1200);
+
+    /**
+     * @return array
+     */
+    public function getEloHistory()
+    {
+        $h = array(1200);
+        $e = $h[0];
+        for($i=0;$i<100;$i++) {
+            $e = $e+rand(0, 20)-10;
+            $h[] = $e;
+        }
+        return $h;
+        return $this->eloHistory;
+    }
+
+    /**
      * @return float
      */
     public function getElo()
     {
-      return $this->elo;
+        return $this->elo;
     }
 
     /**
@@ -36,7 +59,8 @@ class User extends BaseUser
      */
     public function setElo($elo)
     {
-      $this->elo = round($elo, 2);
+        $this->elo = round($elo, 2);
+        $this->eloHistory[] = round($elo);
     }
 
     public function setUsername($username)

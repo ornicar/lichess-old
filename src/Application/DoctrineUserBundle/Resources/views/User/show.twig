@@ -15,6 +15,7 @@
         Defeats: {{ critic.nbDefeats|default("0") }}<br >
         Draws: {{ critic.nbDraws|default("0") }}<br >
     </p>
+    <img src="{{ _view.lichess_user.eloChartUrl(user, "200x125") }}" width="200" height="125" alt="ELO history" />
     <div class="games">
         <h2>Recent games</h2>
         {% include "LichessBundle:Game:listWidget.twig" with ["games": games] %}

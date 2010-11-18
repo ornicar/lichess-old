@@ -40,6 +40,14 @@ class LichessUserHelper extends Helper
         return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $username);
     }
 
+    public function eloChartUrl($user, $size)
+    {
+        return sprintf('http://chart.apis.google.com/chart?cht=lc&chs=%s&chd=t:%s',
+            $size,
+            implode(',', $user->getEloHistory())
+        );
+    }
+
     protected function escape($string)
     {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
