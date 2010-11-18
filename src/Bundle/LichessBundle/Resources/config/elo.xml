@@ -12,7 +12,7 @@
     <services>
 
         <service id="lichess.elo.calculator" class="%lichess.elo.calculator.class%">
-            <argument type="service" id="lichess.elo.calculator" />
+            <argument>%lichess.elo.calculator.kFactor%</argument>
         </service>
 
     </services>
