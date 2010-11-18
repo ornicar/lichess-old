@@ -26,6 +26,7 @@
 
         <parameter key="templating.helper.lichess.class">Bundle\LichessBundle\Helper\LichessHelper</parameter>
         <parameter key="templating.helper.lichess_game.class">Bundle\LichessBundle\Helper\LichessGameHelper</parameter>
+        <parameter key="templating.helper.lichess_user.class">Bundle\LichessBundle\Helper\LichessUserHelper</parameter>
 
         <parameter key="session.storage.test.class">Bundle\LichessBundle\SessionStorage\TestSessionStorage</parameter>
 
@@ -45,6 +46,11 @@
         <service id="templating.helper.lichess_game" class="%templating.helper.lichess_game.class%">
             <tag name="templating.helper" alias="lichess_game" />
             <argument type="service" id="service_container" />
+        </service>
+
+        <service id="templating.helper.lichess_user" class="%templating.helper.lichess_user.class%">
+            <tag name="templating.helper" alias="lichess_user" />
+            <argument type="service" id="router" />
         </service>
 
         <service id="lichess.seek_queue" class="%lichess.seek_queue.class%" shared="true">
