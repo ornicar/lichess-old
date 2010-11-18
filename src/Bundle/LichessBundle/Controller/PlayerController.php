@@ -207,7 +207,7 @@ class PlayerController extends Controller
             $opponent->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $opponentPossibleMoves));
         }
         if($game->getIsFinished()) {
-            $this->get('lichess_finisher')->finnish($game);
+            $this->get('lichess_finisher')->finish($game);
             $this->get('logger')->notice(sprintf('Player:move finish game:%s, %s', $game->getId(), $game->getStatusMessage()));
         }
         $this->get('lichess.object_manager')->flush();

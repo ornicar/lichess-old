@@ -33,6 +33,14 @@ class Player
     protected $user = null;
 
     /**
+     * Fixed ELO of the player user, if any
+     *
+     * @var int
+     * @mongodb:Field(type="int")
+     */
+    protected $elo = null;
+
+    /**
      * the player color, white or black
      *
      * @var string
@@ -128,11 +136,20 @@ class Player
     public function setUser(User $user)
     {
         $this->user = $user;
+        $this->elo = $user->getElo();
         if($this->isWhite()) {
             $this->getGame()->setWhiteUserId($user->getId());
         } elseif($this->isBlack()) {
             $this->getGame()->setBlackUserId($user->getId());
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getElo()
+    {
+      return $this->elo;
     }
 
     /**
@@ -162,7 +179,7 @@ class Player
             return $default;
         }
 
-        return $user->getUsernameWithElo();
+        return sprintf('%s (%d)', $user->getUsername(), $this->getElo());
     }
 
     /**
