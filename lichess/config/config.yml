@@ -86,6 +86,7 @@ doctrine_user.config:
             user: Application\DoctrineUserBundle\Form\UserForm
         controller:
             user: Application\DoctrineUserBundle\Controller\UserController
+            security: Application\DoctrineUserBundle\Controller\SecurityController
 
 time.helper: ~
 
