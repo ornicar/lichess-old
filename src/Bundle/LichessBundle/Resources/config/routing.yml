@@ -30,6 +30,14 @@ lichess_player:
     pattern:        /:id
     defaults:       { _controller: LichessBundle:Player:show }
     requirements:   { id: "[\w\-]{12}" }
+lichess_game_compat:
+    pattern:        /:id
+    defaults:       { _controller: LichessBundle:Compat:gameShow }
+    requirements:   { id: "[\w\-]{6}" }
+lichess_player_compat:
+    pattern:        /:id
+    defaults:       { _controller: LichessBundle:Compat:playerShow }
+    requirements:   { id: "[\w\-]{10}" }
 lichess_invite_ai:
     pattern:        /ai/:color
     defaults:       { _controller: LichessBundle:Game:inviteAi, color: white }
