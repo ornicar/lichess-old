@@ -18,13 +18,27 @@ class GameRepository extends DocumentRepository
     }
 
     /**
-     * Find one game by its Id
+     * Finds one game by its Id
      *
+     * @param string $id
      * @return Game or null
      **/
     public function findOneById($id)
     {
         return $this->find($id);
+    }
+
+    /**
+     * Tells if a game with this id exists
+     *
+     * @param string $id
+     * @return bool
+     */
+    public function existsById($id)
+    {
+        return 1 === $this->createQuery()
+            ->field('id')->equals($id)
+            ->count();
     }
 
     /**
