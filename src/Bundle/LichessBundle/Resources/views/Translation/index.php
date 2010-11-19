@@ -59,6 +59,8 @@
             <li><strong>Slovak</strong> taiga</li>
             <li><strong>Magyar</strong> LTBakemono</li>
             <li><strong>Catalan</strong> AI8</li>
+            <li><strong>Slovene</strong> Klemen Grm</li>
+            <li><strong>Azerbaijani</strong> elçin məmmədzadə - amil isgəndərov</li>
         </ul>
     </div>
 </div>

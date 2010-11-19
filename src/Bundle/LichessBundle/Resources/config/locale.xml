@@ -32,6 +32,8 @@
             <parameter key="sk">slovenčin</parameter>
             <parameter key="hu">magyar nyelv</parameter>
             <parameter key="ca">Català</parameter>
+            <parameter key="sl">slovenščina</parameter>
+            <parameter key="az">azərbaycan dili</parameter>
         </parameter>
 
     </parameters>
