@@ -140,8 +140,8 @@ class GameRepository extends DocumentRepository
     public function createByUserQuery(User $user)
     {
         return $this->createQuery()
-            ->addOr($this->createQuery()->field('whiteUserId')->equals((string) $user->getId())->getQuery())
-            ->addOr($this->createQuery()->field('blackUserId')->equals((string) $user->getId())->getQuery());
+            ->addOr(array('whiteUserId' => $user->getId()))
+            ->addOr(array('blackUserId' => $user->getId()));
     }
 
     /**
