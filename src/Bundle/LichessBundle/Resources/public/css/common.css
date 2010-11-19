@@ -199,10 +199,14 @@ ul.lichess_language_links {
     left: 0;
     width: 183px;
     z-index: 5;
+    max-height: 600px;
+    overflow:auto;
 }
 ul.lichess_language_links a {
     display: block;
-    padding: 0.5em 0.5em;
+    padding: 0.4em 0.5em;
+    text-decoration: none;
+    text-transform: capitalize;
 }
 ul.lichess_language_links a:hover {
     background: #F0F0F0;
