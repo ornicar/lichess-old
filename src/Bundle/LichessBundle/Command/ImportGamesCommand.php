@@ -45,7 +45,7 @@ class ImportGamesCommand extends BaseCommand
         $nbSteps = ceil($nbGames/$batchSize);
         for($step=0; $step<$nbSteps; $step++) {
             $time = microtime(true);
-            $cursor = $collection->find(array())->sort(array('upd' => -1))->limit($batchSize)->skip($step*$batchSize);
+            $cursor = $collection->find(array())->limit($batchSize)->skip($step*$batchSize);
             $newGames = array();
             foreach($cursor as $gameArray) {
                 $game = $this->decodeOldGame($gameArray);
