@@ -29,6 +29,7 @@ class Game
     const TIMEOUT = 33;
     const DRAW = 34;
     const OUTOFTIME = 35;
+    const CHEAT = 36;
 
     const VARIANT_STANDARD = 1;
     const VARIANT_960 = 2;
@@ -510,6 +511,7 @@ class Game
         case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
         case self::DRAW: $message      = 'Draw'; break;
         case self::OUTOFTIME: $message = 'Time out'; break;
+        case self::CHEAT: $message     = 'Cheat detected'; break;
         default: $message              = '';
         }
         return $message;
