@@ -2,5 +2,4 @@
 
 php lichess/console apc:clear
 rm -r lichess/cache/prod/*
-rm -r lichess/cache/forum_prod/*
 php lichess/console apc:clear
