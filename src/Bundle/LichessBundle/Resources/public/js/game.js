@@ -67,6 +67,12 @@
                          success: function(html)
                      {
                          self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({fade: true});
+                     },
+                     error: function(xhr)
+                     {
+                         // client is corrupted, resynchronize with server
+                         if(self.options.debug) $('html').html(xhr.responseText);
+                         else location.reload();
                      }
                      });
                  }
@@ -154,8 +160,8 @@
          if(!isMyPiece || this.options.player.spectator) $.playSound();
 
          if(castling) {
-            $.isFunction(callback || null) && callback();
-            return;
+             $.isFunction(callback || null) && callback();
+             return;
          }
 
          $("body").append($piece.css({
@@ -352,7 +358,7 @@
          self.$board.find("div.lichess_piece." + self.options.player.color).each(function()
                  {
                      $(this).draggable({
-                         distance: 10,
+                         distance: 15,
                          containment: self.$board,
                          helper: function()
                      {
@@ -505,7 +511,7 @@
          }
          self.$table.find('div.clock').clock('stop');
          if(self.options.game.turns > 0) {
-            self.$table.find('div.clock_'+self.options.game.player).clock('start');
+             self.$table.find('div.clock_'+self.options.game.player).clock('start');
          }
      },
      canRunClock: function()
@@ -533,7 +539,7 @@
      });
 
      $.widget("lichess.clock", {
-             _init: function()
+         _init: function()
      {
          var self = this;
          this.options.time = parseFloat(this.options.time) * 1000;
@@ -543,7 +549,7 @@
          });
      },
 
-     start: function()
+         start: function()
      {
          var self = this;
          self.options.state = 'running';
@@ -568,32 +574,32 @@
          }, 1000);
      },
 
-     setTime: function(time)
-     {
-         this.options.time = parseFloat(time) * 1000;
-         this._show();
-     },
+         setTime: function(time)
+         {
+             this.options.time = parseFloat(time) * 1000;
+             this._show();
+         },
 
-     stop: function()
-     {
-         clearInterval(this.options.interval);
-         this.options.state = 'stop';
-         this.element.removeClass('running');
-     },
+         stop: function()
+         {
+             clearInterval(this.options.interval);
+             this.options.state = 'stop';
+             this.element.removeClass('running');
+         },
 
-     _show: function()
-     {
-        this.element.text(this._formatDate(new Date(this.options.time)));
-     },
+         _show: function()
+         {
+             this.element.text(this._formatDate(new Date(this.options.time)));
+         },
 
-     _formatDate: function(date)
-     {
-         minutes = date.getMinutes();
-         if(minutes < 10) minutes = "0"+minutes;
-         seconds = date.getSeconds();
-         if(seconds < 10) seconds = "0"+seconds;
-         return minutes+':'+seconds;
-     }
-         });
+         _formatDate: function(date)
+         {
+             minutes = date.getMinutes();
+             if(minutes < 10) minutes = "0"+minutes;
+             seconds = date.getSeconds();
+             if(seconds < 10) seconds = "0"+seconds;
+             return minutes+':'+seconds;
+         }
+     });
 
  })(jQuery);
