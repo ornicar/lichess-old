@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.translation.loader.yml.class">Bundle\LichessBundle\Translation\Loader\YamlLoader</parameter>
+    </parameters>
+
+    <services>
+        <service id="lichess.translation.loader.yml" class="%lichess.translation.loader.yml.class%">
+            <tag name="translation.loader" alias="yml" />
+        </service>
+    </services>
+</container>
