@@ -22,6 +22,10 @@
     float:right;
 }
 
+#lichess_user .signup_box p.explanation {
+    font-size: 1.2em;
+}
+
 form.signup {
     font-size: 1.3em;
 }

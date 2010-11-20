@@ -1,15 +1,17 @@
 {% extends "DoctrineUserBundle::layoutUser.twig" %}
-{% block security %}{% endblock %}
 {% block content %}
-<div class="lichess_box">
+<div class="lichess_box signup_box">
+    <span class="box_right_text">Have an account? <a class="toggle_signin">Sign in</a></span>
     <h1 class="lichess_title">Sign up to lichess</h1>
-    <p>
-        It allows to be recognized by other players, and record your games.<br />
+    <p class="explanation">
         All you need is a username and a password.
+    </p>
+    <p class="explanation">
+        It is <strong>not</strong> required to signup. You can play as <strong>anonymous</strong>.<br />
+        Signup if you want to save your played games and have an ELO ranking.
     </p>
     {% form_theme form form.getOption('theme') %}
     <form action="{% path 'doctrine_user_user_create' %}" method="POST" class="signup">
-        {{ form|render_errors }}
         <ul>
             <li class="username">
                 {{ form.username|render_label }}
