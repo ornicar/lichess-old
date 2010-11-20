@@ -252,6 +252,9 @@ a.goto_nav {
 a.goto_nav:hover {
     text-decoration: underline;
 }
+a.goto_logout {
+    padding-left: 0;
+}
 a.goto_gamelist {
     background: transparent url(../images/eye.png) top left no-repeat;
 }
