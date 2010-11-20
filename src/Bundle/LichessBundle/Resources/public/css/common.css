@@ -121,6 +121,11 @@ div.lichess_box .lichess_title {
     margin-bottom: 0.5em;
 }
 
+div.lichess_box .box_right_text {
+    margin-top: -5px;
+    float: right;
+}
+
 div.lichess_box p {
     margin: 1em;
 }

@@ -35,8 +35,9 @@ $(function() {
 
     $.fn.tipsy && $('a, input, label, div.lichess_server').not('.notipsy').tipsy({fade: true});
 
-    $('#top_menu a.toggle_signin').one('click', function() {
-        $(this)
+    $('a.toggle_signin').one('click', function() {
+        $('#top_menu')
+        .find('a.toggle_signin').hide()
         .closest('div.security').addClass('show_signin_form')
         .find('input:first').focus();
     });
