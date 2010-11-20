@@ -190,6 +190,7 @@ div.lichess_overboard {
     -moz-box-shadow: 0px 0px 20px #444;
     -webkit-box-shadow: 0px 0px 20px #444;
     text-align: center;
+    display: none;
 }
 div.lichess_overboard h2, div.lichess_overboard button {
     font-size: 1.4em;

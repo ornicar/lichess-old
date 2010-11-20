@@ -21,7 +21,7 @@ $(function() {
     }
 
     if($overboard = $('div.lichess_overboard').orNot()) {
-        $overboard.css('top', (238-$overboard.height()/2)+'px');
+        $overboard.css('top', (238-$overboard.height()/2)+'px').show();
     }
 
     $('div.lichess_language').hover(function() { $(this).find('ul').fadeIn(300); }, function() { $(this).find('ul').fadeOut(300); });
