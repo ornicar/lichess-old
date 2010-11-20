@@ -69,12 +69,7 @@ class UserCritic
 
     public function getNbDraws()
     {
-        return $this->cacheable('nbDraws', function($games, $users, $user) {
-            $games->createByUserQuery($user)
-                ->field('status')->greaterThanOrEq(Game::MATE)
-                ->field('winnerUserId')->exists(false)
-                ->count();
-        });
+        return $this->getNbGames() - $this->getNbWins() - $this->getNbDefeats();
     }
 
     public function getPercentWins()
