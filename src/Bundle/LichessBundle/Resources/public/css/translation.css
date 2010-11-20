@@ -6,9 +6,9 @@ div.field {
     margin: 1em 0;
 }
 
-#translation_yamlMessages {
+#lichess_translation_form_yaml {
     width: 100%;
-    height: 40em;
+    height: 30em;
     font-size: 1.1em;
 }
 
@@ -40,4 +40,8 @@ div.field input {
 }
 .translation_list h3 {
     font-size: 1.8em;
+}
+.translation_pre {
+    max-height: 200px; overflow: auto; border: 1px solid #CCC; margin-bottom: 2em;
+    background: white;
 }

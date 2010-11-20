@@ -1,0 +1,12 @@
+{% extends "LichessBundle:Translation:layoutTranslation.twig" %}
+{% block title %}Translations list{% endblock %}
+{% block content %}
+<div class="translation_list">
+{% for translation in translations %}
+    <h2>{{ translation.createdAt|date("d/m/Y H:i") }} {{ translation.code }}</h2>
+    <h3>{{ translation.name }} by {{ translation.author|default("Anonymous") }}</h3>
+    <p>{{ translation.comment|default("no comment.") }}</p>
+    <pre class="translation_pre">{{ translation.yaml }}</pre>
+{% endfor %}
+</div>
+{% endblock %}

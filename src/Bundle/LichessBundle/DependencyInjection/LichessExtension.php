@@ -20,6 +20,7 @@ class LichessExtension extends Extension
         $loader->load('controller.xml');
         $loader->load('templating.xml');
         $loader->load('translation.xml');
+        $loader->load('form.xml');
 
         if(isset($config['ai']['class'])) {
             $container->setParameter('lichess.ai.class', $config['ai']['class']);
