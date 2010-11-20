@@ -133,14 +133,12 @@ class Player
      * @param User $user
      * @return null
      */
-    public function setUser(User $user)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
-        $this->elo = $user->getElo();
-        if($this->isWhite()) {
-            $this->getGame()->setWhiteUserId($user->getId());
-        } elseif($this->isBlack()) {
-            $this->getGame()->setBlackUserId($user->getId());
+        if($this->user) {
+            $this->elo = $user->getElo();
+            $this->getGame()->addUserId($user->getId());
         }
     }
 
