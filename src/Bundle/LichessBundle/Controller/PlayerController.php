@@ -205,6 +205,13 @@ class PlayerController extends Controller
         else {
             $opponent->addEventsToStack($stack->getEvents());
             $opponent->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $opponentPossibleMoves));
+            // Detect if someone uses an AI to cheat on this game, and act
+            if($cheater = $this->get('lichess.anticheat')->detectCheater($game)) {
+                $game->setStatus(Game::CHEAT);
+                $game->setWinner($cheater->getOpponent());
+                $cheater->addEventToStack(array('type' => 'end'));
+                $cheater->getOpponent()->addEventToStack(array('type' => 'end'));
+            }
         }
         if($game->getIsFinished()) {
             $this->get('lichess_finisher')->finish($game);

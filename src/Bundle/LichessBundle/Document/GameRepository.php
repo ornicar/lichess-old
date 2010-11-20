@@ -175,4 +175,16 @@ class GameRepository extends DocumentRepository
         return $this->createRecentQuery()
             ->field('status')->equals(Game::MATE);
     }
+
+    public function findSimilar(Game $game, \DateTime $since)
+    {
+        return $this->createQuery()
+            ->field('id')->notEqual($game->getId())
+            ->field('updatedAt')->greaterThan($since)
+            ->field('status')->equals(Game::STARTED)
+            ->field('turns')->equals($game->getTurns())
+            ->field('pgnMoves')->equals($game->getPgnMoves())
+            ->hint(array('updatedAt' => -1))
+            ->execute();
+    }
 }

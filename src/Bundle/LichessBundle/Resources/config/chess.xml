@@ -20,9 +20,17 @@
         <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
 
         <parameter key="lichess.seek_queue.class">Bundle\LichessBundle\Chess\SeekQueue</parameter>
+
+        <parameter key="lichess.anticheat.class">Bundle\LichessBundle\Chess\Anticheat</parameter>
+        <parameter key="lichess.anticheat.turns">2</parameter>
     </parameters>
 
     <services>
+        <service id="lichess.anticheat" class="%lichess.anticheat.class%" shared="true">
+            <argument type="service" id="lichess.repository.game" />
+            <argument>%lichess.anticheat.turns%</argument>
+        </service>
+
         <service id="lichess.seek_queue" class="%lichess.seek_queue.class%" shared="true">
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.repository.seek" />
