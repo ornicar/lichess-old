@@ -258,7 +258,10 @@ a.goto_nav:hover {
     text-decoration: underline;
 }
 a.goto_logout {
-    padding-left: 0;
+    background: transparent url(../images/logout.png) top left no-repeat;
+}
+a.goto_userlist {
+    background: transparent url(../images/users.png) top left no-repeat;
 }
 a.goto_gamelist {
     background: transparent url(../images/eye.png) top left no-repeat;
@@ -271,6 +274,7 @@ a.goto_play {
 }
 a.goto_profile {
     background: transparent url(../images/user.png) top left no-repeat;
+    margin-right: 1em;
 }
 a.lichess_replay_link {
     margin-top: 20px;

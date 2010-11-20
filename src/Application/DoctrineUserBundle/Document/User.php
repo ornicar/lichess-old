@@ -65,6 +65,16 @@ class User extends BaseUser
     }
 
     /**
+     * Rounded elo
+     *
+     * @return int
+     **/
+    public function getRoundElo()
+    {
+        return round($this->getElo());
+    }
+
+    /**
      * @param  float
      * @return null
      */
@@ -98,6 +108,6 @@ class User extends BaseUser
 
     public function getUsernameWithElo()
     {
-        return sprintf('%s (%d)', $this->getUsername(), round($this->getElo()));
+        return sprintf('%s (%d)', $this->getUsername(), $this->getRoundElo());
     }
 }

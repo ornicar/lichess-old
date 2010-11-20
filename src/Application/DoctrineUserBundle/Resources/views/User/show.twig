@@ -3,6 +3,7 @@
 {% parent %}
 {% stylesheet 'bundles/lichess/css/gamelist.css' %}
 {% endblock %}
+{% block title %}{{ user.usernameWithElo }}{% endblock %}
 {% block content %}
 <div class="lichess_box user_show">
     <img class="elo_history" src="{{ _view.lichess_user.eloChartUrl(user, "300x120") }}" width="300" height="120" alt="ELO history" />

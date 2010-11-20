@@ -42,6 +42,7 @@
             {% block top_menu %}
             <a class="goto_forum goto_nav blank_if_play" title="{% trans 'Talk about chess and discuss lichess features in the forum' %}" href="{% path "forum_index" %}">Forum</a>
             <a class="goto_gamelist goto_nav blank_if_play" title="{% trans 'See the games being played in real time' %}" href="{% path "lichess_list_current" %}">Games</a>
+            <a class="goto_userlist goto_nav blank_if_play" title="{% trans 'See all players' %}" href="{% path "doctrine_user_user_list" %}">People</a>
             {% endblock %}
             {% block security %}
                 {% if _view.doctrine_user_security.isAnonymous %}

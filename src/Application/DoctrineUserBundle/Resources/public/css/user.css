@@ -85,3 +85,40 @@ div.user_show div.games {
     border-top: 1px solid #dadada;
     padding-top: 1em;
 }
+
+ol.users li {
+    list-style: decimal inside;
+    font-size: 1.3em;
+    line-height: 2em;
+}
+ol.users a {
+    background: url(../../lichess/images/user.png) top left no-repeat;
+    padding-left: 20px;
+}
+
+/* pagination */
+div.pager {
+    text-align:center;
+    margin-top: 2em;
+}
+div.pager .position {
+    margin-right: 2em;
+}
+div.pager a, div.pager span {
+    font-size: 1.1em;
+    padding: 0.1em 0.5em;
+    font-weight: bold;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    text-decoration: none;
+}
+div.pager span {
+    color: #ccc;
+}
+div.pager span.current {
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+    color: #FFF;
+    margin: 0 0.5em;
+}
