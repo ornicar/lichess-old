@@ -4,12 +4,18 @@ doctrine_user_user_list:
 
 doctrine_user_user_new:
     pattern:    /signup
-    defaults:   { _controller: DoctrineUserBundle:User:new, _method: get }
+    defaults:   { _controller: DoctrineUserBundle:User:new }
+    requirements: { _method: get }
 
 doctrine_user_user_create:
     pattern:    /signup
-    defaults:   { _controller: DoctrineUserBundle:User:new, _method: post }
+    defaults:   { _controller: DoctrineUserBundle:User:create }
+    requirements: { _method: post }
 
 doctrine_user_user_show:
     pattern:    /@/:username
     defaults:   { _controller: DoctrineUserBundle:User:show }
+
+doctrine_user_user_confirmed:
+    pattern:    /signup-confirmed
+    defaults:   { _controller: DoctrineUserBundle:User:confirmed }

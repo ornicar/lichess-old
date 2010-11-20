@@ -30,6 +30,8 @@ class UserController extends BaseUserController
 
     public function confirmedAction()
     {
-        return $this->redirect($this->generateUrl('lichess_homepage'));
+        return $this->redirect($this->generateUrl('doctrine_user_user_show', array(
+            'username' => $this->get('security.context')->getUser()->getUsername()
+        )));
     }
 }
