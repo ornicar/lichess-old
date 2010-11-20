@@ -67,22 +67,13 @@ class Game
     protected $players;
 
     /**
-     * Id of the user bound to the white player
+     * Ids of the users bound to players
      *
-     * @var string
-     * @mongodb:Field(type="string")
+     * @var Collection
+     * @mongodb:Field(type="collection")
      * @mongodb:Index()
      */
-    protected $whiteUserId = null;
-
-    /**
-     * Id of the user bound to the black player
-     *
-     * @var string
-     * @mongodb:Field(type="string")
-     * @mongodb:Index()
-     */
-    protected $blackUserId = null;
+    protected $userIds = null;
 
     /**
      * Id of the user who won the game
@@ -189,9 +180,10 @@ class Game
     {
         $this->generateId();
         $this->setVariant($variant);
-        $this->status = self::CREATED;
-        $this->turns = 0;
-        $this->players = new ArrayCollection();
+        $this->status   = self::CREATED;
+        $this->turns    = 0;
+        $this->players  = new ArrayCollection();
+        $this->userIds  = new ArrayCollection();
         $this->pgnMoves = array();
     }
 
@@ -216,14 +208,11 @@ class Game
         $this->id = KeyGenerator::generate(8);
     }
 
-    public function setWhiteUserId($whiteUserId)
+    public function addUserId($userId)
     {
-        $this->whiteUserId = (string)$whiteUserId;
-    }
-
-    public function setBlackUserId($blackUserId)
-    {
-        $this->blackUserId = (string)$blackUserId;
+        if(!$this->userIds->contains($userId)) {
+            $this->userIds->add($userId);
+        }
     }
 
     public function setWinner(Player $player)
