@@ -1,5 +1,8 @@
 * make rematch more visible
+* prevent cheating by analyzing similar games
+* add send button to chat (wii)
 * fix castling notation with chess960 (http://lichess.org/forum/lichess-feedback/4ccf7c7e30c353196f010000)
+* propose draw
 * rematch chess960 keeps piece position
 * cancel invitation
 * reverse board in watch mode
