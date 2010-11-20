@@ -11,6 +11,11 @@ use Bundle\DoctrineUserBundle\Document\User as BaseUser;
  */
 class User extends BaseUser
 {
+    /**
+     * Default ELO score a user receives on registration
+     */
+    const STARTING_ELO = 1200;
+
     /** @validation:Regex(pattern="/^[\w\-]+$/", message="Invalid username. Please use only letters, numbers and dash", groups={"Registration","FacebookRegistration"}) */
     protected $username;
 
@@ -21,7 +26,7 @@ class User extends BaseUser
      * @mongodb:Index(order="desc")
      * @var float
      */
-    protected $elo = 1200.00;
+    protected $elo = null;
 
     /**
      * History of user ELO
@@ -29,7 +34,14 @@ class User extends BaseUser
      * @mongodb:Field(type="hash")
      * @var array
      */
-    protected $eloHistory = array(1200);
+    protected $eloHistory = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->setElo(self::STARTING_ELO);
+    }
 
     /**
      * @return array
