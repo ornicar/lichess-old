@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.controller.main.class">Bundle\LichessBundle\Controller\MainController</parameter>
+        <parameter key="lichess.controller.game.class">Bundle\LichessBundle\Controller\GameController</parameter>
+        <parameter key="lichess.controller.player.class">Bundle\LichessBundle\Controller\PlayerController</parameter>
+        <parameter key="lichess.controller.pgn.class">Bundle\LichessBundle\Controller\PgnController</parameter>
+        <parameter key="lichess.controller.translation.class">Bundle\LichessBundle\Controller\TranslationController</parameter>
+        <parameter key="lichess.controller.compat.class">Bundle\LichessBundle\Controller\CompatController</parameter>
+    </parameters>
+
+    <services>
+        <service id="lichess.controller.main" class="%lichess.controller.main.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="lichess.controller.game" class="%lichess.controller.game.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="lichess.controller.player" class="%lichess.controller.player.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="lichess.controller.pgn" class="%lichess.controller.pgn.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="lichess.controller.translation" class="%lichess.controller.translation.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="lichess.controller.compat" class="%lichess.controller.compat.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+    </services>
+</container>
