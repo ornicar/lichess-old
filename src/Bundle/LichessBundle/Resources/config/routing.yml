@@ -18,6 +18,9 @@ lichess_invite_friend:
     pattern:        /friend/:color
     defaults:       { _controller: lichess.controller.game:inviteFriendAction, color: white }
     requirements:   { color: (white|black) }
+lichess_toggle_sound:
+    pattern:        /toggle-sound
+    defaults:       { _controller: lichess.controller.main:toggleSoundAction }
 lichess_wait_friend:
     pattern:        /friend/:id
     defaults:       { _controller: lichess.controller.player:waitFriendAction }
@@ -104,9 +107,6 @@ lichess_claim_draw:
 lichess_locale:
     pattern:        /locale/:locale
     defaults:       { _controller: lichess.controller.main:localeAction }
-lichess_toggle_sound:
-    pattern:        /toggle-sound
-    defaults:       { _controller: lichess.controller.main:toggleSoundAction }
 lichess_translate:
     pattern:        /translate/:locale
     defaults:       { _controller: lichess.controller.translation:indexAction, locale: " " }
