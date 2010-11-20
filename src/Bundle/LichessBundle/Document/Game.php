@@ -73,7 +73,7 @@ class Game
      * @mongodb:Field(type="collection")
      * @mongodb:Index()
      */
-    protected $userIds = null;
+    protected $userIds = array();
 
     /**
      * Id of the user who won the game
@@ -209,8 +209,8 @@ class Game
 
     public function addUserId($userId)
     {
-        if($userId && !$this->userIds->contains($userId)) {
-            $this->userIds->add((string) $userId);
+        if($userId && !in_array((string) $userId, $this->userIds)) {
+            $this->userIds[] = (string) $userId;
         }
     }
 
