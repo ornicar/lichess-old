@@ -140,7 +140,7 @@ class GameRepository extends DocumentRepository
     public function createByUserQuery(User $user)
     {
         return $this->createQuery()
-            ->field('userIds')->equals($user->getId());
+            ->field('userIds')->equals((string) $user->getId());
     }
 
     /**

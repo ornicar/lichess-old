@@ -69,7 +69,7 @@ class Game
     /**
      * Ids of the users bound to players
      *
-     * @var Collection
+     * @var array
      * @mongodb:Field(type="collection")
      * @mongodb:Index()
      */
@@ -183,7 +183,6 @@ class Game
         $this->status   = self::CREATED;
         $this->turns    = 0;
         $this->players  = new ArrayCollection();
-        $this->userIds  = new ArrayCollection();
         $this->pgnMoves = array();
     }
 
@@ -210,8 +209,8 @@ class Game
 
     public function addUserId($userId)
     {
-        if(!$this->userIds->contains($userId)) {
-            $this->userIds->add($userId);
+        if($userId && !$this->userIds->contains($userId)) {
+            $this->userIds->add((string) $userId);
         }
     }
 
