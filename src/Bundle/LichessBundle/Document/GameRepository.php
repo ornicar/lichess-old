@@ -180,7 +180,7 @@ class GameRepository extends DocumentRepository
     {
         return $this->createQuery()
             ->field('id')->notEqual($game->getId())
-            ->field('updatedAt')->greaterThan($since)
+            ->field('updatedAt')->greaterThan(new \MongoDate($since->getTimestamp()))
             ->field('status')->equals(Game::STARTED)
             ->field('turns')->equals($game->getTurns())
             ->field('pgnMoves')->equals($game->getPgnMoves())

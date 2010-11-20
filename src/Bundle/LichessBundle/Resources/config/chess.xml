@@ -22,7 +22,7 @@
         <parameter key="lichess.seek_queue.class">Bundle\LichessBundle\Chess\SeekQueue</parameter>
 
         <parameter key="lichess.anticheat.class">Bundle\LichessBundle\Chess\Anticheat</parameter>
-        <parameter key="lichess.anticheat.turns">2</parameter>
+        <parameter key="lichess.anticheat.turns">10</parameter>
     </parameters>
 
     <services>
