@@ -1,38 +1,42 @@
-<?php $view->extend('LichessBundle::layout.php') ?>
-<?php $view['stylesheets']->add('bundles/lichess/css/translation.css') ?>
-<?php $view['slots']->set('title', 'Help translate Lichess') ?>
-
+{% extends "LichessBundle:Translation:layoutTranslation.twig" %}
+{% block title %}Help translate Lichess{% endblock %}
+{% block content %}
 <div class="lichess_box">
     <h1 class="lichess_title">Help translate Lichess!</h1>
     <div class="lichess_text">
         Lichess is OpenSource and needs contributors to get better.
-        <?php $message && printf('<div class="message">%s</div>', $message); ?>
-        <?php $error && printf('<div class="error">%s</div>', $error); ?>
-        <form action="<?php echo $view['router']->generate('lichess_translate', array('locale' => $locale)) ?>" data-change-url="<?php echo $view['router']->generate('lichess_translate', array('locale' => '__')) ?>" method="post">
+        {% if error %}
+            <div class="error">{{ error|raw }}</div>
+        {% endif %}
+        {% set notice %}{% flash "notice" %}{% endset %}
+        {% if notice %}
+            <div class="message">{{ notice }}</div>
+        {% endif %}
+        <form action="{% path "lichess_translate" with ["locale": locale] %}" data-change-url="{% path "lichess_translate" with ["locale": "__"] %}" method="post">
             <div class="field">
-                <label for="translation_code">Translate from english to </label>
-                <?php echo $form['code']->widget() ?>
+                {{ form.code|render_label("Translate from english to") }}
+                {{ form.code|render }}
             </div>
-            <?php if(!empty($locale)): ?>
+            {% if locale %}
                 Please translate the following English words and phrases below.<br />
                 For example, to translate from English to French:<br />
                 <strong>"Level": ""</strong> becomes <strong>"Level": "Niveau"</strong><br />
                 <strong>"Opponent: %ai_name%": ""</strong> becomes <strong>"Opponent: %ai_name%": "Adversaire : %ai_name%"</strong>
                 <div class="field">
-                    <?php echo $form['yamlMessages']->widget(array(), 'LichessBundle:Translation:textarea_field.php') ?>
+                    {{ form.yaml|render }}
                 </div>
                 <div class="field">
-                    <label for="translation_author">Author (optional)</label>
-                    <?php echo $form['author']->widget() ?>
+                    {{ form.author|render_label("Author (optional)") }}
+                    {{ form.author|render }}
                 </div>
                 <div class="field">
-                    <label for="translation_comment">Comment (optional)</label>
-                    <?php echo $form['comment']->widget() ?>
+                    {{ form.comment|render_label("Comment (optional)") }}
+                    {{ form.comment|render }}
                 </div>
                 <div class="field">
                     <input type="submit" value="Submit translations" />
                 </div>
-            <?php endif; ?>
+            {% endif %}
         </form>
         <hr />
         Big thanks go to all translators!
@@ -64,3 +68,4 @@
         </ul>
     </div>
 </div>
+{% endblock %}

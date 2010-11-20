@@ -6,11 +6,15 @@
 
     <parameters>
         <parameter key="lichess.translation.loader.yml.class">Bundle\LichessBundle\Translation\Loader\YamlLoader</parameter>
+        <parameter key="lichess.translation.manager.class">Bundle\LichessBundle\Translation\Manager</parameter>
     </parameters>
 
     <services>
         <service id="lichess.translation.loader.yml" class="%lichess.translation.loader.yml.class%">
             <tag name="translation.loader" alias="yml" />
+        </service>
+        <service id="lichess.translation.manager" class="%lichess.translation.manager.class%">
+            <argument type="service" id="translator" />
         </service>
     </services>
 </container>

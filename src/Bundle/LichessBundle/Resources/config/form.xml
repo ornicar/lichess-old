@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.form.translation.class">Bundle\LichessBundle\Form\TranslationForm</parameter>
+        <parameter key="lichess.form.translation.name">lichess_translation_form</parameter>
+    </parameters>
+
+    <services>
+        <service id="lichess.form.translation" class="%lichess.form.translation.class%">
+            <argument>%lichess.form.translation.name%</argument>
+            <argument></argument>
+            <argument type="service" id="validator" />
+            <argument type="service" id="lichess.translation.manager" />
+        </service>
+    </services>
+
+</container>

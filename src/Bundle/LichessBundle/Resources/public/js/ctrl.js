@@ -42,7 +42,7 @@ $(function() {
         .find('input:first').focus();
     });
 
-    $('#translation_code').change(function() {
+    $('#lichess_translation_form_code').change(function() {
         location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
     });
 
