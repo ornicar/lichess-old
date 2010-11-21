@@ -57,9 +57,9 @@ class UserCritic
         });
     }
 
-    public function getNbDefeats()
+    public function getNbLoses()
     {
-        return $this->cacheable('nbDefeats', function($games, $users, $user) {
+        return $this->cacheable('nbLoses', function($games, $users, $user) {
             return $games->createByUserQuery($user)
                 ->field('winnerUserId')->exists(true)
                 ->field('winnerUserId')->notEqual((string) $user->getId())
@@ -69,7 +69,7 @@ class UserCritic
 
     public function getNbDraws()
     {
-        return $this->getNbGames() - $this->getNbWins() - $this->getNbDefeats();
+        return $this->getNbGames() - $this->getNbWins() - $this->getNbLoses();
     }
 
     public function getPercentWins()

@@ -6,5 +6,5 @@
         <input type="hidden" class="referrer" name="_referrer" value="{{ _view.lichess.currentUrl }}" />
         <input type="submit" name="login" class="login" value="{% trans "Sign in" %}" />
     </form>
-    or <a href="{% path "doctrine_user_user_new" %}">Sign up</a>
+    / <a href="{% path "doctrine_user_user_new" %}">{% trans "Sign up" %}</a>
 </div>

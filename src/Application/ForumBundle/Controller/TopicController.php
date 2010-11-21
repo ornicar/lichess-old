@@ -44,7 +44,7 @@ class TopicController extends BaseTopicController
         $form = parent::createForm($name, $category);
 
         if($this->get('security.context')->getUser()->hasRole('IS_AUTHENTICATED_FULLY')) {
-            unset($form['authorName']);
+            unset($form['firstPost']['authorName']);
         } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
             $form['firstPost']['authorName']->setData(urldecode($authorName));
         }

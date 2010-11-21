@@ -1,5 +1,5 @@
 {% extends "DoctrineUserBundle::layoutUser.twig" %}
-{% block title %}Chess players{% endblock %}
+{% block title %}{% trans "Chess players" %}{% endblock %}
 {% block content %}
 {% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": users.pages, "url": pagerUrl] %}{% endset %}
 <div class="lichess_box user_show">

@@ -30,11 +30,11 @@
                 {% trans game.turnColor|capitalize ~ " plays" %}
             {% endif %}
             <br /><br />
-            Variant: {{ game.variantName }}
+            {% trans "Variant" %}: {{ game.variantName }}
             <br /><br />
-            Time control: {{ game.clockName }}
+            {% trans "Time control" %}: {{ game.clockName }}
             <br /><br />
-            <a href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": game.creatorColor] %}">&gt;&gt; {% trans "Replay and Analyse" %}</a>
+            <a href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": game.creatorColor] %}">&gt;&gt; {% trans "Replay and analyse" %}</a>
         </div>
     </div>
 {% else %}

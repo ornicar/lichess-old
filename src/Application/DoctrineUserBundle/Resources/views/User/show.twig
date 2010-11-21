@@ -9,16 +9,14 @@
     <img class="elo_history" src="{{ _view.lichess_user.eloChartUrl(user, "300x120") }}" width="300" height="120" alt="ELO history" />
     <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
     <div class="stats">
-        Lichess rank: {{ critic.rank }} / {{ critic.nbUsers }}<br />
-        Games played: <strong>{{ critic.nbGames|default("0") }}</strong><br />
-        {{ critic.nbWins|default("0") }} wins,
-        {{ critic.nbDefeats|default("0") }} defeats and
-        {{ critic.nbDraws|default("0") }} draws<br />
+        {% trans "Rank" %}: {{ critic.rank }} / {{ critic.nbUsers }}<br />
+        {% trans "Games played" %}: <strong>{{ critic.nbGames|default("0") }}</strong><br />
+        {% trans "%nbWins% wins, %nbLoses% loses and %nbDraws% draws" with ["%nbWins%": critic.nbWins, "%nbLoses%": critic.nbLoses, "%nbDraws%": critic.nbDraws] %}<br />
         Registered {{ _view.time.ago(user.createdAt) }}<br />
-        Best ELO: {{ user.maxElo }}, {{ _view.time.ago(user.maxEloDate) }}
+        {% trans "Best ELO" %}: {{ user.maxElo }}, {{ _view.time.ago(user.maxEloDate) }}
     </div>
     <div class="games">
-        <h2>Recent games</h2>
+        <h2>{% trans "Games played" %}</h2>
         {% include "LichessBundle:Game:listWidget.twig" with ["games": games] %}
         <div class="pager pager_bottom">
             {% include "LichessBundle::pagination.twig" with ["pager": games.pages, "url": pagerUrl] %}

@@ -11,11 +11,11 @@
                     <div class="variants">
                         {{ form.variant|render }}
                     </div>
-                    Minutes per side:
+                    {% trans "Minutes per side" %}
                     <div class="clocks">
                         {{ form.time|render }}
                     </div>
-                    <button type="submit" class="submit">Start</button>
+                    <button type="submit" class="submit">{% trans "Start" %}</button>
                 </form>
             </div>
         </div>
