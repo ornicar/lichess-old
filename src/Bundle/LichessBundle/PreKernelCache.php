@@ -19,7 +19,7 @@ $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST
 if('/how-many-players-now' === $url) {
     $nb = apc_fetch('lichess.nb_players');
     if(false === $nb) {
-        $it = new \APCIterator('user', '/alive$/', APC_ITER_MTIME, 100, APC_LIST_ACTIVE);
+        $it = new \APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
         $nb = 0;
         $limit = time() - $timeout;
         foreach($it as $i) {
