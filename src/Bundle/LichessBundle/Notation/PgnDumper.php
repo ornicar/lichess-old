@@ -26,6 +26,16 @@ class PgnDumper
         }
     }
 
+    protected function isCastleKingSide(Piece $king, Square $to)
+    {
+        if($to->getPiece()) {
+            return $to->getX() > $king->getX();
+        }
+        else {
+            return 7 === $to->getX();
+        }
+    }
+
     /**
      * Dumps a single move to PGN notation
      *
@@ -39,11 +49,10 @@ class PgnDumper
         $toKey = $to->getKey();
 
         if($isCastling) {
-            if(3 === $to->getX()) {
-                return 'O-O-O';
-            }
-            else {
+            if($this->isCastleKingSide($piece, $to)) {
                 return 'O-O';
+            } else {
+                return 'O-O-O';
             }
         }
         if($isEnPassant) {
