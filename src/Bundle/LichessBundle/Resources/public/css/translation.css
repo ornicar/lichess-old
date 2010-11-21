@@ -16,7 +16,7 @@ div.field input {
     width: 30em;
 }
 
-.message, .error {
+.notice, .error {
     margin: 1em;
     padding: 1em;
     text-align: center;
@@ -24,11 +24,9 @@ div.field input {
     border: 1px solid #DADADA;
     color: #000;
 }
-
-.message {
+.notice {
     background: #AAFFAA;
 }
-
 .error {
     background: #FFAAAA;
 }
@@ -44,4 +42,34 @@ div.field input {
 .translation_pre {
     max-height: 200px; overflow: auto; border: 1px solid #CCC; margin-bottom: 2em;
     background: white;
+}
+div.messages {
+    margin-bottom:1em;
+    border-bottom: 1px solid #dadada;
+    padding-bottom: 1em;
+}
+div.message {
+    margin-top:1em;
+    border-top: 1px solid #dadada;
+    padding-top: 1em;
+    font-size: 1.2em;
+}
+div.message label {
+    display: block;
+    color: #444;
+    margin-left: 7%;
+}
+div.message input {
+    width: 92%;
+    margin-left: 7%;
+    padding: 2px 5px;
+    color: #888;
+}
+div.message input:focus {
+    color: #444;
+}
+div.message .number {
+    float: left;
+    margin-top: 5px;
+    display: block;
 }

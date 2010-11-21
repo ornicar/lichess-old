@@ -5,7 +5,7 @@ use Bundle\LichessBundle\Translation\Manager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\TextField;
 use Symfony\Component\Form\ChoiceField;
-use Symfony\Component\Form\TextareaField;
+use Symfony\Component\Form\CollectionField;
 
 class TranslationForm extends Form
 {
@@ -24,8 +24,15 @@ class TranslationForm extends Form
         unset($languages['en']);
         array_unshift($languages, 'Choose a language');
         $this->add(new ChoiceField('code', array('choices' => $languages)));
-        $this->add(new TextareaField('yaml'));
         $this->add(new TextField('author'));
         $this->add(new TextField('comment'));
+    }
+
+    public function setData($data)
+    {
+        parent::setData($data);
+
+        $translations = new CollectionField(new TextField('messagesValues'));
+        $this->add($translations);
     }
 }

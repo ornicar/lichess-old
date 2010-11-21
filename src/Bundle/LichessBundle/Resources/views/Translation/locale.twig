@@ -1,11 +1,18 @@
 {% extends "LichessBundle:Translation:index.twig" %}
 {% block translation %}
 Please translate the following English words and phrases below.<br />
-For example, to translate from English to French:<br />
-<strong>"Level": ""</strong> becomes <strong>"Level": "Niveau"</strong><br />
-<strong>"Opponent: %ai_name%": ""</strong> becomes <strong>"Opponent: %ai_name%": "Adversaire : %ai_name%"</strong>
-<div class="field">
-    {{ form.yaml|render }}
+Words wrapped with "%" are variables. You must not translate them, but the must be present in your translation.<br />
+For example, <strong>Opponent: %ai_name%</strong> translated to french is <strong>Adversaire : %ai_name%</strong>
+<div class="field messages">
+    {% set messagesKeys = form.data.messagesKeys %}
+    {% for child in form.messagesValues %}
+        <div class="message">
+            <span class="number">{{ loop.index }}/{{ messagesKeys|length }}</span>
+            <label for="{{ child.id }}">{{ messagesKeys[loop.index0] }}</label>
+            {{ child|render_errors }}
+            {{ child|render }}
+        </div>
+    {% endfor %}
 </div>
 <div class="field">
     {{ form.author|render_label("Author (optional)") }}
