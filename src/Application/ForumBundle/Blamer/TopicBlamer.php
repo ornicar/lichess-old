@@ -9,7 +9,7 @@ class TopicBlamer extends AbstractSecurityBlamer implements BlamerInterface
 {
     public function blame($topic)
     {
-        $user = $this->securityContext->getUser();
+        $user = $this->security->getUser();
         if($user instanceof AdvancedAccountInterface && $user->hasRole('IS_AUTHENTICATED_FULLY')) {
             $topic->setAuthor($user);
         }
