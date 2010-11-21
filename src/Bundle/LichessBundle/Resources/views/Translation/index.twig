@@ -12,31 +12,12 @@
         {% if notice %}
             <div class="message">{{ notice }}</div>
         {% endif %}
-        <form action="{% path "lichess_translate" with ["locale": locale] %}" data-change-url="{% path "lichess_translate" with ["locale": "__"] %}" method="post">
+        <form action="{% path "lichess_translate_locale" with ["locale": locale] %}" data-change-url="{% path "lichess_translate_locale" with ["locale": "__"] %}" method="post">
             <div class="field">
                 {{ form.code|render_label("Translate from english to") }}
                 {{ form.code|render }}
             </div>
-            {% if locale %}
-                Please translate the following English words and phrases below.<br />
-                For example, to translate from English to French:<br />
-                <strong>"Level": ""</strong> becomes <strong>"Level": "Niveau"</strong><br />
-                <strong>"Opponent: %ai_name%": ""</strong> becomes <strong>"Opponent: %ai_name%": "Adversaire : %ai_name%"</strong>
-                <div class="field">
-                    {{ form.yaml|render }}
-                </div>
-                <div class="field">
-                    {{ form.author|render_label("Author (optional)") }}
-                    {{ form.author|render }}
-                </div>
-                <div class="field">
-                    {{ form.comment|render_label("Comment (optional)") }}
-                    {{ form.comment|render }}
-                </div>
-                <div class="field">
-                    <input type="submit" value="Submit translations" />
-                </div>
-            {% endif %}
+            {% block translation %}{% endblock %}
         </form>
         <hr />
         Big thanks go to all translators!

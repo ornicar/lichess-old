@@ -45,7 +45,9 @@ $(function() {
     $('#doctrine_user_user_form_username').focus();
 
     $('#lichess_translation_form_code').change(function() {
-        location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
+        if("0" != $(this).val()) {
+            location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
+        }
     });
 
     var elem = document.createElement('audio');

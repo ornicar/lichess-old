@@ -12,18 +12,22 @@ use Symfony\Component\Finder\Finder;
 
 class TranslationController extends Controller
 {
+    public function indexAction()
+    {
+        $form = $this->get('lichess.form.translation');
 
-    public function indexAction($locale)
+        return $this->render('LichessBundle:Translation:index.twig', array(
+            'form' => $form,
+            'locale' => '__'
+        ));
+    }
+
+    public function localeAction($locale)
     {
         $manager = $this->get('lichess.translation.manager');
         $translation = new Translation();
-        if(' ' === $locale) {
-            $locale = null;
-        }
-        if($locale) {
-            $translation->setCode($locale);
-            $translation->setName($manager->getLanguageName($locale));
-        }
+        $translation->setCode($locale);
+        $translation->setName($manager->getLanguageName($locale));
         try {
             $translation->setMessages($manager->getMessages($locale));
         }
@@ -41,13 +45,13 @@ class TranslationController extends Controller
                 $this->get('lichess.object_manager')->flush();
                 $this->get('session')->setFlash('notice', 'Your translation has been submitted, thanks!');
 
-                return $this->redirect($this->generateUrl('lichess_translate', array('locale' => $locale)));
+                return $this->redirect($this->generateUrl('lichess_translate_locale', array('locale' => $locale)));
             } else {
                 $error = $translation->getYamlError();
             }
         }
 
-        return $this->render('LichessBundle:Translation:index.twig', array(
+        return $this->render('LichessBundle:Translation:locale.twig', array(
             'form' => $form,
             'locale' => $locale,
             'error' => isset($error) ? $error : false

@@ -1,0 +1,21 @@
+{% extends "LichessBundle:Translation:index.twig" %}
+{% block translation %}
+Please translate the following English words and phrases below.<br />
+For example, to translate from English to French:<br />
+<strong>"Level": ""</strong> becomes <strong>"Level": "Niveau"</strong><br />
+<strong>"Opponent: %ai_name%": ""</strong> becomes <strong>"Opponent: %ai_name%": "Adversaire : %ai_name%"</strong>
+<div class="field">
+    {{ form.yaml|render }}
+</div>
+<div class="field">
+    {{ form.author|render_label("Author (optional)") }}
+    {{ form.author|render }}
+</div>
+<div class="field">
+    {{ form.comment|render_label("Comment (optional)") }}
+    {{ form.comment|render }}
+</div>
+<div class="field">
+    <input type="submit" value="Submit translations" />
+</div>
+{% endblock %}
