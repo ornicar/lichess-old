@@ -53,7 +53,7 @@ class Clock
      */
     protected $moveBonus;
 
-    public function __construct($limit, $moveBonus = 5)
+    public function __construct($limit, $moveBonus = 4)
     {
         $this->limit = (int) $limit;
         $this->moveBonus = (int) $moveBonus;
