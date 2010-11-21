@@ -23,6 +23,7 @@ class PostController extends BasePostController
         }
 
         $post = $form->getData();
+        $post->setTopic($topic);
         $this->get('forum.blamer.post')->blame($post);
         $this->savePost($post);
 
