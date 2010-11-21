@@ -246,17 +246,22 @@ class Manipulator
         ));
     }
 
+    protected function isCastleKingSide(King $king, Square $to)
+    {
+        if($to->getPiece()) {
+            return $to->getX() > $king->getX();
+        }
+        else {
+            return 7 === $to->getX();
+        }
+    }
+
     /**
      * Handle castling
      **/
     protected function castle(King $king, Square $to)
     {
-        if($to->getPiece()) {
-            $isKingSide = $to->getX() > $king->getX();
-        }
-        else {
-            $isKingSide = 7 === $to->getX();
-        }
+        $isKingSide = $this->isCastleKingSide($king, $to);
         $y = $king->getY();
 
         if ($isKingSide)
