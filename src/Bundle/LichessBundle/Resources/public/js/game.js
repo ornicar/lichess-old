@@ -426,6 +426,7 @@
          }
          if(self.$chat.length)
          {
+             var $form = self.$chat.find('form');
              self.$chat.find('ol.lichess_messages')[0].scrollTop = 9999999;
              var $input = self.$chat.find('input.lichess_say').one("focus", function()
                      {
@@ -433,7 +434,7 @@
                      });
 
              // send a message
-             self.$chat.find('form').submit(function()
+             $form.submit(function()
                      {
                          text = $.trim($input.val());
                          if(!text) return false;
@@ -445,6 +446,11 @@
                          self.syncUrl(self.options.url.say, null, {message: text});
                          return false;
                      });
+
+             self.$chat.find('a.send').click(function() {
+                 $input.trigger('click');
+                 $form.submit();
+             });
 
              // toggle the chat
              self.$chat.find('input.toggle_chat').change(function()

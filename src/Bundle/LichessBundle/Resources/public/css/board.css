@@ -573,18 +573,36 @@ div.lichess_chat ol {
     -webkit-border-radius: 4px 4px 0 0;
 }
 
+div.lichess_chat form {
+    position: relative;
+}
 div.lichess_chat form input {
     border: 1px solid #ccc;
     border-top: 0;
-    padding: 2px 5px;
+    padding: 2px 20px 2px 4px;
     border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
-    width: 183px;
+    width: 169px;
     background: white;
 }
 div.lichess_chat input.lichess_hint {
     color: #888;
+}
+div.lichess_chat a.send {
+    position: absolute;
+    top: 0px;
+    right: 2px;
+    display: block;
+    height: 16px;
+    width: 16px;
+    background: url(../images/send.png) top left no-repeat;
+    text-decoration: none;
+    z-index: 1;
+    opacity: 0.5;
+}
+div.lichess_chat a.send:hover {
+    opacity: 1;
 }
 
 div.lichess_chat ol.lichess_messages li {
