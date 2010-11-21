@@ -485,6 +485,9 @@
          }
          self.$table.css('top', (256-self.$table.height()/2)+'px');
          self.$table.find('a, input, label').tipsy({fade: true});
+         self.$table.find('a.lichess_play_again_decline').one('click', function() {
+             $(this).parent().remove();
+         });
      },
      initClocks: function()
      {

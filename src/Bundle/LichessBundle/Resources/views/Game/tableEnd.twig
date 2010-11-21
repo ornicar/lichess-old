@@ -34,7 +34,8 @@
                 {% if player.color == nextGame.creator.color %}
                     <div class="lichess_play_again_join">
                         {% trans "Your opponent wants to play a new game with you" %}.&nbsp;
-                        <a class="lichess_play_again" title="{% trans "Play with the same opponent again" %}" href="{% path "lichess_rematch" with ["id": player.fullId] %}">{% trans "Join the game" %}</a>
+                        <a class="lichess_play_again" title="{% trans "Play with the same opponent again" %}" href="{% path "lichess_rematch" with ["id": player.fullId] %}">{% trans "Join the game" %}</a><br />
+                        <a class="lichess_play_again_decline">{% trans "Decline invitation" %}</a>
                     </div>
                 {% else %}
                     <div class="lichess_play_again_join">
