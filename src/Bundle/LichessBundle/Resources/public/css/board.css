@@ -448,7 +448,7 @@ div.lichess_control div.lichess_play_again_join {
     background: url(../images/rematch.gif) center left no-repeat;
     padding-left: 60px;
 }
-div.lichess_control div.lichess_play_again_join a {
+div.lichess_control div.lichess_play_again_join a.lichess_play_again {
     margin-left: 0;
     font-size: 150%;
     display: block;
