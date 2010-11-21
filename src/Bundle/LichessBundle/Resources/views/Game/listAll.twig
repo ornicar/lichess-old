@@ -3,5 +3,5 @@
 {% block list_type %}All games{% endblock %}
 {% block list_menu %}
 <a class="game_list" href="{% path "lichess_list_current" %}">{% trans 'Games being played right now' %}</a>
-<a class="game_list" href="{% path "lichess_list_mates" %}">{% trans 'View %nb% Checkmates' with ['%nb%': nbMates] %}</a>
+<a class="game_list" href="{% path "lichess_list_mates" %}">{% trans 'View %nb% checkmates' with ['%nb%': nbMates] %}</a>
 {% endblock %}
