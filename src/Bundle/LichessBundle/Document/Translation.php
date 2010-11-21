@@ -76,15 +76,6 @@ class Translation
         $this->setCreatedAt(new \DateTime());
     }
 
-    public function setEmptyMessages($messages)
-    {
-        foreach($messages as $from => $to) {
-            $messages[$from] = '';
-        }
-
-        $this->setMessages($messages);
-    }
-
     /**
      * Get yamlMessages
      * @return string

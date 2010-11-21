@@ -29,10 +29,10 @@ class TranslationController extends Controller
         $translation->setCode($locale);
         $translation->setName($manager->getLanguageName($locale));
         try {
-            $translation->setMessages($manager->getMessages($locale));
+            $translation->setMessages($manager->getMessagesWithReferenceKeys($locale));
         }
         catch(\InvalidArgumentException $e) {
-            $translation->setEmptyMessages($manager->getMessages('fr'));
+            $translation->setMessages($manager->getEmptyMessages());
         }
         $form = $this->get('lichess.form.translation');
         $form->setData($translation);
