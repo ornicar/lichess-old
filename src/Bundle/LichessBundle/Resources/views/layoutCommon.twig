@@ -25,6 +25,7 @@
             <ul class="lichess_social"></ul>
             <div class="footer">
                 <div class="right">
+                    <a href="http://twitter.com/#!/ornicar">twitter.com/ornicar</a> | <a href="http://github.com/ornicar">github.com/ornicar</a><br />
                     {% trans "Contact" %}: <span class="js_email"></span><br />
                     <a href="{% path "lichess_about" %}" class="blank_if_play">{% trans "Learn more about Lichess" %}</a>
                 </div>
@@ -40,7 +41,7 @@
         </div>
         <div id="top_menu">
             {% block top_menu %}
-            <a title="{% trans "Toggle sound" %}" href="{% path "lichess_toggle_sound" %}" id="sound_state" class="sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
+            <a title="{% trans "Toggle sound" %}" href="{% path "lichess_toggle_sound" %}" id="sound_state" class="available sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
             <div class="lichess_language">
                 <span>{{ _view.locale.localeName }}</span>
                 <ul class="lichess_language_links">

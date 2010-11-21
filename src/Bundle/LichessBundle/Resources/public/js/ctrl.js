@@ -15,7 +15,9 @@ $(function() {
         };
         reloadNbConnectedPlayers();
     }
+
     if($config = $('div.game_config_form').orNot()) {
+        $('div.lichess_overboard').show();
         $config.find('div.variants, div.clocks').buttonset().disableSelection();
         $config.find('button.submit').button().disableSelection();
     }
@@ -24,12 +26,14 @@ $(function() {
         $overboard.css('top', (238-$overboard.height()/2)+'px').show();
     }
 
-    $('div.lichess_language').hover(function() { $(this).find('ul').fadeIn(300); }, function() { $(this).find('ul').fadeOut(300); });
-
     // Append marks 1-8 && a-h
     if($bw = $('div.lichess_board_wrap').orNot()) {
         $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
     }
+
+    $('div.lichess_language').hover(function() { $(this).find('ul').fadeIn(300); }, function() {
+        $(this).find('ul').fadeOut(300);
+    });
 
     $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
@@ -63,7 +67,7 @@ $(function() {
 
     if(canPlayAudio) {
         $('body').append($('<audio id="lichess_sound_player">').attr('src', $('body').attr('data-sound-file')));
-        $('#sound_state').css('display', 'block').click(function() {
+        $('#sound_state').click(function() {
             var $toggler = $(this);
             $.post($toggler.attr('href'), {}, function(data) {
                 $toggler.attr('class', 'sound_state_'+data);
@@ -73,8 +77,11 @@ $(function() {
             return false;
         });
         $game && $game.trigger('lichess.audio_ready');
-    } else if($('a.lichess_exchange').length) {
-        $('div.lichess_goodies_wrap').append('<br />Your browser is deprecated, please consider upgrading!<br /><a href="http://getfirefox.com" target="_blank"><img src="http://sfx-images.mozilla.org/firefox/3.6/96x31_edit_green.png" width="96" height="31" /></a>');
+    } else {
+        $('#sound_state').removeClass('available');
+        if($('a.lichess_exchange').length) {
+            $('div.lichess_goodies_wrap').append('<br />Your browser is deprecated, please consider upgrading!<br /><a href="http://getfirefox.com" target="_blank"><img src="http://sfx-images.mozilla.org/firefox/3.6/96x31_edit_green.png" width="96" height="31" /></a>');
+        }
     }
 
     if(document.domain == 'lichess.org') {
