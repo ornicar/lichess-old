@@ -17,13 +17,16 @@ $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST
 // Handle number of connected players requests
 
 if('/how-many-players-now' === $url) {
-    $cleanup = 0 === rand(0, 50);
-    $it = new \APCIterator('user', '/alive$/', $cleanup ? APC_ITER_MTIME | APC_ITER_KEY : APC_ITER_MTIME, 100, APC_LIST_ACTIVE);
-    $nb = 0;
-    $limit = time() - $timeout;
-    foreach($it as $i) {
-        if($cleanup) apc_fetch($i['key']);
-        if($i['mtime'] >= $limit) ++$nb;
+    $nb = apc_fetch('lichess.nb_players');
+    if(false === $nb) {
+        $it = new \APCIterator('user', '/alive$/', APC_ITER_MTIME, 100, APC_LIST_ACTIVE);
+        $nb = 0;
+        $limit = time() - $timeout;
+        foreach($it as $i) {
+            apc_fetch($i['key']); // clear invalidated entries
+            if($i['mtime'] >= $limit) ++$nb;
+        }
+        apc_store('lichess.nb_players', $nb, 2);
     }
 
     // Return minimalist JSON response telling the number of connected players
