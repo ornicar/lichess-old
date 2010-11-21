@@ -10,7 +10,7 @@
         {% endif %}
         {% set notice %}{% flash "notice" %}{% endset %}
         {% if notice %}
-            <div class="message">{{ notice }}</div>
+            <div class="notice">{{ notice }}</div>
         {% endif %}
         <form action="{% path "lichess_translate_locale" with ["locale": locale] %}" data-change-url="{% path "lichess_translate_locale" with ["locale": "__"] %}" method="post">
             <div class="field">

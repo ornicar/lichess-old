@@ -172,6 +172,21 @@ class Translation
         return $this->messages;
     }
 
+    public function getMessagesValues()
+    {
+        return array_values($this->getMessages());
+    }
+
+    public function setMessagesValues($values)
+    {
+        return $this->setMessages(array_combine($this->getMessagesKeys(), $values));
+    }
+
+    public function getMessagesKeys()
+    {
+        return array_keys($this->getMessages());
+    }
+
     /**
      * @param  array
      * @return null
