@@ -774,12 +774,12 @@ class Game
     }
 
     /**
-     * Tell if the game is beeing played right now
+     * Tell if the game is being played right now
      * This method is not accurate
      *
      * @return bool
      **/
-    public function isBeeingPlayed()
+    public function isBeingPlayed()
     {
         if($this->getIsFinished()) {
             return false;
