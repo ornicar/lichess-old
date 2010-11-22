@@ -761,7 +761,7 @@ class Game
      */
     public function getUpdatedAt()
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?: $this->getCreatedAt();
     }
 
     /**
