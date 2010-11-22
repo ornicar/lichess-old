@@ -37,6 +37,10 @@ lichess_game_compat:
     pattern:        /:id
     defaults:       { _controller: lichess.controller.compat:gameShowAction }
     requirements:   { id: "[\w\-]{6}" }
+lichess_analyse_compat:
+    pattern:        /analyse/:id/:color
+    defaults:       { _controller: lichess.controller.compat:analyzeAction, color: white }
+    requirements:   { id: "[\w\-]{6}", color: (white|black) }
 lichess_player_compat:
     pattern:        /:id
     defaults:       { _controller: lichess.controller.compat:playerShowAction }
