@@ -7,11 +7,11 @@
         {{ _view.lichess_game.renderBoard(player, checkSquareKey)|raw }}
     </div>
     <div class="lichess_ground">
-        {% include "LichessBundle:Game:cemetery.twig" with ["player": player, "position": top] %}
+        {% include "LichessBundle:Game:cemetery.twig" with ["player": player, "position": "top"] %}
         <div class="lichess_table_wrap">
             {% render "LichessBundle:Player:table" with ["id": player.game.id, "color": player.color, "playerFullId": player.fullId] %}
         </div>
-        {% include "LichessBundle:Game:cemetery.twig" with ["player": player.opponent, "position": bottom] %}
+        {% include "LichessBundle:Game:cemetery.twig" with ["player": player.opponent, "position": "bottom"] %}
     </div>
 </div>
 {% endblock %}
