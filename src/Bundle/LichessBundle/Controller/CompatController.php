@@ -17,6 +17,17 @@ class CompatController extends Controller
         throw new NotFoundHttpException(sprintf('Compatibility for game "%s" not found', $id));
     }
 
+    public function analyzeAction($id)
+    {
+        $newId = $id . '00';
+
+        if($this->get('lichess.repository.game')->existsById($newId)) {
+            return $this->redirect($this->generateUrl('lichess_pgn_viewer', array('id' => $newId)));
+        }
+
+        throw new NotFoundHttpException(sprintf('Compatibility for game "%s" not found', $id));
+    }
+
     public function playerShowAction($id)
     {
         $gameId = substr($id, 0, 6);
