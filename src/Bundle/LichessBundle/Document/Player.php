@@ -363,7 +363,9 @@ class Player
      */
     public function setPieces(array $pieces)
     {
-        $this->pieces->clear();
+        foreach($this->pieces as $index => $p) {
+            $this->pieces->remove($index);
+        }
         foreach($pieces as $piece) {
             $this->addPiece($piece);
         }
