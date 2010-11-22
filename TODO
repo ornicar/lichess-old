@@ -1,6 +1,8 @@
 * propose draw
-* rematch chess960 keeps piece position
+* detect and punish cheaters
+* choose casual game or ranked game
 * cancel invitation
+* rematch chess960 keeps piece position
 * reverse board in watch mode
 * analysis anchor (http://lichess.org/forum/lichess-feedback/4cd1967630c3534159000000)
 * secure forum (captcha?)

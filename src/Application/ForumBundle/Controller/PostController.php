@@ -31,7 +31,7 @@ class PostController extends BasePostController
         $url = $this->get('forum.templating.helper.forum')->urlForPost($post);
 
         $response = $this->redirect($url);
-        if(!$this->isUserAuthenticated()) {
+        if(!$this->get('lichess.security.helper')->isAuthenticated()) {
             $response->headers->setCookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
         }
 
@@ -42,18 +42,13 @@ class PostController extends BasePostController
     {
         $form = parent::createForm($name, $topic);
 
-        if($this->isUserAuthenticated()) {
+        if($this->get('lichess.security.helper')->isAuthenticated()) {
             unset($form['authorName']);
         } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
             $form['authorName']->setData(urldecode($authorName));
         }
 
         return $form;
-    }
-
-    protected function isUserAuthenticated()
-    {
-        return is_object($this->get('security.context')->getUser()) && $this->get('security.context')->getUser()->hasRole('IS_AUTHENTICATED_FULLY');
     }
 
 }

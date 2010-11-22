@@ -32,7 +32,7 @@ class TopicController extends BaseTopicController
         $url = $this->get('forum.templating.helper.forum')->urlForTopic($topic);
 
         $response = $this->redirect($url);
-        if(!$this->get('security.context')->getUser()->hasRole('IS_AUTHENTICATED_FULLY')) {
+        if(!$this->get('lichess.security.helper')->isAuthenticated()) {
             $response->headers->setCookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
         }
 
@@ -43,7 +43,7 @@ class TopicController extends BaseTopicController
     {
         $form = parent::createForm($name, $category);
 
-        if($this->get('security.context')->getUser()->hasRole('IS_AUTHENTICATED_FULLY')) {
+        if($this->get('lichess.security.helper')->isAuthenticated()) {
             unset($form['firstPost']['authorName']);
         } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
             $form['firstPost']['authorName']->setData(urldecode($authorName));
