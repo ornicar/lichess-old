@@ -624,5 +624,5 @@ div.lichess_chat ol.lichess_messages li.system {
     background-image: url(../images/tip3.png);
 }
 div.lichess_chat.hidden ol.lichess_messages, div.lichess_chat.hidden form {
-    opacity: 0.2;
+    opacity: 0.05;
 }
