@@ -2,7 +2,7 @@
     <div class="game_row clearfix">
         {{ _view.lichess_game.renderMini(game)|raw }}
         <div class="infos">
-            {% if game.isBeeingPlayed %}
+            {% if game.isBeingPlayed %}
                 <a class="link" href="{% path "lichess_game" with ["id": game.id] %}">
                     Playing right now at {% url "lichess_game" with ["id": game.id] %}
                 </a>
