@@ -34,6 +34,7 @@
             <parameter key="ca">Català</parameter>
             <parameter key="sl">slovenščina</parameter>
             <parameter key="az">azərbaycan dili</parameter>
+            <parameter key="nn">Norsk</parameter>
         </parameter>
 
     </parameters>
