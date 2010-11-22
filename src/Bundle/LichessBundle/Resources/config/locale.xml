@@ -23,9 +23,9 @@
             <parameter key="it">Italian</parameter>
             <parameter key="fi">suomi, suomen kieli</parameter>
             <parameter key="uk">українськ</parameter>
-            <parameter key="pt">Portuguê</parameter>
+            <parameter key="pt">Português</parameter>
             <parameter key="pl">polski</parameter>
-            <parameter key="nl">Nederlands, Vlaam</parameter>
+            <parameter key="nl">Nederlands, Vlaams</parameter>
             <parameter key="vi">Tiếng Việt</parameter>
             <parameter key="sv">svensk</parameter>
             <parameter key="cs">česky, čeština</parameter>
