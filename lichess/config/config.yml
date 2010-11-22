@@ -51,7 +51,7 @@ doctrine_odm.mongodb:
         default:
             options:
                 connect: true
-                persistent: lichess
+                persist: lichess
 
 forum.config:
     db_driver: odm
