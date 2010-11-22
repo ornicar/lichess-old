@@ -16,7 +16,7 @@ class UserController extends BaseUserController
             ->sort('elo', 'desc');
         $users = new Paginator(new DoctrineMongoDBAdapter($query));
         $users->setCurrentPageNumber($this->get('request')->query->get('page', 1));
-        $users->setItemCountPerPage(10);
+        $users->setItemCountPerPage(20);
         $users->setPageRange(10);
         $pagerUrl = $this->generateUrl('doctrine_user_user_list');
 
