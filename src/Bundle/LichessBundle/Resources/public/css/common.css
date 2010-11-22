@@ -167,12 +167,9 @@ a#sound_state {
     float: right;
     width: 18px;
     height: 15px;
-    opacity: 0;
-}
-a#sound_state.available {
     opacity: 0.7;
 }
-a#sound_state.available:hover {
+a#sound_state:hover {
     opacity: 1;
 }
 a.sound_state_on {
@@ -180,6 +177,9 @@ a.sound_state_on {
 }
 a.sound_state_off {
     background: url(../images/sound-off.gif) top left no-repeat;
+}
+a#sound_state.unavailable {
+    opacity: 0;
 }
 div.lichess_language {
     margin-top: 4px;
