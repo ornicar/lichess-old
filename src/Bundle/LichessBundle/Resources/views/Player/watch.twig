@@ -22,6 +22,6 @@
     <a class="lichess_replay_link" href="{% path "lichess_pgn_viewer" with ["id": player.game.id, "color": player.color] %}">{% trans "Replay and analyse" %}</a>
     <br /><br />
     {% trans "You are viewing this game as a spectator" %}.<br /><br />
-    <a href="{% trans "lichess_homepage" %}"><strong>{% trans "Play a new game" %}</strong></a>
+    <a href="{% path "lichess_homepage" %}"><strong>{% trans "Play a new game" %}</strong></a>
 </div>
 {% endblock %}
