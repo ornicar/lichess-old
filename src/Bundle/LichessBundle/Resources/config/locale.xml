@@ -38,6 +38,7 @@
             <parameter key="eo">Esperanto</parameter>
             <parameter key="tp">Toki Pona</parameter>
             <parameter key="el">Ελληνικά</parameter>
+            <parameter key="frp">arpitan</parameter>
         </parameter>
 
     </parameters>
