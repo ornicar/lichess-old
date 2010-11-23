@@ -33,6 +33,14 @@ class Player
     protected $user = null;
 
     /**
+     * Session key bound to the player - optional
+     *
+     * @var string
+     * @mongodb:Field(type="string")
+     */
+    protected $session = null;
+
+    /**
      * Fixed ELO of the player user, if any
      *
      * @var int
@@ -118,6 +126,23 @@ class Player
     }
 
     /**
+     * @return string
+     */
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setSession($session)
+    {
+        $this->session = $session;
+    }
+
+    /**
      * Get the user bound to this player, if any
      *
      * @return User or null
@@ -147,7 +172,7 @@ class Player
      */
     public function getElo()
     {
-      return $this->elo;
+        return $this->elo;
     }
 
     /**
