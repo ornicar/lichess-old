@@ -39,7 +39,7 @@
 "Make your opponent resign": "jan ante o pini"
 "Force resignation": "o pini e musi"
 "Talk in chat": "toki..."
-"Taking too long?": "toki mute ike?"
+"Taking too long?": "awen li mute ike?"
 "Bring people to play with you": "jan ante o kama musi tawa sina"
 "The first person to come on this url will play with you.": "jan pi nanpa wan lon nimi open ni li musi tawa sina"
 "Human": "jan"
@@ -96,3 +96,4 @@
 "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws": "%nb_wins% li pini pona, %nb_losses% li pini ike, %nb_draws% li pini moli"
 "Best ELO": "nanpa ELO pona mute"
 "Decline invitation": "tawa musi ala"
+"Cancel": "pali ala"
