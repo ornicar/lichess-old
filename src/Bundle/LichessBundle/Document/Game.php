@@ -654,6 +654,22 @@ class Game
         }
     }
 
+    public function getPlayerByUserOrCreator(User $user = null)
+    {
+        if($user) {
+            foreach($this->getPlayers() as $p) {
+                if($user->is($p->getUser())) {
+                    $player = $p;
+                }
+            }
+        }
+        if(empty($player)) {
+            $player = $this->getCreator();
+        }
+
+        return $player;
+    }
+
     /**
      * @return Player
      */
