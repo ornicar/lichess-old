@@ -18,7 +18,7 @@
     {% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": games.pages, "url": pagerUrl] %}{% endset %}
     <div class="games">
         <div class="pager pager_top">{{ pagination|raw }}</div>
-        {% include "LichessBundle:Game:listWidget.twig" with ["games": games] %}
+        {% include "LichessBundle:Game:listWidget.twig" with ["games": games, "user": user] %}
         <div class="pager pager_bottom">{{ pagination|raw }}</div>
     </div>
 </div>

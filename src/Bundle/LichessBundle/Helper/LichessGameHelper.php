@@ -6,6 +6,7 @@ use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
+use Bundle\DoctrineUserBundle\Model\User;
 
 class LichessGameHelper extends Helper
 {
@@ -118,9 +119,9 @@ class LichessGameHelper extends Helper
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
     }
 
-    public function renderMini(Game $game)
+    public function renderMini(Game $game, User $user = null)
     {
-        $player = $game->getCreator();
+        $player = $game->getPlayerByUserOrCreator($user);
         $board = $player->getGame()->getBoard();
         $squares = $board->getSquares();
 
