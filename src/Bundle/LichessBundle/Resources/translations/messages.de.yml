@@ -11,7 +11,7 @@
 "Waiting for opponent": "Auf Gegner warten"
 "Waiting": "Bitte warten Sie!"
 "Your turn": "Sie sind am Zug!"
-"Opponent: %ai_name%": "Gegner: %ai_Name%"
+"Opponent: %ai_name%": "Gegner: %ai_name%"
 "Opponent: %ai_name% level %ai_level%": "Gegner: %ai_name% level %ai_level%"
 "%ai_name% level %ai_level%": "%ai_name% level %ai_level%"
 "Level": "Level"
@@ -94,3 +94,4 @@
 "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws": "%nb_wins% Siege, %nb_losses% Niederlagen und %nb_draws% Remis"
 "Best ELO": "Beste ELO-Zahl"
 "Decline invitation": "Einladung ablehnen"
+"Cancel": ""
