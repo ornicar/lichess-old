@@ -30,7 +30,6 @@ class GameFunctionalTest extends WebTestCase
         $this->assertEquals('white', $game->getPlayer('white')->getColor());
         $this->assertEquals('black', $game->getPlayer('black')->getColor());
         $this->assertInstanceOf('\DateTime', $game->getCreatedAt());
-        $this->assertNull($game->getUpdatedAt());
 
         return $gameId;
     }
