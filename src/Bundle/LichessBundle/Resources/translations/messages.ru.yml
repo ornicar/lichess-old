@@ -93,6 +93,6 @@
 "Learn more about Lichess": "Узнать больше о Lichess"
 "Rank": "Уровень"
 "Games played": "Игр сыграно"
-"%nb_wins% wins, %nb_loses% loses and %nb_draws% draws": "Побед: %nb_wins%, поражений: %nb_loses%, ничей: %nb_draws%"
+"%nb_wins% wins, %nb_losses% losses and %nb_draws% draws": "Побед: %nb_wins%, поражений: %nb_losses%, ничей: %nb_draws%"
 "Best ELO": ""
 "Decline invitation": "Отклонить приглашение"
