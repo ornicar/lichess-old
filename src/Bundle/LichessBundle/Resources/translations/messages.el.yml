@@ -93,6 +93,6 @@
 "Learn more about Lichess": "Μάθε περισσότερα για το lichess"
 "Rank": "Επίπεδο"
 "Games played": "Παιγμένα παιχνίδια"
-"%nb_wins% wins, %nb_loses% loses and %nb_draws% draws": "%nb_wins% νίκες, %nb_loses% ήττες και %nb_draws% ισοπαλίες"
+"%nb_wins% wins, %nb_losses% losses and %nb_draws% draws": "%nb_wins% νίκες, %nb_losses% ήττες και %nb_draws% ισοπαλίες"
 "Best ELO": "Καλύτερο έλο"
 "Decline invitation": "Αρνήσου πρόσκληση"
