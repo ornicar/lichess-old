@@ -12,7 +12,9 @@ class Manager
     {
         $this->referenceLanguage = $referenceLanguage;
         $this->languages = include(__DIR__.'/../Resources/config/locales.php');
-        ksort($this->languages);
+        foreach($this->languages as $code => $name) {
+            $this->languages[$code] = $code.' - '.$name;
+        }
     }
 
     public function getMessageKeys()

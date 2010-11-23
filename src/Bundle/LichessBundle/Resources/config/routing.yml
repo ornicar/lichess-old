@@ -115,13 +115,14 @@ lichess_claim_draw:
 lichess_locale:
     pattern:        /locale/:locale
     defaults:       { _controller: lichess.controller.main:localeAction }
+    requirements:   { locale: "\w{2,3}" }
 lichess_translate:
     pattern:        /translate
     defaults:       { _controller: lichess.controller.translation:indexAction }
 lichess_translate_locale:
     pattern:        /translate/:locale
     defaults:       { _controller: lichess.controller.translation:localeAction }
-    requirements:   { locale: "\w{2}" }
+    requirements:   { locale: "\w{2,3}" }
 lichess_translate_list:
     pattern:        /translate_list
     defaults:       { _controller: lichess.controller.translation:listAction }
