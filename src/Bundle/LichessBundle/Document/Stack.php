@@ -73,6 +73,7 @@ class Stack
     public function addEvent(array $event)
     {
         $this->events[] = $this->encodeEvent($event);
+        $this->rotate();
     }
 
     public function reset()
@@ -82,8 +83,8 @@ class Stack
 
     public function rotate()
     {
-        if(count($this->events) > static::MAX_EVENTS) {
-            $this->events = array_slice($this->events, -static::MAX_EVENTS, null, true);
+        if(count($this->events) > $this->getMaxEvents()) {
+            $this->events = array_slice($this->events, -$this->getMaxEvents(), null, true);
         }
     }
 
