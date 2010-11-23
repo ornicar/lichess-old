@@ -35,7 +35,10 @@ class MainController extends Controller
 
     public function localeAction($locale)
     {
-        $this->container->getSessionService()->setLocale($locale);
+        if($this->get('lichess.translation.manager')->isAvailable($locale)) {
+            $this->get('session')->setLocale($locale);
+            $this->get('session')->setFlash('locale_change', $locale);
+        }
         $baseUrl = $this->generateUrl('lichess_homepage', array(), true);
         $localeUrl = $this->generateUrl('lichess_locale', array('locale' => $locale), true);
         $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';

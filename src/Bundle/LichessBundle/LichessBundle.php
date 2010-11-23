@@ -22,9 +22,10 @@ class LichessBundle extends BaseBundle
                 }
                 if(!$session->has('lichess.session_id')) {
                     $session->set('lichess.session_id', KeyGenerator::generate(10));
-                    $languages = array_keys($container->getParameter('lichess.locales'));
+                    $languages = $container->get('lichess.translation.manager')->getAvailableLanguageCodes();
                     $bestLocale = $container->get('request')->getPreferredLanguage($languages);
                     $session->setLocale($bestLocale);
+                    $session->setFlash('locale_change', $bestLocale);
                 }
             }
         });
