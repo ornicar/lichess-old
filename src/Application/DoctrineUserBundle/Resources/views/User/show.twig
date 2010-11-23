@@ -15,12 +15,11 @@
         Registered {{ _view.time.ago(user.createdAt) }}<br />
         {% trans "Best ELO" %}: {{ user.maxElo }}, {{ _view.time.ago(user.maxEloDate) }}
     </div>
+    {% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": games.pages, "url": pagerUrl] %}{% endset %}
     <div class="games">
-        <h2>{% trans "Games played" %}</h2>
+        <div class="pager pager_top">{{ pagination|raw }}</div>
         {% include "LichessBundle:Game:listWidget.twig" with ["games": games] %}
-        <div class="pager pager_bottom">
-            {% include "LichessBundle::pagination.twig" with ["pager": games.pages, "url": pagerUrl] %}
-        </div>
+        <div class="pager pager_bottom">{{ pagination|raw }}</div>
     </div>
 </div>
 {% endblock %}

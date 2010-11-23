@@ -32,7 +32,7 @@ class UserController extends BaseUserController
         $query = $this->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
         $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
-        $games->setItemCountPerPage(1);
+        $games->setItemCountPerPage(3);
         $games->setPageRange(10);
         $pagerUrl = $this->generateUrl('doctrine_user_user_show', array('username' => $user->getUsername()));
 
