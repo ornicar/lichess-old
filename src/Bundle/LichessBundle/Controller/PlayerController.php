@@ -300,6 +300,19 @@ class PlayerController extends Controller
         ));
     }
 
+    public function cancelAnybodyAction($id)
+    {
+        $player = $this->findPlayer($id);
+        $game   = $player->getGame();
+        if($game->getIsStarted()) {
+            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        }
+        $this->get('lichess.seek_queue')->remove($game);
+        $this->get('lichess.object_manager')->flush();
+
+        return $this->redirect($this->generateUrl('lichess_homepage', array('color' => $player->getColor())));
+    }
+
     public function waitFriendAction($id)
     {
         $player = $this->findPlayer($id);

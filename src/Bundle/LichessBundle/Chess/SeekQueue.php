@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Chess;
 use Bundle\LichessBundle\Document\SeekRepository;
 use Bundle\LichessBundle\Document\Seek;
+use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
@@ -70,6 +71,14 @@ class SeekQueue
 
         $this->objectManager->flush();
         return array('status' => $status, 'game' => $game);
+    }
+
+    public function remove(Game $game)
+    {
+        if($seek = $this->repository->findOneByGame($game)) {
+            $this->objectManager->remove($seek);
+            $this->objectManager->remove($game);
+        }
     }
 
     protected function searchMatching(Seek $seek)

@@ -12,7 +12,7 @@ webprofiler.config:
 
 zend.config:
     logger:
-        priority: info
+        priority: notice
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
 twig.config:
