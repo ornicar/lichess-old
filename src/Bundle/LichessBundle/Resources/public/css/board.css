@@ -221,14 +221,13 @@ div.lichess_overboard.game_config_ai button.submit {
     margin-top: 0.5em;
 }
 
-div.lichess_overboard.wait_anybody,
-div.lichess_overboard .wait_next {
+div.lichess_overboard.wait_anybody {
     width: 220px;
     left: 147px;
     padding: 10px 0 10px 0;
 }
-div.lichess_overboard.wait_anybody {
-    height: auto;
+div.lichess_overboard.wait_anybody a.cancel {
+    font-size: 0.8em;
 }
 div.lichess_table_wait_next {
     background-image: url(../images/loader2.gif);

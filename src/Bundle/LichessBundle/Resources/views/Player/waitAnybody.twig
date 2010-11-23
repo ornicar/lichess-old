@@ -7,6 +7,7 @@
         <div class="lichess_overboard wait_anybody">
             <img src="{% asset 'bundles/lichess/images/hloader.gif' %}" width="220" height="33" /><br />
             {% trans 'Waiting for opponent' %}...
+            <a class="cancel" href="{% path "lichess_cancel_anybody" with["id": player.fullId] %}">{% trans "Cancel" %}</a>
             <p class="explanations">
                 Variant: {{ config.renderVariantNames }}<br />
                 Clock: {{ config.renderTimeNames }}

@@ -61,6 +61,10 @@ lichess_wait_anybody:
     pattern:        /anybody/:id
     defaults:       { _controller: lichess.controller.player:waitAnybodyAction }
     requirements:   { id: "[\w\-]{12}" }
+lichess_cancel_anybody:
+    pattern:        /anybody/:id/cancel
+    defaults:       { _controller: lichess.controller.player:cancelAnybodyAction }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_resign:
     pattern:        /resign/:id
     defaults:       { _controller: lichess.controller.player:resignAction }
