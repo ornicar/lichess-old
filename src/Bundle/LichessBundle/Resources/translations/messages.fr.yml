@@ -93,7 +93,7 @@
 "Learn more about Lichess": "En savoir plus sur Lichess"
 "Rank": "Classement"
 "Games played": "Parties jouées"
-"%nb_wins% wins, %nb_loses% loses and %nb_draws% draws": "%nb_wins% victoires, %nb_loses% défaites et %nb_draws% nuls"
+"%nb_wins% wins, %nb_losses% losses and %nb_draws% draws": "%nb_wins% victoires, %nb_losses% défaites et %nb_draws% nuls"
 "Best ELO": "Meilleur ELO"
 "Decline invitation": "Décliner l'invitation"
 "Cancel": "Annuler"
