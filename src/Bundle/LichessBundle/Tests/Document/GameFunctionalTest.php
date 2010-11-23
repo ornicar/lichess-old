@@ -45,7 +45,6 @@ class GameFunctionalTest extends WebTestCase
         $this->assertEquals('white', $game->getPlayer('white')->getColor());
         $this->assertEquals('black', $game->getPlayer('black')->getColor());
         $this->assertInstanceOf('\DateTime', $game->getCreatedAt());
-        $this->assertNull($game->getUpdatedAt());
         $this->assertNull($game->getClock());
         $this->assertNull($game->getRoom());
 
@@ -125,7 +124,7 @@ class GameFunctionalTest extends WebTestCase
         for($i=0; $i<$player->getStack()->getMaxEvents(); $i++) {
             $player->addEventToStack(array('type' => 'event '.$i));
         }
-        $this->assertEquals($player->getStack()->getMaxEvents() + 3, $player->getStack()->getNbEvents());
+        $this->assertEquals($player->getStack()->getMaxEvents(), $player->getStack()->getNbEvents());
         $this->dm->flush();
         $this->dm->clear();
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());

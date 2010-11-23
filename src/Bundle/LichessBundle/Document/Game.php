@@ -849,18 +849,6 @@ class Game
 
     /**
      * @mongodb:PreUpdate
-     */
-    public function rotatePlayerStacks()
-    {
-        foreach($this->getPlayers() as $player) {
-            if(!$player->getIsAi()) {
-                $player->getStack()->rotate();
-            }
-        }
-    }
-
-    /**
-     * @mongodb:PreUpdate
      * @mongodb:PrePersist
      */
     public function cachePlayerVersions()
