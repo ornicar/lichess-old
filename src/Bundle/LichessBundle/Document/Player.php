@@ -147,7 +147,7 @@ class Player
      */
     public function getElo()
     {
-      return $this->elo;
+        return $this->elo;
     }
 
     /**
