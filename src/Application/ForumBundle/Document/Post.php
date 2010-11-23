@@ -24,7 +24,7 @@ class Post extends BasePost
     /**
      * The author user if any
      *
-     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User", nullable=true)
+     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
      * @var User
      */
     protected $author = null;

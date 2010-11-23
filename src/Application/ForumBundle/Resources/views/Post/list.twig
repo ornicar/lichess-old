@@ -2,7 +2,12 @@
     {% for post in posts %}
     <div class="post" id="{{ post.number|raw }}">
         <div class="metas">
-            <span class="authorName">{{ post.authorName|default("Anonymous") }}</span> <span class="createdAt">{{ _view.time.ago(post.createdAt)|raw }}</span>
+            {% if post.author %}
+                <span class="authorName authenticated">{{ _view.lichess_user.link(post.author)|raw }}</span>
+            {% else %}
+                <span class="authorName">{{ post.authorName|default("Anonymous") }}</span>
+            {% endif %}
+            <span class="createdAt">{{ _view.time.ago(post.createdAt)|raw }}</span>
             <a class="anchor" href="{{ _view.forum.urlForPost(post)|raw }}">#{{ post.number|raw }}</a>
         </div>
         <p class="message">
