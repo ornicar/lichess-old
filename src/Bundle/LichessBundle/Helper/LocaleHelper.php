@@ -2,6 +2,7 @@
 
 namespace Bundle\LichessBundle\Helper;
 
+use Bundle\LichessBundle\Translation\Manager;
 use Symfony\Component\Templating\Helper\HelperInterface;
 use Symfony\Component\HttpFoundation\Session;
 
@@ -11,13 +12,14 @@ class LocaleHelper implements HelperInterface
      * @var Session
      */
     protected $session;
+    protected $manager;
     protected $locales;
     protected $charset = 'UTF-8';
 
-    public function __construct(Session $session, array $locales)
+    public function __construct(Session $session, Manager $manager)
     {
         $this->session = $session;
-        $this->locales = $locales;
+        $this->manager = $manager;
     }
 
     public function getLocale()
@@ -27,12 +29,12 @@ class LocaleHelper implements HelperInterface
 
     public function getLocaleName()
     {
-        return $this->locales[$this->getLocale()];
+        return $this->manager->getAvailableLanguageName($this->getLocale());
     }
 
     public function getLocales()
     {
-        return $this->locales;
+        return $this->manager->getAvailableLanguages();
     }
 
     /**

@@ -12,7 +12,6 @@ class LichessExtension extends Extension
     {
         $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
         $loader->load('chess.xml');
-        $loader->load('locale.xml');
         $loader->load('model.xml');
         $loader->load('blamer.xml');
         $loader->load('critic.xml');

@@ -8,6 +8,42 @@
         <parameter key="lichess.translation.loader.yml.class">Bundle\LichessBundle\Translation\Loader\YamlLoader</parameter>
         <parameter key="lichess.translation.manager.class">Bundle\LichessBundle\Translation\Manager</parameter>
         <parameter key="lichess.translation.manager.reference_language">fr</parameter>
+        <parameter key="templating.helper.locale.class">Bundle\LichessBundle\Helper\LocaleHelper</parameter>
+
+        <parameter key="lichess.locales" type="collection">
+            <parameter key="en">English</parameter>
+            <parameter key="fr">français</parameter>
+            <parameter key="ru">русский язык</parameter>
+            <parameter key="de">Deutsch</parameter>
+            <parameter key="tr">Türkçe</parameter>
+            <parameter key="sr">српски јези</parameter>
+            <parameter key="lv">latviešu valoda</parameter>
+            <parameter key="bs">bosanski jezik</parameter>
+            <parameter key="da">Dansk</parameter>
+            <parameter key="es">Español</parameter>
+            <parameter key="ro">Română</parameter>
+            <parameter key="it">Italian</parameter>
+            <parameter key="fi">suomi, suomen kieli</parameter>
+            <parameter key="uk">українськ</parameter>
+            <parameter key="pt">Português</parameter>
+            <parameter key="pl">polski</parameter>
+            <parameter key="nl">Nederlands, Vlaams</parameter>
+            <parameter key="vi">Tiếng Việt</parameter>
+            <parameter key="sv">svensk</parameter>
+            <parameter key="cs">česky, čeština</parameter>
+            <parameter key="sk">slovenčin</parameter>
+            <parameter key="hu">magyar nyelv</parameter>
+            <parameter key="ca">Català</parameter>
+            <parameter key="sl">slovenščina</parameter>
+            <parameter key="az">azərbaycan dili</parameter>
+            <parameter key="nn">Norsk</parameter>
+            <parameter key="eo">Esperanto</parameter>
+            <parameter key="tp">Toki Pona</parameter>
+            <parameter key="el">Ελληνικά</parameter>
+            <parameter key="frp">arpitan</parameter>
+            <parameter key="lt">lietuvių kalba</parameter>
+        </parameter>
+
     </parameters>
 
     <services>
@@ -16,6 +52,12 @@
         </service>
         <service id="lichess.translation.manager" class="%lichess.translation.manager.class%">
             <argument>%lichess.translation.manager.reference_language%</argument>
+            <argument>%lichess.locales%</argument>
+        </service>
+        <service id="templating.helper.locale" class="%templating.helper.locale.class%">
+            <tag name="templating.helper" alias="locale" />
+            <argument type="service" id="session" />
+            <argument type="service" id="lichess.translation.manager" />
         </service>
     </services>
 </container>

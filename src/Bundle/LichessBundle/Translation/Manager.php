@@ -6,15 +6,13 @@ use Symfony\Component\Yaml\Yaml;
 class Manager
 {
     protected $languages;
+    protected $availableLanguages;
     protected $referenceLanguage;
 
-    public function __construct($referenceLanguage)
+    public function __construct($referenceLanguage, array $availableLanguages)
     {
         $this->referenceLanguage = $referenceLanguage;
-        $this->languages = include(__DIR__.'/../Resources/config/locales.php');
-        foreach($this->languages as $code => $name) {
-            $this->languages[$code] = $code.' - '.$name;
-        }
+        $this->availableLanguages = $availableLanguages;
     }
 
     public function getMessageKeys()
@@ -61,7 +59,34 @@ class Manager
 
     public function getLanguages()
     {
+        if(null === $this->languages) {
+            $this->languages = include(__DIR__.'/../Resources/config/locales.php');
+            foreach($this->languages as $code => $name) {
+                $this->languages[$code] = $code.' - '.$name;
+            }
+        }
+
         return $this->languages;
+    }
+
+    public function isAvailable($code)
+    {
+        return isset($this->availableLanguages[$code]);
+    }
+
+    public function getAvailableLanguages()
+    {
+        return $this->availableLanguages;
+    }
+
+    public function getAvailableLanguageName($code)
+    {
+        return $this->availableLanguages[$code];
+    }
+
+    public function getAvailableLanguageCodes()
+    {
+        return array_keys($this->availableLanguages);
     }
 
     public function getLanguageName($code)
