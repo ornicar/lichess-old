@@ -11,7 +11,7 @@
     <div class="stats">
         {% trans "Rank" %}: {{ critic.rank }} / {{ critic.nbUsers }}<br />
         {% trans "Games played" %}: <strong>{{ critic.nbGames|default("0") }}</strong><br />
-        {% trans "%nb_wins% wins, %nb_loses% loses and %nb_draws% draws" with ["%nb_wins%": critic.nbWins, "%nb_loses%": critic.nbLoses, "%nb_draws%": critic.nbDraws] %}<br />
+        {% trans "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws" with ["%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws] %}<br />
         Registered {{ _view.time.ago(user.createdAt) }}<br />
         {% trans "Best ELO" %}: {{ user.maxElo }}, {{ _view.time.ago(user.maxEloDate) }}
     </div>
