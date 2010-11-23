@@ -45,6 +45,7 @@ return array(
     "fj" => "vosa Vakaviti",
     "fi" => "suomi, suomen kieli",
     "fr" => "français, langue française",
+    "frp" => "arpitan",
     "ff" => "Fulfulde, Pulaar, Pular",
     "gl" => "Galego",
     "ka" => "ქართულ",
