@@ -37,6 +37,7 @@
             <parameter key="nn">Norsk</parameter>
             <parameter key="eo">Esperanto</parameter>
             <parameter key="tp">Toki Pona</parameter>
+            <parameter key="el">Ελληνικά</parameter>
         </parameter>
 
     </parameters>
