@@ -33,14 +33,6 @@ class Player
     protected $user = null;
 
     /**
-     * Session key bound to the player - optional
-     *
-     * @var string
-     * @mongodb:Field(type="string")
-     */
-    protected $session = null;
-
-    /**
      * Fixed ELO of the player user, if any
      *
      * @var int
@@ -123,23 +115,6 @@ class Player
         $this->stack = new Stack();
         $this->addEventToStack(array('type' => 'start'));
         $this->pieces = new ArrayCollection();
-    }
-
-    /**
-     * @return string
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
-     * @param  string
-     * @return null
-     */
-    public function setSession($session)
-    {
-        $this->session = $session;
     }
 
     /**

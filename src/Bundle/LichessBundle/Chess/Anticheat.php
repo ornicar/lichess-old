@@ -24,6 +24,7 @@ class Anticheat
             return false;
         }
 
+        // Detect client using AI
         $similarGames = $this->gameRepository->findSimilar($game, new \DateTime('-10 minutes'));
         foreach($similarGames as $similarGame) {
             if($similarGame->getInvited()->getIsAi()) {
