@@ -17,19 +17,30 @@ class Finisher
 
     public function finish(Game $game)
     {
-        if($game->getTurns() >= 2) {
-            $white = $game->getPlayer('white')->getUser();
-            $black = $game->getPlayer('black')->getUser();
-            if($white && $black) {
-                if($winner = $game->getWinner()) {
-                    $win = $winner->isWhite() ? -1 : 1;
-                } else {
-                    $win = 0;
-                }
-                list($whiteElo, $blackElo) = $this->calculator->calculate($white->getElo(), $black->getElo(), $win);
-                $white->setElo($whiteElo);
-                $black->setElo($blackElo);
-            }
+        $this->updateElo($game);
+    }
+
+    protected function updateElo(Game $game)
+    {
+        // Don't rate games with less than 2 moves
+        if($game->getTurns() < 2) {
+            return;
         }
+        $white = $game->getPlayer('white');
+        $black = $game->getPlayer('black');
+        $whiteUser = $white->getUser();
+        $blackUser = $black->getUser();
+        // Don't rate games when one ore more player is not registered
+        if(!$whiteUser || !$blackUser) {
+            return;
+        }
+        if($winner = $game->getWinner()) {
+            $win = $winner->isWhite() ? -1 : 1;
+        } else {
+            $win = 0;
+        }
+        list($whiteElo, $blackElo) = $this->calculator->calculate($whiteUser->getElo(), $blackUser->getElo(), $win);
+        $whiteUser->setElo($whiteElo);
+        $blackUser->setElo($blackElo);
     }
 }

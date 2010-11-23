@@ -12,7 +12,6 @@
 
         <service id="lichess.blamer.player" class="%lichess.blamer.player.class%">
             <argument type="service" id="security.context" />
-            <argument type="service" id="session" />
         </service>
 
     </services>
