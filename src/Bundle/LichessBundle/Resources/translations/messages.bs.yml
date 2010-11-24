@@ -12,7 +12,6 @@
 "Waiting": "Čekamo"
 "Your turn": "Ti si na potezu"
 "Opponent: %ai_name%": "Protivnik: %ai_name%"
-"Opponent: %ai_name% Nivo %ai_level%": ""
 "%ai_name% level %ai_level%": "%ai_name% Nivo %ai_level%"
 "Level": "Nivo"
 "Toggle the chat": "Aktiviraj/deaktiviraj"
@@ -58,5 +57,4 @@
 "Page not found": "Stranica nije pronađena"
 "There is nothing to see here. If you think it's a bug, you could send an email to %email%": "Ovdje se nema šta vidjeti. Ako mislite da je bug, pošaljite email na %email%"
 "Share this url to let spectators see the game": "Podijeli ovaj link kako bi posmatrači mogli vidjeti igru"
-"Replay and analyse": ""
 "Flip board": "Zamijeni strane"
