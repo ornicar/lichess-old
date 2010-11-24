@@ -36,12 +36,13 @@
             <parameter key="ca">Català</parameter>
             <parameter key="sl">slovenščina</parameter>
             <parameter key="az">azərbaycan dili</parameter>
-            <parameter key="nn">Norsk</parameter>
+            <parameter key="nn">Norsk nynors</parameter>
             <parameter key="eo">Esperanto</parameter>
             <parameter key="tp">Toki Pona</parameter>
             <parameter key="el">Ελληνικά</parameter>
             <parameter key="frp">arpitan</parameter>
             <parameter key="lt">lietuvių kalba</parameter>
+            <parameter key="no">Nors</parameter>
         </parameter>
 
     </parameters>
