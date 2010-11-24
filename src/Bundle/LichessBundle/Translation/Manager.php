@@ -65,7 +65,20 @@ class Manager
             }
         }
 
-        return $messages;
+        return $this->sortMessages($messages);
+    }
+
+    public function sortMessages(array $messages)
+    {
+        $keys = $this->getMessageKeys();
+        $sorted = array();
+        foreach($keys as $key) {
+            if(!empty($messages[$key])) {
+                $sorted[$key] = $messages[$key];
+            }
+        }
+
+        return $sorted;
     }
 
     public function getMessages($code)
@@ -75,6 +88,20 @@ class Manager
             return Yaml::load($file);
         }
         throw new \InvalidArgumentException();
+    }
+
+    public function saveMessages($code, array $messages)
+    {
+        $file = __DIR__.'/../Resources/translations/messages.'.$code.'.yml';
+        $lines = array();
+        foreach($messages as $from => $to) {
+            if(!empty($to)) {
+                $lines[] = sprintf('"%s": "%s"', $from, $to);
+            }
+        }
+
+        $yaml = implode("\n", $lines);
+        file_put_contents($file, $yaml);
     }
 
     public function getLanguages()
