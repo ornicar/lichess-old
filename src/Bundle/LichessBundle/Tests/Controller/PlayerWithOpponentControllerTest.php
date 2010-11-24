@@ -96,6 +96,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
             $id = $it%2 ? $h2 : $h1;
             $moveUrl = '/move/'.$id.'/0';
             $player->request('POST', $moveUrl, array('from' => $from, 'to' => $to));
+            $this->assertTrue($player->getResponse()->isSuccessful());
         }
     }
 
