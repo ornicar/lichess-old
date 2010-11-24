@@ -302,6 +302,11 @@ div.lichess_share_game {
     font-weight: bold;
     display: block;
 }
+#incomplete_translation a.contribute {
+    display: block;
+    text-align: center;
+    padding: 0.2em 0;
+}
 #incomplete_translation a.close {
     position: absolute;
     top: 1px;
