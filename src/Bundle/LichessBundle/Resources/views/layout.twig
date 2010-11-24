@@ -2,6 +2,8 @@
 {% block body %}
 <div class="header">
     <h1><a class="site_title" href="{% path 'lichess_homepage' %}">Lichess</a></h1>
+    {% set newLocale %}{% flash "locale_change" %}{% endset %}
+    {% if newLocale and newLocale != "en" %}{% render "LichessBundle:Translation:incomplete" with["locale": newLocale] %}{% endif %}
     <div class="lichess_goodies_wrap">
         {% block goodies %}{% endblock %}
     </div>

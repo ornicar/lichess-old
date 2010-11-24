@@ -285,6 +285,29 @@ a.lichess_replay_link {
 div.lichess_share_game {
     margin-top: 20px;
 }
+#incomplete_translation {
+    margin-top: 1em;
+    padding: 0.5em;
+    background: #FFEEB1;
+    border: 1px solid #ECD688;
+    position: relative;
+}
+#incomplete_translation span.percent {
+    font-size: 18px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+#incomplete_translation span.name {
+    font-weight: bold;
+    display: block;
+}
+#incomplete_translation a.close {
+    position: absolute;
+    top: 1px;
+    right: 4px;
+    text-decoration: none;
+}
 
 ul.lichess_social {
     height: 25px;
