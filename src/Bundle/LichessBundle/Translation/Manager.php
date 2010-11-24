@@ -52,20 +52,13 @@ class Manager
 
     public function getMessagesWithReferenceKeys($code)
     {
-        $messages = $this->getMessages($code);
-        $keys = $this->getMessageKeys();
-        foreach($messages as $key => $translated) {
-            if(!in_array($key, $keys)) {
-                unset($messages[$key]);
-            }
-        }
-        foreach($keys as $key) {
-            if(!array_key_exists($key, $messages)) {
-                $messages[$key] = '';
-            }
+        $existing = $this->getMessages($code);
+        $messages = array();
+        foreach($this->getMessageKeys() as $key) {
+            $messages[$key] = isset($existing[$key]) ? $existing[$key] : '';
         }
 
-        return $this->sortMessages($messages);
+        return $messages;
     }
 
     public function sortMessages(array $messages)
