@@ -197,7 +197,9 @@ class Translation
 
         $lines = array();
         foreach($this->getMessages() as $from => $to) {
-            $lines[] = sprintf('"%s": "%s"', $from, $to);
+            if(!empty($to)) {
+                $lines[] = sprintf('"%s": "%s"', $from, $to);
+            }
         }
 
         $this->yaml = implode("\n", $lines);
