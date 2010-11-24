@@ -309,6 +309,7 @@ class PlayerController extends Controller
         }
         $this->get('lichess.seek_queue')->remove($game);
         $this->get('lichess.object_manager')->flush();
+        $this->get('logger')->notice(sprintf('Game:inviteAnybody cancel game:%s', $game->getId()));
 
         return $this->redirect($this->generateUrl('lichess_homepage', array('color' => $player->getColor())));
     }
