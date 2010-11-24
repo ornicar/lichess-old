@@ -16,6 +16,29 @@ div.field input {
     width: 30em;
 }
 
+div.locale_menu {
+    margin-top: 2em;
+}
+div.locale_menu a {
+    display: block;
+    float: left;
+    padding: 0.5em 1em;
+    border: 1px solid #dadada;
+    margin-right: 1em;
+    text-decoration: none;
+    border-radius:4px 4px 4px 4px;
+    -moz-border-radius:4px 4px 4px 4px;
+    -webkit-border-radius:4px 4px 4px 4px;
+    color: #666;
+}
+div.locale_menu a:hover {
+    background: #fff;
+}
+div.locale_menu a.active {
+    background: #fff;
+    border-color: #888;
+}
+
 .notice, .error {
     margin: 1em;
     padding: 1em;
