@@ -38,6 +38,10 @@ div.locale_menu a.active {
     background: #fff;
     border-color: #888;
 }
+.translation_title {
+    margin-top: 1em;
+    font-size: 2em;
+}
 
 .notice, .error {
     margin: 1em;
