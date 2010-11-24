@@ -17,16 +17,19 @@ class Manager
 
     public function getTranslationStatus($code)
     {
-        if($code === 'en' || !$this->isAvailable($code)) {
-            return false;
+        if($this->isAvailable($code)) {
+            $keys = array_keys($this->getMessages($code));
+            $name = $this->getAvailableLanguageName($code);
+        } else {
+            $keys = array();
+            $name = $this->getLanguageName($code);
         }
-        $keys = array_keys($this->getMessages($code));
         $reference = $this->getMessageKeys();
         $diff = array_diff($reference, $keys);
         $missing = count($diff);
         $percent = 100 * (count($keys) / count($reference));
         return array(
-            'name' => $this->getAvailableLanguageName($code),
+            'name' => $name,
             'missing' => $missing,
             'percent' => floor($percent)
         );

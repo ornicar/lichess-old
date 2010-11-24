@@ -3,9 +3,10 @@
 Please translate the following English words and phrases below.<br />
 Words wrapped with "%" are variables. You must not translate them, but the must be present in your translation.<br />
 For example, <strong>Opponent: %ai_name%</strong> translated to french is <strong>Adversaire : %ai_name%</strong>
+<h2 class="translation_title">{{ status.name }} - {{ status.percent }}%</h2>
 <div class="locale_menu clearfix">
     <a class="all active">View all translations</a>
-    <a class="missing">View only missing translations</a>
+    <a class="missing">View {{ status.missing }} missing translations</a>
 </div>
 <div class="field messages">
     {% set messagesKeys = form.data.messagesKeys %}

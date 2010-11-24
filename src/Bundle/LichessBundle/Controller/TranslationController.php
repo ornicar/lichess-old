@@ -56,7 +56,7 @@ class TranslationController extends Controller
             if($form->isValid()) {
                 $this->get('lichess.object_manager')->persist($translation);
                 $this->get('lichess.object_manager')->flush();
-                $this->get('session')->setFlash('notice', 'Your translation has been submitted, thanks!');
+                $this->get('session')->setFlash('notice', "Your translation has been submitted, thanks!\nI will review it and include it soon to the game.");
 
                 return $this->redirect($this->generateUrl('lichess_translate_locale', array('locale' => $locale)));
             } else {
@@ -67,6 +67,7 @@ class TranslationController extends Controller
         return $this->render('LichessBundle:Translation:locale.twig', array(
             'form' => $form,
             'locale' => $locale,
+            'status' => $manager->getTranslationStatus($locale),
             'error' => isset($error) ? $error : false
         ));
     }
