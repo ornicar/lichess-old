@@ -18,7 +18,7 @@ class Manager
     public function getTranslationStatus($code)
     {
         if($this->isAvailable($code)) {
-            $keys = array_keys($this->getMessages($code));
+            $keys = array_keys(array_filter($this->getMessages($code)));
             $name = $this->getAvailableLanguageName($code);
         } else {
             $keys = array();
