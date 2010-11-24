@@ -12,6 +12,19 @@ use Symfony\Component\Finder\Finder;
 
 class TranslationController extends Controller
 {
+    public function incompleteAction($locale)
+    {
+        $status = $this->get('lichess.translation.manager')->getTranslationStatus($locale);
+        if(!$status['missing']) {
+            return $this->createResponse('');
+        }
+
+        return $this->render('LichessBundle:Translation:incomplete.twig', array(
+            'locale' => $locale,
+            'status' => $status
+        ));
+    }
+
     public function indexAction()
     {
         $form = $this->get('lichess.form.translation');

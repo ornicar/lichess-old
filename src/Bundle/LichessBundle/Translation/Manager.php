@@ -15,6 +15,23 @@ class Manager
         $this->availableLanguages = $availableLanguages;
     }
 
+    public function getTranslationStatus($code)
+    {
+        if($code === 'en' || !$this->isAvailable($code)) {
+            return false;
+        }
+        $keys = array_keys($this->getMessages($code));
+        $reference = $this->getMessageKeys();
+        $diff = array_diff($reference, $keys);
+        $missing = count($diff);
+        $percent = 100 * (count($keys) / count($reference));
+        return array(
+            'name' => $this->getAvailableLanguageName($code),
+            'missing' => $missing,
+            'percent' => floor($percent)
+        );
+    }
+
     public function getMessageKeys()
     {
         return array_keys($this->getMessages($this->referenceLanguage));

@@ -54,6 +54,10 @@ $(function() {
         }
     });
 
+    $('#incomplete_translation a.close').one('click', function() {
+        $(this).parent().remove();
+    });
+
     var elem = document.createElement('audio');
     var canPlayAudio = !!elem.canPlayType && elem.canPlayType('audio/ogg; codecs="vorbis"');
     
