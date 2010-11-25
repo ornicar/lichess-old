@@ -40,7 +40,6 @@ class TranslationController extends Controller
         $manager = $this->get('lichess.translation.manager');
         $translation = new Translation();
         $translation->setCode($locale);
-        $translation->setName($manager->getLanguageName($locale));
         try {
             $translation->setMessages($manager->getMessagesWithReferenceKeys($locale));
         }
@@ -77,6 +76,9 @@ class TranslationController extends Controller
         $translations = $this->get('lichess.object_manager')->getRepository('LichessBundle:Translation')->createQuery()
             ->sort('createdAt', 'DESC');
 
-        return $this->render('LichessBundle:Translation:list.twig', array('translations' => $translations));
+        return $this->render('LichessBundle:Translation:list.twig', array(
+            'translations' => $translations,
+            'manager' => $this->get('lichess.translation.manager')
+        ));
     }
 }

@@ -131,7 +131,9 @@ class Manager
 
     public function getLanguageName($code)
     {
-        return $this->languages[$code];
+        $languages = $this->getLanguages();
+
+        return isset($languages[$code]) ? $languages[$code] : $code;
     }
 
 }

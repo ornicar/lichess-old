@@ -14,7 +14,7 @@ class Translation
      * Unique ID of the translation
      *
      * @var string
-     * @mongodb:Id(custom="true")
+     * @mongodb:Id()
      */
     protected $id;
 
@@ -25,14 +25,6 @@ class Translation
      * @var string
      */
     protected $code = null;
-
-    /**
-     * The locale name, translated to the locale itself
-     *
-     * @mongodb:Field(type="string")
-     * @var string
-     */
-    protected $name = null;
 
     /**
      * @validation:AssertNotNull
@@ -203,22 +195,6 @@ class Translation
         }
 
         $this->yaml = implode("\n", $lines);
-    }
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param  string
-     * @return null
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
     }
 
     /**
