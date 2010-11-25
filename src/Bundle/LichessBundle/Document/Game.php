@@ -768,7 +768,12 @@ class Game
 
     public function getPieces()
     {
-        return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
+        $pieces = array();
+        foreach($this->getPlayers() as $player) {
+            $pieces = array_merge($pieces, $player->getPieces());
+        }
+
+        return $pieces;
     }
 
     /**
