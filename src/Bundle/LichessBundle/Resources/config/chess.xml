@@ -13,7 +13,7 @@
         <parameter key="lichess.finisher.class">Bundle\LichessBundle\Chess\Finisher</parameter>
 
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
-        <parameter key="lichess.synchronizer.timeout">20</parameter>
+        <parameter key="lichess.synchronizer.timeout">30</parameter>
         <parameter key="lichess.synchronizer.delay">1.5</parameter>
         <parameter key="lichess.animation.delay">400</parameter>
 
