@@ -93,7 +93,7 @@ class Manager
             }
         }
 
-        $yaml = implode("\n", $lines);
+        $yaml = implode("\n", $lines)."\n";
         file_put_contents($file, $yaml);
     }
 
