@@ -6,7 +6,7 @@
         {% if player.opponent.isAi %}
             <span>{% trans "Opponent: %ai_name%" with ['%ai_name%': 'Crafty A.I.'] %}</span>
             <select class="lichess_ai_level">
-                {% for level in 1..9 %}
+                {% for level in 1..8 %}
                     <option value="{{ level|raw }}" {{ level == player.opponent.aiLevel ? 'selected="selected" ' : "" }}>{% trans 'Level' %} {{ level|raw }}</option>
                 {% endfor %}
             </select>
