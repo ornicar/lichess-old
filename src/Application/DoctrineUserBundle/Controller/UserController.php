@@ -46,6 +46,11 @@ class UserController extends BaseUserController
 
     public function confirmedAction()
     {
+        if(!$this->get('lichess.security.helper')->isAuthenticated()) {
+            $this->get('logger')->warn(sprintf('User:confirmed no user authenticated'));
+            return $this->redirect($this->generateUrl('lichess_homepage'));
+        }
+
         return $this->redirect($this->generateUrl('doctrine_user_user_show', array(
             'username' => $this->get('security.context')->getUser()->getUsername()
         )));
