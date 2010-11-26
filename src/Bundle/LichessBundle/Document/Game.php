@@ -646,11 +646,10 @@ class Game
      */
     public function getPlayerById($id)
     {
-        if($this->getPlayer('white')->getId() === $id) {
-            return $this->getPlayer('white');
-        }
-        elseif($this->getPlayer('black')->getId() === $id) {
-            return $this->getPlayer('black');
+        foreach($this->getPlayers() as $player) {
+            if($player->getId() === $id) {
+                return $player;
+            }
         }
     }
 
