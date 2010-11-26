@@ -44,6 +44,7 @@
             <parameter key="lt">lietuvių kalba</parameter>
             <parameter key="no">Nors</parameter>
             <parameter key="et">eesti, eesti keel</parameter>
+            <parameter key="hy">Հայերեն</parameter>
         </parameter>
 
     </parameters>
