@@ -99,6 +99,14 @@ class Player
     protected $pieces;
 
     /**
+     * Whether the player is offering draw or not
+     *
+     * @var bool
+     * @mongodb:Field(type="boolean")
+     */
+    protected $isOfferingDraw = null;
+
+    /**
      * the player current game
      *
      * @var Game
@@ -115,6 +123,31 @@ class Player
         $this->stack = new Stack();
         $this->addEventToStack(array('type' => 'start'));
         $this->pieces = new ArrayCollection();
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsOfferingDraw()
+    {
+        return $this->isOfferingDraw;
+    }
+
+    /**
+     * @param  bool
+     * @return null
+     */
+    public function setIsOfferingDraw($isOfferingDraw)
+    {
+        $this->isOfferingDraw = $isOfferingDraw ?: null;
+    }
+
+    public function canOfferDraw()
+    {
+        return $this->getGame()->getIsStarted()
+            && !$this->getGame()->getIsFinished()
+            && !$this->getIsOfferingDraw()
+            && !$this->getOpponent()->getIsOfferingDraw();
     }
 
     /**

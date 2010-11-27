@@ -29,11 +29,25 @@
     </div>
     <div class="lichess_control clearfix">
         <a href="{% path "lichess_resign" with ['id': player.fullId] %}" class="lichess_resign" title="{% trans "Give up" %}">{% trans "Resign" %}</a>
+        {% if player.canOfferDraw %}
+            <a class="offer_draw" href="{% path "lichess_offer_draw" with["id": player.fullId] %}">{% trans "Offer draw" %}</a>
+        {% endif %}
     </div>
     {% if player.isMyTurn and player.game.isThreefoldRepetition %}
     <div class="lichess_claim_draw_zone">
         {% trans "Threefold repetition" %}.&nbsp;
         <a class="lichess_claim_draw" href="{% path "lichess_claim_draw" with ["id": player.fullId] %}">{% trans "Claim a draw" %}</a>
+    </div>
+    {% elseif player.isOfferingDraw %}
+    <div class="offered_draw">
+        {% trans "Draw offer sent" %}.&nbsp;
+        <a href="{% path "lichess_cancel_draw_offer" with ["id": player.fullId] %}">{% trans "Cancel" %}</a>
+    </div>
+    {% elseif player.opponent.isOfferingDraw %}
+    <div class="offered_draw">
+        {% trans "Your opponent offers a draw" %}.<br />
+        <a href="{% path "lichess_accept_draw_offer" with ["id": player.fullId] %}">{% trans "Accept" %}</a>&nbsp;
+        <a href="{% path "lichess_decline_draw_offer" with ["id": player.fullId] %}">{% trans "Decline" %}</a>
     </div>
     {% endif %}
 </div>

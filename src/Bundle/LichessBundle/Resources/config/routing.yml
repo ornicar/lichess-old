@@ -112,6 +112,22 @@ lichess_claim_draw:
     pattern:        /claim-draw/:id
     defaults:       { _controller: lichess.controller.player:claimDrawAction }
     requirements:   { id: "[\w\-]{12}" }
+lichess_offer_draw:
+    pattern:        /offer-draw/:id
+    defaults:       { _controller: lichess.controller.player:offerDrawAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_cancel_draw_offer:
+    pattern:        /cancel-draw-offer/:id
+    defaults:       { _controller: lichess.controller.player:cancelDrawOfferAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_accept_draw_offer:
+    pattern:        /accept-draw-offer/:id
+    defaults:       { _controller: lichess.controller.player:acceptDrawOfferAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_decline_draw_offer:
+    pattern:        /decline-draw-offer/:id
+    defaults:       { _controller: lichess.controller.player:declineDrawOfferAction }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_locale:
     pattern:        /locale/:locale
     defaults:       { _controller: lichess.controller.main:localeAction }
