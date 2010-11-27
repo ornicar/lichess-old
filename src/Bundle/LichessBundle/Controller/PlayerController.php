@@ -69,7 +69,7 @@ class PlayerController extends Controller
             }
         }
         else {
-            $nextPlayer = $this->container->getLichessGeneratorService()->createReturnGame($player);
+            $nextPlayer = $this->container->get('lichess_generator')->createReturnGame($player);
             $this->get('lichess.object_manager')->persist($nextPlayer->getGame());
             $opponent->addEventToStack(array('type' => 'reload_table'));
             $this->get('lichess_synchronizer')->setAlive($player);

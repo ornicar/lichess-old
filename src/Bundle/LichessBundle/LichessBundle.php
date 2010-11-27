@@ -14,9 +14,9 @@ class LichessBundle extends BaseBundle
     {
         parent::boot();
         $container = $this->container;
-        $container->getEventDispatcherService()->connect('core.request', function(Event $event) use ($container) {
+        $container->get('event_dispatcher')->connect('core.request', function(Event $event) use ($container) {
             if(HttpKernelInterface::MASTER_REQUEST === $event->getParameter('request_type')) {
-                $session = $container->getSessionService();
+                $session = $container->get('session');
                 if(!$session->has('lichess.sound.enabled')) {
                     $session->set('lichess.sound.enabled', true);
                 }
