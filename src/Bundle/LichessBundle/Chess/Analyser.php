@@ -26,7 +26,7 @@ class Analyser
 
     public function isKingAttacked(Player $player)
     {
-        return in_array($player->getKing()->getSquareKey(), $this->getPlayerControlledKeys($player->getOpponent(), false));
+        return $player->getKing() && in_array($player->getKing()->getSquareKey(), $this->getPlayerControlledKeys($player->getOpponent(), false));
     }
 
     /**
