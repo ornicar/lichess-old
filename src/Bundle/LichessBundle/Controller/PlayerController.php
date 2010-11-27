@@ -148,7 +148,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
         if(!$game->getIsFinished()) {
             if(!$player->getIsOfferingDraw()) {
-                if($player->getOpponent()->isOfferingDraw()) {
+                if($player->getOpponent()->getIsOfferingDraw()) {
                     return $this->forward('LichessBundle:Player:acceptDrawOffer', array('id' => $id));
                 }
                 $player->setIsOfferingDraw(true);
