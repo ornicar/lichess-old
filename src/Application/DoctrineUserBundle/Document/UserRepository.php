@@ -15,6 +15,7 @@ class UserRepository extends BaseUserRepository
     {
         return $this->createQueryBuilder()
             ->field('elo')->GreaterThan($user->getElo())
+            ->getQuery()
             ->count()
             + 1;
     }
