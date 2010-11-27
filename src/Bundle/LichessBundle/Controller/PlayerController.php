@@ -148,6 +148,9 @@ class PlayerController extends Controller
         $game = $player->getGame();
         if(!$game->getIsFinished()) {
             if(!$player->getIsOfferingDraw()) {
+                if($player->getOpponent()->isOfferingDraw()) {
+                    return $this->forward('LichessBundle:Player:acceptDrawOffer', array('id' => $id));
+                }
                 $player->setIsOfferingDraw(true);
                 $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
                 $this->get('lichess.object_manager')->flush();
