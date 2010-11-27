@@ -61,7 +61,6 @@ forum.config:
             topic: Application\ForumBundle\Document\Topic
             post: Application\ForumBundle\Document\Post
         controller:
-            category: Application\ForumBundle\Controller\CategoryController
             topic: Application\ForumBundle\Controller\TopicController
             post: Application\ForumBundle\Controller\PostController
         form:
