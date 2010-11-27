@@ -36,7 +36,7 @@ class GameRepository extends DocumentRepository
      */
     public function existsById($id)
     {
-        return 1 === $this->createQuery()
+        return 1 === $this->createQueryBuilder()
             ->field('id')->equals($id)
             ->count();
     }
@@ -70,7 +70,7 @@ class GameRepository extends DocumentRepository
             $ids = explode(',', $ids);
         }
 
-        $games = $this->createQuery()
+        $games = $this->createQueryBuilder()
             ->field('_id')->in($ids)
             ->execute();
 
@@ -93,7 +93,7 @@ class GameRepository extends DocumentRepository
      **/
     public function getNbGames()
     {
-        return $this->createQuery()->count();
+        return $this->createQueryBuilder()->count();
     }
 
     /**
@@ -103,7 +103,7 @@ class GameRepository extends DocumentRepository
      **/
     public function getNbMates()
     {
-        return $this->createQuery()
+        return $this->createQueryBuilder()
             ->field('status')->equals(Game::MATE)
             ->count();
     }
@@ -115,7 +115,7 @@ class GameRepository extends DocumentRepository
      **/
     public function createRecentQuery()
     {
-        return $this->createQuery()
+        return $this->createQueryBuilder()
             ->sort('updatedAt', 'DESC');
     }
 
@@ -139,7 +139,7 @@ class GameRepository extends DocumentRepository
      **/
     public function createByUserQuery(User $user)
     {
-        return $this->createQuery()
+        return $this->createQueryBuilder()
             ->field('userIds')->equals((string) $user->getId());
     }
 
@@ -178,7 +178,7 @@ class GameRepository extends DocumentRepository
 
     public function findSimilar(Game $game, \DateTime $since)
     {
-        return $this->createQuery()
+        return $this->createQueryBuilder()
             ->field('id')->notEqual($game->getId())
             ->field('updatedAt')->greaterThan(new \MongoDate($since->getTimestamp()))
             ->field('status')->equals(Game::STARTED)
