@@ -10,7 +10,7 @@ class SeekRepository extends DocumentRepository
     {
         return $this->createQueryBuilder()
             ->sort('createdAt', 'ASC')
-            ->execute();
+            ->getQuery()->execute();
     }
 
     public function findOneByGame(Game $game)

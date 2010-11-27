@@ -14,7 +14,7 @@ class GameRepository extends DocumentRepository
     public function findRecentByUser(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->execute();
+            ->getQuery()->execute();
     }
 
     /**
@@ -53,7 +53,7 @@ class GameRepository extends DocumentRepository
             ->field('status')->equals(Game::STARTED)
             ->select('id')
             ->limit($nb)
-            ->execute();
+            ->getQuery()->execute();
         $ids = array_keys(iterator_to_array($data));
 
         return $ids;
@@ -72,7 +72,7 @@ class GameRepository extends DocumentRepository
 
         $games = $this->createQueryBuilder()
             ->field('_id')->in($ids)
-            ->execute();
+            ->getQuery()->execute();
 
         $games = iterator_to_array($games);
 
@@ -185,6 +185,6 @@ class GameRepository extends DocumentRepository
             ->field('turns')->equals($game->getTurns())
             ->field('pgnMoves')->equals($game->getPgnMoves())
             ->hint(array('updatedAt' => -1))
-            ->execute();
+            ->getQuery()->execute();
     }
 }
