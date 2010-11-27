@@ -142,6 +142,76 @@ class PlayerController extends Controller
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
+    public function offerDrawAction($id)
+    {
+        $player = $this->findPlayer($id);
+        $game = $player->getGame();
+        if(!$game->getIsFinished()) {
+            if(!$player->getIsOfferingDraw()) {
+                $player->setIsOfferingDraw(true);
+                $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
+                $this->get('lichess.object_manager')->flush();
+                $this->get('logger')->notice(sprintf('Player:offerDraw game:%s', $game->getId()));
+            } else {
+                $this->get('logger')->warn(sprintf('Player:offerDraw already offered game:%s', $game->getId()));
+            }
+        } else {
+            $this->get('logger')->warn(sprintf('Player:offerDraw on finished game:%s', $game->getId()));
+        }
+
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+    }
+
+    public function declineDrawOfferAction($id)
+    {
+        $player = $this->findPlayer($id);
+        $game = $player->getGame();
+        if($player->getOpponent()->getIsOfferingDraw()) {
+            $player->getOpponent()->setIsOfferingDraw(false);
+            $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
+            $this->get('lichess.object_manager')->flush();
+            $this->get('logger')->notice(sprintf('Player:declineDrawOffer game:%s', $game->getId()));
+        } else {
+            $this->get('logger')->warn(sprintf('Player:declineDrawOffer no offered draw game:%s', $game->getId()));
+        }
+
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+    }
+
+    public function acceptDrawOfferAction($id)
+    {
+        $player = $this->findPlayer($id);
+        $game = $player->getGame();
+        if($player->getOpponent()->getIsOfferingDraw()) {
+            $game->setStatus(GAME::DRAW);
+            $this->get('lichess_finisher')->finish($game);
+            $player->addEventToStack(array('type' => 'end'));
+            $player->getOpponent()->addEventToStack(array('type' => 'end'));
+            $this->get('lichess.object_manager')->flush();
+            $this->get('logger')->notice(sprintf('Player:acceptDrawOffer game:%s', $game->getId()));
+        } else {
+            $this->get('logger')->warn(sprintf('Player:acceptDrawOffer no offered draw game:%s', $game->getId()));
+        }
+
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+    }
+
+    public function cancelDrawOfferAction($id)
+    {
+        $player = $this->findPlayer($id);
+        $game = $player->getGame();
+        if($player->getIsOfferingDraw()) {
+            $player->setIsOfferingDraw(false);
+            $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
+            $this->get('lichess.object_manager')->flush();
+            $this->get('logger')->notice(sprintf('Player:cancelDrawOffer game:%s', $game->getId()));
+        } else {
+            $this->get('logger')->warn(sprintf('Player:cancelDrawOffer no offered draw game:%s', $game->getId()));
+        }
+
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+    }
+
     public function claimDrawAction($id)
     {
         $player = $this->findPlayer($id);
