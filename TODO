@@ -1,8 +1,6 @@
-* choose casual/ranked game
-* clearly indicate who won in user games (color?)
 * propose draw
-* detect and punish cheaters
-* choose casual game or ranked game
+* clearly indicate who won in user games (color?)
+* choose casual/rated game
 * rematch chess960 keeps piece position
 * reverse board in watch mode
 * save game config in User document
