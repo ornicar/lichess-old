@@ -27,7 +27,7 @@ class Messenger
         if(mb_strlen($message) > 140) {
             throw new \InvalidArgumentException('Messenger: message is too long');
         }
-        $game->getRoom()->addMessage($author, $message);
+        $game->addRoomMessage($author, $message);
         $htmlMessage = TextHelper::autoLink(htmlentities($message, ENT_COMPAT, 'UTF-8'));
         $sayEvent = array(
             'type' => 'message',

@@ -544,13 +544,8 @@ class Game
     public function start()
     {
         $this->setStatus(static::STARTED);
-        if(!$this->getInvited()->getIsAi()) {
-            if(!$this->hasRoom()) {
-                $this->setRoom(new Room());
-            }
-            $this->addSystemMessage(ucfirst($this->getCreator()->getColor()).' creates the game');
-            $this->addSystemMessage(ucfirst($this->getInvited()->getColor()).' joins the game');
-        }
+        $this->addRoomMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
+        $this->addRoomMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
     }
 
     /**
@@ -577,9 +572,14 @@ class Game
         $this->room = $room;
     }
 
-    public function addSystemMessage($message)
+    public function addRoomMessage($author, $message)
     {
-        $this->getRoom()->addMessage('system', $message);
+        if(!$this->getInvited()->getIsAi()) {
+            if(!$this->hasRoom()) {
+                $this->setRoom(new Room());
+            }
+            $this->getRoom()->addMessage($author, $message);
+        }
     }
 
     /**
