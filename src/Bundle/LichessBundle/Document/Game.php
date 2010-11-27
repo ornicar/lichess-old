@@ -548,8 +548,8 @@ class Game
             if(!$this->hasRoom()) {
                 $this->setRoom(new Room());
             }
-            $this->getRoom()->addMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
-            $this->getRoom()->addMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
+            $this->addSystemMessage(ucfirst($this->getCreator()->getColor()).' creates the game');
+            $this->addSystemMessage(ucfirst($this->getInvited()->getColor()).' joins the game');
         }
     }
 
@@ -575,6 +575,11 @@ class Game
     public function setRoom($room)
     {
         $this->room = $room;
+    }
+
+    public function addSystemMessage($message)
+    {
+        $this->getRoom()->addMessage('system', $message);
     }
 
     /**

@@ -23,9 +23,14 @@
 
         <parameter key="lichess.anticheat.class">Bundle\LichessBundle\Chess\Anticheat</parameter>
         <parameter key="lichess.anticheat.turns">10</parameter>
+
+        <parameter key="lichess.messenger.class">Bundle\LichessBundle\Chess\Messenger</parameter>
     </parameters>
 
     <services>
+        <service id="lichess.messenger" class="%lichess.messenger.class%" shared="true">
+        </service>
+
         <service id="lichess.anticheat" class="%lichess.anticheat.class%" shared="true">
             <argument type="service" id="lichess.repository.game" />
             <argument>%lichess.anticheat.turns%</argument>

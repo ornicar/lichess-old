@@ -331,22 +331,9 @@ class PlayerController extends Controller
             throw new NotFoundHttpException(sprintf('Player:say game:%s, POST method required', $id));
         }
         $message = trim($this->get('request')->get('message'));
-        if('' === $message) {
-            throw new NotFoundHttpException(sprintf('Player:say game:%s, No message', $id));
-        }
-        if(mb_strlen($message) > 140) {
-            throw new NotFoundHttpException(sprintf('Player:say game:%s, too long message', $id));
-        }
         $player = $this->findPlayer($id);
         $this->get('lichess_synchronizer')->setAlive($player);
-        $player->getGame()->getRoom()->addMessage($player->getColor(), $message);
-        $htmlMessage = \Bundle\LichessBundle\Helper\TextHelper::autoLink(htmlentities($message, ENT_COMPAT, 'UTF-8'));
-        $sayEvent = array(
-            'type' => 'message',
-            'html' => sprintf('<li class="%s">%s</li>', $player->getColor(), $htmlMessage)
-        );
-        $player->addEventToStack($sayEvent);
-        $player->getOpponent()->addEventToStack($sayEvent);
+        $this->get('lichess.messenger')->addPlayerMessage($player, $message);
         $this->get('lichess.object_manager')->flush();
 
         return $this->renderJson($this->getPlayerSyncData($player, $version));
