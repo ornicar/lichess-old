@@ -147,6 +147,7 @@ class Player
         return $this->getGame()->getIsStarted()
             && !$this->getGame()->getIsFinished()
             && !$this->getIsOfferingDraw()
+            && !$this->getOpponent()->getIsAi()
             && !$this->getOpponent()->getIsOfferingDraw();
     }
 
