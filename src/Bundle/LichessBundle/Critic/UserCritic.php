@@ -35,7 +35,7 @@ class UserCritic
     public function getNbUsers()
     {
         return $this->cacheable('nbUsers', function($games, $users, $user) {
-            return $users->createQuery()->count();
+            return $users->createQueryBuilder()->count();
         });
     }
 

@@ -12,7 +12,7 @@ class UserController extends BaseUserController
      **/
     public function listAction()
     {
-        $query = $this->get('doctrine_user.repository.user')->createQuery()
+        $query = $this->get('doctrine_user.repository.user')->createQueryBuilder()
             ->sort('elo', 'desc');
         $users = new Paginator(new DoctrineMongoDBAdapter($query));
         $users->setCurrentPageNumber($this->get('request')->query->get('page', 1));

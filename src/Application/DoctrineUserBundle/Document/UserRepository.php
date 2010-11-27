@@ -13,7 +13,7 @@ class UserRepository extends BaseUserRepository
      **/
     public function getUserRank(User $user)
     {
-        return $this->createQuery()
+        return $this->createQueryBuilder()
             ->field('elo')->GreaterThan($user->getElo())
             ->count()
             + 1;

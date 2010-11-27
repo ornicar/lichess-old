@@ -33,7 +33,7 @@ class InitialDataCommand extends BaseCommand
     {
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
         foreach(array('Category', 'Topic', 'Post') as $model) {
-            $dm->getRepository('ForumBundle:'.$model)->createQuery()->remove()->execute();
+            $dm->getRepository('ForumBundle:'.$model)->createQueryBuilder()->remove()->execute();
         }
 
         $this->addCateg('General Chess Discussion', 'The place to discuss general Chess topics');

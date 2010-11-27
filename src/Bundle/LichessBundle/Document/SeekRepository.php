@@ -8,14 +8,14 @@ class SeekRepository extends DocumentRepository
 {
     public function findAllSortByCreatedAt()
     {
-        return $this->createQuery()
+        return $this->createQueryBuilder()
             ->sort('createdAt', 'ASC')
             ->execute();
     }
 
     public function findOneByGame(Game $game)
     {
-        return $this->createQuery()
+        return $this->createQueryBuilder()
             ->field('game.$id')->equals($game->getId())
             ->getSingleResult();
     }
