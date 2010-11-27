@@ -38,7 +38,7 @@ class Game
      * Unique ID of the game
      *
      * @var string
-     * @mongodb:Id(custom="true")
+     * @mongodb:Id(strategy="none")
      */
     protected $id;
 
