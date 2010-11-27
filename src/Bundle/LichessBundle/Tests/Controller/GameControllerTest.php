@@ -9,7 +9,7 @@ class GameControllerTest extends AbstractControllerTest
         $client = $this->createClient();
         $crawler = $client->request('GET', '/games');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(9, $crawler->filter('div.game_mini')->count());
+        $this->assertEquals('Games being played right now', $crawler->filter('.title')->text());
     }
 
     public function testViewAllGames()
@@ -17,7 +17,7 @@ class GameControllerTest extends AbstractControllerTest
         $client = $this->createClient();
         $crawler = $client->request('GET', '/games/all');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(10, $crawler->filter('div.game_row')->count());
+        $this->assertRegexp('#^All games.+$#', $crawler->filter('.title')->text());
     }
 
     public function testViewMateGames()
