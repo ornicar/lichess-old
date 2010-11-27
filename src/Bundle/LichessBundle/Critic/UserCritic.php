@@ -35,7 +35,7 @@ class UserCritic
     public function getNbUsers()
     {
         return $this->cacheable('nbUsers', function($games, $users, $user) {
-            return $users->createQueryBuilder()->count();
+            return $users->createQueryBuilder()->getQuery()->count();
         });
     }
 
@@ -44,7 +44,7 @@ class UserCritic
         return $this->cacheable('nbGames', function($games, $users, $user) {
             return $games->createByUserQuery($user)
                 ->field('status')->greaterThanOrEq(Game::MATE)
-                ->count();
+                ->getQuery()->count();
         });
     }
 
@@ -53,7 +53,7 @@ class UserCritic
         return $this->cacheable('nbWins', function($games, $users, $user) {
             return $games->createByUserQuery($user)
                 ->field('winnerUserId')->equals((string) $user->getId())
-                ->count();
+                ->getQuery()->count();
         });
     }
 
@@ -63,7 +63,7 @@ class UserCritic
             return $games->createByUserQuery($user)
                 ->field('winnerUserId')->exists(true)
                 ->field('winnerUserId')->notEqual((string) $user->getId())
-                ->count();
+                ->getQuery()->count();
         });
     }
 

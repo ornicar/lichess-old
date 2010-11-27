@@ -38,7 +38,7 @@ class GameRepository extends DocumentRepository
     {
         return 1 === $this->createQueryBuilder()
             ->field('id')->equals($id)
-            ->count();
+            ->getQuery()->count();
     }
 
     /**
@@ -93,7 +93,7 @@ class GameRepository extends DocumentRepository
      **/
     public function getNbGames()
     {
-        return $this->createQueryBuilder()->count();
+        return $this->createQueryBuilder()->getQuery()->count();
     }
 
     /**
@@ -105,7 +105,7 @@ class GameRepository extends DocumentRepository
     {
         return $this->createQueryBuilder()
             ->field('status')->equals(Game::MATE)
-            ->count();
+            ->getQuery()->count();
     }
 
     /**
