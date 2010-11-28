@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.translation.loader.yml.class">Bundle\LichessBundle\Translation\Loader\YamlLoader</parameter>
         <parameter key="lichess.translation.manager.class">Bundle\LichessBundle\Translation\Manager</parameter>
         <parameter key="lichess.translation.manager.reference_language">fr</parameter>
         <parameter key="templating.helper.locale.class">Bundle\LichessBundle\Helper\LocaleHelper</parameter>
@@ -50,9 +49,6 @@
     </parameters>
 
     <services>
-        <service id="lichess.translation.loader.yml" class="%lichess.translation.loader.yml.class%">
-            <tag name="translation.loader" alias="yml" />
-        </service>
         <service id="lichess.translation.manager" class="%lichess.translation.manager.class%">
             <argument>%lichess.translation.manager.reference_language%</argument>
             <argument>%lichess.locales%</argument>
