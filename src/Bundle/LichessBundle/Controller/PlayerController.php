@@ -151,6 +151,7 @@ class PlayerController extends Controller
                 if($player->getOpponent()->getIsOfferingDraw()) {
                     return $this->forward('LichessBundle:Player:acceptDrawOffer', array('id' => $id));
                 }
+                $this->get('lichess.messenger')->addSystemMessage($game, 'Draw offer sent');
                 $player->setIsOfferingDraw(true);
                 $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
                 $this->get('lichess.object_manager')->flush();
@@ -170,6 +171,7 @@ class PlayerController extends Controller
         $player = $this->findPlayer($id);
         $game = $player->getGame();
         if($player->getOpponent()->getIsOfferingDraw()) {
+            $this->get('lichess.messenger')->addSystemMessage($game, 'Draw offer declined');
             $player->getOpponent()->setIsOfferingDraw(false);
             $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
             $this->get('lichess.object_manager')->flush();
@@ -186,6 +188,7 @@ class PlayerController extends Controller
         $player = $this->findPlayer($id);
         $game = $player->getGame();
         if($player->getOpponent()->getIsOfferingDraw()) {
+            $this->get('lichess.messenger')->addSystemMessage($game, 'Draw offer accepted');
             $game->setStatus(GAME::DRAW);
             $this->get('lichess_finisher')->finish($game);
             $player->addEventToStack(array('type' => 'end'));
@@ -204,6 +207,7 @@ class PlayerController extends Controller
         $player = $this->findPlayer($id);
         $game = $player->getGame();
         if($player->getIsOfferingDraw()) {
+            $this->get('lichess.messenger')->addSystemMessage($game, 'Draw offer canceled');
             $player->setIsOfferingDraw(false);
             $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
             $this->get('lichess.object_manager')->flush();
