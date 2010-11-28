@@ -37,7 +37,7 @@ class Messenger
         $game->addRoomMessage($author, $message);
         $sayEvent = array(
             'type' => 'message',
-            'html' => $this->helper->roomMessage($author, $message)
+            'message' => array($author, $message)
         );
         foreach($game->getPlayers() as $player) {
             $player->addEventToStack($sayEvent);

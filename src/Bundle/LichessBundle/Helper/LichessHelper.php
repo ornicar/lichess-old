@@ -54,20 +54,20 @@ class LichessHelper extends Helper
         return isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'http://test/';
     }
 
-    public function roomMessage($author, $message)
+    public function roomMessage(array $message)
     {
-        if('system' === $author) {
-            $message = $this->translator->trans($message);
+        if('system' === $message[0]) {
+            $message[1] = $this->translator->trans($message[1]);
         }
 
-        return sprintf('<li class="%s">%s</li>', $author, $this->userText($message));
+        return sprintf('<li class="%s">%s</li>', $message[0], $this->userText($message[1]));
     }
 
     public function roomMessages(array $messages)
     {
         $html = '';
         foreach($messages as $message) {
-            $html .= $this->roomMessages($message[0], $message[1]);
+            $html .= $this->roomMessage($message);
         }
 
         return $html;

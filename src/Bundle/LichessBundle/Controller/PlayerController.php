@@ -112,6 +112,13 @@ class PlayerController extends Controller
         catch(\OutOfBoundsException $e) {
             $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $player->getFullId()))));
         }
+        // render system messages
+        foreach($events as $index => $event) {
+            if('message' === $event['type']) {
+                $events[$index]['html'] = $this->get('templating.helper.lichess')->roomMessage($event['message']);
+                unset($events[$index]['message']);
+            }
+        }
 
         $data = array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events, 'p' => $currentPlayerColor, 't' => $game->getTurns());
         $data['ncp'] = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
