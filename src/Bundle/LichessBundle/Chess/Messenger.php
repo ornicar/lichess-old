@@ -3,10 +3,17 @@
 namespace Bundle\LichessBundle\Chess;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Helper\TextHelper;
+use Bundle\LichessBundle\Helper\LichessHelper;
 
 class Messenger
 {
+    protected $helper;
+
+    public function __construct(LichessHelper $helper)
+    {
+        $this->helper = $helper;
+    }
+
     public function addPlayerMessage(Player $player, $message)
     {
         return $this->addMessage($player->getGame(), $player->getColor(), $message);
@@ -28,10 +35,9 @@ class Messenger
             throw new \InvalidArgumentException('Messenger: message is too long');
         }
         $game->addRoomMessage($author, $message);
-        $htmlMessage = TextHelper::autoLink(htmlentities($message, ENT_COMPAT, 'UTF-8'));
         $sayEvent = array(
             'type' => 'message',
-            'html' => sprintf('<li class="%s">%s</li>', $author, $htmlMessage)
+            'html' => $this->helper->roomMessage($author, $message)
         );
         foreach($game->getPlayers() as $player) {
             $player->addEventToStack($sayEvent);

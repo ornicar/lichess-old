@@ -3,15 +3,18 @@
 namespace Bundle\LichessBundle\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
+use Symfony\Component\Translation\Translator;
 use Bundle\LichessBundle\Chess\Synchronizer;
 
 class LichessHelper extends Helper
 {
     protected $synchronizer;
+    protected $translator;
 
-    public function __construct(Synchronizer $synchronizer)
+    public function __construct(Synchronizer $synchronizer, Translator $translator)
     {
         $this->synchronizer = $synchronizer;
+        $this->translator = $translator;
     }
 
     public function escape($string)
@@ -49,6 +52,25 @@ class LichessHelper extends Helper
     public function getCurrentUrl()
     {
         return isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'http://test/';
+    }
+
+    public function roomMessage($author, $message)
+    {
+        if('system' === $author) {
+            $message = $this->translator->trans($message);
+        }
+
+        return sprintf('<li class="%s">%s</li>', $author, $this->userText($message));
+    }
+
+    public function roomMessages(array $messages)
+    {
+        $html = '';
+        foreach($messages as $message) {
+            $html .= $this->roomMessages($message[0], $message[1]);
+        }
+
+        return $html;
     }
 
     /**
