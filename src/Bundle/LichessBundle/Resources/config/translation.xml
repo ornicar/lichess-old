@@ -45,6 +45,7 @@
             <parameter key="et">eesti, eesti keel</parameter>
             <parameter key="hy">Հայերեն</parameter>
             <parameter key="af">Afrikaans</parameter>
+            <parameter key="hi">हिन्दी, हिंदी</parameter>
         </parameter>
 
     </parameters>
