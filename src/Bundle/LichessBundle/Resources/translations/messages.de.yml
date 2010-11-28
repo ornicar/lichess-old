@@ -61,6 +61,7 @@
 "Flip board": "Farbe wechseln"
 "Threefold repetition": "Dreifache Stellungswiederholung"
 "Claim a draw": "Remis anbieten"
+"Offer draw": "Unentschieden anbieten"
 "Draw": "Remis"
 "%nb% connected players": "%nb% Spieler verbunden"
 "Talk about chess and discuss lichess features in the forum": "Über Schach reden und im Forum über Lichess diskutieren"
@@ -96,3 +97,5 @@
 "Best ELO": "Beste ELO-Zahl"
 "Decline invitation": "Einladung ablehnen"
 "Cancel": "Abbrechen"
+"Accept": "Akzeptieren"
+"Decline": "Ablehnen"
