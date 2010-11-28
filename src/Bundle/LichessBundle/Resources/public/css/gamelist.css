@@ -20,6 +20,12 @@ div.game_row {
     height: 190px;
     line-height: 1.2em;
 }
+div.game_row div.infos span.win {
+    color: #00AA00;
+}
+div.game_row div.infos span.loss {
+    color: #AA0000;
+}
 
 div.pager {
     text-align:center;
@@ -41,7 +47,7 @@ div.pager span {
     color: #ccc;
 }
 div.pager span.current {
-    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
     color: #FFF;
     margin: 0 0.5em;

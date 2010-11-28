@@ -1,43 +1,44 @@
 {% for game in games %}
-    <div class="game_row clearfix">
-        {{ _view.lichess_game.renderMini(game, user)|raw }}
-        <div class="infos">
-            {% if game.isBeingPlayed %}
-                <a class="link" href="{% path "lichess_game" with ["id": game.id] %}">
-                    Playing right now at {% url "lichess_game" with ["id": game.id] %}
-                </a>
-            {% else %}
-                {{ _view.time.ago(game.updatedAt) }}
-            {% endif %}
-            <br /><br />
-            {% set firstUser = game.getPlayerByUserOrCreator(user) %}
-            {% for player in [firstUser.opponent, firstUser] %}
-                {% trans player.color|capitalize %}
-                {% if player.isAi %}
-                    {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
-                {% else %}
-                    {{ _view.lichess_user.link(player)|raw }}
-                {% endif %}
-                <br />
-            {% endfor %}
-            <br />
-            {{ game.fullMoveNumber }}.
-            {% if game.isFinished %}
-                {% trans game.statusMessage %}
-                {% if game.winner %}
-                , {% trans game.winner.color|capitalize ~ " is victorious" %}
-                {% endif %}
-            {% else %}
-                {% trans game.turnColor|capitalize ~ " plays" %}
-            {% endif %}
-            <br /><br />
-            {% trans "Variant" %}: {{ game.variantName }}
-            <br /><br />
-            {% trans "Time control" %}: {{ game.clockName }}
-            <br /><br />
-            <a href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": game.creatorColor] %}">&gt;&gt; {% trans "Replay and analyse" %}</a>
-        </div>
-    </div>
+<div class="game_row clearfix">
+{{ _view.lichess_game.renderMini(game, user)|raw }}
+<div class="infos">
+{% if game.isBeingPlayed %}
+<a class="link" href="{% path "lichess_game" with ["id": game.id] %}">
+    {% trans "Playing right now" %}
+</a>
+{% else %}
+{{ _view.time.ago(game.updatedAt) }}
+{% endif %}
+<br /><br />
+{% set firstPlayer = game.getPlayerByUserOrCreator(user) %}
+{% set fromPlayer = game.getPlayerByUser(user) %}
+{% for player in [firstPlayer.opponent, firstPlayer] %}
+{% trans player.color|capitalize %}
+{% if player.isAi %}
+    {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
+{% else %}
+    {{ _view.lichess_user.link(player)|raw }}
+{% endif %}
+<br />
+{% endfor %}
+<br />
+{{ game.fullMoveNumber }}.
+{% if game.isFinished %}
+{% trans game.statusMessage %}
+{% if game.winner %}
+, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{% trans game.winner.color|capitalize ~ " is victorious" %}</span>
+{% endif %}
+{% else %}
+{% trans game.turnColor|capitalize ~ " plays" %}
+{% endif %}
+<br /><br />
+{% trans "Variant" %}: {{ game.variantName }}
+<br /><br />
+{% trans "Time control" %}: {{ game.clockName }}
+<br /><br />
+<a href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": game.creatorColor] %}">&gt;&gt; {% trans "Replay and analyse" %}</a>
+</div>
+</div>
 {% else %}
 - No recent game at the moment -
 {% endfor %}
