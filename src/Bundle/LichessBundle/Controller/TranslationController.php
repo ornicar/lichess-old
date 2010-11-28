@@ -74,7 +74,7 @@ class TranslationController extends Controller
     public function listAction()
     {
         $translations = $this->get('lichess.object_manager')->getRepository('LichessBundle:Translation')->createQueryBuilder()
-            ->sort('createdAt', 'DESC');
+            ->sort('createdAt', 'DESC')->getQuery()->execute();
 
         return $this->render('LichessBundle:Translation:list.twig', array(
             'translations' => $translations,
