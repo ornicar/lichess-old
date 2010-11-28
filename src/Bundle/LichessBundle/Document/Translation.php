@@ -68,6 +68,11 @@ class Translation
         $this->setCreatedAt(new \DateTime());
     }
 
+    public function getNumericId()
+    {
+        return is_numeric($this->id) ? $this->id : "-";
+    }
+
     /**
      * Get yamlMessages
      * @return string
