@@ -17,6 +17,6 @@ class SeekRepository extends DocumentRepository
     {
         return $this->createQueryBuilder()
             ->field('game.$id')->equals($game->getId())
-            ->getSingleResult();
+            ->getQuery()->getSingleResult();
     }
 }
