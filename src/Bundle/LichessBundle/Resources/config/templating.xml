@@ -14,6 +14,7 @@
         <service id="templating.helper.lichess" class="%templating.helper.lichess.class%">
             <tag name="templating.helper" alias="lichess" />
             <argument type="service" id="lichess_synchronizer" />
+            <argument type="service" id="translator" />
         </service>
 
         <service id="templating.helper.lichess_game" class="%templating.helper.lichess_game.class%">

@@ -9,14 +9,17 @@ use Bundle\LichessBundle\Elo\Calculator;
 class Finisher
 {
     protected $calculator;
+    protected $messenger;
 
-    public function __construct(Calculator $calculator)
+    public function __construct(Calculator $calculator, Messenger $messenger)
     {
         $this->calculator = $calculator;
+        $this->messenger = $messenger;
     }
 
     public function finish(Game $game)
     {
+        $this->messenger->addSystemMessage($game, $game->getStatusMessage());
         $this->updateElo($game);
     }
 

@@ -29,6 +29,7 @@
 
     <services>
         <service id="lichess.messenger" class="%lichess.messenger.class%" shared="true">
+            <argument type="service" id="templating.helper.lichess" />
         </service>
 
         <service id="lichess.anticheat" class="%lichess.anticheat.class%" shared="true">
@@ -54,6 +55,7 @@
 
         <service id="lichess_finisher" class="%lichess.finisher.class%" shared="true">
             <argument type="service" id="lichess.elo.calculator" />
+            <argument type="service" id="lichess.messenger" />
         </service>
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
