@@ -5,6 +5,7 @@ return array(
     "aa" => "Afaraf",
     "af" => "Afrikaans",
     "ak" => "Akan",
+    "ar" => "العربية",
     "sq" => "Shqip",
     "am" => "አማርኛ",
     "an" => "Aragonés",
