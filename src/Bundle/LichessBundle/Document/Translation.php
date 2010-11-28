@@ -14,7 +14,7 @@ class Translation
      * Unique ID of the translation
      *
      * @var string
-     * @mongodb:Id()
+     * @mongodb:Id(strategy="increment")
      */
     protected $id;
 
