@@ -26,6 +26,10 @@ class LichessExtension extends Extension
             $container->setParameter('lichess.ai.class', $config['ai']['class']);
         }
 
+        if(isset($config['translation']['remote_domain'])) {
+            $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
+        }
+
         if('test' === $container->getParameter('kernel.environment')) {
             $container->setAlias('session.storage', 'session.storage.test');
         }

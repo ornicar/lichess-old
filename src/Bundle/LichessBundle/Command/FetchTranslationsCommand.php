@@ -10,9 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 
 /**
- * Fetch games from remote server and creates Git branches for each of them
+ * Fetch translations from remote server and creates Git branches for each of them
  */
-class FetchGamesCommand extends BaseCommand
+class FetchTranslationsCommand extends BaseCommand
 {
     /**
      * @see Command
@@ -32,7 +32,7 @@ class FetchGamesCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fetcher = $this->container->get('lichess.translation.fetcher');
-        $output->writeLn(sprintf('Will fetch translations from remote "%s"', $fetcher->getRemoteUrl()));
+        $output->writeLn(sprintf('Will fetch translations from remote "%s"', $fetcher->getUrl()));
         $nb = $fetcher->fetch();
         $output->writeLn(sprintf('%d translations fetched', $nb));
     }
