@@ -33,8 +33,8 @@ class Fetcher
                 $repo->git('checkout -b '.$branchName);
                 $this->manager->saveMessages($translation['code'], $translation['messages']);
                 $repo->git('add '.$this->manager->getLanguageFile($translation['code']));
-                $repo->git(sprintf('commit -m "%s (%s) by %s on %s, %d messages"',
-                    $translation['code'],
+                $repo->git(sprintf('commit -m "%d (%s) by %s on %s, %d messages"',
+                    $id,
                     $this->manager->getLanguageName($translation['code']),
                     $translation['author'] ?: 'Anonymous',
                     $translation['date'],
