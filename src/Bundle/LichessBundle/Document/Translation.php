@@ -5,7 +5,8 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * @mongodb:Document(
- *   collection="translation"
+ *   collection="translation",
+ *   repositoryClass="Bundle\LichessBundle\Document\TranslationRepository"
  * )
  */
 class Translation
