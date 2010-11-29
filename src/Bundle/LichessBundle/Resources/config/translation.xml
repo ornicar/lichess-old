@@ -63,6 +63,7 @@
             <argument>%lichess.translation.remote_domain%</argument>
         </service>
         <service id="lichess.translation.provider" class="%lichess.translation.provider.class%">
+            <argument type="service" id="lichess.repository.translation" />
         </service>
         <service id="templating.helper.locale" class="%templating.helper.locale.class%">
             <tag name="templating.helper" alias="locale" />

@@ -71,7 +71,7 @@ class Translation
 
     public function getNumericId()
     {
-        return is_numeric($this->id) ? $this->id : "-";
+        return is_numeric($this->id) ? $this->id : null;
     }
 
     /**
@@ -167,7 +167,7 @@ class Translation
      */
     public function getMessages()
     {
-        return $this->messages;
+        return $this->messages ? $this->messages : Yaml::load($this->yaml);
     }
 
     public function getMessagesValues()
