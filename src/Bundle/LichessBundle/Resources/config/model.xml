@@ -8,6 +8,7 @@
 
         <parameter key="lichess.model.game.class">Bundle\LichessBundle\Document\Game</parameter>
         <parameter key="lichess.model.seek.class">Bundle\LichessBundle\Document\Seek</parameter>
+        <parameter key="lichess.model.translation.class">Bundle\LichessBundle\Document\Translation</parameter>
 
     </parameters>
 
@@ -23,6 +24,11 @@
         <service id="lichess.repository.seek" class="Bundle\LichessBundle\LichessBundle" factory-method="getRepository" shared="true">
             <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <argument type="string">%lichess.model.seek.class%</argument>
+        </service>
+
+        <service id="lichess.repository.translation" class="Bundle\LichessBundle\LichessBundle" factory-method="getRepository" shared="true">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <argument type="string">%lichess.model.translation.class%</argument>
         </service>
 
     </services>
