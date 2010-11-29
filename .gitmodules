@@ -28,3 +28,6 @@
 [submodule "src/Bundle/DoctrineUserBundle"]
 	path = src/Bundle/DoctrineUserBundle
 	url = git://github.com/knplabs/DoctrineUserBundle.git
+[submodule "src/vendor/php-git-repo"]
+	path = src/vendor/php-git-repo
+	url = git://github.com/ornicar/php-git-repo.git
