@@ -60,6 +60,7 @@
             <argument>%lichess.locales%</argument>
         </service>
         <service id="lichess.translation.fetcher" class="%lichess.translation.fetcher.class%">
+            <argument type="service" id="lichess.translation.manager" />
             <argument>%lichess.translation.remote_domain%</argument>
         </service>
         <service id="lichess.translation.provider" class="%lichess.translation.provider.class%">
