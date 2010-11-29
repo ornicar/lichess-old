@@ -32,7 +32,8 @@ class Fetcher
             if(!$repo->hasBranch($branchName)) {
                 $repo->git('checkout -b '.$branchName);
                 $this->manager->saveMessages($translation['code'], $translation['messages']);
-                $repo->git(sprintf('commit -avm "%s (%s) by %s on %s, %d messages"',
+                $repo->git('add '.$this->manager->getLanguageFile($translation['code']));
+                $repo->git(sprintf('commit -m "%s (%s) by %s on %s, %d messages"',
                     $translation['code'],
                     $this->manager->getLanguageName($translation['code']),
                     $translation['author'] ?: 'Anonymous',

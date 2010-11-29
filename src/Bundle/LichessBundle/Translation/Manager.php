@@ -85,7 +85,7 @@ class Manager
 
     public function saveMessages($code, array $messages)
     {
-        $file = __DIR__.'/../Resources/translations/messages.'.$code.'.yml';
+        $file = $this->getLanguageFile($code);
         $lines = array();
         foreach($messages as $from => $to) {
             if(!empty($to)) {
@@ -95,6 +95,11 @@ class Manager
 
         $yaml = implode("\n", $lines)."\n";
         file_put_contents($file, $yaml);
+    }
+
+    public function getLanguageFile($code)
+    {
+        return realpath(__DIR__.'/../Resources/translations/messages.'.$code.'.yml');
     }
 
     public function getLanguages()
