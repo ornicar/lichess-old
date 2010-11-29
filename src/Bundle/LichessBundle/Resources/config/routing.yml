@@ -140,9 +140,11 @@ lichess_translate_locale:
     defaults:       { _controller: lichess.controller.translation:localeAction }
     requirements:   { locale: "\w{2,3}" }
 lichess_translate_list:
-    pattern:        /translate/list.:_format
-    defaults:       { _controller: lichess.controller.translation:listAction, _format: html }
-    requirements:   { _format: (html|json) }
+    pattern:        /translate_list
+    defaults:       { _controller: lichess.controller.translation:listAction }
+lichess_translate_export:
+    pattern:        /translate/export.json
+    defaults:       { _controller: lichess.controller.translation:exportAction, _format: json }
 lichess_pgn_viewer:
     pattern:        /analyse/:id/:color
     defaults:       { _controller: lichess.controller.pgn:analyseAction, color: white }

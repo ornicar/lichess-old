@@ -5,7 +5,7 @@ namespace Bundle\LichessBundle\Translation;
 class Fetcher
 {
     protected $domain;
-    protected $path = '/translate/list.json';
+    protected $path = '/translate/export.json';
     protected $protocol = 'http://';
 
     public function __construct($domain)

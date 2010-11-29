@@ -71,6 +71,13 @@ class TranslationController extends Controller
         ));
     }
 
+    public function exportAction()
+    {
+        $translations = $this->get('lichess.translation.provider')->getTranslations();
+
+        return $this->createResponse(json_encode($translations), 200, array('Content-Type' => 'application/json'));
+    }
+
     public function listAction()
     {
         $translations = $this->get('lichess.object_manager')->getRepository('LichessBundle:Translation')->createQueryBuilder()
