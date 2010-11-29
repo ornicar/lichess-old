@@ -28,7 +28,7 @@ class Fetcher
         $currentBranch = $repo->getCurrentBranch();
         $repo->git('checkout master');
         foreach($translations as $id => $translation) {
-            $branchName = 'translation/'.$id;
+            $branchName = sprintf('t/%d-%s', $id, $translation['code']);
             if(!$repo->hasBranch($branchName)) {
                 $repo->git('checkout -b '.$branchName);
                 $this->manager->saveMessages($translation['code'], $translation['messages']);
