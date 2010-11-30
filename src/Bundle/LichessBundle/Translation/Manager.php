@@ -99,7 +99,7 @@ class Manager
 
     public function getLanguageFile($code)
     {
-        return realpath(__DIR__.'/../Resources/translations/messages.'.$code.'.yml');
+        return realpath(__DIR__.'/..').'/Resources/translations/messages.'.$code.'.yml';
     }
 
     public function getLanguages()

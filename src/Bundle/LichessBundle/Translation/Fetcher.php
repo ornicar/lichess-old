@@ -43,25 +43,27 @@ class Fetcher
 
         $repo = $this->createGitRepo();
         $currentBranch = $repo->getCurrentBranch();
-        if('master' != $currentBranch) {
-            $repo->git('checkout master');
-        }
         foreach($translations as $id => $translation) {
-            $branchName = sprintf('t/%d-%s', $id, $translation['code']);
+            $branchName = sprintf('t/%d', $id);
             if(!$repo->hasBranch($branchName)) {
-                $commitMessage = sprintf('commit -m "%d (%s) by %s on %s, %d messages"',
+                $commitMessage = sprintf('commit -m "Update %s translation. Author: %s. Messages: %d. %s"',
                     $id,
                     $this->manager->getLanguageName($translation['code']),
                     $translation['author'] ?: 'Anonymous',
                     $translation['date'],
-                    count($translation['messages'])
+                    count($translation['messages']),
+                    $translation['comment']
                 );
                 $logger($commitMessage);
-                $repo->git('checkout -b '.$branchName);
+                $repo->git('checkout -b '.$branchName.' origin/master');
                 $this->manager->saveMessages($translation['code'], $translation['messages']);
                 $repo->git('add '.$this->manager->getLanguageFile($translation['code']));
-                $repo->git($commitMessage);
-                $repo->git('checkout master');
+                $modified = strlen($repo->git('diff --cached')) > 1;
+                if($modified) {
+                    $repo->git($commitMessage);
+                } else {
+                    $logger(sprintf('Not modified: %s', $branchName));
+                }
             }
         }
         $repo->git('checkout '.$currentBranch);
