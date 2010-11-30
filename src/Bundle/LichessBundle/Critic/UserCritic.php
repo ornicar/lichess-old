@@ -43,7 +43,7 @@ class UserCritic
     {
         return $this->cacheable('nbGames', function($games, $users, $user) {
             return $games->createByUserQuery($user)
-                ->field('status')->greaterThanOrEq(Game::MATE)
+                ->field('status')->gte(Game::MATE)
                 ->getQuery()->count();
         });
     }

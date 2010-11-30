@@ -151,7 +151,7 @@ class GameRepository extends DocumentRepository
     public function createRecentStartedOrFinishedByUserQuery(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->field('status')->greaterThanOrEq(Game::STARTED);
+            ->field('status')->gte(Game::STARTED);
     }
 
     /**
@@ -162,7 +162,7 @@ class GameRepository extends DocumentRepository
     public function createRecentStartedOrFinishedQuery()
     {
         return $this->createRecentQuery()
-            ->field('status')->greaterThanOrEq(Game::STARTED);
+            ->field('status')->gte(Game::STARTED);
     }
 
     /**
@@ -180,7 +180,7 @@ class GameRepository extends DocumentRepository
     {
         return $this->createQueryBuilder()
             ->field('id')->notEqual($game->getId())
-            ->field('updatedAt')->greaterThan(new \MongoDate($since->getTimestamp()))
+            ->field('updatedAt')->gt(new \MongoDate($since->getTimestamp()))
             ->field('status')->equals(Game::STARTED)
             ->field('turns')->equals($game->getTurns())
             ->field('pgnMoves')->equals($game->getPgnMoves())
