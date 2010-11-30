@@ -21,7 +21,9 @@ class FetchTranslationsCommand extends BaseCommand
     {
         $this
             ->setDefinition(array(
+                new InputArgument('start', InputArgument::REQUIRED, 'Translation ID to start with'),
             ))
+            ->addOption('clear', null, InputOption::VALUE_NONE, 'Clear all translation branches')
             ->setName('lichess:translation:fetch')
         ;
     }
@@ -32,8 +34,16 @@ class FetchTranslationsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fetcher = $this->container->get('lichess.translation.fetcher');
-        $output->writeLn(sprintf('Will fetch translations from remote "%s"', $fetcher->getUrl()));
-        $nb = $fetcher->fetch();
+        $fetcher->setLogger(function($message) use ($output)
+        {
+            $output->writeLn(sprintf('<info>%s</info>', $message));
+        });
+        if($input->getOption('clear')) {
+            $output->writeLn(sprintf('Will clear translations'));
+            $nb = $fetcher->clear();
+        }
+        $output->writeLn(sprintf('Will fetch translations starting from %d, from remote "%s"', $input->getArgument('start'), $fetcher->getUrl()));
+        $nb = $fetcher->fetch($input->getArgument('start'));
         $output->writeLn(sprintf('%d translations fetched', $nb));
     }
 }

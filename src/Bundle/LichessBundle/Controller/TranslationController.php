@@ -73,7 +73,8 @@ class TranslationController extends Controller
 
     public function exportAction()
     {
-        $translations = $this->get('lichess.translation.provider')->getTranslations();
+        $start = $this->get('request')->query->get('start', 1);
+        $translations = $this->get('lichess.translation.provider')->getTranslations($start);
 
         return $this->createResponse(json_encode($translations), 200, array('Content-Type' => 'application/json'));
     }
