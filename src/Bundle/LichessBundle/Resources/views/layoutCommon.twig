@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html lang="{{ _view.locale.locale }}">
     <head>
-        <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Lichess{% endblock %} | free online Chess game{% block title_suffix %}{% endblock %}</title>
         <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and JavaScript with jQuery 1.4" name="description">
@@ -64,29 +63,11 @@
                     {% include "DoctrineUserBundle:Security:embeddedLogin.twig" %}
                 {% else %}
                     <a class="goto_nav goto_logout" href="{% path "_security_logout" %}">{% trans "Log out" %}</a>
-                    <a href="{% path "doctrine_user_user_show" with["username": _view.doctrine_user_security.user.username] %}" class="goto_nav goto_profile">{{ _view.doctrine_user_security.user.usernameWithElo }}</a>
+                    <a href="{% path "doctrine_user_user_show" with["username": _view.doctrine_user_security.user.username] %}" class="blank_if_play goto_nav goto_profile">{{ _view.doctrine_user_security.user.usernameWithElo }}</a>
                 {% endif %}
             {% endblock %}
         </div>
         {% block js_data %}{% endblock %}
         {% javascripts %}
-        <script type="text/javascript">
-var _sf_async_config={uid:15147,domain:"lichess.org"};
-(function(){
-function loadChartbeat() {
-window._sf_endpt=(new Date()).getTime();
-var e = document.createElement('script');
-e.setAttribute('language', 'javascript');
-e.setAttribute('type', 'text/javascript');
-e.setAttribute('src',
-(("https:" == document.location.protocol) ? "https://s3.amazonaws.com/" : "http://") +
-"static.chartbeat.com/js/chartbeat.js");
-document.body.appendChild(e);
-}
-var oldonload = window.onload;
-window.onload = (typeof window.onload != 'function') ?
-loadChartbeat : function() { oldonload(); loadChartbeat(); };
-})();
-</script>
     </body>
 </html>
