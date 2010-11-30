@@ -28,7 +28,3 @@ doctrine_odm.mongodb:
             options:
                 connect: true
                 persist: lichess
-
-lichess.config:
-    translation:
-        remote_domain: lichess.localhost/index_dev.php

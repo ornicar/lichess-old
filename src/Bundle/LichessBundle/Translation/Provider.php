@@ -1,13 +1,13 @@
 <?php
 
 namespace Bundle\LichessBundle\Translation;
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Bundle\LichessBundle\Document\TranslationRepository;
 
 class Provider
 {
     protected $repository;
 
-    public function __construct(DocumentRepository $repository)
+    public function __construct(TranslationRepository $repository)
     {
         $this->repository = $repository;
     }
