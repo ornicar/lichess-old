@@ -43,7 +43,7 @@ class FetchTranslationsCommand extends BaseCommand
             $nb = $fetcher->clear();
         }
         $output->writeLn(sprintf('Will fetch translations starting from %d, from remote "%s"', $input->getArgument('start'), $fetcher->getUrl()));
-        $nb = $fetcher->fetch($input->getArgument('start'));
-        $output->writeLn(sprintf('%d translations fetched', $nb));
+        $translations = $fetcher->fetch($input->getArgument('start'));
+        $output->writeLn(sprintf('%d translations fetched', count($translations)));
     }
 }

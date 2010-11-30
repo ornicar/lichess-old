@@ -66,7 +66,7 @@ class Fetcher
         }
         $repo->git('checkout '.$currentBranch);
 
-        return count($translations);
+        return $translations;
     }
 
     public function clear()
