@@ -17,12 +17,12 @@ class Provider
         $translations = array();
         foreach($this->repository->findAllSortByCreatedAt() as $translation) {
             if($id = $translation->getNumericId()) {
-                if($id >= $start) {
+                if($id >= $start && $translation->getCode()) {
                     $translations[$id] = array(
                         'code' => $translation->getCode(),
                         'author' => $translation->getAuthor(),
                         'comment' => $translation->getComment(),
-                        'date' => $translation->getCreatedAt()->format('Y-m-d H:i:s'),
+                        'date' => $translation->getCreatedAt() ? $translation->getCreatedAt()->format('Y-m-d H:i:s') : '?',
                         'messages' => $translation->getMessages()
                     );
                 }
