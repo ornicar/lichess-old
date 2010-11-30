@@ -46,11 +46,9 @@ class Fetcher
         foreach($translations as $id => $translation) {
             $branchName = sprintf('t/%d', $id);
             if(!$repo->hasBranch($branchName)) {
-                $commitMessage = sprintf('commit -m "Update %s translation. Author: %s. Messages: %d. %s"',
-                    $id,
+                $commitMessage = sprintf('commit -m "Update \"%s\" translation. Author: %s. Messages: %d. %s"',
                     $this->manager->getLanguageName($translation['code']),
                     $translation['author'] ?: 'Anonymous',
-                    $translation['date'],
                     count($translation['messages']),
                     $translation['comment']
                 );
