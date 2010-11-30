@@ -474,6 +474,7 @@
          {
              self.$table.html(html);
              self.initTable();
+             self.initClocks();
          }
          });
      },
