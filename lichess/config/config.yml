@@ -72,6 +72,16 @@ doctrine_user.config:
             user: Application\DoctrineUserBundle\Controller\UserController
             security: Application\DoctrineUserBundle\Controller\SecurityController
 
+doctrine.dbal:
+    driver:   PDOMysql
+    host:     localhost
+    dbname:   lichess
+    user:     root
+    password:
+      
+doctrine.orm:
+   auto_generate_proxy_classes: false
+
 time.helper: ~
 
 lichess.config:

@@ -17,14 +17,3 @@ zend.config:
 
 twig.config:
     auto_reload: true
-
-doctrine_odm.mongodb:
-    metadata_cache_driver: array
-    cache_driver: array
-    default_database: lichess_dev
-    connections:
-        default:
-            server: mongodb://localhost:27017
-            options:
-                connect: true
-                persist: lichess
