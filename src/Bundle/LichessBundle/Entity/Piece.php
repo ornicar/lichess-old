@@ -1,13 +1,23 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Bundle\LichessBundle\Entity;
 
 use Bundle\LichessBundle\Model;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\PieceFilter;
 
 /**
- * @mongodb:MappedSuperclass
+ * @orm:Entity
+ * @orm:InheritanceType("SINGLE_TABLE")
+ * @orm:DiscriminatorColumn(name="t", type="string")
+ * @orm:DiscriminatorMap({
+ *     "p"="Bundle\LichessBundle\Entity\Piece\Pawn",
+ *     "r"="Bundle\LichessBundle\Entity\Piece\Rook",
+ *     "b"="Bundle\LichessBundle\Entity\Piece\Bishop",
+ *     "n"="Bundle\LichessBundle\Entity\Piece\Knight",
+ *     "q"="Bundle\LichessBundle\Entity\Piece\Queen",
+ *     "k"="Bundle\LichessBundle\Entity\Piece\King"
+ * })
  */
 abstract class Piece implements Model\Piece
 {
@@ -15,7 +25,7 @@ abstract class Piece implements Model\Piece
      * X position
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @orm:Column(type="integer")
      */
     protected $x = null;
 
@@ -23,7 +33,7 @@ abstract class Piece implements Model\Piece
      * Y position
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @orm:Column(type="integer")
      */
     protected $y = null;
 
@@ -31,7 +41,7 @@ abstract class Piece implements Model\Piece
      * Whether the piece is dead or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean")
+     * @orm:Column(type="boolean")
      */
     protected $isDead = null;
 
@@ -39,7 +49,7 @@ abstract class Piece implements Model\Piece
      * When this piece moved for the first time (useful for en passant)
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @orm:Column(type="integer")
      */
     protected $firstMove = null;
 

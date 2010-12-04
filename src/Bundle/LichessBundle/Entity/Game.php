@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Bundle\LichessBundle\Entity;
 
 use Bundle\LichessBundle\Model;
 use Bundle\LichessBundle\Chess\Board;
@@ -14,11 +14,16 @@ use Bundle\DoctrineUserBundle\Model\User;
  *
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
  *
- * @mongodb:Document(
- *   collection="game2",
- *   repositoryClass="Bundle\LichessBundle\Document\GameRepository"
+ * @orm:Entity(
+ *   repositoryClass="Bundle\LichessBundle\Entity\GameRepository"
  * )
- * @mongodb:HasLifecycleCallbacks
+ * @orm:HasLifecycleCallbacks
+ * @orm:Table(name="games", indexes={
+ *      @orm:index(name="status_idx", columns={"status"}),
+ *      @orm:index(name="userids_idx", columns={"userIds"}),
+ *      @orm:index(name="winneruserid_idx", columns={"winnerUserId"}),
+ *      @orm:index(name="updatedat_idx", columns={"updatedAt"})
+ * })
  */
 class Game implements Model\Game
 {
@@ -39,7 +44,8 @@ class Game implements Model\Game
      * Unique ID of the game
      *
      * @var string
-     * @mongodb:Id(strategy="none")
+     * @orm:Id
+     * @orm:Column(type="integer")
      */
     protected $id;
 
@@ -47,7 +53,7 @@ class Game implements Model\Game
      * Game variant (like standard or 960)
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @orm:Column(type="integer")
      */
     protected $variant;
 
@@ -55,8 +61,7 @@ class Game implements Model\Game
      * The current state of the game, like CREATED, STARTED or MATE.
      *
      * @var int
-     * @mongodb:Field(type="int")
-     * @mongodb:Index()
+     * @orm:Column(type="integer")
      */
     protected $status;
 
@@ -64,7 +69,7 @@ class Game implements Model\Game
      * The two players
      *
      * @var array
-     * @mongodb:EmbedMany(targetDocument="Player")
+     * @orm:OneToMany(targetEntity="Player", mappedBy="game")
      */
     protected $players;
 
@@ -72,8 +77,7 @@ class Game implements Model\Game
      * Ids of the users bound to players
      *
      * @var array
-     * @mongodb:Field(type="collection")
-     * @mongodb:Index()
+     * @orm:Column(type="array")
      */
     protected $userIds = array();
 
@@ -84,8 +88,7 @@ class Game implements Model\Game
      * - null if there is no winner
      *
      * @var string
-     * @mongodb:Field(type="string")
-     * @mongodb:Index()
+     * @orm:Column(type="string")
      */
     protected $winnerUserId = null;
 
@@ -93,7 +96,7 @@ class Game implements Model\Game
      * Color of the player who created the game
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @orm:Column(type="string")
      */
     protected $creatorColor;
 
@@ -101,7 +104,7 @@ class Game implements Model\Game
      * Number of turns passed
      *
      * @var integer
-     * @mongodb:Field(type="int")
+     * @orm:Column(type="integer")
      */
     protected $turns;
 
@@ -109,7 +112,7 @@ class Game implements Model\Game
      * PGN moves of the game
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @orm:Column(type="array")
      */
     protected $pgnMoves;
 
@@ -117,7 +120,7 @@ class Game implements Model\Game
      * The ID of the player that starts the next game the players will play
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @orm:Column(type="string")
      */
     protected $next;
 
@@ -126,7 +129,7 @@ class Game implements Model\Game
      * Can be null if equals to standard position
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @orm:Column(type="string")
      */
     protected $initialFen;
 
@@ -134,8 +137,7 @@ class Game implements Model\Game
      * Last update time
      *
      * @var \DateTime
-     * @mongodb:Field(type="date")
-     * @mongodb:Index(order="desc")
+     * @orm:Column(type="date")
      */
     protected $updatedAt;
 
@@ -143,7 +145,7 @@ class Game implements Model\Game
      * Creation date
      *
      * @var \DateTime
-     * @mongodb:Field(type="date")
+     * @orm:Column(type="date")
      */
     protected $createdAt;
 
@@ -151,7 +153,7 @@ class Game implements Model\Game
      * Array of position hashes, used to detect threefold repetition
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @orm:Column(type="array")
      */
     protected $positionHashes = array();
 
@@ -159,7 +161,7 @@ class Game implements Model\Game
      * The game clock
      *
      * @var Clock
-     * @mongodb:EmbedOne(targetDocument="Clock", nullable=true)
+     * @orm:OneToOne(targetEntity="Clock")
      */
     protected $clock;
 
@@ -167,7 +169,7 @@ class Game implements Model\Game
      * The chat room
      *
      * @var Room
-     * @mongodb:EmbedOne(targetDocument="Room", nullable=true)
+     * @orm:OneToOne(targetEntity="Room")
      */
     protected $room;
 
@@ -848,7 +850,7 @@ class Game implements Model\Game
     }
 
     /**
-     * @mongodb:PrePersist
+     * @orm:PrePersist
      */
     public function setCreatedNow()
     {
@@ -856,7 +858,7 @@ class Game implements Model\Game
     }
 
     /**
-     * @mongodb:PreUpdate
+     * @orm:PreUpdate
      */
     public function setUpdatedNow()
     {
@@ -864,7 +866,7 @@ class Game implements Model\Game
     }
 
     /**
-     * @mongodb:PostLoad
+     * @orm:PostLoad
      */
     public function ensureDependencies()
     {
@@ -880,8 +882,8 @@ class Game implements Model\Game
     }
 
     /**
-     * @mongodb:PreUpdate
-     * @mongodb:PrePersist
+     * @orm:PreUpdate
+     * @orm:PrePersist
      */
     public function cachePlayerVersions()
     {
@@ -893,7 +895,7 @@ class Game implements Model\Game
     }
 
     /**
-     * @mongodb:PostRemove
+     * @orm:PostRemove
      */
     public function clearPlayerVersionCache()
     {

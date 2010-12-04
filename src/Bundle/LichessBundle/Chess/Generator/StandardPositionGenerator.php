@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Chess\Generator;
 
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
 class StandardPositionGenerator extends PositionGenerator
 {

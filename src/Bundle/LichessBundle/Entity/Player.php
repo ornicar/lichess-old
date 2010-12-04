@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Bundle\LichessBundle\Entity;
 
 use Bundle\LichessBundle\Model;
 use Bundle\LichessBundle\Util\KeyGenerator;
@@ -12,7 +12,7 @@ use Bundle\DoctrineUserBundle\Model\User;
 /**
  * Represents a single Chess player for one game
  *
- * @mongodb:EmbeddedDocument
+ * @orm:Entity
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
  */
 class Player implements Model\Player
@@ -21,7 +21,7 @@ class Player implements Model\Player
      * Unique ID of the player for this game
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @orm:Column(type="string")
      */
     protected $id;
 
@@ -29,7 +29,7 @@ class Player implements Model\Player
      * User bound to the player - optional
      *
      * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     * @orm:OnetoOne(targetEntity="Application\DoctrineUserBundle\Document\User")
      */
     protected $user = null;
 
@@ -37,7 +37,7 @@ class Player implements Model\Player
      * Fixed ELO of the player user, if any
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @orm:Column(type="integer")
      */
     protected $elo = null;
 
@@ -45,7 +45,7 @@ class Player implements Model\Player
      * the player color, white or black
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @orm:Column(type="string")
      */
     protected $color;
 
@@ -53,7 +53,7 @@ class Player implements Model\Player
      * Whether the player won the game or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean")
+     * @orm:Column(type="boolean")
      */
     protected $isWinner;
 
@@ -61,7 +61,7 @@ class Player implements Model\Player
      * Whether this player is an Artificial intelligence or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean")
+     * @orm:Column(type="boolean")
      */
     protected $isAi;
 
@@ -69,7 +69,7 @@ class Player implements Model\Player
      * If the player is an AI, its level represents the AI intelligence
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @orm:Column(type="integer")
      */
     protected $aiLevel;
 
@@ -77,7 +77,7 @@ class Player implements Model\Player
      * Event stack
      *
      * @var Stack
-     * @mongodb:EmbedOne(targetDocument="Stack")
+     * @orm:OneToOne(targetEntity="Stack")
      */
     protected $stack;
 
@@ -85,17 +85,7 @@ class Player implements Model\Player
      * the player pieces
      *
      * @var Collection
-     * @mongodb:EmbedMany(
-     *   discriminatorMap={
-     *     "p"="Bundle\LichessBundle\Document\Piece\Pawn",
-     *     "r"="Bundle\LichessBundle\Document\Piece\Rook",
-     *     "b"="Bundle\LichessBundle\Document\Piece\Bishop",
-     *     "n"="Bundle\LichessBundle\Document\Piece\Knight",
-     *     "q"="Bundle\LichessBundle\Document\Piece\Queen",
-     *     "k"="Bundle\LichessBundle\Document\Piece\King"
-     *   },
-     *   discriminatorField="t"
-     * )
+     * @orm:OneToMany(targetEntity="Piece")
      */
     protected $pieces;
 
@@ -103,7 +93,7 @@ class Player implements Model\Player
      * Whether the player is offering draw or not
      *
      * @var bool
-     * @mongodb:Field(type="boolean")
+     * @orm:Column(type="boolean")
      */
     protected $isOfferingDraw = null;
 

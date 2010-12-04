@@ -1,11 +1,11 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Bundle\LichessBundle\Entity;
 
 use Bundle\LichessBundle\Model;
 
 /**
- * @mongodb:EmbeddedDocument
+ * @orm:Entity
  */
 class Clock implements Model\Clock
 {
@@ -13,7 +13,7 @@ class Clock implements Model\Clock
      * Maximum time of the clock per player
      *
     * @var int
-    * @mongodb:Field(type="int")
+    * @orm:Column(type="integer")
      */
     private $limit = null;
 
@@ -21,7 +21,7 @@ class Clock implements Model\Clock
      * Current player color
      *
      * @var string
-    * @mongodb:Field(type="string")
+    * @orm:Column(type="string")
      */
     private $color = null;
 
@@ -29,7 +29,7 @@ class Clock implements Model\Clock
      * Times for white and black players
      *
      * @var array
-     * @mongodb:Field(type="hash")
+     * @orm:Column(type="array")
      */
     private $times = null;
 
@@ -37,7 +37,7 @@ class Clock implements Model\Clock
      * Internal timer
      *
      * @var float
-     * @mongodb:Field(type="float")
+     * @orm:Column(type="float")
      */
     private $timer = null;
 
@@ -51,7 +51,7 @@ class Clock implements Model\Clock
      * Fisher clock bonus per move in seconds
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @orm:Column(type="integer")
      */
     protected $moveBonus;
 

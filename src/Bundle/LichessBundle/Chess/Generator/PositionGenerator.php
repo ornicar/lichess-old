@@ -2,8 +2,8 @@
 
 namespace Bundle\LichessBundle\Chess\Generator;
 
-use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Model\Game;
+use Bundle\LichessBundle\Model\Player;
 
 abstract class PositionGenerator
 {
