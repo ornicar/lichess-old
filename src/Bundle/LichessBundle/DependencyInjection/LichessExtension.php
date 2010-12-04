@@ -22,8 +22,22 @@ class LichessExtension extends Extension
         $loader->load('form.xml');
         $loader->load('security.xml');
 
+        if (!isset($config['db_driver'])) {
+            throw new \InvalidArgumentException('You must provide the lichess.db_driver configuration');
+        }
+
+        if ($config['db_driver'] == 'odm') {
+            $container->setAlias('lichess.object_manager', 'doctrine.odm.mongodb.document_manager');
+        } else {
+            $container->setAlias('lichess.object_manager', 'doctrine.orm.entity_manager');
+        }
+
         if(isset($config['ai']['class'])) {
             $container->setParameter('lichess.ai.class', $config['ai']['class']);
+        }
+
+        if(isset($config['storage']['class'])) {
+            $container->setParameter('lichess.storage.class', $config['storage']['class']);
         }
 
         if(isset($config['translation']['remote_domain'])) {

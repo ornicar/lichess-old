@@ -85,5 +85,8 @@ doctrine.orm:
 time.helper: ~
 
 lichess.config:
+    db_driver: orm
     ai:
         class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid
+    storage:
+        class: Bundle\LichessBundle\Storage\WinCache # also available: Bundle\LichessBundle\Storage\Apc
