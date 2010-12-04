@@ -23,6 +23,11 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
     public function testMoveFormat()
     {
         $ai = new Crafty();
+
+        if (!$ai->isAvailable()) {
+            $this->markTestSkipped('Crafty is not installed');
+        }
+
         $move = $ai->move($this->game, 1);
         $this->assertRegexp('/[a-h][1-8]\s[a-h][1-8]/', $move);
     }
@@ -31,6 +36,11 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
     {
         $dump = $this->board->dump();
         $ai = new Crafty();
+
+        if (!$ai->isAvailable()) {
+            $this->markTestSkipped('Crafty is not installed');
+        }
+
         $move = $ai->move($this->game, 1);
         $this->manipulator->play($move);
         $this->assertNotEquals($dump, $this->board->dump());
@@ -41,6 +51,11 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
         for($it=0; $it<8; $it++) {
             $dump = $this->board->dump();
             $ai = new Crafty();
+
+            if (!$ai->isAvailable()) {
+                $this->markTestSkipped('Crafty is not installed');
+            }
+
             $move = $ai->move($this->game, 1);
             $this->manipulator->play($move);
             $this->assertNotEquals($dump, $this->board->dump());
@@ -50,6 +65,11 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
     public function testLevels()
     {
         $ai = new Crafty();
+
+        if (!$ai->isAvailable()) {
+            $this->markTestSkipped('Crafty is not installed');
+        }
+        
         for($level=1; $level<=8; $level++) {
             $move = $ai->move($this->game, $level);
             $this->assertRegexp('/[a-h][1-8]\s[a-h][1-8]/', $move);

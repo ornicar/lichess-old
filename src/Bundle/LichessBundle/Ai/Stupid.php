@@ -27,4 +27,9 @@ class Stupid
 
         return $from.' '.$to;
     }
+
+    public function isAvailable()
+    {
+        return true;
+    }
 }

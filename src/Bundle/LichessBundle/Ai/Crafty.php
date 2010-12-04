@@ -17,6 +17,11 @@ class Crafty
         return $move;
     }
 
+    public function isAvailable()
+    {
+        return file_exists('/usr/games/crafty');
+    }
+
     protected function removeCastlingInfos($forsyth)
     {
         return preg_replace('#^([\w\d/]+)\s(w|b)\s(?:[kq\-]+)\s(.+)$#i', '$1 $2 - $3', $forsyth);
