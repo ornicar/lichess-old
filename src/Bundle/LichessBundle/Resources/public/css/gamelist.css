@@ -78,29 +78,6 @@ div.lmcs.black {
     background: #CFCFCF;
 }
 
-div.lmcsi {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-}
-div.lmcs.moved div.lmcsi {
-    background: url(../images/over5.png) top left no-repeat;
-}
-div.lmcs.check div.lmcsi {
-    background: url(../images/over6.png) top left no-repeat;
-}
-div.my_turn.not_spectator div.lmcs:hover div.lmcsi {
-    background: url(../images/over.png) top left no-repeat;
-}
-div.lmcs.droppable-hover div.lmcsi {
-    background: url(../images/over4.png) top left no-repeat;
-}
-div.mini_board div.lmcs.selected div.lmcsi,
-div.mini_board div.lmcs.selectable div.lmcsi {
-    background: url(../images/over3.png) top left no-repeat !important;
-    cursor: pointer;
-}
-
 div.lcmp {
     position: absolute;
     width: 24px;

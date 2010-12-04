@@ -140,7 +140,6 @@ class LichessGameHelper extends Helper
             $html .= sprintf('<div class="lmcs %s" style="top:%dpx;left:%dpx;">',
                 $square->getColor(), 24*(8-$x), 24*($y-1)
             );
-            $html .= '<div class="lmcsi"></div>';
             if($piece = $board->getPieceByKey($squareKey)) {
                 $html .= sprintf('<div class="lcmp %s %s"></div>',
                     strtolower($piece->getClass()), $piece->getColor()
