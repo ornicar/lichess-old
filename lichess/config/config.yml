@@ -14,7 +14,7 @@ security.config:
     providers:
         doctrine_user:
             password_encoder: sha1
-            document: { class: DoctrineUserBundle:User }
+            entity: { class: DoctrineUserBundle:User }
     firewalls:
         public:
             pattern: .*
@@ -38,28 +38,13 @@ zend.config:
 
 twig.config: ~
 
-apc.config:
-    host: http://lichess.org
-    web_dir: %kernel.root_dir%/../web
-
-doctrine_odm.mongodb:
-    auto_generate_proxy_classes: true
-    default_database: lichess
-    metadata_cache_driver: apc
-    cache_driver: apc
-    connections:
-        default:
-            options:
-                connect: true
-                persist: lichess
-
 forum.config:
-    db_driver: odm
+    db_driver: orm
     class:
         model:
-            category: Application\ForumBundle\Document\Category
-            topic: Application\ForumBundle\Document\Topic
-            post: Application\ForumBundle\Document\Post
+            category: Application\ForumBundle\Entity\Category
+            topic: Application\ForumBundle\Entity\Topic
+            post: Application\ForumBundle\Entity\Post
         controller:
             topic: Application\ForumBundle\Controller\TopicController
             post: Application\ForumBundle\Controller\PostController
@@ -77,10 +62,10 @@ forum.config:
         search_results_per_page: 10
 
 doctrine_user.config:
-    db_driver: odm
+    db_driver: orm
     class:
         model:
-            user: Application\DoctrineUserBundle\Document\User
+            user: Application\DoctrineUserBundle\Entity\User
         form:
             user: Application\DoctrineUserBundle\Form\UserForm
         controller:

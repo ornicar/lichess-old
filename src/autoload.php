@@ -5,8 +5,9 @@ require_once __DIR__.'/vendor/Symfony/src/Symfony/Component/HttpFoundation/Unive
 $loader = new Symfony\Component\HttpFoundation\UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony'                => __DIR__.'/vendor/Symfony/src',
-    'Doctrine\\Common'       => __DIR__.'/vendor/mongodb-odm/lib/vendor/doctrine-common/lib',
-    'Doctrine\\ODM\\MongoDB' => __DIR__.'/vendor/mongodb-odm/lib',
+    'Doctrine\\Common'       => __DIR__.'/vendor/Doctrine/lib/vendor/doctrine-common/lib',
+    'Doctrine\\DBAL'         => __DIR__.'/vendor/Doctrine/lib/vendor/doctrine-dbal/lib',
+    'Doctrine'               => __DIR__.'/vendor/Doctrine/lib',
     'Bundle'                 => __DIR__,
     'ZendPaginatorAdapter'   => __DIR__.'/vendor/ZendPaginatorAdapter/src',
     'Zend'                   => __DIR__.'/vendor/zend/library',
