@@ -194,6 +194,7 @@ class GameRepository extends DocumentRepository
         return $this->createQueryBuilder()
             ->field('updatedAt')->lt(new \MongoDate($date->getTimestamp()))
             ->field('turns')->lt(2)
+            ->limit(500)
             ->getQuery()->execute();
     }
 }
