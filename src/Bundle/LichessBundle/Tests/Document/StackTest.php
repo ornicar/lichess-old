@@ -9,6 +9,28 @@ class StackTest extends \PHPUnit_Framework_TestCase
 {
     protected $game;
 
+    public function testOptimize()
+    {
+        $events = array(
+            0 => array('type' => 'f'),
+            1 => array('type' => 'a'),
+            2 => array('type' => 'possible_moves', 'possible_moves' => array('a' => array('x', 'y'))),
+            3 => array('type' => 'c'),
+            4 => array('type' => 'possible_moves', 'possible_moves' => array('c' => array('x', 'y'))),
+        );
+        $stack = new Stack();
+        $stack->addEvents($events);
+        $events = $stack->getEvents();
+        $this->assertEquals(4, count($events));
+        $expected = array(
+            0 => array('type' => 'f'),
+            1 => array('type' => 'a'),
+            3 => array('type' => 'c'),
+            4 => array('type' => 'possible_moves', 'possible_moves' => array('c' => array('x', 'y'))),
+        );
+        $this->assertSame($expected, $events);
+    }
+
     public function testMove()
     {
         $this->createGame($this->getData());
