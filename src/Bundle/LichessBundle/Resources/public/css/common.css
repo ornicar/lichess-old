@@ -173,15 +173,17 @@ a#sound_state {
     width: 18px;
     height: 15px;
     opacity: 0.7;
+    background: url(../images/s16.png) no-repeat;
+    display: block;
 }
 a#sound_state:hover {
     opacity: 1;
 }
-a.sound_state_on {
-    background: url(../images/sound-on.gif) top left no-repeat;
+a#sound_state.sound_state_on {
+    background-position: 0 -80px;
 }
-a.sound_state_off {
-    background: url(../images/sound-off.gif) top left no-repeat;
+a#sound_state.sound_state_off {
+    background-position: 0 -64px;
 }
 a#sound_state.unavailable {
     opacity: 0;
@@ -193,8 +195,9 @@ div.lichess_language {
     position: relative;
 }
 div.lichess_language span {
-    background: url(../images/down16.png) center right no-repeat;
-    padding-right: 16px;
+    background-position: right -240px;
+    padding-left: 0;
+    padding-right: 20px;
     cursor: pointer;
     font-size: 13px;
 }
