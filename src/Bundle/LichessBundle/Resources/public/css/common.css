@@ -31,6 +31,11 @@ html{color:#000;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fiel
     display: none;
 }
 
+.s16 {
+    padding-left: 20px;
+    background: transparent url(../images/s16.png) top left no-repeat;
+}
+
 body {
     font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
     color: #888;
@@ -254,28 +259,27 @@ div.security input.login {
 }
 a.goto_nav {
     margin-top: 4px;
-    padding-left: 20px;
 }
 a.goto_nav:hover {
     text-decoration: underline;
 }
 a.goto_logout {
-    background: transparent url(../images/logout.png) top left no-repeat;
+    background-position: 0 -48px;
 }
 a.goto_userlist {
-    background: transparent url(../images/users.png) top left no-repeat;
+    background-position: 0 -176px;
 }
 a.goto_gamelist {
-    background: transparent url(../images/eye.png) top left no-repeat;
+    background-position: 0 -16px;
 }
 a.goto_forum {
-    background: transparent url(../images/balloon.png) top left no-repeat;
+    background-position: 0 0px;
 }
 a.goto_play {
-    background: transparent url(../images/control.png) top left no-repeat;
+    background-position: 0 -32px;
 }
 a.goto_profile {
-    background: transparent url(../images/user.png) top left no-repeat;
+    background-position: 0 -160px;
     margin-right: 1em;
 }
 a.lichess_replay_link {

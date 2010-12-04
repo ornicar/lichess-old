@@ -54,16 +54,16 @@
                     <li><a href="{% path "lichess_translate" %}">Help translate Lichess!</a></li>
                 </ul>
             </div>
-            <a class="goto_forum goto_nav blank_if_play" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{% path "forum_index" %}">{% trans "Forum" %}</a>
-            <a class="goto_gamelist goto_nav blank_if_play" title="{% trans "See the games being played in real time" %}" href="{% path "lichess_list_current" %}">{% trans "Games" %}</a>
-            <a class="goto_userlist goto_nav blank_if_play" title="{% trans "Chess players" %}" href="{% path "doctrine_user_user_list" %}">{% trans "People" %}</a>
+            <a class="s16 goto_forum goto_nav blank_if_play" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{% path "forum_index" %}">{% trans "Forum" %}</a>
+            <a class="s16 goto_gamelist goto_nav blank_if_play" title="{% trans "See the games being played in real time" %}" href="{% path "lichess_list_current" %}">{% trans "Games" %}</a>
+            <a class="s16 goto_userlist goto_nav blank_if_play" title="{% trans "Chess players" %}" href="{% path "doctrine_user_user_list" %}">{% trans "People" %}</a>
             {% endblock %}
             {% block security %}
                 {% if _view.doctrine_user_security.isAnonymous %}
                     {% include "DoctrineUserBundle:Security:embeddedLogin.twig" %}
                 {% else %}
-                    <a class="goto_nav goto_logout" href="{% path "_security_logout" %}">{% trans "Log out" %}</a>
-                    <a href="{% path "doctrine_user_user_show" with["username": _view.doctrine_user_security.user.username] %}" class="blank_if_play goto_nav goto_profile">{{ _view.doctrine_user_security.user.usernameWithElo }}</a>
+                    <a class="s16 goto_nav goto_logout" href="{% path "_security_logout" %}">{% trans "Log out" %}</a>
+                    <a href="{% path "doctrine_user_user_show" with["username": _view.doctrine_user_security.user.username] %}" class="s16 blank_if_play goto_nav goto_profile">{{ _view.doctrine_user_security.user.usernameWithElo }}</a>
                 {% endif %}
             {% endblock %}
         </div>
