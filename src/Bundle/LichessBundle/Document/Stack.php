@@ -19,7 +19,9 @@ class Stack
 
     public function hasVersion($version)
     {
-        return isset($this->events[$version]);
+        $versions = array_keys($this->events);
+
+        return $version <= end($versions) && $version >= reset($versions);
     }
 
     public function getVersion()

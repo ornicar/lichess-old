@@ -110,6 +110,7 @@ class PlayerController extends Controller
             $events = $version != $clientVersion ? $this->get('lichess_synchronizer')->getDiffEvents($player, $clientVersion) : array();
         }
         catch(\OutOfBoundsException $e) {
+            $this->get('logger')->warn(sprintf('Player:syncData OutOfBounds game:%s', $game->getId()));
             $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $player->getFullId()))));
         }
         // render system messages
