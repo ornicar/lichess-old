@@ -187,4 +187,13 @@ class GameRepository extends DocumentRepository
             ->hint(array('updatedAt' => -1))
             ->getQuery()->execute();
     }
+
+    public function findCandidatesToCleanup()
+    {
+        $date = new \DateTime('-7 day');
+        return $this->createQueryBuilder()
+            ->field('updatedAt')->lt(new \MongoDate($date->getTimestamp()))
+            ->field('turns')->lt(2)
+            ->getQuery()->execute();
+    }
 }
