@@ -37,9 +37,12 @@ class CleanupGamesCommand extends BaseCommand
         $nb = count($games);
         $output->writeLn(sprintf('Found %d games to remove', $nb));
         if($input->getOption('execute') && $nb) {
-            $output->writeLn('Removing games...');
+            $max = 500;
+            $output->writeLn(sprintf('Removing %d games...', $max));
             $om = $this->container->get('lichess.object_manager');
+            $it=0;
             foreach($games as $game) {
+                if(++$it > $max) break;
                 $om->remove($game);
             }
             $om->flush();
