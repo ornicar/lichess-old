@@ -31,7 +31,17 @@ $(function() {
         $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
     }
 
-    $('div.lichess_language').hover(function() { $(this).find('ul').fadeIn(300); }, function() {
+    $('div.lichess_language').hover(function() {
+        ul = $(this).find('ul');
+        if(!ul.length) {
+            var $div = $(this);
+            $.get($div.attr('data-path'), function(html) {
+                $div.append(html).find('ul').fadeIn(300);
+            });
+        } else {
+            ul.fadeIn(300);
+        }
+    }, function() {
         $(this).find('ul').fadeOut(300);
     });
 

@@ -42,17 +42,8 @@
         <div id="top_menu">
             {% block top_menu %}
             <a title="{% trans "Toggle sound" %}" href="{% path "lichess_toggle_sound" %}" id="sound_state" class="available sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
-            <div class="lichess_language">
+            <div class="lichess_language" data-path="{% path "lichess_locale_links" %}">
                 <span class="s16">{{ _view.locale.localeName }}</span>
-                <ul class="lichess_language_links">
-                    {% set localePath %}
-                        {% path "lichess_locale" with ["locale": "__"] %}
-                    {% endset %}
-                    {% for code, name in _view.locale.otherLocales() %}
-                        <li><a lang="{{ code }}" href="{{ localePath|replace(["__": code]) }}">{{ name }}</a></li>
-                    {% endfor %}
-                    <li><a href="{% path "lichess_translate" %}">Help translate Lichess!</a></li>
-                </ul>
             </div>
             <a class="s16 goto_forum goto_nav blank_if_play" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{% path "forum_index" %}">{% trans "Forum" %}</a>
             <a class="s16 goto_gamelist goto_nav blank_if_play" title="{% trans "See the games being played in real time" %}" href="{% path "lichess_list_current" %}">{% trans "Games" %}</a>
