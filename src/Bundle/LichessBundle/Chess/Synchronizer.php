@@ -66,10 +66,7 @@ class Synchronizer
         if(!$playerStack->hasVersion($clientVersion)) {
             throw new \OutOfBoundsException();
         }
-        $events = array();
-        for($version = $clientVersion+1; $version <= $stackVersion; $version++) {
-            $events[] = $playerStack->getEvent($version);
-        }
+        $events = $playerStack->getEventsSince($clientVersion+1);
 
         return $events;
     }

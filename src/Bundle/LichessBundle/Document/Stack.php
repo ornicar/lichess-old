@@ -48,6 +48,18 @@ class Stack
         return $this->events;
     }
 
+    public function getEventsSince($version)
+    {
+        $events = array();
+        for($v = $version, $max = $this->getVersion(); $v <= $max; $v++) {
+            if(isset($this->events[$v])) {
+                $events[] = $this->getEvent($v);
+            }
+        }
+
+        return $events;
+    }
+
     /**
      * Get a version event
      *
