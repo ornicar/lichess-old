@@ -9,6 +9,8 @@
         <parameter key="lichess.ai_fallback.class">Bundle\LichessBundle\Ai\Stupid</parameter>
 
         <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
+        <parameter key="lichess.generator_960.class">Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator</parameter>
+        <parameter key="lichess.generator_standard.class">Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator</parameter>
 
         <parameter key="lichess.finisher.class">Bundle\LichessBundle\Chess\Finisher</parameter>
 
@@ -50,7 +52,25 @@
         <service id="lichess_ai_fallback" class="%lichess.ai_fallback.class%" shared="true">
         </service>
 
+        <service id="lichess_storage" class="%lichess.storage.class%" shared="true">
+        </service>
+
         <service id="lichess_generator" class="%lichess.generator.class%" shared="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="lichess_generator_960" class="%lichess.generator_960.class%" shared="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="lichess_generator_standard" class="%lichess.generator_standard.class%" shared="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
 
         <service id="lichess_finisher" class="%lichess.finisher.class%" shared="true">

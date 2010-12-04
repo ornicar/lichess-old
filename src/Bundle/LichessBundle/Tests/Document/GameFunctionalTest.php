@@ -1,12 +1,13 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Bundle\LichessBundle\Entity;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
 
 class GameFunctionalTest extends WebTestCase
 {
     protected $dm;
+    protected $kernel;
 
     public function testCreateGame()
     {
@@ -99,7 +100,7 @@ class GameFunctionalTest extends WebTestCase
     public function testFetchFullFeaturedGame($gameId)
     {
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
-        $this->assertInstanceOf('\Bundle\LichessBundle\Document\Clock', $game->getClock());
+        $this->assertInstanceOf('\Bundle\LichessBundle\Model\Clock', $game->getClock());
         $this->assertEquals(2, $game->getClock()->getLimitInMinutes());
         $this->assertEquals(4, $game->getRoom()->getNbMessages());
     }
@@ -138,17 +139,30 @@ class GameFunctionalTest extends WebTestCase
         $game->addPlayer(new Player('white'));
         $game->addPlayer(new Player('black'));
         $game->setCreatorColor('white');
-        $positionGenerator = new StandardPositionGenerator();
-        $positionGenerator->createPiecesMinimal($game);
+        $this->createPiecesMinimal($game);
         return $game;
     }
 
     public function setUp()
     {
         if(null === $this->dm) {
-            $kernel = $this->createKernel();
-            $kernel->boot();
-            $this->dm = $kernel->getContainer()->get('doctrine.odm.mongodb.document_manager');
+            $this->kernel = $this->createKernel();
+            $this->kernel->boot();
+            $this->dm = $this->kernel->getContainer()->get('lichess.object_manager');
         }
+    }
+
+    public function createPiecesMinimal(Game $game)
+    {
+        $positionGenerator = $this->kernel->getContainer()->get('lichess_generator');
+        $generator = $positionGenerator->getVariantGenerator();
+
+        $pieces = array();
+        $player = $game->getPlayer('white');
+        $pieces[] = $generator->createPiece('Pawn', 1, 2);
+        $player->setPieces($pieces);
+        $player->getOpponent()->setPieces($generator->mirrorPieces($pieces));
+
+        $game->setInitialFen(null);
     }
 }

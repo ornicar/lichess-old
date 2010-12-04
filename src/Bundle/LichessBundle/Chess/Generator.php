@@ -4,11 +4,9 @@ namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
-use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
-use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
-class Generator
+class Generator extends ContainerAware
 {
     /**
      * @return Game
@@ -27,13 +25,13 @@ class Generator
         return $game;
     }
 
-    protected function getVariantGenerator($variant)
+    public function getVariantGenerator($variant = Game::VARIANT_STANDARD)
     {
         if($variant === Game::VARIANT_960) {
-            $generator = new Chess960PositionGenerator();
+            $generator = $this->container->get('lichess_generator_960');
         }
         else {
-            $generator = new StandardPositionGenerator();
+            $generator = $this->container->get('lichess_generator_standard');
         }
 
         return $generator;

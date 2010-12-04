@@ -22,15 +22,4 @@ class StandardPositionGenerator extends PositionGenerator
 
         $game->setInitialFen(null);
     }
-
-    public function createPiecesMinimal(Game $game)
-    {
-        $pieces = array();
-        $player = $game->getPlayer('white');
-        $pieces[] = $this->createPiece('Pawn', 1, 2);
-        $player->setPieces($pieces);
-        $player->getOpponent()->setPieces($this->mirrorPieces($pieces));
-
-        $game->setInitialFen(null);
-    }
 }
