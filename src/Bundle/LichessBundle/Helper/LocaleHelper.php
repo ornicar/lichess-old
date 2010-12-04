@@ -51,6 +51,11 @@ class LocaleHelper implements HelperInterface
         return $locales;
     }
 
+    public function renderOtherLocales()
+    {
+        return json_encode($this->getOtherLocales());
+    }
+
     public function getName()
     {
         return 'locale';

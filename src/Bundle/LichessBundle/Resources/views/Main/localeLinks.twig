@@ -1,0 +1,7 @@
+<ul class="lichess_language_links">
+{% set localePath %}{% path "lichess_locale" with ["locale": "__"] %}{% endset %}
+{% for code, name in _view.locale.otherLocales %}
+<li><a href="{{ localePath|replace(["__": code]) }}">{{ name }}</a></li>
+{% endfor %}
+<li><a href="{% path "lichess_translate" %}">Help translate Lichess!</a></li>
+</ul>

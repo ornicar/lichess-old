@@ -132,6 +132,9 @@ lichess_locale:
     pattern:        /locale/:locale
     defaults:       { _controller: lichess.controller.main:localeAction }
     requirements:   { locale: "\w{2,3}" }
+lichess_locale_links:
+    pattern:        /locale/links
+    defaults:       { _controller: lichess.controller.main:localeLinksAction }
 lichess_translate:
     pattern:        /translate
     defaults:       { _controller: lichess.controller.translation:indexAction }
