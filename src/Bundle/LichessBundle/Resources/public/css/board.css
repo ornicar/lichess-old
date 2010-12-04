@@ -378,6 +378,7 @@ div.lichess_table_not_started {
 .username {
     background: url(../images/s16.png) no-repeat;
     padding-left: 16px;
+    background-position: 0 +16px;
 }
 .username.connected {
     background-position: 0 -112px;
