@@ -478,10 +478,10 @@ div.lichess_separator {
 
 div.lichess_table .lichess_button {
     margin: 2.5em 0 0 0;
-    font-size: 1.5em;
+    font-size: 1.3em;
     display: block;
     text-decoration: none;
-    padding: 0.5em 1em;
+    padding: 1em;
     background: #F0F0F0;
     border: 1px solid #ddd;
     border-radius: 32px;
