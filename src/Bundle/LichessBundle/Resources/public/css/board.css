@@ -373,13 +373,15 @@ div.lichess_table_not_started {
     padding: 0;
     top: 100px;
 }
-.username.connected {
-    background: url(../images/status.png) top left no-repeat;
+.username {
+    background: url(../images/s16.png) no-repeat;
     padding-left: 16px;
 }
+.username.connected {
+    background-position: 0 -112px;
+}
 .username.offline {
-    background: url(../images/status-offline.png) top left no-repeat;
-    padding-left: 16px;
+    background-position: 0 -128px;
 }
 div.clock {
     margin-left: 78px;
@@ -602,7 +604,8 @@ div.lichess_chat a.send {
     display: block;
     height: 16px;
     width: 16px;
-    background: url(../images/send.png) top left no-repeat;
+    background: url(../images/s16.png) no-repeat;
+    background-position: 0 -96px;
     text-decoration: none;
     z-index: 1;
     opacity: 0.5;
@@ -614,16 +617,18 @@ div.lichess_chat a.send:hover {
 div.lichess_chat ol.lichess_messages li {
     margin: 0.6em 0;
     padding-left: 18px;
-    background: left center no-repeat;
+    background: url(../images/s16.png) no-repeat;
+    font-size: 11px;
+    line-height: 14px;
 }
 div.lichess_chat ol.lichess_messages li.white {
-    background-image: url(../images/kw14.png);
+    background-position: 0 -208px;
 }
 div.lichess_chat ol.lichess_messages li.black {
-    background-image: url(../images/kb14.png);
+    background-position: 0 -192px;
 }
 div.lichess_chat ol.lichess_messages li.system {
-    background-image: url(../images/tip3.png);
+    background-position: 0 -144px;
 }
 div.lichess_chat.hidden ol.lichess_messages, div.lichess_chat.hidden form {
     opacity: 0.05;
