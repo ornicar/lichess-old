@@ -193,8 +193,8 @@ class GameRepository extends DocumentRepository
         $date = new \DateTime('-7 day');
         return $this->createQueryBuilder()
             ->field('updatedAt')->lt(new \MongoDate($date->getTimestamp()))
+            ->field('status')->lt(Game::MATE)
             ->field('turns')->lt(2)
-            ->limit(500)
             ->getQuery()->execute();
     }
 }
