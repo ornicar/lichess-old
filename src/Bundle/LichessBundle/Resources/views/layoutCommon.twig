@@ -43,7 +43,7 @@
             {% block top_menu %}
             <a title="{% trans "Toggle sound" %}" href="{% path "lichess_toggle_sound" %}" id="sound_state" class="available sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
             <div class="lichess_language">
-                <span>{{ _view.locale.localeName }}</span>
+                <span class="s16">{{ _view.locale.localeName }}</span>
                 <ul class="lichess_language_links">
                     {% set localePath %}
                         {% path "lichess_locale" with ["locale": "__"] %}
