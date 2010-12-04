@@ -86,6 +86,14 @@ time.helper: ~
 
 lichess.config:
     db_driver: orm
+    class:
+        model:
+            piece: Bundle\LichessBundle\Entity\Piece
+            game: Bundle\LichessBundle\Entity\Game
+            seek: Bundle\LichessBundle\Entity\Seek
+            translation: Bundle\LichessBundle\Entity\Translation
+            player: Bundle\LichessBundle\Entity\Player
+            clock: Bundle\LichessBundle\Entity\Player
     ai:
         class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid
     storage:

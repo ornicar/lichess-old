@@ -47,12 +47,46 @@ class LichessExtension extends Extension
         if('test' === $container->getParameter('kernel.environment')) {
             $container->setAlias('session.storage', 'session.storage.test');
         }
+
+        foreach(array('piece', 'game', 'seek', 'translation', 'clock', 'player') as $model) {
+            if (!isset($config['class']['model'][$model])) {
+                throw new \InvalidArgumentException(sprintf('You must define your %s model class', $model));
+            }
+        }
+
+        $namespaces = array(
+            'model' => 'lichess.model.%s.class',
+        );
+        $this->remapParametersNamespaces($config['class'], $container, $namespaces);
     }
 
     public function testLoad($config, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
         $loader->load('test.xml');
+    }
+
+    protected function remapParametersNamespaces(array $config, ContainerBuilder $container, array $namespaces)
+    {
+        foreach ($namespaces as $ns => $map) {
+            if ($ns) {
+                if (!isset($config[$ns])) {
+                    continue;
+                }
+                $namespaceConfig = $config[$ns];
+            } else {
+                $namespaceConfig = $config;
+            }
+            if (is_array($map)) {
+                $this->remapParameters($namespaceConfig, $container, $map);
+            } else {
+                foreach ($namespaceConfig as $name => $value) {
+                    if(null !== $value) {
+                        $container->setParameter(sprintf($map, $name), $value);
+                    }
+                }
+            }
+        }
     }
 
     /**

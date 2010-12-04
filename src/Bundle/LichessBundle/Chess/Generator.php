@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Model\Player;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Generator extends ContainerAware
@@ -13,14 +13,9 @@ class Generator extends ContainerAware
      */
     public function createGame($variant = Game::VARIANT_STANDARD)
     {
-        $game = new Game($variant);
-
-        $game->addPlayer(new Player('white'));
-        $game->addPlayer(new Player('black'));
+        $game = $this->_createGame($variant);
 
         $this->getVariantGenerator($variant)->createPieces($game);
-
-        $game->setCreator($game->getPlayer('white'));
 
         return $game;
     }
@@ -96,15 +91,10 @@ RNBQK  R
     */
     public function createGameFromVisualBlock($data)
     {
+        $game = $this->_createGame();
+
         $data = $this->fixVisualBlock($data);
-        $game = new Game();
-
-        $players = array();
-        foreach(array('white', 'black') as $color) {
-            $game->addPlayer(new Player($color));
-        }
-        $game->setCreator($game->getPlayer('white'));
-
+        
         foreach(explode("\n", $data) as $_y => $line) {
             $y = 8-$_y;
             for($x=1; $x<9; $x++) {
@@ -139,5 +129,19 @@ RNBQK  R
         }
 
         return implode("\n", $lines);
+    }
+
+    protected function _createGame($variant = null)
+    {
+        $gameClass = $this->container->getParameter('lichess.model.game.class');
+        $game = new $gameClass($variant);
+
+        $playerClass = $this->container->getParameter('lichess.model.player.class');
+        $game->addPlayer(new $playerClass('white'));
+        $game->addPlayer(new $playerClass('black'));
+
+        $game->setCreator($game->getPlayer('white'));
+
+        return $game;
     }
 }

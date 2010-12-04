@@ -25,7 +25,7 @@ abstract class PositionGenerator extends ContainerAware
      */
     public function createPiece($class, $x, $y)
     {
-        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
+        $fullClass = $this->container->getParameter('lichess.model.piece.class') . '\\' . $class;
 
         $piece = new $fullClass($x, $y);
 
