@@ -31,3 +31,6 @@
 [submodule "src/vendor/php-git-repo"]
 	path = src/vendor/php-git-repo
 	url = git://github.com/ornicar/php-git-repo.git
+[submodule "src/vendor/Doctrine"]
+	path = src/vendor/Doctrine
+	url = git://github.com/doctrine/doctrine2.git
