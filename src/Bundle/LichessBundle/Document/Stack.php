@@ -73,12 +73,32 @@ class Stack
     public function addEvent(array $event)
     {
         $this->events[] = $this->encodeEvent($event);
+        $this->optimize();
         $this->rotate();
     }
 
     public function reset()
     {
         $this->events = array();
+    }
+
+    /**
+     * Remove duplicated possible_moves entry,
+     * only keep the last one
+     *
+     * @return void
+     */
+    public function optimize()
+    {
+        $previousLastMoveIndex = null;
+        foreach($this->events as $index => $event) {
+            if(array_key_exists('pm', $event)) {
+                if($previousLastMoveIndex) {
+                    unset($this->events[$previousLastMoveIndex]);
+                }
+                $previousLastMoveIndex = $index;
+            }
+        }
     }
 
     public function rotate()
