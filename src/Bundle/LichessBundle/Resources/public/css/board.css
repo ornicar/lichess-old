@@ -79,22 +79,24 @@ div.lcsi {
     position: absolute;
     width: 64px;
     height: 64px;
+    background: url(../images/sover.png) top left no-repeat;
+    background-position: 0 +64px;
 }
 div.lcs.moved div.lcsi {
-    background: url(../images/over5.png) top left no-repeat;
+    background-position: 0 -192px;
 }
 div.lcs.check div.lcsi {
-    background: url(../images/over6.png) top left no-repeat;
+    background-position: 0 -256px;
 }
 div.my_turn.not_spectator div.lcs:hover div.lcsi {
-    background: url(../images/over.png) top left no-repeat;
+    background-position: 0 0px;
 }
 div.lcs.droppable-hover div.lcsi {
-    background: url(../images/over4.png) top left no-repeat;
+    background-position: 0 -128px;
 }
 div.lichess_board div.lcs.selected div.lcsi,
 div.lichess_board div.lcs.selectable div.lcsi {
-    background: url(../images/over3.png) top left no-repeat !important;
+    background-position: 0 -64px !important;
     cursor: pointer;
 }
 div.lichess_board div.lcs.selectable div.lichess_piece {
