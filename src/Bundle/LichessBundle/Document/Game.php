@@ -23,7 +23,7 @@ class Game
 {
     const CREATED = 10;
     const STARTED = 20;
-    const ABORTED = 21;
+    const ABORTED = 25;
     const MATE = 30;
     const RESIGN = 31;
     const STALEMATE = 32;
@@ -450,6 +450,26 @@ class Game
     }
 
     /**
+     * Whether this game can be aborted or not
+     *
+     * @return bool
+     **/
+    public function getIsAbortable()
+    {
+        return self::STARTED === $this->getStatus() && 2 > $this->getTurns();
+    }
+
+    /**
+     * Whether this game can be resigned or not
+     *
+     * @return bool
+     **/
+    public function isResignable()
+    {
+        return $this->getIsPlayable() && !$this->getIsAbortable();
+    }
+
+    /**
      * Get pgn moves
      * @return array
      */
@@ -510,6 +530,7 @@ class Game
     public function getStatusMessage()
     {
         switch($this->getStatus()) {
+        case self::ABORTED: $message   = 'Game aborted'; break;
         case self::MATE: $message      = 'Checkmate'; break;
         case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
         case self::STALEMATE: $message = 'Stalemate'; break;
@@ -617,6 +638,24 @@ class Game
     /**
      * @return boolean
      */
+    public function getIsAborted()
+    {
+        return self::ABORTED === $this->getStatus();
+    }
+
+    public function getIsFinishedOrAborted()
+    {
+        return self::ABORTED <= $this->getStatus();
+    }
+
+    public function getIsPlayable()
+    {
+        return self::ABORTED > $this->getStatus();
+    }
+
+    /**
+     * @return boolean
+     */
     public function getIsStarted()
     {
         return $this->getStatus() >= self::STARTED;
@@ -690,6 +729,18 @@ class Game
     public function getTurnPlayer()
     {
         return $this->getPlayer($this->getTurnColor());
+    }
+
+    /**
+     * Add an event to both players stack
+     *
+     * @return null
+     **/
+    public function addEventToStacks(array $event)
+    {
+        foreach($this->getPlayers() as $player) {
+            $player->addEventToStack($event);
+        }
     }
 
     /**

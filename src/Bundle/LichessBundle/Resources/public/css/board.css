@@ -463,6 +463,7 @@ div.lichess_control div.rematch_wait {
 }
 
 div.lichess_control a.lichess_resign,
+div.lichess_control a.lichess_abort,
 div.lichess_control a.offer_draw {
     float: right;
     display: block;
