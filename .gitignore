@@ -10,5 +10,7 @@
 /lichess/deploy.sh
 tags
 /web/.htaccess
+/web/web.config
 /web/google*
+/web/bundle/*
 dump*
