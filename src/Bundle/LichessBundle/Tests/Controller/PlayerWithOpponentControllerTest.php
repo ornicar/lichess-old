@@ -36,7 +36,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertTrue($p1->getResponse()->isRedirect());
         $crawler = $p1->followRedirect();
         $this->assertTrue($p1->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_current_player p:contains("Your turn")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_current_player p:contains("Game aborted")')->count());
     }
 
     public function testClaimDrawWithoutThreefold()
