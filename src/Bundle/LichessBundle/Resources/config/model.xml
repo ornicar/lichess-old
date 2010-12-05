@@ -4,17 +4,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-
-        <parameter key="lichess.model.game.class">Bundle\LichessBundle\Document\Game</parameter>
-        <parameter key="lichess.model.seek.class">Bundle\LichessBundle\Document\Seek</parameter>
-        <parameter key="lichess.model.translation.class">Bundle\LichessBundle\Document\Translation</parameter>
-        <parameter key="lichess.model.piece.class">Bundle\LichessBundle\Document\Piece</parameter>
-        <parameter key="lichess.model.player.class">Bundle\LichessBundle\Document\Player</parameter>
-        <parameter key="lichess.model.clock.class">Bundle\LichessBundle\Document\Clock</parameter>
-
-    </parameters>
-
     <services>
 
         <service id="lichess.object_manager" alias="doctrine.odm.mongodb.document_manager" />
