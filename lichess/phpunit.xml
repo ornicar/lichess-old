@@ -13,7 +13,7 @@
 >
   <testsuites>
     <testsuite name="Lichess Test Suite">
-        <directory>../src/Bundle/*/Tests</directory>
+        <directory>../src/Bundle/LichessBundle/Tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>
