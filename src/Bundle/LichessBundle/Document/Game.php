@@ -23,6 +23,7 @@ class Game
 {
     const CREATED = 10;
     const STARTED = 20;
+    const ABORTED = 21;
     const MATE = 30;
     const RESIGN = 31;
     const STALEMATE = 32;
@@ -404,6 +405,9 @@ class Game
      **/
     public function isThreefoldRepetition()
     {
+        if(6 > count($this->positionHashes)) {
+            return false;
+        }
         $hash = end($this->positionHashes);
 
         return count(array_keys($this->positionHashes, $hash)) >= 3;
