@@ -19,4 +19,23 @@ class UserRepository extends BaseUserRepository
             ->count()
             + 1;
     }
+
+    /**
+     * @return Doctrine\ODM\MongoDB\QueryBuilder
+     **/
+    public function createRecentQuery()
+    {
+        return $this->createQueryBuilder()
+            ->sort('elo', 'desc');
+    }
+
+    /**
+     * @return int
+     **/
+    public function getCount()
+    {
+        return $this->createQueryBuilder()
+            ->getQuery()
+            ->count();
+    }
 }

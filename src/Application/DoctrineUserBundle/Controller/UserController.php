@@ -2,7 +2,6 @@
 
 namespace Application\DoctrineUserBundle\Controller;
 use Bundle\DoctrineUserBundle\Controller\UserController as BaseUserController;
-use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 
 class UserController extends BaseUserController
@@ -12,9 +11,11 @@ class UserController extends BaseUserController
      **/
     public function listAction()
     {
-        $query = $this->get('doctrine_user.repository.user')->createQueryBuilder()
-            ->sort('elo', 'desc');
-        $users = new Paginator(new DoctrineMongoDBAdapter($query));
+        $query = $this->get('doctrine_user.repository.user')->createRecentQuery();
+
+        $adapter = $this->container->getParameter('lichess.paginator.adapter.class');
+
+        $users = new Paginator(new $adapter($query));
         $users->setCurrentPageNumber($this->get('request')->query->get('page', 1));
         $users->setItemCountPerPage(20);
         $users->setPageRange(10);
@@ -30,7 +31,8 @@ class UserController extends BaseUserController
         $critic->setUser($user);
 
         $query = $this->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
-        $games = new Paginator(new DoctrineMongoDBAdapter($query));
+        $adapter = $this->container->getParameter('lichess.paginator.adapter.class');
+        $games = new Paginator(new $adapter($query));
         $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
         $games->setItemCountPerPage(3);
         $games->setPageRange(10);
