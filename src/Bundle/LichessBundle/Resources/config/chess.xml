@@ -44,6 +44,9 @@
             <argument type="service" id="lichess.repository.seek" />
             <argument type="service" id="lichess_generator" />
             <argument type="service" id="lichess.blamer.player" />
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
 
         <service id="lichess_ai" class="%lichess.ai.class%" shared="true">
@@ -80,6 +83,9 @@
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%" shared="true">
             <argument>%lichess.synchronizer.timeout%</argument>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
 
         <service id="lichess_pgn_dumper" class="%lichess.pgn_dumper.class%" shared="true">

@@ -11,8 +11,10 @@
         <parameter key="lichess.model.player.class">Bundle\LichessBundle\Document\Player</parameter>
         <parameter key="lichess.model.room.class">Bundle\LichessBundle\Document\Room</parameter>
         <parameter key="lichess.model.seek.class">Bundle\LichessBundle\Document\Seek</parameter>
-        <parameter key="lichess.model.stack.class">Bundle\LichessBundle\Document\Seek</parameter>
+        <parameter key="lichess.model.stack.class">Bundle\LichessBundle\Document\Stack</parameter>
         <parameter key="lichess.model.translation.class">Bundle\LichessBundle\Document\Translation</parameter>
+        
+        <parameter key="lichess.paginator.adapter.class">ZendPaginatorAdapter\DoctrineMongoDBAdapter</parameter>
     </parameters>
 
     <services>

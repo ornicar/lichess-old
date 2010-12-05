@@ -28,3 +28,6 @@
 [submodule "src/vendor/Doctrine"]
 	path = src/vendor/Doctrine
 	url = git://github.com/doctrine/doctrine2.git
+[submodule "src/vendor/DoctrineExtensions"]
+	path = src/vendor/DoctrineExtensions
+	url = git://github.com/beberlei/DoctrineExtensions.git
