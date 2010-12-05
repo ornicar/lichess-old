@@ -50,6 +50,7 @@
             <parameter key="hy">Հայերեն</parameter>
             <parameter key="af">Afrikaans</parameter>
             <parameter key="hi">हिन्दी, हिंदी</parameter>
+            <parameter key="ar">العربية</parameter>
         </parameter>
 
     </parameters>
