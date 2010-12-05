@@ -1,7 +1,7 @@
 {% set opponentLink %}{{ _view.lichess_user.link(opponent, 'blank_if_play')|raw }}{% endset %}
 {% if isOpponentConnected %}
 <div title="{% trans "Human opponent connected" %}" class="username connected">{{ opponentLink|raw }}</div>
-{% elseif game.isFinished %}
+{% elseif game.isFinishedOrAborted %}
 <div title="{% trans "Human opponent offline" %}" class="username offline">{{ opponentLink|raw }}</div>
 {% else %}
 {{ opponentLink|raw }} - {% trans "The other player has left the game. You can force resignation, or wait for him." %}<br />
