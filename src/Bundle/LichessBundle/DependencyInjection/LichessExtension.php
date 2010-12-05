@@ -29,16 +29,6 @@ class LichessExtension extends Extension
         if(isset($config['translation']['remote_domain'])) {
             $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
         }
-
-        if('test' === $container->getParameter('kernel.environment')) {
-            $container->setAlias('session.storage', 'session.storage.test');
-        }
-    }
-
-    public function testLoad($config, ContainerBuilder $container)
-    {
-        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
-        $loader->load('test.xml');
     }
 
     /**

@@ -18,5 +18,3 @@ doctrine_odm.mongodb:
             options:
                 connect: true
                 persistent: lichess
-
-lichess.test: ~
