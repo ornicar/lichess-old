@@ -36,9 +36,11 @@
                 {% trans "Open Source software built with %php%, %symfony% and %jqueryui%" with['%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'] %}<br />
             </div>
         </div>
+        {% if _view.lichess.loadAverage > 0 %}
         <div title="Come on, make my server suffer :)" class="lichess_server">
             {% trans "Server load" %}: <span class="value">{{ _view.lichess.loadAverage }}</span>
         </div>
+        {% endif %}
         <div id="top_menu">
             {% block top_menu %}
             <a title="{% trans "Toggle sound" %}" href="{% path "lichess_toggle_sound" %}" id="sound_state" class="available sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
