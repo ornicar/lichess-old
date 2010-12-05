@@ -2,11 +2,12 @@
 
 namespace Bundle\LichessBundle\Entity\Piece;
 use Bundle\LichessBundle\Entity\Piece;
+use Bundle\LichessBundle\Model\Piece as Model;
 
 /**
  * @orm:Entity
  */
-class Bishop extends Piece
+class Bishop extends Piece implements Model\Bishop
 {
     public function getClass()
     {

@@ -1,10 +1,9 @@
 <?php
 
 namespace Bundle\LichessBundle\Document;
-use Doctrine\ODM\MongoDB\DocumentRepository;
 use Bundle\DoctrineUserBundle\Model\User;
 
-class GameRepository extends DocumentRepository
+class GameRepository extends ObjectRepository
 {
     /**
      * Find all games played by a user

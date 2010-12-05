@@ -3,11 +3,12 @@
 namespace Bundle\LichessBundle\Entity\Piece;
 use Bundle\LichessBundle\Entity\Piece;
 use Bundle\LichessBundle\Chess\Board;
+use Bundle\LichessBundle\Model\Piece as Model;
 
 /**
  * @orm:Entity
  */
-class Knight extends Piece
+class Knight extends Piece implements Model\Knight
 {
     public function getClass()
     {

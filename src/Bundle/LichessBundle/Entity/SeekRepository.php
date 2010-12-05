@@ -1,10 +1,9 @@
 <?php
 
 namespace Bundle\LichessBundle\Entity;
-use Doctrine\ORM\EntityRepository;
 use Bundle\LichessBundle\Entity\Game;
 
-class SeekRepository extends EntityRepository
+class SeekRepository extends ObjectRepository
 {
     public function findAllSortByCreatedAt()
     {

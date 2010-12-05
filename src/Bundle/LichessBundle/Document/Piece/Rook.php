@@ -2,11 +2,12 @@
 
 namespace Bundle\LichessBundle\Document\Piece;
 use Bundle\LichessBundle\Document\Piece;
+use Bundle\LichessBundle\Model\Piece as Model;
 
 /**
  * @mongodb:EmbeddedDocument
  */
-class Rook extends Piece
+class Rook extends Piece implements Model\Rook
 {
     public function getClass()
     {

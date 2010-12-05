@@ -4,11 +4,12 @@ namespace Bundle\LichessBundle\Entity\Piece;
 use Bundle\LichessBundle\Entity\Piece;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Square;
+use Bundle\LichessBundle\Model\Piece as Model;
 
 /**
  * @orm:Entity
  */
-class Pawn extends Piece
+class Pawn extends Piece implements Model\Pawn
 {
     public function getClass()
     {

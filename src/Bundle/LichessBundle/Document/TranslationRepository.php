@@ -1,9 +1,8 @@
 <?php
 
 namespace Bundle\LichessBundle\Document;
-use Doctrine\ODM\MongoDB\DocumentRepository;
 
-class TranslationRepository extends DocumentRepository
+class TranslationRepository extends ObjectRepository
 {
     public function findAllSortByCreatedAt()
     {

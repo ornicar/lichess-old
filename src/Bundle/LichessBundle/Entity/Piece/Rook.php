@@ -2,11 +2,12 @@
 
 namespace Bundle\LichessBundle\Entity\Piece;
 use Bundle\LichessBundle\Entity\Piece;
+use Bundle\LichessBundle\Model\Piece as Model;
 
 /**
  * @orm:Entity
  */
-class Rook extends Piece
+class Rook extends Piece implements Model\Rook
 {
     public function getClass()
     {

@@ -1,9 +1,8 @@
 <?php
 
 namespace Bundle\LichessBundle\Entity;
-use Doctrine\ORM\EntityRepository;
 
-class TranslationRepository extends EntityRepository
+class TranslationRepository extends ObjectRepository
 {
     public function findAllSortByCreatedAt()
     {

@@ -1,10 +1,9 @@
 <?php
 
 namespace Bundle\LichessBundle\Entity;
-use Doctrine\ORM\EntityRepository;
 use Bundle\DoctrineUserBundle\Model\User;
 
-class GameRepository extends EntityRepository
+class GameRepository extends ObjectRepository
 {
     /**
      * Find all games played by a user

@@ -4,57 +4,241 @@ namespace Bundle\LichessBundle\Model;
 
 use Bundle\LichessBundle\Chess\Board;
 
-interface Piece {
+abstract class Piece {
 
-    function getBasicTargetKeys();
+    protected $x = null;
 
-    function getAttackTargetKeys();
+    protected $y = null;
 
-    function getClass();
+    protected $isDead = null;
 
-    function getFirstMove();
+    protected $firstMove = null;
 
-    function setFirstMove($firstMove);
+    protected $player = null;
 
-    function getIsDead();
+    protected $board = null;
 
-    function setIsDead($isDead);
+    protected $color = null;
 
-    function isClass($class);
+    public function __construct($x, $y)
+    {
+        $this->x = $x;
+        $this->y = $y;
+    }
 
-    function getY();
+    public function getAttackTargetKeys()
+    {
+        return $this->getBasicTargetKeys();
+    }
 
-    function setY($y);
+    /**
+     * @return integer
+     */
+    public function getFirstMove()
+    {
+        return $this->firstMove;
+    }
 
-    function getX();
+    /**
+     * @param integer
+     */
+    public function setFirstMove($firstMove)
+    {
+        $this->firstMove = $firstMove;
+    }
 
-    function setX($x);
+    /**
+     * @return boolean
+     */
+    public function getIsDead()
+    {
+        return (boolean) $this->isDead;
+    }
 
-    function getPlayer();
+    /**
+     * @param boolean
+     */
+    public function setIsDead($isDead)
+    {
+        $this->isDead = $isDead ?: null;
+    }
 
-    function setPlayer(Player $player);
+    /**
+     * @return boolean
+     */
+    public function isClass($class)
+    {
+        return $this->getClass() === $class;
+    }
 
-    function getSquare();
+    /**
+     * @return integer
+     */
+    public function getY()
+    {
+        return $this->y;
+    }
 
-    function getSquareKey();
+    /**
+     * @param integer
+     */
+    public function setY($y)
+    {
+        $this->y = $y;
+    }
 
-    function getGame();
+    /**
+     * @return int
+     */
+    public function getX()
+    {
+        return $this->x;
+    }
 
-    function getBoard();
+    /**
+     * @param int
+     */
+    public function setX($x)
+    {
+        $this->x = $x;
+    }
 
-    function setBoard(Board $board);
+    /**
+     * @return Player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
 
-    function getColor();
+    /**
+     * @param Player
+     */
+    public function setPlayer(Player $player)
+    {
+        $this->player = $player;
+        $this->color = $player->getColor();
+    }
 
-    function hasMoved();
+    protected function getKeysByProjection($dx, $dy)
+    {
+        $keys = array();
+        $continue = true;
+        $x = $this->x;
+        $y = $this->y;
 
-    function toDebug();
+        while($continue)
+        {
+            $x += $dx;
+            $y += $dy;
+            if($x>0 && $x<9 && $y>0 && $y<9)
+            {
+                $key = Board::posToKey($x, $y);
+                if ($piece = $this->board->getPieceByKey($key))
+                {
+                    if ($piece->getColor() !== $this->color)
+                    {
+                        $keys[] = $key;
+                    }
 
-    function __toString();
+                    $continue = false;
+                }
+                else
+                {
+                    $keys[] = $key;
+                }
+            }
+            else
+            {
+                $continue = false;
+            }
+        }
 
-    function getForsyth();
+        return $keys;
+    }
 
-    function getPgn();
+    public function getSquare()
+    {
+        if (isset($this->board)) {
+            return $this->board->getSquareByKey(Board::posToKey($this->x, $this->y));
+        } else {
+            return null;
+        }
+    }
 
-    function getContextualHash();
+    public function getSquareKey()
+    {
+        return Board::posToKey($this->x, $this->y);
+    }
+
+    public function getGame()
+    {
+        return $this->player->getGame();
+    }
+
+    public function getBoard()
+    {
+        return $this->board;
+    }
+
+    public function setBoard(Board $board)
+    {
+        $this->board = $board;
+    }
+
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    public function hasMoved()
+    {
+        return null !== $this->firstMove;
+    }
+
+    public function toDebug()
+    {
+        $pos = ($square = $this->getSquare()) ? $square->getKey() : 'no-pos';
+
+        return $this->getClass().' '.$this->getPlayer()->getColor().' in '.$pos;
+    }
+
+    public function __toString()
+    {
+        return $this->toDebug();
+    }
+
+    public function getForsyth()
+    {
+        $notation = $this->getPgn();
+
+        if('black' === $this->getColor())
+        {
+            $notation = strtolower($notation);
+        }
+
+        return $notation;
+    }
+
+    public function getPgn()
+    {
+        $class = $this->getClass();
+
+        if ('Knight' === $class)
+        {
+            $notation = 'N';
+        }
+        else
+        {
+            $notation = $class{0};
+        }
+
+        return $notation;
+    }
+
+    public function getContextualHash()
+    {
+        $class = $this->getClass();
+        return $class{0}.$this->color{0}.$this->x.$this->y;
+    }
 }

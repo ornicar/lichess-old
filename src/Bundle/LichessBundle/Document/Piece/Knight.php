@@ -3,11 +3,12 @@
 namespace Bundle\LichessBundle\Document\Piece;
 use Bundle\LichessBundle\Document\Piece;
 use Bundle\LichessBundle\Chess\Board;
+use Bundle\LichessBundle\Model\Piece as Model;
 
 /**
  * @mongodb:EmbeddedDocument
  */
-class Knight extends Piece
+class Knight extends Piece implements Model\Knight
 {
     public function getClass()
     {

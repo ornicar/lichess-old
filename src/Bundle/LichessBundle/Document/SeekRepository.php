@@ -1,10 +1,9 @@
 <?php
 
 namespace Bundle\LichessBundle\Document;
-use Doctrine\ODM\MongoDB\DocumentRepository;
 use Bundle\LichessBundle\Document\Game;
 
-class SeekRepository extends DocumentRepository
+class SeekRepository extends ObjectRepository
 {
     public function findAllSortByCreatedAt()
     {
