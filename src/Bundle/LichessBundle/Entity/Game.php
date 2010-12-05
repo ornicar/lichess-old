@@ -15,7 +15,6 @@ use Bundle\LichessBundle\Model;
  * @orm:HasLifecycleCallbacks
  * @orm:Table(name="games", indexes={
  *      @orm:index(name="status_idx", columns={"status"}),
- *      @orm:index(name="userids_idx", columns={"userIds"}),
  *      @orm:index(name="winneruserid_idx", columns={"winnerUserId"}),
  *      @orm:index(name="updatedat_idx", columns={"updatedAt"})
  * })
