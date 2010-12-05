@@ -51,10 +51,16 @@ check(is_writable(__DIR__.'/../lichess/cache'), sprintf('Checking that cache/ di
 check(is_writable(__DIR__.'/../lichess/logs'), sprintf('Checking that the logs/ directory is writable'), 'Change the permissions of the lichess/logs/ directory so that the web server can write in it', true);
 
 $accelerator = (function_exists('apc_store') && ini_get('apc.enabled'));
-check($accelerator, 'Checking that APC is installed', 'Install APC', true);
+check($accelerator, 'Checking that APC is installed', 'Install APC', false);
+
+$accelerator = (function_exists('wincache_ucache_set') && ini_get('wincache.ucenabled'));
+check($accelerator, 'Checking that WinCache is installed', 'Install WinCache', false);
 
 $mongo = (class_exists('Mongo'));
-check($mongo, 'Checking that MongoDB is installed', 'Install MongoDB', true);
+check($mongo, 'Checking that MongoDB is installed', 'Install MongoDB', false);
+
+$mongo = (class_exists('PDO'));
+check($mongo, 'Checking that PDO is installed', 'Install PDO', false);
 
 // warnings
 echo_title("Optional checks");
