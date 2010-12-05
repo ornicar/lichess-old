@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Form;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
 abstract class GameConfig
 {

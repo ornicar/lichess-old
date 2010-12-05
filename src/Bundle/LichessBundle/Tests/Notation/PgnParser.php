@@ -6,7 +6,6 @@ use Bundle\LichessBundle\Notation\PgnParser;
 
 class PgnParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParseShort()
     {
         $pgn = '1. e4 e5 2. Nf3 Nc6 3. Bb5 {This opening is called the Ruy Lopez.} 3... a6

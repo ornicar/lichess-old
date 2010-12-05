@@ -98,7 +98,7 @@ abstract class Game {
     public function setWinner(Player $player)
     {
         $player->setIsWinner(true);
-        $player->getOpponent()->setIsWinner(null);
+        $player->getOpponent()->setIsWinner(false);
 
         // Denormalization
         if($user = $player->getUser()) {
@@ -768,6 +768,7 @@ abstract class Game {
      */
     public function cachePlayerVersions()
     {
+        // @todo
        // foreach($this->getPlayers() as $player) {
       //      if(!$player->getIsAi()) {
                 //apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
@@ -780,6 +781,7 @@ abstract class Game {
      */
     public function clearPlayerVersionCache()
     {
+        // @todo
         foreach($this->getPlayers() as $player) {
             //apc_delete($this->getId().'.'.$player->getColor().'.data');
         }

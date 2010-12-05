@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Chess\Generator;
 
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 use Bundle\LichessBundle\Notation\Forsyth;
 
 class Chess960PositionGenerator extends PositionGenerator

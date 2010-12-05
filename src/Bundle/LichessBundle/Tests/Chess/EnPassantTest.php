@@ -2,13 +2,14 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
-class EnPassantTest extends \PHPUnit_Framework_TestCase
+class EnPassantTest extends ChessTest
 {
     protected $game;
 
@@ -79,7 +80,7 @@ EOF;
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game);
+        $manipulator = $this->getManipulator($this->game);
         $manipulator->move($move, $options);
         $this->game->getBoard()->compile();
         $this->game->addTurn();
@@ -92,7 +93,7 @@ EOF;
      **/
     protected function createGame($data, $blackTurn = false)
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $this->game = $generator->createGameFromVisualBlock($data);
         $this->game->setStatus(Game::STARTED);
         $this->game->setTurns($blackTurn ? 11 : 10);

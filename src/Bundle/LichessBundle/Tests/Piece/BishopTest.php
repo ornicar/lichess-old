@@ -2,16 +2,15 @@
 
 namespace Bundle\LichessBundle\Tests\Piece;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Board;
-use Bundle\LichessBundle\Document\Piece\Bishop;
-use Bundle\LichessBundle\Document\Piece;
 
-class BishopTest extends \PHPUnit_Framework_TestCase
+class BishopTest extends ChessTest
 {
     public function testGetBoard()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $game = $generator->createGame();
         $board = $game->getBoard();
 

@@ -29,9 +29,14 @@ class LichessHelper extends Helper
 
     public function getLoadAverage()
     {
-        $loadAverage = sys_getloadavg();
+        if (function_exists('sys_getloadavg')) {
+            $loadAverage = sys_getloadavg();
 
-        return round(25*$loadAverage[1]).'%';
+            return round(25*$loadAverage[1]).'%';
+        } else {
+            // @todo need an implementation for windows
+            return 0;
+        }
     }
 
     public function autoLink($text)

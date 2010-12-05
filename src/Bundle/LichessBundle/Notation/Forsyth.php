@@ -1,8 +1,8 @@
 <?php
 
 namespace Bundle\LichessBundle\Notation;
-use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Piece;
+use Bundle\LichessBundle\Model\Game;
+use Bundle\LichessBundle\Model\Piece;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;

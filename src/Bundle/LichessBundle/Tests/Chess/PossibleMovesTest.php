@@ -2,12 +2,13 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
-class PossibleMovesTest extends \PHPUnit_Framework_TestCase
+class PossibleMovesTest extends ChessTest
 {
     protected $game;
 
@@ -185,7 +186,7 @@ EOF;
      **/
     protected function createGame($data)
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $this->game = $generator->createGameFromVisualBlock($data);
         return $this->game;
     }

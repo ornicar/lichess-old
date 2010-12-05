@@ -2,8 +2,8 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Model\Player;
+use Bundle\LichessBundle\Model\Game;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Generator extends ContainerAware
@@ -112,7 +112,7 @@ RNBQK  R
                     case 'q': $class = 'Queen'; break;
                     case 'k': $class = 'King'; break;
                 }
-                $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
+                $fullClass = $this->container->getParameter('lichess.model.piece.class') . '\\' . $class;
                 $player->addPiece(new $fullClass($x, $y));
             }
         }

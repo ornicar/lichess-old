@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Document\Piece;
+use Bundle\LichessBundle\Model\Piece;
 
 class PieceFilter
 {

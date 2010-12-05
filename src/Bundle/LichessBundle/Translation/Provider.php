@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Translation;
-use Bundle\LichessBundle\Document\TranslationRepository;
+use Bundle\LichessBundle\Model\TranslationRepository;
 
 class Provider
 {

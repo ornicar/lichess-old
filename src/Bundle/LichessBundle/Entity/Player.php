@@ -33,7 +33,7 @@ class Player extends Model\Player
      * Fixed ELO of the player user, if any
      *
      * @var int
-     * @orm:Column(type="integer")
+     * @orm:Column(type="integer", nullable=true)
      */
     protected $elo = null;
 
@@ -51,7 +51,7 @@ class Player extends Model\Player
      * @var boolean
      * @orm:Column(type="boolean")
      */
-    protected $isWinner;
+    protected $isWinner = false;
 
     /**
      * Whether this player is an Artificial intelligence or not
@@ -59,13 +59,13 @@ class Player extends Model\Player
      * @var boolean
      * @orm:Column(type="boolean")
      */
-    protected $isAi;
+    protected $isAi = false;
 
     /**
      * If the player is an AI, its level represents the AI intelligence
      *
      * @var int
-     * @orm:Column(type="integer")
+     * @orm:Column(type="integer", nullable=true)
      */
     protected $aiLevel;
 
@@ -91,12 +91,13 @@ class Player extends Model\Player
      * @var bool
      * @orm:Column(type="boolean")
      */
-    protected $isOfferingDraw = null;
+    protected $isOfferingDraw = false;
 
     /**
      * the player current game
      *
      * @var Game
+     * @orm:ManyToOne(targetEntity="Game", inversedBy="players")
      */
     protected $game;
 

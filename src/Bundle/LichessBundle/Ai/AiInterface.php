@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Ai;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
 interface AiInterface
 {

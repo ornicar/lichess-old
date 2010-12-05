@@ -2,10 +2,10 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Piece;
-use Bundle\LichessBundle\Document\Piece\King;
-use Bundle\LichessBundle\Document\Piece\Rook;
+use Bundle\LichessBundle\Model\Game;
+use Bundle\LichessBundle\Model\Piece;
+use Bundle\LichessBundle\Model\Piece\King;
+use Bundle\LichessBundle\Model\Piece\Rook;
 
 class Board
 {

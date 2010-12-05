@@ -1,8 +1,8 @@
 <?php
 
 namespace Bundle\LichessBundle\Chess;
-use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Model\Game;
+use Bundle\LichessBundle\Model\Player;
 use Bundle\LichessBundle\Helper\LichessHelper;
 
 class Messenger

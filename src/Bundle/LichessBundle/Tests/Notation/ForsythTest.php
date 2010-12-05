@@ -2,17 +2,16 @@
 
 namespace Bundle\LichessBundle\Tests\Notation;
 
-use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Notation\Forsyth;
 
-class ForsythTest extends \PHPUnit_Framework_TestCase
+class ForsythTest extends ChessTest
 {
     public function testExport()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $game = $generator->createGame();
-        $manipulator = new Manipulator($game);
+        $manipulator = $this->getManipulator($game);
         $forsyth = new Forsyth();
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', $forsyth->export($game));
         $manipulator->play('e2 e4');
@@ -29,11 +28,11 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
 
     public function testExportCastling()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $game = $generator->createGame();
         $game->getBoard()->getPieceByKey('a1')->setFirstMove(1);
         $game->getBoard()->getPieceByKey('h8')->setFirstMove(1);
-        $manipulator = new Manipulator($game);
+        $manipulator = $this->getManipulator($game);
         $forsyth = new Forsyth();
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w Kq - 0 1', $forsyth->export($game));
         $game->getBoard()->getPieceByKey('a8')->setFirstMove(1);
@@ -43,9 +42,9 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
 
     public function testDiffToMove()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $game = $generator->createGame();
-        $manipulator = new Manipulator($game);
+        $manipulator = $this->getManipulator($game);
         $forsyth = new Forsyth();
         $this->assertEquals(null, $forsyth->diffToMove($game, 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq'));
         $this->assertEquals('e2 e4', $forsyth->diffToMove($game, 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq'));

@@ -2,15 +2,16 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Document\Piece;
-use Bundle\LichessBundle\Document\Piece\King;
-use Bundle\LichessBundle\Document\Piece\Pawn;
+use Bundle\LichessBundle\Model\Piece;
+use Bundle\LichessBundle\Model\Piece\King;
+use Bundle\LichessBundle\Model\Piece\Pawn;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Notation\PgnDumper;
-use Bundle\LichessBundle\Document\Stack;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Stack;
+use Bundle\LichessBundle\Model\Game;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
-class Manipulator
+class Manipulator extends ContainerAware
 {
     /**
      * The board to manipulate
@@ -34,7 +35,13 @@ class Manipulator
         $this->game = $game;
         $this->board = $game->getBoard();
         $this->analyser = new Analyser($this->board);
-        $this->stack = $stack ? $stack : new Stack();
+
+        if ($stack) {
+            $this->stack = $stack;
+        } else {
+            $stackClass = $this->container->getParameter('lichess.model.stack.class');
+            $this->stack = new $stackClass();
+        }
     }
 
     public function play($notation, array $options = array())
@@ -233,7 +240,7 @@ class Manipulator
         $this->board->remove($pawn);
         $player->removePiece($pawn);
 
-        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$promotionClass;
+        $fullClass = $this->container->getParameter('lichess.model.piece.class') . '\\' . $promotionClass;
         $new = new $fullClass($pawn->getX(), $pawn->getY());
         $new->setBoard($player->getGame()->getBoard());
         $player->addPiece($new);
@@ -307,7 +314,7 @@ class Manipulator
      * @param  Stack
      * @return null
      */
-    public function setStack($stack)
+    public function setStack(Stack $stack)
     {
         $this->stack = $stack;
     }

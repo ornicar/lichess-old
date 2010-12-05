@@ -2,19 +2,20 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
-class AutoDrawTest extends \PHPUnit_Framework_TestCase
+class AutoDrawTest extends ChessTest
 {
     protected $game;
 
     public function testNewGameIsNotDraw()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $game = $generator->createGame();
         $this->assertFalse($game->isCandidateToAutoDraw());
     }
@@ -44,6 +45,7 @@ class AutoDrawTest extends \PHPUnit_Framework_TestCase
 
 
 K
+   
 EOF;
         $game = $this->game = $this->createGame($data);
         $game->setTurns(41);
@@ -70,7 +72,7 @@ EOF;
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game);
+        $manipulator = $this->getManipulator($this->game);
         $manipulator->play($move, $options);
     }
 
@@ -81,7 +83,7 @@ EOF;
      **/
     protected function createGame($data = null)
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         if ($data) {
             $game = $generator->createGameFromVisualBlock($data);
             $game->setTurns(20);

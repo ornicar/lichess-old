@@ -20,7 +20,7 @@ class Clock extends Model\Clock
      * Maximum time of the clock per player
      *
     * @var int
-    * @orm:Column(type="integer")
+    * @orm:Column(type="integer",name="`limit`")
      */
     protected $limit = null;
 
@@ -44,7 +44,7 @@ class Clock extends Model\Clock
      * Internal timer
      *
      * @var float
-     * @orm:Column(type="float")
+     * @orm:Column(type="float", nullable=true)
      */
     protected $timer = null;
 }

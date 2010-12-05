@@ -3,7 +3,7 @@
 use Bundle\LichessBundle\Persistence\FilePersistence;
 use Bundle\LichessBundle\Persistence\MongoDBPersistence;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
 require_once(__DIR__.'/bootstrap.php');
 

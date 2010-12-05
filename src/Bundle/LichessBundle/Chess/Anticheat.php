@@ -1,8 +1,8 @@
 <?php
 
 namespace Bundle\LichessBundle\Chess;
-use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\GameRepository;
+use Bundle\LichessBundle\Model\Game;
+use Bundle\LichessBundle\Model\GameRepository;
 
 class Anticheat
 {

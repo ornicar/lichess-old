@@ -2,8 +2,9 @@
 
 namespace Bundle\LichessBundle\Entity;
 use Bundle\DoctrineUserBundle\Model\User;
+use Bundle\LichessBundle\Model;
 
-class GameRepository extends ObjectRepository
+class GameRepository extends ObjectRepository implements Model\GameRepository
 {
     /**
      * Find all games played by a user
@@ -13,7 +14,8 @@ class GameRepository extends ObjectRepository
     public function findRecentByUser(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->getQuery()->execute();
+            ->getQuery()
+            ->execute();
     }
 
     /**
@@ -36,8 +38,10 @@ class GameRepository extends ObjectRepository
     public function existsById($id)
     {
         return 1 === $this->createQueryBuilder()
-            ->field('id')->equals($id)
-            ->getQuery()->count();
+            ->where('g.id = ?1')
+            ->setParameter(1, $id)
+            ->select('COUNT(g.id)')
+            ->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -48,13 +52,13 @@ class GameRepository extends ObjectRepository
     public function findRecentStartedGameIds($nb)
     {
         $data = $this->createRecentQuery()
-            ->hydrate(false)
-            ->field('status')->equals(Game::STARTED)
-            ->select('id')
-            ->limit($nb)
-            ->getQuery()->execute();
-        $ids = array_keys(iterator_to_array($data));
-
+            ->where('g.status = ?1')
+            ->setParameter(1, Game::STARTED)
+            ->select('g.id')
+            ->setMaxResults($nb)
+            ->getQuery()->getArrayResult();
+        $ids = array_keys($data);
+        
         return $ids;
     }
 
@@ -65,15 +69,15 @@ class GameRepository extends ObjectRepository
      **/
     public function findGamesByIds($ids)
     {
-        if(is_string($ids)) {
+        if (is_string($ids)) {
             $ids = explode(',', $ids);
         }
 
-        $games = $this->createQueryBuilder()
-            ->field('_id')->in($ids)
-            ->getQuery()->execute();
+        $qb = $this->createQueryBuilder('g');
 
-        $games = iterator_to_array($games);
+        $games = $qb->add('where', $qb->expr()->in('g.id', (array) $ids))
+            ->getQuery()
+            ->getResult();
 
         // sort games in the order of ids
         $idPos = array_flip($ids);
@@ -92,7 +96,10 @@ class GameRepository extends ObjectRepository
      **/
     public function getNbGames()
     {
-        return $this->createQueryBuilder()->getQuery()->count();
+        return $this->createQueryBuilder('g')
+                ->select('COUNT(g.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
     }
 
     /**
@@ -102,9 +109,12 @@ class GameRepository extends ObjectRepository
      **/
     public function getNbMates()
     {
-        return $this->createQueryBuilder()
-            ->field('status')->equals(Game::MATE)
-            ->getQuery()->count();
+        return $this->createQueryBuilder('g')
+            ->select('COUNT(g.id)')
+            ->where('g.status = ?1')
+            ->setParameter(1, Game::MATE)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**
@@ -114,8 +124,8 @@ class GameRepository extends ObjectRepository
      **/
     public function createRecentQuery()
     {
-        return $this->createQueryBuilder()
-            ->sort('updatedAt', 'DESC');
+        return $this->createQueryBuilder('g')
+            ->orderBy('g.updatedAt', 'DESC');
     }
 
     /**
@@ -127,7 +137,7 @@ class GameRepository extends ObjectRepository
     public function createRecentByUserQuery(User $user)
     {
         return $this->createByUserQuery($user)
-            ->sort('updatedAt', 'DESC');
+            ->orderBy('g.updatedAt', 'DESC');
     }
 
     /**
@@ -139,7 +149,8 @@ class GameRepository extends ObjectRepository
     public function createByUserQuery(User $user)
     {
         return $this->createQueryBuilder()
-            ->field('userIds')->equals((string) $user->getId());
+            ->where('g.userIds = ?1')
+            ->setParameter(1, (string) $user->getId());
     }
 
     /**
@@ -150,40 +161,52 @@ class GameRepository extends ObjectRepository
     public function createRecentStartedOrFinishedByUserQuery(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->field('status')->gte(Game::STARTED);
+            ->where('g.status >?1')
+            ->setParameter(1, Game::STARTED)
+            ->getQuery();
     }
 
     /**
      * Query of at least started games
      *
-     * @return Doctrine\ORM\QueryBuilder
+     * @return Doctrine\ORM\Query
      **/
     public function createRecentStartedOrFinishedQuery()
     {
         return $this->createRecentQuery()
-            ->field('status')->gte(Game::STARTED);
+            ->where('g.status > ?1')
+            ->setParameter(1, Game::STARTED)
+            ->getQuery();
     }
 
     /**
      * Query of at least mate games
      *
-     * @return Doctrine\ORM\QueryBuilder
+     * @return Doctrine\ORM\Query
      **/
     public function createRecentMateQuery()
     {
         return $this->createRecentQuery()
-            ->field('status')->equals(Game::MATE);
+            ->where('g.status = ?1')
+            ->setParameter(1, Game::MATE)
+            ->getQuery();
     }
 
-    public function findSimilar(Game $game, \DateTime $since)
+    public function findSimilar(Model\Game $game, \DateTime $since)
     {
-        return $this->createQueryBuilder()
-            ->field('id')->notEqual($game->getId())
-            ->field('updatedAt')->gt(new \DateTime($since->getTimestamp()))
-            ->field('status')->equals(Game::STARTED)
-            ->field('turns')->equals($game->getTurns())
-            ->field('pgnMoves')->equals($game->getPgnMoves())
-            ->hint(array('updatedAt' => -1))
-            ->getQuery()->execute();
+        $qb = $this->createQueryBuilder('g');
+
+        return $qb->add('where', $qb->expr()->in('g.pgnMoves', (array) $game->getPgnMoves()), true)
+            ->where('g.id != ?1')
+            ->andWhere('g.updatedAt > ?2')
+            ->andWhere('g.status = ?3')
+            ->andWhere('g.turns = ?4')
+            ->setParameter(1, $game->getId())
+            ->setParameter(2, $since->getTimestamp())
+            ->setParameter(3, Game::STARTED)
+            ->setParameter(4, $game->getTurns())
+            //->hint(array('updatedAt' => -1)) @todo what is this?
+            ->getQuery()
+            ->execute();
     }
 }

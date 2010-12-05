@@ -26,10 +26,10 @@ class LichessExtension extends Extension
             throw new \InvalidArgumentException('You must provide the lichess.db_driver configuration');
         }
 
-        if ($config['db_driver'] == 'odm') {
-            $container->setAlias('lichess.object_manager', 'doctrine.odm.mongodb.document_manager');
-        } else {
-            $container->setAlias('lichess.object_manager', 'doctrine.orm.entity_manager');
+        try {
+            $loader->load(sprintf('%s.xml', $config['db_driver']));
+        } catch (\InvalidArgumentException $e) {
+            throw new \InvalidArgumentException(sprintf('The db_driver "%s" is not supported by forum', $config['db_driver']));
         }
 
         if(isset($config['ai']['class'])) {
@@ -48,16 +48,12 @@ class LichessExtension extends Extension
             $container->setAlias('session.storage', 'session.storage.test');
         }
 
-        foreach(array('piece', 'game', 'seek', 'translation', 'clock', 'player') as $model) {
-            if (!isset($config['class']['model'][$model])) {
-                throw new \InvalidArgumentException(sprintf('You must define your %s model class', $model));
-            }
+        if (isset($config['class'])) {
+            $namespaces = array(
+                'model' => 'lichess.model.%s.class',
+            );
+            $this->remapParametersNamespaces($config['class'], $container, $namespaces);
         }
-
-        $namespaces = array(
-            'model' => 'lichess.model.%s.class',
-        );
-        $this->remapParametersNamespaces($config['class'], $container, $namespaces);
     }
 
     public function testLoad($config, ContainerBuilder $container)

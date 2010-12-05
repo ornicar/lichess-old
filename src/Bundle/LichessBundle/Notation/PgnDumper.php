@@ -1,9 +1,9 @@
 <?php
 
 namespace Bundle\LichessBundle\Notation;
-use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Document\Piece;
+use Bundle\LichessBundle\Model\Game;
+use Bundle\LichessBundle\Model\Player;
+use Bundle\LichessBundle\Model\Piece;
 use Bundle\LichessBundle\Chess\Square;
 use Symfony\Component\Routing\Router;
 

@@ -2,11 +2,12 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
-abstract class ManipulatorAbstractTest extends \PHPUnit_Framework_TestCase
+abstract class ManipulatorAbstractTest extends ChessTest
 {
     protected $game;
     protected $board;
@@ -178,11 +179,11 @@ EOF;
 
     public function setup()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $this->game = $generator->createGame();
         $this->game->setVariant($this->getVariant());
         $this->board = $this->game->getBoard();
-        $this->manipulator = new Manipulator($this->game);
+        $this->manipulator = $this->getManipulator($this->game);
     }
 
     /**
@@ -192,13 +193,13 @@ EOF;
      **/
     protected function createGame($data, $blackTurn = false)
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $this->game = $generator->createGameFromVisualBlock($data);
         $this->game->setVariant($this->getVariant());
         $this->board = $this->game->getBoard();
         $this->game->setStatus(Game::STARTED);
         $this->game->setTurns($blackTurn ? 11 : 10);
-        $this->manipulator = new Manipulator($this->game);
+        $this->manipulator = $this->getManipulator($this->game);
     }
 
     /**

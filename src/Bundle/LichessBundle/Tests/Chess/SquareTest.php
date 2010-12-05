@@ -2,17 +2,18 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Square;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Document as Entities;
+use Bundle\LichessBundle\Model as Entities;
 
-class SquareTest extends \PHPUnit_Framework_TestCase
+class SquareTest extends ChessTest
 {
 
     protected function createBoard()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $game = $generator->createGame();
         $board = $game->getBoard();
 

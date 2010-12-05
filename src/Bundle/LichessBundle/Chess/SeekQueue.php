@@ -1,13 +1,13 @@
 <?php
 
 namespace Bundle\LichessBundle\Chess;
-use Bundle\LichessBundle\Document\SeekRepository;
-use Bundle\LichessBundle\Document\Seek;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\SeekRepository;
+use Bundle\LichessBundle\Model\Seek;
+use Bundle\LichessBundle\Model\Game;
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
-class SeekQueue
+class SeekQueue extends ContainerAware
 {
     /**
      * Object Manager
@@ -40,7 +40,8 @@ class SeekQueue
     const QUEUED = 1;
     const FOUND = 2;
 
-    public function __construct(DocumentManager $objectManager, SeekRepository $repository, Generator $generator, PlayerBlamer $playerBlamer)
+    // @todo fix object manager type
+    public function __construct($objectManager, SeekRepository $repository, Generator $generator, PlayerBlamer $playerBlamer)
     {
         $this->objectManager = $objectManager;
         $this->repository = $repository;
@@ -50,7 +51,8 @@ class SeekQueue
 
     public function add(array $variants, array $times, $sessionId, $color)
     {
-        $seek = new Seek($variants, $times, $sessionId);
+        $seekClass = $this->container->getParameter('lichess.model.seek.class');
+        $seek = new $seekClass($variants, $times, $sessionId);
 
         if($existing = $this->searchMatching($seek)) {
             $game = $existing->getGame();

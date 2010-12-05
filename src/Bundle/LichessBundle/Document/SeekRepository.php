@@ -2,8 +2,9 @@
 
 namespace Bundle\LichessBundle\Document;
 use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model;
 
-class SeekRepository extends ObjectRepository
+class SeekRepository extends ObjectRepository implements Model\SeekRepository
 {
     public function findAllSortByCreatedAt()
     {
@@ -12,7 +13,7 @@ class SeekRepository extends ObjectRepository
             ->getQuery()->execute();
     }
 
-    public function findOneByGame(Game $game)
+    public function findOneByGame(Model\Game $game)
     {
         return $this->createQueryBuilder()
             ->field('game.$id')->equals($game->getId())

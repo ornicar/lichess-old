@@ -2,8 +2,8 @@
 
 namespace Bundle\LichessBundle\Critic;
 use Bundle\DoctrineUserBundle\Document\User;
-use Bundle\LichessBundle\Document\GameRepository;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\GameRepository;
+use Bundle\LichessBundle\Model\Game;
 use Application\DoctrineUserBundle\Document\UserRepository;
 
 class UserCritic

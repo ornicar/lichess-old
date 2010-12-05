@@ -62,6 +62,7 @@ abstract class Piece extends Model\Piece
      * the player that owns the piece
      *
      * @var Player
+     * @orm:ManyToOne(targetEntity="Player", inversedBy="piecies")
      */
     protected $player = null;
 

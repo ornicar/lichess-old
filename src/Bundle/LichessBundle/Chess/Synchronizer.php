@@ -2,10 +2,10 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Player;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
-class Synchronizer
+class Synchronizer extends ContainerAware
 {
     /**
      * If a player doesn't synchronize during this amount of seconds,
@@ -22,16 +22,18 @@ class Synchronizer
 
     public function getNbConnectedPlayers()
     {
-        $nb = apc_fetch('lichess.nb_players');
+        $storage = $this->container->get('lichess_storage');
+
+        $nb = $storage->get('lichess.nb_players');
         if(false === $nb) {
-            $it = new \APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
+            $it = $storage->getIterator('/alive$/');
             $nb = 0;
             $limit = time() - $this->getTimeout();
             foreach($it as $i) {
-                apc_fetch($i['key']); // clear invalidated entries
+                $storage->get($i['key']); // clear invalidated entries
                 if($i['mtime'] >= $limit) ++$nb;
             }
-            apc_store('lichess.nb_players', $nb, 2);
+            $storage->store('lichess.nb_players', $nb, 2);
         }
 
         return $nb;
@@ -76,7 +78,7 @@ class Synchronizer
 
     public function setAlive(Player $player)
     {
-        apc_store($player->getGame()->getId().'.'.$player->getColor().'.alive', 1, $this->getTimeout());
+        $this->container->get('lichess_storage')->store($player->getGame()->getId().'.'.$player->getColor().'.alive', 1, $this->getTimeout());
     }
 
     public function isTimeout(Player $player)
@@ -86,6 +88,6 @@ class Synchronizer
 
     public function isConnected(Player $player)
     {
-        return $player->getIsAi() || (bool) apc_fetch($player->getGame()->getId().'.'.$player->getColor().'.alive');
+        return $player->getIsAi() || (bool) $this->container->get('lichess_storage')->get($player->getGame()->getId().'.'.$player->getColor().'.alive');
     }
 }

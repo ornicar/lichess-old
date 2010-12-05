@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Blamer;
-use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Model\Player;
 use Symfony\Component\Security\SecurityContext;
 use Symfony\Component\Security\User\AdvancedAccountInterface;
 

@@ -80,21 +80,13 @@ doctrine.dbal:
     password:
       
 doctrine.orm:
-   auto_generate_proxy_classes: false
+   auto_generate_proxy_classes: true
 
 time.helper: ~
 
 lichess.config:
     db_driver: orm
-    class:
-        model:
-            piece: Bundle\LichessBundle\Entity\Piece
-            game: Bundle\LichessBundle\Entity\Game
-            seek: Bundle\LichessBundle\Entity\Seek
-            translation: Bundle\LichessBundle\Entity\Translation
-            player: Bundle\LichessBundle\Entity\Player
-            clock: Bundle\LichessBundle\Entity\Player
     ai:
-        class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid
+        class: Bundle\LichessBundle\Ai\Stupid # also available: Bundle\LichessBundle\Ai\Crafty
     storage:
         class: Bundle\LichessBundle\Storage\WinCache # also available: Bundle\LichessBundle\Storage\Apc

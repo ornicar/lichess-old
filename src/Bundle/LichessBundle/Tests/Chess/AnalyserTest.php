@@ -2,11 +2,11 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 
-class AnalyserTest extends \PHPUnit_Framework_TestCase
+class AnalyserTest extends ChessTest
 {
     protected $game;
     protected $board;
@@ -141,7 +141,7 @@ EOF;
 
     protected function generate($data)
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $this->game = $generator->createGameFromVisualBlock($data);
         $this->board = $this->game->getBoard();
         $class = 'Bundle\\LichessBundle\\Chess\\Analyser';

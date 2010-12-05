@@ -7,7 +7,6 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\ChoiceField;
 use Symfony\Component\Form\TextareaField;
 use Symfony\Component\Form\TextField;
-use Bundle\LichessBundle\Document\Translation;
 use Symfony\Component\Finder\Finder;
 
 class TranslationController extends Controller
@@ -38,6 +37,7 @@ class TranslationController extends Controller
     public function localeAction($locale)
     {
         $manager = $this->get('lichess.translation.manager');
+        $translationClass = $this->container->getProperty('lichess.model.translation.class');
         $translation = new Translation();
         $translation->setCode($locale);
         try {

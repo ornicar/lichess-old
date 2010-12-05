@@ -2,16 +2,17 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Document as Entities;
-use Bundle\LichessBundle\Document\Piece as Piece;
+use Bundle\LichessBundle\Model as Entities;
+use Bundle\LichessBundle\Model\Piece as Piece;
 
-class PieceFilterTest extends \PHPUnit_Framework_TestCase
+class PieceFilterTest extends ChessTest
 {
     public function testGameCreation()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $game = $generator->createGame();
 
         $this->assertTrue($game instanceof Entities\Game);

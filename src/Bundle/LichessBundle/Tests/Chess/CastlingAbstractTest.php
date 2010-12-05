@@ -2,12 +2,12 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
-abstract class CastlingAbstractTest extends \PHPUnit_Framework_TestCase
+abstract class CastlingAbstractTest extends ChessTest
 {
     protected $game;
     protected $analyzer;
@@ -367,7 +367,7 @@ EOF;
      **/
     protected function createGame($data, $blackTurn = false)
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $this->game = $generator->createGameFromVisualBlock($data);
         $this->game->setVariant($this->getVariant());
         $this->game->setStatus(Game::STARTED);

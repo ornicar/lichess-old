@@ -2,8 +2,9 @@
 
 namespace Bundle\LichessBundle\Document;
 use Bundle\DoctrineUserBundle\Model\User;
+use Bundle\LichessBundle\Model;
 
-class GameRepository extends ObjectRepository
+class GameRepository extends ObjectRepository implements GameRepository
 {
     /**
      * Find all games played by a user
@@ -175,7 +176,7 @@ class GameRepository extends ObjectRepository
             ->field('status')->equals(Game::MATE);
     }
 
-    public function findSimilar(Game $game, \DateTime $since)
+    public function findSimilar(Model\Game $game, \DateTime $since)
     {
         return $this->createQueryBuilder()
             ->field('id')->notEqual($game->getId())

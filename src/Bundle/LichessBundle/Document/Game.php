@@ -169,4 +169,46 @@ class Game extends Model\Game
     {
         return new Room();
     }
+
+    /**
+     * @mongodb:PrePersist
+     */
+    public function setCreatedNow()
+    {
+        parent::setCreatedNow();
+    }
+
+    /**
+     * @mongodb:PreUpdate
+     * @mongodb:PrePersist
+     */
+    public function setUpdatedNow()
+    {
+        parent::setUpdatedNow();
+    }
+
+    /**
+     * @mongodb:PostLoad
+     */
+    public function ensureDependencies()
+    {
+        parent::ensureDependencies();
+    }
+
+    /**
+     * @mongodb:PreUpdate
+     * @mongodb:PrePersist
+     */
+    public function cachePlayerVersions()
+    {
+       parent::cachePlayerVersions();
+    }
+
+    /**
+     * @mongodb:PostRemove
+     */
+    public function clearPlayerVersionCache()
+    {
+        parent::clearPlayerVersionCache();
+    }
 }

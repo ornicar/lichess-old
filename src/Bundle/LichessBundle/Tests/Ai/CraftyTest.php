@@ -2,11 +2,10 @@
 
 namespace Bundle\LichessBundle\Tests\Ai;
 
-use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Ai\Crafty;
 
-class CraftyTest extends \PHPUnit_Framework_TestCase
+class CraftyTest extends ChessTest
 {
     protected $board;
     protected $game;
@@ -14,10 +13,10 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $this->game = $generator->createGame();
         $this->board = $this->game->getBoard();
-        $this->manipulator = new Manipulator($this->game);
+        $this->manipulator = $this->getManipulator($this->game);
     }
 
     public function testMoveFormat()

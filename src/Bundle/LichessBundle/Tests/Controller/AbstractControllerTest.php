@@ -5,6 +5,28 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class AbstractControllerTest extends WebTestCase
 {
+    protected $dm;
+    
+    public function setUp()
+    {
+        $this->kernel = $this->createKernel();
+        $this->kernel->boot();
+        
+        $this->dm = $this->kernel->getContainer()->get('lichess.object_manager');
+
+        if ($this->dm instanceof \Doctrine\ORM\EntityManager) {
+            $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->dm);
+            $queries = $this->dm->getMetadataFactory()->getAllMetadata();
+
+            try {
+                $schemaTool->createSchema($queries);
+            }
+            catch (\Exception $e) {
+
+            }
+        }
+    }
+
     protected function inviteFriend($color = 'white')
     {
         $client = $this->createClient();
@@ -23,7 +45,7 @@ abstract class AbstractControllerTest extends WebTestCase
     protected function inviteAnybody($color = 'white', $join = false)
     {
         $client = $this->createClient();
-        !$join && $client->getContainer()->get('lichess.repository.seek')->createQueryBuilder()->remove()->getQuery()->execute();
+        !$join && $client->getContainer()->get('lichess.repository.seek')->createQueryBuilder('g')->delete()->getQuery()->execute();
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with anybody')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());

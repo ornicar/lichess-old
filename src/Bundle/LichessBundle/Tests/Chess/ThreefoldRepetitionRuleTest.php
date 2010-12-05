@@ -2,19 +2,20 @@
 
 namespace Bundle\LichessBundle\Tests\Chess;
 
+use Bundle\LichessBundle\Tests\ChessTest;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Model\Game;
 
-class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
+class ThreefoldRepetitionRule extends ChessTest
 {
     protected $game;
 
     public function testNewGameIsNotThreefold()
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         $game = $generator->createGame();
         $this->assertFalse($game->isThreefoldRepetition());
     }
@@ -89,7 +90,7 @@ class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game);
+        $manipulator = $this->getManipulator($this->game);
         $manipulator->play($move, $options);
     }
 
@@ -100,7 +101,7 @@ class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
      **/
     protected function createGame($data = null)
     {
-        $generator = new Generator();
+        $generator = $this->getGenerator();
         if ($data) {
             $game = $generator->createGameFromVisualBlock($data);
             $game->setTurns(20);

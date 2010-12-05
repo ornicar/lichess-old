@@ -7,7 +7,7 @@ class TranslationRepository extends ObjectRepository
     public function findAllSortByCreatedAt()
     {
         return $this->createQueryBuilder()
-            ->sort('createdAt', 'DESC')
+            ->orderBy('createdAt', 'DESC')
             ->getQuery()->execute();
     }
 }

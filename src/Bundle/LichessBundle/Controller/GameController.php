@@ -3,14 +3,10 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Document\Clock;
-use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Persistence\QueueEntry;
 use Bundle\LichessBundle\Form;
-use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -138,7 +134,8 @@ class GameController extends Controller
                 $this->get('lichess.blamer.player')->blame($player);
                 $game = $player->getGame();
                 if($config->time) {
-                    $clock = new Clock($config->time * 60);
+                    $clockClass = $this->container->getProperty('lichess.model.clock.class');
+                    $clock = new $clockClass($config->time * 60);
                     $game->setClock($clock);
                 }
                 $this->get('lichess.object_manager')->persist($game);
@@ -172,7 +169,10 @@ class GameController extends Controller
                 $game->start();
 
                 if($player->isBlack()) {
-                    $manipulator = new Manipulator($game, new Stack());
+                    $stackClass = $this->container->getParameter('lichess.model.stack.class');
+                    $manipulator = new Manipulator($game, new $stackClass());
+                    $manipulator->setContainer($this->container);
+                    
                     $manipulator->play($this->get('lichess_ai')->move($game, $opponent->getAiLevel()));
                 }
                 $this->get('lichess.object_manager')->persist($game);
@@ -247,7 +247,10 @@ class GameController extends Controller
 
     protected function createPaginatorForQuery($query)
     {
-        $games = new Paginator(new DoctrineMongoDBAdapter($query));
+        $adapter = $this->container->getParameter('lichess.paginator.adapter.class');
+
+        $games = new Paginator(new $adapter($query));
+
         $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
         $games->setItemCountPerPage(10);
         $games->setPageRange(10);

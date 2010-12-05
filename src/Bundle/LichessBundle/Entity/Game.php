@@ -27,7 +27,7 @@ class Game extends Model\Game
      *
      * @var string
      * @orm:Id
-     * @orm:Column(type="integer")
+     * @orm:Column(type="string")
      */
     protected $id;
 
@@ -51,7 +51,7 @@ class Game extends Model\Game
      * The two players
      *
      * @var array
-     * @orm:OneToMany(targetEntity="Player", mappedBy="game", cascade={"persist"})
+     * @orm:OneToMany(targetEntity="Player", mappedBy="game", cascade={"persist", "remove"})
      */
     protected $players;
 
@@ -70,7 +70,7 @@ class Game extends Model\Game
      * - null if there is no winner
      *
      * @var string
-     * @orm:Column(type="string")
+     * @orm:Column(type="string", nullable=true)
      */
     protected $winnerUserId = null;
 
@@ -102,7 +102,7 @@ class Game extends Model\Game
      * The ID of the player that starts the next game the players will play
      *
      * @var string
-     * @orm:Column(type="string")
+     * @orm:Column(type="string", nullable=true)
      */
     protected $next;
 
@@ -111,7 +111,7 @@ class Game extends Model\Game
      * Can be null if equals to standard position
      *
      * @var string
-     * @orm:Column(type="string")
+     * @orm:Column(type="string", nullable=true)
      */
     protected $initialFen;
 
@@ -143,7 +143,7 @@ class Game extends Model\Game
      * The game clock
      *
      * @var Clock
-     * @orm:OneToOne(targetEntity="Clock")
+     * @orm:OneToOne(targetEntity="Clock", cascade={"persist", "remove"})
      */
     protected $clock;
 
@@ -151,7 +151,7 @@ class Game extends Model\Game
      * The chat room
      *
      * @var Room
-     * @orm:OneToOne(targetEntity="Room")
+     * @orm:OneToOne(targetEntity="Room", cascade={"persist", "remove"})
      */
     protected $room;
 
@@ -170,5 +170,47 @@ class Game extends Model\Game
     protected function getRoomInstance()
     {
         return new Room();
+    }
+
+    /**
+     * @orm:PrePersist
+     */
+    public function setCreatedNow()
+    {
+        parent::setCreatedNow();
+    }
+
+    /**
+     * @orm:PreUpdate
+     * @orm:PrePersist
+     */
+    public function setUpdatedNow()
+    {
+        parent::setUpdatedNow();
+    }
+
+    /**
+     * @orm:PostLoad
+     */
+    public function ensureDependencies()
+    {
+        parent::ensureDependencies();
+    }
+
+    /**
+     * @orm:PreUpdate
+     * @orm:PrePersist
+     */
+    public function cachePlayerVersions()
+    {
+       parent::cachePlayerVersions();
+    }
+
+    /**
+     * @orm:PostRemove
+     */
+    public function clearPlayerVersionCache()
+    {
+        parent::clearPlayerVersionCache();
     }
 }

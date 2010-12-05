@@ -4,8 +4,8 @@ namespace Bundle\LichessBundle\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Model\Game;
+use Bundle\LichessBundle\Model\Player;
 use Bundle\DoctrineUserBundle\Model\User;
 
 class LichessGameHelper extends Helper
