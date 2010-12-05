@@ -25,7 +25,7 @@ class Player extends Model\Player
      * User bound to the player - optional
      *
      * @var User
-     * @orm:OnetoOne(targetEntity="Application\DoctrineUserBundle\Entity\User")
+     * @orm:ManyToOne(targetEntity="Application\DoctrineUserBundle\Entity\User")
      */
     protected $user = null;
 
