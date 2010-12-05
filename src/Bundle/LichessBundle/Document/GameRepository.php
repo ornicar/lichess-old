@@ -187,4 +187,14 @@ class GameRepository extends ObjectRepository implements GameRepository
             ->hint(array('updatedAt' => -1))
             ->getQuery()->execute();
     }
+
+    public function findCandidatesToCleanup()
+    {
+        $date = new \DateTime('-7 day');
+        return $this->createQueryBuilder()
+            ->field('updatedAt')->lt(new \MongoDate($date->getTimestamp()))
+            ->field('status')->lt(Game::MATE)
+            ->field('turns')->lt(2)
+            ->getQuery()->execute();
+    }
 }
