@@ -37,7 +37,7 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
      */
     public function existsById($id)
     {
-        return 1 === $this->createQueryBuilder()
+        return 1 === $this->createQueryBuilder('g')
             ->where('g.id = ?1')
             ->setParameter(1, $id)
             ->select('COUNT(g.id)')
@@ -118,6 +118,51 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
     }
 
     /**
+     * Return the number of losses
+     *
+     * @return int
+     **/
+    public function getNbWins(User $user)
+    {
+        return $this->createQueryBuilder('g')
+            ->select('COUNT(g.id)')
+            ->where('g.winnerUserId = ?1')
+            ->setParameter(1, $user->getId())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Return the number of losses
+     *
+     * @return int
+     **/
+    public function getNbLosses(User $user)
+    {
+        return $this->createQueryBuilder('g')
+            ->select('COUNT(g.id)')
+            ->where('g.winnerUserId != ?1')
+            ->setParameter(1, $user->getId())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Return the number of user games
+     *
+     * @return int
+     **/
+    public function getNbUserGames(User $user)
+    {
+        return $this->createByUserQuery($user)
+            ->select('COUNT(g.id)')
+            ->where('g.status > ?1')
+            ->setParameter(1, Game::MATE)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * Query of all games ordered by updatedAt
      *
      * @return Doctrine\ORM\QueryBuilder
@@ -148,7 +193,7 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
      **/
     public function createByUserQuery(User $user)
     {
-        return $this->createQueryBuilder()
+        return $this->createQueryBuilder('g')
             ->where('g.userIds = ?1')
             ->setParameter(1, (string) $user->getId());
     }

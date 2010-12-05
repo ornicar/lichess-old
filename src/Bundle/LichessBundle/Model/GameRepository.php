@@ -20,6 +20,12 @@ interface GameRepository {
 
     function getNbMates();
 
+    function getNbWins(User $user);
+
+    function getNbLosses(User $user);
+
+    function getNbUserGames(User $user);
+
     function createRecentQuery();
 
     function createRecentByUserQuery(User $user);

@@ -1,10 +1,10 @@
 <?php
 
 namespace Bundle\LichessBundle\Critic;
-use Bundle\DoctrineUserBundle\Document\User;
+use Bundle\DoctrineUserBundle\Model\User;
 use Bundle\LichessBundle\Model\GameRepository;
 use Bundle\LichessBundle\Model\Game;
-use Application\DoctrineUserBundle\Document\UserRepository;
+use Bundle\DoctrineUserBundle\Entity\UserRepository;
 
 class UserCritic
 {
@@ -35,35 +35,28 @@ class UserCritic
     public function getNbUsers()
     {
         return $this->cacheable('nbUsers', function($games, $users, $user) {
-            return $users->createQueryBuilder()->getQuery()->count();
+            return $users->getCount();
         });
     }
 
     public function getNbGames()
     {
         return $this->cacheable('nbGames', function($games, $users, $user) {
-            return $games->createByUserQuery($user)
-                ->field('status')->gte(Game::MATE)
-                ->getQuery()->count();
+            return $games->getNbUserGames($user);
         });
     }
 
     public function getNbWins()
     {
         return $this->cacheable('nbWins', function($games, $users, $user) {
-            return $games->createByUserQuery($user)
-                ->field('winnerUserId')->equals((string) $user->getId())
-                ->getQuery()->count();
+            return $games->getNbWins($user);
         });
     }
 
     public function getNbLosses()
     {
         return $this->cacheable('nbLosses', function($games, $users, $user) {
-            return $games->createByUserQuery($user)
-                ->field('winnerUserId')->exists(true)
-                ->field('winnerUserId')->notEqual((string) $user->getId())
-                ->getQuery()->count();
+            return $games->getNbLosses($user);
         });
     }
 

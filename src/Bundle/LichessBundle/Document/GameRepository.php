@@ -109,6 +109,43 @@ class GameRepository extends ObjectRepository implements GameRepository
     }
 
     /**
+     * Return the number of losses
+     *
+     * @return int
+     **/
+    public function getNbWins(User $user)
+    {
+        return $this->createByUserQuery($user)
+            ->field('winnerUserId')->equals((string) $user->getId())
+            ->getQuery()->count();
+    }
+
+    /**
+     * Return the number of losses
+     *
+     * @return int
+     **/
+    public function getNbLosses(User $user)
+    {
+        return $this->createByUserQuery($user)
+            ->field('winnerUserId')->exists(true)
+            ->field('winnerUserId')->notEqual((string) $user->getId())
+            ->getQuery()->count();
+    }
+
+    /**
+     * Return the number of user games
+     *
+     * @return int
+     **/
+    public function getNbUserGames(User $user)
+    {
+        return $this->createByUserQuery($user)
+            ->field('status')->gte(Game::MATE)
+            ->getQuery()->count();
+    }
+
+    /**
      * Query of all games ordered by updatedAt
      *
      * @return Doctrine\ODM\Mongodb\Query
