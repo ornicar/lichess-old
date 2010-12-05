@@ -37,7 +37,7 @@ class TranslationController extends Controller
     public function localeAction($locale)
     {
         $manager = $this->get('lichess.translation.manager');
-        $translationClass = $this->container->getProperty('lichess.model.translation.class');
+        $translationClass = $this->container->getParameter('lichess.model.translation.class');
         $translation = new Translation();
         $translation->setCode($locale);
         try {

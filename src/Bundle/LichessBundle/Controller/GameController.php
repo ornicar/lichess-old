@@ -134,7 +134,7 @@ class GameController extends Controller
                 $this->get('lichess.blamer.player')->blame($player);
                 $game = $player->getGame();
                 if($config->time) {
-                    $clockClass = $this->container->getProperty('lichess.model.clock.class');
+                    $clockClass = $this->container->getParameter('lichess.model.clock.class');
                     $clock = new $clockClass($config->time * 60);
                     $game->setClock($clock);
                 }
