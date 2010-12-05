@@ -145,7 +145,7 @@ class Player
     public function canOfferDraw()
     {
         return $this->getGame()->getIsStarted()
-            && !$this->getGame()->getIsFinished()
+            && $this->getGame()->getIsPlayable()
             && !$this->getIsOfferingDraw()
             && !$this->getOpponent()->getIsAi()
             && !$this->getOpponent()->getIsOfferingDraw();

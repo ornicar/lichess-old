@@ -69,6 +69,10 @@ lichess_resign:
     pattern:        /resign/:id
     defaults:       { _controller: lichess.controller.player:resignAction }
     requirements:   { id: "[\w\-]{12}" }
+lichess_abort:
+    pattern:        /abort/:id
+    defaults:       { _controller: lichess.controller.player:abortAction }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_outoftime:
     pattern:        /outoftime/:id/:version
     defaults:       { _controller: lichess.controller.player:outoftimeAction }

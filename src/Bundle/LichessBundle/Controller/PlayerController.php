@@ -39,7 +39,7 @@ class PlayerController extends Controller
         $opponent = $player->getOpponent();
         $game = $player->getGame();
 
-        if(!$game->getIsFinished()) {
+        if(!$game->getIsFinishedOrAborted()) {
             $this->get('logger')->warn(sprintf('Player:rematch not finished game:%s', $game->getId()));
             return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
         }
@@ -134,12 +134,11 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($id);
         $game = $player->getGame();
-        if(!$game->getIsFinished() && $this->get('lichess_synchronizer')->isTimeout($player->getOpponent())) {
+        if($game->getIsPlayable() && $this->get('lichess_synchronizer')->isTimeout($player->getOpponent())) {
             $game->setStatus(Game::TIMEOUT);
             $game->setWinner($player);
             $this->get('lichess_finisher')->finish($game);
-            $player->addEventToStack(array('type' => 'end'));
-            $player->getOpponent()->addEventToStack(array('type' => 'end'));
+            $game->addEventToStacks(array('type' => 'end'));
             $this->get('lichess.object_manager')->flush();
             $this->get('logger')->notice(sprintf('Player:forceResign game:%s', $game->getId()));
         }
@@ -154,7 +153,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($id);
         $game = $player->getGame();
-        if(!$game->getIsFinished()) {
+        if($game->getIsPlayable()) {
             if(!$player->getIsOfferingDraw()) {
                 if($player->getOpponent()->getIsOfferingDraw()) {
                     return $this->forward('LichessBundle:Player:acceptDrawOffer', array('id' => $id));
@@ -199,8 +198,7 @@ class PlayerController extends Controller
             $this->get('lichess.messenger')->addSystemMessage($game, 'Draw offer accepted');
             $game->setStatus(GAME::DRAW);
             $this->get('lichess_finisher')->finish($game);
-            $player->addEventToStack(array('type' => 'end'));
-            $player->getOpponent()->addEventToStack(array('type' => 'end'));
+            $game->addEventToStacks(array('type' => 'end'));
             $this->get('lichess.object_manager')->flush();
             $this->get('logger')->notice(sprintf('Player:acceptDrawOffer game:%s', $game->getId()));
         } else {
@@ -231,11 +229,10 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($id);
         $game = $player->getGame();
-        if(!$game->getIsFinished() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
+        if($game->getIsPlayable() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
             $game->setStatus(GAME::DRAW);
             $this->get('lichess_finisher')->finish($game);
-            $player->addEventToStack(array('type' => 'end'));
-            $player->getOpponent()->addEventToStack(array('type' => 'end'));
+            $game->addEventToStacks(array('type' => 'end'));
             $this->get('lichess.object_manager')->flush();
             $this->get('logger')->notice(sprintf('Player:claimDraw game:%s', $game->getId()));
         }
@@ -262,6 +259,7 @@ class PlayerController extends Controller
             throw new \LogicException(sprintf('Player:move not my turn game:%s', $game->getId()));
         }
         $opponent = $player->getOpponent();
+        $isGameAbortable = $game->getIsAbortable();
         $postData = $this->get('request')->request;
         $move = $postData->get('from').' '.$postData->get('to');
         $stack = new Stack();
@@ -294,13 +292,15 @@ class PlayerController extends Controller
             if($cheater = $this->get('lichess.anticheat')->detectCheater($game)) {
                 $game->setStatus(Game::CHEAT);
                 $game->setWinner($cheater->getOpponent());
-                $cheater->addEventToStack(array('type' => 'end'));
-                $cheater->getOpponent()->addEventToStack(array('type' => 'end'));
+                $game->addEventToStacks(array('type' => 'end'));
             }
         }
         if($game->getIsFinished()) {
             $this->get('lichess_finisher')->finish($game);
             $this->get('logger')->notice(sprintf('Player:move finish game:%s, %s', $game->getId(), $game->getStatusMessage()));
+        }
+        if($isGameAbortable != $game->getIsAbortable()) {
+            $game->addEventToStacks(array('type' => 'reload_table'));
         }
         $this->get('lichess.object_manager')->flush();
 
@@ -330,7 +330,7 @@ class PlayerController extends Controller
             'player' => $player,
             'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
-            'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
+            'possibleMoves' => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
 
@@ -403,8 +403,8 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($id);
         $game = $player->getGame();
-        if($game->getIsFinished()) {
-            $this->get('logger')->warn(sprintf('Player:resign finished game:%s', $game->getId()));
+        if(!$game->isResignable()) {
+            $this->get('logger')->warn(sprintf('Player:resign non-resignable game:%s', $game->getId()));
             return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $opponent = $player->getOpponent();
@@ -412,10 +412,26 @@ class PlayerController extends Controller
         $game->setStatus(Game::RESIGN);
         $game->setWinner($opponent);
         $this->get('lichess_finisher')->finish($game);
-        $player->addEventToStack(array('type' => 'end'));
-        $opponent->addEventToStack(array('type' => 'end'));
+        $game->addEventToStacks(array('type' => 'end'));
         $this->get('lichess.object_manager')->flush();
         $this->get('logger')->notice(sprintf('Player:resign game:%s', $game->getId()));
+
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+    }
+
+    public function abortAction($id)
+    {
+        $player = $this->findPlayer($id);
+        $game = $player->getGame();
+        if(!$game->getIsAbortable()) {
+            $this->get('logger')->warn(sprintf('Player:abort non-abortable game:%s', $game->getId()));
+            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        }
+        $game->setStatus(Game::ABORTED);
+        $this->get('lichess_finisher')->finish($game);
+        $game->addEventToStacks(array('type' => 'end'));
+        $this->get('lichess.object_manager')->flush();
+        $this->get('logger')->notice(sprintf('Player:abort game:%s', $game->getId()));
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
     }
@@ -434,7 +450,7 @@ class PlayerController extends Controller
     {
         if($playerFullId) {
             $player = $this->findPlayer($playerFullId);
-            $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
+            $template = $player->getGame()->getIsPlayable() ? 'table' : 'tableEnd';
             if($nextPlayerId = $player->getGame()->getNext()) {
                 $nextGame = $this->findPlayer($nextPlayerId)->getGame();
             }

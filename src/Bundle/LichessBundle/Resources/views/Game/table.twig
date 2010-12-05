@@ -28,9 +28,13 @@
         </div>
     </div>
     <div class="lichess_control clearfix">
-        <a href="{% path "lichess_resign" with ['id': player.fullId] %}" class="lichess_resign" title="{% trans "Give up" %}">{% trans "Resign" %}</a>
-        {% if player.canOfferDraw %}
-            <a class="offer_draw" href="{% path "lichess_offer_draw" with["id": player.fullId] %}">{% trans "Offer draw" %}</a>
+        {% if player.game.isAbortable %}
+            <a href="{% path "lichess_abort" with ['id': player.fullId] %}" class="lichess_abort">{% trans "Abort game" %}</a>
+        {% else %}
+            <a href="{% path "lichess_resign" with ['id': player.fullId] %}" class="lichess_resign" title="{% trans "Give up" %}">{% trans "Resign" %}</a>
+            {% if player.canOfferDraw %}
+                <a class="offer_draw" href="{% path "lichess_offer_draw" with["id": player.fullId] %}">{% trans "Offer draw" %}</a>
+            {% endif %}
         {% endif %}
     </div>
     {% if player.isMyTurn and player.game.isThreefoldRepetition %}
