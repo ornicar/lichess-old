@@ -10,7 +10,9 @@ abstract class Stack {
 
     public function hasVersion($version)
     {
-        return isset($this->events[$version]);
+        $versions = array_keys($this->events);
+
+        return $version <= end($versions) && $version >= reset($versions);
     }
 
     public function getVersion()
@@ -39,6 +41,18 @@ abstract class Stack {
         return $this->events;
     }
 
+    public function getEventsSince($version)
+    {
+        $events = array();
+        for($v = $version, $max = $this->getVersion(); $v <= $max; $v++) {
+            if(isset($this->events[$v])) {
+                $events[] = $this->getEvent($v);
+            }
+        }
+
+        return $events;
+    }
+
     /**
      * Get a version event
      *
@@ -64,7 +78,27 @@ abstract class Stack {
     public function addEvent(array $event)
     {
         $this->events[] = $this->encodeEvent($event);
+        $this->optimize();
         $this->rotate();
+    }
+
+    /**
+     * Remove duplicated possible_moves entry,
+     * only keep the last one
+     *
+     * @return void
+     */
+    public function optimize()
+    {
+        $previousLastMoveIndex = null;
+        foreach($this->events as $index => $event) {
+            if(array_key_exists('pm', $event)) {
+                if($previousLastMoveIndex) {
+                    unset($this->events[$previousLastMoveIndex]);
+                }
+                $previousLastMoveIndex = $index;
+            }
+        }
     }
 
     public function reset()
