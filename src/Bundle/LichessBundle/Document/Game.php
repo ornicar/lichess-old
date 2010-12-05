@@ -363,7 +363,7 @@ class Game
         if(!$this->hasClock()) {
             throw new \LogicException('This game has no clock');
         }
-        if($this->getIsFinished()) {
+        if($this->getIsFinishedOrAborted()) {
             return;
         }
         foreach($this->getPlayers() as $player) {
@@ -550,13 +550,13 @@ class Game
      */
     public function setStatus($status)
     {
-        if($this->getIsFinished()) {
+        if($this->getIsFinishedOrAborted()) {
             return;
         }
 
         $this->status = $status;
 
-        if($this->getIsFinished() && $this->hasClock()) {
+        if($this->getIsFinishedOrAborted() && $this->hasClock()) {
             $this->getClock()->stop();
         }
     }
@@ -868,7 +868,7 @@ class Game
      **/
     public function isBeingPlayed()
     {
-        if($this->getIsFinished()) {
+        if($this->getIsFinishedOrAborted()) {
             return false;
         }
 
