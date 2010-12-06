@@ -107,6 +107,23 @@ class Player extends Service
         }
     }
 
+    public function abort($id)
+    {
+        $player = $this->findPlayer($id);
+        $game = $player->getGame();
+        if(!$game->getIsAbortable()) {
+            $this->container->get('logger')->warn(sprintf('Player:abort non-abortable game:%s', $game->getId()));
+            return false;
+        }
+        $game->setStatus(Model\Game::ABORTED);
+        $this->container->get('lichess_finisher')->finish($game);
+        $game->addEventToStacks(array('type' => 'end'));
+        $this->container->get('lichess.object_manager')->flush();
+        $this->container->get('logger')->notice(sprintf('Player:abort game:%s', $game->getId()));
+
+        return true;
+    }
+
     public function sync($id, $color, $alive, $version)
     {
         $player = $this->findPublicPlayer($id, $color);

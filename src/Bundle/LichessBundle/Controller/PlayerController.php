@@ -194,17 +194,7 @@ class PlayerController extends Controller
 
     public function abortAction($id)
     {
-        $player = $this->get('lichess_service_player')->findPlayer($id);
-        $game = $player->getGame();
-        if(!$game->getIsAbortable()) {
-            $this->get('logger')->warn(sprintf('Player:abort non-abortable game:%s', $game->getId()));
-            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
-        }
-        $game->setStatus(Game::ABORTED);
-        $this->get('lichess_finisher')->finish($game);
-        $game->addEventToStacks(array('type' => 'end'));
-        $this->get('lichess.object_manager')->flush();
-        $this->get('logger')->notice(sprintf('Player:abort game:%s', $game->getId()));
+        $this->get('lichess_service_player')->abort($id);
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
     }
