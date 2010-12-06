@@ -36,6 +36,10 @@
 <br /><br />
 {% trans "Time control" %}: {{ game.clockName }}
 <br /><br />
+{% if game.isRated %}
+{% trans "This game is rated" %}
+<br /><br />
+{% endif %}
 <a href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": game.creatorColor] %}">&gt;&gt; {% trans "Replay and analyse" %}</a>
 </div>
 </div>
