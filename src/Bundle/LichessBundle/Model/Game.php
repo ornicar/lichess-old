@@ -761,29 +761,4 @@ abstract class Game {
             }
         }
     }
-
-    /**
-     * @orm:PreUpdate
-     * @orm:PrePersist
-     */
-    public function cachePlayerVersions()
-    {
-        // @todo
-       // foreach($this->getPlayers() as $player) {
-      //      if(!$player->getIsAi()) {
-                //apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
-      //      }
-       // }
-    }
-
-    /**
-     * @orm:PostRemove
-     */
-    public function clearPlayerVersionCache()
-    {
-        // @todo
-        foreach($this->getPlayers() as $player) {
-            //apc_delete($this->getId().'.'.$player->getColor().'.data');
-        }
-    }
 }

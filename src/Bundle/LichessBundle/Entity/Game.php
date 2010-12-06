@@ -195,21 +195,4 @@ class Game extends Model\Game
     {
         parent::ensureDependencies();
     }
-
-    /**
-     * @orm:PreUpdate
-     * @orm:PrePersist
-     */
-    public function cachePlayerVersions()
-    {
-       parent::cachePlayerVersions();
-    }
-
-    /**
-     * @orm:PostRemove
-     */
-    public function clearPlayerVersionCache()
-    {
-        parent::clearPlayerVersionCache();
-    }
 }

@@ -194,21 +194,4 @@ class Game extends Model\Game
     {
         parent::ensureDependencies();
     }
-
-    /**
-     * @mongodb:PreUpdate
-     * @mongodb:PrePersist
-     */
-    public function cachePlayerVersions()
-    {
-       parent::cachePlayerVersions();
-    }
-
-    /**
-     * @mongodb:PostRemove
-     */
-    public function clearPlayerVersionCache()
-    {
-        parent::clearPlayerVersionCache();
-    }
 }
