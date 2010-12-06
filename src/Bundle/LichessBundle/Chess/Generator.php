@@ -62,7 +62,9 @@ class Generator extends ContainerAware
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
         if($game->hasClock()) {
-            $nextGame->setClock(clone $game->getClock());
+            // @todo is this the best way?
+            $clockClass = $this->container->getParameter('lichess.model.clock.class');
+            $nextGame->setClock(new $clockClass($game->getClock()->getLimit(), $game->getClock()->getMoveBonus()));
         }
         $nextGame->setIsRanked($game->getIsRanked());
         $nextGame->getPlayer('white')->setUser($game->getPlayer('black')->getUser());
