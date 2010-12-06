@@ -31,3 +31,6 @@
 [submodule "src/vendor/php-git-repo"]
 	path = src/vendor/php-git-repo
 	url = git://github.com/ornicar/php-git-repo.git
+[submodule "src/Bundle/LichessBundle"]
+	path = src/Bundle/LichessBundle
+	url = git://github.com/ornicar/LichessBundle.git
