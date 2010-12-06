@@ -13,6 +13,7 @@ class Game extends Service {
     public function createAiGame(Config $config, $color)
     {
         $player = $this->container->get('lichess_generator')->createGameForPlayer($color, $config->variant);
+        
         $this->container->get('lichess.blamer.player')->blame($player);
         $game = $player->getGame();
         $opponent = $player->getOpponent();
@@ -40,6 +41,7 @@ class Game extends Service {
     public function createFriendGame(Config $config, $color)
     {
         $player = $this->container->get('lichess_generator')->createGameForPlayer($color, $config->variant);
+        
         $this->container->get('lichess.blamer.player')->blame($player);
         $game = $player->getGame();
         if($config->time) {
@@ -50,6 +52,7 @@ class Game extends Service {
         $game->setIsRated($config->mode);
         $this->container->get('lichess.object_manager')->persist($game);
         $this->container->get('lichess.object_manager')->flush();
+        
         $this->container->get('logger')->notice(sprintf('Game:inviteFriend create game:%s, variant:%s, time:%d', $game->getId(), $game->getVariantName(), $config->time));
         $this->cachePlayerVersions($game);
 

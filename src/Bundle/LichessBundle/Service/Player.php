@@ -15,10 +15,11 @@ class Player extends Service
         if($game->checkOutOfTime()) {
             $this->container->get('lichess_finisher')->finish($game);
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
-            $player->addEventsToStack($events);
-            $opponent->addEventsToStack($events);
+            $game->addEventToStacks($events);
             $this->container->get('lichess.object_manager')->flush();
+            
             $this->container->get('logger')->notice(sprintf('Player:outoftime game:%s', $game->getId()));
+            $this->cachePlayerVersions($game);
         }
 
         $this->container->get('logger')->warn(sprintf('Player:outoftime finished game:%s', $game->getId()));
@@ -51,6 +52,8 @@ class Player extends Service
                     if($this->container->get('lichess_synchronizer')->isConnected($opponent)) {
                         $this->container->get('lichess_synchronizer')->setAlive($nextOpponent);
                     }
+                    $this->cachePlayerVersions($nextGame);
+                    $this->cachePlayerVersions($player->getGame());
                     $this->container->get('logger')->notice(sprintf('Player:rematch join game:%s', $nextGame->getId()));
                 } else {
                     $this->container->get('logger')->warn(sprintf('Player:rematch join already started game:%s', $nextGame->getId()));
@@ -64,6 +67,7 @@ class Player extends Service
             $this->container->get('lichess_synchronizer')->setAlive($player);
             $this->container->get('logger')->notice(sprintf('Player:rematch proposal for game:%s', $game->getId()));
             $this->container->get('lichess.object_manager')->flush();
+            $this->cachePlayerVersions($nextPlayer->getGame());
             $this->cachePlayerVersions($player->getGame());
         }
 
@@ -82,7 +86,9 @@ class Player extends Service
                 $this->container->get('lichess_finisher')->finish($game);
                 $game->addEventToStacks(array('type' => 'end'));
                 $this->container->get('lichess.object_manager')->flush();
+                
                 $this->container->get('logger')->notice(sprintf('Player:forceResign game:%s', $game->getId()));
+                $this->cachePlayerVersions($game);
             }
             else {
                 $this->container->get('logger')->warn(sprintf('Player:forceResign FAIL game:%s', $game->getId()));
@@ -100,8 +106,12 @@ class Player extends Service
             $this->container->get('lichess_finisher')->finish($game);
             $game->addEventToStacks(array('type' => 'end'));
             $this->container->get('lichess.object_manager')->flush();
+
             $this->container->get('logger')->notice(sprintf('Player:resign game:%s', $game->getId()));
+            $this->cachePlayerVersions($game);
         }
+
+        return true;
     }
 
     public function abort($id)
@@ -116,7 +126,9 @@ class Player extends Service
         $this->container->get('lichess_finisher')->finish($game);
         $game->addEventToStacks(array('type' => 'end'));
         $this->container->get('lichess.object_manager')->flush();
+
         $this->container->get('logger')->notice(sprintf('Player:abort game:%s', $game->getId()));
+        $this->cachePlayerVersions($game);
 
         return true;
     }
@@ -137,14 +149,18 @@ class Player extends Service
     public function setAiLevel($id, $level)
     {
         $player = $this->findPlayer($id);
+        
         $level = min(8, max(1, $level));
         $player->getOpponent()->setAiLevel($level);
         $this->container->get('lichess.object_manager')->flush();
+
+        return true;
     }
 
     public function addMessage($id, $message, $version)
     {
         $player = $this->findPlayer($id);
+
         $this->container->get('lichess_synchronizer')->setAlive($player);
         $this->container->get('lichess.messenger')->addPlayerMessage($player, $message);
         $this->container->get('lichess.object_manager')->flush();

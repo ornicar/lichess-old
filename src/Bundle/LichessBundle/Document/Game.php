@@ -161,12 +161,12 @@ class Game extends Model\Game
      */
     protected $isRated = null;
 
-    protected function getClockInstance($time, $moveBonus = null)
+    public function getClockInstance($time, $moveBonus = null)
     {
         return new Clock($time, $moveBonus);
     }
 
-    protected function getRoomInstance(array $messages = array())
+    public function getRoomInstance(array $messages = array())
     {
         return new Room($messages);
     }

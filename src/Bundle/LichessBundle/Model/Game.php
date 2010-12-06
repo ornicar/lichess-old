@@ -204,7 +204,7 @@ abstract class Game {
         $this->clock = $clock;
     }
 
-    abstract protected function getClockInstance($time, $moveBonus = null);
+    abstract public function getClockInstance($time, $moveBonus = null);
 
     public function setClockTime($time)
     {
@@ -491,7 +491,7 @@ abstract class Game {
         $this->room = $room;
     }
 
-    abstract protected function getRoomInstance(array $messages = array());
+    abstract public function getRoomInstance(array $messages = array());
 
     public function addRoomMessage($author, $message)
     {

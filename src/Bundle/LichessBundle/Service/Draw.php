@@ -19,7 +19,9 @@ class Draw extends Service
                 $player->setIsOfferingDraw(true);
                 $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
                 $this->container->get('lichess.object_manager')->flush();
+
                 $this->container->get('logger')->notice(sprintf('Player:offerDraw game:%s', $game->getId()));
+                $this->cachePlayerVersions($game);
             } else {
                 $this->container->get('logger')->warn(sprintf('Player:offerDraw already offered game:%s', $game->getId()));
             }
@@ -39,7 +41,9 @@ class Draw extends Service
             $player->getOpponent()->setIsOfferingDraw(false);
             $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
             $this->container->get('lichess.object_manager')->flush();
+
             $this->container->get('logger')->notice(sprintf('Player:declineDrawOffer game:%s', $game->getId()));
+            $this->cachePlayerVersions($game);
         } else {
             $this->container->get('logger')->warn(sprintf('Player:declineDrawOffer no offered draw game:%s', $game->getId()));
         }
@@ -55,7 +59,9 @@ class Draw extends Service
             $this->container->get('lichess_finisher')->finish($game);
             $game->addEventToStacks(array('type' => 'end'));
             $this->container->get('lichess.object_manager')->flush();
+
             $this->container->get('logger')->notice(sprintf('Player:acceptDrawOffer game:%s', $game->getId()));
+            $this->cachePlayerVersions($game);
         } else {
             $this->container->get('logger')->warn(sprintf('Player:acceptDrawOffer no offered draw game:%s', $game->getId()));
         }
@@ -70,7 +76,9 @@ class Draw extends Service
             $player->setIsOfferingDraw(false);
             $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
             $this->container->get('lichess.object_manager')->flush();
+
             $this->container->get('logger')->notice(sprintf('Player:cancelDrawOffer game:%s', $game->getId()));
+            $this->cachePlayerVersions($game);
         } else {
             $this->container->get('logger')->warn(sprintf('Player:cancelDrawOffer no offered draw game:%s', $game->getId()));
         }
@@ -85,9 +93,10 @@ class Draw extends Service
             $this->container->get('lichess_finisher')->finish($game);
             $game->addEventToStacks(array('type' => 'end'));
             $this->container->get('lichess.object_manager')->flush();
+
             $this->container->get('logger')->notice(sprintf('Player:claimDraw game:%s', $game->getId()));
-        }
-        else {
+            $this->cachePlayerVersions($game);
+        } else {
             $this->container->get('logger')->warn(sprintf('Player:claimDraw FAIL game:%s', $game->getId()));
         }
     }
