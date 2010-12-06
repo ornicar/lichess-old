@@ -160,7 +160,7 @@ class Game extends Model\Game
      * @var bool
      * @orm:Column(type="boolean")
      */
-    protected $isRanked = false;
+    protected $isRated = false;
 
     /**
      * The game board

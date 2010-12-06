@@ -47,7 +47,7 @@ class Game extends Service {
             $clock = new $clockClass($config->time * 60);
             $game->setClock($clock);
         }
-        $game->setIsRanked($config->mode);
+        $game->setIsRated($config->mode);
         $this->container->get('lichess.object_manager')->persist($game);
         $this->container->get('lichess.object_manager')->flush();
         $this->container->get('logger')->notice(sprintf('Game:inviteFriend create game:%s, variant:%s, time:%d', $game->getId(), $game->getVariantName(), $config->time));

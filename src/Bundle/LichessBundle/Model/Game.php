@@ -56,7 +56,7 @@ abstract class Game {
 
     protected $room;
 
-    protected $isRanked = false;
+    protected $isRated = false;
 
     protected $board;
 
@@ -224,22 +224,22 @@ abstract class Game {
     /**
      * @return bool
      */
-    public function getIsRanked()
+    public function getIsRated()
     {
-        return (bool) $this->isRanked;
+        return (bool) $this->IsRated;
     }
 
     /**
      * @param  bool
      * @return null
      */
-    public function setIsRanked($isRanked)
+    public function setIsRated($IsRated)
     {
         if($this->getIsStarted()) {
             throw new \LogicException('Can not change ranking mode, game is already started');
         }
         
-        $this->isRanked = $isRanked ? true : false;
+        $this->IsRated = $IsRated ? true : false;
     }
 
     /**
@@ -454,15 +454,15 @@ abstract class Game {
     public function start()
     {
         // The game can only be ranked if both players are logged in
-        if($this->getIsRanked() && !($this->getPlayer('white')->getUser() && $this->getPlayer('black')->getUser())) {
-            $this->setIsRanked(false);
+        if($this->getIsRated() && !($this->getPlayer('white')->getUser() && $this->getPlayer('black')->getUser())) {
+            $this->setIsRated(false);
         }
         
         $this->setStatus(static::STARTED);
         $this->addRoomMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
         $this->addRoomMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
 
-        if($this->getIsRanked()) {
+        if($this->getIsRated()) {
             $this->addRoomMessage('system', 'This game is ranked');
         }
     }

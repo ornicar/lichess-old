@@ -154,19 +154,12 @@ class Game extends Model\Game
     protected $room;
 
     /**
-     * Whether this game is ranked or not
+     * Whether this game is rated or not
      *
      * @var bool
      * @mongodb:Field(type="boolean")
      */
-    protected $isRanked = false;
-
-    /**
-     * The game board
-     *
-     * @var Board
-     */
-    protected $board;
+    protected $isRated = null;
 
     protected function getClockInstance($time)
     {

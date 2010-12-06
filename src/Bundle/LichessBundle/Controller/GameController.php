@@ -123,7 +123,7 @@ class GameController extends Controller
 
                 $service = $this->get('lichess_service_game');
                 $player = $service->createFriendGame($config, $color);
-
+                
                 return $this->redirect($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
             }
         }

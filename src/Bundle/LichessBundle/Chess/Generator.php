@@ -66,7 +66,7 @@ class Generator extends ContainerAware
             $clockClass = $this->container->getParameter('lichess.model.clock.class');
             $nextGame->setClock(new $clockClass($game->getClock()->getLimit(), $game->getClock()->getMoveBonus()));
         }
-        $nextGame->setIsRanked($game->getIsRanked());
+        $nextGame->setIsRated($game->getIsRated());
         $nextGame->getPlayer('white')->setUser($game->getPlayer('black')->getUser());
         $nextGame->getPlayer('black')->setUser($game->getPlayer('white')->getUser());
         $game->setNext($nextPlayer->getFullId());

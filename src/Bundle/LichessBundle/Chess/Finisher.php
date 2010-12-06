@@ -29,7 +29,7 @@ class Finisher
         if(!$game->getIsFinished()) {
             return;
         }
-        if(!$game->getIsRanked()) {
+        if(!$game->getIsRated()) {
             return;
         }
         // Don't rate games with less than 2 moves
