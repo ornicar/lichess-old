@@ -29,6 +29,9 @@ class Finisher
         if(!$game->getIsFinished()) {
             return;
         }
+        if(!$game->getIsRanked()) {
+            return;
+        }
         // Don't rate games with less than 2 moves
         if($game->getTurns() < 2) {
             return;

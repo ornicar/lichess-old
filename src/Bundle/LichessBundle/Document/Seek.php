@@ -35,6 +35,14 @@ class Seek
     protected $times;
 
     /**
+     * Modes accepted
+     *
+     * @var array
+     * @mongodb:Field(type="collection")
+     */
+    protected $modes;
+
+    /**
      * Game
      *
      * @var Game
@@ -59,10 +67,11 @@ class Seek
      */
     protected $createdAt = null;
 
-    public function __construct(array $variants, array $times, $sessionId)
+    public function __construct(array $variants, array $times, array $modes, $sessionId)
     {
         $this->variants = $variants;
         $this->times = $times;
+        $this->modes = $modes;
         $this->sessionId = $sessionId;
         $this->createdAt = new \DateTime();
     }
@@ -73,7 +82,7 @@ class Seek
             return false;
         }
 
-        return false !== $this->getCommonVariant($seek) && false !== $this->getCommonTime($seek);
+        return false !== $this->getCommonVariant($seek) && false !== $this->getCommonTime($seek) && false !== $this->getCommonMode($seek);
     }
 
     public function getCommonVariant(Seek $seek)
@@ -104,6 +113,21 @@ class Seek
         }
 
         return $matches[1];
+    }
+
+    public function getCommonMode(Seek $seek)
+    {
+        $matches = array_values(array_intersect($seek->getModes(), $this->getModes()));
+
+        if(empty($matches)) {
+            return false;
+        }
+
+        if(1 === count($matches)) {
+            return $matches[0];
+        }
+
+        return $matches[mt_rand(0, 1)];
     }
 
     /**
@@ -172,6 +196,7 @@ class Seek
     {
       $this->times = $times;
     }
+
     /**
      * @return array
      */
@@ -187,6 +212,23 @@ class Seek
     public function setVariants($variants)
     {
       $this->variants = $variants;
+    }
+
+    /**
+     * @return array
+     */
+    public function getModes()
+    {
+      return $this->modes;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setModes($modes)
+    {
+      $this->modes = $modes;
     }
 
     /**
