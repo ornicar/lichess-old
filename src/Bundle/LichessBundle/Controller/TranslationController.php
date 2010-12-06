@@ -38,7 +38,7 @@ class TranslationController extends Controller
     {
         $manager = $this->get('lichess.translation.manager');
         $translationClass = $this->container->getParameter('lichess.model.translation.class');
-        $translation = new Translation();
+        $translation = new $translationClass();
         $translation->setCode($locale);
         try {
             $translation->setMessages($manager->getMessagesWithReferenceKeys($locale));
