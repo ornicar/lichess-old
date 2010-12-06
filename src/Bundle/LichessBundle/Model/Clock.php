@@ -30,8 +30,9 @@ abstract class Clock {
     {
         $this->limit = (int) $limit;
         $this->moveBonus = (int) $moveBonus;
-
-        $this->reset();
+        $this->color = 'white';
+        $this->times = array('white' => 0, 'black' => 0);
+        $this->timer = null;
     }
 
     /**
@@ -42,18 +43,6 @@ abstract class Clock {
     public function getName()
     {
         return sprintf('%d minutes/side + %d seconds/move', round($this->limit / 60, 1), $this->moveBonus);
-    }
-
-    /**
-     * initializes the clock
-     *
-     * @return null
-     **/
-    public function reset()
-    {
-        $this->color = 'white';
-        $this->times = array('white' => 0, 'black' => 0);
-        $this->timer = null;
     }
 
     /**
@@ -236,10 +225,5 @@ abstract class Clock {
     public function renderTime($time)
     {
         return sprintf('%02d:%02d', floor($time/60), $time%60);
-    }
-
-    public function __clone()
-    {
-        $this->reset();
     }
 }

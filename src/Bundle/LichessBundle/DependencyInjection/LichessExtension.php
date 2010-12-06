@@ -21,6 +21,7 @@ class LichessExtension extends Extension
         $loader->load('translation.xml');
         $loader->load('form.xml');
         $loader->load('security.xml');
+        $loader->load('services.xml');
 
         if (!isset($config['db_driver'])) {
             throw new \InvalidArgumentException('You must provide the lichess.db_driver configuration');

@@ -6,6 +6,11 @@ abstract class Room
 {
     protected $messages = array();
 
+    public function __construct(array $messages = array())
+    {
+        $this->messages = $messages;
+    }
+
     /**
      * Get messages
      * @return Collection
