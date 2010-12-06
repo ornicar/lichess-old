@@ -226,20 +226,20 @@ abstract class Game {
      */
     public function getIsRated()
     {
-        return (bool) $this->IsRated;
+        return (bool) $this->isRated;
     }
 
     /**
      * @param  bool
      * @return null
      */
-    public function setIsRated($IsRated)
+    public function setIsRated($isRated)
     {
         if($this->getIsStarted()) {
             throw new \LogicException('Can not change ranking mode, game is already started');
         }
         
-        $this->IsRated = $IsRated ? true : false;
+        $this->isRated = $isRated ? true : false;
     }
 
     /**
