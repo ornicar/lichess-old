@@ -71,7 +71,7 @@ class Generator
         if($game->hasClock()) {
             $nextGame->setClock(clone $game->getClock());
         }
-        $nextGame->setIsRanked($game->getIsRanked());
+        $nextGame->setIsRated($game->getIsRated());
         $nextGame->getPlayer('white')->setUser($game->getPlayer('black')->getUser());
         $nextGame->getPlayer('black')->setUser($game->getPlayer('white')->getUser());
         $game->setNext($nextPlayer->getFullId());

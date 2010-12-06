@@ -172,12 +172,12 @@ class Game
     protected $room;
 
     /**
-     * Whether this game is ranked or not
+     * Whether this game is rated or not
      *
      * @var bool
      * @mongodb:Field(type="boolean")
      */
-    protected $isRanked = null;
+    protected $isRated = null;
 
     /**
      * The game board
@@ -220,21 +220,21 @@ class Game
     /**
      * @return bool
      */
-    public function getIsRanked()
+    public function getIsRated()
     {
-        return (bool) $this->isRanked;
+        return (bool) $this->isRated;
     }
 
     /**
      * @param  bool
      * @return null
      */
-    public function setIsRanked($isRanked)
+    public function setIsRated($isRated)
     {
         if($this->getIsStarted()) {
             throw new \LogicException('Can not change ranking mode, game is already started');
         }
-        $this->isRanked = $isRanked ? true : null;
+        $this->isRated = $isRated ? true : null;
     }
 
     public function addUserId($userId)
@@ -596,15 +596,15 @@ class Game
      **/
     public function start()
     {
-        // The game can only be ranked if both players are logged in
-        if($this->getIsRanked() && !($this->getPlayer('white')->getUser() && $this->getPlayer('black')->getUser())) {
-            $this->setIsRanked(false);
+        // The game can only be rated if both players are logged in
+        if($this->getIsRated() && !($this->getPlayer('white')->getUser() && $this->getPlayer('black')->getUser())) {
+            $this->setIsRated(false);
         }
         $this->setStatus(static::STARTED);
         $this->addRoomMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
         $this->addRoomMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
-        if($this->getIsRanked()) {
-            $this->addRoomMessage('system', 'This game is ranked');
+        if($this->getIsRated()) {
+            $this->addRoomMessage('system', 'This game is rated');
         }
     }
 

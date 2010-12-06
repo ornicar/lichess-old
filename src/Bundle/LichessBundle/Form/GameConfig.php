@@ -7,7 +7,7 @@ abstract class GameConfig
 {
     protected $timeChoices = array(2, 5, 10, 20, 0);
 
-    protected $modeChoices = array(0 => 'Casual', 1 => 'Ranked');
+    protected $modeChoices = array(0 => 'Casual', 1 => 'Rated');
 
     abstract public function toArray();
 

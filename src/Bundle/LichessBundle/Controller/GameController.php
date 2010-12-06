@@ -146,7 +146,7 @@ class GameController extends Controller
                     $clock = new Clock($config->time * 60);
                     $game->setClock($clock);
                 }
-                $game->setIsRanked($config->mode);
+                $game->setIsRated($config->mode);
                 $this->get('lichess.object_manager')->persist($game);
                 $this->get('lichess.object_manager')->flush();
                 $this->get('logger')->notice(sprintf('Game:inviteFriend create game:%s, variant:%s, time:%d', $game->getId(), $game->getVariantName(), $config->time));
