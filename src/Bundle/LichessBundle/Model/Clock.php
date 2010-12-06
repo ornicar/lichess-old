@@ -29,7 +29,7 @@ abstract class Clock {
     public function __construct($limit, $moveBonus = 4)
     {
         $this->limit = (int) $limit;
-        $this->moveBonus = (int) $moveBonus;
+        $this->moveBonus = (int) $moveBonus ? $moveBonus : 4;
         $this->color = 'white';
         $this->times = array('white' => 0, 'black' => 0);
         $this->timer = null;

@@ -44,10 +44,7 @@ class Player extends Service
                 $nextGame = $nextOpponent->getGame();
                 $nextPlayer = $nextOpponent->getOpponent();
                 if(!$nextGame->getIsStarted()) {
-                    // @todo is this the best way?
-                    $roomClass = $this->container->getParameter('lichess.model.room.class');
-                    $nextGame->setRoom(new $roomClass($game->getRoom()->getMessages()));
-
+                    $nextGame->setRoom($nextGame->getRoomInstance($game->getRoom()->getMessages()));
                     $nextGame->start();
                     $opponent->addEventToStack(array('type' => 'redirect', 'url' => $this->container->get('router')->generate('lichess_player', array('id' => $nextOpponent->getFullId()))));
                     $this->container->get('lichess.object_manager')->flush();

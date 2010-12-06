@@ -169,14 +169,14 @@ class Game extends Model\Game
      */
     protected $board;
 
-    protected function getClockInstance($time)
+    protected function getClockInstance($time, $moveBonus = null)
     {
-        return new Clock($time);
+        return new Clock($time, $moveBonus);
     }
 
-    protected function getRoomInstance()
+    protected function getRoomInstance(array $messages = array())
     {
-        return new Room();
+        return new Room($messages);
     }
 
     /**
