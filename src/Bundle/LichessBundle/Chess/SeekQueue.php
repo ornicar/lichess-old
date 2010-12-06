@@ -56,7 +56,7 @@ class SeekQueue
             $game = $existing->getGame();
             $this->generator->applyVariant($game, $seek->getCommonVariant($existing));
             $game->setClockTime($seek->getCommonTime($existing) * 60);
-            $game->setIsRanked($seek->getCommonMode($existing));
+            $game->setIsRated($seek->getCommonMode($existing));
             $this->objectManager->remove($existing);
             $this->playerBlamer->blame($game->getInvited());
             $status = static::FOUND;
