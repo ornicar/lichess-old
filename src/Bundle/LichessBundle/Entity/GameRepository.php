@@ -57,9 +57,12 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
             ->select('g.id')
             ->setMaxResults($nb)
             ->getQuery()->getArrayResult();
-        $ids = array_keys($data);
+
+        $data = array_map(function($item) {
+            return $item['id'];
+        }, $data);
         
-        return $ids;
+        return $data;
     }
 
     /**
