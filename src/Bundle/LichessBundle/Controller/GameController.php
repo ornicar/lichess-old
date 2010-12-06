@@ -5,9 +5,7 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Persistence\QueueEntry;
 use Bundle\LichessBundle\Form;
-use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller

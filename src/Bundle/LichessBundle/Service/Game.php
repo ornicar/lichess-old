@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Bundle\LichessBundle\Form\GameConfig as Config;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Model;
+use Zend\Paginator\Paginator;
 
 class Game extends Service {
 
