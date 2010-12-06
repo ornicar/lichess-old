@@ -51,9 +51,6 @@ class PlayerController extends Controller
                 $nextPlayer = $nextOpponent->getOpponent();
                 if(!$nextGame->getIsStarted()) {
                     $nextGame->setRoom(clone $game->getRoom());
-                    if($game->hasClock()) {
-                        $nextGame->setClock(clone $game->getClock());
-                    }
                     $nextGame->start();
                     $opponent->addEventToStack(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $nextOpponent->getFullId()))));
                     $this->get('lichess.object_manager')->flush();
@@ -367,8 +364,8 @@ class PlayerController extends Controller
         $config = new Form\AnybodyGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.anybody', array()));
         return $this->render('LichessBundle:Player:waitAnybody.twig', array(
-            'player'     => $player,
-            'config'     => $config
+            'player' => $player,
+            'config' => $config
         ));
     }
 
@@ -394,8 +391,11 @@ class PlayerController extends Controller
         }
         $this->get('lichess_synchronizer')->setAlive($player);
 
+        $config = new Form\FriendGameConfig();
+        $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
         return $this->render('LichessBundle:Player:waitFriend.twig', array(
-            'player'     => $player
+            'player' => $player,
+            'config' => $config
         ));
     }
 

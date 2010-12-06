@@ -68,6 +68,10 @@ class Generator
         $nextGame = $this->createGame($variant);
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
+        if($game->hasClock()) {
+            $nextGame->setClock(clone $game->getClock());
+        }
+        $nextGame->setIsRanked($game->getIsRanked());
         $nextGame->getPlayer('white')->setUser($game->getPlayer('black')->getUser());
         $nextGame->getPlayer('black')->setUser($game->getPlayer('white')->getUser());
         $game->setNext($nextPlayer->getFullId());

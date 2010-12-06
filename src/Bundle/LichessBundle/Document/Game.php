@@ -172,6 +172,14 @@ class Game
     protected $room;
 
     /**
+     * Whether this game is ranked or not
+     *
+     * @var bool
+     * @mongodb:Field(type="boolean")
+     */
+    protected $isRanked = null;
+
+    /**
      * The game board
      *
      * @var Board
@@ -207,6 +215,26 @@ class Game
             throw new \LogicException('Can not change the id of a saved game');
         }
         $this->id = KeyGenerator::generate(8);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsRanked()
+    {
+        return (bool) $this->isRanked;
+    }
+
+    /**
+     * @param  bool
+     * @return null
+     */
+    public function setIsRanked($isRanked)
+    {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not change ranking mode, game is already started');
+        }
+        $this->isRanked = $isRanked ? true : null;
     }
 
     public function addUserId($userId)
@@ -568,9 +596,16 @@ class Game
      **/
     public function start()
     {
+        // The game can only be ranked if both players are logged in
+        if($this->getIsRanked() && !($this->getPlayer('white')->getUser() && $this->getPlayer('black')->getUser())) {
+            $this->setIsRanked(false);
+        }
         $this->setStatus(static::STARTED);
         $this->addRoomMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
         $this->addRoomMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
+        if($this->getIsRanked()) {
+            $this->addRoomMessage('system', 'This game is ranked');
+        }
     }
 
     /**
