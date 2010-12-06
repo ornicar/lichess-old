@@ -61,6 +61,7 @@
 "Flip board": "Käännä lautaa"
 "Threefold repetition": "Laudalla sama asema kolmatta kertaa"
 "Claim a draw": "Vaadi tasapeliä"
+"Offer draw": "Ehdota tasapeliä"
 "Draw": "Tasapeli"
 "%nb% connected players": "%nb% pelaajaa paikalla"
 "Talk about chess and discuss lichess features in the forum": "Keskustele shakista ja Lichessin ominaisuuksista keskustelualueella"
@@ -104,3 +105,5 @@
 "Your opponent offers a draw": "Vastustajasi tarjoaa tasapeliä"
 "Accept": "Hyväksy"
 "Decline": "Hylkää"
+"Abort game": "Keskeytä peli"
+"Game aborted": "Peli keskeytetty"
