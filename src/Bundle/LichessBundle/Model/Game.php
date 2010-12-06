@@ -310,6 +310,9 @@ abstract class Game {
      **/
     public function isThreefoldRepetition()
     {
+        if(6 > count($this->positionHashes)) {
+            return false;
+        }
         $hash = end($this->positionHashes);
 
         return count(array_keys($this->positionHashes, $hash)) >= 3;
