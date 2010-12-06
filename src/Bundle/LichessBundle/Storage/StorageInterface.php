@@ -10,5 +10,5 @@ interface StorageInterface {
 
     function delete($key);
 
-    public function getIterator($regex);
+    function getIterator($regex);
 }

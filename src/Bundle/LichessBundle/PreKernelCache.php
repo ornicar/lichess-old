@@ -18,7 +18,7 @@ use Bundle\LichessBundle\Storage;
 require_once __DIR__ . '/Storage/StorageInterface.php';
 if (function_exists('apc_store') && ini_get('apc.enabled')) {
     require_once __DIR__ . '/Storage/Apc.php';
-    $storage = new Apc();
+    $storage = new Storage\Apc();
 } elseif (function_exists('wincache_ucache_set') && ini_get('wincache.ucenabled')) {
     require_once __DIR__ . '/Storage/WinCache.php';
     $storage = new Storage\WinCache();
