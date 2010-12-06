@@ -109,7 +109,7 @@ class GameRepository extends ObjectRepository implements GameRepository
     }
 
     /**
-     * Return the number of losses
+     * Return the number of wins
      *
      * @return int
      **/

@@ -121,16 +121,16 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
     }
 
     /**
-     * Return the number of losses
+     * Return the number of wins
      *
      * @return int
      **/
     public function getNbWins(User $user)
     {
-        return $this->createQueryBuilder('g')
+        return $this->createByUserQuery($user)
             ->select('COUNT(g.id)')
-            ->where('g.winnerUserId = ?1')
-            ->setParameter(1, $user->getId())
+            ->andWhere('g.winnerUserId = ?2')
+            ->setParameter(2, $user->getId())
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -142,10 +142,10 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
      **/
     public function getNbLosses(User $user)
     {
-        return $this->createQueryBuilder('g')
+        return $this->createByUserQuery($user)
             ->select('COUNT(g.id)')
-            ->where('g.winnerUserId != ?1')
-            ->setParameter(1, $user->getId())
+            ->andWhere('g.winnerUserId != ?2')
+            ->setParameter(2, $user->getId())
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -159,8 +159,8 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
     {
         return $this->createByUserQuery($user)
             ->select('COUNT(g.id)')
-            ->where('g.status > ?1')
-            ->setParameter(1, Game::MATE)
+            ->andWhere('g.status > ?2')
+            ->setParameter(2, Game::MATE)
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -209,8 +209,10 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
     public function createRecentStartedOrFinishedByUserQuery(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->where('g.status >?1')
-            ->setParameter(1, Game::STARTED)
+            ->andWhere('g.status > ?2')
+            ->andWhere('g.status != ?3')
+            ->setParameter(2, Game::STARTED)
+            ->setParameter(3, Game::ABORTED)
             ->getQuery();
     }
 
@@ -223,7 +225,9 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
     {
         return $this->createRecentQuery()
             ->where('g.status > ?1')
+            ->andWhere('g.status != ?2')
             ->setParameter(1, Game::STARTED)
+            ->setParameter(2, Game::ABORTED)
             ->getQuery();
     }
 
