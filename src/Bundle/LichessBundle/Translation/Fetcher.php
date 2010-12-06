@@ -46,10 +46,11 @@ class Fetcher
         foreach($translations as $id => $translation) {
             $branchName = sprintf('t/%d', $id);
             if(!$repo->hasBranch($branchName)) {
-                $commitMessage = sprintf('commit -m "Update \"%s\" translation. Author: %s. Messages: %d. %s"',
+                $commitMessage = sprintf('commit -m "Update \"%s\" translation. Author: %s. Messages: %d. Id: %d. %s"',
                     $this->manager->getLanguageName($translation['code']),
                     $translation['author'] ?: 'Anonymous',
                     count($translation['messages']),
+                    $id,
                     $translation['comment']
                 );
                 $logger($commitMessage);
@@ -92,6 +93,6 @@ class Fetcher
 
     protected function createGitRepo()
     {
-        return new phpGitRepo(__DIR__.'/../../../..', false);
+        return new phpGitRepo(realpath(__DIR__.'/..'), false);
     }
 }
