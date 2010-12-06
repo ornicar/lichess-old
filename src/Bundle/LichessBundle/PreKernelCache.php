@@ -3,7 +3,7 @@
 /**
  * The purpose of this flat script is to dramatically improve performances, and save my webserver.
  * It handles the synchronization requests (95% of the traffic)
- * If APC cache exists for the user, and no event has occured since previous synchronization (90% of the requests)
+ * If cache exists for the user, and no event has occured since previous synchronization (90% of the requests)
  * The application is not run and this script can deliver a response in less than 0.1 milliseconds.
  * If this script returns, the normal Symfony application is run.
  **/
@@ -14,19 +14,33 @@ $timeout = 20;
 // Get url
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
-// Handle number of connected players requests
+use Bundle\LichessBundle\Storage;
+require_once __DIR__ . '/Storage/StorageInterface.php';
+if (function_exists('apc_store') && ini_get('apc.enabled')) {
+    require_once __DIR__ . '/Storage/Apc.php';
+    $storage = new Apc();
+} elseif (function_exists('wincache_ucache_set') && ini_get('wincache.ucenabled')) {
+    require_once __DIR__ . '/Storage/WinCache.php';
+    $storage = new Storage\WinCache();
+} else {
+    // no storage is available
+    return;
+}
 
+
+// Handle number of connected players requests
 if('/how-many-players-now' === $url) {
-    $nb = apc_fetch('lichess.nb_players');
+
+    $nb = $storage->get('lichess.nb_players');
     if(false === $nb) {
-        $it = new \APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
+        $it = $storage->getIterator('/alive$/');
         $nb = 0;
         $limit = time() - $timeout;
         foreach($it as $i) {
-            apc_fetch($i['key']); // clear invalidated entries
+            $storage->get($i['key']); // clear invalidated entries
             if($i['mtime'] >= $limit) ++$nb;
         }
-        apc_store('lichess.nb_players', $nb, 2);
+        $storage->store('lichess.nb_players', $nb, 2);
     }
 
     // Return minimalist JSON response telling the number of connected players
@@ -46,8 +60,8 @@ if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<id>[\w-]{8})/(?P<col
 }
 else return;
 
-// Get user cache from APC
-$userVersion = apc_fetch($id.'.'.$color.'.data');
+// Get user cache from Storage
+$userVersion = $storage->get($id.'.'.$color.'.data');
 
 // If the user has no cache, hit the application
 if(false === $userVersion) return;
@@ -57,12 +71,12 @@ if($userVersion != $clientVersion) return;
 
 if($playerFullId) {
     // Set the client as connected
-    apc_store($id.'.'.$color.'.alive', 1, $timeout);
+    $storage->store($id.'.'.$color.'.alive', 1, $timeout);
 }
 
 // Check is opponent is connected
 if($playerFullId) {
-    $isOpponentAlive = apc_fetch($id.'.'.$opponentColor.'.alive') ? 1 : 0;
+    $isOpponentAlive = $storage->get($id.'.'.$opponentColor.'.alive') ? 1 : 0;
 }
 else {
     $isOpponentAlive = true;
