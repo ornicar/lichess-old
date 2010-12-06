@@ -19,7 +19,6 @@ class PlayerController extends Controller
 
     public function rematchAction($id)
     {
-
         $player = $this->get('lichess_service_player')->rematch($id);
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
@@ -151,8 +150,8 @@ class PlayerController extends Controller
         $config = new Form\AnybodyGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.anybody', array()));
         return $this->render('LichessBundle:Player:waitAnybody.twig', array(
-            'player'     => $player,
-            'config'     => $config
+            'player' => $player,
+            'config' => $config
         ));
     }
 

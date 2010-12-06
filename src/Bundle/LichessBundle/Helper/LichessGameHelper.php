@@ -38,7 +38,7 @@ class LichessGameHelper extends Helper
             'game' => array(
                 'id'       => $game->getId(),
                 'started'  => $game->getIsStarted(),
-                'finished' => $game->getIsFinished(),
+                'finished' => $game->getIsFinishedOrAborted(),
                 'clock'    => $game->hasClock(),
                 'player'   => $game->getTurnPlayer()->getColor(),
                 'turns'    => $game->getTurns()
@@ -86,7 +86,7 @@ class LichessGameHelper extends Helper
             'game' => array(
                 'id'       => $game->getId(),
                 'started'  => $game->getIsStarted(),
-                'finished' => $game->getIsFinished(),
+                'finished' => $game->getIsFinishedOrAborted(),
                 'clock'    => $game->hasClock(),
                 'player'   => $game->getTurnPlayer()->getColor(),
                 'turns'    => $game->getTurns()

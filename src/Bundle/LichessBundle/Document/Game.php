@@ -161,6 +161,14 @@ class Game extends Model\Game
     protected $room;
 
     /**
+     * Whether this game is ranked or not
+     *
+     * @var bool
+     * @mongodb:Field(type="boolean")
+     */
+    protected $isRanked = null;
+
+    /**
      * The game board
      *
      * @var Board

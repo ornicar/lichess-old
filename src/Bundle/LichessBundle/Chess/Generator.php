@@ -62,7 +62,6 @@ class Generator extends ContainerAware
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
         if($game->hasClock()) {
-            // @todo
             $nextGame->setClock(clone $game->getClock());
         }
         $nextGame->setIsRanked($game->getIsRanked());

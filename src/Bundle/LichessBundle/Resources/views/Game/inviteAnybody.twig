@@ -9,12 +9,27 @@
             <div class="game_config_form">
                 <form action="{% path "lichess_invite_anybody" with ["color": color] %}" method="post">
                     <div class="variants">
-                        {{ form.variants|render }}
+                        {% for choice, child in form.variants %}
+                            {{ child|render }}
+                            <label for="{{ child.id }}">{% trans form.variants.label(choice) %}</label>
+                        {% endfor %}
                     </div>
                     {% trans "Minutes per side" %}
                     <div class="clocks">
-                        {{ form.times|render }}
+                        {% for choice, child in form.times %}
+                            {{ child|render }}
+                            <label for="{{ child.id }}">{% trans form.times.label(choice) %}</label>
+                        {% endfor %}
                     </div>
+                    {% if form.modes %}
+                        {% trans "Mode" %}
+                        <div class="modes">
+                            {% for choice, child in form.modes %}
+                                {{ child|render }}
+                                <label for="{{ child.id }}">{% trans form.modes.label(choice) %}</label>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     <button type="submit" class="submit">{% trans "Start" %}</button>
                     <p class="explanations">
                         {% trans "Tip: The more options you check, the faster you find a game" %}

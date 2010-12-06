@@ -7,9 +7,16 @@ abstract class GameConfig
 {
     protected $timeChoices = array(2, 5, 10, 20, 0);
 
+    protected $modeChoices = array(0 => 'Casual', 1 => 'Ranked');
+
     abstract public function toArray();
 
     abstract public function fromArray(array $data);
+
+    public function getModeChoices()
+    {
+        return $this->modeChoices;
+    }
 
     public function getVariantChoices()
     {
@@ -25,13 +32,13 @@ abstract class GameConfig
     {
         $choices = array();
         foreach($this->timeChoices as $time) {
-            $choices[$time] = $this->getTimeName($time);
+            $choices[$time] = $this->renameTime($time);
         }
 
         return $choices;
     }
 
-    protected function getTimeName($time)
+    protected function renameTime($time)
     {
         if($time) {
             return $time;

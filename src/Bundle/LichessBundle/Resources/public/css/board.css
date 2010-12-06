@@ -211,12 +211,11 @@ div.lichess_overboard p.explanations {
     padding-left: 1em;
 }
 
-div.lichess_overboard.game_config div.variants {
-    margin: 1em 0;
+div.lichess_overboard.game_config h2 {
+    margin-bottom: 1em;
 }
-
-div.lichess_overboard.game_config div.clocks {
-    margin-bottom: 1.5em;
+div.lichess_overboard.game_config div.ui-buttonset {
+    margin-bottom: 1em;
 }
 
 div.lichess_overboard.game_config_ai button.submit {

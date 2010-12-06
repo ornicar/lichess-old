@@ -37,7 +37,7 @@ class Seek extends Model\Seek
     protected $times;
 
     /**
-     * Modes
+     * Modes accepted
      *
      * @var array
      * @mongodb:Field(type="collection")

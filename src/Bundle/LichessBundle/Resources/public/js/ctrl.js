@@ -18,7 +18,7 @@ $(function() {
 
     if($config = $('div.game_config_form').orNot()) {
         $('div.lichess_overboard').show();
-        $config.find('div.variants, div.clocks').buttonset().disableSelection();
+        $config.find('div.variants, div.clocks, div.modes').buttonset().disableSelection();
         $config.find('button.submit').button().disableSelection();
     }
 

@@ -9,8 +9,9 @@
             <input class="lichess_id_input" readonly="readonly" value="{% url "lichess_game" with ["id": player.game.id] %}" />
             <p class="explanations">{% trans "The first person to come on this url will play with you." %}<p>
             <p class="explanations">
-                Variant: {{ player.game.variantName }}<br />
-                Clock: {{ player.game.clockName }}
+                {% trans "Variant" %}: {% trans config.variantName %}<br />
+                {% trans "Minutes per side" %}: {% trans config.timeName %}<br />
+                {% trans "Mode" %}: {% trans config.modeName %}
             </p>
         </div>
     </div>
