@@ -163,14 +163,26 @@ class PgnDumper
 
     protected function getPgnHeader(Game $game)
     {
-        return sprintf('[Site "%s"]%s[White "%s"]%s[Black "%s"]%s[Result "%s"]%s[Variant "%s"]%s[FEN "%s"]',
+        return sprintf('[Event "%s"]%s[Site "%s"]%s[Date "%s"]%s[White "%s"]%s[Black "%s"]%s[Result "%s"]%s[Variant "%s"]%s[FEN "%s"]',
+            $this->getEventName($game), "\n",
             $this->getGameUrl($game), "\n",
+            $this->getGameDate($game), "\n",
             $this->getPgnPlayer($game->getPlayer('white')), "\n",
             $this->getPgnPlayer($game->getPlayer('black')), "\n",
             $this->getPgnResult($game), "\n",
             ucfirst($game->getVariantName()), "\n",
             $game->getInitialFen()
         );
+    }
+
+    protected function getEventName($game)
+    {
+        return $game->getIsRated() ? 'Rated Game' : 'Casual game';
+    }
+
+    protected function getGameDate($game)
+    {
+        return $game->getCreatedAt() ? $game->getCreatedAt()->format('Y.m.d') : '?';
     }
 
     protected function getGameUrl(Game $game)
@@ -198,6 +210,10 @@ class PgnDumper
 
     protected function getPgnPlayer(Player $player)
     {
-        return $player->getIsAi() ? 'Crafty level '.$player->getAiLevel() : 'Human';
+        if($player->getIsAi()) {
+            return 'Crafty level '.$player->getAiLevel();
+        }
+
+        return $player->getUsernameWithElo();
     }
 }
