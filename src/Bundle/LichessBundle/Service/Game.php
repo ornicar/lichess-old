@@ -60,7 +60,7 @@ class Game extends Service {
     public function createInvitation(Config $config, $color)
     {
         $queue = $this->container->get('lichess.seek_queue');
-        $result = $queue->add($config->variants, $config->times, $config->modes, $this->get('session')->get('lichess.session_id'), $color);
+        $result = $queue->add($config->variants, $config->times, $config->modes, $this->container->get('session')->get('lichess.session_id'), $color);
         $game = $result['game'];
         if(!$game) {
             return false;

@@ -147,19 +147,20 @@ class Game extends Model\Game
     protected $clock;
 
     /**
-     * Is ranked
-     *
-     * @orm:Column(type="boolean")
-     */
-    protected $isRanked = false;
-
-    /**
      * The chat room
      *
      * @var Room
      * @orm:OneToOne(targetEntity="Room", cascade={"persist", "remove"})
      */
     protected $room;
+
+    /**
+     * Whether this game is ranked or not
+     *
+     * @var bool
+     * @orm:Column(type="boolean")
+     */
+    protected $isRanked = false;
 
     /**
      * The game board

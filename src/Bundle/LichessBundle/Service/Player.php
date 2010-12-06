@@ -32,7 +32,7 @@ class Player extends Service
         $opponent = $player->getOpponent();
         $game = $player->getGame();
 
-        if(!$game->getIsFinished()) {
+        if(!$game->getIsFinishedOrAborted()) {
             $this->container->get('logger')->warn(sprintf('Player:rematch not finished game:%s', $game->getId()));
             return $player;
         }
@@ -79,12 +79,11 @@ class Player extends Service
 
         if ($force) {
             $game = $player->getGame();
-            if(!$game->getIsFinished() && $this->container->get('lichess_synchronizer')->isTimeout($player->getOpponent())) {
+            if($game->getIsPlayable() && $this->container->get('lichess_synchronizer')->isTimeout($player->getOpponent())) {
                 $game->setStatus(Model\Game::TIMEOUT);
                 $game->setWinner($player);
                 $this->container->get('lichess_finisher')->finish($game);
-                $player->addEventToStack(array('type' => 'end'));
-                $player->getOpponent()->addEventToStack(array('type' => 'end'));
+                $game->addEventToStacks(array('type' => 'end'));
                 $this->container->get('lichess.object_manager')->flush();
                 $this->container->get('logger')->notice(sprintf('Player:forceResign game:%s', $game->getId()));
             }
@@ -93,8 +92,8 @@ class Player extends Service
             }
         } else {
             $game = $player->getGame();
-            if($game->getIsFinished()) {
-                $this->container->get('logger')->warn(sprintf('Player:resign finished game:%s', $game->getId()));
+            if(!$game->isResignable()) {
+                $this->container->get('logger')->warn(sprintf('Player:resign non-resignable game:%s', $game->getId()));
                 return false;
             }
             $opponent = $player->getOpponent();
@@ -102,8 +101,7 @@ class Player extends Service
             $game->setStatus(Model\Game::RESIGN);
             $game->setWinner($opponent);
             $this->container->get('lichess_finisher')->finish($game);
-            $player->addEventToStack(array('type' => 'end'));
-            $opponent->addEventToStack(array('type' => 'end'));
+            $game->addEventToStacks(array('type' => 'end'));
             $this->container->get('lichess.object_manager')->flush();
             $this->container->get('logger')->notice(sprintf('Player:resign game:%s', $game->getId()));
         }

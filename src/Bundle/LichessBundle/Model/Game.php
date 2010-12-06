@@ -12,6 +12,7 @@ abstract class Game {
 
     const CREATED = 10;
     const STARTED = 20;
+    const ABORTED = 25;
     const MATE = 30;
     const RESIGN = 31;
     const STALEMATE = 32;
@@ -238,7 +239,7 @@ abstract class Game {
             throw new \LogicException('Can not change ranking mode, game is already started');
         }
         
-        $this->isRanked = $isRanked ? true : null;
+        $this->isRanked = $isRanked ? true : false;
     }
 
     /**
@@ -411,14 +412,15 @@ abstract class Game {
     public function getStatusMessage()
     {
         switch($this->getStatus()) {
-        case self::MATE: $message      = 'Checkmate'; break;
-        case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
-        case self::STALEMATE: $message = 'Stalemate'; break;
-        case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
-        case self::DRAW: $message      = 'Draw'; break;
-        case self::OUTOFTIME: $message = 'Time out'; break;
-        case self::CHEAT: $message     = 'Cheat detected'; break;
-        default: $message              = '';
+            case self::ABORTED: $message   = 'Game aborted'; break;
+            case self::MATE: $message      = 'Checkmate'; break;
+            case self::RESIGN: $message    = ucfirst($this->getWinner()->getOpponent()->getColor()).' resigned'; break;
+            case self::STALEMATE: $message = 'Stalemate'; break;
+            case self::TIMEOUT: $message   = ucfirst($this->getWinner()->getOpponent()->getColor()).' left the game'; break;
+            case self::DRAW: $message      = 'Draw'; break;
+            case self::OUTOFTIME: $message = 'Time out'; break;
+            case self::CHEAT: $message     = 'Cheat detected'; break;
+            default: $message              = '';
         }
         return $message;
     }
@@ -543,6 +545,41 @@ abstract class Game {
     }
 
     /**
+     * Whether this game can be aborted or not
+     *
+     * @return bool
+     **/
+    public function getIsAbortable()
+    {
+        return self::STARTED === $this->getStatus() && 2 > $this->getTurns();
+    }
+
+    /**
+     * Whether this game can be resigned or not
+     *
+     * @return bool
+     **/
+    public function isResignable()
+    {
+        return $this->getIsPlayable() && !$this->getIsAbortable();
+    }
+
+    public function getIsAborted()
+    {
+        return self::ABORTED === $this->getStatus();
+    }
+
+    public function getIsFinishedOrAborted()
+    {
+        return self::ABORTED <= $this->getStatus();
+    }
+
+    public function getIsPlayable()
+    {
+        return self::ABORTED > $this->getStatus();
+    }
+
+    /**
      * @return Collection
      */
     public function getPlayers()
@@ -602,6 +639,18 @@ abstract class Game {
     public function getTurnPlayer()
     {
         return $this->getPlayer($this->getTurnColor());
+    }
+
+    /**
+     * Add an event to both players stack
+     *
+     * @return null
+     **/
+    public function addEventToStacks(array $event)
+    {
+        foreach($this->getPlayers() as $player) {
+            $player->addEventToStack($event);
+        }
     }
 
     /**

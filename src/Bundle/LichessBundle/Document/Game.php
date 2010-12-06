@@ -146,13 +146,6 @@ class Game extends Model\Game
     protected $clock;
 
     /**
-     * Is ranked
-     *
-     * @mongodb:Field(type="boolean")
-     */
-    protected $isRanked = false;
-
-    /**
      * The chat room
      *
      * @var Room
@@ -166,7 +159,7 @@ class Game extends Model\Game
      * @var bool
      * @mongodb:Field(type="boolean")
      */
-    protected $isRanked = null;
+    protected $isRanked = false;
 
     /**
      * The game board

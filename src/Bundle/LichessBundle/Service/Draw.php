@@ -10,7 +10,7 @@ class Draw extends Service
     {
         $player = $this->findPlayer($id);
         $game = $player->getGame();
-        if(!$game->getIsFinished()) {
+        if($game->getIsPlayable()) {
             if(!$player->getIsOfferingDraw()) {
                 if($player->getOpponent()->getIsOfferingDraw()) {
                     return false;
@@ -53,8 +53,7 @@ class Draw extends Service
             $this->container->get('lichess.messenger')->addSystemMessage($game, 'Draw offer accepted');
             $game->setStatus(Model\Game::DRAW);
             $this->container->get('lichess_finisher')->finish($game);
-            $player->addEventToStack(array('type' => 'end'));
-            $player->getOpponent()->addEventToStack(array('type' => 'end'));
+            $game->addEventToStacks(array('type' => 'end'));
             $this->container->get('lichess.object_manager')->flush();
             $this->container->get('logger')->notice(sprintf('Player:acceptDrawOffer game:%s', $game->getId()));
         } else {
@@ -81,11 +80,10 @@ class Draw extends Service
     {
         $player = $this->findPlayer($id);
         $game = $player->getGame();
-        if(!$game->getIsFinished() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
+        if($game->getIsPlayable() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
             $game->setStatus(Model\Game::DRAW);
             $this->container->get('lichess_finisher')->finish($game);
-            $player->addEventToStack(array('type' => 'end'));
-            $player->getOpponent()->addEventToStack(array('type' => 'end'));
+            $game->addEventToStacks(array('type' => 'end'));
             $this->container->get('lichess.object_manager')->flush();
             $this->container->get('logger')->notice(sprintf('Player:claimDraw game:%s', $game->getId()));
         }

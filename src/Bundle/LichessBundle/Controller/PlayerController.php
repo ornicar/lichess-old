@@ -194,7 +194,7 @@ class PlayerController extends Controller
 
     public function abortAction($id)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess_service_player')->findPlayer($id);
         $game = $player->getGame();
         if(!$game->getIsAbortable()) {
             $this->get('logger')->warn(sprintf('Player:abort non-abortable game:%s', $game->getId()));

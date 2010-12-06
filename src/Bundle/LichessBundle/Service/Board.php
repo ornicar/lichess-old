@@ -16,6 +16,7 @@ class Board extends Service
             throw new \LogicException(sprintf('Player:move not my turn game:%s', $game->getId()));
         }
         $opponent = $player->getOpponent();
+        $isGameAbortable = $game->getIsAbortable();
         $stackClass = $this->container->getParameter('lichess.model.stack.class');
         $stack = new $stackClass();
         $manipulator = new Manipulator($game, $stack);
@@ -49,13 +50,15 @@ class Board extends Service
             if($cheater = $this->container->get('lichess.anticheat')->detectCheater($game)) {
                 $game->setStatus(Game::CHEAT);
                 $game->setWinner($cheater->getOpponent());
-                $cheater->addEventToStack(array('type' => 'end'));
-                $cheater->getOpponent()->addEventToStack(array('type' => 'end'));
+                $game->addEventToStacks(array('type' => 'end'));
             }
         }
         if($game->getIsFinished()) {
             $this->container->get('lichess_finisher')->finish($game);
             $this->container->get('logger')->notice(sprintf('Player:move finish game:%s, %s', $game->getId(), $game->getStatusMessage()));
+        }
+        if($isGameAbortable != $game->getIsAbortable()) {
+            $game->addEventToStacks(array('type' => 'reload_table'));
         }
         $this->container->get('lichess.object_manager')->flush();
 
