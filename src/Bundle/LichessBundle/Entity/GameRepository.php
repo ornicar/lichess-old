@@ -210,9 +210,7 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
     {
         return $this->createRecentByUserQuery($user)
             ->andWhere('g.status > ?2')
-            ->andWhere('g.status != ?3')
             ->setParameter(2, Game::STARTED)
-            ->setParameter(3, Game::ABORTED)
             ->getQuery();
     }
 
@@ -225,9 +223,7 @@ class GameRepository extends ObjectRepository implements Model\GameRepository
     {
         return $this->createRecentQuery()
             ->where('g.status > ?1')
-            ->andWhere('g.status != ?2')
             ->setParameter(1, Game::STARTED)
-            ->setParameter(2, Game::ABORTED)
             ->getQuery();
     }
 
