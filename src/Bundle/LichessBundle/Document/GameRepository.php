@@ -188,7 +188,8 @@ class GameRepository extends ObjectRepository implements GameRepository
     public function createRecentStartedOrFinishedByUserQuery(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->field('status')->gte(Game::STARTED);
+            ->field('status')->gte(Game::STARTED)
+            ->field('status')->notEqual(Game::ABORTED);
     }
 
     /**
@@ -199,7 +200,8 @@ class GameRepository extends ObjectRepository implements GameRepository
     public function createRecentStartedOrFinishedQuery()
     {
         return $this->createRecentQuery()
-            ->field('status')->gte(Game::STARTED);
+            ->field('status')->gte(Game::STARTED)
+            ->field('status')->notEqual(Game::ABORTED);
     }
 
     /**

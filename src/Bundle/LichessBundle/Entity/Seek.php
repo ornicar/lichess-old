@@ -39,6 +39,14 @@ class Seek extends Model\Seek
     protected $times;
 
     /**
+     * Modes
+     *
+     * @var array
+     * @orm:Column(type="array")
+     */
+    protected $modes;
+
+    /**
      * Game
      *
      * @var Game

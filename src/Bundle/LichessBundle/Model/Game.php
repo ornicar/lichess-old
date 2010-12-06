@@ -55,6 +55,8 @@ abstract class Game {
 
     protected $room;
 
+    protected $isRanked = false;
+
     protected $board;
 
     public function __construct($variant = self::VARIANT_STANDARD)
@@ -219,6 +221,27 @@ abstract class Game {
     }
 
     /**
+     * @return bool
+     */
+    public function getIsRanked()
+    {
+        return (bool) $this->isRanked;
+    }
+
+    /**
+     * @param  bool
+     * @return null
+     */
+    public function setIsRanked($isRanked)
+    {
+        if($this->getIsStarted()) {
+            throw new \LogicException('Can not change ranking mode, game is already started');
+        }
+        
+        $this->isRanked = $isRanked ? true : null;
+    }
+
+    /**
      * Get the minutes of the clock if any, or 0
      *
      * @return int
@@ -244,7 +267,7 @@ abstract class Game {
         if(!$this->hasClock()) {
             throw new \LogicException('This game has no clock');
         }
-        if($this->getIsFinished()) {
+        if($this->getIsFinishedOrAborted()) {
             return;
         }
         foreach($this->getPlayers() as $player) {
@@ -407,13 +430,13 @@ abstract class Game {
      */
     public function setStatus($status)
     {
-        if($this->getIsFinished()) {
+        if($this->getIsFinishedOrAborted()) {
             return;
         }
 
         $this->status = $status;
 
-        if($this->getIsFinished() && $this->hasClock()) {
+        if($this->getIsFinishedOrAborted() && $this->hasClock()) {
             $this->getClock()->stop();
         }
     }
@@ -425,9 +448,18 @@ abstract class Game {
      **/
     public function start()
     {
+        // The game can only be ranked if both players are logged in
+        if($this->getIsRanked() && !($this->getPlayer('white')->getUser() && $this->getPlayer('black')->getUser())) {
+            $this->setIsRanked(false);
+        }
+        
         $this->setStatus(static::STARTED);
         $this->addRoomMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
         $this->addRoomMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
+
+        if($this->getIsRanked()) {
+            $this->addRoomMessage('system', 'This game is ranked');
+        }
     }
 
     /**
@@ -697,7 +729,7 @@ abstract class Game {
      **/
     public function isBeingPlayed()
     {
-        if($this->getIsFinished()) {
+        if($this->getIsFinishedOrAborted()) {
             return false;
         }
 

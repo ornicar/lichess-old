@@ -25,6 +25,10 @@ class Finisher
 
     protected function updateElo(Game $game)
     {
+        // Game can be aborted
+        if(!$game->getIsFinished()) {
+            return;
+        }
         // Don't rate games with less than 2 moves
         if($game->getTurns() < 2) {
             return;

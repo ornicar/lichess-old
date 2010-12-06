@@ -45,22 +45,12 @@ class LichessExtension extends Extension
             $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
         }
 
-        if('test' === $container->getParameter('kernel.environment')) {
-            $container->setAlias('session.storage', 'session.storage.test');
-        }
-
         if (isset($config['class'])) {
             $namespaces = array(
                 'model' => 'lichess.model.%s.class',
             );
             $this->remapParametersNamespaces($config['class'], $container, $namespaces);
         }
-    }
-
-    public function testLoad($config, ContainerBuilder $container)
-    {
-        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
-        $loader->load('test.xml');
     }
 
     protected function remapParametersNamespaces(array $config, ContainerBuilder $container, array $namespaces)

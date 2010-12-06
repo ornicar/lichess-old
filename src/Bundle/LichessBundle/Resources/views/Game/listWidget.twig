@@ -23,7 +23,7 @@
 {% endfor %}
 <br />
 {{ game.fullMoveNumber }}.
-{% if game.isFinished %}
+{% if game.isFinishedOrAborted %}
 {% trans game.statusMessage %}
 {% if game.winner %}
 , <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{% trans game.winner.color|capitalize ~ " is victorious" %}</span>

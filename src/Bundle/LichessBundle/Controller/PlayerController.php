@@ -19,6 +19,7 @@ class PlayerController extends Controller
 
     public function rematchAction($id)
     {
+
         $player = $this->get('lichess_service_player')->rematch($id);
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
@@ -41,6 +42,7 @@ class PlayerController extends Controller
 
     public function forceResignAction($id)
     {
+
         $this->get('lichess_service_player')->resign($id, true);
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
@@ -65,7 +67,7 @@ class PlayerController extends Controller
     public function acceptDrawOfferAction($id)
     {
         $this->get('lichess_service_draw')->acceptOffer($id);
-        
+
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
@@ -78,6 +80,7 @@ class PlayerController extends Controller
 
     public function claimDrawAction($id)
     {
+
         $this->get('lichess_service_draw')->claimOffer($id);
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
@@ -114,7 +117,7 @@ class PlayerController extends Controller
             'player' => $player,
             'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
-            'possibleMoves' => ($player->isMyTurn() && !$game->getIsFinished()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
+            'possibleMoves' => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, $isKingAttacked) : null
         ));
     }
 
@@ -175,14 +178,34 @@ class PlayerController extends Controller
         }
         $this->get('lichess_synchronizer')->setAlive($player);
 
+        $config = new Form\FriendGameConfig();
+        $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
         return $this->render('LichessBundle:Player:waitFriend.twig', array(
-            'player'     => $player
+            'player' => $player,
+            'config' => $config
         ));
     }
 
     public function resignAction($id)
     {
         $this->get('lichess_service_player')->resign($id);
+
+        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+    }
+
+    public function abortAction($id)
+    {
+        $player = $this->findPlayer($id);
+        $game = $player->getGame();
+        if(!$game->getIsAbortable()) {
+            $this->get('logger')->warn(sprintf('Player:abort non-abortable game:%s', $game->getId()));
+            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        }
+        $game->setStatus(Game::ABORTED);
+        $this->get('lichess_finisher')->finish($game);
+        $game->addEventToStacks(array('type' => 'end'));
+        $this->get('lichess.object_manager')->flush();
+        $this->get('logger')->notice(sprintf('Player:abort game:%s', $game->getId()));
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
     }
@@ -198,7 +221,8 @@ class PlayerController extends Controller
     {
         if($playerFullId) {
             $player = $this->get('lichess_service_player')->findPlayer($playerFullId);
-            $template = $player->getGame()->getIsFinished() ? 'tableEnd' : 'table';
+            $template = $player->getGame()->getIsPlayable() ? 'table' : 'tableEnd';
+            
             if($nextPlayerId = $player->getGame()->getNext()) {
                 $nextGame = $this->get('lichess_service_player')->findPlayer($nextPlayerId)->getGame();
             }

@@ -147,6 +147,13 @@ class Game extends Model\Game
     protected $clock;
 
     /**
+     * Is ranked
+     *
+     * @orm:Column(type="boolean")
+     */
+    protected $isRanked = false;
+
+    /**
      * The chat room
      *
      * @var Room

@@ -10,16 +10,19 @@ abstract class Seek
 
     protected $times;
 
+    protected $modes;
+
     protected $game;
 
     protected $sessionId = null;
 
     protected $createdAt = null;
 
-    public function __construct(array $variants, array $times, $sessionId)
+    public function __construct(array $variants, array $times, array $modes, $sessionId)
     {
         $this->variants = $variants;
         $this->times = $times;
+        $this->modes = $modes;
         $this->sessionId = $sessionId;
         $this->createdAt = new \DateTime();
     }
@@ -30,7 +33,7 @@ abstract class Seek
             return false;
         }
 
-        return false !== $this->getCommonVariant($seek) && false !== $this->getCommonTime($seek);
+        return false !== $this->getCommonVariant($seek) && false !== $this->getCommonTime($seek) && false !== $this->getCommonMode($seek);
     }
 
     public function getCommonVariant(Seek $seek)
@@ -61,6 +64,21 @@ abstract class Seek
         }
 
         return $matches[1];
+    }
+
+    public function getCommonMode(Seek $seek)
+    {
+        $matches = array_values(array_intersect($seek->getModes(), $this->getModes()));
+
+        if(empty($matches)) {
+            return false;
+        }
+
+        if(1 === count($matches)) {
+            return $matches[0];
+        }
+
+        return $matches[mt_rand(0, 1)];
     }
 
     /**
@@ -161,5 +179,22 @@ abstract class Seek
     public function setCreatedAt($createdAt)
     {
       $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return array
+     */
+    public function getModes()
+    {
+        return $this->modes;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setModes($modes)
+    {
+        $this->modes = $modes;
     }
 }

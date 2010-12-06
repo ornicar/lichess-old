@@ -49,15 +49,16 @@ class SeekQueue extends ContainerAware
         $this->playerBlamer = $playerBlamer;
     }
 
-    public function add(array $variants, array $times, $sessionId, $color)
+    public function add(array $variants, array $times, array $modes, $sessionId, $color)
     {
         $seekClass = $this->container->getParameter('lichess.model.seek.class');
-        $seek = new $seekClass($variants, $times, $sessionId);
+        $seek = new $seekClass($variants, $times, $modes, $sessionId);
 
         if($existing = $this->searchMatching($seek)) {
             $game = $existing->getGame();
             $this->generator->applyVariant($game, $seek->getCommonVariant($existing));
             $game->setClockTime($seek->getCommonTime($existing) * 60);
+            $game->setIsRanked($seek->getCommonMode($existing));
             $this->objectManager->remove($existing);
             $this->playerBlamer->blame($game->getInvited());
             $status = static::FOUND;

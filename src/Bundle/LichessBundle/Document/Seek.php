@@ -37,6 +37,14 @@ class Seek extends Model\Seek
     protected $times;
 
     /**
+     * Modes
+     *
+     * @var array
+     * @mongodb:Field(type="collection")
+     */
+    protected $modes;
+
+    /**
      * Game
      *
      * @var Game

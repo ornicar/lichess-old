@@ -47,12 +47,6 @@ class Player extends Service
                     // @todo is this the best way?
                     $roomClass = $this->container->getParameter('lichess.model.room.class');
                     $nextGame->setRoom(new $roomClass($game->getRoom()->getMessages()));
-                    
-                    if($game->hasClock()) {
-                        // @todo is this the best way?
-                        $clockClass = $this->container->getParameter('lichess.model.clock.class');
-                        $nextGame->setClock(new $clockClass($game->getClock()->getLimit(), $game->getClock()->getMoveBonus()));
-                    }
 
                     $nextGame->start();
                     $opponent->addEventToStack(array('type' => 'redirect', 'url' => $this->container->get('router')->generate('lichess_player', array('id' => $nextOpponent->getFullId()))));

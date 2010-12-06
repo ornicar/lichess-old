@@ -146,6 +146,13 @@ class Game extends Model\Game
     protected $clock;
 
     /**
+     * Is ranked
+     *
+     * @mongodb:Field(type="boolean")
+     */
+    protected $isRanked = false;
+
+    /**
      * The chat room
      *
      * @var Room
