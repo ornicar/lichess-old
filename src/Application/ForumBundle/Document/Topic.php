@@ -13,17 +13,17 @@ use Bundle\ForumBundle\Document\Topic as BaseTopic;
 class Topic extends BaseTopic
 {
     /**
-     * @mongodb:ReferenceOne(targetDocument="Category")
+     * @mongodb:ReferenceOne(targetDocument="Application\ForumBundle\Document\Category")
      */
     protected $category;
 
     /**
-     * @mongodb:ReferenceOne(targetDocument="Post")
+     * @mongodb:ReferenceOne(targetDocument="Application\ForumBundle\Document\Post")
      */
     protected $firstPost;
 
     /**
-     * @mongodb:ReferenceOne(targetDocument="Post")
+     * @mongodb:ReferenceOne(targetDocument="Application\ForumBundle\Document\Post")
      */
     protected $lastPost;
 

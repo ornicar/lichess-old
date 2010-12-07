@@ -14,7 +14,7 @@ use Application\DoctrineUserBundle\Document\User;
 class Post extends BasePost
 {
     /**
-     * @mongodb:ReferenceOne(targetDocument="Topic")
+     * @mongodb:ReferenceOne(targetDocument="Application\ForumBundle\Document\Topic")
      */
     protected $topic;
 

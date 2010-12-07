@@ -13,12 +13,12 @@ use Bundle\ForumBundle\Document\Category as BaseCategory;
 class Category extends BaseCategory
 {
     /**
-     * @mongodb:ReferenceOne(targetDocument="Topic")
+     * @mongodb:ReferenceOne(targetDocument="Application\ForumBundle\Document\Topic")
      */
     protected $lastTopic;
 
     /**
-     * @mongodb:ReferenceOne(targetDocument="Post")
+     * @mongodb:ReferenceOne(targetDocument="Application\ForumBundle\Document\Post")
      */
     protected $lastPost;
 }
