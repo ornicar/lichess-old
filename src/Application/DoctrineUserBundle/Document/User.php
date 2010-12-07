@@ -36,9 +36,9 @@ class User extends BaseUser
      */
     protected $eloHistory = array();
 
-    public function __construct()
+    public function __construct($algorithm)
     {
-        parent::__construct();
+        parent::__construct($algorithm);
 
         $this->setElo(self::STARTING_ELO);
     }
