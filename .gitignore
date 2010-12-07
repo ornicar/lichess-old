@@ -7,7 +7,7 @@
 /lichess/translation/*
 # except README
 !/lichess/translation/README
-/lichess/deploy.sh
+/lichess/deploy*
 tags
 /web/.htaccess
 /web/google*
