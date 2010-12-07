@@ -11,7 +11,7 @@ class UserForm extends BaseUserForm
     {
         parent::configure();
         $this->remove('email');
-        $this->remove('password');
-        $this->add(new PasswordField('password'));
+        $this->remove('plainPassword');
+        $this->add(new PasswordField('plainPassword'));
     }
 }

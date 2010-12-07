@@ -19,9 +19,9 @@
                 {{ form.username|render_errors }}
             </li>
             <li class="password">
-                {{ form.password|render_label }}
-                {{ form.password|render }}
-                {{ form.password|render_errors }}
+                {{ form.plainPassword|render_label("Password") }}
+                {{ form.plainPassword|render }}
+                {{ form.plainPassword|render_errors }}
             </li>
             <li>
                 <input type="submit" class="submit" value="{% trans "Sign up" %}" />
