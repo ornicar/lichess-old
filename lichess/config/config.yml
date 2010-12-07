@@ -78,6 +78,7 @@ forum.config:
 
 doctrine_user.config:
     db_driver: odm
+    password_encoder: sha1
     class:
         model:
             user: Application\DoctrineUserBundle\Document\User
