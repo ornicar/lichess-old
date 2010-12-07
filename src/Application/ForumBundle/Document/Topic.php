@@ -13,6 +13,21 @@ use Bundle\ForumBundle\Document\Topic as BaseTopic;
 class Topic extends BaseTopic
 {
     /**
+     * @mongodb:ReferenceOne(targetDocument="Category")
+     */
+    protected $category;
+
+    /**
+     * @mongodb:ReferenceOne(targetDocument="Post")
+     */
+    protected $firstPost;
+
+    /**
+     * @mongodb:ReferenceOne(targetDocument="Post")
+     */
+    protected $lastPost;
+
+    /**
      * Get authorName
      * @return string
      */

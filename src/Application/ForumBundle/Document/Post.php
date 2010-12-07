@@ -14,6 +14,11 @@ use Application\DoctrineUserBundle\Document\User;
 class Post extends BasePost
 {
     /**
+     * @mongodb:ReferenceOne(targetDocument="Topic")
+     */
+    protected $topic;
+
+    /**
      * The author name
      *
      * @mongodb:String
