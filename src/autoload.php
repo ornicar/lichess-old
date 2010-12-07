@@ -6,6 +6,7 @@ $loader = new Symfony\Component\HttpFoundation\UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony'                => __DIR__.'/vendor/Symfony/src',
     'Doctrine\\Common'       => __DIR__.'/vendor/mongodb-odm/lib/vendor/doctrine-common/lib',
+    'Doctrine\\MongoDB'      => __DIR__.'/vendor/mongodb-odm/lib/vendor/doctrine-mongodb/lib',
     'Doctrine\\ODM\\MongoDB' => __DIR__.'/vendor/mongodb-odm/lib',
     'Bundle'                 => __DIR__,
     'ZendPaginatorAdapter'   => __DIR__.'/vendor/ZendPaginatorAdapter/src',
