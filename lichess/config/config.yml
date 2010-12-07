@@ -33,7 +33,7 @@ security.config:
 
 zend.config:
     logger:
-        priority: notice
+        priority: NOTICE
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
 twig.config: ~
