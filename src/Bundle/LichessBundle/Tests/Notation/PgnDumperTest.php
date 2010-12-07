@@ -17,9 +17,11 @@ class PgnDumperTest extends \PHPUnit_Framework_TestCase
     {
         $this->createGame();
 
-        $pgn = '[Site "http://lichess.org/"]
-[White "Human"]
-[Black "Human"]
+        $pgn = '[Event "Casual game"]
+[Site "http://lichess.org/"]
+[Date "?"]
+[White "Anonymous"]
+[Black "Anonymous"]
 [Result "*"]
 [Variant "Standard"]
 [FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"]
@@ -167,9 +169,11 @@ EOF;
         $this->game->setWinner($this->game->getPlayer('white'));
 
         $pgn = <<<EOF
+[Event "Casual game"]
 [Site "http://lichess.org/"]
-[White "Human"]
-[Black "Human"]
+[Date "?"]
+[White "Anonymous"]
+[Black "Anonymous"]
 [Result "1-0"]
 [Variant "Standard"]
 [FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"]
@@ -215,9 +219,11 @@ EOF;
         ));
 
         $pgn = <<<EOF
+[Event "Casual game"]
 [Site "http://lichess.org/"]
-[White "Human"]
-[Black "Human"]
+[Date "?"]
+[White "Anonymous"]
+[Black "Anonymous"]
 [Result "1-0"]
 [Variant "Standard"]
 [FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"]

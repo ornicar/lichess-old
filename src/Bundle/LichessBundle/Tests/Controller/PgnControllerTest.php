@@ -21,9 +21,12 @@ class PgnControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/analyse/'.$publicId);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $site = 'http://localhost/analyse/'.$publicId;
+        $date = date('Y.m.d');
         $expected = <<<EOF
+[Event "Casual game"]
 [Site "$site"]
-[White "Human"]
+[Date "$date"]
+[White "Anonymous"]
 [Black "Crafty level 1"]
 [Result "*"]
 [Variant "Standard"]
