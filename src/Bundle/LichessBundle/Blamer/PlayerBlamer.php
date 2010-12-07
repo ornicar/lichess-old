@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Blamer;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Security\SecurityContext;
-use Symfony\Component\Security\User\AdvancedAccountInterface;
+use Bundle\DoctrineUserBundle\Model\User;
 
 class PlayerBlamer
 {
@@ -17,7 +17,7 @@ class PlayerBlamer
     public function blame(Player $player)
     {
         $user = $this->securityContext->getUser();
-        if($user instanceof AdvancedAccountInterface && $user->hasRole('IS_AUTHENTICATED_FULLY')) {
+        if($user instanceof User) {
             $player->setUser($user);
         }
     }
