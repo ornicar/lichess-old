@@ -90,5 +90,8 @@ doctrine_user.config:
 time.helper: ~
 
 lichess.config:
+    db_driver: odm
     ai:
         class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid
+    storage:
+        class: Bundle\LichessBundle\Storage\Apc
