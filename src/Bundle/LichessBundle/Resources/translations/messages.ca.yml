@@ -11,8 +11,6 @@
 "Waiting for opponent": "Esperant l'oponent"
 "Waiting": "Esperant"
 "Your turn": "El teu torn"
-"Opponent: %ai_name%": "Oponent: %ai_name%"
-"Opponent: %ai_name% level %ai_level%": "Oponent: %ai_name% nivell %ai_level%"
 "%ai_name% level %ai_level%": "%ai_name% nivell %ai_level%"
 "Level": "Nivell"
 "Toggle the chat": "Activa el xat"

@@ -11,8 +11,6 @@
 "Waiting for opponent": "Auf Gegner warten"
 "Waiting": "Bitte warten"
 "Your turn": "Sie sind am Zug!"
-"Opponent: %ai_name%": "Gegner: %ai_name%"
-"Opponent: %ai_name% level %ai_level%": "Gegner: %ai_name% Level %ai_level%"
 "%ai_name% level %ai_level%": "%ai_name% Level %ai_level%"
 "Level": "Stufe"
 "Toggle the chat": "Chat ein- oder ausschalten"

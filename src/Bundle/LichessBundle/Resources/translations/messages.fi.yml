@@ -11,8 +11,6 @@
 "Waiting for opponent": "Odotetaan vastustajaa"
 "Waiting": "Odotetaan.."
 "Your turn": "Sinun vuorosi"
-"Opponent: %ai_name%": "Vastustaja: %ai_name%"
-"Opponent: %ai_name% level %ai_level%": "Vastustaja: %ai_name% Taso %ai_level%"
 "%ai_name% level %ai_level%": "%ai_name% vaikeustaso %ai_level%"
 "Level": "Taso"
 "Toggle the chat": "Chat päälle / pois"

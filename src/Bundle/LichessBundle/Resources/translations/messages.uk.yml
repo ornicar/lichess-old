@@ -11,8 +11,6 @@
 "Waiting for opponent": "Очікування суперника"
 "Waiting": "Зачекайте"
 "Your turn": "Ваш хід"
-"Opponent: %ai_name%": "Суперник %ai_name%"
-"Opponent: %ai_name% level %ai_level%": "Суперник %ai_name% рівень %ai_level%"
 "%ai_name% level %ai_level%": "%ai_name% рівень %ai_level%"
 "Level": "Рівень"
 "Toggle the chat": "Перемкнути чат"

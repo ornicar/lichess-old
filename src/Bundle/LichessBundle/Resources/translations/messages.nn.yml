@@ -11,8 +11,6 @@
 "Waiting for opponent": "Venter på motstander"
 "Waiting": "Venter"
 "Your turn": "Din tur"
-"Opponent: %ai_name%": "Motstander er %ai_name%"
-"Opponent: %ai_name% level %ai_level%": "Motstander er %ai_name% på nivå %ai_level%"
 "%ai_name% level %ai_level%": "%ai_name% på nivå %ai_level"
 "Level": "Nivå"
 "Toggle the chat": "Slå av og på prat"

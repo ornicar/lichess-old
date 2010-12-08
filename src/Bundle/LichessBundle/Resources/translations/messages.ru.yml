@@ -11,8 +11,6 @@
 "Waiting for opponent": "Ожидание другого игрока"
 "Waiting": "Ожидание"
 "Your turn": "Ваш ход"
-"Opponent: %ai_name%": "Соперник: %ai_name%"
-"Opponent: %ai_name% level %ai_level%": "Соперник: %ai_name% мастерство %ai_level%"
 "%ai_name% level %ai_level%": "%ai_name% мастерство %ai_level%"
 "Level": "Мастерство"
 "Toggle the chat": "Показывать окно чата"

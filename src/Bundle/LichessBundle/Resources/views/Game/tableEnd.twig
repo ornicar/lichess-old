@@ -6,7 +6,7 @@
 <div class="lichess_table finished {{ game.next ? " lichess_table_next" : "" }}">
     <div class="lichess_opponent">
         {% if player.opponent.isAi %}
-        <span>{% trans "Opponent: %ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel] %}</span>
+        <span>{% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel] %}</span>
         {% else %}
             <div class="opponent_status">
                 {% render "LichessBundle:Player:opponent" with ["id": game.id, "color": player.color, "playerFullId": player.fullId] %}
