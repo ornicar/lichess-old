@@ -40,7 +40,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Opponent: Crafty A.I.")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Crafty A.I.")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
         $this->assertEquals(0, $crawler->filter('div.lichess_chat')->count());
@@ -57,7 +57,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Opponent: Crafty A.I.")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Crafty A.I.")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
         $this->assertEquals(0, $crawler->filter('div.lichess_chat')->count());
