@@ -5,16 +5,19 @@ namespace Bundle\LichessBundle\Helper;
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\Translation\Translator;
 use Bundle\LichessBundle\Chess\Synchronizer;
+use Bundle\LichessBundle\Chess\Hardware;
 
 class LichessHelper extends Helper
 {
     protected $synchronizer;
     protected $translator;
+    protected $hardware;
 
-    public function __construct(Synchronizer $synchronizer, Translator $translator)
+    public function __construct(Synchronizer $synchronizer, Translator $translator, Hardware $hardware)
     {
         $this->synchronizer = $synchronizer;
         $this->translator = $translator;
+        $this->hardware = $hardware;
     }
 
     public function escape($string)
@@ -29,9 +32,7 @@ class LichessHelper extends Helper
 
     public function getLoadAverage()
     {
-        $loadAverage = sys_getloadavg();
-
-        return round(25*$loadAverage[1]).'%';
+        return round($this->hardware->getLoadAverage()).'%';
     }
 
     public function autoLink($text)

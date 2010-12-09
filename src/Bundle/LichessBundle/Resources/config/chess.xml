@@ -25,9 +25,14 @@
         <parameter key="lichess.anticheat.turns">10</parameter>
 
         <parameter key="lichess.messenger.class">Bundle\LichessBundle\Chess\Messenger</parameter>
+
+        <parameter key="lichess.hardware.class">Bundle\LichessBundle\Chess\Hardware</parameter>
     </parameters>
 
     <services>
+        <service id="lichess.hardware" class="%lichess.hardware.class%" shared="true">
+        </service>
+
         <service id="lichess.messenger" class="%lichess.messenger.class%" shared="true">
             <argument type="service" id="templating.helper.lichess" />
         </service>
