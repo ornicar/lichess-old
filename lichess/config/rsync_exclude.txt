@@ -2,7 +2,7 @@
 /lichess/logs
 /lichess/data
 /lichess/translation
-/web/*_dev.php
+/web/index_*
 /web/apcmonitor.php
 /web/bundles
 /src/vendor/zend/documentation/manual
