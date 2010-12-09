@@ -108,7 +108,7 @@ class Stack
         foreach($this->events as $index => $event) {
             if(array_key_exists('pm', $event)) {
                 if($previousLastMoveIndex) {
-                    unset($this->events[$previousLastMoveIndex]);
+                    $this->events[$previousLastMoveIndex] = null;
                 }
                 $previousLastMoveIndex = $index;
             }

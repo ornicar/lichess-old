@@ -25,6 +25,7 @@ class StackTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             0 => array('type' => 'f'),
             1 => array('type' => 'a'),
+            2 => array('type' => 'possible_moves', 'possible_moves' => null),
             3 => array('type' => 'c'),
             4 => array('type' => 'possible_moves', 'possible_moves' => array('c' => array('x', 'y'))),
         );
