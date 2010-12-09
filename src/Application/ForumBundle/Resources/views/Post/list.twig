@@ -3,7 +3,7 @@
     <div class="post" id="{{ post.number|raw }}">
         <div class="metas">
             {% if post.author %}
-                <span class="authorName authenticated">{{ _view.lichess_user.link(post.author)|raw }}</span>
+                <span class="authorName authenticated">{{ _view.lichess_user.linkUser(post.author)|raw }}</span>
             {% else %}
                 <span class="authorName">{{ post.authorName|default("Anonymous") }}</span>
             {% endif %}
