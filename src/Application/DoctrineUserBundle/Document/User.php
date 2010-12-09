@@ -24,7 +24,7 @@ class User extends BaseUser
      *
      * @mongodb:Field(type="float")
      * @mongodb:Index(order="desc")
-     * @var float
+     * @var int
      */
     protected $elo = null;
 
@@ -57,21 +57,11 @@ class User extends BaseUser
     }
 
     /**
-     * @return float
+     * @return int
      */
     public function getElo()
     {
         return $this->elo;
-    }
-
-    /**
-     * Rounded elo
-     *
-     * @return int
-     **/
-    public function getRoundElo()
-    {
-        return round($this->getElo());
     }
 
     /**
@@ -80,8 +70,8 @@ class User extends BaseUser
      */
     public function setElo($elo)
     {
-        $this->elo = round($elo, 2);
-        $this->eloHistory[time()] = round($elo);
+        $this->elo = round($elo);
+        $this->eloHistory[time()] = $this->elo;
     }
 
     public function getMaxElo()
@@ -108,6 +98,6 @@ class User extends BaseUser
 
     public function getUsernameWithElo()
     {
-        return sprintf('%s (%d)', $this->getUsername(), $this->getRoundElo());
+        return sprintf('%s (%d)', $this->getUsername(), $this->getElo());
     }
 }
