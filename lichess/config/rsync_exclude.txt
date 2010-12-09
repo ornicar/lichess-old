@@ -3,6 +3,7 @@
 /lichess/data
 /lichess/translation
 /web/*_dev.php
+/web/apcmonitor.php
 /web/bundles
 /src/vendor/zend/documentation/manual
 /src/vendor/zend/tests
