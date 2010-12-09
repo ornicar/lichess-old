@@ -19,9 +19,7 @@ class Stack
 
     public function hasVersion($version)
     {
-        $versions = array_keys($this->events);
-
-        return $version <= end($versions) && $version >= reset($versions);
+        return isset($this->events[$version]);
     }
 
     public function getVersion()
@@ -48,18 +46,6 @@ class Stack
     public function getEncodedEvents()
     {
         return $this->events;
-    }
-
-    public function getEventsSince($version)
-    {
-        $events = array();
-        for($v = $version, $max = $this->getVersion(); $v <= $max; $v++) {
-            if(isset($this->events[$v])) {
-                $events[] = $this->getEvent($v);
-            }
-        }
-
-        return $events;
     }
 
     /**
@@ -108,7 +94,7 @@ class Stack
         foreach($this->events as $index => $event) {
             if(array_key_exists('pm', $event)) {
                 if($previousLastMoveIndex) {
-                    $this->events[$previousLastMoveIndex] = null;
+                    $this->events[$previousLastMoveIndex] = array('pm' => null);
                 }
                 $previousLastMoveIndex = $index;
             }
