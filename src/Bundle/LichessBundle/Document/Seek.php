@@ -127,7 +127,7 @@ class Seek
             return $matches[0];
         }
 
-        return $matches[mt_rand(0, 1)];
+        return $matches[1];
     }
 
     /**

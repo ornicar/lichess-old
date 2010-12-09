@@ -41,6 +41,14 @@ class Player
     protected $elo = null;
 
     /**
+     * Elo the players gains or loses during this game
+     *
+     * @var int
+     * @mongodb:Field(type="int")
+     */
+    protected $eloDiff = null;
+
+    /**
      * the player color, white or black
      *
      * @var string
@@ -123,6 +131,23 @@ class Player
         $this->stack = new Stack();
         $this->addEventToStack(array('type' => 'start'));
         $this->pieces = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getEloDiff()
+    {
+      return $this->eloDiff;
+    }
+
+    /**
+     * @param  int
+     * @return null
+     */
+    public function setEloDiff($eloDiff)
+    {
+      $this->eloDiff = $eloDiff;
     }
 
     /**

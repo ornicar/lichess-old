@@ -28,7 +28,7 @@ class Calculator
         $newP1Elo = $this->calculatePlayerElo($p1Elo, $p2Elo, -$win);
         $newP2Elo = $this->calculatePlayerElo($p2Elo, $p1Elo, $win);
 
-        return array(round($newP1Elo, 2), round($newP2Elo, 2));
+        return array(round($newP1Elo), round($newP2Elo));
     }
 
     protected function calculatePlayerElo($pElo, $oElo, $win)

@@ -32,7 +32,7 @@
             {% if player.isAi %}
                 {% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
             {% else %}
-                {{ _view.lichess_user.link(player)|raw }}
+                {{ _view.lichess_user.linkPlayer(player)|raw }}
             {% endif %}
         </div>
     {% endfor %}

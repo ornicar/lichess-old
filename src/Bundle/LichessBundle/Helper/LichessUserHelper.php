@@ -21,22 +21,26 @@ class LichessUserHelper extends Helper
         $this->generator = $router->getGenerator();
     }
 
-    public function link($player, $class = null)
+    public function linkPlayer(Player $player, $class = null)
     {
-        if($player instanceof Player) {
-            if(!$user = $player->getUser()) {
-                return $this->escape($player->getUsernameWithElo());
-            }
-        } elseif($player instanceof User) {
-            $user = $player;
-        } else {
-            throw new \InvalidArgumentException($player.' is not a user nor a player');
+        if(!$user = $player->getUser()) {
+            return $this->escape($player->getUsernameWithElo());
         }
 
-        $username = $this->escape($user->getUsernameWithElo());
         $url = $this->generator->generate('doctrine_user_user_show', array('username' => $user->getUsername()));
 
+        $username = $player->getUsernameWithElo();
+        if($eloDiff = $player->getEloDiff()) {
+            $username = sprintf('%s (%s)', $username, $eloDiff < 0 ? $eloDiff : '+'.$eloDiff);
+        }
         return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $username);
+    }
+
+    public function linkUser(User $user, $class = null)
+    {
+        $url = $this->generator->generate('doctrine_user_user_show', array('username' => $user->getUsername()));
+
+        return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
     }
 
     public function eloChartUrl(User $user, $size)
