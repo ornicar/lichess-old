@@ -4,6 +4,7 @@
 /lichess/translation
 /web/index_*
 /web/apcmonitor.php
+/web/monitor
 /web/bundles
 /src/vendor/zend/documentation/manual
 /src/vendor/zend/tests

@@ -68,7 +68,6 @@ forum.config:
             first_post: Application\ForumBundle\Form\PostForm
         blamer:
             post: Application\ForumBundle\Blamer\PostBlamer
-            topic: Application\ForumBundle\Blamer\TopicBlamer
         helper:
             forum: Application\ForumBundle\Templating\Helper\ForumHelper
     paginator:
