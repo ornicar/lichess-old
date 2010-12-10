@@ -257,6 +257,7 @@ class PlayerController extends Controller
         }
         $opponent = $player->getOpponent();
         $isGameAbortable = $game->getIsAbortable();
+        $isGameDrawable = $game->getHasEnoughMovesToDraw();
         $postData = $this->get('request')->request;
         $move = $postData->get('from').' '.$postData->get('to');
         $stack = new Stack();
@@ -296,7 +297,7 @@ class PlayerController extends Controller
             $this->get('lichess_finisher')->finish($game);
             $this->get('logger')->notice(sprintf('Player:move finish game:%s, %s', $game->getId(), $game->getStatusMessage()));
         }
-        if($isGameAbortable != $game->getIsAbortable()) {
+        if($isGameAbortable != $game->getIsAbortable() || $isGameDrawable != $game->getHasEnoughMovesToDraw()) {
             $game->addEventToStacks(array('type' => 'reload_table'));
         }
         $this->get('lichess.object_manager')->flush();

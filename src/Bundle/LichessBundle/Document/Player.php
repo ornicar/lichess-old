@@ -171,6 +171,7 @@ class Player
     {
         return $this->getGame()->getIsStarted()
             && $this->getGame()->getIsPlayable()
+            && $this->getGame()->getHasEnoughMovesToDraw()
             && !$this->getIsOfferingDraw()
             && !$this->getOpponent()->getIsAi()
             && !$this->getOpponent()->getIsOfferingDraw();

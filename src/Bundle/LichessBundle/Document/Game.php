@@ -462,6 +462,11 @@ class Game
         return floor(1+$this->getTurns() / 2);
     }
 
+    public function getHasEnoughMovesToDraw()
+    {
+        return $this->getTurns() > 40;
+    }
+
     /**
      * Return true if the game can not be won anymore
      * and can be declared as draw automatically
