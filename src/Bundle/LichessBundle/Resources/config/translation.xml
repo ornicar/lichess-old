@@ -51,6 +51,7 @@
             <parameter key="af">Afrikaans</parameter>
             <parameter key="hi">हिन्दी, हिंदी</parameter>
             <parameter key="ar">العربية</parameter>
+            <parameter key="zh">中文</parameter>
         </parameter>
 
     </parameters>
