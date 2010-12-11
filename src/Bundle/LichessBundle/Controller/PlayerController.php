@@ -93,6 +93,9 @@ class PlayerController extends Controller
                 }
             }
         }
+        if(isset($_POST['resync'])) {
+            $this->get('logger')->err(sprintf('RESYNC player:%s version:%d turns:%d ua:%s', $playerFullId ?: $id, $version, $player->getGame()->getTurns(), $_SERVER['HTTP_USER_AGENT']));
+        }
 
         return $this->renderJson($data);
     }

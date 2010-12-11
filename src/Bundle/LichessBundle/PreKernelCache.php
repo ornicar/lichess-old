@@ -46,6 +46,10 @@ if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<id>[\w-]{8})/(?P<col
 }
 else return;
 
+if(isset($_POST['resync'])) {
+    return;
+}
+
 // Get user cache from APC
 $userVersion = apc_fetch($id.'.'.$color.'.data');
 

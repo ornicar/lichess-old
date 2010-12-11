@@ -12,6 +12,7 @@
      self.$connectedPlayers = $('div.nb_connected_players');
      self.initialTitle = document.title,
      self.ajaxManager = $.manageAjax.create('lichess_sync', { manageType: "queue", maxReq: 1});
+     self.lastSync = new Date();
 
      if(self.options.game.started) {
          self.indicateTurn();
@@ -25,12 +26,12 @@
      if(!self.options.opponent.ai || self.options.player.spectator) {
          // synchronize with game
          if(!self.options.game.finished || !self.options.player.spectator) {
-             setTimeout(self.syncPlayer = function()
+             setTimeout(self.syncPlayer = function(postData)
                      {
                          self.syncUrl(self.options.url.sync, function()
                              {
                                  setTimeout(self.syncPlayer, self.options.sync_delay);
-                             });
+                             }, postData || {});
                      }, self.options.sync_delay);
          }
 
@@ -46,11 +47,19 @@
              setTimeout(self.updateTitle, 400);
                      }, 400);
          }
+
+         // verify the synchronisation works
+         self.syncCheckInterval = setInterval(function() {
+             if(self.lastSync.getTime() < (new Date().getTime() - self.options.sync_delay * 5)) {
+                 self.syncPlayer({resync:1});
+             }
+         }, self.options.sync_delay * 5);
      }
      },
      syncUrl: function(url, callback, postData)
      {
          var self = this;
+         self.lastSync = new Date();
          self.ajaxManager.add({
              type: 'POST',
              dataType: 'json',
