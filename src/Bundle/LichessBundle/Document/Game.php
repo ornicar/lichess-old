@@ -639,12 +639,15 @@ class Game
 
     public function addRoomMessage($author, $message)
     {
-        if(!$this->getInvited()->getIsAi()) {
-            if(!$this->hasRoom()) {
-                $this->setRoom(new Room());
-            }
-            $this->getRoom()->addMessage($author, $message);
+        if($this->getInvited()->getIsAi()) {
+            return false;
         }
+        if(!$this->hasRoom()) {
+            $this->setRoom(new Room());
+        }
+        $this->getRoom()->addMessage($author, $message);
+
+        return true;
     }
 
     /**

@@ -34,13 +34,14 @@ class Messenger
         if(mb_strlen($message) > 140) {
             throw new \InvalidArgumentException('Messenger: message is too long');
         }
-        $game->addRoomMessage($author, $message);
-        $sayEvent = array(
-            'type' => 'message',
-            'message' => array($author, $message)
-        );
-        foreach($game->getPlayers() as $player) {
-            $player->addEventToStack($sayEvent);
+        if($game->addRoomMessage($author, $message)) {
+            $sayEvent = array(
+                'type' => 'message',
+                'message' => array($author, $message)
+            );
+            foreach($game->getPlayers() as $player) {
+                $player->addEventToStack($sayEvent);
+            }
         }
     }
 }

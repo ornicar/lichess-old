@@ -229,7 +229,7 @@
                  self.options.possible_moves = events[i].possible_moves;
                  self.indicateTurn();
              }
-             else if(events[i].type == 'message') {
+             else if(events[i].type == 'message' && self.$chat.length) {
                  self.$chat.find('ol.lichess_messages').append(events[i].html)[0].scrollTop = 9999999;
              }
              else {
