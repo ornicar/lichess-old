@@ -620,17 +620,17 @@ div.lichess_chat a.send:hover {
 div.lichess_chat ol.lichess_messages li {
     margin: 0.6em 0;
     padding-left: 18px;
-    background: url(../images/s16.png) no-repeat;
     font-size: 11px;
     line-height: 14px;
 }
 div.lichess_chat ol.lichess_messages li.white {
-    background-position: 0 -208px;
+    background: url(../images/kw14.png) no-repeat;
 }
 div.lichess_chat ol.lichess_messages li.black {
-    background-position: 0 -192px;
+    background: url(../images/kb14.png) no-repeat;
 }
 div.lichess_chat ol.lichess_messages li.system {
+    background: url(../images/s16.png) no-repeat;
     background-position: 0 -144px;
 }
 div.lichess_chat.hidden ol.lichess_messages, div.lichess_chat.hidden form {

@@ -21,7 +21,7 @@ class StackTest extends \PHPUnit_Framework_TestCase
         $stack = new Stack();
         $stack->addEvents($events);
         $events = $stack->getEvents();
-        $this->assertEquals(4, count($events));
+        $this->assertEquals(5, count($events));
         $expected = array(
             0 => array('type' => 'f'),
             1 => array('type' => 'a'),
