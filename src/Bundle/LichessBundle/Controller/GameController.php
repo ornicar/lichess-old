@@ -89,7 +89,7 @@ class GameController extends Controller
         }
 
         if($game->getIsStarted()) {
-            $this->get('logger')->warn(sprintf('Game:join started game:%s', $game->getId()));
+            $this->get('lichess.logger')->warn($game, 'Game:join started');
             return $this->redirect($this->generateUrl('lichess_game', array('id' => $id)));
         }
 
@@ -100,7 +100,7 @@ class GameController extends Controller
             'url'  => $this->generateUrl('lichess_player', array('id' => $game->getCreator()->getFullId()))
         ));
         $this->get('lichess.object_manager')->flush();
-        $this->get('logger')->notice(sprintf('Game:join game:%s, variant:%s, time:%d', $game->getId(), $game->getVariantName(), $game->getClockMinutes()));
+        $this->get('lichess.logger')->notice($game, 'Game:join');
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }
 
@@ -149,7 +149,7 @@ class GameController extends Controller
                 $game->setIsRated($config->mode);
                 $this->get('lichess.object_manager')->persist($game);
                 $this->get('lichess.object_manager')->flush();
-                $this->get('logger')->notice(sprintf('Game:inviteFriend create game:%s, variant:%s, time:%d', $game->getId(), $game->getVariantName(), $config->time));
+                $this->get('lichess.logger')->notice($game, 'Game:inviteFriend create');
                 return $this->redirect($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
             }
         }
@@ -183,7 +183,7 @@ class GameController extends Controller
                 }
                 $this->get('lichess.object_manager')->persist($game);
                 $this->get('lichess.object_manager')->flush();
-                $this->get('logger')->notice(sprintf('Game:inviteAi create game:%s, variant:%s', $game->getId(), $game->getVariantName()));
+                $this->get('lichess.logger')->notice($game, 'Game:inviteAi create');
 
                 return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
             }
@@ -222,13 +222,13 @@ class GameController extends Controller
                     if(!$this->get('lichess_synchronizer')->isConnected($game->getCreator())) {
                         $this->get('lichess.object_manager')->remove($game);
                         $this->get('lichess.object_manager')->flush();
-                        $this->get('logger')->notice(sprintf('Game:inviteAnybody remove game:%s', $game->getId()));
+                        $this->get('lichess.logger')->notice($game, 'Game:inviteAnybody remove');
                         return $this->inviteAnybodyAction($color);
                     }
-                    $this->get('logger')->notice(sprintf('Game:inviteAnybody join game:%s, variant:%s, time:%s', $game->getId(), $game->getVariantName(), $game->getClockName()));
+                    $this->get('lichess.logger')->notice($game, 'Game:inviteAnybody join');
                     return $this->redirect($this->generateUrl('lichess_game', array('id' => $game->getId())));
                 }
-                $this->get('logger')->notice(sprintf('Game:inviteAnybody queue game:%s, variant:%s, time:%s', $game->getId(), implode(',', $config->getVariantNames()), implode(',', $config->times)));
+                $this->get('logger')->notice(sprintf('Game:inviteAnybody queue game:%s, mode:%s, variant:%s, time:%s', $game->getId(), implode(',', $config->getModeNames()), implode(',', $config->getVariantNames()), implode(',', $config->times)));
                 return $this->redirect($this->generateUrl('lichess_wait_anybody', array('id' => $game->getCreator()->getFullId())));
             }
         }
