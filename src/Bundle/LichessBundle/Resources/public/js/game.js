@@ -11,8 +11,7 @@
      self.$chat = $("div.lichess_chat");
      self.$connectedPlayers = $('div.nb_connected_players');
      self.initialTitle = document.title,
-     self.ajaxManager = $.manageAjax.create('lichess_sync', { manageType: "queue", maxReq: 1});
-     self.lastSync = new Date();
+     self.ajaxManager = $.manageAjax.create('lichess_sync', { queue: true, maxRequests: 1, cacheResponse: false});
 
      if(self.options.game.started) {
          self.indicateTurn();
@@ -47,24 +46,17 @@
              setTimeout(self.updateTitle, 400);
                      }, 400);
          }
-
-         // verify the synchronisation works
-         self.syncCheckInterval = setInterval(function() {
-             if(self.lastSync.getTime() < (new Date().getTime() - self.options.sync_delay * 5)) {
-                 self.syncPlayer({resync:1});
-             }
-         }, self.options.sync_delay * 5);
      }
      },
      syncUrl: function(url, callback, postData)
      {
          var self = this;
-         self.lastSync = new Date();
          self.ajaxManager.add({
              type: 'POST',
              dataType: 'json',
              data: postData || {},
              url: function() { return url.replace(/9999999/, self.options.player.version); },
+             timeout: 5000,
              success: function(data) {
                  if(!data) return;
                  if(!self.options.opponent.ai && self.options.opponent.connected != data.o && self.options.game.started) {
@@ -72,16 +64,15 @@
                      $.ajax({
                          type: 'GET',
                          cache: false,
+                         timeout: 5000,
                          url: self.options.url.opponent,
                          success: function(html)
                      {
                          self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({fade: true});
                      },
-                     error: function(xhr)
+                         error: function(xhr)
                      {
-                         // client is corrupted, resynchronize with server
-                         if(self.options.debug) $('html').html(xhr.responseText);
-                         else location.reload();
+                         self.onError(xhr);
                      }
                      });
                  }
@@ -101,20 +92,20 @@
                  if(data.c) {
                      self.updateClocks(data.c);
                  }
-             },
-             complete: function()
-             {
                  if(!self.options.game.finished || !self.options.player.spectator) {
                      $.isFunction(callback) && callback();
                  }
              },
              error: function(xhr)
              {
-                 // client is corrupted, resynchronize with server
-                 if(self.options.debug) $('html').html(xhr.responseText);
-                 else location.reload();
+                 self.onError(xhr);
              }
          });
+     },
+     onError: function(xhr)
+     {
+         this.ajaxManager.clear(true);
+         location.reload();
      },
      isMyTurn: function()
      {
@@ -314,7 +305,7 @@
              self.syncUrl(self.options.url.move, function()
                      {
                          if(self.options.opponent.ai) {
-                             setTimeout(function() {self.syncUrl(self.options.url.sync);}, self.options.animation_delay*3);
+                             setTimeout(function() {self.syncUrl(self.options.url.sync);}, self.options.animation_delay*2);
                          }
                      }, moveData);
          }
