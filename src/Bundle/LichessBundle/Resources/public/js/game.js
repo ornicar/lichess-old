@@ -504,7 +504,9 @@
              $(this).clock({
                  time: $(this).attr('data-time'),
                  buzzer: function() {
-                     if(!self.options.game.finished && !self.options.player.spectator) self.syncUrl(self.options.url.outoftime);
+                     if(!self.options.game.finished && !self.options.player.spectator) {
+                         self.syncUrl(self.options.url.outoftime);
+                     }
                  }
              });
          });

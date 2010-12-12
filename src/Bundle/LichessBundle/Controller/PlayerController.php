@@ -27,9 +27,12 @@ class PlayerController extends Controller
             $opponent->addEventsToStack($events);
             $this->get('lichess.object_manager')->flush();
             $this->get('logger')->notice(sprintf('Player:outoftime game:%s', $game->getId()));
+        } elseif($game->getIsFinishedOrAborted()) {
+            $this->get('logger')->warn(sprintf('Player:outoftime finished game:%s', $game->getId()));
+        } else {
+            $this->get('logger')->warn(sprintf('Player:outoftime too early game:%s', $game->getId()));
+            throw new \RuntimeException(sprintf('Player:outoftime too early game:%s', $game->getId()));
         }
-
-        $this->get('logger')->warn(sprintf('Player:outoftime finished game:%s', $game->getId()));
         return $this->renderJson($this->getPlayerSyncData($player, $version));
     }
 
