@@ -104,7 +104,6 @@
      },
      onError: function(xhr)
      {
-         this.ajaxManager.clear(true);
          location.reload();
      },
      isMyTurn: function()
@@ -472,6 +471,7 @@
              url: self.options.url.table,
              success: function(html)
          {
+             self.destroyClocks();
              self.$table.html(html);
              self.initTable();
              self.initClocks();
@@ -512,6 +512,10 @@
          });
          self.updateClocks();
      },
+     destroyClocks: function()
+     {
+         this.$table.find('div.clock_enabled').clock('destroy').remove();
+     },
      updateClocks: function(times)
      {
          var self = this;
@@ -551,7 +555,7 @@
      });
 
      $.widget("lichess.clock", {
-         _init: function()
+         _create: function()
      {
          var self = this;
          this.options.time = parseFloat(this.options.time) * 1000;
@@ -559,8 +563,12 @@
              duration: this.options.time,
              state: 'ready'
          });
+         this.element.addClass('clock_enabled');
      },
-
+         destroy: function() {
+                      this.stop();
+                      $.Widget.prototype.destroy.apply(this);
+                  },
          start: function()
      {
          var self = this;
@@ -597,6 +605,13 @@
              clearInterval(this.options.interval);
              this.options.state = 'stop';
              this.element.removeClass('running');
+         },
+
+         debug: function(message)
+         {
+             color = this.element.hasClass('clock_white') ? 'white' : 'black';
+             id = this.options.interval;
+             console.debug(color + ':' + id + ' ' + message);
          },
 
          _show: function()
