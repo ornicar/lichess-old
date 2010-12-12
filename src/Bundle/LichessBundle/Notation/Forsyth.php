@@ -182,27 +182,32 @@ class Forsyth
             $to = $moves['to'][0];
         }
         // two pieces moved: it's a castle
-        elseif(2 === count($moves['from']) && 2 === count($moves['to']))
-        {
-            if ($board->getPieceByKey($moves['from'][0])->isClass('King'))
-            {
+        elseif(2 === count($moves['from']) && 2 === count($moves['to'])) {
+            if ($board->getPieceByKey($moves['from'][0])->isClass('King')) {
                 $from = $moves['from'][0];
-            }
-            else
-            {
+            } else {
                 $from = $moves['from'][1];
             }
-
-            if (in_array($board->getSquareByKey($moves['to'][0])->getX(), array(3, 7)))
-            {
+            if (in_array($board->getSquareByKey($moves['to'][0])->getX(), array(3, 7))) {
                 $to = $moves['to'][0];
-            }
-            else
-            {
+            } else {
                 $to = $moves['to'][1];
             }
         }
-        else {
+        // two from, one to: it may be a "en passant"
+        elseif(
+            2 === count($moves['from']) &&
+            1 === count($moves['to']) &&
+            $board->getPieceByKey($moves['from'][0])->isClass('Pawn') &&
+            $board->getPieceByKey($moves['from'][1])->isClass('Pawn') &&
+            ! $board->hasPieceByKey($moves['to'][0])) {
+                if($moves['from'][0]{0} === $moves['to'][0]{0}) {
+                    $from = $moves['from'][1];
+                } else {
+                    $from = $moves['from'][0];
+                }
+                $to = $moves['to'][0];
+        } else {
             throw new \RuntimeException(sprintf('Forsyth:diffToMove game:%s, variant:%s, moves: %s, forsyth:%s',
                 $game->getId(),
                 $game->getVariantName(),

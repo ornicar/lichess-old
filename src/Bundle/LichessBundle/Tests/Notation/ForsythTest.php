@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Tests\Notation;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Notation\Forsyth;
+use Bundle\LichessBundle\Document\Game;
 
 class ForsythTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,9 +46,47 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
     {
         $generator = new Generator();
         $game = $generator->createGame();
-        $manipulator = new Manipulator($game);
         $forsyth = new Forsyth();
         $this->assertEquals(null, $forsyth->diffToMove($game, 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq'));
         $this->assertEquals('e2 e4', $forsyth->diffToMove($game, 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq'));
+    }
+
+    public function testDiffToMoveEnPassant()
+    {
+        $data = <<<EOF
+rnbqkbnr
+p pppppp
+
+Pp
+
+
+ PPPPPPP
+RNBQKBNR
+EOF;
+
+        $game = $this->createGame($data);
+        $game->setTurns(4);
+        $game->getBoard()->getPieceByKey('b5')->setFirstMove(3);
+        $forsyth = new Forsyth();
+        $this->assertEquals('a5 b6', $forsyth->diffToMove($game, 'rnbqkbnr/p1pppppp/1P6/8/8/8/1PPPPPPP/RNBQKBNR b KQkq'));
+    }
+
+    /**
+     * Get a game from visual data block
+     *
+     * @return Game
+     **/
+    protected function createGame($data = null)
+    {
+        $generator = new Generator();
+        if($data) {
+            $game =  $generator->createGameFromVisualBlock($data);
+        }
+        else {
+            $game =  $generator->createGame();
+        }
+        $game->setStatus(Game::STARTED);
+
+        return $game;
     }
 }
