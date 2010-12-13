@@ -11,7 +11,17 @@
      self.$chat = $("div.lichess_chat");
      self.$connectedPlayers = $('div.nb_connected_players');
      self.initialTitle = document.title,
-     self.ajaxManager = $.manageAjax.create('lichess_sync', { queue: true, maxRequests: 1, cacheResponse: false});
+     self.ajaxManager = $.manageAjax.create('lichess_sync', {
+		beforeCreate: $.noop,
+		abort: $.noop,
+		abortIsNoSuccess: true,
+		maxRequests: 1,
+		cacheResponse: false,
+		domCompleteTrigger: false,
+		domSuccessTrigger: false,
+		preventDoubbleRequests: false,
+		queue: true
+     });
 
      if(self.options.game.started) {
          self.indicateTurn();
