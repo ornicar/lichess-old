@@ -1,12 +1,6 @@
 /lichess/config/config*_local.yml
 /lichess/cache/*
 /lichess/logs/*
-# except README
-!/lichess/data/README
-# ignore proposed translations files
-/lichess/translation/*
-# except README
-!/lichess/translation/README
 /lichess/deploy*
 tags
 /web/.htaccess
