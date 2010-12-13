@@ -18,14 +18,24 @@ class Logger
         $this->generator = $router->getGenerator();
     }
 
-    public function logPlayer(Player $player, $message, $priority)
+    protected function logPlayer(Player $player, $message, $priority)
     {
-        $this->logger->log(sprintf('%s %s', $message, $this->expandPlayer($player)), $priority);
+        $this->logger->log($this->formatPlayer($player, $message), $priority);
     }
 
-    public function logGame(Game $game, $message, $priority)
+    protected function logGame(Game $game, $message, $priority)
     {
-        $this->logger->log(sprintf('%s %s', $message, $this->expandGame($game)), $priority);
+        $this->logger->log($this->formatGame($game, $message), $priority);
+    }
+
+    public function formatPlayer(Player $player, $message)
+    {
+        return sprintf('%s %s', $message, $this->expandPlayer($player));
+    }
+
+    public function formatGame(Game $game, $message)
+    {
+        return sprintf('%s %s', $message, $this->expandGame($game));
     }
 
     public function expandPlayer(Player $player)
