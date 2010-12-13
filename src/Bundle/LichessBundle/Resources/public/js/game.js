@@ -495,6 +495,10 @@
          self.$table.find('a.lichess_play_again_decline').one('click', function() {
              $(this).parent().remove();
          });
+         self.$table.find('a.lichess_rematch').click(function() {
+             self.syncUrl($(this).attr('href'));
+             return false;
+         });
      },
      initClocks: function()
      {

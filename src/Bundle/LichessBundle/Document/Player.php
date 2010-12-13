@@ -115,6 +115,14 @@ class Player
     protected $isOfferingDraw = null;
 
     /**
+     * Whether the player is offering rematch or not
+     *
+     * @var bool
+     * @mongodb:Field(type="boolean")
+     */
+    protected $isOfferingRematch = null;
+
+    /**
      * the player current game
      *
      * @var Game
@@ -167,6 +175,23 @@ class Player
         $this->isOfferingDraw = $isOfferingDraw ?: null;
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsOfferingRematch()
+    {
+        return $this->isOfferingRematch;
+    }
+
+    /**
+     * @param  bool
+     * @return null
+     */
+    public function setIsOfferingRematch($isOfferingRematch)
+    {
+        $this->isOfferingRematch = $isOfferingRematch ?: null;
+    }
+
     public function canOfferDraw()
     {
         return $this->getGame()->getIsStarted()
@@ -175,6 +200,13 @@ class Player
             && !$this->getIsOfferingDraw()
             && !$this->getOpponent()->getIsAi()
             && !$this->getOpponent()->getIsOfferingDraw();
+    }
+
+    public function canOfferRematch()
+    {
+        return $this->getGame()->getIsFinishedOrAborted()
+            && !$this->getIsOfferingRematch()
+            && !$this->getOpponent()->getIsAi();
     }
 
     /**

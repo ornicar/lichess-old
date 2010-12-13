@@ -27,58 +27,42 @@ class PlayerController extends Controller
             $opponent->addEventsToStack($events);
             $this->get('lichess.object_manager')->flush();
             $this->get('lichess.logger')->notice($player, 'Player:outoftime');
-        } elseif($game->getIsFinishedOrAborted()) {
-            $this->get('lichess.logger')->warn($player, 'Player:outoftime finished');
-            throw new \RuntimeException('Reloading');
         } else {
-            $this->get('lichess.logger')->warn($player, 'Player:outoftime too early');
-            throw new \RuntimeException('Reloading');
+            throw new \LogicException($this->get('lichess.logger')->formatPlayer($player, 'Player:outoftime'));
         }
         return $this->renderJson($this->getPlayerSyncData($player, $version));
     }
 
-    public function rematchAction($id)
+    public function rematchAction($id, $version)
     {
         $player = $this->findPlayer($id);
         $opponent = $player->getOpponent();
         $game = $player->getGame();
 
-        if(!$game->getIsFinishedOrAborted()) {
-            $this->get('lichess.logger')->warn($player, 'Player:rematch not finished game');
-            return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
+        if(!$player->canOfferRematch()) {
+            throw new \LogicException($this->get('lichess.logger')->formatPlayer($player, 'Player:rematch'));
         }
-
-        if($nextPlayerId = $game->getNext()) {
-            $nextOpponent = $this->findPlayer($nextPlayerId);
-            if($nextOpponent->getColor() === $player->getColor()) {
-                $nextGame = $nextOpponent->getGame();
-                $nextPlayer = $nextOpponent->getOpponent();
-                if(!$nextGame->getIsStarted()) {
-                    $nextGame->setRoom(clone $game->getRoom());
-                    $nextGame->start();
-                    $opponent->addEventToStack(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $nextOpponent->getFullId()))));
-                    $this->get('lichess.object_manager')->flush();
-                    if($this->get('lichess_synchronizer')->isConnected($opponent)) {
-                        $this->get('lichess_synchronizer')->setAlive($nextOpponent);
-                    }
-                    $this->get('lichess.logger')->notice($player, 'Player:rematch join '.$this->get('lichess.logger')->expandGame($nextGame));
-                }
-                else {
-                    $this->get('lichess.logger')->warn($player, 'Player:rematch join already started '.$this->get('lichess.logger')->expandGame($nextGame));
-                }
-                return $this->redirect($this->generateUrl('lichess_player', array('id' => $nextPlayer->getFullId())));
+        elseif(!$opponent->getIsOfferingRematch()) {
+            $this->get('lichess.logger')->notice($player, 'Player:rematch offer');
+            $this->get('lichess.messenger')->addSystemMessage($game, 'Rematch offer sent');
+            $player->setIsOfferingRematch(true);
+            $game->addEventToStacks(array('type' => 'reload_table'));
+        } else {
+            $this->get('lichess.logger')->notice($player, 'Player:rematch accept');
+            $this->get('lichess.messenger')->addSystemMessage($game, 'Rematch offer accepted');
+            $nextOpponent = $this->get('lichess_generator')->createReturnGame($opponent);
+            $nextPlayer = $nextOpponent->getOpponent();
+            $nextGame = $nextOpponent->getGame();
+            $nextGame->start();
+            foreach(array(array($player, $nextPlayer), array($opponent, $nextOpponent)) as $pair) {
+                $this->get('lichess_synchronizer')->setAlive($pair[1]);
+                $pair[0]->addEventToStack(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $pair[1]->getFullId()))));
             }
+            $this->get('lichess.object_manager')->persist($nextGame);
         }
-        else {
-            $nextPlayer = $this->container->get('lichess_generator')->createReturnGame($player);
-            $this->get('lichess.object_manager')->persist($nextPlayer->getGame());
-            $opponent->addEventToStack(array('type' => 'reload_table'));
-            $this->get('lichess_synchronizer')->setAlive($player);
-            $this->get('lichess.logger')->notice($player, 'Player:rematch proposal');
-            $this->get('lichess.object_manager')->flush();
-        }
+        $this->get('lichess.object_manager')->flush(array('safe' => true));
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
+        return $this->renderJson($this->getPlayerSyncData($player, $version));
     }
 
     public function syncAction($id, $color, $version, $playerFullId)
@@ -456,22 +440,14 @@ class PlayerController extends Controller
         if($playerFullId) {
             $player = $this->findPlayer($playerFullId);
             $template = $player->getGame()->getIsPlayable() ? 'table' : 'tableEnd';
-            if($nextPlayerId = $player->getGame()->getNext()) {
-                $nextGame = $this->findPlayer($nextPlayerId)->getGame();
-            }
-            else {
-                $nextGame = null;
-            }
         }
         else {
             $player = $this->findPublicPlayer($id, $color);
             $template = 'watchTable';
-            $nextGame = null;
         }
         return $this->render('LichessBundle:Game:'.$template.'.twig', array(
             'player'              => $player,
-            'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent()),
-            'nextGame'            => $nextGame
+            'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent())
         ));
     }
 

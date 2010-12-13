@@ -105,9 +105,9 @@ lichess_about:
     pattern:        /about
     defaults:       { _controller: lichess.controller.main:aboutAction }
 lichess_rematch:
-    pattern:        /rematch/:id
+    pattern:        /rematch/:id/:version
     defaults:       { _controller: lichess.controller.player:rematchAction }
-    requirements:   { id: "[\w\-]{12}" }
+    requirements:   { id: "[\w\-]{12}", version: "\d+" }
 lichess_force_resignation:
     pattern:        /force-resign/:id
     defaults:       { _controller: lichess.controller.player:forceResignAction }

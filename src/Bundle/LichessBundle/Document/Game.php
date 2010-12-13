@@ -114,14 +114,6 @@ class Game
     protected $pgnMoves;
 
     /**
-     * The ID of the player that starts the next game the players will play
-     *
-     * @var string
-     * @mongodb:Field(type="string")
-     */
-    protected $next;
-
-    /**
      * Fen notation of the initial position
      * Can be null if equals to standard position
      *
@@ -530,25 +522,6 @@ class Game
     public function addPgnMove($pgnMove)
     {
         $this->pgnMoves[] = $pgnMove;
-    }
-
-    /**
-     * Get next
-     * @return string
-     */
-    public function getNext()
-    {
-        return $this->next;
-    }
-
-    /**
-     * Set next
-     * @param  string
-     * @return null
-     */
-    public function setNext($next)
-    {
-        $this->next = $next;
     }
 
     /**
