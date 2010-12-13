@@ -529,7 +529,7 @@ div.lichess_table.finished div.lichess_player p {
 }
 
 div.lichess_cemetery {
-    height: 128px;
+    height: 108px;
     width: 262px;
     position: absolute;
     left: 0px;
@@ -546,7 +546,7 @@ div.lichess_cemetery_bottom {
 div.lichess_cemetery div.lichess_tomb {
     display: block;
     float: left;
-    margin: 0 -16px;
+    margin: -5px -16px;
     width: 64px;
     height: 64px;
 }
