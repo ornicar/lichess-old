@@ -51,7 +51,7 @@ class Fetcher
                     $translation['author'] ?: 'Anonymous',
                     count($translation['messages']),
                     $id,
-                    $translation['comment']
+                    str_replace('"', "'", $translation['comment'])
                 );
                 $logger($commitMessage);
                 $repo->git('checkout -b '.$branchName.' origin/master');
