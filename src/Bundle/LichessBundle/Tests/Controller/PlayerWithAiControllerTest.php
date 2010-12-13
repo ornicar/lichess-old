@@ -29,7 +29,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $client = $this->createClient();
         $syncUrl = $this->getSyncUrl($id);
 
-        $client->request('GET', $syncUrl);
+        $client->request('POST', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $nbConnectedPlayers = $client->getContainer()->get('lichess_synchronizer')->getNbConnectedPlayers();
         $this->assertEquals('{"v":0,"o":true,"e":[],"p":"white","t":0,"ncp":'.$nbConnectedPlayers.'}', $client->getResponse()->getContent());
@@ -59,7 +59,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $client = $this->createClient();
         $syncUrl = $this->getSyncUrl($id);
 
-        $client->request('GET', $syncUrl);
+        $client->request('POST', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('#^\{"v":5,"o":true,"e":\[.+\],"p":"(white|black)","t":\d+,"ncp":\d+\}$#', $client->getResponse()->getContent());
     }
