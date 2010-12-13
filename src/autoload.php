@@ -8,6 +8,7 @@ $loader->registerNamespaces(array(
     'Doctrine\\Common'       => __DIR__.'/vendor/mongodb-odm/lib/vendor/doctrine-common/lib',
     'Doctrine\\MongoDB'      => __DIR__.'/vendor/mongodb-odm/lib/vendor/doctrine-mongodb/lib',
     'Doctrine\\ODM\\MongoDB' => __DIR__.'/vendor/mongodb-odm/lib',
+    'DoctrineExtensions'     => __DIR__.'/vendor/Doctrine2-Sluggable-Functional-Behavior/lib',
     'Bundle'                 => __DIR__,
     'ZendPaginatorAdapter'   => __DIR__.'/vendor/ZendPaginatorAdapter/src',
     'Zend'                   => __DIR__.'/vendor/zend/library',

@@ -34,3 +34,6 @@
 [submodule "src/Bundle/LichessBundle"]
 	path = src/Bundle/LichessBundle
 	url = git://github.com/ornicar/LichessBundle.git
+[submodule "src/vendor/Doctrine2-Sluggable-Functional-Behavior"]
+	path = src/vendor/Doctrine2-Sluggable-Functional-Behavior
+	url = git://github.com/ornicar/Doctrine2-Sluggable-Functional-Behavior.git
