@@ -52,6 +52,7 @@
             <parameter key="hi">हिन्दी, हिंदी</parameter>
             <parameter key="ar">العربية</parameter>
             <parameter key="zh">中文</parameter>
+            <parameter key="gl">Galego</parameter>
         </parameter>
 
     </parameters>
