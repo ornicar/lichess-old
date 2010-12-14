@@ -113,7 +113,7 @@ lichess_about:
 lichess_rematch:
     pattern:        /rematch/:id/:version
     defaults:       { _controller: lichess.controller.player:rematchAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "get" }
+    requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
 lichess_force_resignation:
     pattern:        /force-resign/:id
     defaults:       { _controller: lichess.controller.player:forceResignAction }
