@@ -37,8 +37,9 @@
             </div>
         </div>
         <div class="lichess_server">
+            [[time]] | {% trans "Server load" %}: <span class="value">{{ _view.lichess.loadAverage }}</span> |
             <a class="blank_if_play" href="/monitor/localdomain/localhost.localdomain/index.html">
-                {% trans "Server load" %}: <span class="value">{{ _view.lichess.loadAverage }}</span>
+                Server monitoring
             </a>
         </div>
         <div id="top_menu">
