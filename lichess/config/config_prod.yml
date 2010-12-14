@@ -1,2 +1,4 @@
 imports:
     - { resource: config.yml }
+
+lichess.prod: ~
