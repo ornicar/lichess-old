@@ -54,7 +54,7 @@ class TranslationController extends Controller
             $form->bind($this->get('request')->request->get($form->getName()));
             if($form->isValid()) {
                 $this->get('lichess.object_manager')->persist($translation);
-                $this->get('lichess.object_manager')->flush();
+                $this->get('lichess.object_manager')->flush(array('safe' => true));
                 $this->get('session')->setFlash('notice', "Your translation has been submitted, thanks!\nI will review it and include it soon to the game.");
 
                 return $this->redirect($this->generateUrl('lichess_translate_locale', array('locale' => $locale)));

@@ -99,7 +99,7 @@ class GameController extends Controller
             'type' => 'redirect',
             'url'  => $this->generateUrl('lichess_player', array('id' => $game->getCreator()->getFullId()))
         ));
-        $this->get('lichess.object_manager')->flush();
+        $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($game, 'Game:join');
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }
@@ -148,7 +148,7 @@ class GameController extends Controller
                 }
                 $game->setIsRated($config->mode);
                 $this->get('lichess.object_manager')->persist($game);
-                $this->get('lichess.object_manager')->flush();
+                $this->get('lichess.object_manager')->flush(array('safe' => true));
                 $this->get('lichess.logger')->notice($game, 'Game:inviteFriend create');
                 return $this->redirect($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
             }
@@ -182,7 +182,7 @@ class GameController extends Controller
                     $manipulator->play($this->get('lichess_ai')->move($game, $opponent->getAiLevel()));
                 }
                 $this->get('lichess.object_manager')->persist($game);
-                $this->get('lichess.object_manager')->flush();
+                $this->get('lichess.object_manager')->flush(array('safe' => true));
                 $this->get('lichess.logger')->notice($game, 'Game:inviteAi create');
 
                 return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
@@ -221,7 +221,7 @@ class GameController extends Controller
                 if($result['status'] === $queue::FOUND) {
                     if(!$this->get('lichess_synchronizer')->isConnected($game->getCreator())) {
                         $this->get('lichess.object_manager')->remove($game);
-                        $this->get('lichess.object_manager')->flush();
+                        $this->get('lichess.object_manager')->flush(array('safe' => true));
                         $this->get('lichess.logger')->notice($game, 'Game:inviteAnybody remove');
                         return $this->inviteAnybodyAction($color);
                     }

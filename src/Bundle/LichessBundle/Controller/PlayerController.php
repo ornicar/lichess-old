@@ -25,7 +25,7 @@ class PlayerController extends Controller
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
             $player->addEventsToStack($events);
             $opponent->addEventsToStack($events);
-            $this->get('lichess.object_manager')->flush();
+            $this->get('lichess.object_manager')->flush(array('safe' => true));
             $this->get('lichess.logger')->notice($player, 'Player:outoftime');
         } else {
             throw new \LogicException($this->get('lichess.logger')->formatPlayer($player, 'Player:outoftime'));
@@ -124,7 +124,7 @@ class PlayerController extends Controller
             $game->setWinner($player);
             $this->get('lichess_finisher')->finish($game);
             $game->addEventToStacks(array('type' => 'end'));
-            $this->get('lichess.object_manager')->flush();
+            $this->get('lichess.object_manager')->flush(array('safe' => true));
             $this->get('lichess.logger')->notice($player, 'Player:forceResign');
         }
         else {
@@ -146,7 +146,7 @@ class PlayerController extends Controller
                 $this->get('lichess.messenger')->addSystemMessage($game, 'Draw offer sent');
                 $player->setIsOfferingDraw(true);
                 $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
-                $this->get('lichess.object_manager')->flush();
+                $this->get('lichess.object_manager')->flush(array('safe' => true));
                 $this->get('lichess.logger')->notice($player, 'Player:offerDraw');
             } else {
                 $this->get('lichess.logger')->warn($player, 'Player:offerDraw already offered');
@@ -166,7 +166,7 @@ class PlayerController extends Controller
             $this->get('lichess.messenger')->addSystemMessage($game, 'Draw offer declined');
             $player->getOpponent()->setIsOfferingDraw(false);
             $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
-            $this->get('lichess.object_manager')->flush();
+            $this->get('lichess.object_manager')->flush(array('safe' => true));
             $this->get('lichess.logger')->notice($player, 'Player:declineDrawOffer');
         } else {
             $this->get('lichess.logger')->warn($player, 'Player:declineDrawOffer no offered draw');
@@ -184,7 +184,7 @@ class PlayerController extends Controller
             $game->setStatus(GAME::DRAW);
             $this->get('lichess_finisher')->finish($game);
             $game->addEventToStacks(array('type' => 'end'));
-            $this->get('lichess.object_manager')->flush();
+            $this->get('lichess.object_manager')->flush(array('safe' => true));
             $this->get('lichess.logger')->notice($player, 'Player:acceptDrawOffer');
         } else {
             $this->get('lichess.logger')->warn($player, 'Player:acceptDrawOffer no offered draw');
@@ -201,7 +201,7 @@ class PlayerController extends Controller
             $this->get('lichess.messenger')->addSystemMessage($game, 'Draw offer canceled');
             $player->setIsOfferingDraw(false);
             $player->getOpponent()->addEventToStack(array('type' => 'reload_table'));
-            $this->get('lichess.object_manager')->flush();
+            $this->get('lichess.object_manager')->flush(array('safe' => true));
             $this->get('lichess.logger')->notice($player, 'Player:cancelDrawOffer');
         } else {
             $this->get('lichess.logger')->warn($player, 'Player:cancelDrawOffer no offered draw');
@@ -218,7 +218,7 @@ class PlayerController extends Controller
             $game->setStatus(GAME::DRAW);
             $this->get('lichess_finisher')->finish($game);
             $game->addEventToStacks(array('type' => 'end'));
-            $this->get('lichess.object_manager')->flush();
+            $this->get('lichess.object_manager')->flush(array('safe' => true));
             $this->get('lichess.logger')->notice($player, 'Player:claimDraw');
         }
         else {
@@ -366,7 +366,7 @@ class PlayerController extends Controller
             return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $this->get('lichess.seek_queue')->remove($game);
-        $this->get('lichess.object_manager')->flush();
+        $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($player, 'Game:inviteAnybody cancel');
 
         return $this->redirect($this->generateUrl('lichess_homepage', array('color' => $player->getColor())));
@@ -402,7 +402,7 @@ class PlayerController extends Controller
         $game->setWinner($opponent);
         $this->get('lichess_finisher')->finish($game);
         $game->addEventToStacks(array('type' => 'end'));
-        $this->get('lichess.object_manager')->flush();
+        $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($player, 'Player:resign');
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
@@ -419,7 +419,7 @@ class PlayerController extends Controller
         $game->setStatus(Game::ABORTED);
         $this->get('lichess_finisher')->finish($game);
         $game->addEventToStacks(array('type' => 'end'));
-        $this->get('lichess.object_manager')->flush();
+        $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($player, 'Player:abort');
 
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
