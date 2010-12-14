@@ -58,15 +58,30 @@ class MainController extends Controller
         return $this->render('LichessBundle:Main:about.twig');
     }
 
-    public function notFoundAction()
+    public function exceptionAction($exception)
     {
-        if($this->get('request')->isXmlHttpRequest()) {
-            $response = $this->createResponse('You should not do that.');
+        $code = $exception->getCode();
+        if(404 == $code) {
+            if($this->get('request')->isXmlHttpRequest()) {
+                $response = $this->createResponse('You should not do that.');
+            }
+            else {
+                $response = $this->render('LichessBundle:Main:notFound.twig');
+            }
+            $response->setStatusCode(404);
+        } else {
+            if ($code < 100 || $code > 599) {
+                $code = 500;
+            }
+            if($this->get('request')->isXmlHttpRequest()) {
+                $response = $this->createResponse('Something went terribly wrong.');
+            }
+            else {
+                $response = $this->render('LichessBundle:Main:error.twig', array('code' => $code));
+            }
+            $response->setStatusCode($code);
         }
-        else {
-            $response = $this->render('LichessBundle:Main:notFound.twig');
-        }
-        $response->setStatusCode(404);
+
         return $response;
     }
 }

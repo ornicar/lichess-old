@@ -32,6 +32,12 @@ class LichessExtension extends Extension
         }
     }
 
+    public function prodLoad($config, ContainerBuilder $container)
+    {
+        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+        $loader->load('prod.xml');
+    }
+
     /**
      * Returns the base path for the XSD files.
      *
