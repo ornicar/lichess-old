@@ -77,7 +77,8 @@ class MainController extends Controller
                 $response = $this->createResponse('Something went terribly wrong.');
             }
             else {
-                $response = $this->render('LichessBundle:Main:error.twig', array('code' => $code));
+                $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+                $response = $this->render('LichessBundle:Main:error.twig', array('code' => $code, 'url' => $url));
             }
             $response->setStatusCode($code);
         }
