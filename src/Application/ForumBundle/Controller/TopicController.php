@@ -10,7 +10,6 @@ use Bundle\ForumBundle\Model\Category;
 
 class TopicController extends BaseTopicController
 {
-
     public function createAction(Category $category = null)
     {
         $form = $this->createForm('forum_topic_new', $category);
@@ -50,5 +49,24 @@ class TopicController extends BaseTopicController
         }
 
         return $form;
+    }
+
+    /**
+     * Compatibility layer with old topic urls
+     */
+    public function showAction($categorySlug, $slug)
+    {
+        try {
+            return parent::showAction($categorySlug, $slug);
+        } catch(NotFoundHttpException $e) {
+            $topic = $this->get('forum.repository.topic')->findOneById($slug);
+            if(!$topic) {
+                throw new NotFoundHttpException(sprintf('The topic with id "%s" does not exist', $slug));
+            }
+            return $this->redirect($this->generateUrl('forum_topic_show', array(
+                'categorySlug' => $categorySlug,
+                'slug' => $topic->getSlug()
+            )));
+        }
     }
 }
