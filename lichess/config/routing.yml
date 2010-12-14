@@ -23,3 +23,7 @@ forum_index2:
     pattern:        /forum/
     defaults:       { _controller: ForumBundle:Forum:index }
     requirements:   { _method: get }
+forum_topic_show_compat:
+    pattern:        /forum/:categorySlug/:slug/:id.:_format
+    defaults:       { _controller: forum.controller.topic:showCompatAction, _format: "html", id: "" }
+    requirements:   { _method: "get|head", _format: "html|xml", slug: "[-\w]+" }

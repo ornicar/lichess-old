@@ -54,19 +54,15 @@ class TopicController extends BaseTopicController
     /**
      * Compatibility layer with old topic urls
      */
-    public function showAction($categorySlug, $slug)
+    public function showCompatAction($categorySlug, $slug, $id)
     {
-        try {
-            return parent::showAction($categorySlug, $slug);
-        } catch(NotFoundHttpException $e) {
-            $topic = $this->get('forum.repository.topic')->findOneById($slug);
-            if(!$topic) {
-                throw new NotFoundHttpException(sprintf('The topic with id "%s" does not exist', $slug));
-            }
-            return $this->redirect($this->generateUrl('forum_topic_show', array(
-                'categorySlug' => $categorySlug,
-                'slug' => $topic->getSlug()
-            )));
+        $topic = $this->get('forum.repository.topic')->findOneById($id);
+        if(!$topic) {
+            throw new NotFoundHttpException(sprintf('The topic with id "%s" does not exist', $id));
         }
+        return $this->redirect($this->generateUrl('forum_topic_show', array(
+            'categorySlug' => $categorySlug,
+            'slug' => $topic->getSlug()
+        )));
     }
 }
