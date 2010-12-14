@@ -1,19 +1,19 @@
 <?php
 
-// Redirect /index.php to /
-if(0 === strncmp($_SERVER['REQUEST_URI'], '/index.php', 10)) {
-    $url = substr($_SERVER['REQUEST_URI'], 10);
-    header('Location: '.$url, true, 301);
-    printf('<html><head><meta http-equiv="refresh" content="1;url=%s"/></head></html>', htmlspecialchars($url, ENT_QUOTES));
-    die;
-}
-
 // Try PreKernelCache
 require_once __DIR__.'/../src/Bundle/LichessBundle/PreKernelCache.php';
+
+// Start timer
+$start = microtime(true);
+ob_start();
 
 // Symfony2 boot
 require_once __DIR__.'/../lichess/LichessKernel.php';
 use Symfony\Component\HttpFoundation\Request;
 
+// Run application
 $kernel = new LichessKernel('prod', false);
 $kernel->handle(new Request())->send();
+
+// Display timer
+print str_replace('[[time]]', round(1000*(microtime(true) - $start)).'ms', ob_get_clean());
