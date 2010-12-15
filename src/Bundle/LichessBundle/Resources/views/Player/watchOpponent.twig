@@ -1,5 +1,5 @@
 {% if opponent.isAi %}
-{% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': opponent.aiLevel] %}
+{% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': opponent.aiLevel} %}
 {% else %}
 <div title="{% trans "Human opponent " ~ isOpponentConnected ? "connected" : "offline" %}" class="username">
     {% trans opponent.color|capitalize %} - {{ _view.lichess_user.linkPlayer(opponent)|raw }}

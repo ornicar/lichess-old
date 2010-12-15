@@ -7,7 +7,7 @@
         <div class="lichess_overboard game_config">
             <h2>{% trans "Play with anybody" %}</h2>
             <div class="game_config_form">
-                <form action="{% path "lichess_invite_anybody" with ["color": color] %}" method="post">
+                <form action="{% path "lichess_invite_anybody" with {"color": color} %}" method="post">
                     <div class="variants">
                         {% for choice, child in form.variants %}
                             {{ child|render }}
@@ -38,6 +38,6 @@
             </div>
         </div>
     </div>
-    {% include "LichessBundle:Game:bootGround.twig" with ["color": color, "active": "anybody"] %}
+    {% include "LichessBundle:Game:bootGround.twig" with {"color": color, "active": "anybody"} %}
 </div>
 {% endblock %}

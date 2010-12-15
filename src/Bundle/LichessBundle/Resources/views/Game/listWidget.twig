@@ -3,7 +3,7 @@
 {{ _view.lichess_game.renderMini(game, user)|raw }}
 <div class="infos">
 {% if game.isBeingPlayed %}
-<a class="link" href="{% path "lichess_game" with ["id": game.id] %}">
+<a class="link" href="{% path "lichess_game" with {"id": game.id} %}">
     {% trans "Playing right now" %}
 </a>
 {% else %}
@@ -15,7 +15,7 @@
 {% for player in [firstPlayer.opponent, firstPlayer] %}
 {% trans player.color|capitalize %}
 {% if player.isAi %}
-    {% trans '%ai_name% level %ai_level%' with['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
+    {% trans '%ai_name% level %ai_level%' with{'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
 {% else %}
     {{ _view.lichess_user.linkPlayer(player)|raw }}
 {% endif %}
@@ -40,7 +40,7 @@
 {% trans "This game is rated" %}
 <br /><br />
 {% endif %}
-<a href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": game.creatorColor] %}">&gt;&gt; {% trans "Replay and analyse" %}</a>
+<a href="{% path "lichess_pgn_viewer" with {"id": game.id, "color": game.creatorColor} %}">&gt;&gt; {% trans "Replay and analyse" %}</a>
 </div>
 </div>
 {% else %}

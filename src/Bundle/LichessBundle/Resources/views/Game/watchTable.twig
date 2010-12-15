@@ -1,10 +1,10 @@
 {% set game = player.game %}
 {% if game.hasClock %}
-    {% include "LichessBundle:Game:clock.twig" with ["clock": game.clock, "color": player.opponent.color, "position": "top"] %}
+    {% include "LichessBundle:Game:clock.twig" with {"clock": game.clock, "color": player.opponent.color, "position": "top"} %}
 {% endif %}
 <div class="lichess_table {{ game.isFinished ? "finished " : "" }}spectator">
     <div class="lichess_opponent">
-        {% render "LichessBundle:Player:opponent" with ["id": game.id, "color": player.color, "playerFullId": ""] %}
+        {% render "LichessBundle:Player:opponent" with {"id": game.id, "color": player.color, "playerFullId": ""} %}
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
@@ -31,8 +31,8 @@
         {% endif %}
     </div>
     <div class="lichess_separator"></div>
-    {% render "LichessBundle:Player:opponent" with ["id": game.id, "color": player.opponent.color, "playerFullId": ""] %}
+    {% render "LichessBundle:Player:opponent" with {"id": game.id, "color": player.opponent.color, "playerFullId": ""} %}
 </div>
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.twig" with ["clock": game.clock, "color": player.color, "position": "bottom"] %}
+    {% include "LichessBundle:Game:clock.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
 {% endif %}

@@ -1,4 +1,4 @@
-{% set links = [
+{% set links = {
     'friend': [
         "Play with a friend",
         "lichess_invite_friend",
@@ -14,14 +14,14 @@
         "lichess_invite_ai",
         "Challenge the artificial intelligence"
     ]
-] %}
+} %}
 <div class="lichess_ground">
     <div class="lichess_table lichess_table_not_started">
         {% for name, link in links %}
             {% if name == active %}
                 <span class="lichess_button active" title="{% trans link[2] %}">{% trans link[0] %}</span>
             {% else %}
-                <a class="lichess_button" href="{% path link[1] with ["color": color] %}" title="{% trans link[2] %}">{% trans link[0] %}</a>
+                <a class="lichess_button" href="{% path link[1] with {"color": color} %}" title="{% trans link[2] %}">{% trans link[0] %}</a>
             {% endif %}
         {% endfor %}
     </div>

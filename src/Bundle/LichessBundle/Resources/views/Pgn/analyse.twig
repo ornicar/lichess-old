@@ -15,11 +15,11 @@
 {% endblock %}
 {% block goodies %}
 <div class="lichess_goodies">
-    <a class="rotate_board" href="{% path "lichess_pgn_viewer" with ["id": game.id, "color": reverseColor] %}">{% trans "Flip board" %}</a><br />
+    <a class="rotate_board" href="{% path "lichess_pgn_viewer" with {"id": game.id, "color": reverseColor} %}">{% trans "Flip board" %}</a><br />
     <br />
     {% if game.isBeingPlayed %}
-        <a class="link" href="{% path "lichess_game" with ["id": game.id] %}">
-            Playing right now at {% url "lichess_game" with ["id": game.id] %}
+        <a class="link" href="{% path "lichess_game" with {"id": game.id} %}">
+            Playing right now at {% url "lichess_game" with {"id": game.id} %}
         </a>
     {% else %}
         {{ _view.time.ago(game.updatedAt) }}
@@ -30,7 +30,7 @@
         <div>
             {% trans player.color|capitalize %} -
             {% if player.isAi %}
-                {% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel] %}
+                {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
             {% else %}
                 {{ _view.lichess_user.linkPlayer(player)|raw }}
             {% endif %}

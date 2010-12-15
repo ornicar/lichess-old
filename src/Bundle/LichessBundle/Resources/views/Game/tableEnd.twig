@@ -1,15 +1,15 @@
 {% set game = player.game %}
 {% set winner = game.winner %}
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.twig" with ["clock": player.game.clock, "color": player.opponent.color, "position": "top"] %}
+    {% include "LichessBundle:Game:clock.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
 {% endif %}
 <div class="lichess_table finished {{ game.next ? " lichess_table_next" : "" }}">
     <div class="lichess_opponent">
         {% if player.opponent.isAi %}
-        <span>{% trans "%ai_name% level %ai_level%" with ['%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel] %}</span>
+        <span>{% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel} %}</span>
         {% else %}
             <div class="opponent_status">
-                {% render "LichessBundle:Player:opponent" with ["id": game.id, "color": player.color, "playerFullId": player.fullId] %}
+                {% render "LichessBundle:Player:opponent" with {"id": game.id, "color": player.color, "playerFullId": player.fullId} %}
             </div>
         {% endif %}
     </div>
@@ -33,7 +33,7 @@
                 <div class="lichess_separator"></div>
                 <div class="lichess_play_again_join rematch_alert">
                     {% trans "Your opponent wants to play a new game with you" %}.&nbsp;
-                    <a class="lichess_play_again lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{% path "lichess_rematch" with ["id": player.fullId, "version": 9999999] %}">{% trans "Join the game" %}</a><br />
+                    <a class="lichess_play_again lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{% path "lichess_rematch" with {"id": player.fullId, "version": 9999999} %}">{% trans "Join the game" %}</a><br />
                     <a class="lichess_play_again_decline">{% trans "Decline invitation" %}</a>
                 </div>
             {% elseif player.isOfferingRematch %}
@@ -43,11 +43,11 @@
                     {% trans 'Waiting for opponent' %}...
                 </div>
             {% else %}
-                | <a class="lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{% path "lichess_rematch" with ["id": player.fullId, "version": 9999999] %}">{% trans "Rematch" %}</a>
+                | <a class="lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{% path "lichess_rematch" with {"id": player.fullId, "version": 9999999} %}">{% trans "Rematch" %}</a>
             {% endif %}
         {% endif %}
     </div>
 </div>
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.twig" with ["clock": game.clock, "color": player.color, "position": "bottom"] %}
+    {% include "LichessBundle:Game:clock.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
 {% endif %}

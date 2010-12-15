@@ -1,5 +1,5 @@
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.twig" with ["clock": player.game.clock, "color": player.opponent.color, "position": "top"] %}
+    {% include "LichessBundle:Game:clock.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
 {% endif %}
 <div class="lichess_table">
     <div class="lichess_opponent">
@@ -12,7 +12,7 @@
             </select>
         {% else %}
             <div class="opponent_status">
-                {% render "LichessBundle:Player:opponent" with ["id": player.game.id, "color": player.color, "playerFullId": player.fullId] %}
+                {% render "LichessBundle:Player:opponent" with {"id": player.game.id, "color": player.color, "playerFullId": player.fullId} %}
             </div>
         {% endif %}
     </div>
@@ -29,32 +29,32 @@
     </div>
     <div class="lichess_control clearfix">
         {% if player.game.isAbortable %}
-            <a href="{% path "lichess_abort" with ['id': player.fullId] %}" class="lichess_abort">{% trans "Abort game" %}</a>
+            <a href="{% path "lichess_abort" with {'id': player.fullId} %}" class="lichess_abort">{% trans "Abort game" %}</a>
         {% else %}
-            <a href="{% path "lichess_resign" with ['id': player.fullId] %}" class="lichess_resign" title="{% trans "Give up" %}">{% trans "Resign" %}</a>
+            <a href="{% path "lichess_resign" with {'id': player.fullId} %}" class="lichess_resign" title="{% trans "Give up" %}">{% trans "Resign" %}</a>
             {% if player.canOfferDraw %}
-                <a class="offer_draw" href="{% path "lichess_offer_draw" with["id": player.fullId] %}">{% trans "Offer draw" %}</a>
+                <a class="offer_draw" href="{% path "lichess_offer_draw" with{"id": player.fullId} %}">{% trans "Offer draw" %}</a>
             {% endif %}
         {% endif %}
     </div>
     {% if player.isMyTurn and player.game.isThreefoldRepetition %}
     <div class="lichess_claim_draw_zone">
         {% trans "Threefold repetition" %}.&nbsp;
-        <a class="lichess_claim_draw" href="{% path "lichess_claim_draw" with ["id": player.fullId] %}">{% trans "Claim a draw" %}</a>
+        <a class="lichess_claim_draw" href="{% path "lichess_claim_draw" with {"id": player.fullId} %}">{% trans "Claim a draw" %}</a>
     </div>
     {% elseif player.isOfferingDraw %}
     <div class="offered_draw">
         {% trans "Draw offer sent" %}.&nbsp;
-        <a href="{% path "lichess_cancel_draw_offer" with ["id": player.fullId] %}">{% trans "Cancel" %}</a>
+        <a href="{% path "lichess_cancel_draw_offer" with {"id": player.fullId} %}">{% trans "Cancel" %}</a>
     </div>
     {% elseif player.opponent.isOfferingDraw %}
     <div class="offered_draw">
         {% trans "Your opponent offers a draw" %}.<br />
-        <a href="{% path "lichess_accept_draw_offer" with ["id": player.fullId] %}">{% trans "Accept" %}</a>&nbsp;
-        <a href="{% path "lichess_decline_draw_offer" with ["id": player.fullId] %}">{% trans "Decline" %}</a>
+        <a href="{% path "lichess_accept_draw_offer" with {"id": player.fullId} %}">{% trans "Accept" %}</a>&nbsp;
+        <a href="{% path "lichess_decline_draw_offer" with {"id": player.fullId} %}">{% trans "Decline" %}</a>
     </div>
     {% endif %}
 </div>
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.twig" with ["clock": player.game.clock, "color": player.color, "position": "bottom"] %}
+    {% include "LichessBundle:Game:clock.twig" with {"clock": player.game.clock, "color": player.color, "position": "bottom"} %}
 {% endif %}
