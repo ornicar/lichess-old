@@ -1,5 +1,5 @@
-{% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": topics.pages, "url": _view.forum.urlForCategory(category)] %}{% endset %}
-{% set newTopicUrl %}{% path "forum_category_topic_new" with ["slug": category.slug] %}{% endset %}
+{% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": topics.pages, "url": _view.forum.urlForCategory(category)} %}{% endset %}
+{% set newTopicUrl %}{% path "forum_category_topic_new" with {"slug": category.slug} %}{% endset %}
 
 <div class="bar top clearfix">
     <div class="pagination">{{ pagination|raw }}</div>

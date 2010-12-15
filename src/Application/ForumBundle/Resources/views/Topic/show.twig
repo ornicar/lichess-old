@@ -5,7 +5,7 @@
 <link href="{{ _view.forum.urlForTopicAtomFeed(topic)|raw }}" type="application/atom+xml" rel="alternate" title="{{ topic.subject|raw }} - Lichess Forum" />
 {% endblock %}
 {% block content %}
-{% set pagination %}{% include "LichessBundle::pagination.twig" with ["pager": posts.pages, "url": _view.forum.urlForTopic(topic)] %}{% endset %}
+{% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": posts.pages, "url": _view.forum.urlForTopic(topic)} %}{% endset %}
 {% set replyUrl = _view.forum.urlForTopicReply(topic) %}
 {% set isLastPage = _view.forum.getTopicNumPages(topic) == posts.currentPageNumber %}
 
@@ -23,11 +23,11 @@
         <a href="{{ replyUrl }}" class="action button">Reply to this topic</a>
     </div>
 
-    {% include "ForumBundle:Post:list.twig" with ["posts": posts] %}
+    {% include "ForumBundle:Post:list.twig" with {"posts": posts} %}
 
     {% if isLastPage %}
         <div class="topicReply">
-            {% render "ForumBundle:Post:new" with ["topic": topic] %}
+            {% render "ForumBundle:Post:new" with {"topic": topic} %}
         </div>
     {% endif %}
 

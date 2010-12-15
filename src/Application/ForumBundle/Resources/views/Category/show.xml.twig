@@ -5,5 +5,5 @@
     <link href="{{ _view.forum.urlForCategory(category, true)|raw }}" rel="alternate" />
     <link href="{% url "forum_index" %}" />
     <updated>{{ category.lastPost.createdAt|date("c")|raw }}</updated>
-    {% render "ForumBundle:Topic:list" with ["category": category ] %}
+    {% render "ForumBundle:Topic:list" with {"category": category } %}
 </feed>
