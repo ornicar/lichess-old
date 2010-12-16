@@ -10,7 +10,6 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Form;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PlayerController extends Controller
 {
@@ -301,7 +300,7 @@ class PlayerController extends Controller
         $this->get('lichess_synchronizer')->setAlive($player);
 
         if(!$game->getIsStarted()) {
-            throw new HttpException(sprintf('Player:show game:%s, Game not started', $game->getId()), 410);
+            throw new \RuntimeException(sprintf('Player:show game:%s, Game not started', $game->getId()), 410);
         }
 
         $analyser = new Analyser($game->getBoard());
