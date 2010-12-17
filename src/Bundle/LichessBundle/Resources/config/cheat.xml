@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.cheat.internal_detector.class">Bundle\LichessBundle\Cheat\InternalDetector</parameter>
+        <parameter key="lichess.cheat.internal_detector.turns">10</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="lichess.cheat.internal_detector" class="%lichess.cheat.internal_detector.class%" shared="true">
+            <argument type="service" id="lichess.repository.game" />
+            <argument>%lichess.cheat.internal_detector.turns%</argument>
+        </service>
+
+    </services>
+</container>

@@ -1,10 +1,10 @@
 <?php
 
-namespace Bundle\LichessBundle\Chess;
+namespace Bundle\LichessBundle\Cheat;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\GameRepository;
 
-class Anticheat
+class InternalDetector
 {
     protected $gameRepository;
     protected $turns;
@@ -24,7 +24,7 @@ class Anticheat
             return false;
         }
 
-        // Detect client using AI
+        // Detect client using internal AI
         $similarGames = $this->gameRepository->findSimilar($game, new \DateTime('-10 minutes'));
         foreach($similarGames as $similarGame) {
             if($similarGame->getInvited()->getIsAi()) {
