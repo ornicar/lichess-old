@@ -12,7 +12,7 @@
         {% if notice %}
             <div class="notice">{{ notice }}</div>
         {% endif %}
-        <form action="{% path "lichess_translate_locale" with {"locale": locale] %}" data-change-url="{% path "lichess_translate_locale" with ["locale": "__"} %}" method="post">
+        <form action="{% path "lichess_translate_locale" with {"locale": locale} %}" data-change-url="{% path "lichess_translate_locale" with {"locale": "__"} %}" method="post">
             <div class="field">
                 {{ form.code|render_label("Translate from english to") }}
                 {{ form.code|render }}
@@ -61,6 +61,7 @@
             <li><strong>Chinese</strong> 神爱</li>
             <li><strong>Galician</strong> José Manuel Castroagudín Silva</li>
             <li><strong>Turkmen</strong> Anonymous</li>
+            <li><strong>Hrvatski</strong> Betyárcsimbók</li>
         </ul>
     </div>
 </div>

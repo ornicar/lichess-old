@@ -54,6 +54,7 @@
             <parameter key="zh">中文</parameter>
             <parameter key="gl">Galego</parameter>
             <parameter key="tk">Türkçe</parameter>
+            <parameter key="hr">hrvatski</parameter>
         </parameter>
 
     </parameters>
