@@ -172,6 +172,14 @@ class Game
     protected $isRated = null;
 
     /**
+     * If true, the elo points exchanged during this game have been canceled
+     *
+     * @var bool
+     * @mongodb:Field(type="boolean")
+     */
+    protected $isEloCanceled = null;
+
+    /**
      * The game board
      *
      * @var Board
@@ -227,6 +235,23 @@ class Game
             throw new \LogicException('Can not change ranking mode, game is already started');
         }
         $this->isRated = $isRated ? true : null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsEloCanceled()
+    {
+        return (bool) $this->isEloCanceled;
+    }
+
+    /**
+     * @param  bool
+     * @return null
+     */
+    public function setIsEloCanceled($isEloCanceled)
+    {
+        $this->isEloCanceled = $isEloCanceled ? true : null;
     }
 
     public function addUserId($userId)
