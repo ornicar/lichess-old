@@ -37,6 +37,11 @@ class PunishmentCommand extends BaseCommand
         if(!$user) {
             throw new \InvalidArgumentException(sprintf('The user "%s" does not exist', $username));
         }
-        $this->container->get('lichess.cheat.punisher')->punish($user);
+        $punisher = $this->container->get('lichess.cheat.punisher');
+        $punisher->setLogger(function($message) use ($output)
+        {
+            $output->writeLn($message);
+        });
+        $punisher->punish($user);
     }
 }

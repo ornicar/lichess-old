@@ -845,6 +845,13 @@ class Game
         }
     }
 
+    public function getLoser()
+    {
+        if($winner = $this->getWinner()) {
+            return $winner->getOpponent();
+        }
+    }
+
     public function addPlayer(Player $player)
     {
         $this->players->add($player);

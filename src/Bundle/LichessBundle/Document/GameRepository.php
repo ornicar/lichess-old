@@ -18,6 +18,20 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Find games played by a potential cheater, where we can cancel the elo points exchanged
+     *
+     * @return array
+     **/
+    public function findCancelableByUser(User $user)
+    {
+        return $this->createQueryBuilder()
+            ->field('winnerUserId', $user->getId())
+            ->field('isRated')->equals(true)
+            ->field('isEloCanceled')->equals(false)
+            ->getQuery()->execute();
+    }
+
+    /**
      * Finds one game by its Id
      *
      * @param string $id
