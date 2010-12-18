@@ -1,9 +1,12 @@
+* Secure forum (captcha?)
+* Detect cheaters
+* Show online players
+* Challenge players
 * Facebook share (http://lichess.org/forum/lichess-feedback/share-game-analyse-on-facebook/4cf4248430c3530873010000)
 * rematch chess960 keeps piece position
 * reverse board in watch mode
 * save game config in User document
 * analysis anchor (http://lichess.org/forum/lichess-feedback/4cd1967630c3534159000000)
-* secure forum (captcha?)
 * propose to cancel a move
 * show game in forum
 * admin forum
