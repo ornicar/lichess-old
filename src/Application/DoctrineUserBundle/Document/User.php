@@ -74,6 +74,11 @@ class User extends BaseUser
         $this->eloHistory[time()] = $this->elo;
     }
 
+    public function addElo($elo)
+    {
+        $this->setElo($this->getElo() + $elo);
+    }
+
     public function getMaxElo()
     {
         $eloHistory = $this->getEloHistory();

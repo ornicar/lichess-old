@@ -87,6 +87,8 @@ doctrine_user.config:
             user: Application\DoctrineUserBundle\Controller\UserController
             security: Application\DoctrineUserBundle\Controller\SecurityController
 
+doctrine_user_custom.config: ~
+
 time.helper: ~
 
 lichess.config:

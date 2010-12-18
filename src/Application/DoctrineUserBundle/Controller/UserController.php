@@ -7,6 +7,15 @@ use Zend\Paginator\Paginator;
 
 class UserController extends BaseUserController
 {
+    public function aliveAction()
+    {
+        if($user = $this->get('lichess.security.helper')->getUser()) {
+            $this->get('doctrine_user.repository.user')->setAlive($user);
+        }
+
+        return $this->createResponse('ok');
+    }
+
     /**
      * Show all users
      **/
