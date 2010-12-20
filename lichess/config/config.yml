@@ -14,7 +14,7 @@ security.config:
     providers:
         doctrine_user:
             password_encoder: sha1
-            document: { class: DoctrineUserBundle:User }
+            document: { class: Application\DoctrineUserBundle\Document\User }
     firewalls:
         public:
             pattern: .*
