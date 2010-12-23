@@ -34,9 +34,6 @@
 [submodule "src/vendor/Doctrine2-Sluggable-Functional-Behavior"]
 	path = src/vendor/Doctrine2-Sluggable-Functional-Behavior
 	url = git://github.com/ornicar/Doctrine2-Sluggable-Functional-Behavior.git
-[submodule "src/Bundle/Fos/UserBundle"]
-	path = src/Bundle/Fos/UserBundle
+[submodule "src/Bundle/FOS/UserBundle"]
+	path = src/Bundle/FOS/UserBundle
 	url = git://github.com/FriendsOfSymfony/UserBundle.git
-[submodule "src/Bundle/UserBundle"]
-	path = src/Bundle/UserBundle
-	url = /home/thib/data/workspace/UserBundle
