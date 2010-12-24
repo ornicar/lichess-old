@@ -43,5 +43,6 @@ class PunishmentCommand extends BaseCommand
             $output->writeLn($message);
         });
         $punisher->punish($user);
+        $this->container->get('lichess.object_manager')->flush();
     }
 }

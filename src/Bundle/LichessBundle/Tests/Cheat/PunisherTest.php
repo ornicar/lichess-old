@@ -34,9 +34,9 @@ class PunisherTest extends \PHPUnit_Framework_TestCase
         $user->expects($this->once())
             ->method('setElo')
             ->with(User::STARTING_ELO);
-        $loserUser = $this->createUserMock(array('addElo'));
+        $loserUser = $this->createUserMock(array('setElo'));
         $loserUser->expects($this->never())
-            ->method('addElo');
+            ->method('setElo');
         $loser = $this->createPlayerMock(array('getUser', 'getEloDiff'));
         $loser->expects($this->never())
             ->method('getUser');
@@ -66,10 +66,9 @@ class PunisherTest extends \PHPUnit_Framework_TestCase
         $user->expects($this->once())
             ->method('setElo')
             ->with(User::STARTING_ELO);
-        $loserUser = $this->createUserMock(array('addElo'));
+        $loserUser = $this->createUserMock(array('setElo'));
         $loserUser->expects($this->once())
-            ->method('addElo')
-            ->with(10);
+            ->method('setElo');
         $loser = $this->createPlayerMock(array('getUser', 'getEloDiff'));
         $loser->expects($this->once())
             ->method('getUser')

@@ -25,9 +25,9 @@ class GameRepository extends DocumentRepository
     public function findCancelableByUser(User $user)
     {
         return $this->createQueryBuilder()
-            ->field('winnerUserId', $user->getId())
+            ->field('winnerUserId')->equals($user->getId())
             ->field('isRated')->equals(true)
-            ->field('isEloCanceled')->equals(false)
+            ->field('isEloCanceled')->notEqual(true)
             ->getQuery()->execute();
     }
 

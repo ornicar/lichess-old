@@ -547,6 +547,7 @@ class Game
     public function addPgnMove($pgnMove)
     {
         $this->pgnMoves[] = $pgnMove;
+        $this->setUpdatedNow();
     }
 
     /**
@@ -957,9 +958,6 @@ class Game
         $this->createdAt = new \DateTime();
     }
 
-    /**
-     * @mongodb:PreUpdate
-     */
     public function setUpdatedNow()
     {
         $this->updatedAt = new \DateTime();
@@ -991,16 +989,6 @@ class Game
             if(!$player->getIsAi()) {
                 apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
             }
-        }
-    }
-
-    /**
-     * @mongodb:PostRemove
-     */
-    public function clearPlayerVersionCache()
-    {
-        foreach($this->getPlayers() as $player) {
-            apc_delete($this->getId().'.'.$player->getColor().'.data');
         }
     }
 }
