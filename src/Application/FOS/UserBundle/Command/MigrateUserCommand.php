@@ -65,5 +65,8 @@ class MigrateUserCommand extends Command
         if(isset($user['confirmationToken'])) {
             unset($user['confirmationToken']);
         }
+        if($user['usernameLower'] === 'thibault') {
+            $user['roles'] = array(User::ROLE_SUPERADMIN);
+        }
     }
 }

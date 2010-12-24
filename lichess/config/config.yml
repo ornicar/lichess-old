@@ -78,7 +78,9 @@ forum.config:
 
 fos_user.config:
     db_driver: odm
-    password_encoder: sha1
+    encoder:
+        iterations: 1
+        encodeHashAsBase64: false
     class:
         model:
             user: Application\FOS\UserBundle\Document\User
