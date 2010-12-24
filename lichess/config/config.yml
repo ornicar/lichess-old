@@ -12,14 +12,14 @@ app.config:
 
 security.config:
     providers:
-        doctrine_user:
+        fos_user:
             password_encoder: sha1
             document: { class: Application\FOS\UserBundle\Document\User }
     firewalls:
         public:
             pattern: .*
             form_login:
-                provider:                       doctrine_user
+                provider:                       fos_user
                 login_path:                     /login
                 use_forward:                    false
                 check_path:                     /login-check
@@ -44,7 +44,7 @@ apc.config:
 
 doctrine_odm.mongodb:
     auto_generate_proxy_classes: false
-    auto_generate_hydrator_classes: false
+    auto_generate_hydrator_classes: true
     default_database: lichess
     metadata_cache_driver: apc
     cache_driver: apc

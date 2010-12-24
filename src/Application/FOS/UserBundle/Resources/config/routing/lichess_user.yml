@@ -1,21 +1,21 @@
-doctrine_user_user_list:
+fos_user_user_list:
     pattern:    /people
-    defaults:   { _controller: doctrine_user.controller.user:listAction }
+    defaults:   { _controller: fos_user.controller.user:listAction }
 
-doctrine_user_user_new:
+fos_user_user_new:
     pattern:    /signup
-    defaults:   { _controller: doctrine_user.controller.user:newAction }
+    defaults:   { _controller: fos_user.controller.user:newAction }
     requirements: { _method: get }
 
-doctrine_user_user_create:
+fos_user_user_create:
     pattern:    /signup
-    defaults:   { _controller: doctrine_user.controller.user:createAction }
+    defaults:   { _controller: fos_user.controller.user:createAction }
     requirements: { _method: post }
 
-doctrine_user_user_show:
+fos_user_user_show:
     pattern:    /@/:username
-    defaults:   { _controller: doctrine_user.controller.user:showAction }
+    defaults:   { _controller: fos_user.controller.user:showAction }
 
-doctrine_user_user_confirmed:
+fos_user_user_confirmed:
     pattern:    /signup-confirmed
-    defaults:   { _controller: doctrine_user.controller.user:confirmedAction }
+    defaults:   { _controller: fos_user.controller.user:confirmedAction }

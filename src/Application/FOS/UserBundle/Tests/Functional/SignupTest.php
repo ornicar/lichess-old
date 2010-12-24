@@ -14,15 +14,15 @@ class SignupTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('/Sign up/', $crawler->filter('.lichess_title')->text());
         $form = $crawler->selectButton('Sign up')->form();
-        $form['doctrine_user_user_form[username]'] = 'test-username';
-        $form['doctrine_user_user_form[plainPassword]'] = 'test-password';
+        $form['fos_user_user_form[username]'] = 'test-username';
+        $form['fos_user_user_form[plainPassword]'] = 'test-password';
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $crawler = $client->request('GET', $this->generateUrl($client, 'doctrine_user_user_show', array('username' => 'test-username')));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => 'test-username')));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('/test-username/', $crawler->filter('.lichess_title')->text());
     }
@@ -30,10 +30,10 @@ class SignupTest extends WebTestCase
     public function testSignupWithBadUsername()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'doctrine_user_user_new'));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
         $form = $crawler->selectButton('Sign up')->form();
-        $form['doctrine_user_user_form[username]'] = 'x';
-        $form['doctrine_user_user_form[plainPassword]'] = 'test-password';
+        $form['fos_user_user_form[username]'] = 'x';
+        $form['fos_user_user_form[plainPassword]'] = 'test-password';
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -43,10 +43,10 @@ class SignupTest extends WebTestCase
     public function testSignupWithBadPassword()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'doctrine_user_user_new'));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
         $form = $crawler->selectButton('Sign up')->form();
-        $form['doctrine_user_user_form[username]'] = 'test-username';
-        $form['doctrine_user_user_form[plainPassword]'] = '';
+        $form['fos_user_user_form[username]'] = 'test-username';
+        $form['fos_user_user_form[plainPassword]'] = '';
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -56,16 +56,16 @@ class SignupTest extends WebTestCase
     public function testSignupWithExistingUsername()
     {
         $client = $this->createClient();
-        $user = $client->getContainer()->get('doctrine_user.repository.user')->createUserInstance();
+        $user = $client->getContainer()->get('fos_user.repository.user')->createUserInstance();
         $user->setUsername('test-username');
         $user->setPlainPassword('test-password');
-        $client->getContainer()->get('doctrine_user.object_manager')->persist($user);
-        $client->getContainer()->get('doctrine_user.object_manager')->flush();
+        $client->getContainer()->get('fos_user.object_manager')->persist($user);
+        $client->getContainer()->get('fos_user.object_manager')->flush();
 
-        $crawler = $client->request('GET', $this->generateUrl($client, 'doctrine_user_user_new'));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
         $form = $crawler->selectButton('Sign up')->form();
-        $form['doctrine_user_user_form[username]'] = 'test-username';
-        $form['doctrine_user_user_form[plainPassword]'] = 'other-password';
+        $form['fos_user_user_form[username]'] = 'test-username';
+        $form['fos_user_user_form[plainPassword]'] = 'other-password';
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -80,10 +80,10 @@ class SignupTest extends WebTestCase
     public function setUp()
     {
         $client = $this->createClient();
-        $user = $client->getContainer()->get('doctrine_user.repository.user')->findOneByUsername('test-username');
+        $user = $client->getContainer()->get('fos_user.repository.user')->findOneByUsername('test-username');
         if($user) {
-            $client->getContainer()->get('doctrine_user.object_manager')->remove($user);
-            $client->getContainer()->get('doctrine_user.object_manager')->flush();
+            $client->getContainer()->get('fos_user.object_manager')->remove($user);
+            $client->getContainer()->get('fos_user.object_manager')->flush();
         }
     }
 }

@@ -9,7 +9,7 @@ class UserPageTest extends WebTestCase
     public function testUserPage()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'doctrine_user_user_show', array('username' => 'test-username')));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => 'test-username')));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('test-username (1200)', $crawler->filter('.lichess_title')->text());
         $this->assertRegexp('/Games played/', $client->getResponse()->getContent());
@@ -19,7 +19,7 @@ class UserPageTest extends WebTestCase
     public function testNonExistingUserPage()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'doctrine_user_user_show', array('username' => 'test-notexistingusername')));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => 'test-notexistingusername')));
         $this->assertFalse($client->getResponse()->isSuccessful());
     }
 
@@ -31,20 +31,20 @@ class UserPageTest extends WebTestCase
     public function setUp()
     {
         $client = $this->createClient();
-        $user = $client->getContainer()->get('doctrine_user.repository.user')->createUserInstance();
+        $user = $client->getContainer()->get('fos_user.repository.user')->createUserInstance();
         $user->setUsername('test-username');
         $user->setPlainPassword('test-password');
-        $client->getContainer()->get('doctrine_user.object_manager')->persist($user);
-        $client->getContainer()->get('doctrine_user.object_manager')->flush();
+        $client->getContainer()->get('fos_user.object_manager')->persist($user);
+        $client->getContainer()->get('fos_user.object_manager')->flush();
     }
 
     public function tearDown()
     {
         $client = $this->createClient();
-        $user = $client->getContainer()->get('doctrine_user.repository.user')->findOneByUsername('test-user');
+        $user = $client->getContainer()->get('fos_user.repository.user')->findOneByUsername('test-user');
         if($user) {
-            $client->getContainer()->get('doctrine_user.object_manager')->remove($user);
-            $client->getContainer()->get('doctrine_user.object_manager')->flush();
+            $client->getContainer()->get('fos_user.object_manager')->remove($user);
+            $client->getContainer()->get('fos_user.object_manager')->flush();
         }
     }
 }

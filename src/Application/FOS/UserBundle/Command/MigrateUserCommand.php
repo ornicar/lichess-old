@@ -33,7 +33,7 @@ class MigrateUserCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repo = $this->container->get('doctrine_user.repository.user');
+        $repo = $this->container->get('fos_user.repository.user');
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
 
         $collection = $dm->getDocumentCollection($repo->getObjectClass())->getMongoCollection();

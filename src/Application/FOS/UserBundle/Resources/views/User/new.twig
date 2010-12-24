@@ -1,4 +1,4 @@
-{% extends "DoctrineUserBundle::layoutUser.twig" %}
+{% extends "UserBundle::layoutUser.twig" %}
 {% block content %}
 <div class="lichess_box signup_box">
     <span class="box_right_text">{% trans "Have an account?" %} <a class="toggle_signin">{% trans "Sign in" %}</a></span>
@@ -11,7 +11,7 @@
         Signup if you want to save your played games and have an ELO ranking.
     </p>
     {% form_theme form form.getOption('theme') %}
-    <form action="{{ path('doctrine_user_user_create') }}" method="POST" class="signup">
+    <form action="{{ path('fos_user_user_create') }}" method="POST" class="signup">
         <ul>
             <li class="username">
                 {{ form.username|render_label }}

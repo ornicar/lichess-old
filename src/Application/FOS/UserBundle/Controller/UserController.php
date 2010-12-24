@@ -12,15 +12,15 @@ class UserController extends BaseUserController
      **/
     public function listAction()
     {
-        $query = $this->get('doctrine_user.repository.user')->createQueryBuilder()
+        $query = $this->get('fos_user.repository.user')->createQueryBuilder()
             ->sort('elo', 'desc');
         $users = new Paginator(new DoctrineMongoDBAdapter($query));
         $users->setCurrentPageNumber($this->get('request')->query->get('page', 1));
         $users->setItemCountPerPage(20);
         $users->setPageRange(10);
-        $pagerUrl = $this->generateUrl('doctrine_user_user_list');
+        $pagerUrl = $this->generateUrl('fos_user_user_list');
 
-        return $this->render('DoctrineUserBundle:User:list.'.$this->getRenderer(), array('users' => $users));
+        return $this->render('UserBundle:User:list.'.$this->getRenderer(), array('users' => $users));
     }
 
     public function showAction($username)
@@ -34,9 +34,9 @@ class UserController extends BaseUserController
         $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
         $games->setItemCountPerPage(3);
         $games->setPageRange(10);
-        $pagerUrl = $this->generateUrl('doctrine_user_user_show', array('username' => $user->getUsername()));
+        $pagerUrl = $this->generateUrl('fos_user_user_show', array('username' => $user->getUsername()));
 
-        return $this->render('DoctrineUserBundle:User:show.'.$this->getRenderer(), array(
+        return $this->render('UserBundle:User:show.'.$this->getRenderer(), array(
             'user'     => $user,
             'critic'   => $critic,
             'games'    => $games,
@@ -51,7 +51,7 @@ class UserController extends BaseUserController
             return $this->redirect($this->generateUrl('lichess_homepage'));
         }
 
-        return $this->redirect($this->generateUrl('doctrine_user_user_show', array(
+        return $this->redirect($this->generateUrl('fos_user_user_show', array(
             'username' => $this->get('security.context')->getUser()->getUsername()
         )));
     }

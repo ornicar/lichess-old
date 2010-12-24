@@ -32,20 +32,20 @@ class SigninTest extends WebTestCase
     public function setUp()
     {
         $client = $this->createClient();
-        $user = $client->getContainer()->get('doctrine_user.repository.user')->createUserInstance();
+        $user = $client->getContainer()->get('fos_user.repository.user')->createUserInstance();
         $user->setUsername('test-username');
         $user->setPlainPassword('test-password');
-        $client->getContainer()->get('doctrine_user.object_manager')->persist($user);
-        $client->getContainer()->get('doctrine_user.object_manager')->flush();
+        $client->getContainer()->get('fos_user.object_manager')->persist($user);
+        $client->getContainer()->get('fos_user.object_manager')->flush();
     }
 
     public function tearDown()
     {
         $client = $this->createClient();
-        $user = $client->getContainer()->get('doctrine_user.repository.user')->findOneByUsername('test-user');
+        $user = $client->getContainer()->get('fos_user.repository.user')->findOneByUsername('test-user');
         if($user) {
-            $client->getContainer()->get('doctrine_user.object_manager')->remove($user);
-            $client->getContainer()->get('doctrine_user.object_manager')->flush();
+            $client->getContainer()->get('fos_user.object_manager')->remove($user);
+            $client->getContainer()->get('fos_user.object_manager')->flush();
         }
     }
 }
