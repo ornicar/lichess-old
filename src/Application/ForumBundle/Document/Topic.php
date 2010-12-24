@@ -35,4 +35,15 @@ class Topic extends BaseTopic
     {
         return $this->getFirstPost()->getAuthorName();
     }
+
+    /**
+     * Hack to fix temporary Form issue
+     *
+     * @param string $message
+     * @return void
+     */
+    public function setMessage($message)
+    {
+        $this->getFirstPost()->setMessage($message);
+    }
 }
