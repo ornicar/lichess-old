@@ -24,7 +24,7 @@ class MigrateUserCommand extends Command
     {
         $this
             ->setDefinition(array())
-            ->setName('doctrine:user:migrate')
+            ->setName('fos:user:migrate')
         ;
     }
 
@@ -53,10 +53,17 @@ class MigrateUserCommand extends Command
             $user['enabled'] = (bool) $user['isActive'];
             unset($user['isActive']);
         }
-        $user['roles'] = array();
-        if(array_key_exists('isSuperAdmin', $user) && $user['isSuperAdmin']) {
-            $user['roles'][] = User::ROLE_SUPERADMIN;
-            unset($user['isSuperAdmin']);
+        if(!array_key_exists('roles', $user)) {
+            $user['roles'] = array();
+            if(array_key_exists('isSuperAdmin', $user)) {
+                if($user['isSuperAdmin']) {
+                    $user['roles'][] = User::ROLE_SUPERADMIN;
+                }
+                unset($user['isSuperAdmin']);
+            }
+        }
+        if(isset($user['confirmationToken'])) {
+            unset($user['confirmationToken']);
         }
     }
 }
