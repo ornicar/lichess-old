@@ -33,7 +33,7 @@
         {% else %}
             <a href="{{ path("lichess_resign", {'id': player.fullId} ) }}" class="lichess_resign" title="{% trans "Give up" %}">{% trans "Resign" %}</a>
             {% if player.canOfferDraw %}
-                <a class="offer_draw" href="{% path "lichess_offer_draw" with{"id": player.fullId} %}">{% trans "Offer draw" %}</a>
+                <a class="offer_draw" href="{{ path("lichess_offer_draw", {"id": player.fullId} ) }}">{% trans "Offer draw" %}</a>
             {% endif %}
         {% endif %}
     </div>
