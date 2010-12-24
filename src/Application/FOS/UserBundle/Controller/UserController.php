@@ -46,7 +46,7 @@ class UserController extends BaseUserController
 
     public function confirmedAction()
     {
-        if(!$this->get('lichess.security.helper')->isAuthenticated()) {
+        if(!$this->get('fos_user.templating.helper.security')->isAuthenticated()) {
             $this->get('logger')->warn(sprintf('User:confirmed no user authenticated'));
             return $this->redirect($this->generateUrl('lichess_homepage'));
         }
