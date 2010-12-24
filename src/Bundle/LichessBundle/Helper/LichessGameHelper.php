@@ -6,7 +6,7 @@ use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\DoctrineUserBundle\Model\User;
+use Bundle\FOS\UserBundle\Model\User;
 
 class LichessGameHelper extends Helper
 {

@@ -27,13 +27,13 @@
         {% endif %}
     </div>
     <div class="lichess_control clearfix">
-        <a class="lichess_new_game" href="{% path "lichess_homepage" %}">{% trans "New game" %}</a>
+        <a class="lichess_new_game" href="{{ path("lichess_homepage") }}">{% trans "New game" %}</a>
         {% if player.opponent.isHuman %}
             {% if player.opponent.isOfferingRematch %}
                 <div class="lichess_separator"></div>
                 <div class="lichess_play_again_join rematch_alert">
                     {% trans "Your opponent wants to play a new game with you" %}.&nbsp;
-                    <a class="lichess_play_again lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{% path "lichess_rematch" with {"id": player.fullId, "version": 9999999} %}">{% trans "Join the game" %}</a><br />
+                    <a class="lichess_play_again lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{{ path("lichess_rematch", {"id": player.fullId, "version": 9999999} ) }}">{% trans "Join the game" %}</a><br />
                     <a class="lichess_play_again_decline">{% trans "Decline invitation" %}</a>
                 </div>
             {% elseif player.isOfferingRematch %}
@@ -43,7 +43,7 @@
                     {% trans 'Waiting for opponent' %}...
                 </div>
             {% else %}
-                | <a class="lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{% path "lichess_rematch" with {"id": player.fullId, "version": 9999999} %}">{% trans "Rematch" %}</a>
+                | <a class="lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{{ path("lichess_rematch", {"id": player.fullId, "version": 9999999} ) }}">{% trans "Rematch" %}</a>
             {% endif %}
         {% endif %}
     </div>

@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle\Cheat;
 
 use Bundle\LichessBundle\Document\GameRepository;
 use Bundle\LichessBundle\Document\Game;
-use Application\DoctrineUserBundle\Document\User;
+use Application\FOS\UserBundle\Document\User;
 
 class Punisher
 {

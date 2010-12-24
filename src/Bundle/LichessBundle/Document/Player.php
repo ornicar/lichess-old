@@ -6,7 +6,7 @@ use Bundle\LichessBundle\Util\KeyGenerator;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Bundle\DoctrineUserBundle\Model\User;
+use Bundle\FOS\UserBundle\Model\User;
 
 /**
  * Represents a single Chess player for one game
@@ -28,7 +28,7 @@ class Player
      * User bound to the player - optional
      *
      * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     * @mongodb:ReferenceOne(targetDocument="Application\FOS\UserBundle\Document\User")
      */
     protected $user = null;
 

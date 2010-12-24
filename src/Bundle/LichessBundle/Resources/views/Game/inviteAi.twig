@@ -7,7 +7,7 @@
         <div class="lichess_overboard game_config game_config_ai">
             <h2>{% trans "Play with the machine" %}</h2>
             <div class="game_config_form">
-                <form action="{% path "lichess_invite_ai" with {"color": color} %}" method="post">
+                <form action="{{ path("lichess_invite_ai", {"color": color} ) }}" method="post">
                     <div class="variants">
                         {{ form.variant|render }}
                     </div>

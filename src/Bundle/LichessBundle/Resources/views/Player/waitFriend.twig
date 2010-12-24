@@ -6,7 +6,7 @@
         {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".twig" %}
         <div class="lichess_overboard">
             {% trans "To invite someone to play, give this url" %}:
-            <input class="lichess_id_input" readonly="readonly" value="{% url "lichess_game" with {"id": player.game.id} %}" />
+            <input class="lichess_id_input" readonly="readonly" value="{{ url("lichess_game", {"id": player.game.id} ) }}" />
             <p class="explanations">{% trans "The first person to come on this url will play with you." %}<p>
             <p class="explanations">
                 {% trans "Variant" %}: {% trans config.variantName %}<br />

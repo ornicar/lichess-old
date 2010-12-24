@@ -1,10 +1,10 @@
 <?php
 
 namespace Bundle\LichessBundle\Critic;
-use Bundle\DoctrineUserBundle\Document\User;
+use Bundle\FOS\UserBundle\Document\User;
 use Bundle\LichessBundle\Document\GameRepository;
 use Bundle\LichessBundle\Document\Game;
-use Application\DoctrineUserBundle\Document\UserRepository;
+use Application\FOS\UserBundle\Document\UserRepository;
 
 class UserCritic
 {

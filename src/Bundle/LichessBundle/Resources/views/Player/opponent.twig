@@ -5,5 +5,5 @@
 <div title="{% trans "Human opponent offline" %}" class="username offline">{{ opponentLink|raw }}</div>
 {% else %}
 {{ opponentLink|raw }} - {% trans "The other player has left the game. You can force resignation, or wait for him." %}<br />
-<a title="{% trans "Make your opponent resign" %}" class="force_resignation" href="{% path "lichess_force_resignation" with {"id": playerFullId} %}">{% trans "Force resignation" %}</a>
+<a title="{% trans "Make your opponent resign" %}" class="force_resignation" href="{{ path("lichess_force_resignation", {"id": playerFullId} ) }}">{% trans "Force resignation" %}</a>
 {% endif %}

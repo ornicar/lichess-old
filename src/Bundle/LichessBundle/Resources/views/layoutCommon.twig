@@ -27,12 +27,12 @@
                 <div class="right">
                     <a href="http://twitter.com/#!/ornicar">twitter.com/ornicar</a> | <a href="http://github.com/ornicar">github.com/ornicar</a><br />
                     {% trans "Contact" %}: <span class="js_email"></span><br />
-                    <a href="{% path "lichess_about" %}" class="blank_if_play">{% trans "Learn more about Lichess" %}</a>
+                    <a href="{{ path("lichess_about") }}" class="blank_if_play">{% trans "Learn more about Lichess" %}</a>
                 </div>
-                <div class="nb_connected_players" data-url="{% path "lichess_nb_players" %}">
+                <div class="nb_connected_players" data-url="{{ path("lichess_nb_players") }}">
                     {% trans "%nb% connected players" with{"%nb%": _view.lichess.nbConnectedPlayers} %}
                 </div>
-                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a href="{% path "forum_category_show" with {"slug": "lichess-feedback"} %}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="{% path "lichess_translate" %}">help translate Lichess</a><br />
+                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="{{ path("lichess_translate") }}">help translate Lichess</a><br />
                 {% trans "Open Source software built with %php%, %symfony% and %jqueryui%" with{'%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'} %}<br />
             </div>
         </div>
@@ -45,20 +45,20 @@
         </div>
         <div id="top_menu">
             {% block top_menu %}
-            <a title="{% trans "Toggle sound" %}" href="{% path "lichess_toggle_sound" %}" id="sound_state" class="available sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
-            <div class="lichess_language" data-path="{% path "lichess_locale_links" %}">
+            <a title="{% trans "Toggle sound" %}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
+            <div class="lichess_language" data-path="{{ path("lichess_locale_links") }}">
                 <span class="s16">{{ _view.locale.localeName }}</span>
             </div>
-            <a class="s16 goto_forum goto_nav blank_if_play" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{% path "forum_index" %}">{% trans "Forum" %}</a>
-            <a class="s16 goto_gamelist goto_nav blank_if_play" title="{% trans "See the games being played in real time" %}" href="{% path "lichess_list_current" %}">{% trans "Games" %}</a>
-            <a class="s16 goto_userlist goto_nav blank_if_play" title="{% trans "Chess players" %}" href="{% path "doctrine_user_user_list" %}">{% trans "People" %}</a>
+            <a class="s16 goto_forum goto_nav blank_if_play" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{{ path("forum_index") }}">{% trans "Forum" %}</a>
+            <a class="s16 goto_gamelist goto_nav blank_if_play" title="{% trans "See the games being played in real time" %}" href="{{ path("lichess_list_current") }}">{% trans "Games" %}</a>
+            <a class="s16 goto_userlist goto_nav blank_if_play" title="{% trans "Chess players" %}" href="{{ path("doctrine_user_user_list") }}">{% trans "People" %}</a>
             {% endblock %}
             {% block security %}
                 {% if _view.doctrine_user_security.isAnonymous %}
                     {% include "DoctrineUserBundle:Security:embeddedLogin.twig" %}
                 {% else %}
-                    <a class="s16 goto_nav goto_logout" href="{% path "_security_logout" %}">{% trans "Log out" %}</a>
-                    <a href="{% path "doctrine_user_user_show" with{"username": _view.doctrine_user_security.user.username} %}" class="s16 blank_if_play goto_nav goto_profile">{{ _view.doctrine_user_security.user.usernameWithElo }}</a>
+                    <a class="s16 goto_nav goto_logout" href="{{ path("_security_logout") }}">{% trans "Log out" %}</a>
+                    <a href="{{ path("doctrine_user_user_show", {"username": _view.doctrine_user_security.user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ _view.doctrine_user_security.user.usernameWithElo }}</a>
                 {% endif %}
             {% endblock %}
         </div>

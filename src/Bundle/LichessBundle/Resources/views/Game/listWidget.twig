@@ -3,7 +3,7 @@
 {{ _view.lichess_game.renderMini(game, user)|raw }}
 <div class="infos">
 {% if game.isBeingPlayed %}
-<a class="link" href="{% path "lichess_game" with {"id": game.id} %}">
+<a class="link" href="{{ path("lichess_game", {"id": game.id} ) }}">
     {% trans "Playing right now" %}
 </a>
 {% else %}
@@ -40,7 +40,7 @@
 {% trans "This game is rated" %}
 <br /><br />
 {% endif %}
-<a href="{% path "lichess_pgn_viewer" with {"id": game.id, "color": game.creatorColor} %}">&gt;&gt; {% trans "Replay and analyse" %}</a>
+<a href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {% trans "Replay and analyse" %}</a>
 </div>
 </div>
 {% else %}
