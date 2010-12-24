@@ -127,7 +127,7 @@ class GameController extends Controller
 
     public function inviteFriendAction($color)
     {
-        $isAuthenticated = $this->get('lichess.security.helper')->isAuthenticated();
+        $isAuthenticated = $this->get('fos_user.templating.helper.security')->isAuthenticated();
         $config = new Form\FriendGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
         if(!$isAuthenticated) {
@@ -200,7 +200,7 @@ class GameController extends Controller
         if($this->get('request')->getMethod() == 'HEAD') {
             return $this->createResponse('Lichess play chess with anybody');
         }
-        $isAuthenticated = $this->get('lichess.security.helper')->isAuthenticated();
+        $isAuthenticated = $this->get('fos_user.templating.helper.security')->isAuthenticated();
         $config = new Form\AnybodyGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.anybody', array()));
         if(!$isAuthenticated) {

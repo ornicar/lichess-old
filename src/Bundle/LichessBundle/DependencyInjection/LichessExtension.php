@@ -20,7 +20,6 @@ class LichessExtension extends Extension
         $loader->load('templating.xml');
         $loader->load('translation.xml');
         $loader->load('form.xml');
-        $loader->load('security.xml');
         $loader->load('logger.xml');
         $loader->load('cheat.xml');
 

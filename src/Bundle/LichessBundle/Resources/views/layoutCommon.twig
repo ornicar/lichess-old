@@ -58,7 +58,7 @@
                     {% include "UserBundle:Security:embeddedLogin.twig" %}
                 {% else %}
                     <a class="s16 goto_nav goto_logout" href="{{ path("_security_logout") }}">{% trans "Log out" %}</a>
-                    <a href="{{ path("fos_user_user_show", {"username": _view.doctrine_user_security.user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ _view.fos_user_security.user.usernameWithElo }}</a>
+                    <a href="{{ path("fos_user_user_show", {"username": _view.fos_user_security.user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ _view.fos_user_security.user.usernameWithElo }}</a>
                 {% endif %}
             {% endblock %}
         </div>
