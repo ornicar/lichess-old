@@ -33,7 +33,7 @@ class PunishmentCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
-        $user = $this->container->get('doctrine_user.repository.user')->findOneByUsername($username);
+        $user = $this->container->get('fos_user.repository.user')->findOneByUsername($username);
         if(!$user) {
             throw new \InvalidArgumentException(sprintf('The user "%s" does not exist', $username));
         }

@@ -56,7 +56,7 @@ $(function() {
         .find('input:first').focus();
     });
 
-    $('#doctrine_user_user_form_username').focus();
+    $('#fos_user_user_form_username').focus();
 
     $('#lichess_translation_form_code').change(function() {
         if("0" != $(this).val()) {

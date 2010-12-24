@@ -27,7 +27,7 @@ class LichessUserHelper extends Helper
             return $this->escape($player->getUsernameWithElo());
         }
 
-        $url = $this->generator->generate('doctrine_user_user_show', array('username' => $user->getUsername()));
+        $url = $this->generator->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
         $username = $player->getUsernameWithElo();
         if($eloDiff = $player->getEloDiff()) {
@@ -38,7 +38,7 @@ class LichessUserHelper extends Helper
 
     public function linkUser(User $user, $class = null)
     {
-        $url = $this->generator->generate('doctrine_user_user_show', array('username' => $user->getUsername()));
+        $url = $this->generator->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
         return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
     }
