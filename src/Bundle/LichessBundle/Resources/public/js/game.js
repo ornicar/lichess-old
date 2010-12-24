@@ -66,7 +66,7 @@
              dataType: 'json',
              data: postData || {},
              url: function() { return url.replace(/9999999/, self.options.player.version); },
-             timeout: 5000,
+             timeout: 8000,
              success: function(data) {
                  if(!data) return;
                  if(!self.options.opponent.ai && self.options.opponent.connected != data.o && self.options.game.started) {
