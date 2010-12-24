@@ -12,7 +12,7 @@ class TopicController extends BaseTopicController
 {
     public function createAction(Category $category = null)
     {
-        $form = $this->createForm('forum_topic_new', $category);
+        $form = $this->createForm($category);
         $form->bind($this->get('request')->request->get($form->getName()));
 
         if(!$form->isValid()) {
@@ -38,9 +38,9 @@ class TopicController extends BaseTopicController
         return $response;
     }
 
-    protected function createForm($name, Category $category = null)
+    protected function createForm(Category $category = null)
     {
-        $form = parent::createForm($name, $category);
+        $form = parent::createForm($category);
 
         if($this->get('lichess.security.helper')->isAuthenticated()) {
             unset($form['firstPost']['authorName']);
