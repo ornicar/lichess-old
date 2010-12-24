@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\DoctrineUserBundle\Command;
+namespace Application\FOS\UserBundle\Command;
 
 use Symfony\Component\Console\Input;
 
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
-use Bundle\DoctrineUserBundle\Model\User;
+use Bundle\FOS\UserBundle\Model\User;
 
 /**
  * Migrate user db to latest johanness changes

@@ -1,7 +1,7 @@
 <?php
 
-namespace Application\DoctrineUserBundle\Controller;
-use Bundle\DoctrineUserBundle\Controller\UserController as BaseUserController;
+namespace Application\FOS\UserBundle\Controller;
+use Bundle\FOS\UserBundle\Controller\UserController as BaseUserController;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 

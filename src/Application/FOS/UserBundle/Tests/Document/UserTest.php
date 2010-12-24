@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\DoctrineUserBundle\Document;
+namespace Application\FOS\UserBundle\Document;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {

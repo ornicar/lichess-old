@@ -3,7 +3,7 @@
     <title>{{ topic.subject }} - Lichess Forum</title>
     <id>{{ _view.forum.urlForTopic(topic, true)|raw }}</id>
     <link href="{{ _view.forum.urlForTopic(topic, true)|raw }}" rel="alternate" />
-    <link href="{% url "forum_index" %}" />
+    <link href="{{ url("forum_index") }}" />
     <updated>{{ topic.pulledAt|date("c")|raw }}</updated>
     <author>
         <name>{{ topic.firstPost.authorName|default("Anonymous") }}</name>

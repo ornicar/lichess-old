@@ -1,7 +1,7 @@
 <?php
 
-namespace Application\DoctrineUserBundle\Controller;
-use Bundle\DoctrineUserBundle\Controller\SecurityController as BaseSecurityController;
+namespace Application\FOS\UserBundle\Controller;
+use Bundle\FOS\UserBundle\Controller\SecurityController as BaseSecurityController;
 
 class SecurityController extends  BaseSecurityController
 {

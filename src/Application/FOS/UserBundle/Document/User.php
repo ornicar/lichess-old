@@ -1,11 +1,11 @@
 <?php
 
-namespace Application\DoctrineUserBundle\Document;
-use Bundle\DoctrineUserBundle\Document\User as BaseUser;
+namespace Application\FOS\UserBundle\Document;
+use Bundle\FOS\UserBundle\Document\User as BaseUser;
 
 /**
  * @mongodb:Document(
- *   repositoryClass="Application\DoctrineUserBundle\Document\UserRepository",
+ *   repositoryClass="Application\FOS\UserBundle\Document\UserRepository",
  *   collection="user"
  * )
  */

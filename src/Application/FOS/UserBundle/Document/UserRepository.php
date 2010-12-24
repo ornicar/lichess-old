@@ -1,8 +1,8 @@
 <?php
 
-namespace Application\DoctrineUserBundle\Document;
+namespace Application\FOS\UserBundle\Document;
 
-use Bundle\DoctrineUserBundle\Document\UserRepository as BaseUserRepository;
+use Bundle\FOS\UserBundle\Document\UserRepository as BaseUserRepository;
 
 class UserRepository extends BaseUserRepository
 {

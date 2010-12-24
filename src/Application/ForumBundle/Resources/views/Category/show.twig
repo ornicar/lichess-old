@@ -2,13 +2,13 @@
 {% block title %}{{ category.name|raw }}{% endblock %}
 {% block description %}{{ category.description|raw }}{% endblock %}
 {% block feed_link %}
-    <link href="{% path "forum_category_show" with {"slug": category.slug, "_format": "xml"} %}" type="application/atom+xml" rel="alternate" title="{{ category.name|raw }} - Lichess Forum" />
+    <link href="{{ path("forum_category_show", {"slug": category.slug, "_format": "xml"} ) }}" type="application/atom+xml" rel="alternate" title="{{ category.name|raw }} - Lichess Forum" />
 {% endblock %}
 {% block content %}
 <div class="category">
-    <a href="{% path "forum_category_show" with {"slug": category.slug, "_format": "xml"} %}" title="{% trans "Follow this category" %}" class="forum_feed_link"></a>
+    <a href="{{ path("forum_category_show", {"slug": category.slug, "_format": "xml"} ) }}" title="{% trans "Follow this category" %}" class="forum_feed_link"></a>
     <ol class="crumbs">
-        <li><a href="{% path "forum_index" %}">Forum</a></li>
+        <li><a href="{{ path("forum_index") }}">Forum</a></li>
         <li><h1>{{ category.name|raw }}</h1></li>
     </ol>
 

@@ -11,7 +11,7 @@
         Signup if you want to save your played games and have an ELO ranking.
     </p>
     {% form_theme form form.getOption('theme') %}
-    <form action="{% path 'doctrine_user_user_create' %}" method="POST" class="signup">
+    <form action="{{ path('doctrine_user_user_create') }}" method="POST" class="signup">
         <ul>
             <li class="username">
                 {{ form.username|render_label }}

@@ -1,10 +1,10 @@
 <div class="security">
     <a class="toggle_signin">{% trans "Sign in" %}</a>
-    <form class="signin_form" action="{% path "_security_check" %}" method="post">
+    <form class="signin_form" action="{{ path("_security_check") }}" method="post">
         <input title="{% trans "Username" %}" type="text" class="username" name="_username" value="{{ last_username }}" />
         <input title="{% trans "Password" %}" type="password" class="password" name="_password" />
         <input type="hidden" class="referrer" name="_referrer" value="{{ _view.lichess.currentUrl }}" />
         <input type="submit" name="login" class="login" value="{% trans "Sign in" %}" />
     </form>
-    / <a href="{% path "doctrine_user_user_new" %}">{% trans "Sign up" %}</a>
+    / <a href="{{ path("doctrine_user_user_new") }}">{% trans "Sign up" %}</a>
 </div>
