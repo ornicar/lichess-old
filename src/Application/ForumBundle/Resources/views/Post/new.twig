@@ -1,5 +1,6 @@
 <h2 class="postNewTitle" id="reply">Reply to this topic</h2>
 <form action="{{ path("forum_topic_post_create", {"categorySlug": topic.category.slug, "slug": topic.slug, "id": topic.id} ) }}#reply" method="post">
+    <div class="forum_trap">Leave me empty: {{ form.trap|render }}</div>
     <label><span class="required">Message</span>{{ form.message|render}}</label>
     {% if form.authorName %}
         <label><span>Author</span>{{ form.authorName|render({"class": "authorName"}) }}</label>

@@ -40,6 +40,11 @@ class Post extends BasePost
     protected $message;
 
     /**
+     * @validation:Blank
+     */
+    protected $trap;
+
+    /**
      * @return User
      */
     public function getAuthor()
@@ -64,6 +69,16 @@ class Post extends BasePost
     public function getAuthorName()
     {
         return $this->authorName;
+    }
+
+    public function getTrap()
+    {
+        return $this->trap;
+    }
+
+    public function setTrap($trap)
+    {
+        $this->trap = $trap;
     }
 
     /**

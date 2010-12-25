@@ -101,7 +101,7 @@ tr.odd {
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    background: -moz-linear-gradient(center top , #FAFAFA, #EAEAEA) repeat scroll 0 0 #EFEFEF;                                                                    
+    background: -moz-linear-gradient(center top , #FAFAFA, #EAEAEA) repeat scroll 0 0 #EFEFEF;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EAEAEA));
     border: 1px solid #DADADA;
     padding: 0.5em 1em;
@@ -112,7 +112,7 @@ tr.odd {
 }
 .button:hover {
     color: #fff;
-    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
 }
 
@@ -208,6 +208,10 @@ form input.authorName {
 form .submit {
     margin-left: 110px;
 }
+form .forum_trap {
+    margin-left: -10000px;
+    height: 0;
+}
 
 div.pagination a, div.pagination span {
     font-size: 1.1em;
@@ -222,7 +226,7 @@ div.pagination span {
     color: #aaa;
 }
 div.pagination span.current {
-    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;                                                                    
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
     color: #FFF;
     margin: 0 0.5em;
