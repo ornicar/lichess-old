@@ -23,9 +23,16 @@ class TopicController extends BaseTopicController
         }
 
         $topic = $form->getData();
+        $this->get('forum.creator.topic')->create($topic);
         $this->get('forum.blamer.topic')->blame($topic);
+
+        $this->get('forum.creator.post')->create($topic->getFirstPost());
         $this->get('forum.blamer.post')->blame($topic->getFirstPost());
-        $this->saveTopic($topic);
+
+        $objectManager = $this->get('forum.object_manager');
+        $objectManager->persist($topic);
+        $objectManager->persist($topic->getFirstPost());
+        $objectManager->flush();
 
         $this->get('session')->setFlash('forum_topic_create/success', true);
         $url = $this->get('forum.templating.helper.forum')->urlForTopic($topic);
@@ -42,7 +49,7 @@ class TopicController extends BaseTopicController
     {
         $form = parent::createForm($category);
 
-        if($this->get('fos_user.templating.helper.security')->isAuthenticated()) {
+        if(!$this->get('fos_user.templating.helper.security')->isAnonymous()) {
             unset($form['firstPost']['authorName']);
         } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
             $form['firstPost']['authorName']->setData(urldecode($authorName));

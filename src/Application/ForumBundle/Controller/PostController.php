@@ -24,13 +24,17 @@ class PostController extends BasePostController
 
         $post = $form->getData();
         $post->setTopic($topic);
+
+        $this->get('forum.creator.post')->create($post);
         $this->get('forum.blamer.post')->blame($post);
-        $this->savePost($post);
 
-        $this->get('session')->setFlash('forum_post_create/success', true);
+        $objectManager = $this->get('forum.object_manager');
+        $objectManager->persist($post);
+        $objectManager->flush();
+
         $url = $this->get('forum.templating.helper.forum')->urlForPost($post);
-
         $response = $this->redirect($url);
+
         if(!$this->get('fos_user.templating.helper.security')->isAuthenticated()) {
             $response->headers->setCookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
         }
@@ -42,7 +46,7 @@ class PostController extends BasePostController
     {
         $form = parent::createForm($name, $topic);
 
-        if($this->get('fos_user.templating.helper.security')->isAuthenticated()) {
+        if(!$this->get('fos_user.templating.helper.security')->isAnonymous()) {
             unset($form['authorName']);
         } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
             $form['authorName']->setData(urldecode($authorName));
