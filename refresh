@@ -2,5 +2,6 @@
 
 php lichess/console apc:clear --opcode
 rm -r lichess/cache/prod/*
+chmod -R 777 lichess/cache/prod
 php lichess/console-prod lichess:generate-proxies
 php lichess/console apc:clear
