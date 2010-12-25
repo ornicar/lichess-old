@@ -55,9 +55,6 @@
             {% endblock %}
             {% block security %}
                 {% if _view.fos_user_security.isAnonymous %}
-            {% endblock %}
-            {% block security %}
-                {% if _view.fos_user_security.isAnonymous %}
                     {% include "UserBundle:Security:embeddedLogin.twig" %}
                 {% else %}
                     <a class="s16 goto_nav goto_logout" href="{{ path("_security_logout") }}">{% trans "Log out" %}</a>
