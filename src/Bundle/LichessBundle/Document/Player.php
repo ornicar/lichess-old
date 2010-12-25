@@ -123,6 +123,14 @@ class Player
     protected $isOfferingRematch = null;
 
     /**
+     * Number of turns when last offered a draw
+     *
+     * @var int
+     * @mongodb:Field(type="int")
+     */
+    protected $lastDrawOffer = null;
+
+    /**
      * the player current game
      *
      * @var Game
@@ -173,6 +181,10 @@ class Player
     public function setIsOfferingDraw($isOfferingDraw)
     {
         $this->isOfferingDraw = $isOfferingDraw ?: null;
+
+        if($this->isOfferingDraw) {
+            $this->lastDrawOffer = $this->getGame()->getTurns();
+        }
     }
 
     /**
@@ -199,7 +211,17 @@ class Player
             && $this->getGame()->getHasEnoughMovesToDraw()
             && !$this->getIsOfferingDraw()
             && !$this->getOpponent()->getIsAi()
-            && !$this->getOpponent()->getIsOfferingDraw();
+            && !$this->getOpponent()->getIsOfferingDraw()
+            && !$this->hasOfferedDraw();
+    }
+
+    protected function hasOfferedDraw()
+    {
+        if(!$this->lastDrawOffer) {
+            return false;
+        }
+
+        return $this->lastDrawOffer >= ($this->getGame()->getTurns() - 1);
     }
 
     public function canOfferRematch()

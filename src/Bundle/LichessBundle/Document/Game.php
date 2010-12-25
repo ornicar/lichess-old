@@ -481,7 +481,7 @@ class Game
 
     public function getHasEnoughMovesToDraw()
     {
-        return $this->getTurns() > 40;
+        return $this->getTurns() >= 2;
     }
 
     /**
