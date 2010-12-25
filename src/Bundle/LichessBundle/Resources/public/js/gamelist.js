@@ -10,7 +10,7 @@ $(function()
                 $gamelist.html(html);
                 reloadGameList();
             });
-        }, 4500);
+        }, 2500);
     };
     reloadGameList();
 });
