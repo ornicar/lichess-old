@@ -20,10 +20,18 @@ $(function() {
         $('div.lichess_overboard').show();
         $config.find('div.buttons').buttonset().disableSelection();
         $config.find('button.submit').button().disableSelection();
+        $config.find('a.show_advanced').one('click', function() {
+            $(this).hide();
+            $config.find('div.advanced, p.explanations').show();
+            centerOverboard();
+        });
     }
 
     if($overboard = $('div.lichess_overboard').orNot()) {
-        $overboard.css('top', (238-$overboard.height()/2)+'px').show();
+        var centerOverboard = function() {
+            $overboard.css('top', (238-$overboard.height()/2)+'px').show();
+        };
+        centerOverboard();
     }
 
     // Append marks 1-8 && a-h

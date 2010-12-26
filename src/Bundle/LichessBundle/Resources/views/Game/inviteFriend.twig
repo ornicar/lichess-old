@@ -14,29 +14,32 @@
                             <label for="{{ child.id }}">{% trans form.variant.label(choice) %}</label>
                         {% endfor %}
                     </div>
-                    {% trans "Minutes per side" %}
-                    <div class="times buttons">
-                        {% for choice, child in form.time %}
-                            {{ child|render }}
-                            <label for="{{ child.id }}">{% trans form.time.label(choice) %}</label>
-                        {% endfor %}
-                    </div>
-                    {% trans "Increment in seconds" %}
-                    <div class="increments buttons">
-                        {% for choice, child in form.increment %}
-                            {{ child|render }}
-                            <label for="{{ child.id }}">{{ form.increment.label(choice) }}</label>
-                        {% endfor %}
-                    </div>
-                    {% if form.mode %}
-                        {% trans "Mode" %}
-                        <div class="modes buttons">
-                            {% for choice, child in form.mode %}
+                    <a class="show_advanced">{% trans "Show advanced options" %}</a>
+                    <div class="advanced">
+                        {% trans "Minutes per side" %}
+                        <div class="times buttons">
+                            {% for choice, child in form.time %}
                                 {{ child|render }}
-                                <label for="{{ child.id }}">{% trans form.mode.label(choice) %}</label>
+                                <label for="{{ child.id }}">{% trans form.time.label(choice) %}</label>
                             {% endfor %}
                         </div>
-                    {% endif %}
+                        {% trans "Increment in seconds" %}
+                        <div class="increments buttons">
+                            {% for choice, child in form.increment %}
+                                {{ child|render }}
+                                <label for="{{ child.id }}">{{ form.increment.label(choice) }}</label>
+                            {% endfor %}
+                        </div>
+                        {% if form.mode %}
+                            {% trans "Mode" %}
+                            <div class="modes buttons">
+                                {% for choice, child in form.mode %}
+                                    {{ child|render }}
+                                    <label for="{{ child.id }}">{% trans form.mode.label(choice) %}</label>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
                     <button type="submit" class="submit">{% trans "Start" %}</button>
                 </form>
             </div>

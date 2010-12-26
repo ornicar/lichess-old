@@ -217,8 +217,16 @@ div.lichess_overboard.game_config h2 {
 div.lichess_overboard.game_config div.ui-buttonset {
     margin-bottom: 1em;
 }
+div.lichess_overboard.game_config a.show_advanced {
+    display: block;
+    margin-bottom: 1em;
+}
+div.lichess_overboard.game_config p.explanations,
+div.lichess_overboard.game_config div.advanced {
+    display: none;
+}
 
-div.lichess_overboard.game_config_ai button.submit {
+div.lichess_overboard.game_config button.submit {
     margin-top: 0.5em;
 }
 
