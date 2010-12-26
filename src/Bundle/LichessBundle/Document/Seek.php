@@ -35,6 +35,14 @@ class Seek
     protected $times;
 
     /**
+     * Increments accepted
+     *
+     * @var array
+     * @mongodb:Field(type="collection")
+     */
+    protected $increments;
+
+    /**
      * Modes accepted
      *
      * @var array
@@ -67,10 +75,11 @@ class Seek
      */
     protected $createdAt = null;
 
-    public function __construct(array $variants, array $times, array $modes, $sessionId)
+    public function __construct(array $variants, array $times, array $increments, array $modes, $sessionId)
     {
         $this->variants = $variants;
         $this->times = $times;
+        $this->increments = $increments;
         $this->modes = $modes;
         $this->sessionId = $sessionId;
         $this->createdAt = new \DateTime();
@@ -97,7 +106,8 @@ class Seek
             return $matches[0];
         }
 
-        return $matches[mt_rand(0, 1)];
+        // choose 960 when possible
+        return $matches[1];
     }
 
     public function getCommonTime(Seek $seek)
@@ -115,6 +125,21 @@ class Seek
         return $matches[1];
     }
 
+    public function getCommonIncrement(Seek $seek)
+    {
+        $matches = array_values(array_intersect($seek->getIncrements(), $this->getIncrements()));
+
+        if(empty($matches)) {
+            return $matches = array_values(array_merge($seek->getIncrements(), $this->getIncrements()));
+        }
+
+        if(1 === count($matches)) {
+            return $matches[0];
+        }
+
+        return $matches[mt_rand(0, count($matches)-1)];
+    }
+
     public function getCommonMode(Seek $seek)
     {
         $matches = array_values(array_intersect($seek->getModes(), $this->getModes()));
@@ -127,6 +152,7 @@ class Seek
             return $matches[0];
         }
 
+        // rated mode when possible
         return $matches[1];
     }
 
@@ -195,6 +221,23 @@ class Seek
     public function setTimes($times)
     {
       $this->times = $times;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIncrements()
+    {
+      return $this->increments;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setIncrements($increments)
+    {
+      $this->increments = $increments;
     }
 
     /**

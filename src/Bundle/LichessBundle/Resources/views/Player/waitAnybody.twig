@@ -11,6 +11,7 @@
             <p class="explanations">
                 {% trans "Variant" %}: {{ _view.lichess_config.choices(config.variantNames)|raw }}<br />
                 {% trans "Minutes per side" %}: {{ _view.lichess_config.choices(config.timeNames)|raw }}<br />
+                {% trans "Increment in seconds" %}: {{ _view.lichess_config.choices(config.incrementNames)|raw }}<br />
                 {% trans "Mode" %}: {{ _view.lichess_config.choices(config.modeNames)|raw }}
             </p>
             <p class="explanations">

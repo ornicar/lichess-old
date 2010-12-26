@@ -8,22 +8,29 @@
             <h2>{% trans "Play with a friend" %}</h2>
             <div class="game_config_form">
                 <form action="{{ path("lichess_invite_friend", {"color": color} ) }}" method="post">
-                    <div class="variants">
+                    <div class="variants buttons">
                         {% for choice, child in form.variant %}
                             {{ child|render }}
                             <label for="{{ child.id }}">{% trans form.variant.label(choice) %}</label>
                         {% endfor %}
                     </div>
                     {% trans "Minutes per side" %}
-                    <div class="clocks">
+                    <div class="times buttons">
                         {% for choice, child in form.time %}
                             {{ child|render }}
                             <label for="{{ child.id }}">{% trans form.time.label(choice) %}</label>
                         {% endfor %}
                     </div>
+                    {% trans "Increment in seconds" %}
+                    <div class="increments buttons">
+                        {% for choice, child in form.increment %}
+                            {{ child|render }}
+                            <label for="{{ child.id }}">{{ form.increment.label(choice) }}</label>
+                        {% endfor %}
+                    </div>
                     {% if form.mode %}
                         {% trans "Mode" %}
-                        <div class="modes">
+                        <div class="modes buttons">
                             {% for choice, child in form.mode %}
                                 {{ child|render }}
                                 <label for="{{ child.id }}">{% trans form.mode.label(choice) %}</label>

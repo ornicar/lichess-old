@@ -19,6 +19,11 @@ class AnybodyGameConfigForm extends Form
             'multiple' => true,
             'expanded' => true
         )));
+        $this->add(new ChoiceField('increments', array(
+            'choices' => $this->getData()->getIncrementChoices(),
+            'multiple' => true,
+            'expanded' => true
+        )));
     }
 
     protected function doBind(array $taintedData)
@@ -28,6 +33,9 @@ class AnybodyGameConfigForm extends Form
         }
         if(empty($taintedData['times'])) {
             $taintedData['times'] = $this->getData()->getTimeChoices();
+        }
+        if(empty($taintedData['increments'])) {
+            $taintedData['increments'] = $this->getData()->getIncrementChoices();
         }
 
         return parent::doBind($taintedData);

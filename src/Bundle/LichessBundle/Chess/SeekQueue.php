@@ -48,14 +48,14 @@ class SeekQueue
         $this->playerBlamer = $playerBlamer;
     }
 
-    public function add(array $variants, array $times, array $modes, $sessionId, $color)
+    public function add(array $variants, array $times, array $increments, array $modes, $sessionId, $color)
     {
-        $seek = new Seek($variants, $times, $modes, $sessionId);
+        $seek = new Seek($variants, $times, $increments, $modes, $sessionId);
 
         if($existing = $this->searchMatching($seek)) {
             $game = $existing->getGame();
             $this->generator->applyVariant($game, $seek->getCommonVariant($existing));
-            $game->setClockTime($seek->getCommonTime($existing) * 60);
+            $game->setClockTime($seek->getCommonTime($existing) * 60, $seek->getCommonIncrement($existing));
             $game->setIsRated($seek->getCommonMode($existing));
             $this->objectManager->remove($existing);
             $this->playerBlamer->blame($game->getInvited());

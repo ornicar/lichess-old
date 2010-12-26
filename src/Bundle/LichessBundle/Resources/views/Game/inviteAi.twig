@@ -8,7 +8,7 @@
             <h2>{% trans "Play with the machine" %}</h2>
             <div class="game_config_form">
                 <form action="{{ path("lichess_invite_ai", {"color": color} ) }}" method="post">
-                    <div class="variants">
+                    <div class="variants buttons">
                         {{ form.variant|render }}
                     </div>
                     <button type="submit" class="submit">{% trans "Start" %}</button>

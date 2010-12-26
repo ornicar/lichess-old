@@ -8,17 +8,24 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class FriendGameConfig extends GameConfig
 {
     public $time = 0;
+    public $increment = 0;
     public $variant = Game::VARIANT_STANDARD;
     public $mode = 0;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('time', new Constraints\Min(array('limit' => 0)));
+        $metadata->addPropertyConstraint('increment', new Constraints\Min(array('limit' => 0)));
     }
 
     public function getTimeName()
     {
         return $this->renameTime($this->time);
+    }
+
+    public function getIncrementName()
+    {
+        return $this->increment;
     }
 
     public function getVariantName()
@@ -35,12 +42,13 @@ class FriendGameConfig extends GameConfig
 
     public function toArray()
     {
-        return array('time' => $this->time, 'variant' => $this->variant, 'mode' => $this->mode);
+        return array('time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode);
     }
 
     public function fromArray(array $data)
     {
         if(isset($data['time'])) $this->time = $data['time'];
+        if(isset($data['increment'])) $this->increment = $data['increment'];
         if(isset($data['variant'])) $this->variant = $data['variant'];
         if(isset($data['mode'])) $this->mode = $data['mode'];
     }

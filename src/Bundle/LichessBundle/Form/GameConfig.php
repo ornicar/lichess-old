@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Document\Game;
 abstract class GameConfig
 {
     protected $timeChoices = array(2, 5, 10, 20, 0);
+    protected $incrementChoices = array(0, 2, 5, 10, 20);
 
     protected $modeChoices = array(0 => 'Casual', 1 => 'Rated');
 
@@ -33,6 +34,16 @@ abstract class GameConfig
         $choices = array();
         foreach($this->timeChoices as $time) {
             $choices[$time] = $this->renameTime($time);
+        }
+
+        return $choices;
+    }
+
+    public function getIncrementChoices()
+    {
+        $choices = array();
+        foreach($this->incrementChoices as $increment) {
+            $choices[$increment] = $increment;
         }
 
         return $choices;

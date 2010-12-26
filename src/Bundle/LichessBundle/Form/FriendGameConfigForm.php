@@ -20,5 +20,10 @@ class FriendGameConfigForm extends Form
             'multiple' => false,
             'expanded' => true
         )));
+        $this->add(new ChoiceField('increment', array(
+            'choices' => $this->getData()->getIncrementChoices(),
+            'multiple' => false,
+            'expanded' => true
+        )));
     }
 }

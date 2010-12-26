@@ -8,8 +8,6 @@ use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Document\Clock;
 use Bundle\LichessBundle\Document\Stack;
-use Bundle\LichessBundle\Persistence\QueueEntry;
-use Bundle\LichessBundle\Form;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -76,7 +74,7 @@ class GameController extends Controller
 
         return $this->render('LichessBundle:Game:join.twig', array(
             'game'  => $game,
-            'color' => $game->getCreator()->getOpponent()->getColor()
+            'color' => $game->getInvited()->getColor()
         ));
     }
 
@@ -127,23 +125,17 @@ class GameController extends Controller
 
     public function inviteFriendAction($color)
     {
-        $isAuthenticated = $this->get('fos_user.templating.helper.security')->isAuthenticated();
-        $config = new Form\FriendGameConfig();
-        $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
-        if(!$isAuthenticated) {
-            $config->mode = 0;
-        }
-        $formClass = 'Bundle\LichessBundle\Form\\'.($isAuthenticated ? 'FriendWithModeGameConfigForm' : 'FriendGameConfigForm');
-        $form = new $formClass('config', $config, $this->get('validator'));
+        $form = $this->get('lichess.form.manager')->createFriendForm();
         if('POST' === $this->get('request')->getMethod()) {
             $form->bind($this->get('request')->request->get($form->getName()));
             if($form->isValid()) {
+                $config = $form->getData();
                 $this->get('session')->set('lichess.game_config.friend', $config->toArray());
                 $player = $this->get('lichess_generator')->createGameForPlayer($color, $config->variant);
                 $this->get('lichess.blamer.player')->blame($player);
                 $game = $player->getGame();
                 if($config->time) {
-                    $clock = new Clock($config->time * 60);
+                    $clock = new Clock($config->time * 60, $config->increment);
                     $game->setClock($clock);
                 }
                 $game->setIsRated($config->mode);
@@ -162,12 +154,11 @@ class GameController extends Controller
 
     public function inviteAiAction($color)
     {
-        $config = new Form\AiGameConfig();
-        $config->fromArray($this->get('session')->get('lichess.game_config.ai', array()));
-        $form = new Form\AiGameConfigForm('config', $config, $this->get('validator'));
+        $form = $this->get('lichess.form.manager')->createAiForm();
         if('POST' === $this->get('request')->getMethod()) {
             $form->bind($this->get('request')->request->get($form->getName()));
             if($form->isValid()) {
+                $config = $form->getData();
                 $this->get('session')->set('lichess.game_config.ai', $config->toArray());
                 $player = $this->get('lichess_generator')->createGameForPlayer($color, $config->variant);
                 $this->get('lichess.blamer.player')->blame($player);

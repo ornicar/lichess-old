@@ -9,11 +9,17 @@ class AnybodyGameConfig extends GameConfig
 {
     public $modes = array(0, 1);
     public $times = array(20, 0);
+    public $increments = array(2, 5, 10);
     public $variants = array(Game::VARIANT_STANDARD);
 
     public function getCountTimes()
     {
         return count($this->times);
+    }
+
+    public function getCountIncrements()
+    {
+        return count($this->increments);
     }
 
     public function getCountVariants()
@@ -34,6 +40,11 @@ class AnybodyGameConfig extends GameConfig
         }
 
         return $names;
+    }
+
+    public function getIncrementNames()
+    {
+        return $this->increments;
     }
 
     public function getVariantNames()
@@ -60,18 +71,20 @@ class AnybodyGameConfig extends GameConfig
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addGetterConstraint('countTimes', new Constraints\Min(array('limit' => 1)));
+        $metadata->addGetterConstraint('countIncrements', new Constraints\Min(array('limit' => 1)));
         $metadata->addGetterConstraint('countVariants', new Constraints\Min(array('limit' => 1)));
         $metadata->addGetterConstraint('countModes', new Constraints\Min(array('limit' => 1)));
     }
 
     public function toArray()
     {
-        return array('times' => $this->times, 'variants' => $this->variants, 'modes' => $this->modes);
+        return array('times' => $this->times, 'increments' => $this->increments, 'variants' => $this->variants, 'modes' => $this->modes);
     }
 
     public function fromArray(array $data)
     {
         if(isset($data['times'])) $this->times = $data['times'];
+        if(isset($data['increments'])) $this->increments = $data['increments'];
         if(isset($data['variants'])) $this->variants = $data['variants'];
         if(isset($data['modes'])) $this->modes = $data['modes'];
     }

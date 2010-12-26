@@ -367,9 +367,9 @@ class Game
         $this->clock = $clock;
     }
 
-    public function setClockTime($time)
+    public function setClockTime($time, $increment)
     {
-        $this->setClock($time ? new Clock($time) : null);
+        $this->setClock($time ? new Clock($time, $increment) : null);
     }
 
     /**
@@ -607,6 +607,9 @@ class Game
         $this->setStatus(static::STARTED);
         $this->addRoomMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
         $this->addRoomMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
+        if($this->hasClock()) {
+            $this->addRoomMessage('system', 'Clock: '.$this->getClock()->getName());
+        }
         if($this->getIsRated()) {
             $this->addRoomMessage('system', 'This game is rated');
         }
