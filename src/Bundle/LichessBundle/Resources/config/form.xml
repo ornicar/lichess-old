@@ -5,11 +5,19 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="lichess.form.manager.class">Bundle\LichessBundle\Form\GameConfigFormManager</parameter>
+
         <parameter key="lichess.form.translation.class">Bundle\LichessBundle\Form\TranslationForm</parameter>
         <parameter key="lichess.form.translation.name">lichess_translation_form</parameter>
     </parameters>
 
     <services>
+        <service id="lichess.form.manager" class="%lichess.form.manager.class%">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="session" />
+            <argument type="service" id="validator" />
+        </service>
+
         <service id="lichess.form.translation" class="%lichess.form.translation.class%">
             <argument>%lichess.form.translation.name%</argument>
             <argument></argument>

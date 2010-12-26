@@ -197,23 +197,14 @@ class GameController extends Controller
 
     public function inviteAnybodyAction($color)
     {
-        if($this->get('request')->getMethod() == 'HEAD') {
-            return $this->createResponse('Lichess play chess with anybody');
-        }
-        $isAuthenticated = $this->get('fos_user.templating.helper.security')->isAuthenticated();
-        $config = new Form\AnybodyGameConfig();
-        $config->fromArray($this->get('session')->get('lichess.game_config.anybody', array()));
-        if(!$isAuthenticated) {
-            $config->modes = array(0);
-        }
-        $formClass = 'Bundle\LichessBundle\Form\\'.($isAuthenticated ? 'AnybodyWithModesGameConfigForm' : 'AnybodyGameConfigForm');
-        $form = new $formClass('config', $config, $this->get('validator'));
+        $form = $this->get('lichess.form.manager')->createAnybodyForm();
         if('POST' === $this->get('request')->getMethod()) {
             $form->bind($this->get('request')->request->get($form->getName()));
             if($form->isValid()) {
+                $config = $form->getData();
                 $this->get('session')->set('lichess.game_config.anybody', $config->toArray());
                 $queue = $this->get('lichess.seek_queue');
-                $result = $queue->add($config->variants, $config->times, $config->modes, $this->get('session')->get('lichess.session_id'), $color);
+                $result = $queue->add($config->variants, $config->times, $config->increments, $config->modes, $this->get('session')->get('lichess.session_id'), $color);
                 $game = $result['game'];
                 if(!$game) {
                     return $this->inviteAnybodyAction($color);
