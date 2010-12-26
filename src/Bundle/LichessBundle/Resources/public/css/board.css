@@ -630,8 +630,7 @@ div.lichess_chat ol.lichess_messages li.black {
     background: url(../images/kb14.png) no-repeat;
 }
 div.lichess_chat ol.lichess_messages li.system {
-    background: url(../images/s16.png) no-repeat;
-    background-position: 0 -144px;
+    background: url(../images/system.png) no-repeat;
 }
 div.lichess_chat.hidden ol.lichess_messages, div.lichess_chat.hidden form {
     opacity: 0.05;
