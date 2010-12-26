@@ -10,8 +10,8 @@ class Clock
     /**
      * Maximum time of the clock per player
      *
-    * @var int
-    * @mongodb:Field(type="int")
+     * @var int
+     * @mongodb:Field(type="int")
      */
     private $limit = null;
 
@@ -19,7 +19,7 @@ class Clock
      * Current player color
      *
      * @var string
-    * @mongodb:Field(type="string")
+     * @mongodb:Field(type="string")
      */
     private $color = null;
 
@@ -51,12 +51,12 @@ class Clock
      * @var int
      * @mongodb:Field(type="int")
      */
-    protected $moveBonus;
+    protected $increment;
 
-    public function __construct($limit, $moveBonus = 4)
+    public function __construct($limit, $increment)
     {
         $this->limit = (int) $limit;
-        $this->moveBonus = (int) $moveBonus;
+        $this->increment = (int) $increment;
 
         $this->reset();
     }
@@ -68,7 +68,7 @@ class Clock
      **/
     public function getName()
     {
-        return sprintf('%d minutes/side + %d seconds/move', round($this->limit / 60, 1), $this->moveBonus);
+        return sprintf('%d minutes/side + %d seconds/move', round($this->limit / 60, 1), $this->increment);
     }
 
     /**
@@ -98,7 +98,7 @@ class Clock
         // Substract http delay
         $moveTime = max(0, $moveTime - static::HTTP_DELAY);
         // Substract move bonus
-        $moveTime -= $this->moveBonus;
+        $moveTime -= $this->increment;
         // Update player time
         $this->addTime($this->color, $moveTime);
         $this->color = 'white' === $this->color ? 'black' : 'white';
@@ -180,22 +180,22 @@ class Clock
     }
 
     /**
-     * Get moveBonus
+     * Get increment
      * @return int
      */
-    public function getMoveBonus()
+    public function getIncrement()
     {
-      return $this->moveBonus;
+        return $this->increment;
     }
 
     /**
-     * Set moveBonus
+     * Set increment
      * @param  int
      * @return null
      */
-    public function setMoveBonus($moveBonus)
+    public function setIncrement($increment)
     {
-      $this->moveBonus = (int) $moveBonus;
+        $this->increment = (int) $increment;
     }
 
     /**
@@ -204,7 +204,7 @@ class Clock
      */
     public function getColor()
     {
-      return $this->color;
+        return $this->color;
     }
 
     /**
@@ -214,7 +214,7 @@ class Clock
      */
     public function setColor($color)
     {
-      $this->color = $color;
+        $this->color = $color;
     }
 
     /**
@@ -243,7 +243,7 @@ class Clock
      */
     public function getLimit()
     {
-      return $this->limit;
+        return $this->limit;
     }
 
     public function getLimitInMinutes()
@@ -257,7 +257,7 @@ class Clock
      */
     public function getTimes()
     {
-      return $this->times;
+        return $this->times;
     }
 
     public function renderTime($time)
