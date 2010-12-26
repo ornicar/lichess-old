@@ -96,7 +96,7 @@ ornicar_message.config:
         model:
             message: Application\Ornicar\MessageBundle\Document\Message
 
-time.helper: ~
+time.config: ~
 
 lichess.config:
     db_driver: odm
