@@ -37,3 +37,6 @@
 [submodule "src/Bundle/FOS/UserBundle"]
 	path = src/Bundle/FOS/UserBundle
 	url = git://github.com/FriendsOfSymfony/UserBundle.git
+[submodule "src/Bundle/Ornicar/MessageBundle"]
+	path = src/Bundle/Ornicar/MessageBundle
+	url = git://github.com/ornicar/MessageBundle

@@ -24,6 +24,7 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
             new Bundle\LichessBundle\LichessBundle(),
             new Bundle\FOS\UserBundle\FOSUserBundle(),
+            new Bundle\Ornicar\MessageBundle\OrnicarMessageBundle(),
             new Bundle\ForumBundle\ForumBundle(),
             new Application\FOS\UserBundle\FOSUserBundle(),
             new Application\ForumBundle\ForumBundle()
@@ -39,11 +40,12 @@ class LichessKernel extends Kernel
     public function registerBundleDirs()
     {
         return array(
-            'Application'     => __DIR__.'/../src/Application',
+            'Application'      => __DIR__.'/../src/Application',
             'Application\\FOS' => __DIR__.'/../src/Application/FOS',
-            'Bundle'          => __DIR__.'/../src/Bundle',
-            'Bundle\\FOS'     => __DIR__.'/../src/Bundle/FOS',
-            'Symfony\\Bundle' => __DIR__.'/../src/vendor/Symfony/src/Symfony/Bundle',
+            'Bundle'           => __DIR__.'/../src/Bundle',
+            'Bundle\\FOS'      => __DIR__.'/../src/Bundle/FOS',
+            'Bundle\\Ornicar'  => __DIR__.'/../src/Bundle/Ornicar',
+            'Symfony\\Bundle'  => __DIR__.'/../src/vendor/Symfony/src/Symfony/Bundle',
         );
     }
 

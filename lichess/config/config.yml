@@ -90,6 +90,12 @@ fos_user.config:
             user: Application\FOS\UserBundle\Controller\UserController
             security: Application\FOS\UserBundle\Controller\SecurityController
 
+ornicar_message.config:
+    db_driver: odm
+    class:
+        model:
+            message: Application\Ornicar\MessageBundle\Document\Message
+
 time.helper: ~
 
 lichess.config:
