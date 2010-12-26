@@ -16,7 +16,14 @@ class User extends BaseUser
      */
     const STARTING_ELO = 1200;
 
-    /** @validation:Regex(pattern="/^[\w\-]+$/", message="Invalid username. Please use only letters, numbers and dash", groups={"Registration","FacebookRegistration"}) */
+    /**
+     * @validation:Validation({
+     *      @validation:Regex(pattern="/^[\w\-]+$/", message="Invalid username. Please use only letters, numbers and dash", groups={"Registration","FacebookRegistration"}),
+     *      @validation:NotBlank(message="Please enter a username", groups="Registration"),
+     *      @validation:MinLength(limit=2, message="The username is too short", groups="Registration"),
+     *      @validation:MaxLength(limit=30, message="The username is too long (30 chars max)", groups="Registration")
+     * })
+     */
     protected $username;
 
     /**
