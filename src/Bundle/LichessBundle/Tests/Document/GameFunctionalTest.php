@@ -80,7 +80,7 @@ class GameFunctionalTest extends WebTestCase
     public function testInsertFullFeaturedGame()
     {
         $game = $this->createGame();
-        $game->setClock(new Clock(120));
+        $game->setClock(new Clock(120, 5));
         $game->start();
         $this->dm->persist($game);
         $this->dm->flush();
@@ -101,7 +101,7 @@ class GameFunctionalTest extends WebTestCase
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
         $this->assertInstanceOf('\Bundle\LichessBundle\Document\Clock', $game->getClock());
         $this->assertEquals(2, $game->getClock()->getLimitInMinutes());
-        $this->assertEquals(4, $game->getRoom()->getNbMessages());
+        $this->assertEquals(5, $game->getRoom()->getNbMessages());
     }
 
     public function testAddEventToPlayerStack()

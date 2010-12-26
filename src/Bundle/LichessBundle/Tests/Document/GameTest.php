@@ -40,7 +40,7 @@ class GameTest extends \PHPUnit_Framework_TestCase
 
     protected function getClockMock()
     {
-        return $this->getMock('Bundle\LichessBundle\Document\Clock', array(), array(10*60*1000));
+        return $this->getMock('Bundle\LichessBundle\Document\Clock', array(), array(10*60*1000, 5));
     }
 
     protected function createPlayerStubs()
