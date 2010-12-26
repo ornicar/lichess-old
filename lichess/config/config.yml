@@ -44,7 +44,7 @@ apc.config:
 
 doctrine_odm.mongodb:
     auto_generate_proxy_classes: false
-    auto_generate_hydrator_classes: true
+    auto_generate_hydrator_classes: false
     default_database: lichess
     metadata_cache_driver: apc
     cache_driver: apc
