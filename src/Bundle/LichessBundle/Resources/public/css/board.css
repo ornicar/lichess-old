@@ -268,7 +268,7 @@ div.lichess_promotion_choice {
     padding: 224px 0 0 108px;
 }
 
-div.lichess_promotion_choice .lichess_piece {
+div.lichess_promotion_choice div.lichess_piece {
     float:left;
     position:static;
     padding: 5px;
@@ -284,7 +284,7 @@ div.lichess_promotion_choice .lichess_piece {
     -webkit-box-shadow:0 0 5px #444;
 }
 
-div.lichess_promotion_choice .lichess_piece:hover {
+div.lichess_promotion_choice div.lichess_piece:hover {
     box-shadow:0 0 10px blue;
     -moz-box-shadow:0 0 10px blue;
     -webkit-box-shadow:0 0 10px blue;

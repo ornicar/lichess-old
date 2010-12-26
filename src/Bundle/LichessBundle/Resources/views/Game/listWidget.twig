@@ -1,17 +1,17 @@
 {% for game in games %}
+{% set firstPlayer = game.getPlayerByUserOrCreator(user) %}
+{% set fromPlayer = game.getPlayerByUser(user) %}
 <div class="game_row clearfix">
 {{ _view.lichess_game.renderMini(game, user)|raw }}
 <div class="infos">
 {% if game.isBeingPlayed %}
-<a class="link" href="{{ path("lichess_game", {"id": game.id} ) }}">
+<a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">
     {% trans "Playing right now" %}
 </a>
 {% else %}
 {{ _view.time.ago(game.updatedAt) }}
 {% endif %}
 <br /><br />
-{% set firstPlayer = game.getPlayerByUserOrCreator(user) %}
-{% set fromPlayer = game.getPlayerByUser(user) %}
 {% for player in [firstPlayer.opponent, firstPlayer] %}
 {% trans player.color|capitalize %}
 {% if player.isAi %}

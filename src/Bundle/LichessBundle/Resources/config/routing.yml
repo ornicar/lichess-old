@@ -27,9 +27,9 @@ lichess_wait_friend:
     defaults:       { _controller: lichess.controller.player:waitFriendAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_game:
-    pattern:        /:id
-    defaults:       { _controller: lichess.controller.game:showAction }
-    requirements:   { id: "[\w\-]{8}", _method: "get|head" }
+    pattern:        /:id/:color
+    defaults:       { _controller: lichess.controller.game:showAction, color: white }
+    requirements:   { id: "[\w\-]{8}", color: (white|black), _method: "get|head" }
 lichess_player:
     pattern:        /:id
     defaults:       { _controller: lichess.controller.player:showAction }

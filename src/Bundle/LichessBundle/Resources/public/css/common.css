@@ -166,6 +166,14 @@ div.lichess_goodies {
 div.lichess_goodies:hover {
     opacity: 1;
 }
+div.lichess_goodies div.box {
+    width: 182px;
+    border: 1px solid #C0C0C0;
+    padding: 5px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
 
 #top {
     position: absolute;
@@ -302,10 +310,6 @@ a.goto_play {
 a.goto_profile {
     background-position: 0 -160px;
     margin-right: 1em;
-}
-a.lichess_replay_link {
-    margin-top: 20px;
-    display: block;
 }
 div.lichess_share_game {
     margin-top: 20px;

@@ -132,7 +132,7 @@ class LichessGameHelper extends Helper
         $x = $y = 1;
 
         $html = sprintf('<a href="%s" title="%s" class="mini_board notipsy">',
-            $this->generator->generate('lichess_game', array('id' => $game->getId())),
+            $this->generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor())),
             $this->translator->trans('View in full size')
         );
 

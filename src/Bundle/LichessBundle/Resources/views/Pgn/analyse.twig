@@ -15,30 +15,33 @@
 {% endblock %}
 {% block goodies %}
 <div class="lichess_goodies">
+    <br />
+    <div class="box">
+        {% if game.isBeingPlayed %}
+            <a class="link" href="{{ path("lichess_game", {"id": game.id} ) }}">
+                Playing right now at {{ url("lichess_game", {"id": game.id} ) }}
+            </a>
+        {% else %}
+            {{ _view.time.ago(game.updatedAt) }}
+        {% endif %}
+        <br />
+        <br />
+        {% for player in [game.invited, game.creator] %}
+            <div>
+                {% trans player.color|capitalize %} -
+                {% if player.isAi %}
+                    {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
+                {% else %}
+                    {{ _view.lichess_user.linkPlayer(player)|raw }}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <br />
+        {% trans "Variant" %} - {{ game.variantName|capitalize }}<br />
+        {% trans "Time control" %} - {{ game.clockName }}<br />
+    </div>
+    <br />
     <a class="rotate_board" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": reverseColor} ) }}">{% trans "Flip board" %}</a><br />
-    <br />
-    {% if game.isBeingPlayed %}
-        <a class="link" href="{{ path("lichess_game", {"id": game.id} ) }}">
-            Playing right now at {{ url("lichess_game", {"id": game.id} ) }}
-        </a>
-    {% else %}
-        {{ _view.time.ago(game.updatedAt) }}
-    {% endif %}
-    <br />
-    <br />
-    {% for player in [game.invited, game.creator] %}
-        <div>
-            {% trans player.color|capitalize %} -
-            {% if player.isAi %}
-                {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
-            {% else %}
-                {{ _view.lichess_user.linkPlayer(player)|raw }}
-            {% endif %}
-        </div>
-    {% endfor %}
-    <br />
-    Variant - {{ game.variantName|capitalize }}<br />
-    Clock - {{ game.clockName }}<br />
     <br />
     {% trans "Export PGN" %}:
     <textarea id="pgnText" readonly="readonly">{{ pgn }}</textarea>

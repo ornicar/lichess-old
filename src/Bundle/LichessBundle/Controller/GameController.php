@@ -60,7 +60,7 @@ class GameController extends Controller
     /**
      * Join a game and start it if new, or see it as a spectator
      */
-    public function showAction($id)
+    public function showAction($id, $color)
     {
         $game = $this->findGame($id);
 
@@ -69,7 +69,7 @@ class GameController extends Controller
         }
 
         if($game->getIsStarted()) {
-            return $this->forward('LichessBundle:Game:watch', array('id' => $id));
+            return $this->forward('LichessBundle:Game:watch', array('id' => $id, 'color' => $color));
         }
 
         return $this->render('LichessBundle:Game:join.twig', array(
@@ -102,10 +102,13 @@ class GameController extends Controller
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }
 
-    public function watchAction($id)
+    public function watchAction($id, $color)
     {
         $game = $this->findGame($id);
-        $player = $game->getCreator();
+        $player = $game->getPlayer($color);
+        if($player->getIsAi()) {
+            return $this->redirect($this->generateUrl('lichess_game', array('id' => $id, 'color' => $player->getOpponent()->getColor())));
+        }
         $analyser = new Analyser($game->getBoard());
         $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
         if($isKingAttacked) {
@@ -118,6 +121,7 @@ class GameController extends Controller
 
         return $this->render('LichessBundle:Player:watch.twig', array(
             'player'         => $player,
+            'game'           => $game,
             'checkSquareKey' => $checkSquareKey,
             'possibleMoves'  => $possibleMoves
         ));
