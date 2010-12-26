@@ -2,9 +2,9 @@
 
 namespace Application\FOS\UserBundle;
 
-use Bundle\FOS\UserBundle\FOSUserBundle as BaseFOSUserBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 
-class FOSUserBundle extends BaseFOSUserBundle
+class FOSUserBundle extends BaseBundle
 {
 
 }
