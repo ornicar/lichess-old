@@ -9,6 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 
+use Doctrine\ODM\MongoDB\Hydrator\HydratorFactory;
+
 /**
  * Generate document hydrators
  */
@@ -34,8 +36,12 @@ class GenerateHydratorsCommand extends BaseCommand
         $dm = $this->container->get('lichess.object_manager');
 
         $metadatas = $dm->getMetadataFactory()->getAllMetadata();
-
         $destPath = $dm->getConfiguration()->getHydratorDir();
+        $namespace = $dm->getConfiguration()->getHydratorNamespace();
+        $cmd = $dm->getConfiguration()->getMongoCmd();
+
+        $factory = new HydratorFactory($dm, $dm->getEventManager(), $destPath, $namespace, true, $cmd);
+        $factory->setUnitOfWork($dm->getUnitOfWork());
 
         if ( ! is_dir($destPath)) {
             mkdir($destPath, 0777, true);
@@ -60,7 +66,7 @@ class GenerateHydratorsCommand extends BaseCommand
                 if(!$metadata->isMappedSuperclass && !isset($names[$name])) {
                     $output->write(sprintf('Processing entity "<info>%s</info>"', $name) . PHP_EOL);
                     // Generating Hydrator
-                    $dm->getHydratorFactory()->getHydratorFor($name);
+                    $factory->getHydratorFor($name);
                     $names[$name] = true;
                 }
             }
