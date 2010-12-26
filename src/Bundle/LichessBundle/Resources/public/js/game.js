@@ -481,6 +481,7 @@
              url: self.options.url.table,
              success: function(html)
          {
+             $('body > div.tipsy').remove();
              self.destroyClocks();
              self.$table.html(html);
              self.initTable();
