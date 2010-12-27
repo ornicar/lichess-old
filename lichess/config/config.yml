@@ -7,7 +7,7 @@ app.config:
         lifetime: 2592000 # one month 
     templating:
         escaping: htmlspecialchars
-        assets_version: 106
+        assets_version: 107
     translator: { fallback: en }
 
 security.config:
@@ -89,13 +89,15 @@ fos_user.config:
             user: Application\FOS\UserBundle\Controller\UserController
             security: Application\FOS\UserBundle\Controller\SecurityController
 
-fos_custom.config: ~
+fos_user_custom.config: ~
 
 ornicar_message.config:
     db_driver: odm
     class:
         model:
             message: Application\Ornicar\MessageBundle\Document\Message
+
+app_ornicar_message.config: ~
 
 time.config: ~
 

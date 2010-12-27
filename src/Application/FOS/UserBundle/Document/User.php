@@ -43,11 +43,36 @@ class User extends BaseUser
      */
     protected $eloHistory = array();
 
+    /**
+     * Whether the user is online or not
+     *
+     * @mongodb:Field(type="boolean")
+     * @var bool
+     */
+    protected $isOnline = false;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->setElo(self::STARTING_ELO);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsOnline()
+    {
+      return $this->isOnline;
+    }
+
+    /**
+     * @param  bool
+     * @return null
+     */
+    public function setIsOnline($isOnline)
+    {
+      $this->isOnline = $isOnline;
     }
 
     /**

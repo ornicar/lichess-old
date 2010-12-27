@@ -7,13 +7,15 @@ use Zend\Paginator\Paginator;
 
 class UserController extends BaseUserController
 {
-    public function aliveAction()
+    public function onlineAction($username)
     {
-        if($user = $this->get('lichess.security.helper')->getUser()) {
-            $this->get('doctrine_user.repository.user')->setAlive($user);
-        }
-
-        return $this->createResponse('ok');
+        $data = array();
+        $data['nbp'] = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
+        $data['nbm'] = $this->get('ornicar_message.messenger')->getUnreadCacheForUsername($username);
+        $this->get('fos_user.onliner')->setUsernameOnline($username);
+        $response = $this->createResponse(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
