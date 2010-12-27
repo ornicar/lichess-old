@@ -92,6 +92,14 @@ div.user_lists div.online_users .users {
     margin-top: 3em;
 }
 
+form.search_user_form {
+    margin: 1em 0;
+}
+form.search_user_form input {
+    border: 1px solid #DADADA;
+    padding: 3px 5px;
+}
+
 .users li {
     font-size: 1.2em;
     line-height: 2em;

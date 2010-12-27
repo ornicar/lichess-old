@@ -4,6 +4,7 @@ namespace Application\FOS\UserBundle\Controller;
 use Bundle\FOS\UserBundle\Controller\UserController as BaseUserController;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseUserController
 {
@@ -81,7 +82,11 @@ class UserController extends BaseUserController
 
     public function showAction($username)
     {
-        $user = $this->findUserByUsername($username);
+        try {
+            $user = $this->findUserByUsername($username);
+        } catch(NotFoundHttpException $e) {
+            return $this->render('UserBundle:User:unknownUser.twig', array('username' => $username));
+        }
         $critic = $this->get('lichess.critic.user');
         $critic->setUser($user);
 

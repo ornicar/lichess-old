@@ -13,4 +13,15 @@ $(function()
         };
         reloadOnlineUsers();
     }
+
+    if($searchForm = $('form.search_user_form').orNot()) {
+        $searchInput = $searchForm.find('input.search_user').focus();
+        $searchInput.bind('autocompleteselect', function(e, ui) {
+            $searchForm.submit();
+        });
+        $searchForm.submit(function() {
+            location.href = $searchForm.attr('action')+$searchInput.val();
+            return false;
+        });
+    }
 });
