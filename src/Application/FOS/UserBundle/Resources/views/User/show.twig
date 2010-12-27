@@ -5,8 +5,8 @@
 {% endblock %}
 {% block title %}{{ user.usernameWithElo }}{% endblock %}
 {% block content %}
-<div class="lichess_box user_show">
-    <img class="elo_history" src="{{ _view.lichess_user.eloChartUrl(user, "300x120") }}" width="300" height="120" alt="ELO history" />
+<div class="user_show">
+    <img class="elo_history" src="{{ _view.lichess_user.eloChartUrl(user, "400x160") }}" width="400" height="160" alt="ELO history" />
     <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
     <div class="stats">
         {% trans "Rank" %}: {{ critic.rank }} / {{ critic.nbUsers }}<br />

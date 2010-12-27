@@ -73,25 +73,8 @@ form.signup li ul {
     color: red;
 }
 
-div.user_show {
-    width: 600px;
-}
-div.user_show div.dashboard {
-    float: right;
-    width: 200px;
-    padding: 1em;
-    border: 1px solid #dadada;
-}
-div.user_show div.dashboard hr {
-    background-color: #dadada;
-    color: #dadada;
-    border: 0;
-    height: 1px;
-}
 div.user_show div.games {
     margin-top: 1em;
-    border-top: 1px solid #dadada;
-    padding-top: 1em;
 }
 
 div.user_lists div.all_users {
