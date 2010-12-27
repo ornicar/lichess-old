@@ -53,6 +53,10 @@ div.pager span.current {
     margin: 0 0.5em;
 }
 
+div.game_mini {
+    float: left;
+}
+
 a.mini_board {
     width: 192px;
     height: 192px;
