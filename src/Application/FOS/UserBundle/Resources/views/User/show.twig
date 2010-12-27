@@ -14,6 +14,11 @@
         {% trans "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws" with {"%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws} %}<br />
         Registered {{ _view.time.ago(user.createdAt) }}<br />
         {% trans "Best ELO" %}: {{ user.maxElo }}, {{ _view.time.ago(user.maxEloDate) }}
+        {% if not _view.fos_user_security.isAnonymous %}
+            <div class="actions">
+                <a href="{{ url("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{% trans "Send %username% a message" with {"%username%": user.username} %}</a>
+            </div>
+        {% endif %}
     </div>
     {% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": games.pages, "url": pagerUrl} %}{% endset %}
     <div class="games">

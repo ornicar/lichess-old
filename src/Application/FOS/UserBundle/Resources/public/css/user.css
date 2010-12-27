@@ -122,3 +122,11 @@ div.pager span.current {
     color: #FFF;
     margin: 0 0.5em;
 }
+#lichess_user .actions {
+    margin-top: 0.5em;
+}
+.button {
+    font-size: 1em;
+    font-weight: normal;
+    padding: 0.3em 0.8em;
+}

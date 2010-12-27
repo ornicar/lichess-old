@@ -48,7 +48,7 @@
 #lichess_message div.list div.message.unread {
     background: #E1F6F8;
 }
-#lichess_message div.list div.message .actions {
+#lichess_message div.list div.message span.actions {
     float: right;
     font-size: 0.8em;
 }
@@ -75,79 +75,58 @@
     font-size: 1.2em;
     margin-top: 2em;
 }
-#lichess_message div.show .actions {
+#lichess_message div.show span.actions {
     float: right;
     font-size: 0.8em;
 }
-#lichess_message div.show .infos {
+#lichess_message div.show span.infos {
     margin-bottom: 2em;
     display: block;
 }
-
-.button {
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    background: -moz-linear-gradient(center top , #FAFAFA, #EAEAEA) repeat scroll 0 0 #EFEFEF;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EAEAEA));
-    border: 1px solid #DADADA;
-    padding: 0.5em 1em;
-    text-decoration: none;
-    color: #444;
-    font-weight: bold;
-    cursor: pointer;
-}
-.button:hover {
-    color: #fff;
-    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
-}
-
-form {
+#lichess_message div.show div.answer {
     margin-top: 2em;
-    font-size: 1.3em;
-}
-form label {
-    display: block;
-    margin-bottom: 2em;
 }
 
-form label span {
+#lichess_message div.form {
+    margin-top: 1em;
+    font-size: 1.1em;
+}
+#lichess_message div.form div.actions,
+#lichess_message div.answer div.actions {
+    padding: 1em 0;
+    font-size: 1.1em;
+}
+#lichess_message div.form .actions a,
+#lichess_message div.answer div.actions a {
+    margin-left: 1em;
+}
+#lichess_message label {
     float: left;
-    display: block;
-    width: 100px;
+    width: 47px;
     text-align: right;
     margin-right: 10px;
+    vertical-align: middle;
     margin-top: 3px;
 }
-form label span.required:after {
-    content: "*";
-    color: #FF6666;
-    margin-left: 3px;
-}
-
-form input.subject {
+#lichess_message .field_to input,
+#lichess_message .field_subject input {
     width: 500px;
-    padding: 0.5em;
     border: 1px solid #D4D4D4;
+    padding: 3px 5px;
 }
-form textarea {
-    width: 500px;
+#lichess_message .field_to,
+#lichess_message .field_subject {
+    margin-bottom: 1em;
+}
+#lichess_message form textarea {
+    width: 547px;
     height: 150px;
-    padding: 0.5em;
+    padding: 10px;
     border: 1px solid #D4D4D4;
 }
-form input.authorName {
-    padding: 0.5em;
-    width: 300px;
-    border: 1px solid #D4D4D4;
-}
-form .submit {
-    margin-left: 110px;
-}
-form .forum_trap {
-    margin-left: -10000px;
-    height: 0;
+#lichess_message ul {
+    color: red;
+    margin-left: 60px;
 }
 
 div.pagination {

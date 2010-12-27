@@ -97,25 +97,6 @@ tr.odd {
     background: #F7F7F7;
 }
 
-.button {
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    background: -moz-linear-gradient(center top , #FAFAFA, #EAEAEA) repeat scroll 0 0 #EFEFEF;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EAEAEA));
-    border: 1px solid #DADADA;
-    padding: 0.5em 1em;
-    text-decoration: none;
-    color: #444;
-    font-weight: bold;
-    cursor: pointer;
-}
-.button:hover {
-    color: #fff;
-    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
-}
-
 div.post {
     font-size: 1.2em;
     padding: 2em 0em 1em 0em;
