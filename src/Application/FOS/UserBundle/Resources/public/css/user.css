@@ -1,9 +1,17 @@
 #lichess_user {
     margin-left: 211px;
-}
-#lichess_user .lichess_box {
+    box-shadow: 0 0 7px #bbb;
+    -moz-box-shadow: 0 0 7px #bbb;
+    -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: #fff;
+    padding: 1.5em 2em 2em 2em;
     text-align: left;
 }
+
 #lichess_user .lichess_title {
     text-align: left;
     font-size: 2em;
@@ -86,20 +94,41 @@ div.user_show div.games {
     padding-top: 1em;
 }
 
-ol.users li {
-    list-style: decimal inside;
+div.user_lists div.all_users {
+    float: left;
+    width: 400px;
+    margin-right: 20px;
+    border: 1px solid #DADADA;
+    border-width: 0 1px 0 0;
+}
+div.user_lists div.online_users {
+    float: left;
+    margin-left: 20px;
+}
+div.user_lists div.online_users .users {
+    margin-top: 3em;
+}
+
+.users li {
     font-size: 1.3em;
     line-height: 2em;
 }
-ol.users a {
+ol.users li {
+    list-style: decimal inside;
+}
+.users a.user {
     background: url(../../lichess/images/user.png) top left no-repeat;
     padding-left: 20px;
+}
+.users a.send {
+    font-size: 0.8em;
+    margin-left: 1em;
 }
 
 /* pagination */
 div.pager {
-    text-align:center;
-    margin-top: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 div.pager .position {
     margin-right: 2em;

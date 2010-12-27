@@ -1,0 +1,9 @@
+{% for user in users %}
+ <li>
+     <a class="user" href="{{ path("fos_user_user_show", {"username": user.username} ) }}">{{ user.usernameWithElo }}</a>
+     <a class="send" href="{{ path("ornicar_message_message_new", {"to": user.username}) }}">
+         {% trans "Send a message" %}
+     </a>
+ </li>
+ {% endfor %}
+
