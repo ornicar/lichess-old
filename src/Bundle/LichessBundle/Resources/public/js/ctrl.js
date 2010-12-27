@@ -76,6 +76,14 @@ $(function() {
 
     $.fn.tipsy && $('a, input, label, div.lichess_server').not('.notipsy').tipsy({fade: true});
 
+    if($autocomplete = $('input.autocomplete').orNot()) {
+        $autocomplete.autocomplete({
+            source: $autocomplete.attr('data-provider'),
+            minLength: 2,
+            delay: 100
+        });
+    }
+
     $('a.toggle_signin').one('click', function() {
         $('#top_menu')
         .find('a.toggle_signin').hide()

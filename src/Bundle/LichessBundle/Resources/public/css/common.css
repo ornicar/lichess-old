@@ -406,3 +406,20 @@ div.lichess_server {
     margin: 20px 0;
     text-align: center;
 }
+
+ul.ui-autocomplete {
+    width: 200px;
+    background: #FAFAFA;
+    border: 1px solid #DADADA;
+    max-height: 200px;
+    overflow: auto;
+}
+ul.ui-autocomplete li a {
+    display: block;
+    padding: 0.6em 1em;
+    text-decoration: none;
+}
+ul.ui-autocomplete li a.ui-state-hover {
+    background: #E1F6F8;
+    color: #444;
+}
