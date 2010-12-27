@@ -21,11 +21,7 @@ html{color:#000;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fiel
     clear:both;
     visibility:hidden;
 }
-
 .clearfix {display:inline-block;}
-/* Hide from IE Mac \*/
-.clearfix {display:block;}
-/* End hide from IE Mac */
 
 .none {
     display: none;
@@ -119,6 +115,26 @@ div.lichess_box {
     padding:20px;
     text-align: center;
     line-height: 1.5em;
+}
+
+.button {
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: -moz-linear-gradient(center top , #FAFAFA, #EAEAEA) repeat scroll 0 0 #EFEFEF;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EAEAEA));
+    border: 1px solid #DADADA;
+    padding: 0.4em 1em;
+    text-decoration: none;
+    color: #888;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+.button:hover {
+    color: #fff;
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
 }
 
 div.lichess_box .lichess_title {
@@ -296,15 +312,20 @@ a.goto_message {
     background-position: 0 -144px;
 }
 a.goto_message span.new_messages {
-    margin-left: 3px;
-    padding: 1px 3px;
-    background: #666;
+    padding: 1px 4px;
+    background: #AAA;
     color: white;
     font-weight: bold;
     border-radius:4px 4px 4px 4px;
     -moz-border-radius:4px 4px 4px 4px;
     -webkit-border-radius:4px 4px 4px 4px;
     font-size: 0.9em;
+}
+a.goto_message span.new_messages.unread {
+    background: #222266;
+    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+    font-size: 1em;
 }
 a.goto_logout {
     background-position: 0 -48px;

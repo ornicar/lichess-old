@@ -66,6 +66,8 @@ $(function() {
 
     $('#fos_user_user_form_username').focus();
 
+    $('#lichess_message input[value=""]:first').focus();
+
     $('#lichess_translation_form_code').change(function() {
         if("0" != $(this).val()) {
             location.href = $(this).closest('form').attr('data-change-url').replace(/__/, $(this).val());
