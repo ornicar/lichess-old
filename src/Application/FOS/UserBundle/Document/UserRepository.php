@@ -4,6 +4,7 @@ namespace Application\FOS\UserBundle\Document;
 
 use Bundle\FOS\UserBundle\Document\UserRepository as BaseUserRepository;
 use MongoId;
+use MongoRegex;
 
 class UserRepository extends BaseUserRepository
 {
@@ -29,6 +30,18 @@ class UserRepository extends BaseUserRepository
             ->field('isOnline')->equals(true)
             ->getQuery()
             ->execute();
+    }
+
+    public function findUsernamesBeginningWith($term)
+    {
+        $query = array('usernameLower' => new MongoRegex(sprintf('/^%s/', strtolower($term))));
+        $users = $this->dm->getDocumentCollection($this->documentName)->getMongoCollection()->find($query, array('username' => true));
+        $usernames = array();
+        foreach($users as $user) {
+            $usernames[] = $user['username'];
+        }
+
+        return $usernames;
     }
 
     /**

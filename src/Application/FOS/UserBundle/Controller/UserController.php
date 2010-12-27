@@ -7,6 +7,16 @@ use Zend\Paginator\Paginator;
 
 class UserController extends BaseUserController
 {
+    public function autocompleteAction()
+    {
+        $term = $this->get('request')->query->get('term');
+        $usernames = $this->get('fos_user.repository.user')->findUsernamesBeginningWith($term);
+
+        $response = $this->createResponse(json_encode($usernames));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
     public function onlineAction($username)
     {
         $data = array();

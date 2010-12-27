@@ -32,6 +32,11 @@ fos_user_user_confirmed:
     pattern:    /signup-confirmed
     defaults:   { _controller: fos_user.controller.user:confirmedAction }
 
+fos_user_autocomplete:
+    pattern:    /autocomplete-user
+    defaults:    { _controller: fos_user.controller.user:autocompleteAction }
+    requirements: { _method: get }
+
 fos_user_update_online:
     pattern:    /update-online-users
     defaults:   { _controller: fos_user.controller.user:updateOnlineAction }
