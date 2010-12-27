@@ -61,7 +61,7 @@ class PlayerWithAiControllerTest extends WebTestCase
 
         $client->request('POST', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertRegexp('#^\{"v":5,"o":true,"e":\[.+\],"p":"(white|black)","t":\d+,"ncp":\d+\}$#', $client->getResponse()->getContent());
+        $this->assertRegexp('#^\{"v":5,"o":true,"e":\[.+\],"p":"(white|black)","t":\d+}$#', $client->getResponse()->getContent());
     }
 
     /**
