@@ -32,7 +32,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $client->request('POST', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $nbConnectedPlayers = $client->getContainer()->get('lichess_synchronizer')->getNbConnectedPlayers();
-        $this->assertEquals('{"v":0,"o":true,"e":[],"p":"white","t":0,"ncp":'.$nbConnectedPlayers.'}', $client->getResponse()->getContent());
+        $this->assertEquals('{"v":0,"o":true,"e":[],"p":"white","t":0}', $client->getResponse()->getContent());
     }
 
     /**
@@ -46,7 +46,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $client->request('POST', $moveUrl, array('from' => 'b1', 'to' => 'c3'));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $nbConnectedPlayers = $client->getContainer()->get('lichess_synchronizer')->getNbConnectedPlayers();
-        $this->assertEquals('{"v":2,"o":true,"e":[{"type":"move","from":"b1","to":"c3"},{"type":"possible_moves","possible_moves":null}],"p":"black","t":1,"ncp":'.$nbConnectedPlayers.'}', $client->getResponse()->getContent());
+        $this->assertEquals('{"v":2,"o":true,"e":[{"type":"move","from":"b1","to":"c3"},{"type":"possible_moves","possible_moves":null}],"p":"black","t":1}', $client->getResponse()->getContent());
 
         return $id;
     }
