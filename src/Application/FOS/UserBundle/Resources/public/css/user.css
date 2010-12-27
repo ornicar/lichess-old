@@ -79,7 +79,7 @@ div.user_show div.games {
 
 div.user_lists div.all_users {
     float: left;
-    width: 400px;
+    width: 350px;
     margin-right: 20px;
     border: 1px solid #DADADA;
     border-width: 0 1px 0 0;
@@ -93,7 +93,7 @@ div.user_lists div.online_users .users {
 }
 
 .users li {
-    font-size: 1.3em;
+    font-size: 1.2em;
     line-height: 2em;
 }
 ol.users li {
