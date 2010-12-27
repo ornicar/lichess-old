@@ -41,12 +41,12 @@ class LichessKernel extends Kernel
     public function registerBundleDirs()
     {
         return array(
-            'Bundle'               => __DIR__.'/../src/Bundle',
-            'Bundle\\FOS'          => __DIR__.'/../src/Bundle/FOS',
-            'Bundle\\Ornicar'      => __DIR__.'/../src/Bundle/Ornicar',
             'Application'          => __DIR__.'/../src/Application',
             'Application\\FOS'     => __DIR__.'/../src/Application/FOS',
             'Application\\Ornicar' => __DIR__.'/../src/Application/Ornicar',
+            'Bundle'               => __DIR__.'/../src/Bundle',
+            'Bundle\\FOS'          => __DIR__.'/../src/Bundle/FOS',
+            'Bundle\\Ornicar'      => __DIR__.'/../src/Bundle/Ornicar',
             'Symfony\\Bundle'      => __DIR__.'/../src/vendor/Symfony/src/Symfony/Bundle',
         );
     }
