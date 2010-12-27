@@ -16,7 +16,7 @@
         {% trans "Best ELO" %}: {{ user.maxElo }}, {{ _view.time.ago(user.maxEloDate) }}
         {% if not _view.fos_user_security.isAnonymous %}
             <div class="actions">
-                <a href="{{ url("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{% trans "Send %username% a message" with {"%username%": user.username} %}</a>
+                <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{% trans "Send %username% a message" with {"%username%": user.username} %}</a>
             </div>
         {% endif %}
     </div>
