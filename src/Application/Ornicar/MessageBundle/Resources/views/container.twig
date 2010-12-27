@@ -1,0 +1,13 @@
+{% extends "LichessBundle::layoutCommon.twig" %}
+{% block assets %}
+{% parent %}
+{% stylesheet 'bundles/message/css/message.css' %}
+{% endblock %}
+{% block body %}
+<div class="header">
+    <h1><a class="site_title" href="{{ path('lichess_homepage') }}">Lichess</a></h1>
+</div>
+<div id="lichess_message">
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}

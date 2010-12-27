@@ -1,0 +1,173 @@
+#lichess_message {
+    margin-left: 211px;
+    box-shadow: 0 0 7px #bbb;
+    -moz-box-shadow: 0 0 7px #bbb;
+    -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: #fff;
+    padding: 1.5em 2em 2em 2em;
+}
+
+#lichess_message h1 {
+    font-size: 1.8em;
+    color: #666;
+    font-weight: normal;
+    margin-bottom: 0.5em;
+    margin-left: 180px;
+}
+
+#lichess_message div.sidebar {
+    float: left;
+    width: 170px;
+}
+#lichess_message div.sidebar a {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 2em;
+}
+#lichess_message div.center {
+    margin-left: 180px;
+    min-height: 100px;
+}
+
+#lichess_message div.list {
+    font-size: 1.1em;
+    border-top: 1px solid #DADADA;
+}
+#lichess_message div.no_messages {
+    margin-top: 3em;
+}
+
+#lichess_message div.list div.message {
+    padding: 2em;
+    border-bottom: 1px solid #DADADA;
+}
+#lichess_message div.list div.message.unread {
+    background: #E1F6F8;
+}
+#lichess_message div.list div.message .actions {
+    float: right;
+    font-size: 0.8em;
+}
+#lichess_message a.user {
+    font-weight: bold;
+    background: url(../../lichess/images/user.png) top left no-repeat;
+    padding-left: 20px;
+}
+#lichess_message div.list div.message a.subject {
+    display: block;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: 1em;
+    margin-left: 3em;
+    background: url(../../message/images/message.png) top left no-repeat;
+    padding-left: 20px;
+}
+
+#lichess_message div.foot {
+    margin: 2em;
+}
+
+#lichess_message div.show {
+    font-size: 1.2em;
+    margin-top: 2em;
+}
+#lichess_message div.show .actions {
+    float: right;
+    font-size: 0.8em;
+}
+#lichess_message div.show .infos {
+    margin-bottom: 2em;
+    display: block;
+}
+
+.button {
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: -moz-linear-gradient(center top , #FAFAFA, #EAEAEA) repeat scroll 0 0 #EFEFEF;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EAEAEA));
+    border: 1px solid #DADADA;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    color: #444;
+    font-weight: bold;
+    cursor: pointer;
+}
+.button:hover {
+    color: #fff;
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+}
+
+form {
+    margin-top: 2em;
+    font-size: 1.3em;
+}
+form label {
+    display: block;
+    margin-bottom: 2em;
+}
+
+form label span {
+    float: left;
+    display: block;
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+form label span.required:after {
+    content: "*";
+    color: #FF6666;
+    margin-left: 3px;
+}
+
+form input.subject {
+    width: 500px;
+    padding: 0.5em;
+    border: 1px solid #D4D4D4;
+}
+form textarea {
+    width: 500px;
+    height: 150px;
+    padding: 0.5em;
+    border: 1px solid #D4D4D4;
+}
+form input.authorName {
+    padding: 0.5em;
+    width: 300px;
+    border: 1px solid #D4D4D4;
+}
+form .submit {
+    margin-left: 110px;
+}
+form .forum_trap {
+    margin-left: -10000px;
+    height: 0;
+}
+
+div.pagination {
+    float: right;
+}
+div.pagination a, div.pagination span {
+    font-size: 1.1em;
+    padding: 0.1em 0.5em;
+    font-weight: bold;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    text-decoration: none;
+}
+div.pagination span {
+    color: #aaa;
+}
+div.pagination span.current {
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+    color: #FFF;
+    margin: 0 0.5em;
+}
