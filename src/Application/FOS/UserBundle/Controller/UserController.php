@@ -18,6 +18,39 @@ class UserController extends BaseUserController
         return $response;
     }
 
+    public function updateOnlineAction()
+    {
+        $repo = $this->get('fos_user.repository.user');
+        $onliner = $this->get('fos_user.onliner');
+        $onlineUsernames = $onliner->getOnlineUsernames();
+        $repoUsernames = array();
+        foreach($repo->findOnlineUsers() as $user) {
+            if(in_array($user->getUsername(), $onlineUsernames)) {
+                $repoUsernames[] = $user->getUsername();
+            } else {
+                $user->setIsOnline(false);
+            }
+        }
+        foreach($onlineUsernames as $username) {
+            if(!in_array($username, $repoUsernames)) {
+                $user = $repo->findOneByUsername($username);
+                $user->setIsOnline(true);
+            }
+        }
+        $this->get('fos_user.object_manager')->flush();
+
+        die('done');
+    }
+
+    public function listOnlineAction()
+    {
+        $users = $this->get('fos_user.repository.user')->findOnlineUsersSortByElo();
+
+        return $this->render('UserBundle:User:listOnline.'.$this->getRenderer(), array(
+            'users' => $users
+        ));
+    }
+
     /**
      * Show all users
      **/
@@ -28,10 +61,12 @@ class UserController extends BaseUserController
         $users = new Paginator(new DoctrineMongoDBAdapter($query));
         $users->setCurrentPageNumber($this->get('request')->query->get('page', 1));
         $users->setItemCountPerPage(20);
-        $users->setPageRange(10);
+        $users->setPageRange(5);
         $pagerUrl = $this->generateUrl('fos_user_user_list');
 
-        return $this->render('UserBundle:User:list.'.$this->getRenderer(), array('users' => $users));
+        return $this->render('UserBundle:User:list.'.$this->getRenderer(), array(
+            'users' => $users
+        ));
     }
 
     public function showAction($username)

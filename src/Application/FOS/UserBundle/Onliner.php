@@ -26,6 +26,21 @@ class Onliner
         return false !== apc_fetch('online.'.$username);
     }
 
+    public function getOnlineUsernames()
+    {
+        $it = new \APCIterator('user', '/^online\./', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
+        $usernames = array();
+        $limit = time() - $this->getTimeout();
+        foreach($it as $i) {
+            apc_fetch($i['key']); // clear invalidated entries
+            if($i['mtime'] >= $limit) {
+                $usernames[] = str_replace('online.', '', $i['key']);
+            }
+        }
+
+        return $usernames;
+    }
+
     protected function getTimeout()
     {
         return 20;

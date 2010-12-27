@@ -47,6 +47,7 @@ class User extends BaseUser
      * Whether the user is online or not
      *
      * @mongodb:Field(type="boolean")
+     * @mongodb:Index(order="desc")
      * @var bool
      */
     protected $isOnline = false;

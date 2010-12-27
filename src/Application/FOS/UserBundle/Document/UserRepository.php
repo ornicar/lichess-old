@@ -14,6 +14,23 @@ class UserRepository extends BaseUserRepository
         $this->dm->getDocumentCollection($this->documentName)->getMongoCollection()->update($query, $update);
     }
 
+    public function findOnlineUsersSortByElo()
+    {
+        return $this->createQueryBuilder()
+            ->field('isOnline')->equals(true)
+            ->sort('elo', 'desc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findOnlineUsers()
+    {
+        return $this->createQueryBuilder()
+            ->field('isOnline')->equals(true)
+            ->getQuery()
+            ->execute();
+    }
+
     /**
      * Get the rank of the user starting from 1 (better)
      *
