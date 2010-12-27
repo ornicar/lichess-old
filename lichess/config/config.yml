@@ -24,12 +24,11 @@ security.config:
                 use_forward:                    false
                 check_path:                     /login-check
                 failure_path:                   null
-                always_use_default_target_path: false
-                default_target_path:            /
-                target_path_parameter:          _target_path
-                use_referer:                    false
             logout: true
             anonymous: true
+    access_control:
+        - { path: "/inbox.*", role: IS_AUTHENTICATED_FULLY }
+        - { path: "/.*", role: IS_AUTHENTICATED_ANONYMOUSLY }
 
 zend.config:
     logger:
