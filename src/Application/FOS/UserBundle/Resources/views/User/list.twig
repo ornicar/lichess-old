@@ -1,0 +1,19 @@
+{% extends "UserBundle::layoutUser.twig" %}
+{% block title %}{% trans "Chess players" %}{% endblock %}
+{% block content %}
+{% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": users.pages, "url": pagerUrl} %}{% endset %}
+<div class="lichess_box user_show">
+    <h1 class="lichess_title">{% trans "Chess players" %} {{ users.pages.firstItemNumber }} - {{ users.pages.lastItemNumber }} of {{ users.pages.totalItemCount }}</h1>
+    <div class="pager pager_top">{{ pagination|raw }}</div>
+    <ol start="{{ users.pages.firstItemNumber }}" class="users">
+        {% for user in users %}
+        <li>
+            <a href="{{ path("fos_user_user_show", {"username": user.username} ) }}">
+                {{ user.usernameWithElo }}
+            </a>
+        </li>
+        {% endfor %}
+    </ol>
+    <div class="pager pager_bottom">{{ pagination|raw }}</div>
+</div>
+{% endblock %}

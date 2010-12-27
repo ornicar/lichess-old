@@ -25,9 +25,6 @@
 [submodule "src/vendor/twig"]
 	path = src/vendor/twig
 	url = git://github.com/fabpot/Twig.git
-[submodule "src/Bundle/DoctrineUserBundle"]
-	path = src/Bundle/DoctrineUserBundle
-	url = git://github.com/knplabs/DoctrineUserBundle.git
 [submodule "src/vendor/php-git-repo"]
 	path = src/vendor/php-git-repo
 	url = git://github.com/ornicar/php-git-repo.git
@@ -37,3 +34,9 @@
 [submodule "src/vendor/Doctrine2-Sluggable-Functional-Behavior"]
 	path = src/vendor/Doctrine2-Sluggable-Functional-Behavior
 	url = git://github.com/ornicar/Doctrine2-Sluggable-Functional-Behavior.git
+[submodule "src/Bundle/FOS/UserBundle"]
+	path = src/Bundle/FOS/UserBundle
+	url = git://github.com/FriendsOfSymfony/UserBundle.git
+[submodule "src/Bundle/Ornicar/MessageBundle"]
+	path = src/Bundle/Ornicar/MessageBundle
+	url = git://github.com/ornicar/MessageBundle

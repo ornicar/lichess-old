@@ -7,29 +7,28 @@ app.config:
         lifetime: 2592000 # one month 
     templating:
         escaping: htmlspecialchars
-        assets_version: 101
+        assets_version: 106
     translator: { fallback: en }
 
 security.config:
     providers:
-        doctrine_user:
+        fos_user:
             password_encoder: sha1
-            document: { class: DoctrineUserBundle:User }
+            document: { class: Application\FOS\UserBundle\Document\User }
     firewalls:
         public:
             pattern: .*
             form_login:
-                provider:                       doctrine_user
+                provider:                       fos_user
                 login_path:                     /login
                 use_forward:                    false
                 check_path:                     /login-check
                 failure_path:                   null
-                always_use_default_target_path: false
-                default_target_path:            /
-                target_path_parameter:          _target_path
-                use_referer:                    false
             logout: true
             anonymous: true
+    access_control:
+        - { path: "/inbox.*", role: IS_AUTHENTICATED_FULLY }
+        - { path: "/.*", role: IS_AUTHENTICATED_ANONYMOUSLY }
 
 zend.config:
     logger:
@@ -44,6 +43,7 @@ apc.config:
 
 doctrine_odm.mongodb:
     auto_generate_proxy_classes: false
+    auto_generate_hydrator_classes: false
     default_database: lichess
     metadata_cache_driver: apc
     cache_driver: apc
@@ -75,21 +75,29 @@ forum.config:
         posts_per_page: 10
         search_results_per_page: 10
 
-doctrine_user.config:
+fos_user.config:
     db_driver: odm
-    password_encoder: sha1
+    encoder:
+        iterations: 1
+        encodeHashAsBase64: false
     class:
         model:
-            user: Application\DoctrineUserBundle\Document\User
+            user: Application\FOS\UserBundle\Document\User
         form:
-            user: Application\DoctrineUserBundle\Form\UserForm
+            user: Application\FOS\UserBundle\Form\UserForm
         controller:
-            user: Application\DoctrineUserBundle\Controller\UserController
-            security: Application\DoctrineUserBundle\Controller\SecurityController
+            user: Application\FOS\UserBundle\Controller\UserController
+            security: Application\FOS\UserBundle\Controller\SecurityController
 
-doctrine_user_custom.config: ~
+fos_custom.config: ~
 
-time.helper: ~
+ornicar_message.config:
+    db_driver: odm
+    class:
+        model:
+            message: Application\Ornicar\MessageBundle\Document\Message
+
+time.config: ~
 
 lichess.config:
     db_driver: odm

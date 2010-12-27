@@ -1,7 +1,7 @@
 security:
-    resource: DoctrineUserBundle/Resources/config/routing/security.xml
+    resource: UserBundle/Resources/config/routing/security.xml
 user:
-    resource: DoctrineUserBundle/Resources/config/routing/lichess_user.yml
+    resource: UserBundle/Resources/config/routing/lichess_user.yml
 
 lichess:
   resource: LichessBundle/Resources/config/routing.yml
@@ -15,6 +15,9 @@ forum_category:
 forum_topic:
     resource: ForumBundle/Resources/config/routing/topic.xml
     prefix: /forum
+forum_post:
+    resource: ForumBundle/Resources/config/routing/post.xml
+    prefix: /forum
 forum_index:
     pattern:        /forum
     defaults:       { _controller: ForumBundle:Forum:index }
@@ -27,3 +30,11 @@ forum_topic_show_compat:
     pattern:        /forum/:categorySlug/:slug/:id.:_format
     defaults:       { _controller: forum.controller.topic:showCompatAction, _format: "html", id: "" }
     requirements:   { _method: "get|head", _format: "html|xml", slug: "[-\w]+" }
+
+ornicar_message:
+    resource: MessageBundle/Resources/config/routing.xml
+    prefix: /inbox
+inbox:
+    pattern:        /inbox
+    defaults:       { _controller: MessageBundle:Message:list }
+    requirements:   { _method: get }

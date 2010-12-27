@@ -12,7 +12,7 @@ class TopicController extends BaseTopicController
 {
     public function createAction(Category $category = null)
     {
-        $form = $this->createForm('forum_topic_new', $category);
+        $form = $this->createForm($category);
         $form->bind($this->get('request')->request->get($form->getName()));
 
         if(!$form->isValid()) {
@@ -23,26 +23,33 @@ class TopicController extends BaseTopicController
         }
 
         $topic = $form->getData();
+        $this->get('forum.creator.topic')->create($topic);
         $this->get('forum.blamer.topic')->blame($topic);
+
+        $this->get('forum.creator.post')->create($topic->getFirstPost());
         $this->get('forum.blamer.post')->blame($topic->getFirstPost());
-        $this->saveTopic($topic);
+
+        $objectManager = $this->get('forum.object_manager');
+        $objectManager->persist($topic);
+        $objectManager->persist($topic->getFirstPost());
+        $objectManager->flush();
 
         $this->get('session')->setFlash('forum_topic_create/success', true);
         $url = $this->get('forum.templating.helper.forum')->urlForTopic($topic);
 
         $response = $this->redirect($url);
-        if(!$this->get('lichess.security.helper')->isAuthenticated()) {
+        if(!$this->get('fos_user.templating.helper.security')->isAuthenticated()) {
             $response->headers->setCookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
         }
 
         return $response;
     }
 
-    protected function createForm($name, Category $category = null)
+    protected function createForm(Category $category = null)
     {
-        $form = parent::createForm($name, $category);
+        $form = parent::createForm($category);
 
-        if($this->get('lichess.security.helper')->isAuthenticated()) {
+        if(!$this->get('fos_user.templating.helper.security')->isAnonymous()) {
             unset($form['firstPost']['authorName']);
         } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
             $form['firstPost']['authorName']->setData(urldecode($authorName));

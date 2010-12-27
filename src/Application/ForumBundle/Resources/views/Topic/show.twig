@@ -13,7 +13,7 @@
 
     <a href="{{ _view.forum.urlForTopicAtomFeed(topic)|raw }}" title="{% trans "Follow this topic" %}" class="forum_feed_link"></a>
     <ol class="crumbs">
-        <li><a href="{% path "forum_index" %}">Forum</a></li>
+        <li><a href="{{ path("forum_index") }}">Forum</a></li>
         <li><a href="{{ _view.forum.urlForCategory(topic.category)|raw }}">{{ topic.category.name|raw }}</a></li>
         <li><h1>{{ topic.subject }}</h1></li>
     </ol>

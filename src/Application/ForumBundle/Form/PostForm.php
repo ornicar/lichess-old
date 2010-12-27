@@ -11,5 +11,6 @@ class PostForm extends BasePostForm
     {
         parent::configure();
         $this->add(new TextField('authorName'));
+        $this->add(new TextField('trap'));
     }
 }

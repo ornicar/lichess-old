@@ -2,7 +2,7 @@
 
 namespace Application\ForumBundle\Document;
 use Bundle\ForumBundle\Document\Post as BasePost;
-use Application\DoctrineUserBundle\Document\User;
+use Application\FOS\UserBundle\Document\User;
 
 /**
  * @mongodb:Document(
@@ -29,7 +29,7 @@ class Post extends BasePost
     /**
      * The author user if any
      *
-     * @mongodb:ReferenceOne(targetDocument="Application\DoctrineUserBundle\Document\User")
+     * @mongodb:ReferenceOne(targetDocument="Application\FOS\UserBundle\Document\User")
      * @var User
      */
     protected $author = null;
@@ -38,6 +38,11 @@ class Post extends BasePost
      * @validation:MaxLength(10000)
      */
     protected $message;
+
+    /**
+     * @validation:Blank
+     */
+    protected $trap;
 
     /**
      * @return User
@@ -64,6 +69,16 @@ class Post extends BasePost
     public function getAuthorName()
     {
         return $this->authorName;
+    }
+
+    public function getTrap()
+    {
+        return $this->trap;
+    }
+
+    public function setTrap($trap)
+    {
+        $this->trap = $trap;
     }
 
     /**

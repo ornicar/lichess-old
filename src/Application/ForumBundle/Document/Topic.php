@@ -35,4 +35,37 @@ class Topic extends BaseTopic
     {
         return $this->getFirstPost()->getAuthorName();
     }
+
+    /**
+     * Hack to fix temporary Form issue
+     *
+     * @param string $message
+     * @return void
+     */
+    public function setMessage($message)
+    {
+        $this->getFirstPost()->setMessage($message);
+    }
+
+    /**
+     * Hack to fix temporary Form issue
+     *
+     * @param string $authorName
+     * @return void
+     */
+    public function setAuthorName($authorName)
+    {
+        $this->getFirstPost()->setAuthorName($authorName);
+    }
+
+    /**
+     * Hack to fix temporary Form issue
+     *
+     * @param string $trap
+     * @return void
+     */
+    public function setTrap($trap)
+    {
+        $this->getFirstPost()->setTrap($trap);
+    }
 }
