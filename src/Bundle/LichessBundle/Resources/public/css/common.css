@@ -292,6 +292,20 @@ a.goto_nav {
 a.goto_nav:hover {
     text-decoration: underline;
 }
+a.goto_message {
+    background-position: 0 -144px;
+}
+a.goto_message span.new_messages {
+    margin-left: 3px;
+    padding: 1px 3px;
+    background: #666;
+    color: white;
+    font-weight: bold;
+    border-radius:4px 4px 4px 4px;
+    -moz-border-radius:4px 4px 4px 4px;
+    -webkit-border-radius:4px 4px 4px 4px;
+    font-size: 0.9em;
+}
 a.goto_logout {
     background-position: 0 -48px;
 }
