@@ -5,9 +5,19 @@ namespace Application\ForumBundle\Controller;
 use Bundle\ForumBundle\Controller\PostController as BasePostController;
 use Bundle\ForumBundle\Model\Topic;
 use Bundle\ForumBundle\Model\Post;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostController extends BasePostController
 {
+    public function deleteAction($id)
+    {
+        if(!$this->get('security.context')->vote('ROLE_SUPERADMIN')) {
+            throw new NotFoundHttpException();
+        }
+
+        return parent::deleteAction($id);
+    }
+
     public function createAction(Topic $topic)
     {
         $form = $this->createForm('forum_post_new', $topic);
