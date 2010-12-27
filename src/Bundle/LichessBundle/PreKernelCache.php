@@ -14,9 +14,9 @@ $timeout = 20;
 // Get url
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
-// Handle number of connected players requests
-
-if('/how-many-players-now' === $url) {
+// get number of players from apc cache
+function _lichess_get_nb_players($timeout)
+{
     $nb = apc_fetch('lichess.nb_players');
     if(false === $nb) {
         $it = new \APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
@@ -29,10 +29,28 @@ if('/how-many-players-now' === $url) {
         apc_store('lichess.nb_players', $nb, 2);
     }
 
-    // Return minimalist JSON response telling the number of connected players
+    return $nb;
+}
+// Send response to the client
+function _lichess_return_response($text, $type = 'application/json')
+{
     header('HTTP/1.0 200 OK');
-    header('content-type: text/plain');
-    die((string)$nb);
+    header('content-type: '.$type);
+    die((string)$text);
+}
+
+// Handle number of connected players requests
+
+if('/how-many-players-now' === $url) {
+    _lichess_return_response(_lichess_get_nb_players($timeout), 'text/plain');
+}
+
+// Handle authenticated user ping
+
+if (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)$#x', $url, $matches)) {
+    $username = $matches['username'];
+    apc_store('online.'.$username, true, $timeout);
+    _lichess_return_response(sprintf('{"nbp":%d,"nbm":%d}', _lichess_get_nb_players($timeout), apc_fetch('nbm.'.$username)));
 }
 
 // Handle game synchronization
@@ -68,7 +86,4 @@ else {
     $isOpponentAlive = true;
 }
 
-// Return minimalist JSON response telling the state of the opponent
-header('HTTP/1.0 200 OK');
-header('content-type: application/json');
-die('{"o": '.$isOpponentAlive.'}');
+_lichess_return_response('{"o": '.$isOpponentAlive.'}');

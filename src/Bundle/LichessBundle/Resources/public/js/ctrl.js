@@ -4,7 +4,22 @@ $(function() {
         $('input').click(function() { this.select(); });
         if(!lichess_data.player.spectator) $('a.blank_if_play').attr('target', '_blank');
     }
-    else if($nbConnectedPlayers = $('div.nb_connected_players').orNot()) {
+    $nbConnectedPlayers = $nbConnectedPlayers = $('#nb_connected_players').orNot();
+    if($userTag = $('#user_tag').orNot()) {
+        function onlinePing() {
+            setTimeout(function() {
+                $.get($userTag.attr('data-online-url'), function(data) {
+                    showNbConnectedPlayers(data.nbp);
+                    if(data.nbm) {
+                        $('#nb_messages').text(data.nbm).addClass('unread');
+                    }
+                    onlinePing();
+                }, "json");
+            }, 5000);
+        };
+        onlinePing();
+    }
+    else if($nbConnectedPlayers) {
         function reloadNbConnectedPlayers() {
             setTimeout(function() {
                 $.get($nbConnectedPlayers.attr('data-url'), function(nb) {
@@ -14,6 +29,10 @@ $(function() {
             }, 5000);
         };
         reloadNbConnectedPlayers();
+    }
+
+    function showNbConnectedPlayers(nb) {
+        if($nbConnectedPlayers) $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
     }
 
     if($config = $('div.game_config_form').orNot()) {

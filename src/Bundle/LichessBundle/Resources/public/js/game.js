@@ -9,7 +9,6 @@
          self.$board = self.element.find("div.lichess_board");
      self.$table = self.element.find("div.lichess_table_wrap");
      self.$chat = $("div.lichess_chat");
-     self.$connectedPlayers = $('div.nb_connected_players');
      self.initialTitle = document.title,
      self.ajaxManager = $.manageAjax.create('lichess_sync', {
 		beforeCreate: $.noop,
@@ -92,9 +91,6 @@
                  }
                  if(data.t) {
                      self.options.game.turns = data.t;
-                 }
-                 if(data.ncp) {
-                     self.$connectedPlayers.text(self.$connectedPlayers.text().replace(/\d+/, data.ncp));
                  }
                  if(data.p) {
                      self.options.game.player = data.p;

@@ -106,7 +106,6 @@ class PlayerController extends Controller
         }
 
         $data = array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events, 'p' => $currentPlayerColor, 't' => $game->getTurns());
-        $data['ncp'] = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
         if($game->hasClock()) {
             $data['c'] = $game->getClock()->getRemainingTimes();
         }
