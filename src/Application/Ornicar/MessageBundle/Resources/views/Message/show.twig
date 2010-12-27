@@ -1,0 +1,34 @@
+{% extends "MessageBundle::container.twig" %}
+{% block content %}
+<div class="message_show">
+    <div class="head">
+        <h1>{{ message.subject }}</h1>
+    </div>
+    {% include "MessageBundle::sidebar.twig" %}
+    <div class="center show">
+        <span class="actions">
+            <a class="delete" href="{{ url('ornicar_message_message_delete', {"id": message.id}) }}">Delete</a>
+        </span>
+        <span class="infos">
+            <a class="user" href="{{ url('fos_user_user_show', {"username": message.from.username}) }}">{{ message.from }}</a>
+            said {{ ago(message.createdAt)|raw }}:
+        </span>
+        <div class="body">{{ _view.lichess.userText(message.body)|raw }}</div>
+        <div class="answer">
+            {% trans "Reply" %}
+            <form action="{{ url("ornicar_message_message_create") }}" method="post">
+                {{ form.to|render }}
+                {{ form.subject|render }}
+                <div class="field_body">
+                    {{ form.body|render }}
+                    {{ form.body|render_errors }}
+                </div>
+                <div class="actions">
+                    <input class="send button" type="submit" value="{% trans "Send" %}" />
+                    <a class="cancel" href="{{ url("ornicar_message_message_list") }}">{% trans "Cancel" %}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
