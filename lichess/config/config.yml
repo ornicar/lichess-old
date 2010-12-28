@@ -7,7 +7,7 @@ app.config:
         lifetime: 2592000 # one month 
     templating:
         escaping: htmlspecialchars
-        assets_version: 113
+        assets_version: 117
     translator: { fallback: en }
 
 security.config:
