@@ -42,6 +42,9 @@
         <br />
         {% trans "Variant" %} - {{ game.variantName|capitalize }}<br />
         {% trans "Time control" %} - {{ game.clockName }}<br />
+        {% if game.isRated %}
+            {% trans "This game is rated" %}<br />
+        {% endif %}
     </div>
     <br /><br />
     <a class="rotate_board" href="{{ path("lichess_game", {"id": game.id, "color": player.opponent.color} ) }}">{% trans "Flip board" %}</a>
