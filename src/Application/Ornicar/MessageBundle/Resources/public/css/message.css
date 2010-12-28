@@ -1,14 +1,4 @@
 #lichess_message {
-    margin-left: 211px;
-    box-shadow: 0 0 7px #bbb;
-    -moz-box-shadow: 0 0 7px #bbb;
-    -webkit-box-shadow: 0 0 7px #bbb;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    background: #fff;
-    padding: 1.5em 2em 2em 2em;
 }
 
 #lichess_message h1 {

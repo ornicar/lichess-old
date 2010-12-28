@@ -1,6 +1,7 @@
 {% extends "UserBundle::layoutUser.twig" %}
 {% block content %}
-<div class="lichess_box signup_box">
+<div class="content_box small_box">
+<div class="signup_box">
     <span class="box_right_text">{% trans "Have an account?" %} <a class="toggle_signin">{% trans "Sign in" %}</a></span>
     <h1 class="lichess_title">{% trans "Sign up" %}</h1>
     <p class="explanation">
@@ -29,5 +30,6 @@
         </ul>
         {{ form|render_hidden }}
     </form>
+</div>
 </div>
 {% endblock %}

@@ -1,37 +1,25 @@
-#lichess_user {
-    margin-left: 211px;
-    box-shadow: 0 0 7px #bbb;
-    -moz-box-shadow: 0 0 7px #bbb;
-    -webkit-box-shadow: 0 0 7px #bbb;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    background: #fff;
-    padding: 1.5em 2em 2em 2em;
-    text-align: left;
-}
-
-#lichess_user .lichess_title {
-    text-align: left;
-    font-size: 2em;
-    display: block;
-}
-
-#lichess_user .stats {
-    font-size: 1.2em;
-}
-
 #lichess_user h2 {
     font-size: 1.5em;
+}
+#lichess_user div.stats {
+    font-size: 1.2em;
 }
 
 #lichess_user img.elo_history {
     float:right;
 }
 
-#lichess_user .signup_box p.explanation {
+div.signup_box p.explanation {
     font-size: 1.2em;
+}
+
+div.signup_box h1 {
+    margin-bottom: 2em;
+}
+
+div.signup_box .box_right_text {
+    margin-top: -5px;
+    float: right;
 }
 
 form.signup {
@@ -79,7 +67,7 @@ div.user_show div.games {
 
 div.user_lists div.all_users {
     float: left;
-    width: 350px;
+    width: 360px;
     margin-right: 20px;
     border: 1px solid #DADADA;
     border-width: 0 1px 0 0;

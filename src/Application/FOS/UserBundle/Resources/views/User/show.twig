@@ -5,6 +5,7 @@
 {% endblock %}
 {% block title %}{{ user.usernameWithElo }}{% endblock %}
 {% block content %}
+<div class="content_box">
 <div class="user_show">
     <img class="elo_history" src="{{ _view.lichess_user.eloChartUrl(user, "400x160") }}" width="400" height="160" alt="ELO history" />
     <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
@@ -26,5 +27,6 @@
         {% include "LichessBundle:Game:listWidget.twig" with {"games": games, "user": user} %}
         <div class="pager pager_bottom">{{ pagination|raw }}</div>
     </div>
+</div>
 </div>
 {% endblock %}

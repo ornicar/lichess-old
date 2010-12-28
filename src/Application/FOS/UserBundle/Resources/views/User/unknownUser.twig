@@ -1,10 +1,12 @@
 {% extends "UserBundle::layoutUser.twig" %}
 {% block content %}
+<div class="content_box">
 <div class="user_show">
     <h1 class="lichess_title">The player "{{ username }}" does not exist</h1>
     <form class="search_user_form" action="{{ url("fos_user_user_show", {"username": ""}) }}">
         <label for="search_user_input">{% trans "Search a player" %}</label>
         <input id="search_user_input" class="search_user autocomplete" data-provider="{{ url("fos_user_autocomplete") }}" />
     </form>
+</div>
 </div>
 {% endblock %}
