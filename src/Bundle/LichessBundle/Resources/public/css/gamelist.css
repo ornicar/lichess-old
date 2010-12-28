@@ -6,11 +6,19 @@ h1 {
     display: inline;
 }
 
+div.current_games_box {
+    width: 638px;
+}
+
 a.game_list, a.all_games {
     margin-left: 2em;
 }
 
-div.game_list, div.all_games {
+div.game_list {
+    margin-top: 2em;
+}
+
+div.all_games {
     margin-top: 1em;
 }
 
@@ -63,7 +71,7 @@ a.mini_board {
     position: relative;
     float: left;
     display: block;
-    margin: 0 20px 20px 0;
+    margin: 0 10px 20px 10px;
     box-shadow:0 0 5px #444;
     -moz-box-shadow:0 0 5px #444;
     -webkit-box-shadow:0 0 5px #444;

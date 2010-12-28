@@ -4,3 +4,6 @@
 {% stylesheet 'bundles/lichess/css/translation.css' %}
 {% javascript 'bundles/lichess/js/translation.js' %}
 {% endblock %}
+{% block layout_content %}
+<div class="content_box">{% block content %}{% endblock %}</div>
+{% endblock %}

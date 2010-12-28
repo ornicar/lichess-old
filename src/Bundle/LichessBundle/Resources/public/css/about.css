@@ -1,0 +1,33 @@
+div.about_box {
+    text-align: center;
+    font-size: 1.1em;
+}
+div.about_box em {
+    font-style: italic;
+}
+
+div.about_box li {
+    list-style: disc inside;
+    margin-left: 1em;
+}
+
+div.about_box p {
+    margin: 1em;
+}
+
+div.about_box div.lichess_text {
+    text-align: left;
+    margin-bottom: 1em;
+}
+
+div.about_box a.lichess_new_game {
+    font-size: 150%;
+}
+
+div.about_box p.license_images {
+    text-align: center;
+    vertical-align: middle;
+}
+div.about_box p.license_images a {
+    margin: 0 1em;
+}

@@ -14,13 +14,8 @@ html{color:#000;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fiel
 .tipsy-se .tipsy-arrow { bottom: 0; right: 10px; background-position: bottom left; }
 .tipsy-e .tipsy-arrow { top: 50%; margin-top: -4px; right: 0; width: 5px; height: 9px; background-position: top right; }
 .tipsy-w .tipsy-arrow { top: 50%; margin-top: -4px; left: 0; width: 5px; height: 9px; }
-.clearfix:after {
-    content:".";
-    display:block;
-    height:0;
-    clear:both;
-    visibility:hidden;
-}
+
+.clearfix:after { content:"."; display:block; height:0; clear:both; visibility:hidden; }
 .clearfix {display:inline-block;}
 
 .none {
@@ -63,7 +58,7 @@ div.header strong {
 
 div.content {
     width: 1010px;
-    margin: 40px auto 50px auto;
+    margin: 50px auto 50px auto;
     position: relative;
 }
 
@@ -76,10 +71,19 @@ a.site_title {
     color: #666;
     padding-top: 15px;
     font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;
-    font-weight: bold;
     font-size: 30px;
     color: #aaa;
     text-decoration: none;
+}
+a.site_title span.extension {
+    color: #c0c0c0;
+    font-weight: normal;
+}
+a.site_title:hover {
+    color: #8899aa;
+}
+a.site_title:hover span.extension {
+    color: #99aabb;
 }
 
 div.footer_wrap {
@@ -102,21 +106,6 @@ div.footer div.right {
     text-align: right;
 }
 
-div.lichess_box {
-    border-radius:4px 4px 4px 4px;
-    -moz-border-radius:4px 4px 4px 4px;
-    -webkit-border-radius:4px 4px 4px 4px;
-    box-shadow: 0 0 7px #bbb;
-    -moz-box-shadow: 0 0 7px #bbb;
-    -webkit-box-shadow: 0 0 7px #bbb;
-    background:none repeat scroll 0 0 #F8F8F8;
-    font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
-    width:472px;
-    padding:20px;
-    text-align: center;
-    line-height: 1.5em;
-}
-
 .button {
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -137,45 +126,28 @@ div.lichess_box {
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
 }
 
-div.lichess_box .lichess_title {
-    font-size: 1.4em;
+div.content_box {
+    box-shadow: 0 0 7px #bbb;
+    -moz-box-shadow: 0 0 7px #bbb;
+    -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: #fff;
+    padding: 1.5em 2em 2em 2em;
+    text-align: left;
+}
+div.content_box.small_box {
+    width: 500px;
+}
+
+div.content_box .lichess_title {
+    font-size: 2em;
+    display: block;
     margin-bottom: 0.5em;
 }
 
-div.lichess_box .box_right_text {
-    margin-top: -5px;
-    float: right;
-}
-
-div.lichess_box p {
-    margin: 1em;
-}
-
-div.lichess_box div.lichess_text {
-    text-align: left;
-    margin-bottom: 1em;
-}
-
-div.lichess_box em {
-    font-style: italic;
-}
-
-div.lichess_box li {
-    list-style: disc inside;
-    margin-left: 1em;
-}
-
-div.lichess_box a.lichess_new_game {
-    font-size: 150%;
-}
-
-div.lichess_box p.license_images {
-    text-align: center;
-    vertical-align: middle;
-}
-div.lichess_box p.license_images a {
-    margin: 0 1em;
-}
 div.lichess_goodies {
     opacity: 0.7;
 }
@@ -396,10 +368,6 @@ li.lichess_stumbleupon iframe {
 }
 li.lichess_stumbleupon iframe {
     width: 80px;
-}
-li.lichess_add2any a img {
-    padding-top: 2px;
-    vertical-align: top;
 }
 
 div.lichess_server {

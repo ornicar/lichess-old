@@ -1,6 +1,10 @@
-{% extends "LichessBundle::layout.twig" %}
+{% extends "LichessBundle::layoutCommon.twig" %}
+{% block assets %}
+{% parent %}
+{% stylesheet 'bundles/lichess/css/about.css' %}
+{% endblock %}
 {% block content %}
-<div class="lichess_box">
+<div class="content_box small_box about_box">
     <h1 class="lichess_title">About Lichess</h1>
     <div class="lichess_text">
         <ul>
@@ -19,7 +23,7 @@
         <ul>
             <li>Multiplayer</li>
             <li>Single player with Artificial Intelligence</li>
-            <li>Time control with <a href="http://en.wikipedia.org/wiki/Game_clock">Chess clock</a></li>
+            <li>Time control with <a href="http://en.wikipedia.org/wiki/Game_clock">Chess clock</a>, including Fisher increments</li>
             <li>Chess variants: Standard and <a href="http://en.wikipedia.org/wiki/Chess960">Chess960</a></li>
             <li><a href="http://en.wikipedia.org/wiki/Castling">Castling</a></li>
             <li><a href="http://en.wikipedia.org/wiki/En_passant">En passant</a></li>

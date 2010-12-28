@@ -1,17 +1,86 @@
-{% extends "LichessBundle::layoutCommon.twig" %}
-{% block body %}
-<div class="header">
-    <h1><a class="site_title" href="{{ path('lichess_homepage') }}">Lichess</a></h1>
-    {% set newLocale %}{% flash "locale_change" %}{% endset %}
-    {% if newLocale and newLocale != "en" %}{% render "LichessBundle:Translation:incomplete" with{"locale": newLocale} %}{% endif %}
-    <div class="lichess_goodies_wrap">
-        {% block goodies %}{% endblock %}
-    </div>
-    <div class="lichess_chat_wrap">
-        {% block chat %}{% endblock %}
-    </div>
-</div>
-<div id="lichess">
-    {% block content %}{% endblock %}
-</div>
+{% block assets %}
+{% stylesheet 'bundles/lichess/css/common.css' %}
+{% javascript 'bundles/lichess/js/lib.min.js' %}
+{% javascript 'bundles/lichess/js/ctrl.js' %}
+{% if _view.locale.locale != "en" %}
+    {% javascript "http://static.addtoany.com/menu/locale/" ~ _view.locale.locale ~ ".js" %}
+{% endif %}
 {% endblock %}
+<!DOCTYPE html>
+<html lang="{{ _view.locale.locale }}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Lichess{% endblock %} | free online Chess game{% block title_suffix %}{% endblock %}</title>
+        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and JavaScript with jQuery 1.4" name="description">
+        <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
+        <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        {% stylesheets %}
+    </head>
+    <body data-sound-enabled="{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{% asset 'bundles/lichess/sound/alert.ogg' %}">
+        <div class="content">
+            <div class="header">
+                <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
+                {% set newLocale %}{% flash "locale_change" %}{% endset %}
+                {% if newLocale and newLocale != "en" %}{% render "LichessBundle:Translation:incomplete" with{"locale": newLocale} %}{% endif %}
+                <div class="lichess_goodies_wrap">{% block goodies %}{% endblock %}</div>
+                <div class="lichess_chat_wrap">{% block chat %}{% endblock %}</div>
+            </div>
+            <div id="lichess">
+                {% block layout_content %}{% endblock %}
+            </div>
+        </div>
+        <div class="footer_wrap">
+            <ul class="lichess_social"></ul>
+            <div class="footer">
+                <div class="right">
+                    <a href="http://twitter.com/#!/ornicar">twitter.com/ornicar</a> | <a href="http://github.com/ornicar">github.com/ornicar</a><br />
+                    {% trans "Contact" %}: <span class="js_email"></span><br />
+                    <a href="{{ path("lichess_about") }}" class="blank_if_play">{% trans "Learn more about Lichess" %}</a>
+                </div>
+                <div id="nb_connected_players" class="nb_connected_players" data-url="{{ path("lichess_nb_players") }}">
+                    {% trans "%nb% connected players" with{"%nb%": _view.lichess.nbConnectedPlayers} %}
+                </div>
+                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="{{ path("lichess_translate") }}">help translate Lichess</a><br />
+                {% trans "Open Source software built with %php%, %symfony% and %jqueryui%" with{'%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'} %}<br />
+            </div>
+        </div>
+        <div class="lichess_server">
+            <a href="#top">{% trans "Back to top" %}</a> |
+            [[time]] | {% trans "Server load" %}: <span class="value">{{ _view.lichess.loadAverage }}</span> |
+            <a class="blank_if_play" href="/monitor/index.html">
+                Server monitoring
+            </a>
+        </div>
+        <div id="top_menu">
+            {% block top_menu %}
+            <a title="{% trans "Toggle sound" %}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
+            <div class="lichess_language" data-path="{{ path("lichess_locale_links") }}">
+                <span class="s16">{{ _view.locale.localeName }}</span>
+            </div>
+            <a class="s16 goto_forum goto_nav blank_if_play" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{{ path("forum_index") }}">{% trans "Forum" %}</a>
+            <a class="s16 goto_gamelist goto_nav blank_if_play" title="{% trans "See the games being played in real time" %}" href="{{ path("lichess_list_current") }}">{% trans "Games" %}</a>
+            <a class="s16 goto_userlist goto_nav blank_if_play" title="{% trans "Chess players" %}" href="{{ path("fos_user_user_list") }}">{% trans "People" %}</a>
+            {% endblock %}
+            {% block security %}
+                {% if _view.fos_user_security.isAnonymous %}
+                    {% include "UserBundle:Security:embeddedLogin.twig" %}
+                {% else %}
+                    <a class="s16 goto_nav goto_message blank_if_play" href="{{ path("ornicar_message_message_list") }}">
+                        {% trans "Inbox" %}
+                        <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
+                    </a>
+                    <a class="s16 goto_nav goto_logout" href="{{ path("_security_logout") }}">{% trans "Log out" %}</a>
+                    <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": _view.fos_user_security.user.username}) }}" href="{{ path("fos_user_user_show", {"username": _view.fos_user_security.user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ _view.fos_user_security.user.usernameWithElo }}</a>
+                {% endif %}
+            {% endblock %}
+        </div>
+        <div id="top"></div>
+        {% block js_data %}{% endblock %}
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        <script>!window.jQuery && document.write(unescape('%3Cscript src="{% asset "/bundles/lichess/vendor/jquery.min.js" %}"%3E%3C/script%3E'))</script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+        <script>!jQuery.ui && document.write(unescape('%3Cscript src="{% asset "/bundles/lichess/vendor/jqueryui.min.js" %}"%3E%3C/script%3E'))</script>
+        {% javascripts %}
+    </body>
+</html>
