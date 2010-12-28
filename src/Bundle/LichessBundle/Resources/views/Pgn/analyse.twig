@@ -4,7 +4,7 @@
 {% block content %}
 <div class="analyse clearfix">
     <div class="board_wrap">
-        <div id="GameBoard"{{ color == "black" ? ' class="flip"' : "" }}></div>
+        <div id="GameBoard"{{ reverseColor == "white" ? ' class="flip"' : "" }}></div>
         <div id="GameButtons"></div>
     </div>
     <div class="moves_wrap">
@@ -29,13 +29,13 @@
         {% endif %}
         <br />
         <br />
-        {% for player in [game.invited, game.creator] %}
+        {% for p in [player.opponent, player] %}
             <div>
-                {% trans player.color|capitalize %} -
-                {% if player.isAi %}
-                    {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
+                {% trans p.color|capitalize %} -
+                {% if p.isAi %}
+                    {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': p.aiLevel} %}
                 {% else %}
-                    {{ _view.lichess_user.linkPlayer(player)|raw }}
+                    {{ _view.lichess_user.linkPlayer(p)|raw }}
                 {% endif %}
             </div>
         {% endfor %}
