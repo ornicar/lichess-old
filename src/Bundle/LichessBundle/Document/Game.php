@@ -768,6 +768,12 @@ class Game
         return $player;
     }
 
+    public function getVsText()
+    {
+        $creator = $this->getCreator();
+        return sprintf('%s vs %s', $creator->getUsernameWithElo(), $creator->getOpponent()->getUsernameWithElo());
+    }
+
     /**
      * @return Player
      */

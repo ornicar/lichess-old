@@ -271,6 +271,9 @@ class Player
      **/
     public function getUsername($default = 'Anonymous')
     {
+        if($this->getIsAi()) {
+            return sprintf('A.I. level %d', $this->getAiLevel());
+        }
         $user = $this->getUser();
         if(!$user) {
             return $default;
@@ -286,6 +289,9 @@ class Player
      **/
     public function getUsernameWithElo($default = 'Anonymous')
     {
+        if($this->getIsAi()) {
+            return sprintf('A.I. level %d', $this->getAiLevel());
+        }
         $user = $this->getUser();
         if(!$user) {
             return $default;
