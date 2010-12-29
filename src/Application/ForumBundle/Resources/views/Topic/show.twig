@@ -1,5 +1,5 @@
 {% extends "ForumBundle::layout.twig" %}
-{% block title %}{{ topic.subject }}{% endblock %}
+{% block title %}{{ topic.subject }}{% if posts.currentPageNumber > 1 %} - Page {{ posts.currentPageNumber }}{% endif %}{% endblock %}
 {% block description %}{{ topic.subject }} - {{ topic.category.description|raw }}{% endblock %}
 {% block feed_link %}
 <link href="{{ _view.forum.urlForTopicAtomFeed(topic)|raw }}" type="application/atom+xml" rel="alternate" title="{{ topic.subject|raw }} - Lichess Forum" />
