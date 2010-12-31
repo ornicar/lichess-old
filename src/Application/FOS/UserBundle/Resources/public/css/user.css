@@ -75,13 +75,29 @@ div.user_lists div.all_users {
 div.user_lists div.online_users {
     float: left;
     margin-left: 20px;
+    width: 345px;
 }
-div.user_lists div.online_users .users {
-    margin-top: 3em;
+div.user_lists h1.lichess_title {
+    margin-bottom: 1em;
+}
+div.user_lists h2 {
+    margin-top: 0em;
+    margin-bottom: 0;
+}
+div.user_lists div.online_users ul {
+    margin-bottom: 1.5em;
+}
+div.user_lists ul.anonymous_users li {
+    background: url(../../lichess/images/user.png) top left no-repeat;
+    width: 16px;
+    height: 16px;
+    display: block;
+    float: left;
+    margin: 0 8px 8px 0;
 }
 
 form.search_user_form {
-    margin: 1em 0;
+    margin: 0 0 2em 0;
 }
 form.search_user_form input {
     border: 1px solid #DADADA;

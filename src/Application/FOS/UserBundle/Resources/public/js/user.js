@@ -6,7 +6,7 @@ $(function()
         function reloadOnlineUsers() {
             setTimeout(function() {
                 $.get(onlineUserUrl, function(html) {
-                    $users.find('ul.users').html(html);
+                    $users.find('div.online_users_inner').html(html);
                     reloadOnlineUsers();
                 });
             }, 3000);

@@ -56,9 +56,11 @@ class UserController extends BaseUserController
     public function listOnlineAction()
     {
         $users = $this->get('fos_user.repository.user')->findOnlineUsersSortByElo();
+        $nbPlayers = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
 
         return $this->render('UserBundle:User:listOnline.'.$this->getRenderer(), array(
-            'users' => $users
+            'users'     => $users,
+            'nbPlayers' => $nbPlayers
         ));
     }
 
@@ -72,7 +74,7 @@ class UserController extends BaseUserController
         $users = new Paginator(new DoctrineMongoDBAdapter($query));
         $users->setCurrentPageNumber($this->get('request')->query->get('page', 1));
         $users->setItemCountPerPage(20);
-        $users->setPageRange(5);
+        $users->setPageRange(3);
         $pagerUrl = $this->generateUrl('fos_user_user_list');
 
         return $this->render('UserBundle:User:list.'.$this->getRenderer(), array(
