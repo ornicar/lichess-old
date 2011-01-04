@@ -1,0 +1,19 @@
+{% extends "LichessBundle::layoutCommon.twig" %}
+{% block assets %}
+{{ parent() }}
+{% stylesheet 'bundles/lichess/css/about.css' %}
+{% endblock %}
+{% block content %}
+<div class="content_box small_box about_box">
+    <h1 class="lichess_title">Lichess TODO list</h1>
+    <div class="lichess_text">
+        <p>Here are the planned features, more or less in priority order.</p>
+        <p>Ideas listed here will <strong>probably</strong> be implemented. Some day :)</p>
+        <ul class="readable_list">
+            {% for item in items %}
+            <li>{{ _view.lichess.userText(item)|raw }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

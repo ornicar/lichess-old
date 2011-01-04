@@ -41,7 +41,7 @@
                 <div id="nb_connected_players" class="nb_connected_players" data-url="{{ path("lichess_nb_players") }}">
                     {% trans "%nb% connected players" with{"%nb%": _view.lichess.nbConnectedPlayers} %}
                 </div>
-                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> or give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> or <a href="{{ path("lichess_translate") }}">help translate Lichess</a><br />
+                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> | help <a href="{{ path("lichess_translate") }}">translate Lichess</a> | view <a href="{{ path("lichess_todolist") }}">TODO list</a><br />
                 {% trans "Open Source software built with %php%, %symfony% and %jqueryui%" with{'%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'} %}<br />
             </div>
         </div>

@@ -172,3 +172,7 @@ lichess_nb_players:
     pattern:        /how-many-players-now
     defaults:       { _controller: lichess.controller.main:howManyPlayersNowAction }
     requirements:   { _method: "get" }
+lichess_todolist:
+    pattern:        /todo-list
+    defaults:       { _controller: lichess.controller.main:todolistAction }
+    requirements:   { _method: "get|head" }

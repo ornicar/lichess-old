@@ -31,3 +31,7 @@ div.about_box p.license_images {
 div.about_box p.license_images a {
     margin: 0 1em;
 }
+
+.readable_list li {
+    margin: 0.5em 0;
+}
