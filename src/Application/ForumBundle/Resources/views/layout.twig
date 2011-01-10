@@ -1,7 +1,7 @@
 {% extends "LichessBundle::layout.twig" %}
 {% block assets %}
 {{ parent() }}
-{% stylesheet 'bundles/forum/css/forum.css' %}
+{{ stylesheet('bundles/forum/css/forum.css') }}
 {% endblock %}
 {% block layout_content %}
 <div id="lichess_forum" class="content_box">{% block content %}{% endblock %}</div>
