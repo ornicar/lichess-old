@@ -19,6 +19,7 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\ZendBundle\ZendBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new Symfony\Bundle\CompatAssetsBundle\CompatAssetsBundle(),
             new Bundle\ApcBundle\ApcBundle(),
             new Bundle\TimeBundle\TimeBundle(),
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
