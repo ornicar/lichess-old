@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Cheat;
 
-use Application\FOS\UserBundle\Document\User;
+use Application\UserBundle\Document\User;
 
 class PunisherTest extends \PHPUnit_Framework_TestCase
 {
@@ -117,7 +117,7 @@ class PunisherTest extends \PHPUnit_Framework_TestCase
 
     protected function createUserMock(array $methods)
     {
-        $userMock = $this->getMock('Application\FOS\UserBundle\Document\User', $methods, array(), '', false);
+        $userMock = $this->getMock('Application\UserBundle\Document\User', $methods, array(), '', false);
 
         return $userMock;
     }

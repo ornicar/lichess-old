@@ -7,7 +7,7 @@
         <div class="lichess_overboard wait_anybody">
             <h2>{% trans "Join the game" %}</h2>
             <a class="join_redirect_url" href="{{ path("lichess_join_game", {"id": game.id} ) }}">
-                <img src="{% asset 'bundles/lichess/images/hloader.gif' %}" />
+                <img src="{{ asset('bundles/lichess/images/hloader.gif') }}" />
             </a>
         </div>
     </div>

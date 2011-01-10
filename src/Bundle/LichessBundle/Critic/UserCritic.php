@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle\Critic;
 use Bundle\FOS\UserBundle\Document\User;
 use Bundle\LichessBundle\Document\GameRepository;
 use Bundle\LichessBundle\Document\Game;
-use Application\FOS\UserBundle\Document\UserRepository;
+use Application\UserBundle\Document\UserRepository;
 
 class UserCritic
 {

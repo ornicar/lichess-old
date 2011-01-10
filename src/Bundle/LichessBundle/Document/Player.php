@@ -28,7 +28,7 @@ class Player
      * User bound to the player - optional
      *
      * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\FOS\UserBundle\Document\User")
+     * @mongodb:ReferenceOne(targetDocument="Application\UserBundle\Document\User")
      */
     protected $user = null;
 
