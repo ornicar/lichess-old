@@ -1,0 +1,156 @@
+#lichess_user h2 {
+    font-size: 1.5em;
+}
+#lichess_user div.stats {
+    font-size: 1.2em;
+}
+
+#lichess_user img.elo_history {
+    float:right;
+}
+
+div.signup_box p.explanation {
+    font-size: 1.2em;
+}
+
+div.signup_box h1 {
+    margin-bottom: 2em;
+}
+
+div.signup_box .box_right_text {
+    margin-top: -5px;
+    float: right;
+}
+
+form.signup {
+    font-size: 1.3em;
+}
+
+form.signup li {
+    list-style: none;
+    display: block;
+    margin: 1em 0 1em 1em;
+    position: relative;
+}
+
+form.signup label {
+    float: left;
+    display: block;
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+form.signup .username input, form.signup .password input {
+    width: 150px;
+    padding: 0 3px;
+}
+
+form.signup input.submit {
+    margin-left: 110px;
+    padding: 3px 1em;
+}
+
+/* Errors */
+form.signup li ul {
+    position: absolute;
+    left: 270px;
+    top: -9px;
+    font-size: 12px;
+    color: red;
+}
+
+div.user_show div.games {
+    margin-top: 1em;
+}
+
+div.user_lists div.all_users {
+    float: left;
+    width: 360px;
+    margin-right: 20px;
+    border: 1px solid #DADADA;
+    border-width: 0 1px 0 0;
+}
+div.user_lists div.online_users {
+    float: left;
+    margin-left: 20px;
+    width: 345px;
+}
+div.user_lists h1.lichess_title {
+    margin-bottom: 1em;
+}
+div.user_lists h2 {
+    margin-top: 0em;
+    margin-bottom: 0;
+}
+div.user_lists div.online_users ul {
+    margin-bottom: 1.5em;
+}
+div.user_lists ul.anonymous_users li {
+    background: url(../../lichess/images/user.png) top left no-repeat;
+    width: 16px;
+    height: 16px;
+    display: block;
+    float: left;
+    margin: 0 8px 8px 0;
+}
+
+form.search_user_form {
+    margin: 0 0 2em 0;
+}
+form.search_user_form input {
+    border: 1px solid #DADADA;
+    padding: 3px 5px;
+}
+
+.users li {
+    font-size: 1.2em;
+    line-height: 2em;
+}
+ol.users li {
+    list-style: decimal inside;
+}
+.users a.user {
+    background: url(../../lichess/images/user.png) top left no-repeat;
+    padding-left: 20px;
+}
+.users a.send {
+    font-size: 0.8em;
+    margin-left: 1em;
+}
+
+/* pagination */
+div.pager {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+div.pager .position {
+    margin-right: 2em;
+}
+div.pager a, div.pager span {
+    font-size: 1.1em;
+    padding: 0.1em 0.5em;
+    font-weight: bold;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    text-decoration: none;
+}
+div.pager span {
+    color: #ccc;
+}
+div.pager span.current {
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+    color: #FFF;
+    margin: 0 0.5em;
+}
+#lichess_user .actions {
+    margin-top: 0.5em;
+}
+.button {
+    font-size: 1em;
+    font-weight: normal;
+    padding: 0.3em 0.8em;
+}

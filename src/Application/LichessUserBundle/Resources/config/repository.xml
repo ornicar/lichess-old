@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- User Repository Service -->
+        <service id="fos_user.repository.user" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository" shared="false">
+            <argument type="string">%fos_user.model.user.class%</argument>
+        </service>
+    </services>
+
+</container>

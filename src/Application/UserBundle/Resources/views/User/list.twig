@@ -1,0 +1,29 @@
+{% extends "UserBundle::layoutUser.twig" %}
+{% block title %}{% trans "Chess players" %}{% endblock %}
+{% block content %}
+<div class="content_box">
+{% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": users.pages, "url": pagerUrl} %}{% endset %}
+<div class="user_lists clearfix">
+    <div class="all_users">
+        <h1 class="lichess_title">{% trans "Chess players" %} {{ users.pages.firstItemNumber }} - {{ users.pages.lastItemNumber }} of {{ users.pages.totalItemCount }}</h1>
+        <form class="search_user_form" action="{{ url("fos_user_user_show", {"username": ""}) }}">
+            <label for="search_user_input">{% trans "Search a player" %}</label>
+            <input id="search_user_input" class="search_user autocomplete" data-provider="{{ url("fos_user_autocomplete") }}" />
+        </form>
+        <div class="pager pager_top">{{ pagination|raw }}</div>
+        <ol start="{{ users.pages.firstItemNumber }}" class="users">
+            {% for user in users %}
+            <li>
+                <a class="user" href="{{ path("fos_user_user_show", {"username": user.username} ) }}">{{ user.usernameWithElo }}</a>
+            </li>
+            {% endfor %}
+        </ol>
+        <div class="pager pager_bottom">{{ pagination|raw }}</div>
+    </div>
+    <div data-reload-url="{{ path("fos_user_online_users") }}" class="online_users">
+        <h1 class="lichess_title">{% trans "Who is online" %}</h1>
+        <div class="online_users_inner">{% render "LichessUserBundle:User:listOnline" %}</div>
+    </div>
+</div>
+</div>
+{% endblock %}
