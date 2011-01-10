@@ -6,11 +6,13 @@ use Bundle\LichessBundle\Document\Game;
 
 class Crafty
 {
-    protected $options;
+    protected $options = array(
+        'executable_path' => '/usr/bin/crafty'
+    );
 
-    public function __construct(array $options)
+    public function __construct(array $options = array())
     {
-        $this->options = $options;
+        $this->options = array_merge($this->options, $options);
     }
 
     public function move(Game $game, $level)

@@ -201,9 +201,9 @@ class LichessExtension extends Twig_Extension
                 'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
             ),
             'i18n' => array(
-                'Game Over'            => $this->translator->trans('Game Over'),
-                'Waiting for opponent' => $this->translator->trans('Waiting for opponent'),
-                'Your turn'            => $this->translator->trans('Your turn')
+                'Game Over'            => $translator->trans('Game Over'),
+                'Waiting for opponent' => $translator->trans('Waiting for opponent'),
+                'Your turn'            => $translator->trans('Your turn')
             ),
             'possible_moves' => $possibleMoves
         );
