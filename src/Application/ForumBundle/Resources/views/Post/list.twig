@@ -7,7 +7,7 @@
             {% else %}
                 <span class="authorName">{{ post.authorName|default("Anonymous") }}</span>
             {% endif %}
-            <span class="createdAt">{{ _view.time.ago(post.createdAt)|raw }}</span>
+            <span class="createdAt">{{ ago(post.createdAt)|raw }}</span>
             <a class="anchor" href="{{ _view.forum.urlForPost(post)|raw }}">#{{ post.number|raw }}</a>
             {% if has_role('ROLE_SUPERADMIN') %}
                 <a class="delete" href="{{ path('forum_post_delete', { "id": post.id }) }}">Delete</a>

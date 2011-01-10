@@ -21,7 +21,7 @@
             <td class="subject"><a href="{{ _view.forum.urlForTopic(topic)|raw }}">{{ topic.subject }}</a></td>
             <td class="right">{{ topic.numViews|raw }}</td>
             <td class="right">{{ topic.numPosts-1 }}</td>
-            <td><a href="{{ _view.forum.urlForPost(topic.lastPost)|raw }}">{{ _view.time.ago(topic.lastPost.createdAt)|raw }}</a><br />by {{ topic.lastPost.authorName|default("Anonymous") }}</td>
+            <td><a href="{{ _view.forum.urlForPost(topic.lastPost)|raw }}">{{ ago(topic.lastPost.createdAt)|raw }}</a><br />by {{ topic.lastPost.authorName|default("Anonymous") }}</td>
         </tr>
     {% endfor %}
     </tbody>
