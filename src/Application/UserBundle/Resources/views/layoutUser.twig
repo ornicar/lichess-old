@@ -1,8 +1,8 @@
 {% extends "LichessBundle::layout.twig" %}
 {% block assets %}
 {{ parent() }}
-{{ stylesheet('bundles/lichessuser/css/user.css') }}
-{{ javascript('bundles/lichessuser/js/user.js') }}
+{% stylesheet 'bundles/lichessuser/css/user.css' %}
+{% javascript 'bundles/lichessuser/js/user.js' %}
 {% endblock %}
 {% block layout_content %}
 <div id="lichess_user">{% block content %}{% endblock %}</div>

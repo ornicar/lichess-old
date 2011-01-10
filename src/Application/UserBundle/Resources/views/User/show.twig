@@ -1,7 +1,7 @@
 {% extends "UserBundle::layoutUser.twig" %}
 {% block assets %}
 {{ parent() }}
-{{ stylesheet('bundles/lichess/css/gamelist.css') }}
+{% stylesheet 'bundles/lichess/css/gamelist.css' %}
 {% endblock %}
 {% block title %}{{ user.usernameWithElo }}{% if games.currentPageNumber > 1 %} - Page {{ games.currentPageNumber }}{% endif %}{% endblock %}
 {% block content %}
