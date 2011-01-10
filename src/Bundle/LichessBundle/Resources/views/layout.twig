@@ -21,8 +21,10 @@
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
+                {#
                 {% set newLocale %}{% flash "locale_change" %}{% endset %}
                 {% if newLocale and newLocale != "en" %}{% render "LichessBundle:Translation:incomplete" with{"locale": newLocale} %}{% endif %}
+                #}
                 <div class="lichess_goodies_wrap">{% block goodies %}{% endblock %}</div>
                 <div class="lichess_chat_wrap">{% block chat %}{% endblock %}</div>
             </div>
@@ -60,7 +62,7 @@
             <a class="s16 goto_userlist goto_nav blank_if_play" title="{% trans "Chess players" %}" href="{{ path("fos_user_user_list") }}">{% trans "People" %}</a>
             {% endblock %}
             {% block security %}
-                {% if _view.fos_user_security.isAnonymous %}
+                {% if fos_user_isAnonymous() %}
                     {% include "UserBundle:Security:embeddedLogin.twig" %}
                 {% else %}
                     <a class="s16 goto_nav goto_message blank_if_play" href="{{ path("ornicar_message_message_list") }}">

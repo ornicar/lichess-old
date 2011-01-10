@@ -9,7 +9,7 @@
     {% trans "Playing right now" %}
 </a>
 {% else %}
-{{ _view.time.ago(game.updatedAt) }}
+{{ ago(game.updatedAt) }}
 {% endif %}
 <br /><br />
 {% for player in [firstPlayer.opponent, firstPlayer] %}
