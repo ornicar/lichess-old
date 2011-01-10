@@ -100,7 +100,7 @@ class PlayerController extends Controller
         // render system messages
         foreach($events as $index => $event) {
             if('message' === $event['type']) {
-                $events[$index]['html'] = $this->get('templating.helper.lichess')->roomMessage($event['message']);
+                $events[$index]['html'] = $this->get('lichess.twig.extension')->roomMessage($event['message']);
                 unset($events[$index]['message']);
             }
         }

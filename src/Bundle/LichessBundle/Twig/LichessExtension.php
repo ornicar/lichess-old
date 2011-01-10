@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Twig;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Application\UserBundle\Document\User;
 use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Game;
 use Twig_Extension;
 use Twig_Function_Method;
 
@@ -30,15 +31,25 @@ class LichessExtension extends Twig_Extension
     public function getFunctions()
     {
         $mappings = array(
-            'lichess_link_player'     => 'linkPlayer',
-            'lichess_link_user'       => 'linkUser',
-            'lichess_elo_chart_url'   => 'eloChartUrl',
-            'lichess_escape'          => 'escape',
-            'lichess_choices'         => 'choices',
-            'lichess_game_data'       => 'renderGameData',
-            'lichess_game_watch_data' => 'renderGameWatchData',
-            'lichess_game_board'      => 'renderGameBoard',
-            'lichess_game_mini'       => 'renderGameMini'
+            'lichess_link_player'          => 'linkPlayer',
+            'lichess_link_user'            => 'linkUser',
+            'lichess_elo_chart_url'        => 'eloChartUrl',
+            'lichess_choices'              => 'choices',
+            'lichess_game_data'            => 'renderGameData',
+            'lichess_game_watch_data'      => 'renderGameWatchData',
+            'lichess_game_board'           => 'renderGameBoard',
+            'lichess_game_mini'            => 'renderGameMini',
+            'lichess_locale'               => 'getLocale',
+            'lichess_locale_name'          => 'getLocaleName',
+            'lichess_session'              => 'getSession',
+            'lichess_nb_connected_players' => 'getNbConnectedPlayers',
+            'lichess_load_average'         => 'getLoadAverage',
+            'lichess_auto_link'            => 'autoLink',
+            'lichess_user_text'            => 'user_text',
+            'lichess_shorten'              => 'shorten',
+            'lichess_current_url'          => 'getCurrentUrl',
+            'lichess_room_message'         => 'roomMessage',
+            'lichess_room_messages'        => 'roomMessages'
         );
 
         $functions = array();
@@ -94,7 +105,7 @@ class LichessExtension extends Twig_Extension
             $size,
             implode(',', $dots),
             implode(',', array(0, $min, $max, $yStep)),
-            'bg,s,65432100'
+            'bg,s,65432100' // Transparency
         );
     }
 
@@ -142,9 +153,9 @@ class LichessExtension extends Twig_Extension
                 'outoftime' => $game->hasClock() ? $generator->generate('lichess_outoftime', array('id' => $playerFullId, 'version' => 9999999)) : null
             ),
             'i18n' => array(
-                'Game Over'            => $this->translator->trans('Game Over'),
-                'Waiting for opponent' => $this->translator->trans('Waiting for opponent'),
-                'Your turn'            => $this->translator->trans('Your turn'),
+                'Game Over'            => $translator->trans('Game Over'),
+                'Waiting for opponent' => $translator->trans('Waiting for opponent'),
+                'Your turn'            => $translator->trans('Your turn'),
             ),
             'possible_moves'  => $possibleMoves,
             'sync_delay'      => $this->container->getParameter('lichess.synchronizer.delay') * 1000,
@@ -217,7 +228,7 @@ class LichessExtension extends Twig_Extension
 
         $html = sprintf('<a href="%s" title="%s" class="mini_board notipsy">',
             $generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor())),
-            $this->translator->trans('View in full size')
+            $translator->trans('View in full size')
         );
 
         foreach($squares as $squareKey => $square) {
@@ -271,6 +282,74 @@ class LichessExtension extends Twig_Extension
         $html .= '</div>';
 
         return $html;
+    }
+
+    public function getNbConnectedPlayers()
+    {
+        return $this->container->get('lichess_synchronizer')->getNbConnectedPlayers();
+    }
+
+    public function getLoadAverage()
+    {
+        return round($this->container->get('lichess.hardware')->getLoadAverage()).'%';
+    }
+
+    public function autoLink($text)
+    {
+        return TextHelper::autoLink($text);
+    }
+
+    public function userText($text)
+    {
+        return nl2br($this->autoLink($this->escape($text)));
+    }
+
+    public function shorten($text, $length = 140)
+    {
+        return mb_substr(str_replace("\n", ' ', $this->escape($text)), 0, 140);
+    }
+
+    public function getCurrentUrl()
+    {
+        return isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'http://test/';
+    }
+
+    public function roomMessage(array $message)
+    {
+        if('system' === $message[0]) {
+            $message[1] = $this->container->get('translator')->trans($message[1]);
+        }
+
+        return sprintf('<li class="%s">%s</li>', $message[0], $this->userText($message[1]));
+    }
+
+    public function roomMessages(array $messages)
+    {
+        $html = '';
+        foreach($messages as $message) {
+            $html .= $this->roomMessage($message);
+        }
+
+        return $html;
+    }
+    public function getSession($key, $default = null)
+    {
+        return $this->container->get('session')->get($key, $default);
+    }
+
+    public function getLocale()
+    {
+        return $this->container->get('session')->getLocale();
+    }
+
+    public function getLocaleName()
+    {
+        return $this->container->get('lichess.translation.manager')->getAvailableLanguageName($this->getLocale());
+    }
+
+    public function getLocales()
+    {
+        return $this->container->get('lichess.translation.manager')->getAvailableLanguages();
     }
 
     /**

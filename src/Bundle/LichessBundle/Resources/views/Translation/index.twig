@@ -15,7 +15,7 @@
         <form action="{{ path("lichess_translate_locale", {"locale": locale} ) }}" data-change-url="{{ path("lichess_translate_locale", {"locale": "__"} ) }}" method="post">
             <div class="field">
                 {{ form.code|render_label("Translate from english to") }}
-                {{ form.code|render }}
+                {{ form_field(form.code) }}
             </div>
             {% block translation %}{% endblock %}
         </form>

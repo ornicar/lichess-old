@@ -2,12 +2,9 @@
 {% stylesheet 'bundles/lichess/css/common.css' %}
 {% javascript 'bundles/lichess/js/lib.min.js' %}
 {% javascript 'bundles/lichess/js/ctrl.js' %}
-{% if _view.locale.locale != "en" %}
-    {% javascript "http://static.addtoany.com/menu/locale/" ~ _view.locale.locale ~ ".js" %}
-{% endif %}
 {% endblock %}
 <!DOCTYPE html>
-<html lang="{{ _view.locale.locale }}">
+<html lang="{{ lichess_locale }}">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <title>{% block title %}Lichess{% endblock %} | free online Chess game{% block title_suffix %}{% endblock %}</title>
@@ -17,7 +14,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         {% stylesheets %}
     </head>
-    <body data-sound-enabled="{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
+    <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
@@ -41,21 +38,21 @@
                     <a href="{{ path("lichess_about") }}" class="blank_if_play">{% trans "Learn more about Lichess" %}</a>
                 </div>
                 <div id="nb_connected_players" class="nb_connected_players" data-url="{{ path("lichess_nb_players") }}">
-                    {% trans "%nb% connected players" with{"%nb%": _view.lichess.nbConnectedPlayers} %}
+                    {% trans "%nb% connected players" with{"%nb%": lichess_nb_connected_players()} %}
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> | help <a href="{{ path("lichess_translate") }}">translate Lichess</a> | view <a href="{{ path("lichess_todolist") }}">TODO list</a><br />
                 {% trans "Open Source software built with %php%, %symfony% and %jqueryui%" with{'%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'} %}<br />
             </div>
         </div>
         <div class="lichess_server">
-            <a href="#top">{% trans "Back to top" %}</a> | [[time]] | {% trans "Server load" %}: <span class="value">{{ _view.lichess.loadAverage }}</span> |
+            <a href="#top">{% trans "Back to top" %}</a> | [[time]] | {% trans "Server load" %}: <span class="value">{{ lichess_load_average() }}</span> |
             <a class="blank_if_play" href="/monitor/index.html">Server monitoring</a>
         </div>
         <div id="top_menu">
             {% block top_menu %}
-            <a title="{% trans "Toggle sound" %}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ _view.session.get('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
+            <a title="{% trans "Toggle sound" %}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
             <div class="lichess_language" data-path="{{ path("lichess_locale_links") }}">
-                <span class="s16">{{ _view.locale.localeName }}</span>
+                <span class="s16">{{ lichess_locale_name() }}</span>
             </div>
             <a class="s16 goto_forum goto_nav blank_if_play" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{{ path("forum_index") }}">{% trans "Forum" %}</a>
             <a class="s16 goto_gamelist goto_nav blank_if_play" title="{% trans "See the games being played in real time" %}" href="{{ path("lichess_list_current") }}">{% trans "Games" %}</a>
@@ -70,7 +67,7 @@
                         <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
                     </a>
                     <a class="s16 goto_nav goto_logout" href="{{ path("_security_logout") }}">{% trans "Log out" %}</a>
-                    <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": _view.fos_user_security.user.username}) }}" href="{{ path("fos_user_user_show", {"username": _view.fos_user_security.user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ _view.fos_user_security.user.usernameWithElo }}</a>
+                    <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": user.username}) }}" href="{{ path("fos_user_user_show", {"username": user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ user.usernameWithElo}}</a>
                 {% endif %}
             {% endblock %}
         </div>

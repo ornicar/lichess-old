@@ -3,7 +3,7 @@
 {% block content %}
 <div class="lichess_game clearfix lichess_player_{{ player.color }}">
     <div class="lichess_board_wrap">
-        {{ _view.lichess_game.renderBoard(player, checkSquareKey)|raw }}
+        {{ lichess_game_board(player, checkSquareKey)|raw }}
     </div>
     <div class="lichess_ground">
         {% include "LichessBundle:Game:cemetery.twig" with {"player": player, "position": "top"} %}
@@ -15,7 +15,7 @@
 </div>
 {% endblock %}
 {% block js_data %}
-    {{ _view.lichess_game.renderWatchData(player, possibleMoves)|raw }}
+    {{ lichess_game_watch_data(player, possibleMoves)|raw }}
 {% endblock %}
 {% block goodies %}
 <div class="lichess_goodies">
@@ -35,7 +35,7 @@
                 {% if p.isAi %}
                     {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': p.aiLevel} %}
                 {% else %}
-                    {{ _view.lichess_user.linkPlayer(p)|raw }}
+                    {{ lichess_link_player(p)|raw }}
                 {% endif %}
             </div>
         {% endfor %}

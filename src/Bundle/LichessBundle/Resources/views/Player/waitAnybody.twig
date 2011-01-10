@@ -9,10 +9,10 @@
             {% trans 'Waiting for opponent' %}...
             <a class="cancel" href="{{ path("lichess_cancel_anybody", {"id": player.fullId} ) }}">{% trans "Cancel" %}</a>
             <p class="explanations">
-                {% trans "Variant" %}: {{ _view.lichess_config.choices(config.variantNames)|raw }}<br />
-                {% trans "Minutes per side" %}: {{ _view.lichess_config.choices(config.timeNames)|raw }}<br />
-                {% trans "Increment in seconds" %}: {{ _view.lichess_config.choices(config.incrementNames)|raw }}<br />
-                {% trans "Mode" %}: {{ _view.lichess_config.choices(config.modeNames)|raw }}
+                {% trans "Variant" %}: {{ lichess_choices(config.variantNames)|raw }}<br />
+                {% trans "Minutes per side" %}: {{ lichess_choices(config.timeNames)|raw }}<br />
+                {% trans "Increment in seconds" %}: {{ lichess_choices(config.incrementNames)|raw }}<br />
+                {% trans "Mode" %}: {{ lichess_choices(config.modeNames)|raw }}
             </p>
             <p class="explanations">
                 {% trans "Hold on, we are searching for a game that matches your criteria" %}
@@ -23,5 +23,5 @@
 </div>
 {% endblock %}
 {% block js_data %}
-    {{ _view.lichess_game.renderData(player, null, false)|raw }}
+    {{ lichess_game_data(player, null, false)|raw }}
 {% endblock %}

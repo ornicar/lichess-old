@@ -4,7 +4,7 @@
 {% block content %}
 <div class="lichess_game clearfix lichess_player_{{ player.color }} not_spectator">
     <div class="lichess_board_wrap">
-        {{ _view.lichess_game.renderBoard(player, checkSquareKey)|raw }}
+        {{ lichess_game_board(player, checkSquareKey)|raw }}
     </div>
     <div class="lichess_ground">
         {% include "LichessBundle:Game:cemetery.twig" with {"player": player, "position": "top"} %}
@@ -19,7 +19,7 @@
     {% include "LichessBundle:Game:goodies.twig" with {"game": player.game, "color": player.color} %}
 {% endblock %}
 {% block js_data %}
-    {{ _view.lichess_game.renderData(player, possibleMoves, isOpponentConnected)|raw }}
+    {{ lichess_game_data(player, possibleMoves, isOpponentConnected)|raw }}
 {% endblock %}
 {% block chat %}
 {% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.twig" with {"player": player} %}{% endif %}

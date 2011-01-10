@@ -3,13 +3,13 @@
 namespace Bundle\LichessBundle\Chess;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Helper\LichessHelper;
+use Bundle\LichessBundle\Twig\LichessExtension;
 
 class Messenger
 {
     protected $helper;
 
-    public function __construct(LichessHelper $helper)
+    public function __construct(LichessExtension $helper)
     {
         $this->helper = $helper;
     }

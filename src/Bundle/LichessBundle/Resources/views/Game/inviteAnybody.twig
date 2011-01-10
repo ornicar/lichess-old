@@ -10,7 +10,7 @@
                 <form action="{{ path("lichess_invite_anybody", {"color": color} ) }}" method="post">
                     <div class="variants buttons">
                         {% for choice, child in form.variants %}
-                            {{ child|render }}
+                            {{ form_field(child) }}
                             <label for="{{ child.id }}">{% trans form.variants.label(choice) %}</label>
                         {% endfor %}
                     </div>
@@ -19,14 +19,14 @@
                         {% trans "Minutes per side" %}
                         <div class="times buttons">
                             {% for choice, child in form.times %}
-                                {{ child|render }}
+                                {{ form_field(child) }}
                                 <label for="{{ child.id }}">{% trans form.times.label(choice) %}</label>
                             {% endfor %}
                         </div>
                         {% trans "Increment in seconds" %}
                         <div class="increments buttons">
                             {% for choice, child in form.increments %}
-                                {{ child|render }}
+                                {{ form_field(child) }}
                                 <label for="{{ child.id }}">{{ form.increments.label(choice) }}</label>
                             {% endfor %}
                         </div>
@@ -34,7 +34,7 @@
                             {% trans "Mode" %}
                             <div class="modes buttons">
                                 {% for choice, child in form.modes %}
-                                    {{ child|render }}
+                                    {{ form_field(child) }}
                                     <label for="{{ child.id }}">{% trans form.modes.label(choice) %}</label>
                                 {% endfor %}
                             </div>

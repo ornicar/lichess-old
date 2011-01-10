@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
+use APCIterator;
 
 class Synchronizer
 {
@@ -24,7 +25,7 @@ class Synchronizer
     {
         $nb = apc_fetch('lichess.nb_players');
         if(false === $nb) {
-            $it = new \APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
+            $it = new APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
             $nb = 0;
             $limit = time() - $this->getTimeout();
             foreach($it as $i) {

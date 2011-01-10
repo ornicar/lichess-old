@@ -11,7 +11,7 @@
         <p>Ideas listed here will <strong>probably</strong> be implemented. Some day :)</p>
         <ul class="readable_list">
             {% for item in items %}
-            <li>{{ _view.lichess.userText(item)|raw }}</li>
+            <li>{{ lichess_user_text(item)|raw }}</li>
             {% endfor %}
         </ul>
     </div>

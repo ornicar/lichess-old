@@ -58,7 +58,10 @@ class MainController extends Controller
 
     public function localeLinksAction()
     {
-        return $this->render('LichessBundle:Main:localeLinks.twig');
+        $locales = $this->container->get('lichess.translation.manager')->getAvailableLanguages();
+        unset($locales[$this->container->get('session')->getLocale()]);
+        ksort($locales);
+        return $this->render('LichessBundle:Main:localeLinks.twig', array('locales' => $locales));
     }
 
     public function aboutAction()

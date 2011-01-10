@@ -1,8 +1,8 @@
 {% for game in games %}
-{% set firstPlayer = game.getPlayerByUserOrCreator(user) %}
-{% set fromPlayer = game.getPlayerByUser(user) %}
+{% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
+{% set fromPlayer = game.getPlayerByUser(fromUser) %}
 <div class="game_row clearfix">
-{{ _view.lichess_game.renderMini(game, user)|raw }}
+{{ lichess_game_mini(game, fromUser)|raw }}
 <div class="infos">
 {% if game.isBeingPlayed %}
 <a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">
@@ -17,7 +17,7 @@
 {% if player.isAi %}
     {% trans '%ai_name% level %ai_level%' with{'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
 {% else %}
-    {{ _view.lichess_user.linkPlayer(player)|raw }}
+    {{ lichess_link_player(player)|raw }}
 {% endif %}
 <br />
 {% endfor %}
