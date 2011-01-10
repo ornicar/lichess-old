@@ -45,6 +45,14 @@ doctrine_odm.mongodb:
             type: annotation
             dir: %kernel.root_dir%/../src/Application/MessageBundle/Document
             prefix: Application\MessageBundle\Document
+        ForumBundle:
+            type: xml
+            dir: %kernel.root_dir%/../src/Bundle/ForumBundle/Resources/config/doctrine/metadata/mongodb
+            prefix: Bundle\ForumBundle\Document
+        AppForumBundle:
+            type: annotation
+            dir: %kernel.root_dir%/../src/Application/ForumBundle/Document
+            prefix: Application\ForumBundle\Document
     connections:
         default:
             options:
