@@ -1,3 +1,9 @@
+* Comments on game
+* Ability to name a game
+* Show exact date of games
+* The game may be drawn if each player has made at least the last 50 consecutive moves without the movement of any pawn and without any capture
+* when a player flags & the opponent has only K(N|B)? -> draw
+* Automate draw when both players only have K(N|B)? left
 * Facebook share (http://lichess.org/forum/lichess-feedback/share-game-analyse-on-facebook/4cf4248430c3530873010000)
 * rematch chess960 keeps piece position
 * save game config in User document

@@ -2,7 +2,7 @@
 
 namespace Application\ForumBundle\Document;
 use Bundle\ForumBundle\Document\Post as BasePost;
-use Application\FOS\UserBundle\Document\User;
+use Application\UserBundle\Document\User;
 
 /**
  * @mongodb:Document(
@@ -29,7 +29,7 @@ class Post extends BasePost
     /**
      * The author user if any
      *
-     * @mongodb:ReferenceOne(targetDocument="Application\FOS\UserBundle\Document\User")
+     * @mongodb:ReferenceOne(targetDocument="Application\UserBundle\Document\User")
      * @var User
      */
     protected $author = null;

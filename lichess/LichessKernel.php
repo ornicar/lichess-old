@@ -26,8 +26,8 @@ class LichessKernel extends Kernel
             new Bundle\FOS\UserBundle\FOSUserBundle(),
             new Bundle\Ornicar\MessageBundle\OrnicarMessageBundle(),
             new Bundle\ForumBundle\ForumBundle(),
-            new Application\FOS\UserBundle\FOSUserBundle(),
-            new Application\Ornicar\MessageBundle\OrnicarMessageBundle(),
+            new Application\UserBundle\UserBundle(),
+            new Application\MessageBundle\MessageBundle(),
             new Application\ForumBundle\ForumBundle()
         );
 

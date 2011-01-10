@@ -1,7 +1,7 @@
 security:
     resource: UserBundle/Resources/config/routing/security.xml
 user:
-    resource: UserBundle/Resources/config/routing/lichess_user.yml
+    resource: UserBundle/Resources/config/routing.yml
 
 lichess:
   resource: LichessBundle/Resources/config/routing.yml

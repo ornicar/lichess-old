@@ -10,26 +10,6 @@ app.config:
         assets_version: 121
     translator: { fallback: en }
 
-security.config:
-    providers:
-        fos_user:
-            password_encoder: sha1
-            document: { class: Application\FOS\UserBundle\Document\User }
-    firewalls:
-        public:
-            pattern: .*
-            form_login:
-                provider:                       fos_user
-                login_path:                     /login
-                use_forward:                    false
-                check_path:                     /login-check
-                failure_path:                   null
-            logout: true
-            anonymous: true
-    access_control:
-        - { path: "/inbox.*", role: IS_AUTHENTICATED_FULLY }
-        - { path: "/.*", role: IS_AUTHENTICATED_ANONYMOUSLY }
-
 zend.config:
     logger:
         priority: NOTICE
@@ -47,6 +27,24 @@ doctrine_odm.mongodb:
     default_database: lichess
     metadata_cache_driver: apc
     cache_driver: apc
+    mappings:
+        LichessBundle: ~
+        UserBundle:
+            type: xml
+            dir: %kernel.root_dir%/../src/Bundle/FOS/UserBundle/Resources/config/doctrine/metadata/mongodb
+            prefix: Bundle\FOS\UserBundle\Document
+        AppUserBundle:
+            type: annotation
+            dir: %kernel.root_dir%/../src/Application/UserBundle/Document
+            prefix: Application\UserBundle\Document
+        MessageBundle:
+            type: xml
+            dir: %kernel.root_dir%/../src/Bundle/Ornicar/MessageBundle/Resources/config/doctrine/metadata/mongodb
+            prefix: Bundle\Ornicar\MessageBundle\Document
+        AppMessageBundle:
+            type: annotation
+            dir: %kernel.root_dir%/../src/Application/MessageBundle/Document
+            prefix: Application\Message\Bundle\Document
     connections:
         default:
             options:
@@ -76,26 +74,46 @@ forum.config:
         search_results_per_page: 10
 
 fos_user.config:
-    db_driver: odm
+    db_driver: mongodb
     encoder:
         iterations: 1
         encodeHashAsBase64: false
     class:
         model:
-            user: Application\FOS\UserBundle\Document\User
+            user: Application\UserBundle\Document\User
         form:
-            user: Application\FOS\UserBundle\Form\UserForm
+            user: Application\UserBundle\Form\UserForm
         controller:
-            user: Application\FOS\UserBundle\Controller\UserController
-            security: Application\FOS\UserBundle\Controller\SecurityController
+            user: Application\UserBundle\Controller\UserController
+            security: Application\UserBundle\Controller\SecurityController
 
 fos_user_custom.config: ~
+
+security.config:
+    providers:
+        fos_user:
+            password_encoder: sha1
+            id: fos_user.user_manager
+    firewalls:
+        public:
+            pattern: .*
+            form_login:
+                provider:                       fos_user
+                login_path:                     /login
+                use_forward:                    false
+                check_path:                     /login-check
+                failure_path:                   null
+            logout: true
+            anonymous: true
+    access_control:
+        - { path: "/inbox.*", role: IS_AUTHENTICATED_FULLY }
+        - { path: "/.*", role: IS_AUTHENTICATED_ANONYMOUSLY }
 
 ornicar_message.config:
     db_driver: odm
     class:
         model:
-            message: Application\Ornicar\MessageBundle\Document\Message
+            message: Application\LichessMessageBundle\Document\Message
 
 app_ornicar_message.config: ~
 
