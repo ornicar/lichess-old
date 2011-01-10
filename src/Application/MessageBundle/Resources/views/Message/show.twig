@@ -13,16 +13,16 @@
             <a class="user" href="{{ path('fos_user_user_show', {"username": message.from.username}) }}">{{ message.from }}</a>
             said {{ ago(message.createdAt)|raw }}:
         </span>
-        <div class="body">{{ _view.lichess.userText(message.body)|raw }}</div>
+        <div class="body">{{ lichess_user_text(message.body)|raw }}</div>
         {% if form %}
             <div class="answer">
                 {% trans "Reply" %}
                 <form action="{{ path("ornicar_message_message_create") }}" method="post">
-                    {{ form.to|render }}
-                    {{ form.subject|render }}
+                    {{ form_field(form.to) }}
+                    {{ form_field(form.subject) }}
                     <div class="field_body">
-                        {{ form.body|render }}
-                        {{ form.body|render_errors }}
+                        {{ form_field(form.body) }}
+                        {{ form_errors(form.body) }}
                     </div>
                     <div class="actions">
                         <input class="send button" type="submit" value="{% trans "Send" %}" />
