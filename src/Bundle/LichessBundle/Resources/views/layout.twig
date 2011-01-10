@@ -1,9 +1,9 @@
 {% block assets %}
-{% stylesheet 'bundles/lichess/css/common.css' %}
-{% javascript 'bundles/lichess/js/lib.min.js' %}
-{% javascript 'bundles/lichess/js/ctrl.js' %}
+{{ stylesheet('bundles/lichess/css/common.css') }}
+{{ javascript('bundles/lichess/js/lib.min.js') }}
+{{ javascript('bundles/lichess/js/ctrl.js') }}
 {% if _view.locale.locale != "en" %}
-    {% javascript "http://static.addtoany.com/menu/locale/" ~ _view.locale.locale ~ ".js" %}
+    {{ javascript("http://static.addtoany.com/menu/locale/" ~ _view.locale.locale ~ ".js") }}
 {% endif %}
 {% endblock %}
 <!DOCTYPE html>

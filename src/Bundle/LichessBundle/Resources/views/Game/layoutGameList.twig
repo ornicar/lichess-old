@@ -1,6 +1,6 @@
 {% extends "LichessBundle::layoutCommon.twig" %}
 {% block assets %}
 {{ parent() }}
-{% stylesheet 'bundles/lichess/css/gamelist.css' %}
-{% javascript 'bundles/lichess/js/gamelist.js' %}
+{{ stylesheet('bundles/lichess/css/gamelist.css') }}
+{{ javascript('bundles/lichess/js/gamelist.js') }}
 {% endblock %}
