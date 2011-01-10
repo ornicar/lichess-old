@@ -44,7 +44,7 @@ doctrine_odm.mongodb:
         AppMessageBundle:
             type: annotation
             dir: %kernel.root_dir%/../src/Application/MessageBundle/Document
-            prefix: Application\Message\Bundle\Document
+            prefix: Application\MessageBundle\Document
     connections:
         default:
             options:
@@ -113,7 +113,7 @@ ornicar_message.config:
     db_driver: odm
     class:
         model:
-            message: Application\LichessMessageBundle\Document\Message
+            message: Application\MessageBundle\Document\Message
 
 app_ornicar_message.config: ~
 
