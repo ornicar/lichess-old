@@ -30,6 +30,10 @@ class LichessExtension extends Extension
         if(isset($config['translation']['remote_domain'])) {
             $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
         }
+
+        // Load asset helper compat
+        $loader = new XmlFileLoader($container, __DIR__.'/../../../vendor/Symfony/src/Symfony/Bundle/CompatAssetsBundle/Resources/config');
+        $loader->load('assets.xml');
     }
 
     public function prodLoad($config, ContainerBuilder $container)
