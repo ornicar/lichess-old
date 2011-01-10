@@ -6,6 +6,13 @@ use Bundle\LichessBundle\Document\Game;
 
 class Crafty
 {
+    protected $options;
+
+    public function __construct(array $options)
+    {
+        $this->options = $options;
+    }
+
     public function move(Game $game, $level)
     {
         $forsyth = new Forsyth();
@@ -59,7 +66,7 @@ savepos %s
 quit
 EOF",
             dirname($file),
-            '/usr/games/crafty',
+            $this->options['executable_path'],
             $this->getCraftyLevel($level),
             $forsythNotation,
             basename($file)

@@ -7,6 +7,9 @@
     <parameters>
         <parameter key="lichess.ai.class">Bundle\LichessBundle\Ai\Crafty</parameter>
         <parameter key="lichess.ai_fallback.class">Bundle\LichessBundle\Ai\Stupid</parameter>
+        <parameter key="lichess.ai.options" type="collection">
+            <parameter key="executable_path">/usr/bin/crafty</parameter>
+        </parameter>
 
         <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
 
@@ -42,6 +45,7 @@
         </service>
 
         <service id="lichess_ai" class="%lichess.ai.class%" shared="true">
+            <argument>%lichess.ai.options%</argument>
         </service>
 
         <service id="lichess_ai_fallback" class="%lichess.ai_fallback.class%" shared="true">
