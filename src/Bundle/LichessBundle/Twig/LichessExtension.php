@@ -1,39 +1,118 @@
 <?php
 
-namespace Bundle\LichessBundle\Helper;
+namespace Bundle\LichessBundle\Twig;
 
-use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Bundle\LichessBundle\Document\Game;
+use Application\UserBundle\Document\User;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\FOS\UserBundle\Model\User;
+use Twig_Extension;
+use Twig_Function_Method;
 
-class LichessGameHelper extends Helper
+class LichessExtension extends Twig_Extension
 {
     protected $container;
-    protected $generator;
-    protected $translator;
 
     /**
      * Constructor.
      *
      * @param Router $router A Router instance
-     * @param TranslatorInterface $translator A Translator instance
      */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->generator = $container->get('router')->getGenerator();
-        $this->translator = $container->get('translator');
     }
 
-    public function renderData(Player $player, $possibleMoves, $isOpponentConnected)
+    /**
+     * Returns a list of global functions to add to the existing list.
+     *
+     * @return array An array of global functions
+     */
+    public function getFunctions()
+    {
+        $mappings = array(
+            'lichess_link_player'     => 'linkPlayer',
+            'lichess_link_user'       => 'linkUser',
+            'lichess_elo_chart_url'   => 'eloChartUrl',
+            'lichess_escape'          => 'escape',
+            'lichess_choices'         => 'choices',
+            'lichess_game_data'       => 'renderGameData',
+            'lichess_game_watch_data' => 'renderGameWatchData',
+            'lichess_game_board'      => 'renderGameBoard',
+            'lichess_game_mini'       => 'renderGameMini'
+        );
+
+        $functions = array();
+        foreach($mappings as $twigFunction => $method) {
+            $functions[$twigFunction] = new Twig_Function_Method($this, $method);
+        }
+
+        return $functions;
+    }
+
+    public function choices($choices)
+    {
+        $translated = array();
+        $translator = $this->getTranslator();
+        foreach($choices as $choice) {
+            $translated[] = $translator->trans($choice);
+        }
+
+        return implode(', ', $translated);
+    }
+
+    public function linkPlayer(Player $player, $class = null)
+    {
+        if(!$user = $player->getUser()) {
+            return $this->escape($player->getUsernameWithElo());
+        }
+
+        $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
+
+        $username = $player->getUsernameWithElo();
+        if($eloDiff = $player->getEloDiff()) {
+            $username = sprintf('%s (%s)', $username, $eloDiff < 0 ? $eloDiff : '+'.$eloDiff);
+        }
+        return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $username);
+    }
+
+    public function linkUser(User $user, $class = null)
+    {
+        $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
+
+        return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
+    }
+
+    public function eloChartUrl(User $user, $size)
+    {
+        $elos = $user->getEloHistory();
+        $min = 20*round((min($elos) - 10)/20);
+        $max = 20*round((max($elos) + 10)/20);
+        $dots = array_map(function($e) use($min, $max) { return round(($e - $min) / ($max - $min) * 100); }, $elos);
+        $yStep = ($max - $min) / 4 ;
+        return sprintf('%scht=lc&chs=%s&chd=t:%s&chxt=y&chxr=%s&chf=%s',
+            'http://chart.apis.google.com/chart?',
+            $size,
+            implode(',', $dots),
+            implode(',', array(0, $min, $max, $yStep)),
+            'bg,s,65432100'
+        );
+    }
+
+    protected function escape($string)
+    {
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
+
+    public function renderGameData(Player $player, $possibleMoves, $isOpponentConnected)
     {
         $game = $player->getGame();
         $gameId = $game->getId();
         $color = $player->getColor();
         $opponent = $player->getOpponent();
         $playerFullId = $player->getFullId();
+        $generator = $this->getRouterGenerator();
+        $translator = $this->getTranslator();
+
         $data = array(
             'game' => array(
                 'id'       => $game->getId(),
@@ -54,13 +133,13 @@ class LichessGameHelper extends Helper
                 'connected' => $isOpponentConnected
             ),
             'url' => array(
-                'sync'      => $this->generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
-                'table'     => $this->generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
-                'opponent'  => $this->generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
-                'move'      => $this->generator->generate('lichess_move', array('id' => $playerFullId, 'version' => 9999999)),
-                'say'       => $this->generator->generate('lichess_say', array('id' => $playerFullId, 'version' => 9999999)),
-                'ai_level'  => $opponent->getIsAi() ? $this->generator->generate('lichess_ai_level', array('id' => $playerFullId)) : null,
-                'outoftime' => $game->hasClock() ? $this->generator->generate('lichess_outoftime', array('id' => $playerFullId, 'version' => 9999999)) : null
+                'sync'      => $generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
+                'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
+                'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
+                'move'      => $generator->generate('lichess_move', array('id' => $playerFullId, 'version' => 9999999)),
+                'say'       => $generator->generate('lichess_say', array('id' => $playerFullId, 'version' => 9999999)),
+                'ai_level'  => $opponent->getIsAi() ? $generator->generate('lichess_ai_level', array('id' => $playerFullId)) : null,
+                'outoftime' => $game->hasClock() ? $generator->generate('lichess_outoftime', array('id' => $playerFullId, 'version' => 9999999)) : null
             ),
             'i18n' => array(
                 'Game Over'            => $this->translator->trans('Game Over'),
@@ -76,12 +155,15 @@ class LichessGameHelper extends Helper
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
     }
 
-    public function renderWatchData(Player $player, $possibleMoves)
+    public function renderGameWatchData(Player $player, $possibleMoves)
     {
         $game = $player->getGame();
         $gameId = $game->getId();
         $color = $player->getColor();
         $opponent = $player->getOpponent();
+        $generator = $this->getRouterGenerator();
+        $translator = $this->getTranslator();
+
         $data = array(
             'game' => array(
                 'id'       => $game->getId(),
@@ -104,9 +186,9 @@ class LichessGameHelper extends Helper
             'sync_delay'      => $this->container->getParameter('lichess.synchronizer.delay') * 1000,
             'animation_delay' => $this->container->getParameter('lichess.animation.delay'),
             'url' => array(
-                'sync'     => $this->generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
-                'table'    => $this->generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
-                'opponent' => $this->generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
+                'sync'     => $generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
+                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
+                'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
             ),
             'i18n' => array(
                 'Game Over'            => $this->translator->trans('Game Over'),
@@ -119,11 +201,13 @@ class LichessGameHelper extends Helper
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
     }
 
-    public function renderMini(Game $game, User $user = null)
+    public function renderGameMini(Game $game, User $user = null)
     {
         $player = $game->getPlayerByUserOrCreator($user);
         $board = $player->getGame()->getBoard();
         $squares = $board->getSquares();
+        $generator = $this->getRouterGenerator();
+        $translator = $this->getTranslator();
 
         if ($player->isBlack()) {
             $squares = array_reverse($squares, true);
@@ -132,7 +216,7 @@ class LichessGameHelper extends Helper
         $x = $y = 1;
 
         $html = sprintf('<a href="%s" title="%s" class="mini_board notipsy">',
-            $this->generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor())),
+            $generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor())),
             $this->translator->trans('View in full size')
         );
 
@@ -156,7 +240,7 @@ class LichessGameHelper extends Helper
         return $html;
     }
 
-    public function renderBoard(Player $player, $checkSquareKey)
+    public function renderGameBoard(Player $player, $checkSquareKey)
     {
         $board = $player->getGame()->getBoard();
         $squares = $board->getSquares();
@@ -196,6 +280,16 @@ class LichessGameHelper extends Helper
      */
     public function getName()
     {
-        return 'lichess_game';
+        return 'lichess';
+    }
+
+    protected function getRouterGenerator()
+    {
+        return $this->container->get('router')->getGenerator();
+    }
+
+    protected function getTranslator()
+    {
+        return $this->container->get('translator');
     }
 }

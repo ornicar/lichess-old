@@ -17,7 +17,7 @@ class LichessExtension extends Extension
         $loader->load('critic.xml');
         $loader->load('elo.xml');
         $loader->load('controller.xml');
-        $loader->load('templating.xml');
+        $loader->load('twig.xml');
         $loader->load('translation.xml');
         $loader->load('form.xml');
         $loader->load('logger.xml');
