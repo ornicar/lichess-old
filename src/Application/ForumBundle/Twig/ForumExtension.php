@@ -1,10 +1,10 @@
 <?php
 
-namespace Application\ForumBundle\Templating\Helper;
-use Bundle\ForumBundle\Templating\Helper\ForumHelper as BaseForumHelper;
+namespace Application\ForumBundle\Twig;
+use Bundle\ForumBundle\Twig\ForumExtension as BaseForumExtension;
 use Bundle\ForumBundle\Model\Topic;
 
-class ForumHelper extends BaseForumHelper
+class ForumExtension extends BaseForumExtension
 {
     public function urlForTopicReply(Topic $topic, $absolute = false)
     {

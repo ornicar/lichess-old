@@ -74,8 +74,8 @@ forum.config:
             first_post: Application\ForumBundle\Form\PostForm
         blamer:
             post: Application\ForumBundle\Blamer\PostBlamer
-        helper:
-            forum: Application\ForumBundle\Templating\Helper\ForumHelper
+        twig:
+            extension: Application\ForumBundle\Twig\ForumExtension
     paginator:
         topics_per_page: 10
         posts_per_page: 10
