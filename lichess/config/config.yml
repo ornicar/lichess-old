@@ -81,27 +81,15 @@ forum.config:
         posts_per_page: 10
         search_results_per_page: 10
 
-fos_user.config:
-    db_driver: mongodb
-    encoder:
-        iterations: 1
-        encodeHashAsBase64: false
-    class:
-        model:
-            user: Application\UserBundle\Document\User
-        form:
-            user: Application\UserBundle\Form\UserForm
-        controller:
-            user: Application\UserBundle\Controller\UserController
-            security: Application\UserBundle\Controller\SecurityController
-
 fos_user_custom.config: ~
 
 security.config:
     providers:
         fos_user:
             password_encoder: sha1
-            id: fos_user.user_manager
+            document:
+                class: Application\UserBundle\Document\User
+                property: usernameCanonical
     firewalls:
         public:
             pattern: .*
@@ -116,6 +104,20 @@ security.config:
     access_control:
         - { path: "/inbox.*", role: IS_AUTHENTICATED_FULLY }
         - { path: "/.*", role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+fos_user.config:
+    db_driver: mongodb
+    encoder:
+        iterations: 1
+        encodeHashAsBase64: false
+    class:
+        model:
+            user: Application\UserBundle\Document\User
+        form:
+            user: Application\UserBundle\Form\UserForm
+        controller:
+            user: Application\UserBundle\Controller\UserController
+            security: Application\UserBundle\Controller\SecurityController
 
 ornicar_message.config:
     db_driver: odm
