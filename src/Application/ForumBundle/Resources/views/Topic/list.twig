@@ -1,4 +1,4 @@
-{% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": topics.pages, "url": _view.forum.urlForCategory(category)} %}{% endset %}
+{% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": topics.pages, "url": forum_route_category(category)} %}{% endset %}
 {% set newTopicUrl %}{{ path("forum_category_topic_new", {"slug": category.slug} ) }}{% endset %}
 
 <div class="bar top clearfix">
@@ -18,10 +18,10 @@
     <tbody>
     {% for topic in topics %}
         <tr class="{{ loop.index is odd ? "odd": "even" }}">
-            <td class="subject"><a href="{{ _view.forum.urlForTopic(topic)|raw }}">{{ topic.subject }}</a></td>
+            <td class="subject"><a href="{{ forum_route_topic(topic)|raw }}">{{ topic.subject }}</a></td>
             <td class="right">{{ topic.numViews|raw }}</td>
             <td class="right">{{ topic.numPosts-1 }}</td>
-            <td><a href="{{ _view.forum.urlForPost(topic.lastPost)|raw }}">{{ ago(topic.lastPost.createdAt)|raw }}</a><br />by {{ topic.lastPost.authorName|default("Anonymous") }}</td>
+            <td><a href="{{ forum_route_post(topic.lastPost)|raw }}">{{ ago(topic.lastPost.createdAt)|raw }}</a><br />by {{ topic.lastPost.authorName|default("Anonymous") }}</td>
         </tr>
     {% endfor %}
     </tbody>

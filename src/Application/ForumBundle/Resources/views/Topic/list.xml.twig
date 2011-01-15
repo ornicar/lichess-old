@@ -3,7 +3,7 @@
         <title>{{ topic.subject }}</title>
         <author>{{ topic.authorName|default("Anonymous") }}</author>
         <updated>{{ topic.pulledAt|date("c")|raw }}</updated>
-        <id>{{ _view.forum.urlForTopic(topic, true)|raw }}</id>
-        <link rel="alternate">{{ _view.forum.urlForTopic(topic, true)|raw }}</link>
+        <id>{{ forum_route_topic(topic, true)|raw }}</id>
+        <link rel="alternate">{{ forum_route_topic(topic, true)|raw }}</link>
     </entry>
 {% endfor %}

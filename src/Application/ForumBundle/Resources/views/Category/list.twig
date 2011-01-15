@@ -11,12 +11,12 @@
     {% for category in categories %}
         <tr class="{{ loop.index is odd ? "odd" : "even" }}">
             <td class="subject">
-                <a href="{{ _view.forum.urlForCategory(category)|raw }}">{{ category.name|raw }}</a>
+                <a href="{{ forum_route_category(category)|raw }}">{{ category.name|raw }}</a>
                 <h2 class="description">{{ category.description|raw }}</h2>
             </td>
             <td class="right">{{ category.numTopics|raw }}</td>
             <td class="right">{{ category.numPosts|raw }}</td>
-            <td><a href="{{ _view.forum.urlForPost(category.lastPost)|raw }}">{{ ago(category.lastPost.createdAt)|raw }}</a><br />by {{ category.lastPost.authorName|default("Anonymous") }}</td>
+            <td><a href="{{ forum_route_post(category.lastPost)|raw }}">{{ ago(category.lastPost.createdAt)|raw }}</a><br />by {{ category.lastPost.authorName|default("Anonymous") }}</td>
         </tr>
     {% endfor %}
     </tbody>
