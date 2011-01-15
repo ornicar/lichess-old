@@ -1,4 +1,4 @@
-{% extends "UserBundle::container.twig" %}
+{% extends "MessageBundle::container.twig" %}
 {% block content %}
 <div class="message_new">
     <h1>{% trans "Compose message" %}</h1>
@@ -6,12 +6,12 @@
     <div class="center form">
         <form action="{{ path("ornicar_message_message_create") }}" method="post">
             <div class="field_to">
-                {{ form.to|render_label('To:') }}
-                {{ form.to|render({'class': 'autocomplete', 'data-provider': url('fos_user_autocomplete')}) }}
+                {{ form_label(form.to, 'To:') }}
+                {{ form_field(form.to, {'class': 'autocomplete', 'data-provider': url('fos_user_autocomplete')}) }}
                 {{ form_errors(form.to) }}
             </div>
             <div class="field_subject">
-                {{ form.subject|render_label('Subject:') }}
+                {{ form_label(form.subject, 'Subject:') }}
                 {{ form_field(form.subject) }}
                 {{ form_errors(form.subject) }}
             </div>
