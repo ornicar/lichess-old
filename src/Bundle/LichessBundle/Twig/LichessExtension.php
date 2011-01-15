@@ -44,7 +44,7 @@ class LichessExtension extends Twig_Extension
             'lichess_session'              => 'getSession',
             'lichess_nb_connected_players' => 'getNbConnectedPlayers',
             'lichess_load_average'         => 'getLoadAverage',
-            'lichess_user_text'            => 'user_text',
+            'lichess_user_text'            => 'userText',
             'lichess_shorten'              => 'shorten',
             'lichess_current_url'          => 'getCurrentUrl',
             'lichess_room_message'         => 'roomMessage',
