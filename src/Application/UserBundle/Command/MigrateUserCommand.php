@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 use Bundle\FOS\UserBundle\Model\User;
+use Bundle\FOS\UserBundle\Util\Canonicalizer;
 
 /**
  * Migrate user db to latest johanness changes
@@ -35,13 +36,13 @@ class MigrateUserCommand extends Command
         $repo = $this->container->get('fos_user.repository.user');
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
 
-        $collection = $dm->getDocumentCollection($repo->getObjectClass())->getMongoCollection();
+        $collection = $dm->getDocumentCollection($repo->getDocumentName())->getMongoCollection();
         $users = $collection->find();
 
         foreach($users as $user) {
             $output->writeLn(sprintf('Update %s', $user['username']));
             $this->migrate($user);
-            $collection->update(array('_id' => $user['_id']), $user);
+            $collection->update(array('_id' => $user['_id']), $user, array('safe' => true));
         }
         $output->writeLn('Done');
     }
@@ -54,17 +55,17 @@ class MigrateUserCommand extends Command
         }
         if(!array_key_exists('roles', $user)) {
             $user['roles'] = array();
-            if(array_key_exists('isSuperAdmin', $user)) {
-                if($user['isSuperAdmin']) {
-                    $user['roles'][] = User::ROLE_SUPERADMIN;
-                }
-                unset($user['isSuperAdmin']);
-            }
         }
         if(isset($user['confirmationToken'])) {
             unset($user['confirmationToken']);
         }
-        if($user['usernameLower'] === 'thibault') {
+        if(isset($user['usernameLower'])) {
+            $canonicalizer = new Canonicalizer();
+            $user['usernameCanonical'] = $canonicalizer->canonicalize($user['usernameLower']);
+            $user['emailCanonical'] = $canonicalizer->canonicalize($user['email']);
+            unset($user['usernameLower']);
+        }
+        if($user['usernameCanonical'] === 'thibault') {
             $user['roles'] = array(User::ROLE_SUPERADMIN);
         }
     }

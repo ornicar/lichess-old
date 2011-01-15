@@ -8,9 +8,9 @@ use MongoRegex;
 
 class UserRepository extends DocumentRepository
 {
-    public function findOneByUsernameLower($username)
+    public function findOneByUsernameCanonical($username)
     {
-        return $this->findOneBy(array('usernameLower' => mb_strtolower($username)));
+        return $this->findOneBy(array('usernameCanonical' => mb_strtolower($username)));
     }
 
     public function setOnline(User $user)
@@ -39,7 +39,7 @@ class UserRepository extends DocumentRepository
 
     public function findUsernamesBeginningWith($term)
     {
-        $query = array('usernameLower' => new MongoRegex(sprintf('/^%s/', strtolower($term))));
+        $query = array('usernameCanonical' => new MongoRegex(sprintf('/^%s/', strtolower($term))));
         $users = $this->dm->getDocumentCollection($this->documentName)->getMongoCollection()->find($query, array('username' => true));
         $usernames = array();
         foreach($users as $user) {

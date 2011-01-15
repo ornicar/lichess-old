@@ -15,12 +15,12 @@
     <form action="{{ path('fos_user_user_create') }}" method="POST" class="signup">
         <ul>
             <li class="username">
-                {{ form.username|render_label }}
+                {{ form_label(form.username) }}
                 {{ form_field(form.username) }}
                 {{ form_errors(form.username) }}
             </li>
             <li class="password">
-                {{ form.plainPassword|render_label("Password") }}
+                {{ form_label(form.plainPassword, "Password") }}
                 {{ form_field(form.plainPassword) }}
                 {{ form_errors(form.plainPassword) }}
             </li>
@@ -28,7 +28,7 @@
                 <input type="submit" class="submit" value="{% trans "Sign up" %}" />
             </li>
         </ul>
-        {{ form|render_hidden }}
+        {{ form_hidden(form) }}
     </form>
 </div>
 </div>

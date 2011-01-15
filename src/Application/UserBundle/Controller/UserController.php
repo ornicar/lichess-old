@@ -85,7 +85,7 @@ class UserController extends BaseUserController
     public function showAction($username)
     {
         try {
-            $user = $this->get('fos_user.repository.user')->findOneByUsernameLower($username);
+            $user = $this->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
         } catch(NotFoundHttpException $e) {
             return $this->render('UserBundle:User:unknownUser.twig', array('username' => $username));
         }
