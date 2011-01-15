@@ -146,4 +146,9 @@ class User extends BaseUser
     {
         return sprintf('%s (%d)', $this->getUsername(), $this->getElo());
     }
+
+    public function is(User $user = null)
+    {
+        return $user && $user->getUsernameCanonical() === $this->getUsernameCanonical();
+    }
 }
