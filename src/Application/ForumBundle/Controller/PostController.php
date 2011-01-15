@@ -24,7 +24,7 @@ class PostController extends BasePostController
         $form->bind($this->get('request')->request->get($form->getName()));
 
         if(!$form->isValid()) {
-            $lastPage = $this->get('forum.templating.helper.forum')->getTopicNumPages($topic);
+            $lastPage = $this->get('forum.router.url_generator')->getTopicNumPages($topic);
             return $this->forward('ForumBundle:Topic:show', array(
                 'categorySlug' => $topic->getCategory()->getSlug(),
                 'slug' => $topic->getSlug(),
@@ -42,10 +42,10 @@ class PostController extends BasePostController
         $objectManager->persist($post);
         $objectManager->flush();
 
-        $url = $this->get('forum.templating.helper.forum')->urlForPost($post);
+        $url = $this->get('forum.router.url_generator')->urlForPost($post);
         $response = $this->redirect($url);
 
-        if(!$this->get('fos_user.templating.helper.security')->isAuthenticated()) {
+        if(!$this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
             $response->headers->setCookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
         }
 
@@ -56,7 +56,7 @@ class PostController extends BasePostController
     {
         $form = parent::createForm($name, $topic);
 
-        if(!$this->get('fos_user.templating.helper.security')->isAnonymous()) {
+        if($this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
             unset($form['authorName']);
         } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
             $form['authorName']->setData(urldecode($authorName));
