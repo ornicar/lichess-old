@@ -1,5 +1,5 @@
-[submodule "src/vendor/Symfony"]
-	path = src/vendor/Symfony
+[submodule "vendor/Symfony"]
+	path = vendor/Symfony
 	url = git://github.com/fabpot/symfony.git
 [submodule "src/Bundle/LichessBundle/Resources/public/vendor/pgn4web"]
 	path = src/Bundle/LichessBundle/Resources/public/vendor/pgn4web
@@ -7,35 +7,35 @@
 [submodule "src/Bundle/ForumBundle"]
 	path = src/Bundle/ForumBundle
 	url = git://github.com/Herzult/ForumBundle.git
-[submodule "src/vendor/mongodb-odm"]
-	path = src/vendor/mongodb-odm
+[submodule "vendor/mongodb-odm"]
+	path = vendor/mongodb-odm
 	url = git://github.com/doctrine/mongodb-odm
 [submodule "src/Bundle/TimeBundle"]
 	path = src/Bundle/TimeBundle
 	url = git://github.com/knplabs/TimeBundle.git
-[submodule "src/vendor/zend"]
-	path = src/vendor/zend
+[submodule "vendor/zend"]
+	path = vendor/zend
 	url = git://github.com/zendframework/zf2.git
-[submodule "src/vendor/ZendPaginatorAdapter"]
-	path = src/vendor/ZendPaginatorAdapter
+[submodule "vendor/ZendPaginatorAdapter"]
+	path = vendor/ZendPaginatorAdapter
 	url = git://github.com/ornicar/ZendPaginatorAdapter.git
 [submodule "src/Bundle/ApcBundle"]
 	path = src/Bundle/ApcBundle
 	url = git://github.com/ornicar/ApcBundle.git
-[submodule "src/vendor/twig"]
-	path = src/vendor/twig
+[submodule "vendor/twig"]
+	path = vendor/twig
 	url = git://github.com/fabpot/Twig.git
-[submodule "src/vendor/php-git-repo"]
-	path = src/vendor/php-git-repo
+[submodule "vendor/php-git-repo"]
+	path = vendor/php-git-repo
 	url = git://github.com/ornicar/php-git-repo.git
 [submodule "src/Bundle/LichessBundle"]
 	path = src/Bundle/LichessBundle
 	url = git://github.com/ornicar/LichessBundle.git
-[submodule "src/vendor/Doctrine2-Sluggable-Functional-Behavior"]
-	path = src/vendor/Doctrine2-Sluggable-Functional-Behavior
+[submodule "vendor/Doctrine2-Sluggable-Functional-Behavior"]
+	path = vendor/Doctrine2-Sluggable-Functional-Behavior
 	url = git://github.com/ornicar/Doctrine2-Sluggable-Functional-Behavior.git
-[submodule "src/Bundle/FOS/UserBundle"]
-	path = src/Bundle/FOS/UserBundle
+[submodule "src/FOS/UserBundle"]
+	path = src/FOS/UserBundle
 	url = git://github.com/FriendsOfSymfony/UserBundle.git
 [submodule "src/Bundle/Ornicar/MessageBundle"]
 	path = src/Bundle/Ornicar/MessageBundle
