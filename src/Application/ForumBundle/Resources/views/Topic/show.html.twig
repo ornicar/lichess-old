@@ -1,11 +1,11 @@
-{% extends "ForumBundle::layout.twig" %}
+{% extends "ForumBundle::layout.html.twig" %}
 {% block title %}{{ topic.subject }}{% if posts.currentPageNumber > 1 %} - Page {{ posts.currentPageNumber }}{% endif %}{% endblock %}
 {% block description %}{{ topic.subject }} - {{ topic.category.description|raw }}{% endblock %}
 {% block feed_link %}
 <link href="{{ forum_route_topic_feed(topic)|raw }}" type="application/atom+xml" rel="alternate" title="{{ topic.subject|raw }} - Lichess Forum" />
 {% endblock %}
 {% block content %}
-{% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": posts.pages, "url": forum_route_topic(topic)} %}{% endset %}
+{% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": posts.pages, "url": forum_route_topic(topic)} %}{% endset %}
 {% set replyUrl = forum_route_topic_reply(topic) %}
 {% set isLastPage = forum_topic_num_pages(topic) == posts.currentPageNumber %}
 
@@ -23,7 +23,7 @@
         <a href="{{ replyUrl }}" class="action button">Reply to this topic</a>
     </div>
 
-    {% include "ForumBundle:Post:list.twig" with {"posts": posts} %}
+    {% include "ForumBundle:Post:list.html.twig" with {"posts": posts} %}
 
     {% if isLastPage %}
         <div class="topicReply">

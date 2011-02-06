@@ -1,8 +1,8 @@
-{% extends "UserBundle::layoutUser.twig" %}
+{% extends "FOSUserBundle::layoutUser.html.twig" %}
 {% block title %}{% trans "Chess players" %}{% endblock %}
 {% block content %}
 <div class="content_box">
-{% set pagination %}{% include "LichessBundle::pagination.twig" with {"pager": users.pages, "url": pagerUrl} %}{% endset %}
+{% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": users.pages, "url": pagerUrl} %}{% endset %}
 <div class="user_lists clearfix">
     <div class="all_users">
         <h1 class="lichess_title">{% trans "Chess players" %} {{ users.pages.firstItemNumber }} - {{ users.pages.lastItemNumber }} of {{ users.pages.totalItemCount }}</h1>
@@ -22,7 +22,7 @@
     </div>
     <div data-reload-url="{{ path("fos_user_online_users") }}" class="online_users">
         <h1 class="lichess_title">{% trans "Who is online" %}</h1>
-        <div class="online_users_inner">{% render "UserBundle:User:listOnline" %}</div>
+        <div class="online_users_inner">{% render "FOSUserBundle:User:listOnline" %}</div>
     </div>
 </div>
 </div>

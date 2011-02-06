@@ -8,5 +8,5 @@
     <author>
         <name>{{ topic.firstPost.authorName|default("Anonymous") }}</name>
     </author>
-    {% include "ForumBundle:Post:list.twig" with {"posts": posts} %}
+    {% include "ForumBundle:Post:list.html.twig" with {"posts": posts} %}
 </feed>

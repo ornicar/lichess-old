@@ -87,7 +87,7 @@ class UserController extends BaseUserController
         try {
             $user = $this->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
         } catch(NotFoundHttpException $e) {
-            return $this->render('UserBundle:User:unknownUser.twig', array('username' => $username));
+            return $this->render('UserBundle:User:unknownUser.html.twig', array('username' => $username));
         }
         $critic = $this->get('lichess.critic.user');
         $critic->setUser($user);
