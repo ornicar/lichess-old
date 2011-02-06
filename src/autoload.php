@@ -1,23 +1,27 @@
 <?php
 
-require_once __DIR__.'/vendor/Symfony/src/Symfony/Component/HttpFoundation/UniversalClassLoader.php';
+$vendorDir = realpath(__DIR__.'/../vendor');
+$bundleDir = __DIR__;
 
-$loader = new Symfony\Component\HttpFoundation\UniversalClassLoader();
+require_once $vendorDir.'/symfony/src/Symfony/Component/HttpKernel/bootstrap.php';
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+
+$loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'Symfony'                => __DIR__.'/vendor/Symfony/src',
-    'Doctrine\\Common'       => __DIR__.'/vendor/mongodb-odm/lib/vendor/doctrine-common/lib',
-    'Doctrine\\MongoDB'      => __DIR__.'/vendor/mongodb-odm/lib/vendor/doctrine-mongodb/lib',
-    'Doctrine\\ODM\\MongoDB' => __DIR__.'/vendor/mongodb-odm/lib',
-    'DoctrineExtensions'     => __DIR__.'/vendor/Doctrine2-Sluggable-Functional-Behavior/lib',
-    'Bundle'                 => __DIR__,
-    'ZendPaginatorAdapter'   => __DIR__.'/vendor/ZendPaginatorAdapter/src',
-    'Zend'                   => __DIR__.'/vendor/zend/library',
-    'Application'            => __DIR__
+    'Symfony'                => $vendorDir.'/Symfony/src',
+    'Doctrine\\Common'       => $vendorDir.'/mongodb-odm/lib/vendor/doctrine-common/lib',
+    'Doctrine\\MongoDB'      => $vendorDir.'/mongodb-odm/lib/vendor/doctrine-mongodb/lib',
+    'Doctrine\\ODM\\MongoDB' => $vendorDir.'/mongodb-odm/lib',
+    'DoctrineExtensions'     => $vendorDir.'/Doctrine2-Sluggable-Functional-Behavior/lib',
+    'FOS'                    => $bundleDir.'/FOS',
+    'ZendPaginatorAdapter'   => $vendorDir.'/ZendPaginatorAdapter/src',
+    'Zend'                   => $vendorDir.'/zend/library',
+    'Application'            => $bundleDir
 ));
 $loader->registerPrefixes(array(
-    'Twig_'  => __DIR__.'/vendor/twig/lib'
+    'Twig_'  => $vendorDir.'/twig/lib'
 ));
 $loader->register();
 
 // hack to make Zend work
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__.'/vendor/zend/library');
+set_include_path(get_include_path() . PATH_SEPARATOR . $vendorDir.'/zend/library');
