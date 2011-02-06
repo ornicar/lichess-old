@@ -125,6 +125,7 @@ class SeekQueue
     {
       $this->generator = $generator;
     }
+
     /**
      * @return SeekRepository
      */

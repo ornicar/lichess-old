@@ -6,7 +6,7 @@ use Bundle\LichessBundle\Util\KeyGenerator;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Bundle\FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\User;
 
 /**
  * Represents a single Chess player for one game

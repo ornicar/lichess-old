@@ -1,21 +1,21 @@
 lichess_homepage:
-    pattern:        /:color
+    pattern:        /{color}
     defaults:       { _controller: lichess.controller.main:indexAction, color: white }
     requirements:   { color: (white|black), _method: "get|head" }
 lichess_sync:
-    pattern:        /sync/:id/:color/:version/:playerFullId
+    pattern:        /sync/{id}/{color}/{version}/{playerFullId}
     defaults:       { _controller: lichess.controller.player:syncAction, playerFullId "" }
     requirements:   { id: "[\w\-]{8}", color: (white|black), version: "\d+", playerFullId "([\w\-]{12}|)", _method: "post" }
 lichess_move:
-    pattern:        /move/:id/:version
+    pattern:        /move/{id}/{version}
     defaults:       { _controller: lichess.controller.player:moveAction }
     requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
 lichess_say:
-    pattern:        /talk/:id/:version
+    pattern:        /talk/{id}/{version}
     defaults:       { _controller: lichess.controller.player:sayAction }
     requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
 lichess_invite_friend:
-    pattern:        /friend/:color
+    pattern:        /friend/{color}
     defaults:       { _controller: lichess.controller.game:inviteFriendAction, color: white }
     requirements:   { color: (white|black), _method: "get|post" }
 lichess_toggle_sound:
@@ -23,71 +23,71 @@ lichess_toggle_sound:
     defaults:       { _controller: lichess.controller.main:toggleSoundAction }
     requirements:   { _method: "post" }
 lichess_wait_friend:
-    pattern:        /friend/:id
+    pattern:        /friend/{id}
     defaults:       { _controller: lichess.controller.player:waitFriendAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_game:
-    pattern:        /:id/:color
+    pattern:        /{id}/{color}
     defaults:       { _controller: lichess.controller.game:showAction, color: white }
     requirements:   { id: "[\w\-]{8}", color: (white|black), _method: "get|head" }
 lichess_player:
-    pattern:        /:id
+    pattern:        /{id}
     defaults:       { _controller: lichess.controller.player:showAction }
     requirements:   { id: "[\w\-]{12}", _method: "get|head" }
 lichess_game_compat:
-    pattern:        /:id
+    pattern:        /{id}
     defaults:       { _controller: lichess.controller.compat:gameShowAction }
     requirements:   { id: "[\w\-]{6}", _method: "get|head" }
 lichess_analyse_compat:
-    pattern:        /analyse/:id/:color
+    pattern:        /analyse/{id}/{color}
     defaults:       { _controller: lichess.controller.compat:analyzeAction, color: white }
     requirements:   { id: "[\w\-]{6}", color: (white|black), _method: "get|head" }
 lichess_player_compat:
-    pattern:        /:id
+    pattern:        /{id}
     defaults:       { _controller: lichess.controller.compat:playerShowAction }
     requirements:   { id: "[\w\-]{10}", _method: "get|head" }
 lichess_invite_ai:
-    pattern:        /ai/:color
+    pattern:        /ai/{color}
     defaults:       { _controller: lichess.controller.game:inviteAiAction, color: white }
     requirements:   { color: (white|black), _method: "get|post" }
 lichess_join_game:
-    pattern:        /join/:id
+    pattern:        /join/{id}
     defaults:       { _controller: lichess.controller.game:joinAction }
     requirements:   { id: "[\w\-]{8}", _method: "get" }
 lichess_invite_anybody:
-    pattern:        /anybody/:color
+    pattern:        /anybody/{color}
     defaults:       { _controller: lichess.controller.game:inviteAnybodyAction, color: white }
     requirements:   { color: (white|black), _method: "get|post" }
 lichess_wait_anybody:
-    pattern:        /anybody/:id
+    pattern:        /anybody/{id}
     defaults:       { _controller: lichess.controller.player:waitAnybodyAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_cancel_anybody:
-    pattern:        /anybody/:id/cancel
+    pattern:        /anybody/{id}/cancel
     defaults:       { _controller: lichess.controller.player:cancelAnybodyAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_resign:
-    pattern:        /resign/:id
+    pattern:        /resign/{id}
     defaults:       { _controller: lichess.controller.player:resignAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_abort:
-    pattern:        /abort/:id
+    pattern:        /abort/{id}
     defaults:       { _controller: lichess.controller.player:abortAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_outoftime:
-    pattern:        /outoftime/:id/:version
+    pattern:        /outoftime/{id}/{version}
     defaults:       { _controller: lichess.controller.player:outoftimeAction }
     requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
 lichess_table:
-    pattern:        /table/:id/:color/:playerFullId
+    pattern:        /table/{id}/{color}/{playerFullId}
     defaults:       { _controller: lichess.controller.player:tableAction, playerFullId "" }
     requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)", _method: "get" }
 lichess_opponent:
-    pattern:        /opponent/:id/:color/:playerFullId
+    pattern:        /opponent/{id}/{color}/{playerFullId}
     defaults:       { _controller: lichess.controller.player:opponentAction, playerFullId "" }
     requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)", _method: "get" }
 lichess_ai_level:
-    pattern:        /level/:id
+    pattern:        /level/{id}
     defaults:       { _controller: lichess.controller.player:aiLevelAction }
     requirements:   { id: "[\w\-]{12}", _method: "post" }
 lichess_list_current:
@@ -95,7 +95,7 @@ lichess_list_current:
     defaults:       { _controller: lichess.controller.game:listCurrentAction }
     requirements:   { _method: "get|head" }
 lichess_list_current_inner:
-    pattern:        /games-refresh/:ids
+    pattern:        /games-refresh/{ids}
     defaults:       { _controller: lichess.controller.game:listCurrentInnerAction }
     requirements:   { _method: "get|head" }
 lichess_list_all:
@@ -111,35 +111,35 @@ lichess_about:
     defaults:       { _controller: lichess.controller.main:aboutAction }
     requirements:   { _method: "get|head" }
 lichess_rematch:
-    pattern:        /rematch/:id/:version
+    pattern:        /rematch/{id}/{version}
     defaults:       { _controller: lichess.controller.player:rematchAction }
     requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
 lichess_force_resignation:
-    pattern:        /force-resign/:id
+    pattern:        /force-resign/{id}
     defaults:       { _controller: lichess.controller.player:forceResignAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_claim_draw:
-    pattern:        /claim-draw/:id
+    pattern:        /claim-draw/{id}
     defaults:       { _controller: lichess.controller.player:claimDrawAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_offer_draw:
-    pattern:        /offer-draw/:id
+    pattern:        /offer-draw/{id}
     defaults:       { _controller: lichess.controller.player:offerDrawAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_cancel_draw_offer:
-    pattern:        /cancel-draw-offer/:id
+    pattern:        /cancel-draw-offer/{id}
     defaults:       { _controller: lichess.controller.player:cancelDrawOfferAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_accept_draw_offer:
-    pattern:        /accept-draw-offer/:id
+    pattern:        /accept-draw-offer/{id}
     defaults:       { _controller: lichess.controller.player:acceptDrawOfferAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_decline_draw_offer:
-    pattern:        /decline-draw-offer/:id
+    pattern:        /decline-draw-offer/{id}
     defaults:       { _controller: lichess.controller.player:declineDrawOfferAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
 lichess_locale:
-    pattern:        /locale/:locale
+    pattern:        /locale/{locale}
     defaults:       { _controller: lichess.controller.main:localeAction }
     requirements:   { locale: "\w{2,3}", _method: "get" }
 lichess_locale_links:
@@ -151,7 +151,7 @@ lichess_translate:
     defaults:       { _controller: lichess.controller.translation:indexAction }
     requirements:   { _method: "get|head" }
 lichess_translate_locale:
-    pattern:        /translate/:locale
+    pattern:        /translate/{locale}
     defaults:       { _controller: lichess.controller.translation:localeAction }
     requirements:   { locale: "\w{2,3}" }
     requirements:   { _method: "get|post" }
@@ -164,7 +164,7 @@ lichess_translate_export:
     defaults:       { _controller: lichess.controller.translation:exportAction, _format: json }
     requirements:   { _method: "get|head" }
 lichess_pgn_viewer:
-    pattern:        /analyse/:id/:color
+    pattern:        /analyse/{id}/{color}
     defaults:       { _controller: lichess.controller.pgn:analyseAction, color: white }
     requirements:   { id: "[\w\-]{8}", color: (white|black) }
     requirements:   { _method: "get|head" }

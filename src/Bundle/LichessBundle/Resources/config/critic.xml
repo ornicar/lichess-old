@@ -10,7 +10,7 @@
 
     <services>
 
-        <service id="lichess.critic.user" class="%lichess.critic.user.class%" shared="false">
+        <service id="lichess.critic.user" class="%lichess.critic.user.class%">
             <argument type="service" id="lichess.repository.game" />
             <argument type="service" id="fos_user.repository.user" />
         </service>

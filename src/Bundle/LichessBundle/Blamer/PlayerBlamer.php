@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Blamer;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Security\SecurityContext;
-use Bundle\FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\User;
 
 class PlayerBlamer
 {

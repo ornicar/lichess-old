@@ -1,4 +1,4 @@
-{% extends "LichessBundle:Player:layoutPlayer.twig" %}
+{% extends "LichessBundle:Player:layoutPlayer.html.twig" %}
 {% block title_suffix %} #{{ game.id }} as {{ player.color }}{% endblock %}
 {% block content %}
 <div class="lichess_game clearfix lichess_player_{{ player.color }}">
@@ -6,11 +6,11 @@
         {{ lichess_game_board(player, checkSquareKey)|raw }}
     </div>
     <div class="lichess_ground">
-        {% include "LichessBundle:Game:cemetery.twig" with {"player": player, "position": "top"} %}
+        {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
         <div class="lichess_table_wrap">
             {% render "LichessBundle:Player:table" with {"id": game.id, "color": player.color, "playerFullId": ""} %}
         </div>
-        {% include "LichessBundle:Game:cemetery.twig" with {"player": player.opponent, "position": "bottom"} %}
+        {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player.opponent, "position": "bottom"} %}
     </div>
 </div>
 {% endblock %}

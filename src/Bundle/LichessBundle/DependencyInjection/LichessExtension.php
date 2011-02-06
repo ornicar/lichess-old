@@ -8,20 +8,29 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class LichessExtension extends Extension
 {
-    public function configLoad($config, ContainerBuilder $container)
+    public function configLoad(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
-        $loader->load('chess.xml');
-        $loader->load('model.xml');
-        $loader->load('blamer.xml');
-        $loader->load('critic.xml');
-        $loader->load('elo.xml');
-        $loader->load('controller.xml');
-        $loader->load('twig.xml');
-        $loader->load('translation.xml');
-        $loader->load('form.xml');
-        $loader->load('logger.xml');
-        $loader->load('cheat.xml');
+        foreach ($configs as $config) {
+            $this->doConfigLoad($config, $container);
+        }
+    }
+
+    public function doConfigLoad(array $config, ContainerBuilder $container)
+    {
+        if(!$container->hasDefinition('lichess.hardware')) {
+            $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+            $loader->load('chess.xml');
+            $loader->load('model.xml');
+            $loader->load('blamer.xml');
+            $loader->load('critic.xml');
+            $loader->load('elo.xml');
+            $loader->load('controller.xml');
+            $loader->load('twig.xml');
+            $loader->load('translation.xml');
+            $loader->load('form.xml');
+            $loader->load('logger.xml');
+            $loader->load('cheat.xml');
+        }
 
         if(isset($config['ai']['class'])) {
             $container->setParameter('lichess.ai.class', $config['ai']['class']);
@@ -32,7 +41,7 @@ class LichessExtension extends Extension
         }
 
         // Load asset helper compat
-        $loader = new XmlFileLoader($container, __DIR__.'/../../../vendor/Symfony/src/Symfony/Bundle/CompatAssetsBundle/Resources/config');
+        $loader = new XmlFileLoader($container, __DIR__.'/../../../../vendor/symfony/src/Symfony/Bundle/CompatAssetsBundle/Resources/config');
         $loader->load('assets.xml');
     }
 

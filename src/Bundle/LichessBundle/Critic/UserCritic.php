@@ -1,7 +1,7 @@
 <?php
 
 namespace Bundle\LichessBundle\Critic;
-use Bundle\FOS\UserBundle\Document\User;
+use FOS\UserBundle\Document\User;
 use Bundle\LichessBundle\Document\GameRepository;
 use Bundle\LichessBundle\Document\Game;
 use Application\UserBundle\Document\UserRepository;

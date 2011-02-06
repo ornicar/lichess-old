@@ -1,7 +1,7 @@
 {% set game = player.game %}
 {% set winner = game.winner %}
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
+    {% include "LichessBundle:Game:clock.html.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
 {% endif %}
 <div class="lichess_table finished {{ game.next ? " lichess_table_next" : "" }}">
     <div class="lichess_opponent">
@@ -49,5 +49,5 @@
     </div>
 </div>
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
+    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
 {% endif %}

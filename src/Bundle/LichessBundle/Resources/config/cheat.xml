@@ -15,12 +15,12 @@
 
     <services>
 
-        <service id="lichess.cheat.internal_detector" class="%lichess.cheat.internal_detector.class%" shared="true">
+        <service id="lichess.cheat.internal_detector" class="%lichess.cheat.internal_detector.class%">
             <argument type="service" id="lichess.repository.game" />
             <argument>%lichess.cheat.internal_detector.turns%</argument>
         </service>
 
-        <service id="lichess.cheat.punisher" class="%lichess.cheat.punisher.class%" shared="true">
+        <service id="lichess.cheat.punisher" class="%lichess.cheat.punisher.class%">
             <argument type="service" id="lichess.repository.game" />
         </service>
 

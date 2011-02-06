@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Document;
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use Bundle\FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\User;
 
 class GameRepository extends DocumentRepository
 {

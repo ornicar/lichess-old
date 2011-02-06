@@ -1,50 +1,53 @@
-{% extends "LichessBundle:Game:layoutGame.twig" %}
-{% block title %}Lichess - {% trans "play with a friend" %} - {{ color }}{% endblock %}
+{% extends "LichessBundle:Game:layoutGame.html.twig" %}
+{% block title %}Lichess - {% trans "play with anybody" %} - {{ color }}{% endblock %}
 {% block content %}
 <div class="lichess_game_not_started waiting_opponent clearfix lichess_player_{{ color }}">
     <div class="lichess_board_wrap">
-        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".twig" %}
+        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".html.twig" %}
         <div class="lichess_overboard game_config">
-            <h2>{% trans "Play with a friend" %}</h2>
+            <h2>{% trans "Play with anybody" %}</h2>
             <div class="game_config_form">
-                <form action="{{ path("lichess_invite_friend", {"color": color} ) }}" method="post">
+                <form action="{{ path("lichess_invite_anybody", {"color": color} ) }}" method="post">
                     <div class="variants buttons">
-                        {% for choice, child in form.variant %}
+                        {% for choice, child in form.variants %}
                             {{ form_field(child) }}
-                            <label for="{{ child.id }}">{% trans form.variant.label(choice) %}</label>
+                            <label for="{{ child.id }}">{% trans form.variants.label(choice) %}</label>
                         {% endfor %}
                     </div>
                     <a class="show_advanced">{% trans "Show advanced options" %}</a>
                     <div class="advanced">
                         {% trans "Minutes per side" %}
                         <div class="times buttons">
-                            {% for choice, child in form.time %}
+                            {% for choice, child in form.times %}
                                 {{ form_field(child) }}
-                                <label for="{{ child.id }}">{% trans form.time.label(choice) %}</label>
+                                <label for="{{ child.id }}">{% trans form.times.label(choice) %}</label>
                             {% endfor %}
                         </div>
                         {% trans "Increment in seconds" %}
                         <div class="increments buttons">
-                            {% for choice, child in form.increment %}
+                            {% for choice, child in form.increments %}
                                 {{ form_field(child) }}
-                                <label for="{{ child.id }}">{{ form.increment.label(choice) }}</label>
+                                <label for="{{ child.id }}">{{ form.increments.label(choice) }}</label>
                             {% endfor %}
                         </div>
-                        {% if form.mode %}
+                        {% if form.modes %}
                             {% trans "Mode" %}
                             <div class="modes buttons">
-                                {% for choice, child in form.mode %}
+                                {% for choice, child in form.modes %}
                                     {{ form_field(child) }}
-                                    <label for="{{ child.id }}">{% trans form.mode.label(choice) %}</label>
+                                    <label for="{{ child.id }}">{% trans form.modes.label(choice) %}</label>
                                 {% endfor %}
                             </div>
                         {% endif %}
                     </div>
                     <button type="submit" class="submit">{% trans "Start" %}</button>
+                    <p class="explanations">
+                        {% trans "Tip: The more options you check, the faster you find a game" %}
+                    </p>
                 </form>
             </div>
         </div>
     </div>
-    {% include "LichessBundle:Game:bootGround.twig" with {"color": color, "active": "friend"} %}
+    {% include "LichessBundle:Game:bootGround.html.twig" with {"color": color, "active": "anybody"} %}
 </div>
 {% endblock %}

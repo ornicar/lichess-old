@@ -12,12 +12,12 @@ class MainController extends Controller
         $items = explode("\n", preg_replace('/^\*\s/m', '', $text));
         array_pop($items);
 
-        return $this->render('LichessBundle:Main:todolist.twig', array('items' => $items));
+        return $this->render('LichessBundle:Main:todolist.html.twig', array('items' => $items));
     }
 
     public function indexAction($color)
     {
-        return $this->render('LichessBundle:Main:index.twig', array(
+        return $this->render('LichessBundle:Main:index.html.twig', array(
             'color' => $color,
             'reverseColor' => 'white' === $color ? 'black' : 'white'
         ));
@@ -61,12 +61,12 @@ class MainController extends Controller
         $locales = $this->container->get('lichess.translation.manager')->getAvailableLanguages();
         unset($locales[$this->container->get('session')->getLocale()]);
         ksort($locales);
-        return $this->render('LichessBundle:Main:localeLinks.twig', array('locales' => $locales));
+        return $this->render('LichessBundle:Main:localeLinks.html.twig', array('locales' => $locales));
     }
 
     public function aboutAction()
     {
-        return $this->render('LichessBundle:Main:about.twig');
+        return $this->render('LichessBundle:Main:about.html.twig');
     }
 
     public function exceptionAction($exception)
@@ -77,7 +77,7 @@ class MainController extends Controller
                 $response = $this->createResponse('You should not do that.');
             }
             else {
-                $response = $this->render('LichessBundle:Main:notFound.twig');
+                $response = $this->render('LichessBundle:Main:notFound.html.twig');
             }
             $response->setStatusCode(404);
         } else {
@@ -89,7 +89,7 @@ class MainController extends Controller
             }
             else {
                 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
-                $response = $this->render('LichessBundle:Main:error.twig', array('code' => $code, 'url' => $url));
+                $response = $this->render('LichessBundle:Main:error.html.twig', array('code' => $code, 'url' => $url));
             }
             $response->setStatusCode($code);
         }

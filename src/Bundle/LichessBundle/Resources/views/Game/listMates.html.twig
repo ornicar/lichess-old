@@ -1,4 +1,4 @@
-{% extends "LichessBundle:Game:list.twig" %}
+{% extends "LichessBundle:Game:list.html.twig" %}
 {% block title %}{% trans 'View %nb% checkmates' with {'%nb%': nbMates} %} - Page {{ games.currentPageNumber }}{% endblock %}
 {% block list_type %}Checkmates{% endblock %}
 {% block list_menu %}

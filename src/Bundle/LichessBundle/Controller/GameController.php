@@ -18,7 +18,7 @@ class GameController extends Controller
     {
         $ids = $this->get('lichess.repository.game')->findRecentStartedGameIds(9);
 
-        return $this->render('LichessBundle:Game:listCurrent.twig', array(
+        return $this->render('LichessBundle:Game:listCurrent.html.twig', array(
             'ids'         => $ids,
             'implodedIds' => implode(',', $ids),
             'nbGames'     => $this->get('lichess.repository.game')->getNbGames(),
@@ -28,7 +28,7 @@ class GameController extends Controller
 
     public function listCurrentInnerAction($ids)
     {
-        return $this->render('LichessBundle:Game:listCurrentInner.twig', array(
+        return $this->render('LichessBundle:Game:listCurrentInner.html.twig', array(
             'games' => $this->get('lichess.repository.game')->findGamesByIds($ids)
         ));
     }
@@ -37,7 +37,7 @@ class GameController extends Controller
     {
         $query = $this->get('lichess.repository.game')->createRecentStartedOrFinishedQuery();
 
-        return $this->render('LichessBundle:Game:listAll.twig', array(
+        return $this->render('LichessBundle:Game:listAll.html.twig', array(
             'games'    => $this->createPaginatorForQuery($query),
             'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
             'nbMates'  => $this->get('lichess.repository.game')->getNbMates(),
@@ -49,7 +49,7 @@ class GameController extends Controller
     {
         $query = $this->get('lichess.repository.game')->createRecentMateQuery();
 
-        return $this->render('LichessBundle:Game:listMates.twig', array(
+        return $this->render('LichessBundle:Game:listMates.html.twig', array(
             'games'    => $this->createPaginatorForQuery($query),
             'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
             'nbMates'  => $this->get('lichess.repository.game')->getNbMates(),
@@ -72,7 +72,7 @@ class GameController extends Controller
             return $this->forward('LichessBundle:Game:watch', array('id' => $id, 'color' => $color));
         }
 
-        return $this->render('LichessBundle:Game:join.twig', array(
+        return $this->render('LichessBundle:Game:join.html.twig', array(
             'game'  => $game,
             'color' => $game->getInvited()->getColor()
         ));
@@ -119,7 +119,7 @@ class GameController extends Controller
         }
         $possibleMoves = ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null;
 
-        return $this->render('LichessBundle:Player:watch.twig', array(
+        return $this->render('LichessBundle:Player:watch.html.twig', array(
             'player'         => $player,
             'game'           => $game,
             'checkSquareKey' => $checkSquareKey,
@@ -150,7 +150,7 @@ class GameController extends Controller
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteFriend.twig', array(
+        return $this->render('LichessBundle:Game:inviteFriend.html.twig', array(
             'form'  => $form,
             'color' => $color
         ));
@@ -184,7 +184,7 @@ class GameController extends Controller
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteAi.twig', array(
+        return $this->render('LichessBundle:Game:inviteAi.html.twig', array(
             'form'  => $form,
             'color' => $color
         ));
@@ -219,7 +219,7 @@ class GameController extends Controller
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteAnybody.twig', array(
+        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array(
             'form'  => $form,
             'color' => $color
         ));

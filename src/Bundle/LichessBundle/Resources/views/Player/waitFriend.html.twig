@@ -1,9 +1,9 @@
-{% extends "LichessBundle:Player:layoutPlayer.twig" %}
+{% extends "LichessBundle:Player:layoutPlayer.html.twig" %}
 {% block title %}Lichess - {% trans "Play with a friend" %} - {{ player.color }}{% endblock %}
 {% block content %}
 <div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_{{ player.color }}">
     <div class="lichess_board_wrap">
-        {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".twig" %}
+        {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".html.twig" %}
         <div class="lichess_overboard">
             {% trans "To invite someone to play, give this url" %}:
             <input class="lichess_id_input" readonly="readonly" value="{{ url("lichess_game", {"id": player.game.id} ) }}" />
@@ -16,7 +16,7 @@
             </p>
         </div>
     </div>
-    {% include "LichessBundle:Game:bootGround.twig" with {"color": player.color, "active": "friend"} %}
+    {% include "LichessBundle:Game:bootGround.html.twig" with {"color": player.color, "active": "friend"} %}
 </div>
 {% endblock %}
 {% block js_data %}

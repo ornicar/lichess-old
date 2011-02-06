@@ -60,7 +60,7 @@
             {% endblock %}
             {% block security %}
                 {% if fos_user_isAnonymous() %}
-                    {% include "UserBundle:Security:embeddedLogin.twig" %}
+                    {% include "FOSUserBundle:Security:embeddedLogin.html.twig" %}
                 {% else %}
                     <a class="s16 goto_nav goto_message blank_if_play" href="{{ path("ornicar_message_message_list") }}">
                         {% trans "Inbox" %}

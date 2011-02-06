@@ -1,9 +1,9 @@
-{% extends "LichessBundle:Game:layoutGame.twig" %}
+{% extends "LichessBundle:Game:layoutGame.html.twig" %}
 {% block title %}Lichess - {% trans "play with the machine" %} - {{ color }}{% endblock %}
 {% block content %}
 <div class="lichess_game_not_started waiting_opponent clearfix lichess_player_{{ color }}">
     <div class="lichess_board_wrap">
-        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".twig" %}
+        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".html.twig" %}
         <div class="lichess_overboard game_config game_config_ai">
             <h2>{% trans "Play with the machine" %}</h2>
             <div class="game_config_form">
@@ -16,6 +16,6 @@
             </div>
         </div>
     </div>
-    {% include "LichessBundle:Game:bootGround.twig" with {"color": color, "active": "ai"} %}
+    {% include "LichessBundle:Game:bootGround.html.twig" with {"color": color, "active": "ai"} %}
 </div>
 {% endblock %}

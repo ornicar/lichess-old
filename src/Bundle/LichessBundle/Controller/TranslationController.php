@@ -19,7 +19,7 @@ class TranslationController extends Controller
             return $this->createResponse('');
         }
 
-        return $this->render('LichessBundle:Translation:incomplete.twig', array(
+        return $this->render('LichessBundle:Translation:incomplete.html.twig', array(
             'locale' => $locale,
             'status' => $status
         ));
@@ -29,7 +29,7 @@ class TranslationController extends Controller
     {
         $form = $this->get('lichess.form.translation');
 
-        return $this->render('LichessBundle:Translation:index.twig', array(
+        return $this->render('LichessBundle:Translation:index.html.twig', array(
             'form' => $form,
             'locale' => '__'
         ));
@@ -63,7 +63,7 @@ class TranslationController extends Controller
             }
         }
 
-        return $this->render('LichessBundle:Translation:locale.twig', array(
+        return $this->render('LichessBundle:Translation:locale.html.twig', array(
             'form' => $form,
             'locale' => $locale,
             'status' => $manager->getTranslationStatus($locale),
@@ -84,7 +84,7 @@ class TranslationController extends Controller
         $translations = $this->get('lichess.object_manager')->getRepository('LichessBundle:Translation')->createQueryBuilder()
             ->sort('createdAt', 'DESC')->getQuery()->execute();
 
-        return $this->render('LichessBundle:Translation:list.twig', array(
+        return $this->render('LichessBundle:Translation:list.html.twig', array(
             'translations' => $translations,
             'manager' => $this->get('lichess.translation.manager')
         ));

@@ -1,4 +1,4 @@
-{% extends "LichessBundle:Game:list.twig" %}
+{% extends "LichessBundle:Game:list.html.twig" %}
 {% block title %}{% trans "View all %nb% games" with {"%nb%": nbGames} %} - Page {{ games.currentPageNumber }}{% endblock %}
 {% block list_type %}All games{% endblock %}
 {% block list_menu %}

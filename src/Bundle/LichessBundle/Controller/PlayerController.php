@@ -100,7 +100,7 @@ class PlayerController extends Controller
         // render system messages
         foreach($events as $index => $event) {
             if('message' === $event['type']) {
-                $events[$index]['html'] = $this->get('lichess.twig.extension')->roomMessage($event['message']);
+                $events[$index]['html'] = $this->get('lichess.html.twig.extension')->roomMessage($event['message']);
                 unset($events[$index]['message']);
             }
         }
@@ -310,7 +310,7 @@ class PlayerController extends Controller
         else {
             $checkSquareKey = null;
         }
-        return $this->render('LichessBundle:Player:show.twig', array(
+        return $this->render('LichessBundle:Player:show.html.twig', array(
             'player' => $player,
             'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent()),
             'checkSquareKey' => $checkSquareKey,
@@ -350,7 +350,7 @@ class PlayerController extends Controller
 
         $config = new Form\AnybodyGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.anybody', array()));
-        return $this->render('LichessBundle:Player:waitAnybody.twig', array(
+        return $this->render('LichessBundle:Player:waitAnybody.html.twig', array(
             'player' => $player,
             'config' => $config
         ));
@@ -380,7 +380,7 @@ class PlayerController extends Controller
 
         $config = new Form\FriendGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
-        return $this->render('LichessBundle:Player:waitFriend.twig', array(
+        return $this->render('LichessBundle:Player:waitFriend.html.twig', array(
             'player' => $player,
             'config' => $config
         ));
@@ -443,7 +443,7 @@ class PlayerController extends Controller
             $player = $this->findPublicPlayer($id, $color);
             $template = 'watchTable';
         }
-        return $this->render('LichessBundle:Game:'.$template.'.twig', array(
+        return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
             'player'              => $player,
             'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent())
         ));
@@ -460,7 +460,7 @@ class PlayerController extends Controller
             $template = 'watchOpponent';
         }
         $opponent = $player->getOpponent();
-        return $this->render('LichessBundle:Player:'.$template.'.twig', array(
+        return $this->render('LichessBundle:Player:'.$template.'.html.twig', array(
             'opponent'            => $opponent,
             'isOpponentConnected' => $playerFullId ? $this->get('lichess_synchronizer')->isConnected($opponent) : true,
             'game'                => $player->getGame(),
