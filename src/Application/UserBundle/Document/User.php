@@ -1,7 +1,7 @@
 <?php
 
 namespace Application\UserBundle\Document;
-use Bundle\FOS\UserBundle\Document\User as BaseUser;
+use FOS\UserBundle\Document\User as BaseUser;
 
 /**
  * @mongodb:Document(

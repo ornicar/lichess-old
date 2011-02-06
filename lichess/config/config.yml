@@ -1,13 +1,19 @@
 app.config:
-    charset:             UTF-8
+    charset:       UTF-8
     error_handler: null
-    validation: { enabled: true, annotations: true }
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
+    validation: { enabled: true, annotations: true }
+    csrf_protection:
+        enabled: true
     session:
-        lifetime: 2592000 # one month 
+        default_locale: en
+        name:     SF
+        type:     Native
+        lifetime: 2592000
     templating:
         escaping: htmlspecialchars
         assets_version: 121
+        engines: ['twig']
     translator: { fallback: en }
 
 zend.config:
@@ -29,30 +35,12 @@ doctrine_odm.mongodb:
     cache_driver: apc
     mappings:
         LichessBundle: ~
-        UserBundle:
-            type: xml
-            dir: %kernel.root_dir%/../src/Bundle/FOS/UserBundle/Resources/config/doctrine/metadata/mongodb
-            prefix: Bundle\FOS\UserBundle\Document
-        AppUserBundle:
-            type: annotation
-            dir: %kernel.root_dir%/../src/Application/UserBundle/Document
-            prefix: Application\UserBundle\Document
-        MessageBundle:
-            type: xml
-            dir: %kernel.root_dir%/../src/Bundle/Ornicar/MessageBundle/Resources/config/doctrine/metadata/mongodb
-            prefix: Bundle\Ornicar\MessageBundle\Document
-        AppMessageBundle:
-            type: annotation
-            dir: %kernel.root_dir%/../src/Application/MessageBundle/Document
-            prefix: Application\MessageBundle\Document
+        FOSUserBundle: ~
+        LichessUserBundle: ~
+        OrnicarMessageBundle: ~
+        LichessMessageBundle: ~
         ForumBundle:
-            type: xml
-            dir: %kernel.root_dir%/../src/Bundle/ForumBundle/Resources/config/doctrine/metadata/mongodb
-            prefix: Bundle\ForumBundle\Document
-        AppForumBundle:
-            type: annotation
-            dir: %kernel.root_dir%/../src/Application/ForumBundle/Document
-            prefix: Application\ForumBundle\Document
+        LichessForumBundle:
     connections:
         default:
             options:
@@ -81,7 +69,7 @@ forum.config:
         posts_per_page: 10
         search_results_per_page: 10
 
-fos_user_custom.config: ~
+lichess_user.config: ~
 
 security.config:
     providers:
@@ -125,7 +113,7 @@ ornicar_message.config:
         model:
             message: Application\MessageBundle\Document\Message
 
-app_ornicar_message.config: ~
+lichess_message.config: ~
 
 time.config: ~
 

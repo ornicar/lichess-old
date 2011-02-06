@@ -2,7 +2,7 @@
 
 namespace Application\UserBundle\Form;
 
-use Bundle\FOS\UserBundle\Form\UserForm as BaseUserForm;
+use FOS\UserBundle\Form\UserForm as BaseUserForm;
 use Symfony\Component\Form\PasswordField;
 
 class UserForm extends BaseUserForm

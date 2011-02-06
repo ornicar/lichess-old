@@ -37,6 +37,6 @@ class MessageExtension extends Extension
 
     public function getAlias()
     {
-        return 'app_ornicar_message';
+        return 'lichess_message';
     }
 }

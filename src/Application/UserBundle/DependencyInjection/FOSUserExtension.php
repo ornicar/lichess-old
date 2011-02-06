@@ -34,6 +34,6 @@ class FOSUserExtension extends Extension
 
     public function getAlias()
     {
-        return 'fos_user_custom';
+        return 'lichess_user';
     }
 }

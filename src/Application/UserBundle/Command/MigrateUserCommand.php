@@ -9,8 +9,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
-use Bundle\FOS\UserBundle\Model\User;
-use Bundle\FOS\UserBundle\Util\Canonicalizer;
+use FOS\UserBundle\Model\User;
+use FOS\UserBundle\Util\Canonicalizer;
 
 /**
  * Migrate user db to latest johanness changes

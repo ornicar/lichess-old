@@ -1,22 +1,22 @@
 security:
-    resource: UserBundle/Resources/config/routing/security.xml
+    resource: @FOSUserBundle/Resources/config/routing/security.xml
 user:
-    resource: UserBundle/Resources/config/routing.yml
+    resource: @FOSUserBundle/Resources/config/routing.yml
 
 lichess:
-  resource: LichessBundle/Resources/config/routing.yml
+  resource: @LichessBundle/Resources/config/routing.yml
 
 forum:
-    resource: ForumBundle/Resources/config/routing/forum.xml
+    resource: @ForumBundle/Resources/config/routing/forum.xml
     prefix: /forum
 forum_category:
-    resource: ForumBundle/Resources/config/routing/category.xml
+    resource: @ForumBundle/Resources/config/routing/category.xml
     prefix: /forum
 forum_topic:
-    resource: ForumBundle/Resources/config/routing/topic.xml
+    resource: @ForumBundle/Resources/config/routing/topic.xml
     prefix: /forum
 forum_post:
-    resource: ForumBundle/Resources/config/routing/post.xml
+    resource: @ForumBundle/Resources/config/routing/post.xml
     prefix: /forum
 forum_index:
     pattern:        /forum
@@ -27,12 +27,12 @@ forum_index2:
     defaults:       { _controller: ForumBundle:Forum:index }
     requirements:   { _method: get }
 forum_topic_show_compat:
-    pattern:        /forum/:categorySlug/:slug/:id.:_format
+    pattern:        /forum/{categorySlug}/{slug}/{id}.{_format}
     defaults:       { _controller: forum.controller.topic:showCompatAction, _format: "html", id: "" }
     requirements:   { _method: "get|head", _format: "html|xml", slug: "[-\w]+" }
 
 ornicar_message:
-    resource: MessageBundle/Resources/config/routing.xml
+    resource: @OrnicarMessageBundle/Resources/config/routing.xml
     prefix: /inbox
 inbox:
     pattern:        /inbox

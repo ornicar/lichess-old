@@ -4,7 +4,7 @@ namespace Application\MessageBundle;
 
 use Bundle\Ornicar\MessageBundle\Model\Message;
 use Bundle\Ornicar\MessageBundle\Messenger as BaseMessenger;
-use Bundle\FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\User;
 
 class Messenger extends BaseMessenger
 {

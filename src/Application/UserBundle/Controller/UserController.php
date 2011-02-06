@@ -1,7 +1,7 @@
 <?php
 
 namespace Application\UserBundle\Controller;
-use Bundle\FOS\UserBundle\Controller\UserController as BaseUserController;
+use FOS\UserBundle\Controller\UserController as BaseUserController;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

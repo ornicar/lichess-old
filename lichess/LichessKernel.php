@@ -17,6 +17,7 @@ class LichessKernel extends Kernel
     {
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\ZendBundle\ZendBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\CompatAssetsBundle\CompatAssetsBundle(),
@@ -37,19 +38,6 @@ class LichessKernel extends Kernel
         }
 
         return $bundles;
-    }
-
-    public function registerBundleDirs()
-    {
-        return array(
-            'Application'          => __DIR__.'/../src/Application',
-            'Application\\FOS'     => __DIR__.'/../src/Application/FOS',
-            'Application\\Ornicar' => __DIR__.'/../src/Application/Ornicar',
-            'Bundle'               => __DIR__.'/../src/Bundle',
-            'Bundle\\FOS'          => __DIR__.'/../src/Bundle/FOS',
-            'Bundle\\Ornicar'      => __DIR__.'/../src/Bundle/Ornicar',
-            'Symfony\\Bundle'      => __DIR__.'/../src/vendor/Symfony/src/Symfony/Bundle',
-        );
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

@@ -9,6 +9,27 @@ use FOS\UserBundle\Model\User;
 
 class LichessUserBundle extends Bundle
 {
+    public function getParent()
+    {
+        return 'FOSUserBundle';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNamespace()
+    {
+        return __NAMESPACE__;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPath()
+    {
+        return __DIR__;
+    }
+
     public function boot()
     {
         $this->container->get('event_dispatcher')->connect('core.response', array($this, 'listenToCoreResponseEvent'));
