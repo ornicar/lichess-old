@@ -31,15 +31,4 @@ class LichessBundle extends BaseBundle
         });
     }
 
-    /**
-     * Get a DocumentRepository
-     *
-     * @param DocumentManager $objectManager a DocumentManager
-     * @param string $objectClass the class of the document
-     * @return DocumentRepository a DocumentRepository
-     */
-    public static function getRepository($objectManager, $objectClass)
-    {
-        return $objectManager->getRepository($objectClass);
-    }
 }
