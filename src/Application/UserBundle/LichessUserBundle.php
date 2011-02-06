@@ -2,12 +2,12 @@
 
 namespace Application\UserBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Bundle\FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\User;
 
-class UserBundle extends BaseBundle
+class LichessUserBundle extends Bundle
 {
     public function boot()
     {

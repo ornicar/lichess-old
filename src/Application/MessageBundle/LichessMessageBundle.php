@@ -2,9 +2,9 @@
 
 namespace Application\MessageBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class MessageBundle extends BaseBundle
+class LichessMessageBundle extends Bundle
 {
 
 }

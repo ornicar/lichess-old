@@ -21,15 +21,15 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\CompatAssetsBundle\CompatAssetsBundle(),
             new Bundle\ApcBundle\ApcBundle(),
-            new Bundle\TimeBundle\TimeBundle(),
+            new Knplabs\TimeBundle\KnplabsTimeBundle(),
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
             new Bundle\LichessBundle\LichessBundle(),
-            new Bundle\FOS\UserBundle\FOSUserBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             new Bundle\Ornicar\MessageBundle\OrnicarMessageBundle(),
             new Bundle\ForumBundle\ForumBundle(),
-            new Application\UserBundle\UserBundle(),
-            new Application\MessageBundle\MessageBundle(),
-            new Application\ForumBundle\ForumBundle()
+            new Application\UserBundle\LichessUserBundle(),
+            new Application\MessageBundle\LichessMessageBundle(),
+            new Application\ForumBundle\LichessForumBundle()
         );
 
         if ($this->isDebug()) {
