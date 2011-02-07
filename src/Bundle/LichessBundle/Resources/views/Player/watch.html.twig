@@ -26,7 +26,7 @@
         {% if game.isBeingPlayed %}
             {% trans "Playing right now" %}
         {% else %}
-            {{ ago(game.updatedAt) }}
+            {{ time_diff(game.updatedAt) }}
         {% endif %}
         <br /><br />
         {% for p in [player.opponent, player] %}

@@ -9,7 +9,7 @@
     {% trans "Playing right now" %}
 </a>
 {% else %}
-{{ ago(game.updatedAt) }}
+{{ time_diff(game.updatedAt) }}
 {% endif %}
 <br /><br />
 {% for player in [firstPlayer.opponent, firstPlayer] %}
