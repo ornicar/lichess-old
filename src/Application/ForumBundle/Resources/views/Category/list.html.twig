@@ -16,7 +16,7 @@
             </td>
             <td class="right">{{ category.numTopics|raw }}</td>
             <td class="right">{{ category.numPosts|raw }}</td>
-            <td><a href="{{ forum_route_post(category.lastPost)|raw }}">{{ ago(category.lastPost.createdAt)|raw }}</a><br />by {{ category.lastPost.authorName|default("Anonymous") }}</td>
+            <td><a href="{{ forum_route_post(category.lastPost)|raw }}">{{ time_diff(category.lastPost.createdAt)|raw }}</a><br />by {{ category.lastPost.authorName|default("Anonymous") }}</td>
         </tr>
     {% endfor %}
     </tbody>
