@@ -58,7 +58,7 @@ class UserController extends BaseUserController
         $users = $this->get('fos_user.repository.user')->findOnlineUsersSortByElo();
         $nbPlayers = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
 
-        return $this->render('UserBundle:User:listOnline.'.$this->getRenderer(), array(
+        return $this->render('FOSUserBundle:User:listOnline.html.twig', array(
             'users'     => $users,
             'nbPlayers' => $nbPlayers
         ));
@@ -77,7 +77,7 @@ class UserController extends BaseUserController
         $users->setPageRange(3);
         $pagerUrl = $this->generateUrl('fos_user_user_list');
 
-        return $this->render('UserBundle:User:list.'.$this->getRenderer(), array(
+        return $this->render('FOSUserBundle:User:list.html.twig', array(
             'users' => $users
         ));
     }
@@ -87,7 +87,7 @@ class UserController extends BaseUserController
         try {
             $user = $this->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
         } catch(NotFoundHttpException $e) {
-            return $this->render('UserBundle:User:unknownUser.html.twig', array('username' => $username));
+            return $this->render('FOSUserBundle:User:unknownUser.html.twig', array('username' => $username));
         }
         $critic = $this->get('lichess.critic.user');
         $critic->setUser($user);
@@ -99,7 +99,7 @@ class UserController extends BaseUserController
         $games->setPageRange(10);
         $pagerUrl = $this->generateUrl('fos_user_user_show', array('username' => $user->getUsername()));
 
-        return $this->render('UserBundle:User:show.'.$this->getRenderer(), array(
+        return $this->render('FOSUserBundle:User:show.html.twig', array(
             'user'     => $user,
             'critic'   => $critic,
             'games'    => $games,
@@ -114,7 +114,7 @@ class UserController extends BaseUserController
     {
         $form = $this->createForm();
 
-        return $this->render('UserBundle:User:new.'.$this->getRenderer(), array(
+        return $this->render('FOSUserBundle:User:new.html.twig', array(
             'form' => $form
         ));
     }
@@ -139,7 +139,7 @@ class UserController extends BaseUserController
             )));
         }
 
-        return $this->render('UserBundle:User:new.'.$this->getRenderer(), array(
+        return $this->render('FOSUserBundle:User:new.html.twig', array(
             'form' => $form
         ));
     }
