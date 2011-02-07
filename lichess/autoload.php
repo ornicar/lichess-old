@@ -1,9 +1,10 @@
 <?php
 
 $vendorDir = realpath(__DIR__.'/../vendor');
-$bundleDir = __DIR__;
+$srcDir = realpath(__DIR__.'/../src');
 
-require_once $vendorDir.'/symfony/src/Symfony/Component/HttpKernel/bootstrap.php';
+//require_once $vendorDir.'/symfony/src/Symfony/Component/HttpKernel/bootstrap.php';
+require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
@@ -13,12 +14,12 @@ $loader->registerNamespaces(array(
     'Doctrine\\MongoDB'      => $vendorDir.'/mongodb-odm/lib/vendor/doctrine-mongodb/lib',
     'Doctrine\\ODM\\MongoDB' => $vendorDir.'/mongodb-odm/lib',
     'DoctrineExtensions'     => $vendorDir.'/Doctrine2-Sluggable-Functional-Behavior/lib',
-    'Bundle'                 => $bundleDir,
-    'FOS'                    => $bundleDir,
-    'Knplabs'                => $bundleDir,
+    'Bundle'                 => $srcDir,
+    'FOS'                    => $srcDir,
+    'Knplabs'                => $srcDir,
     'ZendPaginatorAdapter'   => $vendorDir.'/ZendPaginatorAdapter/src',
     'Zend'                   => $vendorDir.'/zend/library',
-    'Application'            => $bundleDir
+    'Application'            => $srcDir
 ));
 $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'
