@@ -67,7 +67,7 @@
                         <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
                     </a>
                     <a class="s16 goto_nav goto_logout" href="{{ path("_security_logout") }}">{% trans "Log out" %}</a>
-                    <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": user.username}) }}" href="{{ path("fos_user_user_show", {"username": user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ user.usernameWithElo}}</a>
+                    <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": app.user.username}) }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ app.user.usernameWithElo}}</a>
                 {% endif %}
             {% endblock %}
         </div>
