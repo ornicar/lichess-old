@@ -4,7 +4,7 @@ app.config:
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
     validation: { enabled: true, annotations: true }
     csrf_protection:
-        enabled: true
+        enabled: false
     session:
         default_locale: en
         name:     SF
