@@ -159,29 +159,12 @@ class GameController extends Controller
     public function inviteAiAction($color)
     {
         $form = $this->get('lichess.form.manager')->createAiForm();
-        if('POST' === $this->get('request')->getMethod()) {
-            $form->bind($this->get('request')->request->get($form->getName()));
-            if($form->isValid()) {
-                $config = $form->getData();
-                $this->get('session')->set('lichess.game_config.ai', $config->toArray());
-                $player = $this->get('lichess_generator')->createGameForPlayer($color, $config->variant);
-                $this->get('lichess.blamer.player')->blame($player);
-                $game = $player->getGame();
-                $opponent = $player->getOpponent();
-                $opponent->setIsAi(true);
-                $opponent->setAiLevel(1);
-                $game->start();
+        $form->bind($this->get('request'), $form->getData());
 
-                if($player->isBlack()) {
-                    $manipulator = new Manipulator($game, new Stack());
-                    $manipulator->play($this->get('lichess_ai')->move($game, $opponent->getAiLevel()));
-                }
-                $this->get('lichess.object_manager')->persist($game);
-                $this->get('lichess.object_manager')->flush(array('safe' => true));
-                $this->get('lichess.logger')->notice($game, 'Game:inviteAi create');
+        if($form->isValid()) {
+            $player = $this->get('lichess.starter')->startAi($form->getData(), $color);
 
-                return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
-            }
+            return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
         }
 
         return $this->render('LichessBundle:Game:inviteAi.html.twig', array(

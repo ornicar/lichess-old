@@ -13,6 +13,7 @@
 
         <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
 
+        <parameter key="lichess.starter.class">Bundle\LichessBundle\Chess\Starter</parameter>
         <parameter key="lichess.finisher.class">Bundle\LichessBundle\Chess\Finisher</parameter>
 
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
@@ -57,6 +58,15 @@
         <service id="lichess_finisher" class="%lichess.finisher.class%">
             <argument type="service" id="lichess.elo.calculator" />
             <argument type="service" id="lichess.messenger" />
+        </service>
+
+        <service id="lichess.starter" class="%lichess.starter.class%">
+            <argument type="service" id="lichess_generator" />
+            <argument type="service" id="lichess.blamer.player" />
+            <argument type="service" id="lichess_ai" />
+            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="lichess.logger" />
+            <argument type="service" id="session" />
         </service>
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%">
