@@ -20,8 +20,10 @@ class PostController extends BasePostController
 
     public function createAction(Topic $topic)
     {
-        $form = $this->createForm('forum_post_new', $topic);
-        $form->bind($this->get('request')->request->get($form->getName()));
+        $post = $this->get('forum.repository.post')->createNewPost();
+        $post->setTopic($topic);
+        $form = $this->get('forum.form.post');
+        $form->bind($this->get('request'), $post);
 
         if(!$form->isValid()) {
             $lastPage = $this->get('forum.router.url_generator')->getTopicNumPages($topic);
@@ -38,7 +40,6 @@ class PostController extends BasePostController
         $this->get('forum.creator.post')->create($post);
         $this->get('forum.blamer.post')->blame($post);
 
-        $objectManager = $this->get('forum.object_manager');
         $objectManager->persist($post);
         $objectManager->flush();
 
