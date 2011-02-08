@@ -15,7 +15,7 @@ class AnybodyGameConfigForm extends GameForm
         )));
     }
 
-    public function setTimeChoices(array $times)
+    public function setTimeChoices(array $choices)
     {
         $this->add(new ChoiceField('time', array(
             'choices' => $choices,
@@ -24,7 +24,7 @@ class AnybodyGameConfigForm extends GameForm
         )));
     }
 
-    public function setIncrementChoices(array $increments)
+    public function setIncrementChoices(array $choices)
     {
         $this->add(new ChoiceField('increment', array(
             'choices' => $choices,

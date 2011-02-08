@@ -59,6 +59,7 @@ class GameConfigFormManager
 
         $form->setVariantChoices($config->getVariantChoices());
         $form->setTimeChoices($config->getTimeChoices());
+        $form->setIncrementChoices($config->getIncrementChoices());
 
         return $form;
     }
