@@ -8,7 +8,7 @@ use Bundle\LichessBundle\Document\Game;
 /**
  * This stupid AI plays a valid move randomly chosen
  */
-class Stupid
+class Stupid implements AiInterface
 {
 
     public function move(Game $game, $level)

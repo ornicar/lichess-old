@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle\Ai;
 use Bundle\LichessBundle\Notation\Forsyth;
 use Bundle\LichessBundle\Document\Game;
 
-class Crafty
+class Crafty implements AiInterface
 {
     protected $options = array(
         'executable_path' => '/usr/bin/crafty'
