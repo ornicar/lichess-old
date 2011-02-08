@@ -15,14 +15,15 @@
         <service id="lichess.form.manager" class="%lichess.form.manager.class%">
             <argument type="service" id="security.context" />
             <argument type="service" id="session" />
-            <argument type="service" id="validator" />
+            <argument type="service" id="form.context" />
         </service>
 
-        <service id="lichess.form.translation" class="%lichess.form.translation.class%">
+        <service id="lichess.form.translation" class="%lichess.form.translation.class%" factory-class="%lichess.form.translation.class%" factory-method="create">
+            <argument type="service" id="form.context" />
             <argument>%lichess.form.translation.name%</argument>
-            <argument></argument>
-            <argument type="service" id="validator" />
-            <argument type="service" id="lichess.translation.manager" />
+            <argument type="collection">
+                <argument key="translation_manager" type="service" id="lichess.translation.manager" />
+            </argument>
         </service>
     </services>
 

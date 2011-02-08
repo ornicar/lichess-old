@@ -9,18 +9,16 @@ use Symfony\Component\Form\CollectionField;
 
 class TranslationForm extends Form
 {
-    protected $translationManager;
-
-    public function __construct($name, $data, $validator, Manager $translationManager)
+    public function __construct($title, array $options)
     {
-        $this->translationManager = $translationManager;
+        $this->addOption('translation_manager');
 
-        parent::__construct($name, $data, $validator);
+        parent::__construct($title, $options);
     }
 
     public function configure()
     {
-        $languages = $this->translationManager->getLanguages();
+        $languages = $this->getOption('translation_manager')->getLanguages();
         unset($languages['en']);
         array_unshift($languages, 'Choose a language');
         $this->add(new ChoiceField('code', array('choices' => $languages)));

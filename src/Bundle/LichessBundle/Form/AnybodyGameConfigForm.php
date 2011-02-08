@@ -2,25 +2,32 @@
 
 namespace Bundle\LichessBundle\Form;
 
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\ChoiceField;
 
-class AnybodyGameConfigForm extends Form
+class AnybodyGameConfigForm extends GameForm
 {
-    public function configure()
+    public function setVariantChoices(array $choices)
     {
-        $this->add(new ChoiceField('variants', array(
-            'choices' => $this->getData()->getVariantChoices(),
+        $this->add(new ChoiceField('variant', array(
+            'choices' => $choices,
             'multiple' => true,
             'expanded' => true
         )));
-        $this->add(new ChoiceField('times', array(
-            'choices' => $this->getData()->getTimeChoices(),
+    }
+
+    public function setTimeChoices(array $times)
+    {
+        $this->add(new ChoiceField('time', array(
+            'choices' => $choices,
             'multiple' => true,
             'expanded' => true
         )));
-        $this->add(new ChoiceField('increments', array(
-            'choices' => $this->getData()->getIncrementChoices(),
+    }
+
+    public function setIncrementChoices(array $increments)
+    {
+        $this->add(new ChoiceField('increment', array(
+            'choices' => $choices,
             'multiple' => true,
             'expanded' => true
         )));
@@ -28,14 +35,10 @@ class AnybodyGameConfigForm extends Form
 
     protected function doBind(array $taintedData)
     {
-        if(empty($taintedData['variants'])) {
-            $taintedData['variants'] = $this->getData()->getVariantChoices();
-        }
-        if(empty($taintedData['times'])) {
-            $taintedData['times'] = $this->getData()->getTimeChoices();
-        }
-        if(empty($taintedData['increments'])) {
-            $taintedData['increments'] = $this->getData()->getIncrementChoices();
+        foreach(array('variants', 'times', 'increments') as $fieldName) {
+            if(empty($taintedData[$fieldName])) {
+                $taintedData[$fieldName] = $this[$fieldName]->getOption('choices');
+            }
         }
 
         return parent::doBind($taintedData);

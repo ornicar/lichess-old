@@ -2,16 +2,14 @@
 
 namespace Bundle\LichessBundle\Form;
 
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\ChoiceField;
-use Symfony\Component\Validator\Validator;
 
-class AiGameConfigForm extends Form
+class AiGameConfigForm extends GameForm
 {
-    public function configure()
+    public function setVariantChoices(array $choices)
     {
         $this->add(new ChoiceField('variant', array(
-            'choices' => $this->getData()->getVariantChoices(),
+            'choices' => $choices,
             'multiple' => false,
             'expanded' => true
         )));

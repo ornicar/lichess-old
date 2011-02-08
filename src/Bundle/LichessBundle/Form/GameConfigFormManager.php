@@ -2,21 +2,21 @@
 
 namespace Bundle\LichessBundle\Form;
 
-use Symfony\Component\Security\SecurityContext;
+use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Session;
-use Symfony\Component\Validator\Validator;
+use Symfony\Component\Form\FormContext;
 
 class GameConfigFormManager
 {
     protected $security;
     protected $session;
-    protected $validator;
+    protected $formContext;
 
-    public function __construct(SecurityContext $security, Session $session, Validator $validator)
+    public function __construct(SecurityContext $security, Session $session, FormContext $formContext)
     {
         $this->security  = $security;
         $this->session   = $session;
-        $this->validator = $validator;
+        $this->formContext = $formContext;
     }
 
     public function createFriendForm()
@@ -29,7 +29,7 @@ class GameConfigFormManager
         }
         $formClass = 'Bundle\LichessBundle\Form\\'.($isAuthenticated ? 'FriendWithModeGameConfigForm' : 'FriendGameConfigForm');
 
-        return new $formClass('config', $config, $this->validator);
+        return $this->createForm($formClass, $config);
     }
 
     public function createAnybodyForm()
@@ -42,7 +42,7 @@ class GameConfigFormManager
         }
         $formClass = 'Bundle\LichessBundle\Form\\'.($isAuthenticated ? 'AnybodyWithModesGameConfigForm' : 'AnybodyGameConfigForm');
 
-        return new $formClass('config', $config, $this->validator);
+        return $this->createForm($formClass, $config);
     }
 
     public function createAiForm()
@@ -50,6 +50,16 @@ class GameConfigFormManager
         $config = new AiGameConfig();
         $config->fromArray($this->session->get('lichess.game_config.ai', array()));
 
-        return new AiGameConfigForm('config', $config, $this->validator);
+        return $this->createForm('Bundle\LichessBundle\Form\AiGameConfigForm', $config);
+    }
+
+    protected function createForm($class, $config)
+    {
+        $form = call_user_func_array(array($class, 'create'), array($this->formContext, 'config'));
+
+        $form->setVariantChoices($config->getVariantChoices());
+        $form->setTimeChoices($config->getTimeChoices());
+
+        return $form;
     }
 }

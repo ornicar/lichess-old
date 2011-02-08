@@ -2,26 +2,32 @@
 
 namespace Bundle\LichessBundle\Form;
 
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\ChoiceField;
-use Symfony\Component\Validator\Validator;
 
-class FriendGameConfigForm extends Form
+class FriendGameConfigForm extends GameForm
 {
-    public function configure()
+    public function setVariantChoices(array $choices)
     {
         $this->add(new ChoiceField('variant', array(
-            'choices' => $this->getData()->getVariantChoices(),
+            'choices' => $choices,
             'multiple' => false,
             'expanded' => true
         )));
+    }
+
+    public function setTimeChoices(array $times)
+    {
         $this->add(new ChoiceField('time', array(
-            'choices' => $this->getData()->getTimeChoices(),
+            'choices' => $choices,
             'multiple' => false,
             'expanded' => true
         )));
+    }
+
+    public function setIncrementChoices(array $increments)
+    {
         $this->add(new ChoiceField('increment', array(
-            'choices' => $this->getData()->getIncrementChoices(),
+            'choices' => $choices,
             'multiple' => false,
             'expanded' => true
         )));
