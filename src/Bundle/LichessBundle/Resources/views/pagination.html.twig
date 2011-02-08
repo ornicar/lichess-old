@@ -1,4 +1,5 @@
 {% if pager.pageCount %}
+    {% spaceless %}
     {% if pager.first and pager.first != pager.current %}
     <a class="first" href="{{ url }}?page={{ pager.first }}">{% trans "First" %}</a>
     {% else %}
@@ -21,4 +22,5 @@
     {% else %}
     <span class="next">{% trans "Next" %}</span>
     {% endif %}
+    {% endspaceless %}
 {% endif %}
