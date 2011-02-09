@@ -5,84 +5,67 @@
          _init: function()
      {
          var self = this;
-         self.pieceMoving = false
+         self.pieceMoving = false;
          self.$board = self.element.find("div.lichess_board");
-     self.$table = self.element.find("div.lichess_table_wrap");
-     self.$chat = $("div.lichess_chat");
-     self.initialTitle = document.title,
-     self.ajaxManager = $.manageAjax.create('lichess_sync', {
-		beforeCreate: $.noop,
-		abort: $.noop,
-		abortIsNoSuccess: true,
-		maxRequests: 1,
-		cacheResponse: false,
-		domCompleteTrigger: false,
-		domSuccessTrigger: false,
-		preventDoubbleRequests: false,
-		queue: true
-     });
+         self.$table = self.element.find("div.lichess_table_wrap");
+         self.$chat = $("div.lichess_chat");
+         self.initialTitle = document.title;
+         self.xqueue = new $.xqueue('lichess_sync');
 
-     if(self.options.game.started) {
-         self.indicateTurn();
-         self.initSquaresAndPieces();
-         self.initChat();  
-         self.initTable();
-         self.initClocks();
-         if(self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() { $.playSound(); });
-     }
-
-     if(!self.options.opponent.ai || self.options.player.spectator) {
-         // synchronize with game
-         if(!self.options.game.finished || !self.options.player.spectator) {
-             setTimeout(self.syncPlayer = function(postData)
-                     {
-                         self.syncUrl(self.options.url.sync, function()
-                             {
-                                 setTimeout(self.syncPlayer, self.options.sync_delay);
-                             }, postData || {});
-                     }, self.options.sync_delay);
+         if(self.options.game.started) {
+             self.indicateTurn();
+             self.initSquaresAndPieces();
+             self.initChat();  
+             self.initTable();
+             self.initClocks();
+             if(self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() { $.playSound(); });
          }
 
-         if(!self.options.player.spectator) {
-             // update document title to show playing state
-             setTimeout(self.updateTitle = function()
-                     {
-                         document.title = (self.isMyTurn() && !self.options.game.finished)
-                 ? document.title = document.title.indexOf('/\\/') == 0
-                 ? '\\/\\ '+document.title.replace(/\/\\\/ /, '')
-                 : '/\\/ '+document.title.replace(/\\\/\\ /, '')
-                 : document.title;
-             setTimeout(self.updateTitle, 400);
-                     }, 400);
+         if(!self.options.opponent.ai || self.options.player.spectator) {
+             // synchronize with game
+             if(!self.options.game.finished || !self.options.player.spectator) {
+                 setTimeout(self.syncPlayer = function(postData)
+                         {
+                             self.syncUrl(self.options.url.sync, function()
+                                 {
+                                     setTimeout(self.syncPlayer, self.options.sync_delay);
+                                 }, postData || {});
+                         }, self.options.sync_delay);
+             }
+
+             if(!self.options.player.spectator) {
+                 // update document title to show playing state
+                 setTimeout(self.updateTitle = function()
+                         {
+                             document.title = (self.isMyTurn() && !self.options.game.finished)
+                     ? document.title = document.title.indexOf('/\\/') == 0
+                     ? '\\/\\ '+document.title.replace(/\/\\\/ /, '')
+                     : '/\\/ '+document.title.replace(/\\\/\\ /, '')
+                     : document.title;
+                 setTimeout(self.updateTitle, 400);
+                         }, 400);
+             }
          }
-     }
      },
      syncUrl: function(url, callback, postData)
      {
          var self = this;
-         self.ajaxManager.add({
+         self.xqueue.add(function() { return url.replace(/9999999/, self.options.player.version); }, {
              type: 'POST',
              dataType: 'json',
              data: postData || {},
-             url: function() { return url.replace(/9999999/, self.options.player.version); },
              timeout: 8000,
              success: function(data) {
-                 if(!data) return;
+                 if(!data) return self.onError();
                  if(!self.options.opponent.ai && self.options.opponent.connected != data.o && self.options.game.started) {
                      self.options.opponent.connected = data.o;
-                     $.ajax({
+                     $.ajax(self.options.url.opponent, {
                          type: 'GET',
                          cache: false,
-                         timeout: 5000,
-                         url: self.options.url.opponent,
-                         success: function(html)
-                     {
-                         self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({fade: true});
-                     },
-                         error: function(xhr)
-                     {
-                         self.onError(xhr);
-                     }
+                         success: function(html) {
+                             self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({fade: true});
+                         },
+                         error: self.onError
                      });
                  }
                  if(data.v && data.v != self.options.player.version) {
@@ -102,15 +85,12 @@
                      $.isFunction(callback) && callback();
                  }
              },
-             error: function(xhr)
-             {
-                 self.onError(xhr);
-             }
+             error: self.onError
          });
      },
      onError: function(xhr)
      {
-         location.reload();
+         //location.reload();
      },
      isMyTurn: function()
      {
@@ -472,17 +452,15 @@
      reloadTable: function()
      {
          var self = this;
-         $.ajax({
+         $.ajax(self.options.url.table, {
              cache: false,
-             url: self.options.url.table,
-             success: function(html)
-         {
-             $('body > div.tipsy').remove();
-             self.destroyClocks();
-             self.$table.html(html);
-             self.initTable();
-             self.initClocks();
-         }
+             success: function(html) {
+                 $('body > div.tipsy').remove();
+                 self.destroyClocks();
+                 self.$table.html(html);
+                 self.initTable();
+                 self.initClocks();
+             }
          });
      },
      initTable: function()
@@ -490,9 +468,8 @@
          var self = this;
          if(!self.options.player.spectator) {
              self.$table.find("select.lichess_ai_level").change(function() {
-                 $.ajax({
+                 $.ajax(self.options.url.ai_level, {
                      type: 'POST',
-                     url:  self.options.url.ai_level,
                      data: { level:  $(this).val() }
                  });
              });

@@ -48,12 +48,13 @@ class LichessExtension extends Twig_Extension
             'lichess_shorten'              => 'shorten',
             'lichess_current_url'          => 'getCurrentUrl',
             'lichess_room_message'         => 'roomMessage',
-            'lichess_room_messages'        => 'roomMessages'
+            'lichess_room_messages'        => 'roomMessages',
+            'lichess_debug_assets'         => 'debugAssets'
         );
 
         $functions = array();
         foreach($mappings as $twigFunction => $method) {
-            $functions[$twigFunction] = new Twig_Function_Method($this, $method);
+            $functions[$twigFunction] = new Twig_Function_Method($this, $method, array('safe' => 'html'));
         }
 
         return $functions;
@@ -209,6 +210,11 @@ class LichessExtension extends Twig_Extension
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
+    }
+
+    public function debugAssets()
+    {
+        return $this->container->getParameter('lichess.debug_assets');
     }
 
     public function renderGameMini(Game $game, User $user = null)

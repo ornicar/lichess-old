@@ -143,13 +143,6 @@ $(function() {
     }
 });
 
-var _jQueryAjax = $.ajax;
-$.ajax = function(o) {
-    if($.isFunction(o.url)) {
-        o.url = o.url();
-    }
-    return _jQueryAjax(o);
-}
 jQuery.fn.orNot = function()
 {
     return this.length == 0 ? false : this;
