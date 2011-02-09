@@ -10,6 +10,7 @@ use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Form\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
+use Bundle\LichessBundle\Chess\Manipulator;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\HttpFoundation\Session;
