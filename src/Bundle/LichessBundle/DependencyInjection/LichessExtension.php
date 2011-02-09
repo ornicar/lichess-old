@@ -43,6 +43,9 @@ class LichessExtension extends Extension
             $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
         }
 
+        if(isset($config['debug_assets'])) {
+            $container->setParameter('lichess.debug_assets', $config['debug_assets']);
+        }
     }
 
     public function prodLoad($config, ContainerBuilder $container)

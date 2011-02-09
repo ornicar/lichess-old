@@ -19,6 +19,7 @@
         <parameter key="lichess.synchronizer.timeout">40</parameter>
         <parameter key="lichess.synchronizer.delay">1</parameter>
         <parameter key="lichess.animation.delay">400</parameter>
+        <parameter key="lichess.debug_assets">false</parameter>
 
         <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
 
