@@ -75,8 +75,17 @@ If you can't or don't want to install crafty, you can use a `Stupid` AI:
 
 It's dumb as hell but it plays :)
 
-TEST
-----
+### Create mongodb indexes
+
+    php lichess/console doctrine:mongodb:schema:create --index
+
+### APC cache slam
+
+If you get cache slam warning in logs, upgrade APC and/or disable the warnings in apc.ini
+
+    apc.slam_defense="Off"
+
+### TEST
 
 You need [PHPUnit 3.5](http://github.com/sebastianbergmann/phpunit) installed.
 
