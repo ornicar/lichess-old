@@ -29,3 +29,6 @@ doctrine_odm.mongodb:
             options:
                 connect: true
                 persist: lichess_dev
+
+lichess.config:
+    debug_assets: true
