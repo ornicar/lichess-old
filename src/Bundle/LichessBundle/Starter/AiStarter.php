@@ -1,36 +1,39 @@
 <?php
 
-namespace Bundle\LichessBundle\Chess;
+namespace Bundle\LichessBundle\Starter;
 
 use Bundle\LichessBundle\Ai\AiInterface;
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Logger;
+use Bundle\LichessBundle\Form\GameConfig;
+use Bundle\LichessBundle\Chess\Generator;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\HttpFoundation\Session;
 
-class Starter
+class AiStarter implements StarterInterface
 {
-    protected $generagor;
+    protected $generator;
     protected $playerBlamer;
     protected $ai;
-    protected $documentManager;
+    protected $objectManager;
     protected $logger;
     protected $session;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $documentManager, Logger $logger, Session $session = null)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, Session $session = null)
     {
         $this->generator = $generator;
         $this->playerBlamer = $playerBlamer;
         $this->ai = $ai;
-        $this->documentManager = $documentManager;
+        $this->objectManager = $objectManager;
         $this->logger = $logger;
         $this->session = $session;
     }
 
-    public function startAi(GameConfig $config, $color, AiInterface $ai)
+    public function start(GameConfig $config, $color)
     {
         if($this->session) {
             $this->session->set('lichess.game_config.ai', $config->toArray());
@@ -47,8 +50,10 @@ class Starter
             $manipulator = new Manipulator($game, new Stack());
             $manipulator->play($this->ai->move($game, $opponent->getAiLevel()));
         }
-        $this->documentManager->persist($game);
-        $this->documentManager->flush(array('safe' => true));
+        $this->objectManager->persist($game);
+        $this->objectManager->flush(array('safe' => true));
         $this->logger->notice($game, 'Game:inviteAi create');
+
+        return $player;
     }
 }

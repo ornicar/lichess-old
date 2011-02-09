@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Document\Clock;
@@ -99,6 +100,7 @@ class GameController extends Controller
         ));
         $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($game, 'Game:join');
+
         return $this->redirect($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }
 
@@ -111,49 +113,23 @@ class GameController extends Controller
         }
         $analyser = new Analyser($game->getBoard());
         $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
-        if($isKingAttacked) {
-            $checkSquareKey = $game->getTurnPlayer()->getKing()->getSquareKey();
-        }
-        else {
-            $checkSquareKey = null;
-        }
+        $checkSquareKey = $isKingAttacked ? $game->getTurnPlayer()->getKing()->getSquareKey() : null;
         $possibleMoves = ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null;
 
-        return $this->render('LichessBundle:Player:watch.html.twig', array(
-            'player'         => $player,
-            'game'           => $game,
-            'checkSquareKey' => $checkSquareKey,
-            'possibleMoves'  => $possibleMoves
-        ));
+        return $this->render('LichessBundle:Player:watch.html.twig', compact('player', 'game', 'checkSquareKey', 'possibleMoves'));
     }
 
     public function inviteFriendAction($color)
     {
         $form = $this->get('lichess.form.manager')->createFriendForm();
-        if('POST' === $this->get('request')->getMethod()) {
-            $form->bind($this->get('request')->request->get($form->getName()));
-            if($form->isValid()) {
-                $config = $form->getData();
-                $this->get('session')->set('lichess.game_config.friend', $config->toArray());
-                $player = $this->get('lichess_generator')->createGameForPlayer($color, $config->variant);
-                $this->get('lichess.blamer.player')->blame($player);
-                $game = $player->getGame();
-                if($config->time) {
-                    $clock = new Clock($config->time * 60, $config->increment);
-                    $game->setClock($clock);
-                }
-                $game->setIsRated($config->mode);
-                $this->get('lichess.object_manager')->persist($game);
-                $this->get('lichess.object_manager')->flush(array('safe' => true));
-                $this->get('lichess.logger')->notice($game, 'Game:inviteFriend create');
-                return $this->redirect($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
-            }
+        $form->bind($this->get('request'), $form->getData());
+
+        if($form->isValid()) {
+            $player = $this->get('lichess.starter.friend')->start($form->getData(), $color);
+            return $this->redirect($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
         }
 
-        return $this->render('LichessBundle:Game:inviteFriend.html.twig', array(
-            'form'  => $form,
-            'color' => $color
-        ));
+        return $this->render('LichessBundle:Game:inviteFriend.html.twig', compact('form', 'color'));
     }
 
     public function inviteAiAction($color)
@@ -162,50 +138,28 @@ class GameController extends Controller
         $form->bind($this->get('request'), $form->getData());
 
         if($form->isValid()) {
-            $player = $this->get('lichess.starter')->startAi($form->getData(), $color);
-
+            $player = $this->get('lichess.starter.ai')->start($form->getData(), $color);
             return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
         }
 
-        return $this->render('LichessBundle:Game:inviteAi.html.twig', array(
-            'form'  => $form,
-            'color' => $color
-        ));
+        return $this->render('LichessBundle:Game:inviteAi.html.twig', compact('form', 'color'));
     }
 
     public function inviteAnybodyAction($color)
     {
         $form = $this->get('lichess.form.manager')->createAnybodyForm();
-        if('POST' === $this->get('request')->getMethod()) {
-            $form->bind($this->get('request')->request->get($form->getName()));
-            if($form->isValid()) {
-                $config = $form->getData();
-                $this->get('session')->set('lichess.game_config.anybody', $config->toArray());
-                $queue = $this->get('lichess.seek_queue');
-                $result = $queue->add($config->variants, $config->times, $config->increments, $config->modes, $this->get('session')->get('lichess.session_id'), $color);
-                $game = $result['game'];
-                if(!$game) {
-                    return $this->inviteAnybodyAction($color);
-                }
-                if($result['status'] === $queue::FOUND) {
-                    if(!$this->get('lichess_synchronizer')->isConnected($game->getCreator())) {
-                        $this->get('lichess.object_manager')->remove($game);
-                        $this->get('lichess.object_manager')->flush(array('safe' => true));
-                        $this->get('lichess.logger')->notice($game, 'Game:inviteAnybody remove');
-                        return $this->inviteAnybodyAction($color);
-                    }
-                    $this->get('lichess.logger')->notice($game, 'Game:inviteAnybody join');
-                    return $this->redirect($this->generateUrl('lichess_game', array('id' => $game->getId())));
-                }
-                $this->get('logger')->notice(sprintf('Game:inviteAnybody queue game:%s, mode:%s, variant:%s, time:%s', $game->getId(), implode(',', $config->getModeNames()), implode(',', $config->getVariantNames()), implode(',', $config->times)));
-                return $this->redirect($this->generateUrl('lichess_wait_anybody', array('id' => $game->getCreator()->getFullId())));
+        $form->bind($this->get('request'), $form->getData());
+
+        if($form->isValid()) {
+            $return = $this->get('lichess.starter.anybody')->start($form->getData(), $color);
+            if ($return instanceof Game) {
+                return $this->redirect($this->generateUrl('lichess_game', array('id' => $return->getId())));
+            } elseif ($return instanceof Player) {
+                return $this->redirect($this->generateUrl('lichess_wait_anybody', array('id' => $return->getFullId())));
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array(
-            'form'  => $form,
-            'color' => $color
-        ));
+        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', compact('form', 'color'));
     }
 
     /**

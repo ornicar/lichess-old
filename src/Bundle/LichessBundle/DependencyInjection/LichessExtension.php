@@ -22,6 +22,7 @@ class LichessExtension extends Extension
         $loader->load('form.xml');
         $loader->load('logger.xml');
         $loader->load('cheat.xml');
+        $loader->load('starter.xml');
 
         // Load asset helper compat
         $loader = new XmlFileLoader($container, __DIR__.'/../../../../vendor/symfony/src/Symfony/Bundle/CompatAssetsBundle/Resources/config');

@@ -4,7 +4,7 @@ lichess_homepage:
     requirements:   { color: (white|black), _method: "get|head" }
 lichess_sync:
     pattern:        /sync/{id}/{color}/{version}/{playerFullId}
-    defaults:       { _controller: lichess.controller.player:syncAction, playerFullId "" }
+    defaults:       { _controller: lichess.controller.player:syncAction, playerFullId: "" }
     requirements:   { id: "[\w\-]{8}", color: (white|black), version: "\d+", playerFullId "([\w\-]{12}|)", _method: "post" }
 lichess_move:
     pattern:        /move/{id}/{version}

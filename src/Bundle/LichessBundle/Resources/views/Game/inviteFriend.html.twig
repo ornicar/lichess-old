@@ -7,7 +7,7 @@
         <div class="lichess_overboard game_config">
             <h2>{% trans "Play with a friend" %}</h2>
             <div class="game_config_form">
-                <form action="{{ path("lichess_invite_friend", {"color": color} ) }}" method="post">
+                <form action="{{ path("lichess_invite_friend", {"color": color} ) }}" method="post" novalidate>
                     <div class="variants buttons">
                         {% for choice, child in form.variant %}
                             {{ form_field(child) }}
