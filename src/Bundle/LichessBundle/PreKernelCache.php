@@ -14,6 +14,9 @@ $timeout = 20;
 // Get url
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
+// remove frontend controller if any
+$url = preg_replace('#^(/\w+\.php)#', '', $url);
+
 // get number of players from apc cache
 function _lichess_get_nb_players($timeout)
 {
@@ -54,7 +57,6 @@ if (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)$#x', $
 }
 
 // Handle game synchronization
-
 if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<id>[\w-]{8})/(?P<color>(white|black))/(?P<version>\d+)/(?P<playerFullId>([\w-]{12}|))$#x', $url, $matches)) {
     $id = $matches['id'];
     $color = $matches['color'];
