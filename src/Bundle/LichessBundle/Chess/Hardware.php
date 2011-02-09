@@ -35,7 +35,7 @@ class Hardware
         $value = apc_fetch('lichess.nb_cpus');
         if(false === $value) {
             exec('grep processor /proc/cpuinfo', $cpus);
-            $value = count($cpus);
+            $value = count($cpus) ?: 1;
             apc_store('lichess.nb_cpus', $value);
         }
 
