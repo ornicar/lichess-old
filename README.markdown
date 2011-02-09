@@ -1,11 +1,12 @@
 Very fast Chess game designed to run on a small server and play hundreds of concurrent games.
+GUI is only HTML5 and JavaScript.
 
-- Allows to play with a friend, a random player or an Artificial Intelligence.
+- Allows to play with a friend, a random player or an artificial intelligence.
 - Supports castling, en passant, selective promotion, color selection, check and mate detection, threefold repetition, and move validation.
 - Chess clock, integrated chat, real time spectator mode and analysis interface available.
 - Chess variants abailable: Standard and Chess960
-- Translated to 23 languages thanks to contributors.
-- Uses only open source languages: PHP 5.3, HTML5, Javascript and CSS. Powered by Symfony2 and jQuery 1.4.
+- Translated to 42 languages thanks to contributors.
+- Uses only open source languages: PHP 5.3, HTML5, Javascript and CSS. Powered by Symfony2, jQuery 1.5 and jQuery UI 1.8.
   
 PLAY
 ----
@@ -34,10 +35,12 @@ It uses [MongoDB](http://mongodb.org) for game storage.
 
 ### Get the code
 
-    git clone git://github.com/ornicar/lichess.git
+    git clone --branch stable git://github.com/ornicar/lichess.git
     cd lichess
     git submodule init
     git submodule update --init --recursive
+
+> If you want the latest development version (i.e. broken) checkout the master branch, and update the submodules.
 
 ### Check your server requirements
 
