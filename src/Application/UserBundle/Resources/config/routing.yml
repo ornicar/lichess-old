@@ -1,5 +1,5 @@
 fos_user_online:
-    pattern:    /ping/:username
+    pattern:    /ping/{username}
     defaults:   { _controller: fos_user.controller.user:onlineAction }
     requirements: { _method: get }
 
@@ -24,7 +24,7 @@ fos_user_user_create:
     requirements: { _method: post }
 
 fos_user_user_show:
-    pattern:    /@/:username
+    pattern:    /@/{username}
     defaults:   { _controller: fos_user.controller.user:showAction }
     requirements: { _method: get|head }
 
