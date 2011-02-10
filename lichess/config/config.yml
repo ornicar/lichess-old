@@ -73,16 +73,14 @@ lichess_user.config: ~
 
 security.config:
     providers:
-        fos_user:
+        fos_user_provider:
             password_encoder: sha1
-            document:
-                class: Application\UserBundle\Document\User
-                property: usernameCanonical
+            id: fos_user.user_manager
     firewalls:
-        public:
+        main:
             pattern: .*
             form_login:
-                provider:                       fos_user
+                provider:                       fos_user_provider
                 login_path:                     /login
                 use_forward:                    false
                 check_path:                     /login-check
@@ -95,6 +93,7 @@ security.config:
 
 fos_user.config:
     db_driver: mongodb
+    provider_key: main
     encoder:
         iterations: 1
         encodeHashAsBase64: false
