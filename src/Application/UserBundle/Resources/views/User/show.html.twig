@@ -15,7 +15,7 @@
         {% trans "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws" with {"%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws} %}<br />
         Registered {{ time_diff(user.createdAt) }}<br />
         {% trans "Best ELO" %}: {{ user.maxElo }}, {{ time_diff(user.maxEloDate) }}
-        {% if not fos_user_isAnonymous() %}
+        {% if not fos_user_isAnonymous() and app.user != user %}
             <div class="actions">
                 <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{% trans "Send a message" %}</a>
             </div>
