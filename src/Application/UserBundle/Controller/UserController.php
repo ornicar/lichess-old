@@ -58,10 +58,7 @@ class UserController extends BaseUserController
         $users = $this->get('fos_user.repository.user')->findOnlineUsersSortByElo();
         $nbPlayers = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
 
-        return $this->render('FOSUserBundle:User:listOnline.html.twig', array(
-            'users'     => $users,
-            'nbPlayers' => $nbPlayers
-        ));
+        return $this->render('FOSUserBundle:User:listOnline.html.twig', compact('users', 'nbPlayers'));
     }
 
     /**
@@ -77,9 +74,7 @@ class UserController extends BaseUserController
         $users->setPageRange(3);
         $pagerUrl = $this->generateUrl('fos_user_user_list');
 
-        return $this->render('FOSUserBundle:User:list.html.twig', array(
-            'users' => $users
-        ));
+        return $this->render('FOSUserBundle:User:list.html.twig', compact('users'));
     }
 
     public function showAction($username)
@@ -99,48 +94,6 @@ class UserController extends BaseUserController
         $games->setPageRange(10);
         $pagerUrl = $this->generateUrl('fos_user_user_show', array('username' => $user->getUsername()));
 
-        return $this->render('FOSUserBundle:User:show.html.twig', array(
-            'user'     => $user,
-            'critic'   => $critic,
-            'games'    => $games,
-            'pagerUrl' => $pagerUrl
-        ));
-    }
-
-    /**
-     * Show the new form
-     */
-    public function newAction()
-    {
-        $form = $this->createForm();
-
-        return $this->render('FOSUserBundle:User:new.html.twig', array(
-            'form' => $form
-        ));
-    }
-
-    /**
-     * Create a user and send a confirmation email
-     */
-    public function createAction()
-    {
-        $form = $this->createForm();
-        $form->setValidationGroups('Registration');
-        $form->bind($this->get('request')->request->get($form->getName()));
-
-        if ($form->isValid()) {
-            $user = $form->getData();
-            $user->setEnabled(true);
-            $this->get('fos_user.user_manager')->updateUser($user);
-            $this->authenticateUser($user);
-            $this->get('session')->setFlash('fos_user_user_create', 'success');
-            return $this->redirect($this->generateUrl('fos_user_user_show', array(
-                'username' => $user->getUsername()
-            )));
-        }
-
-        return $this->render('FOSUserBundle:User:new.html.twig', array(
-            'form' => $form
-        ));
+        return $this->render('FOSUserBundle:User:show.html.twig', compact('user', 'critic', 'games', 'pagerUrl'));
     }
 }
