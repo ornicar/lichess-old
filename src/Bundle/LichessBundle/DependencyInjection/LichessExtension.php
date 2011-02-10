@@ -5,12 +5,13 @@ namespace Bundle\LichessBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\FileLocator;
 
 class LichessExtension extends Extension
 {
     public function configLoad(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('chess.xml');
         $loader->load('model.xml');
         $loader->load('blamer.xml');
@@ -25,7 +26,7 @@ class LichessExtension extends Extension
         $loader->load('starter.xml');
 
         // Load asset helper compat
-        $loader = new XmlFileLoader($container, __DIR__.'/../../../../vendor/symfony/src/Symfony/Bundle/CompatAssetsBundle/Resources/config');
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../../../vendor/symfony/src/Symfony/Bundle/CompatAssetsBundle/Resources/config'));
         $loader->load('assets.xml');
 
         foreach ($configs as $config) {
