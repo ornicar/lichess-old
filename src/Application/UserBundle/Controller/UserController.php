@@ -96,4 +96,14 @@ class UserController extends BaseUserController
 
         return $this->render('FOSUserBundle:User:show.html.twig', compact('user', 'critic', 'games', 'pagerUrl'));
     }
+
+    /**
+     * Tell the user his account is now confirmed
+     */
+    public function confirmedAction()
+    {
+        $user = $this->getUser();
+
+        return $this->redirect($this->generateUrl('fos_user_user_show', array('username' => $user->getUsername())));
+    }
 }
