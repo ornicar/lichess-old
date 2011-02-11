@@ -1,24 +1,25 @@
 <?php
 
-namespace Application\UserBundle\Tests\Functional;
+namespace Application\UserBundle\Tests\Acceptance;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class SignupTest extends WebTestCase
+class SignupAcceptanceTest extends AbstractAcceptanceTest
 {
+    protected $username = 'user-signup-test';
+    protected $password = 'password-signup-test';
+
     public function testSignup()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'lichess_homepage'));
-        $crawler = $client->click($crawler->filter('a:contains("Sign up")')->link());
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_create'));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('/Sign up/', $crawler->filter('.lichess_title')->text());
         $form = $crawler->selectButton('Sign up')->form();
-        $form['fos_user_user_form[username]'] = 'test-username';
-        $form['fos_user_user_form[plainPassword]'] = 'test-password';
+        $form['fos_user_user_form[username]'] = $this->username;
+        $form['fos_user_user_form[plainPassword]'] = $this->password;
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
+        die($client->getResponse()->getContent());
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -33,7 +34,7 @@ class SignupTest extends WebTestCase
         $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
         $form = $crawler->selectButton('Sign up')->form();
         $form['fos_user_user_form[username]'] = 'x';
-        $form['fos_user_user_form[plainPassword]'] = 'test-password';
+        $form['fos_user_user_form[plainPassword]'] = $this->password;
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -45,7 +46,7 @@ class SignupTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
         $form = $crawler->selectButton('Sign up')->form();
-        $form['fos_user_user_form[username]'] = 'test-username';
+        $form['fos_user_user_form[username]'] = $this->username;
         $form['fos_user_user_form[plainPassword]'] = '';
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
@@ -64,26 +65,20 @@ class SignupTest extends WebTestCase
 
         $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
         $form = $crawler->selectButton('Sign up')->form();
-        $form['fos_user_user_form[username]'] = 'test-username';
-        $form['fos_user_user_form[plainPassword]'] = 'other-password';
+        $form['fos_user_user_form[username]'] = 'user1';
+        $form['fos_user_user_form[plainPassword]'] = $this->password;
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('/username was already taken/', $client->getResponse()->getContent());
     }
 
-    public function generateUrl($client, $route, $parameters = array())
-    {
-        return $client->getContainer()->get('router')->generate($route, $parameters);
-    }
-
     public function setUp()
     {
-        $client = $this->createClient();
-        $user = $client->getContainer()->get('fos_user.repository.user')->findOneByUsername('test-username');
+        $manager = $this->createClient()->getContainer()->get('fos_user.user_manager');
+        $user = $manager->findUserByUsername($this->username);
         if($user) {
-            $client->getContainer()->get('fos_user.object_manager')->remove($user);
-            $client->getContainer()->get('fos_user.object_manager')->flush();
+            $manager->deleteUser($user);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Application\UserBundle\Controller;
 use FOS\UserBundle\Controller\UserController as BaseUserController;
+use FOS\UserBundle\Model\UserInterface;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -103,6 +104,9 @@ class UserController extends BaseUserController
     public function confirmedAction()
     {
         $user = $this->getUser();
+        if(!$user instanceof UserInterface) {
+            throw new NotFoundHttpException('No authenticated user - cannot confirm registration');
+        }
 
         return $this->redirect($this->generateUrl('fos_user_user_show', array('username' => $user->getUsername())));
     }
