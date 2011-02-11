@@ -3,18 +3,18 @@
     <div class="post" id="{{ post.number|raw }}">
         <div class="metas">
             {% if post.author %}
-                <span class="authorName authenticated">{{ lichess_link_user(post.author)|raw }}</span>
+                <span class="authorName authenticated">{{ lichess_link_user(post.author) }}</span>
             {% else %}
                 <span class="authorName">{{ post.authorName|default("Anonymous") }}</span>
             {% endif %}
-            <span class="createdAt">{{ time_diff(post.createdAt)|raw }}</span>
-            <a class="anchor" href="{{ forum_urlForPost(post)|raw }}">#{{ post.number|raw }}</a>
+            <span class="createdAt">{{ time_diff(post.createdAt) }}</span>
+            <a class="anchor" href="{{ forum_urlForPost(post) }}">#{{ post.number|raw }}</a>
             {% if has_role('ROLE_SUPERADMIN') %}
                 <a class="delete" href="{{ path('forum_post_delete', { "id": post.id }) }}">Delete</a>
             {% endif %}
         </div>
         <p class="message">
-            {{ lichess_user_text(post.message)|raw }}
+            {{ lichess_user_text(post.message) }}
         </p>
     </div>
     {% endfor %}

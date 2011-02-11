@@ -32,7 +32,7 @@ class LoadForumData implements FixtureInterface, ContainerAwareInterface
         $user1 = $this->container->get('fos_user.repository.user')->findOneByUsernameCanonical('user1');
         $post = new Post();
         $post->setMessage('Test user message');
-        $post->setAuthorName($user1);
+        $post->setAuthor($user1);
         $post->setTopic($topic);
         $this->container->get('forum.creator.post')->create($post);
         $manager->persist($post);

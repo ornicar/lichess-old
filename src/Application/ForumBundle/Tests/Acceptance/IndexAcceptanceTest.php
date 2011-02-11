@@ -27,4 +27,13 @@ class IndexAcceptanceTest extends AbstractAcceptanceTest
         $this->assertRegexp('/by lichess.org staff/', $crawler->filter('.categories td.last_post')->first()->text());
         $this->assertRegexp('/by user1/', $crawler->filter('.categories td.last_post')->last()->text());
     }
+
+    public function testClickOnCategoryTitleGoesToCategory()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', $this->generateUrl($client, 'forum_index'));
+        $crawler = $client->click($crawler->selectLink('General Chess Discussion')->link());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('General Chess Discussion', $crawler->filter('#lichess_forum h1')->text());
+    }
 }
