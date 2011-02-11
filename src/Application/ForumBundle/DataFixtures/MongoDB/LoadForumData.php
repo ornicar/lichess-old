@@ -35,6 +35,7 @@ class LoadForumData implements FixtureInterface, ContainerAwareInterface
         $post->setAuthorName($user1);
         $post->setTopic($topic);
         $this->container->get('forum.creator.post')->create($post);
+        $manager->persist($post);
 
         $manager->flush(array('safe' => true));
     }

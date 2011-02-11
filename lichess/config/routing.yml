@@ -18,14 +18,6 @@ forum_topic:
 forum_post:
     resource: @ForumBundle/Resources/config/routing/post.xml
     prefix: /forum
-forum_index:
-    pattern:        /forum
-    defaults:       { _controller: ForumBundle:Forum:index }
-    requirements:   { _method: get }
-forum_index2:
-    pattern:        /forum/
-    defaults:       { _controller: ForumBundle:Forum:index }
-    requirements:   { _method: get }
 forum_topic_show_compat:
     pattern:        /forum/{categorySlug}/{slug}/{id}.{_format}
     defaults:       { _controller: forum.controller.topic:showCompatAction, _format: "html", id: "" }
@@ -34,7 +26,3 @@ forum_topic_show_compat:
 ornicar_message:
     resource: @OrnicarMessageBundle/Resources/config/routing.xml
     prefix: /inbox
-inbox:
-    pattern:        /inbox
-    defaults:       { _controller: MessageBundle:Message:list }
-    requirements:   { _method: get }
