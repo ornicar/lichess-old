@@ -8,7 +8,7 @@
                 <span class="authorName">{{ post.authorName|default("Anonymous") }}</span>
             {% endif %}
             <span class="createdAt">{{ time_diff(post.createdAt)|raw }}</span>
-            <a class="anchor" href="{{ forum_route_post(post)|raw }}">#{{ post.number|raw }}</a>
+            <a class="anchor" href="{{ forum_urlForPost(post)|raw }}">#{{ post.number|raw }}</a>
             {% if has_role('ROLE_SUPERADMIN') %}
                 <a class="delete" href="{{ path('forum_post_delete', { "id": post.id }) }}">Delete</a>
             {% endif %}

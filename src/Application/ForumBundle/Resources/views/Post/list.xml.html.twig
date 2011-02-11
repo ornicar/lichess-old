@@ -4,6 +4,6 @@
         <summary>{{ lichess_shorten(post.message) }}</summary>
         <author>{{ post.author|default("Anonymous") }}</author>
         <published>{{ post.createdAt|date("c") }}</published>
-        <link rel="alternate">{{ forum_route_post(post, true )|raw }}</link>
+        <link rel="alternate">{{ forum_urlForPost(post, true )|raw }}</link>
     </entry>
 {% endfor %}

@@ -2,19 +2,19 @@
 {% block title %}{{ topic.subject }}{% if posts.currentPageNumber > 1 %} - Page {{ posts.currentPageNumber }}{% endif %}{% endblock %}
 {% block description %}{{ topic.subject }} - {{ topic.category.description|raw }}{% endblock %}
 {% block feed_link %}
-<link href="{{ forum_route_topic_feed(topic)|raw }}" type="application/atom+xml" rel="alternate" title="{{ topic.subject|raw }} - Lichess Forum" />
+<link href="{{ forum_urlForTopicAtomFeed(topic) }}" type="application/atom+xml" rel="alternate" title="{{ topic.subject }} - Lichess Forum" />
 {% endblock %}
 {% block content %}
-{% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": posts.pages, "url": forum_route_topic(topic)} %}{% endset %}
-{% set replyUrl = forum_route_topic_reply(topic) %}
-{% set isLastPage = forum_topic_num_pages(topic) == posts.currentPageNumber %}
+{% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": posts.pages, "url": forum_urlForTopic(topic)} %}{% endset %}
+{% set replyUrl = forum_urlForTopicReply(topic) %}
+{% set isLastPage = forum_topicNumPages(topic) == posts.currentPageNumber %}
 
 <div class="topic">
 
-    <a href="{{ forum_route_topic_feed(topic)|raw }}" title="{% trans "Follow this topic" %}" class="forum_feed_link"></a>
+    <a href="{{ forum_urlForTopicAtomFeed(topic) }}" title="{% trans "Follow this topic" %}" class="forum_feed_link"></a>
     <ol class="crumbs">
         <li><a href="{{ path("forum_index") }}">Forum</a></li>
-        <li><a href="{{ forum_route_category(topic.category)|raw }}">{{ topic.category.name|raw }}</a></li>
+        <li><a href="{{ forum_urlForCategory(topic.category) }}">{{ topic.category.name }}</a></li>
         <li><h1>{{ topic.subject }}</h1></li>
     </ol>
 

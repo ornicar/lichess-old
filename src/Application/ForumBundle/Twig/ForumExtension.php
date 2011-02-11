@@ -8,6 +8,6 @@ class ForumExtension extends BaseForumExtension
 {
     public function urlForTopicReply(Topic $topic, $absolute = false)
     {
-        return sprintf('%s?page=%d#reply', $this->urlForTopic($topic, $absolute), $this->getTopicNumPages($topic));
+        return sprintf('%s?page=%d#reply', $this->urlForTopic($topic, $absolute), $this->topicNumPages($topic));
     }
 }
