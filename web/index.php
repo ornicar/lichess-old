@@ -7,6 +7,7 @@ require_once __DIR__.'/../src/Bundle/LichessBundle/PreKernelCache.php';
 $start = microtime(true);
 ob_start();
 
+$debug = false;
 // Symfony2 boot
 require_once __DIR__.'/../lichess/autoload.php';
 require_once __DIR__.'/../lichess/LichessKernel.php';
@@ -14,7 +15,7 @@ require_once __DIR__.'/../lichess/LichessKernel.php';
 use Symfony\Component\HttpFoundation\Request;
 
 // Run application
-$kernel = new LichessKernel('prod', false);
+$kernel = new LichessKernel('prod', $debug);
 $kernel->handle(Request::createFromGlobals())->send();
 
 // Display timer
