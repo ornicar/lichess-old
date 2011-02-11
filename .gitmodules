@@ -40,3 +40,6 @@
 [submodule "src/Bundle/Ornicar/MessageBundle"]
 	path = src/Bundle/Ornicar/MessageBundle
 	url = git://github.com/ornicar/MessageBundle
+[submodule "vendor/doctrine-data-fixtures"]
+	path = vendor/doctrine-data-fixtures
+	url = git://github.com/doctrine/data-fixtures
