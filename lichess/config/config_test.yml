@@ -1,6 +1,11 @@
 imports:
     - { resource: config_dev.yml }
 
+zend.config:
+    logger:
+        priority: WARNING
+        path:     %kernel.logs_dir%/%kernel.environment%.log
+
 webprofiler.config:
     toolbar: false
 
