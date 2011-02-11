@@ -3,7 +3,7 @@ imports:
 
 zend.config:
     logger:
-        priority: WARNING
+        priority: ERR
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
 webprofiler.config:

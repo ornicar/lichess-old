@@ -3,7 +3,7 @@
 $vendorDir = realpath(__DIR__.'/../vendor');
 $srcDir = realpath(__DIR__.'/../src');
 
-if ($debug) {
+if (isset($debug) && true === $debug) {
     require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 } else {
     require_once $vendorDir.'/symfony/src/Symfony/Component/HttpKernel/bootstrap.php';
