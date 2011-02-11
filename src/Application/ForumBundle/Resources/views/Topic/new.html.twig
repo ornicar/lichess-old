@@ -8,7 +8,7 @@
 </ol>
 <br />
 <h1>New topic</h1>
-<form action="{{ path("forum_category_topic_create", {"slug": category.slug} ) }}" method="post">
+<form action="{{ path("forum_category_topic_create", {"slug": category.slug} ) }}" method="post" novalidate>
     <label><span class="required">Category</span> {{ form_field(form.category) }}</label>
     <label><span class="required">Subject</span> {{ form_field(form.subject, {"class": "subject"}) }}</label>
     <label><span class="required">Message</span> {{ form_field(form.firstPost.message) }}</label>

@@ -12,11 +12,12 @@ class TopicController extends BaseTopicController
 {
     public function createAction(Category $category = null)
     {
-        $form = $this->createForm($category);
-        $form->bind($this->get('request')->request->get($form->getName()));
+        $form = $this->get('forum.form.new_topic');
+        $topic = $this->get('forum.repository.topic')->createNewTopic();
+        $form->bind($this->get('request'), $topic);
 
         if(!$form->isValid()) {
-            return $this->render('ForumBundle:Topic:new.'.$this->getRenderer(), array(
+            return $this->render('ForumBundle:Topic:new.html.twig', array(
                 'form'      => $form,
                 'category'  => $category
             ));
@@ -45,18 +46,18 @@ class TopicController extends BaseTopicController
         return $response;
     }
 
-    protected function createForm(Category $category = null)
-    {
-        $form = parent::createForm($category);
+    //protected function createForm(Category $category = null)
+    //{
+        //$form = parent::createForm($category);
 
-        if($this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
-            unset($form['firstPost']['authorName']);
-        } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
-            $form['firstPost']['authorName']->setData(urldecode($authorName));
-        }
+        //if($this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
+            //unset($form['firstPost']['authorName']);
+        //} elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
+            //$form['firstPost']['authorName']->setData(urldecode($authorName));
+        //}
 
-        return $form;
-    }
+        //return $form;
+    //}
 
     /**
      * Compatibility layer with old topic urls
