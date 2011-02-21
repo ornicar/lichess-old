@@ -25,6 +25,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             $user->setUsername('user'.$it);
             $user->setEmail('user'.$it.'@site.org');
             $user->setPlainPassword('password'.$it);
+            $user->setEnabled(true);
             $this->userManager->updateUser($user);
         }
 

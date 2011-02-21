@@ -1,8 +1,11 @@
 {% extends "LichessBundle::layout.html.twig" %}
-{% block assets %}
+{% block stylesheets %}
 {{ parent() }}
-{% stylesheet 'bundles/user/css/user.css' %}
-{% javascript 'bundles/user/js/user.js' %}
+<link href="/bundles/user/css/user.css" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="/bundles/user/js/user.js"></script>
 {% endblock %}
 {% block layout_content %}
 <div id="lichess_user">{% block content %}{% endblock %}</div>

@@ -19,7 +19,7 @@ class SignupAcceptanceTest extends AbstractAcceptanceTest
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
-        die($client->getResponse()->getContent());
+        //die($client->getResponse()->getContent());
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());

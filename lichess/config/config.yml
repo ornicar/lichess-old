@@ -1,4 +1,4 @@
-app.config:
+framework:
     charset:       UTF-8
     error_handler: null
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
@@ -8,26 +8,22 @@ app.config:
     session:
         default_locale: en
         name:     SF
-        type:     Native
         lifetime: 2592000
     templating:
-        escaping: htmlspecialchars
         assets_version: 121
         engines: ['twig']
     translator: { fallback: en }
 
-zend.config:
+zend:
     logger:
         priority: NOTICE
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
-twig.config: ~
-
-apc.config:
+apc:
     host: http://lichess.org
     web_dir: %kernel.root_dir%/../web
 
-doctrine_odm.mongodb:
+doctrine_mongo_db:
     auto_generate_proxy_classes: false
     auto_generate_hydrator_classes: false
     default_database: lichess
@@ -47,7 +43,7 @@ doctrine_odm.mongodb:
                 connect: true
                 persist: lichess
 
-forum.config:
+forum:
     db_driver: odm
     class:
         model:
@@ -69,54 +65,46 @@ forum.config:
         posts_per_page: 10
         search_results_per_page: 10
 
-lichess_user.config: ~
-
-security.config:
+security:
     providers:
         fos_user_provider:
-            password_encoder: sha1
             id: fos_user.user_manager
     firewalls:
         main:
-            pattern: .*
             form_login:
                 provider:                       fos_user_provider
                 login_path:                     /login
-                use_forward:                    false
                 check_path:                     /login-check
-                failure_path:                   null
             logout: true
             anonymous: true
     access_control:
         - { path: "/inbox.*", role: IS_AUTHENTICATED_FULLY }
         - { path: "/.*", role: IS_AUTHENTICATED_ANONYMOUSLY }
 
-fos_user.config:
+fos_user:
     db_driver: mongodb
     provider_key: main
     encoder:
         iterations: 1
-        encodeHashAsBase64: false
+        encode_as_base64: false
+        algorithm: sha1
     class:
         model:
             user: Application\UserBundle\Document\User
+            group: FOS\UserBundle\Document\DefaultGroup
         form:
             user: Application\UserBundle\Form\UserForm
         controller:
             user: Application\UserBundle\Controller\UserController
             security: Application\UserBundle\Controller\SecurityController
 
-ornicar_message.config:
+ornicar_message:
     db_driver: odm
     class:
         model:
             message: Application\MessageBundle\Document\Message
 
-lichess_message.config: ~
-
-time.config: ~
-
-lichess.config:
+lichess:
     db_driver: odm
     ai:
         class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid

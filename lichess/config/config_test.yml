@@ -1,19 +1,22 @@
 imports:
     - { resource: config_dev.yml }
 
-zend.config:
+zend:
     logger:
         priority: ERR
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
-webprofiler.config:
+web_profiler:
     toolbar: false
 
-app.config:
+framework:
     error_handler: false
     test: true
 
-doctrine_odm.mongodb:
+lichess:
+    test: true
+
+doctrine_mongo_db:
     metadata_cache_driver: array
     cache_driver: array
     default_database: lichess_test

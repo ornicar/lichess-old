@@ -1,4 +1,5 @@
 imports:
     - { resource: config.yml }
 
-lichess.prod: ~
+framework:
+    exception_controller: LichessBundle:Main:exception

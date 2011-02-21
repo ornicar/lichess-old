@@ -1,7 +1,7 @@
 <?php
 
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\DependencyInjection\Loader\LoaderInterface;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class LichessKernel extends Kernel
@@ -18,7 +18,7 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\ZendBundle\ZendBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
-            new Symfony\Bundle\CompatAssetsBundle\CompatAssetsBundle(),
+            //new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Bundle\ApcBundle\ApcBundle(),
             new Knplabs\TimeBundle\KnplabsTimeBundle(),
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),

@@ -1,7 +1,7 @@
 {% extends "LichessBundle::layout.html.twig" %}
-{% block assets %}
+{% block stylesheets %}
 {{ parent() }}
-{% stylesheet 'bundles/message/css/message.css' %}
+<link href="/bundles/message/css/message.css" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block layout_content %}
 <div id="lichess_message" class="content_box">{% block content %}{% endblock %}</div>

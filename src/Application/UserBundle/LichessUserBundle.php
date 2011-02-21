@@ -39,9 +39,11 @@ class LichessUserBundle extends Bundle
     {
         if(HttpKernelInterface::MASTER_REQUEST === $event->get('request_type')) {
             if(!$this->container->get('request')->isXmlHttpRequest()) {
-                if($user = $this->container->get('security.context')->getUser()) {
-                    if($user instanceof User) {
-                        $this->container->get('fos_user.onliner')->setOnline($user);
+                if($token = $this->container->get('security.context')->getToken()) {
+                    if($user = $token->getUser()) {
+                        if($user instanceof User) {
+                            $this->container->get('fos_user.onliner')->setOnline($user);
+                        }
                     }
                 }
             }

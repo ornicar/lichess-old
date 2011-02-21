@@ -5,7 +5,6 @@
            xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <!-- User Repository Service -->
         <service id="fos_user.repository.user" class="Application\UserBundle\Document\UserRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
             <argument type="string">%fos_user.model.user.class%</argument>
         </service>
