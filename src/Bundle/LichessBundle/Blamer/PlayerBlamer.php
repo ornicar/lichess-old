@@ -16,7 +16,7 @@ class PlayerBlamer
 
     public function blame(Player $player)
     {
-        $user = $this->securityContext->getUser();
+        $user = $this->securityContext->getToken()->getUser();
         if($user instanceof User) {
             $player->setUser($user);
         }

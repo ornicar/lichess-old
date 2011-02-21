@@ -1,7 +1,7 @@
 {% extends "LichessBundle::layoutCommon.html.twig" %}
-{% block assets %}
+{% block stylesheets %}
 {{ parent() }}
-{% stylesheet 'bundles/lichess/css/about.css' %}
+<link href="/bundles/lichess/css/about.css" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block content %}
 <div class="content_box small_box about_box">

@@ -42,8 +42,8 @@ $(function() {
 
 	if ($config = $('div.game_config_form').orNot()) {
 		$('div.lichess_overboard').show();
-		$config.find('div.buttons').buttonset().disableSelection();
-		$config.find('button.submit').button().disableSelection();
+        $config.find('div.buttons').buttonset().disableSelection();
+        $config.find('button.submit').button().disableSelection();
 		$config.find('a.show_advanced').one('click', function() {
 			$(this).hide();
 			$config.find('div.advanced, p.explanations').show();
@@ -193,4 +193,3 @@ if (document.domain == 'lichess.org') {
 		s.parentNode.insertBefore(ga, s);
 	})();
 }
-

@@ -54,7 +54,7 @@ class LichessExtension extends Twig_Extension
 
         $functions = array();
         foreach($mappings as $twigFunction => $method) {
-            $functions[$twigFunction] = new Twig_Function_Method($this, $method, array('safe' => 'html'));
+            $functions[$twigFunction] = new Twig_Function_Method($this, $method, array('is_safe' => array('html')));
         }
 
         return $functions;

@@ -2,8 +2,6 @@
 
 namespace Bundle\LichessBundle\Form;
 
-use Symfony\Component\Form\ChoiceField;
-
 class FriendWithModeGameConfigForm extends FriendGameConfigForm
 {
     public function configure()

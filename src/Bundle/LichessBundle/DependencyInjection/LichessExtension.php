@@ -5,11 +5,11 @@ namespace Bundle\LichessBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\FileLocator;
+use Symfony\Component\Config\FileLocator;
 
 class LichessExtension extends Extension
 {
-    public function configLoad(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('chess.xml');
@@ -25,17 +25,11 @@ class LichessExtension extends Extension
         $loader->load('cheat.xml');
         $loader->load('starter.xml');
 
-        // Load asset helper compat
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../../../vendor/symfony/src/Symfony/Bundle/CompatAssetsBundle/Resources/config'));
-        $loader->load('assets.xml');
-
-        foreach ($configs as $config) {
-            $this->doConfigLoad($config, $container);
+        $config = array();
+        foreach ($configs as $c) {
+            $config = array_merge($config, $c);
         }
-    }
 
-    public function doConfigLoad(array $config, ContainerBuilder $container)
-    {
         if(isset($config['ai']['class'])) {
             $container->setParameter('lichess.ai.class', $config['ai']['class']);
         }
@@ -47,12 +41,10 @@ class LichessExtension extends Extension
         if(isset($config['debug_assets'])) {
             $container->setParameter('lichess.debug_assets', $config['debug_assets']);
         }
-    }
 
-    public function prodLoad($config, ContainerBuilder $container)
-    {
-        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
-        $loader->load('prod.xml');
+        if (!empty($config['test'])) {
+            $loader->load('test.xml');
+        }
     }
 
     /**
