@@ -6,6 +6,7 @@ use FOS\UserBundle\Model\UserInterface;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserController extends BaseUserController
@@ -15,7 +16,7 @@ class UserController extends BaseUserController
         $term = $this->container->get('request')->query->get('term');
         $usernames = $this->container->get('fos_user.repository.user')->findUsernamesBeginningWith($term);
 
-        $response = $this->createResponse(json_encode($usernames));
+        $response = new Response(json_encode($usernames));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -26,8 +27,7 @@ class UserController extends BaseUserController
         $data['nbp'] = $this->container->get('lichess_synchronizer')->getNbConnectedPlayers();
         $data['nbm'] = $this->container->get('ornicar_message.messenger')->getUnreadCacheForUsername($username);
         $this->container->get('fos_user.onliner')->setUsernameOnline($username);
-        $response = $this->createResponse(json_encode($data));
-        $response->headers->set('Content-Type', 'application/json');
+        $response = new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
         return $response;
     }
 
