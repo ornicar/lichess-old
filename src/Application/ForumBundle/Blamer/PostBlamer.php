@@ -9,7 +9,7 @@ class PostBlamer extends AbstractSecurityBlamer implements BlamerInterface
 {
     public function blame($post)
     {
-        $user = $this->security->getUser();
+        $user = $this->security->getToken()->getUser();
         if($user instanceof User) {
             $post->setAuthor($user);
         }

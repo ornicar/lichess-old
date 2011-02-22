@@ -17,21 +17,21 @@ class CategoryAcceptanceTest extends AbstractAcceptanceTest
     {
         $client = $this->createClient();
         $crawler = $this->requestCategoryPage($client);
-        $this->assertEquals(1, $crawler->filter('.forum_topics_list .subject a')->count());
+        $this->assertGreaterThanOrEqual(1, $crawler->filter('.forum_topics_list .subject a')->count());
     }
 
     public function testCategoryTopicHasTitle()
     {
         $client = $this->createClient();
         $crawler = $this->requestCategoryPage($client);
-        $this->assertEquals('New forum category: General Chess Discussion', $crawler->filter('.forum_topics_list .subject a')->first()->text());
+        $this->assertRegexp('/(new topic subject|New forum category: General Chess Discussion)/', $crawler->filter('.forum_topics_list .subject a')->first()->text());
     }
 
     public function testCategoryTopicsShowLastPostName()
     {
         $client = $this->createClient();
         $crawler = $this->requestCategoryPage($client);
-        $this->assertRegexp('/by lichess.org staff/', $crawler->filter('.forum_topics_list td.last_post')->first()->text());
+        $this->assertRegexp('/by (user1|lichess.org staff)/', $crawler->filter('.forum_topics_list td.last_post')->first()->text());
     }
 
     public function testClickOnTopicTitleGoesToTopic()

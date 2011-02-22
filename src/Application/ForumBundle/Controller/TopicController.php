@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Bundle\ForumBundle\Model\Topic;
 use Bundle\ForumBundle\Model\Category;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class TopicController extends BaseTopicController
 {
@@ -41,7 +42,7 @@ class TopicController extends BaseTopicController
 
         $response = new RedirectResponse($url);
         if(!$this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
-            $response->headers->setCookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
+            $response->headers->setCookie(new Cookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, $this->generateUrl('forum_index'), '', false, new \DateTime('+ 6 month')));
         }
 
         return $response;
