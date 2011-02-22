@@ -3,6 +3,7 @@
 namespace Application\UserBundle\Controller;
 use FOS\UserBundle\Controller\SecurityController as BaseSecurityController;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SecurityController extends  BaseSecurityController
 {
