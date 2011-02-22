@@ -45,7 +45,7 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
-        $this->assertFalse($client->getResponse()->isRedirect());
+        $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals($topicSubject, $crawler->filter('#lichess_forum h1')->text());
         $this->assertRegexp('/'.$topicMessage.'/', $client->getResponse()->getContent());
 

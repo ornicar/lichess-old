@@ -7,6 +7,7 @@ use Bundle\ForumBundle\Model\Topic;
 use Bundle\ForumBundle\Model\Post;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class PostController extends BasePostController
 {
@@ -21,9 +22,9 @@ class PostController extends BasePostController
 
     public function createAction(Topic $topic)
     {
+        $form = $this->get('forum.form.post');
         $post = $this->get('forum.repository.post')->createNewPost();
         $post->setTopic($topic);
-        $form = $this->get('forum.form.post');
         $form->bind($this->get('request'), $post);
 
         if(!$form->isValid()) {
@@ -35,12 +36,10 @@ class PostController extends BasePostController
             ), array('page' => $lastPage));
         }
 
-        $post = $form->getData();
-        $post->setTopic($topic);
-
         $this->get('forum.creator.post')->create($post);
         $this->get('forum.blamer.post')->blame($post);
 
+        $objectManager = $this->get('forum.object_manager');
         $objectManager->persist($post);
         $objectManager->flush();
 
@@ -48,23 +47,10 @@ class PostController extends BasePostController
         $response = new RedirectResponse($url);
 
         if(!$this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
-            $response->headers->setCookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
+            $response->headers->setCookie(new Cookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, $this->generateUrl('forum_index'), '', false, new \DateTime('+ 6 month')));
         }
 
         return $response;
-    }
-
-    protected function createForm($name, Topic $topic)
-    {
-        $form = parent::createForm($name, $topic);
-
-        if($this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
-            unset($form['authorName']);
-        } elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
-            $form['authorName']->setData(urldecode($authorName));
-        }
-
-        return $form;
     }
 
 }
