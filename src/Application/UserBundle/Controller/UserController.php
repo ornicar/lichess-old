@@ -6,13 +6,14 @@ use FOS\UserBundle\Model\UserInterface;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserController extends BaseUserController
 {
     public function autocompleteAction()
     {
-        $term = $this->get('request')->query->get('term');
-        $usernames = $this->get('fos_user.repository.user')->findUsernamesBeginningWith($term);
+        $term = $this->container->get('request')->query->get('term');
+        $usernames = $this->container->get('fos_user.repository.user')->findUsernamesBeginningWith($term);
 
         $response = $this->createResponse(json_encode($usernames));
         $response->headers->set('Content-Type', 'application/json');
@@ -22,9 +23,9 @@ class UserController extends BaseUserController
     public function onlineAction($username)
     {
         $data = array();
-        $data['nbp'] = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
-        $data['nbm'] = $this->get('ornicar_message.messenger')->getUnreadCacheForUsername($username);
-        $this->get('fos_user.onliner')->setUsernameOnline($username);
+        $data['nbp'] = $this->container->get('lichess_synchronizer')->getNbConnectedPlayers();
+        $data['nbm'] = $this->container->get('ornicar_message.messenger')->getUnreadCacheForUsername($username);
+        $this->container->get('fos_user.onliner')->setUsernameOnline($username);
         $response = $this->createResponse(json_encode($data));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -32,8 +33,8 @@ class UserController extends BaseUserController
 
     public function updateOnlineAction()
     {
-        $repo = $this->get('fos_user.repository.user');
-        $onliner = $this->get('fos_user.onliner');
+        $repo = $this->container->get('fos_user.repository.user');
+        $onliner = $this->container->get('fos_user.onliner');
         $onlineUsernames = $onliner->getOnlineUsernames();
         $repoUsernames = array();
         foreach($repo->findOnlineUsers() as $user) {
@@ -49,17 +50,17 @@ class UserController extends BaseUserController
                 $user->setIsOnline(true);
             }
         }
-        $this->get('fos_user.object_manager')->flush();
+        $this->container->get('fos_user.object_manager')->flush();
 
         die('done');
     }
 
     public function listOnlineAction()
     {
-        $users = $this->get('fos_user.repository.user')->findOnlineUsersSortByElo();
-        $nbPlayers = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
+        $users = $this->container->get('fos_user.repository.user')->findOnlineUsersSortByElo();
+        $nbPlayers = $this->container->get('lichess_synchronizer')->getNbConnectedPlayers();
 
-        return $this->render('FOSUserBundle:User:listOnline.html.twig', compact('users', 'nbPlayers'));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:listOnline.html.twig', compact('users', 'nbPlayers'));
     }
 
     /**
@@ -67,35 +68,35 @@ class UserController extends BaseUserController
      **/
     public function listAction()
     {
-        $query = $this->get('fos_user.repository.user')->createQueryBuilder()
+        $query = $this->container->get('fos_user.repository.user')->createQueryBuilder()
             ->sort('elo', 'desc');
         $users = new Paginator(new DoctrineMongoDBAdapter($query));
-        $users->setCurrentPageNumber($this->get('request')->query->get('page', 1));
+        $users->setCurrentPageNumber($this->container->get('request')->query->get('page', 1));
         $users->setItemCountPerPage(20);
         $users->setPageRange(3);
-        $pagerUrl = $this->generateUrl('fos_user_user_list');
+        $pagerUrl = $this->container->get('router')->generate('fos_user_user_list');
 
-        return $this->render('FOSUserBundle:User:list.html.twig', compact('users'));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users'));
     }
 
     public function showAction($username)
     {
         try {
-            $user = $this->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
+            $user = $this->container->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
         } catch(NotFoundHttpException $e) {
-            return $this->render('FOSUserBundle:User:unknownUser.html.twig', array('username' => $username));
+            return $this->container->get('templating')->renderResponse('FOSUserBundle:User:unknownUser.html.twig', array('username' => $username));
         }
-        $critic = $this->get('lichess.critic.user');
+        $critic = $this->container->get('lichess.critic.user');
         $critic->setUser($user);
 
-        $query = $this->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
+        $query = $this->container->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
+        $games->setCurrentPageNumber($this->container->get('request')->query->get('page', 1));
         $games->setItemCountPerPage(3);
         $games->setPageRange(10);
-        $pagerUrl = $this->generateUrl('fos_user_user_show', array('username' => $user->getUsername()));
+        $pagerUrl = $this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
-        return $this->render('FOSUserBundle:User:show.html.twig', compact('user', 'critic', 'games', 'pagerUrl'));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:show.html.twig', compact('user', 'critic', 'games', 'pagerUrl'));
     }
 
     /**
@@ -108,6 +109,6 @@ class UserController extends BaseUserController
             throw new NotFoundHttpException('No authenticated user - cannot confirm registration');
         }
 
-        return $this->redirect($this->generateUrl('fos_user_user_show', array('username' => $user->getUsername())));
+        return new RedirectResponse($this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername())));
     }
 }

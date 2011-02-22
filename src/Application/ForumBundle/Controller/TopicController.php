@@ -7,6 +7,7 @@ use Bundle\ForumBundle\Form\TopicForm;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Bundle\ForumBundle\Model\Topic;
 use Bundle\ForumBundle\Model\Category;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class TopicController extends BaseTopicController
 {
@@ -38,7 +39,7 @@ class TopicController extends BaseTopicController
         $this->get('session')->setFlash('forum_topic_create/success', true);
         $url = $this->get('forum.router.url_generator')->urlForTopic($topic);
 
-        $response = $this->redirect($url);
+        $response = new RedirectResponse($url);
         if(!$this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
             $response->headers->setCookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
         }

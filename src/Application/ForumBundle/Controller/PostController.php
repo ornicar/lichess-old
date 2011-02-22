@@ -6,6 +6,7 @@ use Bundle\ForumBundle\Controller\PostController as BasePostController;
 use Bundle\ForumBundle\Model\Topic;
 use Bundle\ForumBundle\Model\Post;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PostController extends BasePostController
 {
@@ -44,7 +45,7 @@ class PostController extends BasePostController
         $objectManager->flush();
 
         $url = $this->get('forum.router.url_generator')->urlForPost($post);
-        $response = $this->redirect($url);
+        $response = new RedirectResponse($url);
 
         if(!$this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
             $response->headers->setCookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, new \DateTime('+ 6 month'), $this->generateUrl('forum_index'));
