@@ -10,6 +10,7 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Form;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PlayerController extends Controller
 {
@@ -129,7 +130,7 @@ class PlayerController extends Controller
             $this->get('lichess.logger')->warn($player, 'Player:forceResign');
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function offerDrawAction($id)
@@ -153,7 +154,7 @@ class PlayerController extends Controller
             $this->get('lichess.logger')->warn($player, 'Player:offerDraw on finished game');
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function declineDrawOfferAction($id)
@@ -170,7 +171,7 @@ class PlayerController extends Controller
             $this->get('lichess.logger')->warn($player, 'Player:declineDrawOffer no offered draw');
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function acceptDrawOfferAction($id)
@@ -188,7 +189,7 @@ class PlayerController extends Controller
             $this->get('lichess.logger')->warn($player, 'Player:acceptDrawOffer no offered draw');
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function cancelDrawOfferAction($id)
@@ -205,7 +206,7 @@ class PlayerController extends Controller
             $this->get('lichess.logger')->warn($player, 'Player:cancelDrawOffer no offered draw');
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function claimDrawAction($id)
@@ -223,7 +224,7 @@ class PlayerController extends Controller
             $this->get('lichess.logger')->warn($player, 'Player:claimDraw FAIL');
         }
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     protected function renderJson($data)
@@ -341,10 +342,10 @@ class PlayerController extends Controller
             $player = $this->findPlayer($id);
         }
         catch(NotFoundHttpException $e) {
-            return $this->redirect($this->generateUrl('lichess_invite_anybody'));
+            return new RedirectResponse($this->generateUrl('lichess_invite_anybody'));
         }
         if($player->getGame()->getIsStarted()) {
-            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $this->get('lichess_synchronizer')->setAlive($player);
 
@@ -361,20 +362,20 @@ class PlayerController extends Controller
         $player = $this->findPlayer($id);
         $game   = $player->getGame();
         if($game->getIsStarted()) {
-            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $this->get('lichess.seek_queue')->remove($game);
         $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($player, 'Game:inviteAnybody cancel');
 
-        return $this->redirect($this->generateUrl('lichess_homepage', array('color' => $player->getColor())));
+        return new RedirectResponse($this->generateUrl('lichess_homepage', array('color' => $player->getColor())));
     }
 
     public function waitFriendAction($id)
     {
         $player = $this->findPlayer($id);
         if($player->getGame()->getIsStarted()) {
-            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $this->get('lichess_synchronizer')->setAlive($player);
 
@@ -392,7 +393,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
         if(!$game->isResignable()) {
             $this->get('lichess.logger')->warn($player, 'Player:resign non-resignable');
-            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $opponent = $player->getOpponent();
 
@@ -403,7 +404,7 @@ class PlayerController extends Controller
         $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($player, 'Player:resign');
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function abortAction($id)
@@ -412,7 +413,7 @@ class PlayerController extends Controller
         $game = $player->getGame();
         if(!$game->getIsAbortable()) {
             $this->get('lichess.logger')->warn($player, 'Player:abort non-abortable');
-            return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $game->setStatus(Game::ABORTED);
         $this->get('lichess_finisher')->finish($game);
@@ -420,7 +421,7 @@ class PlayerController extends Controller
         $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($player, 'Player:abort');
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function aiLevelAction($id)

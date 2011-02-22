@@ -9,6 +9,7 @@ use Symfony\Component\Form\TextareaField;
 use Symfony\Component\Form\TextField;
 use Bundle\LichessBundle\Document\Translation;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class TranslationController extends Controller
 {
@@ -57,7 +58,7 @@ class TranslationController extends Controller
                 $this->get('lichess.object_manager')->flush(array('safe' => true));
                 $this->get('session')->setFlash('notice', "Your translation has been submitted, thanks!\nI will review it and include it soon to the game.");
 
-                return $this->redirect($this->generateUrl('lichess_translate_locale', array('locale' => $locale)));
+                return new RedirectResponse($this->generateUrl('lichess_translate_locale', array('locale' => $locale)));
             } else {
                 $error = $translation->getYamlError();
             }

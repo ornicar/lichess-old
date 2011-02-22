@@ -9,6 +9,7 @@ use Bundle\LichessBundle\Chess\Analyser;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class GameController extends Controller
 {
@@ -86,7 +87,7 @@ class GameController extends Controller
 
         if($game->getIsStarted()) {
             $this->get('lichess.logger')->warn($game, 'Game:join started');
-            return $this->redirect($this->generateUrl('lichess_game', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
         }
 
         $this->get('lichess.blamer.player')->blame($game->getInvited());
@@ -98,7 +99,7 @@ class GameController extends Controller
         $this->get('lichess.object_manager')->flush(array('safe' => true));
         $this->get('lichess.logger')->notice($game, 'Game:join');
 
-        return $this->redirect($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }
 
     public function watchAction($id, $color)
@@ -106,7 +107,7 @@ class GameController extends Controller
         $game = $this->findGame($id);
         $player = $game->getPlayer($color);
         if($player->getIsAi()) {
-            return $this->redirect($this->generateUrl('lichess_game', array('id' => $id, 'color' => $player->getOpponent()->getColor())));
+            return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id, 'color' => $player->getOpponent()->getColor())));
         }
         $analyser = new Analyser($game->getBoard());
         $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
@@ -123,7 +124,7 @@ class GameController extends Controller
 
         if($form->isValid()) {
             $player = $this->get('lichess.starter.friend')->start($form->getData(), $color);
-            return $this->redirect($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
+            return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
         }
 
         return $this->render('LichessBundle:Game:inviteFriend.html.twig', compact('form', 'color'));
@@ -136,7 +137,7 @@ class GameController extends Controller
 
         if($form->isValid()) {
             $player = $this->get('lichess.starter.ai')->start($form->getData(), $color);
-            return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
         }
 
         return $this->render('LichessBundle:Game:inviteAi.html.twig', compact('form', 'color'));
@@ -150,9 +151,9 @@ class GameController extends Controller
         if($form->isValid()) {
             $return = $this->get('lichess.starter.anybody')->start($form->getData(), $color);
             if ($return instanceof Game) {
-                return $this->redirect($this->generateUrl('lichess_game', array('id' => $return->getId())));
+                return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $return->getId())));
             } elseif ($return instanceof Player) {
-                return $this->redirect($this->generateUrl('lichess_wait_anybody', array('id' => $return->getFullId())));
+                return new RedirectResponse($this->generateUrl('lichess_wait_anybody', array('id' => $return->getFullId())));
             }
         }
 

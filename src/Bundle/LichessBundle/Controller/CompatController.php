@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CompatController extends Controller
 {
@@ -11,7 +12,7 @@ class CompatController extends Controller
         $newId = $id . '00';
 
         if($this->get('lichess.repository.game')->existsById($newId)) {
-            return $this->redirect($this->generateUrl('lichess_game', array('id' => $newId)));
+            return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $newId)));
         }
 
         throw new NotFoundHttpException(sprintf('Compatibility for game "%s" not found', $id));
@@ -22,7 +23,7 @@ class CompatController extends Controller
         $newId = $id . '00';
 
         if($this->get('lichess.repository.game')->existsById($newId)) {
-            return $this->redirect($this->generateUrl('lichess_pgn_viewer', array('id' => $newId)));
+            return new RedirectResponse($this->generateUrl('lichess_pgn_viewer', array('id' => $newId)));
         }
 
         throw new NotFoundHttpException(sprintf('Compatibility for game "%s" not found', $id));
@@ -36,7 +37,7 @@ class CompatController extends Controller
 
         if($game = $this->get('lichess.repository.game')->find($newGameId)) {
             if($player = $game->getPlayerById($playerId)) {
-                return $this->redirect($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
+                return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
             }
         }
 

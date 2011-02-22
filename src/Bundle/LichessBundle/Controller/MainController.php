@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MainController extends Controller
 {
@@ -53,7 +54,7 @@ class MainController extends Controller
         if(empty($referer) || 0 != strpos($referer, $baseUrl) || 0 === strpos($referer, $localeUrl)) {
             $referer = $baseUrl;
         }
-        return $this->redirect($referer);
+        return new RedirectResponse($referer);
     }
 
     public function localeLinksAction()
