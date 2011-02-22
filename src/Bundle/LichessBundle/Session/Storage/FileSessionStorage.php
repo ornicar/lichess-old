@@ -17,10 +17,10 @@ class FileSessionStorage implements SessionStorageInterface
 
     protected function getFile()
     {
-        return $this->dir.'/'.$this->name;
+        return $this->dir.'/test-session';
     }
 
-    public function start($name = 'test-session')
+    public function start($name = 'test-session-name')
     {
         $this->data = array();
         $this->name = $name;
@@ -38,6 +38,11 @@ class FileSessionStorage implements SessionStorageInterface
     {
         $serialized = serialize($this->data);
         file_put_contents($this->getFile(), $serialized);
+    }
+
+    public function deleteFile()
+    {
+        @unlink($this->getFile());
     }
 
     public function read($key, $default = null)

@@ -11,7 +11,7 @@
     </parameters>
 
     <services>
-        <service id="session.storage.file" class="%session.storage.file.class%" public="false">
+        <service id="session.storage.file" class="%session.storage.file.class%" public="true">
             <argument>%session.storage.file.dir%</argument>
         </service>
         <service id="session.storage" alias="session.storage.file" public="false" />
