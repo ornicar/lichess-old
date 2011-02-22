@@ -21,6 +21,6 @@ class UserPageAcceptanceTest extends AbstractAcceptanceTest
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => 'test-notexistingusername')));
-        $this->assertFalse($client->getResponse()->isSuccessful());
+        $this->assertRegexp('/does not exist/', $client->getResponse()->getContent());
     }
 }

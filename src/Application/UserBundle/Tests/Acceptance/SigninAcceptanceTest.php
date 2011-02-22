@@ -9,7 +9,7 @@ class SigninAcceptanceTest extends AbstractAcceptanceTest
 
     public function testLoginValidPasswordSucceeds()
     {
-        $client = $this->createClient();
+        $client = $this->createPersistentClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'lichess_homepage'));
         $form = $crawler->selectButton('Sign in')->form();
         $form['_username'] = $this->username;

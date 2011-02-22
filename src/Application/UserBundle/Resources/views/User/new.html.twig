@@ -18,6 +18,9 @@
                 {{ form_label(form.username) }}
                 {{ form_field(form.username) }}
                 {{ form_errors(form.username) }}
+                {% if form.hasErrors and not form.username.hasErrors and not form.plainPassword.hasErrors %}
+                    <ul><li>{% trans "This username is not available" %}</li></ul>
+                {% endif %}
             </li>
             <li class="password">
                 {{ form_label(form.plainPassword, "Password") }}

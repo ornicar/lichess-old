@@ -8,10 +8,11 @@ use Symfony\Component\BrowserKit\Cookie;
 
 abstract class AbstractAcceptanceTest extends WebTestCase
 {
-    protected function createPersistentClient()
+    protected function createPersistentClient($cookieName = 'test')
     {
         $client = $this->createClient();
-        $client->getCookieJar()->set(new Cookie(session_name(), 'test'));
+        $client->getContainer()->get('session.storage.file')->deleteFile();
+        $client->getCookieJar()->set(new Cookie(session_name(), $cookieName));
 
         return $client;
     }

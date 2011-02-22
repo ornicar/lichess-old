@@ -83,7 +83,10 @@ class UserController extends BaseUserController
     {
         $user = $this->container->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
         if (!$user) {
-            return $this->container->get('templating')->renderResponse('FOSUserBundle:User:unknownUser.html.twig', array('username' => $username));
+            $response = $this->container->get('templating')->renderResponse('FOSUserBundle:User:unknownUser.html.twig', array('username' => $username));
+            $response->setStatusCode(404);
+
+            return $response;
         }
         $critic = $this->container->get('lichess.critic.user');
         $critic->setUser($user);
