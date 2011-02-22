@@ -10,6 +10,7 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Form;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PlayerController extends Controller
@@ -229,9 +230,7 @@ class PlayerController extends Controller
 
     protected function renderJson($data)
     {
-        $response = $this->createResponse(json_encode($data));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
     }
 
     public function moveAction($id, $version)
@@ -431,7 +430,7 @@ class PlayerController extends Controller
         $player->getOpponent()->setAiLevel($level);
         $this->get('lichess.object_manager')->flush();
 
-        return $this->createResponse('done');
+        return new Response('done');
     }
 
     public function tableAction($id, $color, $playerFullId)

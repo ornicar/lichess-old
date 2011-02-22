@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Bundle\LichessBundle\Notation\PgnDumper;
+use Symfony\Component\HttpFoundation\Response;
 
 class PgnController extends Controller
 {
@@ -27,7 +28,7 @@ class PgnController extends Controller
         $game = $this->findGame($id);
         $pgn = $this->get('lichess_pgn_dumper')->dumpGame($game);
 
-        $response = $this->createResponse($pgn);
+        $response = new Response($pgn);
         $response->headers->set('Content-Type', 'text/plain');
         return $response;
     }

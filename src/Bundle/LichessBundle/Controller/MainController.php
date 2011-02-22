@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MainController extends Controller
@@ -27,7 +28,7 @@ class MainController extends Controller
     public function howManyPlayersNowAction()
     {
         $nbConnectedPlayers = $this->get('lichess_synchronizer')->getNbConnectedPlayers();
-        $response = $this->createResponse($nbConnectedPlayers ?: "0");
+        $response = new Response($nbConnectedPlayers ?: "0");
         $response->headers->set('Content-Type', 'text/plain');
         return $response;
     }
@@ -39,7 +40,7 @@ class MainController extends Controller
         $enableSound = !$session->get($attributeName);
         $session->set($attributeName, $enableSound);
 
-        return $this->createResponse($enableSound ? 'on' : 'off');
+        return new Response($enableSound ? 'on' : 'off');
     }
 
     public function localeAction($locale)
@@ -75,7 +76,7 @@ class MainController extends Controller
         $code = $exception->getCode();
         if(404 == $code) {
             if($this->get('request')->isXmlHttpRequest()) {
-                $response = $this->createResponse('You should not do that.');
+                $response = new Response('You should not do that.');
             }
             else {
                 $response = $this->render('LichessBundle:Main:notFound.html.twig');
@@ -86,7 +87,7 @@ class MainController extends Controller
                 $code = 500;
             }
             if($this->get('request')->isXmlHttpRequest()) {
-                $response = $this->createResponse('Something went terribly wrong.');
+                $response = new Response('Something went terribly wrong.');
             }
             else {
                 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];

@@ -9,6 +9,7 @@ use Symfony\Component\Form\TextareaField;
 use Symfony\Component\Form\TextField;
 use Bundle\LichessBundle\Document\Translation;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class TranslationController extends Controller
@@ -17,7 +18,7 @@ class TranslationController extends Controller
     {
         $status = $this->get('lichess.translation.manager')->getTranslationStatus($locale);
         if(!$status['missing']) {
-            return $this->createResponse('');
+            return new Response('');
         }
 
         return $this->render('LichessBundle:Translation:incomplete.html.twig', array(
@@ -77,7 +78,7 @@ class TranslationController extends Controller
         $start = $this->get('request')->query->get('start', 1);
         $translations = $this->get('lichess.translation.provider')->getTranslations($start);
 
-        return $this->createResponse(json_encode($translations), 200, array('Content-Type' => 'application/json'));
+        return new Response(json_encode($translations), 200, array('Content-Type' => 'application/json'));
     }
 
     public function listAction()

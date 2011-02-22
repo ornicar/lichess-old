@@ -9,6 +9,7 @@ use Bundle\LichessBundle\Chess\Analyser;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class GameController extends Controller
@@ -64,7 +65,7 @@ class GameController extends Controller
         $game = $this->findGame($id);
 
         if($this->get('request')->getMethod() === 'HEAD') {
-            return $this->createResponse(sprintf('Game #%s', $id));
+            return new Response(sprintf('Game #%s', $id));
         }
 
         if($game->getIsStarted()) {
@@ -82,7 +83,7 @@ class GameController extends Controller
         $game = $this->findGame($id);
 
         if($this->get('request')->getMethod() === 'HEAD') {
-            return $this->createResponse(sprintf('Game #%s', $id));
+            return new Response(sprintf('Game #%s', $id));
         }
 
         if($game->getIsStarted()) {
