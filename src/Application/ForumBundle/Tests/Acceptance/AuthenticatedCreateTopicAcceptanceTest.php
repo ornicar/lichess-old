@@ -13,6 +13,9 @@ class AuthenticatedCreateTopicAcceptanceTest extends AbstractCreateTopicAcceptan
 
     public function createClient(array $options = array(), array $server = array())
     {
-        $client = parent::createClient();
+        $client = $this->createPersistentClient();
+        $this->authenticate($client);
+
+        return $client;
     }
 }

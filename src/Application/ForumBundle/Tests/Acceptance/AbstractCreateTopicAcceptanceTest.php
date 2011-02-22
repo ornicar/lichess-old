@@ -22,14 +22,6 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
         $this->assertEquals('Create the topic', $crawler->filter('#lichess_forum .submit')->text());
     }
 
-    public function testAuthenticatedUserSeeNoAuthorNameField()
-    {
-        $client = $this->createClient();
-        $this->authenticate($client, 'user1');
-        $crawler = $this->requestTopicCreationPage($client);
-        $this->assertEquals(0, $crawler->filter('#lichess_forum input.authorName')->count());
-    }
-
     protected function requestCategoryPage($client)
     {
         $url = $this->generateUrl($client, 'forum_category_show', array('slug' => 'general-chess-discussion'));

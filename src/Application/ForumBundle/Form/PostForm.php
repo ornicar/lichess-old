@@ -7,11 +7,20 @@ use Symfony\Component\Form\TextField;
 
 class PostForm extends BasePostForm
 {
+    public function __construct($name = null, array $options = array())
+    {
+        $this->addRequiredOption('security_context');
+
+        parent::__construct($name, $options);
+    }
+
     public function configure()
     {
         parent::configure();
 
-        $this->add(new TextField('authorName'));
+        if (!$this->getOption('security_context')->vote('IS_AUTHENTICATED_FULLY')) {
+            $this->add(new TextField('authorName'));
+        }
         $this->add(new TextField('trap'));
     }
 }

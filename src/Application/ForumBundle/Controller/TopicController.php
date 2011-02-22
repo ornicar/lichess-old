@@ -47,19 +47,6 @@ class TopicController extends BaseTopicController
         return $response;
     }
 
-    //protected function createForm(Category $category = null)
-    //{
-        //$form = parent::createForm($category);
-
-        //if($this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
-            //unset($form['firstPost']['authorName']);
-        //} elseif($authorName = $this->get('request')->cookies->get('lichess_forum_authorName')) {
-            //$form['firstPost']['authorName']->setData(urldecode($authorName));
-        //}
-
-        //return $form;
-    //}
-
     /**
      * Compatibility layer with old topic urls
      */
