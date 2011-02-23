@@ -3,6 +3,10 @@
 {{ parent() }}
 <link href="/bundles/forum/css/forum.css" type="text/css" rel="stylesheet" />
 {% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="/bundles/forum/js/forum.js"></script>
+{% endblock %}
 {% block layout_content %}
 <div id="lichess_forum" class="content_box">{% block content %}{% endblock %}</div>
 {% endblock %}
