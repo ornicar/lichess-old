@@ -24,6 +24,7 @@ class LichessExtension extends Extension
         $loader->load('logger.xml');
         $loader->load('cheat.xml');
         $loader->load('starter.xml');
+        $loader->load('seek.xml');
 
         $config = array();
         foreach ($configs as $c) {

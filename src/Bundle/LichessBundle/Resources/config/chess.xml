@@ -23,8 +23,6 @@
 
         <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
 
-        <parameter key="lichess.seek_queue.class">Bundle\LichessBundle\Chess\SeekQueue</parameter>
-
         <parameter key="lichess.messenger.class">Bundle\LichessBundle\Chess\Messenger</parameter>
 
         <parameter key="lichess.hardware.class">Bundle\LichessBundle\Chess\Hardware</parameter>
@@ -36,13 +34,6 @@
 
         <service id="lichess.messenger" class="%lichess.messenger.class%">
             <argument type="service" id="lichess.twig.extension" />
-        </service>
-
-        <service id="lichess.seek_queue" class="%lichess.seek_queue.class%">
-            <argument type="service" id="lichess.object_manager" />
-            <argument type="service" id="lichess.repository.seek" />
-            <argument type="service" id="lichess_generator" />
-            <argument type="service" id="lichess.blamer.player" />
         </service>
 
         <service id="lichess_ai" class="%lichess.ai.class%">
