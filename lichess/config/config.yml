@@ -80,6 +80,7 @@ security:
     access_control:
         - { path: "/inbox.*", role: IS_AUTHENTICATED_FULLY }
         - { path: "/.*", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "/forum/(post|topic)/delete/.+", role: IS_SUPERADMIN }
 
 fos_user:
     db_driver: mongodb
