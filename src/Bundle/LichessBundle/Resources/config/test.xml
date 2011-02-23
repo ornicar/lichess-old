@@ -9,7 +9,7 @@
         <parameter key="session.storage.file.class">Bundle\LichessBundle\Session\Storage\FileSessionStorage</parameter>
         <parameter key="session.storage.file.dir">%kernel.root_dir%/cache/%kernel.environment%</parameter>
 
-        <parameter key="lichess.seek_queue.use_session">false</parameter>
+        <parameter key="lichess.seek_matcher.use_session">false</parameter>
     </parameters>
 
     <services>
