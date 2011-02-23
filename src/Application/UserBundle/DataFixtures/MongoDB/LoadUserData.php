@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use FOS\UserBundle\Model\User;
 
 class LoadUserData implements FixtureInterface, ContainerAwareInterface
 {
@@ -29,6 +30,12 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             $this->userManager->updateUser($user);
         }
 
-        $manager->flush(array('safe' => true));
+        $user = $this->userManager->createUser();
+        $user->setUsername('thib');
+        $user->setEmail('thibault.duplessis@gmail.com');
+        $user->setPlainPassword('pass');
+        $user->setEnabled(true);
+        $user->addRole(User::ROLE_SUPERADMIN);
+        $this->userManager->updateUser($user);
     }
 }

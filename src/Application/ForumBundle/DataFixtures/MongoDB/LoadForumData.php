@@ -37,7 +37,27 @@ class LoadForumData implements FixtureInterface, ContainerAwareInterface
         $this->container->get('forum.creator.post')->create($post);
         $manager->persist($post);
 
+        $this->addBigTopic($manager, $topic->getCategory());
+
         $manager->flush(array('safe' => true));
+    }
+
+    protected function addBigTopic($manager, $category)
+    {
+        $topic = new Topic();
+        $topic->setSubject('Big topic');
+        $topic->setCategory($category);
+        $this->container->get('forum.creator.topic')->create($topic);
+        $manager->persist($topic);
+
+        for ($it=1; $it<=25; $it++) {
+            $post = new Post();
+            $post->setMessage('big topic post '.$it);
+            $post->setAuthorName('lichess.org staff');
+            $post->setTopic($topic);
+            $this->container->get('forum.creator.post')->create($post);
+            $manager->persist($post);
+        }
     }
 
     protected function addCateg($manager, $name, $description)
