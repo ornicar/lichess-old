@@ -11,15 +11,6 @@ use Symfony\Component\HttpFoundation\Cookie;
 
 class PostController extends BasePostController
 {
-    public function deleteAction($id)
-    {
-        if(!$this->get('security.context')->vote('ROLE_SUPERADMIN')) {
-            throw new NotFoundHttpException();
-        }
-
-        return parent::deleteAction($id);
-    }
-
     public function createAction(Topic $topic)
     {
         $form = $this->get('forum.form.post');
