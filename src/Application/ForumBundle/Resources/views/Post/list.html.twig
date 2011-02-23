@@ -9,7 +9,7 @@
             {% endif %}
             <span class="createdAt">{{ time_diff(post.createdAt) }}</span>
             <a class="anchor" href="{{ forum_urlForPost(post) }}">#{{ post.number|raw }}</a>
-            {% if has_role('ROLE_SUPERADMIN') %}
+            {% if has_role('ROLE_SUPERADMIN') and post.number != 1 %}
                 <a class="delete" href="{{ path('forum_post_delete', { "id": post.id }) }}">Delete</a>
             {% endif %}
         </div>
