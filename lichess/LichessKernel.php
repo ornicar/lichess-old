@@ -22,13 +22,13 @@ class LichessKernel extends Kernel
             new Bundle\ApcBundle\ApcBundle(),
             new Knplabs\TimeBundle\KnplabsTimeBundle(),
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
-            new Bundle\LichessBundle\LichessBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Bundle\Ornicar\MessageBundle\OrnicarMessageBundle(),
             new Bundle\ForumBundle\ForumBundle(),
             new Application\UserBundle\LichessUserBundle(),
             new Application\MessageBundle\LichessMessageBundle(),
-            new Application\ForumBundle\LichessForumBundle()
+            new Application\ForumBundle\LichessForumBundle(),
+            new Bundle\LichessBundle\LichessBundle(),
         );
 
         if ($this->isDebug()) {
