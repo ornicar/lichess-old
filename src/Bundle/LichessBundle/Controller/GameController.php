@@ -16,11 +16,8 @@ class GameController extends Controller
 {
     public function listCurrentAction()
     {
-        $ids = $this->get('lichess.repository.game')->findRecentStartedGameIds(9);
-
         return $this->render('LichessBundle:Game:listCurrent.html.twig', array(
-            'ids'         => $ids,
-            'implodedIds' => implode(',', $ids),
+            'ids'         => $this->get('lichess.repository.game')->findRecentStartedGameIds(9),
             'nbGames'     => $this->get('lichess.repository.game')->getNbGames(),
             'nbMates'     => $this->get('lichess.repository.game')->getNbMates()
         ));
