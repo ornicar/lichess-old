@@ -29,7 +29,11 @@ lichess_wait_friend:
 lichess_game:
     pattern:        /{id}/{color}
     defaults:       { _controller: lichess.controller.game:showAction, color: white }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), _method: "get|head" }
+    requirements:   { id: "[\w\-]{8}", color: (white|black), _method: "get" }
+lichess_game_head:
+    pattern:        /{id}/{color}
+    defaults:       { _controller: lichess.controller.game:showHeadAction, color: white }
+    requirements:   { id: "[\w\-]{8}", color: (white|black), _method: "head" }
 lichess_player:
     pattern:        /{id}
     defaults:       { _controller: lichess.controller.player:showAction }
@@ -54,6 +58,10 @@ lichess_join_game:
     pattern:        /join/{id}
     defaults:       { _controller: lichess.controller.game:joinAction }
     requirements:   { id: "[\w\-]{8}", _method: "get" }
+lichess_join_game_head:
+    pattern:        /join/{id}
+    defaults:       { _controller: lichess.controller.game:showHeadAction, color: white }
+    requirements:   { id: "[\w\-]{8}", _method: "head" }
 lichess_invite_anybody:
     pattern:        /anybody/{color}
     defaults:       { _controller: lichess.controller.game:inviteAnybodyAction, color: white }
