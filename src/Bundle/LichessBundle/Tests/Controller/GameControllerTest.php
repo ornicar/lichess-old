@@ -10,6 +10,7 @@ class GameControllerTest extends AbstractControllerTest
         $crawler = $client->request('GET', '/games');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('Games being played right now', $crawler->filter('.title')->text());
+        $this->assertGreaterThan(4, $crawler->filter('div.game_mini')->count());
     }
 
     public function testViewAllGames()
@@ -18,6 +19,8 @@ class GameControllerTest extends AbstractControllerTest
         $crawler = $client->request('GET', '/games/all');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('#^All games.+$#', $crawler->filter('.title')->text());
+        $this->assertGreaterThan(4, $crawler->filter('div.game_row')->count());
+        $this->assertRegexp('#'.preg_quote('Time control: 20 minutes/side + 5 seconds/move', '#').'#', $client->getResponse()->getContent());
     }
 
     public function testViewMateGames()
@@ -176,11 +179,24 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testShowHead()
     {
-        $this->markTestSkipped('test me');
+        $client = $this->createClient();
+        $id = $this->getAnyGameId($client);
+        $crawler = $client->request('HEAD', '/'.$id);
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('Game #'.$id, $client->getResponse()->getContent());
     }
 
     public function testJoinHead()
     {
-        $this->markTestSkipped('test me');
+        $client = $this->createClient();
+        $id = $this->getAnyGameId($client);
+        $crawler = $client->request('HEAD', '/join/'.$id);
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('Game #'.$id, $client->getResponse()->getContent());
+    }
+
+    protected function getAnyGameId($client)
+    {
+        return $client->getContainer()->get('lichess.repository.game')->findOneBy(array())->getId();
     }
 }
