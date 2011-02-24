@@ -2,14 +2,12 @@
 
 namespace Bundle\LichessBundle\Form;
 
-class FriendWithModeGameConfigForm extends FriendGameConfigForm
+class FriendWithModeGameConfigForm extends FriendGameConfigForm implements GameConfigFormWithModeInterface
 {
-    public function configure()
+    public function addModeChoices(array $choices)
     {
-        parent::configure();
-
         $this->add(new ChoiceField('mode', array(
-            'choices' => $this->getData()->getModeChoices(),
+            'choices' => $choices,
             'multiple' => false,
             'expanded' => true
         )));

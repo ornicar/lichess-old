@@ -63,6 +63,10 @@ class GameConfigFormManager
 
         $form->setData($config);
 
+        if ($form instanceof GameConfigFormWithModeInterface) {
+            $form->addModeChoices($config->getModeChoices());
+        }
+
         return $form;
     }
 }

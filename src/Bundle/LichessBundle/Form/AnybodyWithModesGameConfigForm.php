@@ -2,14 +2,12 @@
 
 namespace Bundle\LichessBundle\Form;
 
-class AnybodyWithModesGameConfigForm extends AnybodyGameConfigForm
+class AnybodyWithModesGameConfigForm extends AnybodyGameConfigForm implements GameConfigFormWithModeInterface
 {
-    public function configure()
+    public function addModeChoices(array $choices)
     {
-        parent::configure();
-
         $this->add(new ChoiceField('modes', array(
-            'choices' => $this->getData()->getModeChoices(),
+            'choices' => $choices,
             'multiple' => true,
             'expanded' => true
         )));
