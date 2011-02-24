@@ -16,10 +16,11 @@ class PlayerBlamer
 
     public function blame(Player $player)
     {
-        $user = $this->securityContext->getToken()->getUser();
-        if($user instanceof User) {
-            $player->setUser($user);
+        if ($token = $this->securityContext->getToken()) {
+            $user = $token->getUser();
+            if($user instanceof User) {
+                $player->setUser($user);
+            }
         }
     }
 }
-
