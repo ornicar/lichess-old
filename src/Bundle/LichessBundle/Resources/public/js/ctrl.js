@@ -12,8 +12,8 @@ $(function() {
 			setTimeout(function() {
 				$.get($userTag.attr('data-online-url'), function(data) {
 					showNbConnectedPlayers(data.nbp);
-					if (data.nbm) {
-						$('#nb_messages').text(data.nbm).addClass('unread');
+					if (typeof data.nbm != 'undefined') {
+						$('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0);
 					}
 					onlinePing();
 				},
