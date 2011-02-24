@@ -26,11 +26,13 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $user1 = $this->userManager->findUserByUsername('user1');
         $user2 = $this->userManager->findUserByUsername('user2');
 
-        $this->loadMessage('Hi user2, what\s up?', $user1, $user2);
+        $this->loadMessage('Hi user2, what\'s up?', $user1, $user2);
         $this->loadMessage('I\'m doing fine, dear user1', $user2, $user1);
         $this->loadMessage('The fridge is far away, but I can do it', $user1, $user2);
         $this->loadMessage('Bring me back a beer!', $user2, $user1);
         $this->loadMessage('Re: Bring me back a beer!', $user1, $user2);
+
+        $this->objectManager->flush();
     }
 
     protected function loadMessage($subject, $from, $to)
