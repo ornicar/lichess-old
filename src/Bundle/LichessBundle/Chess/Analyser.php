@@ -38,7 +38,7 @@ class Analyser
         foreach(PieceFilter::filterAlive($player->getPieces()) as $piece)
         {
             if($includeKing || !$piece instanceof King) {
-                $controlledKeys = array_merge($controlledKeys, $this->getPieceControlledKeys($piece));
+                $controlledKeys = array_merge($controlledKeys, $piece->getAttackTargetKeys());
             }
         }
         return $controlledKeys;
@@ -179,7 +179,7 @@ class Analyser
                 }
 
                 // if our king gets attacked
-                if (in_array($kingSquareKey, $this->getPieceControlledKeys($opponentPiece, 'King' === $pieceClass)))
+                if (in_array($kingSquareKey, $piece->getAttackTargetKeys($opponentPiece)))
                 {
                     // can't go here
                     unset($squares[$it]);
@@ -197,14 +197,6 @@ class Analyser
             }
         }
         return $this->board->squaresToKeys($squares);
-    }
-
-    /**
-     * @return array flat array of keys
-     */
-    public function getPieceControlledKeys(Piece $piece)
-    {
-        return $piece->getBasicTargetKeys();
     }
 
     /**
