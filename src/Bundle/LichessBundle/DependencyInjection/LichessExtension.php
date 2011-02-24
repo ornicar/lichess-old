@@ -2,6 +2,7 @@
 
 namespace Bundle\LichessBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,27 +26,20 @@ class LichessExtension extends Extension
         $loader->load('cheat.xml');
         $loader->load('starter.xml');
         $loader->load('seek.xml');
+        $loader->load('akismet.xml');
 
-        $config = array();
-        foreach ($configs as $c) {
-            $config = array_merge($config, $c);
-        }
+        $processor = new Processor();
+        $configuration = new Configuration();
+        $config = $processor->process($configuration->getConfigTree(), $configs);
 
-        if(isset($config['ai']['class'])) {
-            $container->setParameter('lichess.ai.class', $config['ai']['class']);
-        }
+        $container->setParameter('lichess.ai.class', $config['ai']['class']);
+        $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
+        $container->setParameter('lichess.debug_assets', $config['debug_assets']);
+        $container->setParameter('akismet.api_key', $config['akismet']['api_key']);
+        $container->setParameter('akismet.url', $config['akismet']['url']);
 
-        if(isset($config['translation']['remote_domain'])) {
-            $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
-        }
-
-        if(isset($config['debug_assets'])) {
-            $container->setParameter('lichess.debug_assets', $config['debug_assets']);
-        }
-
-        if (!empty($config['test'])) {
+        if ($config['test']) {
             $loader->load('test.xml');
         }
     }
-
 }

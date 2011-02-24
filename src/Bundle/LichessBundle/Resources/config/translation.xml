@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.translation.remote_domain">lichess.org</parameter>
         <parameter key="lichess.translation.fetcher.class">Bundle\LichessBundle\Translation\Fetcher</parameter>
         <parameter key="lichess.translation.provider.class">Bundle\LichessBundle\Translation\Provider</parameter>
 
