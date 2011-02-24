@@ -210,8 +210,9 @@ pppP
       K
 EOF;
         $this->createGame($data, true);
-        $this->assertCanCastleQueenSide(false);
+        $this->assertCanCastleQueenSide(true);
         $this->assertCanCastleKingSide(false);
-        $this->assertMoves('f8', 'c8 e7 f7 g7 g8');
+        $this->assertMoves('b8', null);
     }
+
 }
