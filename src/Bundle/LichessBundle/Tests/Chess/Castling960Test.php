@@ -195,4 +195,23 @@ EOF;
         $this->assertCastleRookKingSide('g8');
         $this->assertMoves('f8', 'c8 e7 f7 g7 g8');
     }
+
+    // http://lichess.org/analyse/qh2-l0rh/black
+    public function testBlackToPawnCheck()
+    {
+        $data = <<<EOF
+rk
+pppP
+
+
+
+
+
+      K
+EOF;
+        $this->createGame($data, true);
+        $this->assertCanCastleQueenSide(false);
+        $this->assertCanCastleKingSide(false);
+        $this->assertMoves('f8', 'c8 e7 f7 g7 g8');
+    }
 }
