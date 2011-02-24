@@ -32,10 +32,8 @@ class GameController extends Controller
 
     public function listAllAction()
     {
-        $query = $this->get('lichess.repository.game')->createRecentStartedOrFinishedQuery();
-
         return $this->render('LichessBundle:Game:listAll.html.twig', array(
-            'games'    => $this->createPaginatorForQuery($query),
+            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentStartedOrFinishedQuery()),
             'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
             'nbMates'  => $this->get('lichess.repository.game')->getNbMates(),
             'pagerUrl' => $this->generateUrl('lichess_list_all')
@@ -44,10 +42,8 @@ class GameController extends Controller
 
     public function listCheckmateAction()
     {
-        $query = $this->get('lichess.repository.game')->createRecentMateQuery();
-
         return $this->render('LichessBundle:Game:listMates.html.twig', array(
-            'games'    => $this->createPaginatorForQuery($query),
+            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentMateQuery()),
             'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
             'nbMates'  => $this->get('lichess.repository.game')->getNbMates(),
             'pagerUrl' => $this->generateUrl('lichess_list_mates')
@@ -61,10 +57,6 @@ class GameController extends Controller
     {
         $game = $this->findGame($id);
 
-        if($this->get('request')->getMethod() === 'HEAD') {
-            return new Response(sprintf('Game #%s', $id));
-        }
-
         if($game->getIsStarted()) {
             return $this->forward('LichessBundle:Game:watch', array('id' => $id, 'color' => $color));
         }
@@ -75,13 +67,16 @@ class GameController extends Controller
         ));
     }
 
-    public function joinAction($id)
+    public function showHeadAction($id, $color)
     {
         $game = $this->findGame($id);
 
-        if($this->get('request')->getMethod() === 'HEAD') {
-            return new Response(sprintf('Game #%s', $id));
-        }
+        return new Response(sprintf('Game #%s', $id));
+    }
+
+    public function joinAction($id)
+    {
+        $game = $this->findGame($id);
 
         if($game->getIsStarted()) {
             $this->get('lichess.logger')->warn($game, 'Game:join started');
