@@ -26,33 +26,16 @@ class UserController extends BaseUserController
         $data = array();
         $data['nbp'] = $this->container->get('lichess_synchronizer')->getNbConnectedPlayers();
         $data['nbm'] = $this->container->get('ornicar_message.messenger')->getUnreadCacheForUsername($username);
-        $this->container->get('fos_user.onliner')->setUsernameOnline($username);
+        $this->container->get('lichess_user.online.cache')->setUsernameOnline($username);
         $response = new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
         return $response;
     }
 
     public function updateOnlineAction()
     {
-        $repo = $this->container->get('fos_user.repository.user');
-        $onliner = $this->container->get('fos_user.onliner');
-        $onlineUsernames = $onliner->getOnlineUsernames();
-        $repoUsernames = array();
-        foreach($repo->findOnlineUsers() as $user) {
-            if(in_array($user->getUsername(), $onlineUsernames)) {
-                $repoUsernames[] = $user->getUsername();
-            } else {
-                $user->setIsOnline(false);
-            }
-        }
-        foreach($onlineUsernames as $username) {
-            if(!in_array($username, $repoUsernames)) {
-                $user = $repo->findOneByUsername($username);
-                $user->setIsOnline(true);
-            }
-        }
-        $this->container->get('fos_user.object_manager')->flush();
+        $this->container->get('lichess_user.online.updater')->update();
 
-        die('done');
+        return new Response('done');
     }
 
     public function listOnlineAction()

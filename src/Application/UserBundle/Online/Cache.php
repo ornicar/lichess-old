@@ -1,10 +1,10 @@
 <?php
 
-namespace Application\UserBundle;
+namespace Application\UserBundle\Online;
 
 use Application\UserBundle\Document\User;
 
-class Onliner
+class Cache
 {
     public function setOnline(User $user)
     {

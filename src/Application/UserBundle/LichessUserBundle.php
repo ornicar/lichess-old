@@ -42,7 +42,7 @@ class LichessUserBundle extends Bundle
                 if($token = $this->container->get('security.context')->getToken()) {
                     if($user = $token->getUser()) {
                         if($user instanceof User) {
-                            $this->container->get('fos_user.onliner')->setOnline($user);
+                            $this->container->get('lichess_user.online.cache')->setOnline($user);
                         }
                     }
                 }
