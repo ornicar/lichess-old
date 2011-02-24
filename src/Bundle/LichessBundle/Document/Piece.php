@@ -75,6 +75,11 @@ abstract class Piece
      */
     abstract public function getBasicTargetKeys();
 
+    /**
+     * Squares beeing attacked by the piece.
+     *
+     * @return array
+     */
     public function getAttackTargetKeys()
     {
         return $this->getBasicTargetKeys();

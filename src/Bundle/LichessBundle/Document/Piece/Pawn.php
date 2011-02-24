@@ -17,9 +17,8 @@ class Pawn extends Piece
 
     public function getBasicTargetKeys()
     {
-        $mySquare = $this->getSquare();
-        $x = $mySquare->getX();
-        $y = $mySquare->getY();
+        $x = $this->x;
+        $y = $this->y;
         $keys = array();
         $dy = 'white' === $this->color ? 1 : -1;
 
@@ -36,16 +35,7 @@ class Pawn extends Piece
             }
         }
 
-        return array_merge($keys, $this->getAttackTargetKeys());
-    }
-
-    public function getAttackTargetKeys()
-    {
-        $keys = array();
-        $mySquare = $this->board->getSquareByKey($this->getSquareKey());
-        $x = $this->x;
-        $y = $this->y;
-        $dy = 'white' === $this->color ? 1 : -1;
+        // capture existing opponent piece
 
         $_y = $y+$dy;
         foreach(array(-1, 1) as $dx)
@@ -54,7 +44,7 @@ class Pawn extends Piece
             if($_x<1 || $_x>8) {
                 continue;
             }
-            // eat
+            // capture
             $key = Board::posToKey($_x, $_y);
             if ($piece = $this->board->getPieceByKey($key))
             {
@@ -76,6 +66,29 @@ class Pawn extends Piece
                 {
                     $keys[] = $key;
                 }
+            }
+        }
+
+        return $keys;
+    }
+
+    public function getAttackTargetKeys()
+    {
+        $keys = array();
+        $dy = 'white' === $this->color ? 1 : -1;
+
+        $_y = $this->y+$dy;
+        foreach(array(-1, 1) as $dx)
+        {
+            $_x = $this->x+$dx;
+            if($_x<1 || $_x>8) {
+                continue;
+            }
+            $key = Board::posToKey($_x, $_y);
+            $piece = $this->board->getPieceByKey($key);
+            if (!$piece || $piece->getColor() !== $this->color)
+            {
+                $keys[] = $key;
             }
         }
 
