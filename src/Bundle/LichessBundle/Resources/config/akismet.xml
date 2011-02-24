@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="akismet.api_key"></parameter>
+        <parameter key="akismet.url"></parameter>
+    </parameters>
+
+    <services>
+
+        <service id="akismet" class="Zend\Service\Akismet\Akismet">
+            <argument>%akismet.api_key%</argument>
+            <argument>%akismet.url%</argument>
+        </service>
+
+    </services>
+
+</container>
