@@ -4,23 +4,37 @@ namespace Application\UserBundle\Tests\Acceptance;
 
 class UserPageAcceptanceTest extends AbstractAcceptanceTest
 {
-    protected $username = 'user1';
-    protected $userPass = 'password1';
-
     public function testUserPage()
     {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => $this->username)));
+        list($client, $crawler) = $this->requestUserPage('user1');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertRegexp('/^'.$this->username.'/', $crawler->filter('.lichess_title')->text());
+        $this->assertRegexp('/^user1/', $crawler->filter('.lichess_title')->text());
         $this->assertRegexp('/Games played/', $client->getResponse()->getContent());
+    }
+
+    public function testNoGamePlayed()
+    {
+        list($client, $crawler) = $this->requestUserPage('user4');
         $this->assertRegexp('/No recent game at the moment/', $client->getResponse()->getContent());
+    }
+
+    public function testSomeGamesPlayed()
+    {
+        list($client, $crawler) = $this->requestUserPage('user1');
+        $this->assertEquals(3, $crawler->filter('div.game_row')->count());
     }
 
     public function testNonExistingUserPage()
     {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => 'test-notexistingusername')));
+        list($client, $crawler) = $this->requestUserPage('test-notexistingusername');
         $this->assertRegexp('/does not exist/', $client->getResponse()->getContent());
+    }
+
+    protected function requestUserPage($username)
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => $username)));
+
+        return array($client, $crawler);
     }
 }
