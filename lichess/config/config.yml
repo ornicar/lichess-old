@@ -75,6 +75,12 @@ security:
                 provider:                       fos_user_provider
                 login_path:                     /login
                 check_path:                     /login-check
+            remember_me:
+                key:  kRopAjYEwDza
+                name: lichess
+                lifetime: 31536000
+                always_remember_me: true
+                remember_me_parameter: _remember_me
             logout: true
             anonymous: true
     access_control:
