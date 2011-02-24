@@ -88,4 +88,4 @@ else {
     $isOpponentAlive = true;
 }
 
-_lichess_return_response('{"o": '.$isOpponentAlive.'}');
+_lichess_return_response('{"o":'.$isOpponentAlive.'}');
