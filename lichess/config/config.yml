@@ -106,6 +106,14 @@ ornicar_message:
             message: Application\MessageBundle\Document\Message
 
 lichess:
-    db_driver: odm
     ai:
         class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid
+    akismet:
+        url: http://lichess.org
+        #api_key: see config_local.yml
+
+lichess_forum:
+    detect_spam: true
+
+imports:
+    - { resource: config_local.yml }

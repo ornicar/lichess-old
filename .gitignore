@@ -1,4 +1,4 @@
-/lichess/config/config*_local.yml
+/lichess/config/config_local.yml
 /lichess/cache/*
 /lichess/logs/*
 /lichess/deploy*

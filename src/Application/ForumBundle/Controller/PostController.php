@@ -27,8 +27,13 @@ class PostController extends BasePostController
             ), array('page' => $lastPage));
         }
 
-        $this->get('forum.creator.post')->create($post);
         $this->get('forum.blamer.post')->blame($post);
+
+        if ($this->get('forum.akismet')->isPostSpam($post)) {
+            throw new NotFoundHttpException('Spam forum post');
+        }
+
+        $this->get('forum.creator.post')->create($post);
 
         $objectManager = $this->get('forum.object_manager');
         $objectManager->persist($post);

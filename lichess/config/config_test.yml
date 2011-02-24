@@ -16,6 +16,9 @@ framework:
 lichess:
     test: true
 
+lichess_forum:
+    detect_spam: false
+
 doctrine_mongo_db:
     metadata_cache_driver: array
     cache_driver: array

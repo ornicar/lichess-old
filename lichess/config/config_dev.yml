@@ -32,3 +32,6 @@ doctrine_mongo_db:
 
 lichess:
     debug_assets: true
+
+lichess_forum:
+    detect_spam: true
