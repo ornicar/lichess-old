@@ -7,4 +7,5 @@
     <parameters>
         <parameter key="ornicar_message.messenger.class">Application\MessageBundle\Messenger</parameter>
     </parameters>
+
 </container>
