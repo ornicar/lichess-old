@@ -173,4 +173,14 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertRegexp('#You are viewing this game as a spectator.#', $spectator->getResponse()->getContent());
         $this->assertEquals(0, $crawler->filter('div.lichess_chat')->count());
     }
+
+    public function testShowHead()
+    {
+        $this->markTestSkipped('test me');
+    }
+
+    public function testJoinHead()
+    {
+        $this->markTestSkipped('test me');
+    }
 }
