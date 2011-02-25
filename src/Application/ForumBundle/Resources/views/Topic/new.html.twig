@@ -10,7 +10,9 @@
 <h1>New topic</h1>
 <form action="{{ path("forum_category_topic_create", {"slug": category.slug} ) }}" method="post" novalidate>
     <label><span class="required">Category</span> {{ form_field(form.category) }}</label>
+    {{ form_errors(form.subject) }}
     <label><span class="required">Subject</span> {{ form_field(form.subject, {"class": "subject"}) }}</label>
+    {{ form_errors(form.firstPost) }}
     <label><span class="required">Message</span> {{ form_field(form.firstPost.message) }}</label>
     {% if form.firstPost.authorName %}
         <label><span>Author</span> {{ form_field(form.firstPost.authorName, {"class": "authorName"}) }}</label>

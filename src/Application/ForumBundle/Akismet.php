@@ -26,9 +26,19 @@ class Akismet
     public function isPostSpam(Post $post)
     {
         if (!$this->enabled) {
-            return false;
+            return $post->getAuthorName() == 'viagra-test-123';
         }
         $data = array_merge($this->getRequestData(), $this->getPostData($post));
+
+        return $this->akismet->isSpam($data);
+    }
+
+    public function isTopicSpam(Topic $topic)
+    {
+        if (!$this->enabled) {
+            return $topic->getFirstPost()->getAuthorName() == 'viagra-test-123';
+        }
+        $data = array_merge($this->getRequestData(), $this->getTopicData($topic));
 
         return $this->akismet->isSpam($data);
     }
@@ -40,6 +50,16 @@ class Akismet
             'comment_type'    => 'comment',
             'comment_author'  => $post->getAuthorName(),
             'comment_content' => $post->getMessage()
+        );
+    }
+
+    protected function getTopicData(Topic $topic)
+    {
+        return array(
+            'permalink'       => $this->urlGenerator->urlForCategory($topic->getCategory(), true),
+            'comment_type'    => 'comment',
+            'comment_author'  => $topic->getFirstPost()->getAuthorName(),
+            'comment_content' => $topic->getSubject().' '.$topic->getFirstPost()->getMessage()
         );
     }
 

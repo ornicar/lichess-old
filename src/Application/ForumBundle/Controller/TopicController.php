@@ -9,6 +9,7 @@ use Bundle\ForumBundle\Model\Topic;
 use Bundle\ForumBundle\Model\Category;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\Form\Error;
 
 class TopicController extends BaseTopicController
 {
@@ -19,18 +20,20 @@ class TopicController extends BaseTopicController
         $form->bind($this->get('request'), $topic);
 
         if(!$form->isValid()) {
-            return $this->render('ForumBundle:Topic:new.html.twig', array(
-                'form'      => $form,
-                'category'  => $category
-            ));
+            return $this->invalidCreate($category, $form);
         }
 
         $topic = $form->getData();
-        $this->get('forum.creator.topic')->create($topic);
         $this->get('forum.blamer.topic')->blame($topic);
-
-        $this->get('forum.creator.post')->create($topic->getFirstPost());
         $this->get('forum.blamer.post')->blame($topic->getFirstPost());
+
+        if ($this->get('forum.akismet')->isTopicSpam($topic)) {
+            $form['firstPost']->addError(new Error('Sorry, but your topic looks like spam. If you think it is an error, send me an email.'));
+            return $this->invalidCreate($category, $form);
+        }
+
+        $this->get('forum.creator.topic')->create($topic);
+        $this->get('forum.creator.post')->create($topic->getFirstPost());
 
         $objectManager = $this->get('forum.object_manager');
         $objectManager->persist($topic);
@@ -46,6 +49,14 @@ class TopicController extends BaseTopicController
         }
 
         return $response;
+    }
+
+    protected function invalidCreate(Category $category, $form)
+    {
+        return $this->render('ForumBundle:Topic:new.html.twig', array(
+            'form'      => $form,
+            'category'  => $category
+        ));
     }
 
     /**
