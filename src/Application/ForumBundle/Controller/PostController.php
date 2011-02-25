@@ -8,6 +8,7 @@ use Bundle\ForumBundle\Model\Post;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\Form\Error;
 
 class PostController extends BasePostController
 {
@@ -19,18 +20,14 @@ class PostController extends BasePostController
         $form->bind($this->get('request'), $post);
 
         if(!$form->isValid()) {
-            $lastPage = $this->get('forum.router.url_generator')->getTopicNumPages($topic);
-            return $this->forward('ForumBundle:Topic:show', array(
-                'categorySlug' => $topic->getCategory()->getSlug(),
-                'slug' => $topic->getSlug(),
-                'id' => $topic->getId()
-            ), array('page' => $lastPage));
+            return $this->invalidCreate($topic);
         }
 
         $this->get('forum.blamer.post')->blame($post);
 
         if ($this->get('forum.akismet')->isPostSpam($post)) {
-            throw new NotFoundHttpException('Spam forum post');
+            $form['message']->addError(new Error('Sorry, but your post looks like spam. If you think it is an error, send me an email.'));
+            return $this->invalidCreate($topic);
         }
 
         $this->get('forum.creator.post')->create($post);
@@ -49,4 +46,14 @@ class PostController extends BasePostController
         return $response;
     }
 
+    protected function invalidCreate(Topic $topic)
+    {
+        $lastPage = $this->get('forum.router.url_generator')->getTopicNumPages($topic);
+
+        return $this->forward('ForumBundle:Topic:show', array(
+            'categorySlug' => $topic->getCategory()->getSlug(),
+            'slug'         => $topic->getSlug(),
+            'id'           => $topic->getId()
+        ), array('page' => $lastPage));
+    }
 }

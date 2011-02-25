@@ -184,6 +184,12 @@ form .forum_trap {
     height: 0;
 }
 
+form ul {
+    margin-left: 110px;
+    margin-bottom: 10px;
+    color: red;
+}
+
 div.pagination a, div.pagination span {
     font-size: 1.1em;
     padding: 0.1em 0.5em;
