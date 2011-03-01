@@ -15,7 +15,7 @@ $(function()
     }
 
     if($searchForm = $('form.search_user_form').orNot()) {
-        $searchInput = $searchForm.find('input.search_user').focus();
+        $searchInput = $searchForm.find('input.search_user');
         $searchInput.bind('autocompleteselect', function(e, ui) {
             $searchForm.submit();
         });
