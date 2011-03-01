@@ -91,19 +91,12 @@ class GameController extends Controller
     {
         $game = $this->findGame($id);
 
-        if($game->getIsStarted()) {
-            $this->get('lichess.logger')->warn($game, 'Game:join started');
+        try {
+            $this->get('lichess.joiner')->join($game);
+        } catch (InvalidArgumentException $e) {
             return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
         }
-
-        $this->get('lichess.blamer.player')->blame($game->getInvited());
-        $game->start();
-        $game->getCreator()->addEventToStack(array(
-            'type' => 'redirect',
-            'url'  => $this->generateUrl('lichess_player', array('id' => $game->getCreator()->getFullId()))
-        ));
         $this->get('lichess.object_manager')->flush(array('safe' => true));
-        $this->get('lichess.logger')->notice($game, 'Game:join');
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }

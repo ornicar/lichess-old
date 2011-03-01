@@ -8,6 +8,7 @@
         <parameter key="lichess.starter.ai.class">Bundle\LichessBundle\Starter\AiStarter</parameter>
         <parameter key="lichess.starter.friend.class">Bundle\LichessBundle\Starter\FriendStarter</parameter>
         <parameter key="lichess.starter.anybody.class">Bundle\LichessBundle\Starter\AnybodyStarter</parameter>
+        <parameter key="lichess.joiner.class">Bundle\LichessBundle\Starter\Joiner</parameter>
     </parameters>
 
     <services>
@@ -34,6 +35,11 @@
             <argument type="service" id="lichess.seek_queue" />
             <argument type="service" id="lichess_synchronizer" />
             <argument type="service" id="session" />
+        </service>
+        <service id="lichess.joiner" class="%lichess.joiner.class%">
+            <argument type="service" id="lichess.blamer.player" />
+            <argument type="service" id="router" />
+            <argument type="service" id="lichess.logger" />
         </service>
     </services>
 </container>
