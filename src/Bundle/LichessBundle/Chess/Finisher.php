@@ -2,6 +2,7 @@
 
 namespace Bundle\LichessBundle\Chess;
 
+use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Elo\Calculator;

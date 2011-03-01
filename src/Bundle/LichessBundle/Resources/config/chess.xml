@@ -25,6 +25,8 @@
 
         <parameter key="lichess.rematcher.class">Bundle\LichessBundle\Chess\Rematcher</parameter>
 
+        <parameter key="lichess.client_updater.class">Bundle\LichessBundle\Chess\ClientUpdater</parameter>
+
         <parameter key="lichess.hardware.class">Bundle\LichessBundle\Chess\Hardware</parameter>
     </parameters>
 
@@ -62,6 +64,13 @@
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%">
             <argument>%lichess.synchronizer.timeout%</argument>
+        </service>
+
+        <service id="lichess.client_updater" class="%lichess.client_updater.class%">
+            <argument type="service" id="lichess_synchronizer" />
+            <argument type="service" id="router" />
+            <argument type="service" id="lichess.logger" />
+            <argument type="service" id="lichess.twig.extension" />
         </service>
 
         <service id="lichess_pgn_dumper" class="%lichess.pgn_dumper.class%">

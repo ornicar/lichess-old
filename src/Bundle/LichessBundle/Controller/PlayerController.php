@@ -20,7 +20,7 @@ class PlayerController extends Controller
         $player = $this->findPlayer($id);
         $this->get('lichess.object_manager')->flush(array('safe' => true));
 
-        return $this->renderJson($this->getPlayerSyncData($player, $version));
+        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
     }
 
     public function rematchAction($id, $version)
@@ -28,7 +28,7 @@ class PlayerController extends Controller
         $player = $this->findPlayer($id);
         $this->get('lichess.object_manager')->flush(array('safe' => true));
 
-        return $this->renderJson($this->getPlayerSyncData($player, $version));
+        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
     }
 
     public function syncAction($id, $color, $version, $playerFullId)
@@ -38,45 +38,8 @@ class PlayerController extends Controller
             $this->get('lichess_synchronizer')->setAlive($player);
         }
         $player->getGame()->cachePlayerVersions();
-        $data = $this->getPlayerSyncData($player, $version);
-        // remove private events if user is spectator
-        if(!$playerFullId) {
-            foreach($data['e'] as $index => $event) {
-                if('message' === $event['type'] || 'redirect' === $event['type']) {
-                    unset($data['e'][$index]);
-                }
-            }
-        }
 
-        return $this->renderJson($data);
-    }
-
-    protected function getPlayerSyncData($player, $clientVersion)
-    {
-        $game = $player->getGame();
-        $version = $player->getStack()->getVersion();
-        $isOpponentConnected = $this->get('lichess_synchronizer')->isConnected($player->getOpponent());
-        $currentPlayerColor = $game->getTurnColor();
-        try {
-            $events = $version != $clientVersion ? $this->get('lichess_synchronizer')->getDiffEvents($player, $clientVersion) : array();
-        } catch(\OutOfBoundsException $e) {
-            $this->get('lichess.logger')->warn($player, 'Player:syncData OutOfBounds');
-            $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $player->getFullId()))));
-        }
-        // render system messages
-        foreach($events as $index => $event) {
-            if('message' === $event['type']) {
-                $events[$index]['html'] = $this->get('lichess.html.twig.extension')->roomMessage($event['message']);
-                unset($events[$index]['message']);
-            }
-        }
-
-        $data = array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events, 'p' => $currentPlayerColor, 't' => $game->getTurns());
-        if($game->hasClock()) {
-            $data['c'] = $game->getClock()->getRemainingTimes();
-        }
-
-        return $data;
+        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version, (bool) $playerFullId));
     }
 
     public function forceResignAction($id)
@@ -215,7 +178,7 @@ class PlayerController extends Controller
         $opponentPossibleMoves = $manipulator->play($move, $postData->get('options', array()));
         $player->addEventsToStack($stack->getEvents());
         $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => null));
-        $response = $this->renderJson($this->getPlayerSyncData($player, $version));
+        $response = $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
 
         if($opponent->getIsAi()) {
             if(!empty($opponentPossibleMoves)) {
@@ -296,7 +259,7 @@ class PlayerController extends Controller
         $this->get('lichess.messenger')->addPlayerMessage($player, $message);
         $this->get('lichess.object_manager')->flush();
 
-        return $this->renderJson($this->getPlayerSyncData($player, $version));
+        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
     }
 
     public function waitAnybodyAction($id)
