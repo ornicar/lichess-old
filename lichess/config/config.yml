@@ -76,8 +76,8 @@ security:
                 login_path:                     /login
                 check_path:                     /login-check
             remember_me:
-                key:  kRopAjYEwDza
-                name: lichess
+                key:  kRopAjYEwDza74
+                name: lichess_remember_me
                 lifetime: 31536000
                 always_remember_me: true
                 remember_me_parameter: _remember_me
