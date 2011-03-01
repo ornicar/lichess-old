@@ -14,7 +14,7 @@
         <ol start="{{ users.pages.firstItemNumber }}" class="users">
             {% for user in users %}
             <li>
-                <a class="user" href="{{ path("fos_user_user_show", {"username": user.username} ) }}">{{ user.usernameWithElo|raw }}</a>
+                {{ lichess_link_user(user) }}
             </li>
             {% endfor %}
         </ol>

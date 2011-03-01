@@ -1,5 +1,6 @@
 #lichess_user h2 {
     font-size: 1.5em;
+    margin-bottom: 0.5em;
 }
 #lichess_user div.stats {
     font-size: 1.2em;
@@ -88,7 +89,8 @@ div.user_lists div.online_users ul {
     margin-bottom: 1.5em;
 }
 div.user_lists ul.anonymous_users li {
-    background: url(../../lichess/images/user.png) top left no-repeat;
+    background: url(../../lichess/images/s16.png) top left no-repeat;
+    background-position: 0 -208px;
     width: 16px;
     height: 16px;
     display: block;
@@ -110,10 +112,6 @@ form.search_user_form input {
 }
 ol.users li {
     list-style: decimal inside;
-}
-.users a.user {
-    background: url(../../lichess/images/user.png) top left no-repeat;
-    padding-left: 20px;
 }
 .users a.send {
     font-size: 0.8em;
