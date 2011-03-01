@@ -23,6 +23,8 @@
 
         <parameter key="lichess.messenger.class">Bundle\LichessBundle\Chess\Messenger</parameter>
 
+        <parameter key="lichess.rematcher.class">Bundle\LichessBundle\Chess\Rematcher</parameter>
+
         <parameter key="lichess.hardware.class">Bundle\LichessBundle\Chess\Hardware</parameter>
     </parameters>
 
@@ -32,6 +34,14 @@
 
         <service id="lichess.messenger" class="%lichess.messenger.class%">
             <argument type="service" id="lichess.twig.extension" />
+        </service>
+
+        <service id="lichess.rematcher" class="%lichess.rematcher.class%">
+            <argument type="service" id="lichess.logger" />
+            <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess_generator" />
+            <argument type="service" id="router" />
+            <argument type="service" id="lichess.object_manager" />
         </service>
 
         <service id="lichess_ai" class="%lichess.ai.class%">

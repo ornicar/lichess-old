@@ -37,30 +37,7 @@ class PlayerController extends Controller
     public function rematchAction($id, $version)
     {
         $player = $this->findPlayer($id);
-        $opponent = $player->getOpponent();
-        $game = $player->getGame();
-
-        if(!$player->canOfferRematch()) {
-            throw new \LogicException($this->get('lichess.logger')->formatPlayer($player, 'Player:rematch'));
-        }
-        elseif(!$opponent->getIsOfferingRematch()) {
-            $this->get('lichess.logger')->notice($player, 'Player:rematch offer');
-            $this->get('lichess.messenger')->addSystemMessage($game, 'Rematch offer sent');
-            $player->setIsOfferingRematch(true);
-            $game->addEventToStacks(array('type' => 'reload_table'));
-        } else {
-            $this->get('lichess.logger')->notice($player, 'Player:rematch accept');
-            $this->get('lichess.messenger')->addSystemMessage($game, 'Rematch offer accepted');
-            $nextOpponent = $this->get('lichess_generator')->createReturnGame($opponent);
-            $nextPlayer = $nextOpponent->getOpponent();
-            $nextGame = $nextOpponent->getGame();
-            $nextGame->start();
-            foreach(array(array($player, $nextPlayer), array($opponent, $nextOpponent)) as $pair) {
-                $this->get('lichess_synchronizer')->setAlive($pair[1]);
-                $pair[0]->addEventToStack(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $pair[1]->getFullId()))));
-            }
-            $this->get('lichess.object_manager')->persist($nextGame);
-        }
+        $this->get('lichess.rematcher')->rematch($player);
         $this->get('lichess.object_manager')->flush(array('safe' => true));
 
         return $this->renderJson($this->getPlayerSyncData($player, $version));
@@ -94,8 +71,7 @@ class PlayerController extends Controller
         $currentPlayerColor = $game->getTurnColor();
         try {
             $events = $version != $clientVersion ? $this->get('lichess_synchronizer')->getDiffEvents($player, $clientVersion) : array();
-        }
-        catch(\OutOfBoundsException $e) {
+        } catch(\OutOfBoundsException $e) {
             $this->get('lichess.logger')->warn($player, 'Player:syncData OutOfBounds');
             $events = array(array('type' => 'redirect', 'url' => $this->generateUrl('lichess_player', array('id' => $player->getFullId()))));
         }
