@@ -795,6 +795,18 @@ class Game
     }
 
     /**
+     * Add many events to both players stack
+     *
+     * @return null
+     **/
+    public function addEventsToStacks(array $events)
+    {
+        foreach($this->getPlayers() as $player) {
+            $player->addEventsToStack($events);
+        }
+    }
+
+    /**
      * Color who plays
      *
      * @return string

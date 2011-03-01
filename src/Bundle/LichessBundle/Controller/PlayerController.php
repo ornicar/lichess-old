@@ -18,26 +18,14 @@ class PlayerController extends Controller
     public function outoftimeAction($id, $version)
     {
         $player = $this->findPlayer($id);
-        $opponent = $player->getOpponent();
-        $game = $player->getGame();
+        $this->get('lichess.object_manager')->flush(array('safe' => true));
 
-        if($game->checkOutOfTime()) {
-            $this->get('lichess_finisher')->finish($game);
-            $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
-            $player->addEventsToStack($events);
-            $opponent->addEventsToStack($events);
-            $this->get('lichess.object_manager')->flush(array('safe' => true));
-            $this->get('lichess.logger')->notice($player, 'Player:outoftime');
-        } else {
-            throw new \LogicException($this->get('lichess.logger')->formatPlayer($player, 'Player:outoftime'));
-        }
         return $this->renderJson($this->getPlayerSyncData($player, $version));
     }
 
     public function rematchAction($id, $version)
     {
         $player = $this->findPlayer($id);
-        $this->get('lichess.rematcher')->rematch($player);
         $this->get('lichess.object_manager')->flush(array('safe' => true));
 
         return $this->renderJson($this->getPlayerSyncData($player, $version));

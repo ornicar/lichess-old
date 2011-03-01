@@ -57,6 +57,7 @@
         <service id="lichess_finisher" class="%lichess.finisher.class%">
             <argument type="service" id="lichess.elo.calculator" />
             <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess.logger" />
         </service>
 
         <service id="lichess_synchronizer" class="%lichess.synchronizer.class%">
