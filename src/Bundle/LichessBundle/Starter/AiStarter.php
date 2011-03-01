@@ -26,12 +26,12 @@ class AiStarter implements StarterInterface
 
     public function __construct(Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, Session $session = null)
     {
-        $this->generator = $generator;
-        $this->playerBlamer = $playerBlamer;
-        $this->ai = $ai;
+        $this->generator     = $generator;
+        $this->playerBlamer  = $playerBlamer;
+        $this->ai            = $ai;
         $this->objectManager = $objectManager;
-        $this->logger = $logger;
-        $this->session = $session;
+        $this->logger        = $logger;
+        $this->session       = $session;
     }
 
     public function start(GameConfig $config, $color)

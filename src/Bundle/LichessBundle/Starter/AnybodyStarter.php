@@ -26,13 +26,13 @@ class AnybodyStarter implements StarterInterface
 
     public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Synchronizer $synchronizer, Session $session)
     {
-        $this->generator = $generator;
-        $this->playerBlamer = $playerBlamer;
+        $this->generator     = $generator;
+        $this->playerBlamer  = $playerBlamer;
         $this->objectManager = $objectManager;
-        $this->logger = $logger;
-        $this->seekQueue = $seekQueue;
-        $this->synchronizer = $synchronizer;
-        $this->session = $session;
+        $this->logger        = $logger;
+        $this->seekQueue     = $seekQueue;
+        $this->synchronizer  = $synchronizer;
+        $this->session       = $session;
     }
 
     public function start(GameConfig $config, $color)
