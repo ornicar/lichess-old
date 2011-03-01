@@ -63,12 +63,14 @@ class GameController extends Controller
             if($player->getIsAi()) {
                 return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id, 'color' => $player->getOpponent()->getColor())));
             }
-            $analyser       = new Analyser($game->getBoard());
-            $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
-            $checkSquareKey = $isKingAttacked ? $game->getTurnPlayer()->getKing()->getSquareKey() : null;
-            $possibleMoves  = ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null;
+            $analyser = new Analyser($game->getBoard());
 
-            return $this->render('LichessBundle:Player:watch.html.twig', compact('player', 'game', 'checkSquareKey', 'possibleMoves'));
+            return $this->render('LichessBundle:Player:watch.html.twig', array(
+                'game'           => $game,
+                'player'         => $player,
+                'checkSquareKey' => $analyser->getCheckSquareKey($game->getTurnPlayer()),
+                'possibleMoves'  => ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null
+            ));
         }
 
         // game NOT started: join it

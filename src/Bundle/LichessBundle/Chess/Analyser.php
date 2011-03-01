@@ -288,6 +288,11 @@ class Analyser
         return $this->getCastleRookInDirection($player, -1);
     }
 
+    public function getCheckSquareKey(Player $player)
+    {
+        return $this->isKingAttacked($player) ? $player->getKing()->getSquare()->getKey() : null;
+    }
+
     protected function getCastleRookInDirection(Player $player, $dx)
     {
         $king = $player->getKing();
