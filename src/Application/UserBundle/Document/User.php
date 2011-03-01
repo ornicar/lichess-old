@@ -72,7 +72,7 @@ class User extends BaseUser
      */
     public function getIsOnline()
     {
-      return $this->isOnline;
+        return $this->isOnline;
     }
 
     /**
@@ -81,7 +81,7 @@ class User extends BaseUser
      */
     public function setIsOnline($isOnline)
     {
-      $this->isOnline = $isOnline;
+        $this->isOnline = $isOnline;
     }
 
     /**
