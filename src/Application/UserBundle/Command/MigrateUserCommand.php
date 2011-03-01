@@ -65,7 +65,8 @@ class MigrateUserCommand extends Command
             $user['emailCanonical'] = $canonicalizer->canonicalize($user['email']);
             unset($user['usernameLower']);
         }
-        if($user['usernameCanonical'] === 'thibault') {
+        if(isset($user['isSuperAdmin'])) {
+            unset($user['isSuperAdmin']);
             $user['roles'] = array(User::ROLE_SUPERADMIN);
         }
     }
