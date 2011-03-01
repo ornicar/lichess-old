@@ -39,6 +39,16 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_current_player p:contains("Game aborted")')->count());
     }
 
+    public function testAbortAndRematch()
+    {
+        list($p1, $h1, $p2, $h2) = $this->createGameWithFriend();
+        $p1->request('GET', '/abort/'.$h1);
+        $crawler = $p1->followRedirect();
+        $p1->request('POST', $crawler->selectLink('Rematch')->attr('href'));
+        $this->assertTrue($p1->getResponse()->isSuccessful());
+        $this->assertRegexp('/'.preg_quote('"type":"redirect"', '/').'/', $p1->getResponse()->getContent());
+    }
+
     public function testClaimDrawWithoutThreefold()
     {
         list($p1, $h1, $p2, $h2) = $this->createGameWithFriend();
