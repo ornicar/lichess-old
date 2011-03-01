@@ -944,16 +944,6 @@ class Game
         return $this->createdAt;
     }
 
-    /**
-     * Set createdAt
-     * @param  \DateTime
-     * @return null
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
     public function __toString()
     {
         return '#'.$this->getId(). 'turn '.$this->getTurns();

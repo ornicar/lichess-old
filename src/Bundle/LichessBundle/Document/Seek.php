@@ -210,13 +210,4 @@ class Seek
     {
       return $this->createdAt;
     }
-
-    /**
-     * @param  \DateTime
-     * @return null
-     */
-    public function setCreatedAt($createdAt)
-    {
-      $this->createdAt = $createdAt;
-    }
 }
