@@ -1,4 +1,5 @@
 * move rotate board
+* After game over, "rematch" and "new game" are easy to mix up, click wrong one. Would be better if wording is "find new opponent."
 * Comments on game
 * Ability to name a game
 * Show exact date of games
