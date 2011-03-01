@@ -83,14 +83,14 @@ class LichessExtension extends Twig_Extension
         if($eloDiff = $player->getEloDiff()) {
             $username = sprintf('%s (%s)', $username, $eloDiff < 0 ? $eloDiff : '+'.$eloDiff);
         }
-        return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $username);
+        return sprintf('<a class="user_link%s" href="%s"%s>%s</a>', $user->getIsOnline() ? ' online' : '', $url, null === $class ? '' : ' class="'.$class.'"', $username);
     }
 
     public function linkUser(User $user, $class = null)
     {
         $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
-        return sprintf('<a href="%s"%s>%s</a>', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
+        return sprintf('<a class="user_link%s" href="%s"%s>%s</a>', $user->getIsOnline() ? ' online' : '', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
     }
 
     public function eloChartUrl(User $user, $size)

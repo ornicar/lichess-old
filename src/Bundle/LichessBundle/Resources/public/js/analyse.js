@@ -16,6 +16,7 @@ function customFunctionOnPgnGameLoad() {
 	});
 	$('div.lichess_goodies a.rotate_board').click(function() {
 		$('#GameBoard').toggleClass('flip');
+        $('#player_links div:first').appendTo($('#player_links'));
 		redrawBoardMarks();
 		return false;
 	});
@@ -25,4 +26,3 @@ function customFunctionOnPgnGameLoad() {
 function redrawBoardMarks() {
 	jQuery.displayBoardMarks($('#GameBoard'), ! $('#GameBoard').hasClass('flip'));
 }
-

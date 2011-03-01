@@ -31,7 +31,6 @@
         <br /><br />
         {% for p in [player.opponent, player] %}
             <div>
-                {% trans p.color|capitalize %} -
                 {% if p.isAi %}
                     {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': p.aiLevel} %}
                 {% else %}
@@ -40,8 +39,8 @@
             </div>
         {% endfor %}
         <br />
-        {% trans "Variant" %} - {{ game.variantName|capitalize }}<br />
-        {% trans "Time control" %} - {{ game.clockName }}<br />
+        {% trans "Variant" %}: {{ game.variantName|capitalize }}<br /><br />
+        {% trans "Time control" %}: {{ game.clockName }}<br /><br />
         {% if game.isRated %}
             {% trans "This game is rated" %}<br />
         {% endif %}

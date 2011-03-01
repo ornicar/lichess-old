@@ -29,9 +29,9 @@
         {% endif %}
         <br />
         <br />
+        <div id="player_links">
         {% for p in [player.opponent, player] %}
             <div>
-                {% trans p.color|capitalize %} -
                 {% if p.isAi %}
                     {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': p.aiLevel} %}
                 {% else %}
@@ -39,6 +39,7 @@
                 {% endif %}
             </div>
         {% endfor %}
+        </div>
         <br />
         {% trans "Variant" %} - {{ game.variantName|capitalize }}<br />
         {% trans "Time control" %} - {{ game.clockName }}<br />

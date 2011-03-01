@@ -4,25 +4,17 @@
 <div class="game_row clearfix">
 {{ lichess_game_mini(game, fromUser)|raw }}
 <div class="infos">
+<b>
 {% if game.isBeingPlayed %}
 <a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">
     {% trans "Playing right now" %}
-</a>
+</a>,
 {% else %}
-{{ time_diff(game.updatedAt) }}
+{{ time_diff(game.updatedAt) }},
 {% endif %}
-<br /><br />
-{% for player in [firstPlayer.opponent, firstPlayer] %}
-{% trans player.color|capitalize %}
-{% if player.isAi %}
-    {% trans '%ai_name% level %ai_level%' with{'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
-{% else %}
-    {{ lichess_link_player(player)|raw }}
-{% endif %}
-<br />
-{% endfor %}
-<br />
-{{ game.fullMoveNumber }}.
+</b>
+turn 
+{{ game.fullMoveNumber }},
 {% if game.isFinishedOrAborted %}
 {% trans game.statusMessage %}
 {% if game.winner %}
@@ -32,6 +24,15 @@
 {% trans game.turnColor|capitalize ~ " plays" %}
 {% endif %}
 <br /><br />
+{% for player in [firstPlayer.opponent, firstPlayer] %}
+{% if player.isAi %}
+    {% trans '%ai_name% level %ai_level%' with{'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
+{% else %}
+    {{ lichess_link_player(player)|raw }}
+{% endif %}
+<br />
+{% endfor %}
+<br />
 {% trans "Variant" %}: {{ game.variantName }}
 <br /><br />
 {% trans "Time control" %}: {{ game.clockName }}
