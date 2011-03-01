@@ -57,10 +57,21 @@ class GameController extends Controller
     {
         $game = $this->findGame($id);
 
+        // game started: enter spectator mode
         if($game->getIsStarted()) {
-            return $this->forward('LichessBundle:Game:watch', array('id' => $id, 'color' => $color));
+            $player = $game->getPlayer($color);
+            if($player->getIsAi()) {
+                return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id, 'color' => $player->getOpponent()->getColor())));
+            }
+            $analyser       = new Analyser($game->getBoard());
+            $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
+            $checkSquareKey = $isKingAttacked ? $game->getTurnPlayer()->getKing()->getSquareKey() : null;
+            $possibleMoves  = ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null;
+
+            return $this->render('LichessBundle:Player:watch.html.twig', compact('player', 'game', 'checkSquareKey', 'possibleMoves'));
         }
 
+        // game NOT started: join it
         return $this->render('LichessBundle:Game:join.html.twig', array(
             'game'  => $game,
             'color' => $game->getInvited()->getColor()
@@ -93,21 +104,6 @@ class GameController extends Controller
         $this->get('lichess.logger')->notice($game, 'Game:join');
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
-    }
-
-    public function watchAction($id, $color)
-    {
-        $game = $this->findGame($id);
-        $player = $game->getPlayer($color);
-        if($player->getIsAi()) {
-            return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id, 'color' => $player->getOpponent()->getColor())));
-        }
-        $analyser = new Analyser($game->getBoard());
-        $isKingAttacked = $analyser->isKingAttacked($game->getTurnPlayer());
-        $checkSquareKey = $isKingAttacked ? $game->getTurnPlayer()->getKing()->getSquareKey() : null;
-        $possibleMoves = ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null;
-
-        return $this->render('LichessBundle:Player:watch.html.twig', compact('player', 'game', 'checkSquareKey', 'possibleMoves'));
     }
 
     public function inviteFriendAction($color)
