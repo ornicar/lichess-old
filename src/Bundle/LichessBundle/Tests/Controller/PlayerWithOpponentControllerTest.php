@@ -39,14 +39,32 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_current_player p:contains("Game aborted")')->count());
     }
 
-    public function testAbortAndRematch()
+    public function testAbortAndRematchFullProcess()
     {
         list($p1, $h1, $p2, $h2) = $this->createGameWithFriend();
         $p1->request('GET', '/abort/'.$h1);
         $crawler = $p1->followRedirect();
         $p1->request('POST', $crawler->selectLink('Rematch')->attr('href'));
         $this->assertTrue($p1->getResponse()->isSuccessful());
-        $this->assertRegexp('/'.preg_quote('"type":"redirect"', '/').'/', $p1->getResponse()->getContent());
+        $response = json_decode($p1->getResponse()->getContent(), true);
+        $this->assertEquals('redirect', $response['e'][0]['type']);
+
+        $crawler = $p1->back();
+        $this->assertEquals(0, $crawler->selectLink('Rematch')->count());
+        $this->assertRegexp('/Rematch offer sent/', $p1->getResponse()->getContent());
+
+        $crawler = $p2->reload();
+        $link = $crawler->selectLink('Join the game');
+        $this->assertEquals(1, $link->count());
+        $p2->request('POST', $link->attr('href'));
+        $this->assertTrue($p2->getResponse()->isSuccessful());
+        $response = json_decode($p2->getResponse()->getContent(), true);
+        $this->assertEquals('redirect', $response['e'][0]['type']);
+        $url = $response['e'][0]['url'];
+        $this->assertRegexp('#/\w{12}#', $url);
+
+        $p2->request('GET', $url);
+        $this->assertTrue($p2->getResponse()->isSuccessful());
     }
 
     public function testClaimDrawWithoutThreefold()

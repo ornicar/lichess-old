@@ -26,6 +26,7 @@ class PlayerController extends Controller
     public function rematchAction($id, $version)
     {
         $player = $this->findPlayer($id);
+        $this->get('lichess.rematcher')->rematch($player);
         $this->get('lichess.object_manager')->flush(array('safe' => true));
 
         return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));

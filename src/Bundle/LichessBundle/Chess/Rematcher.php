@@ -6,6 +6,7 @@ use LogicException;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Chess\Messenger;
 use Bundle\LichessBundle\Chess\Generator as GameGenerator;
+use Bundle\LichessBundle\Chess\Synchronizer;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Routing\Router;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -15,14 +16,16 @@ class Rematcher
     protected $logger;
     protected $messenger;
     protected $gameGenerator;
+    protected $synchronizer;
     protected $urlGenerator;
     protected $objectManager;
 
-    public function __construct(Logger $logger, Messenger $messenger, Generator $generator, Router $router, DocumentManager $objectManager)
+    public function __construct(Logger $logger, Messenger $messenger, Generator $generator, Synchronizer $synchronizer, Router $router, DocumentManager $objectManager)
     {
         $this->logger        = $logger;
         $this->messenger     = $messenger;
         $this->gameGenerator = $generator;
+        $this->synchronizer  = $synchronizer;
         $this->urlGenerator  = $router->getGenerator();
         $this->objectManager = $objectManager;
     }
