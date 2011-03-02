@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Form;
 
-class FriendGameConfigForm extends GameForm
+class FriendGameConfigForm extends GameConfigForm
 {
     public function setVariantChoices(array $choices)
     {

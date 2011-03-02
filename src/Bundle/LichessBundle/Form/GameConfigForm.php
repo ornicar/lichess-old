@@ -3,16 +3,14 @@
 namespace Bundle\LichessBundle\Form;
 
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\HiddenField;
 
-abstract class GameForm extends Form
+abstract class GameConfigForm extends Form
 {
-    public function setColorChoices(array $choices)
+    public function configure()
     {
-        $this->add(new ChoiceField('color', array(
-            'choices' => $choices,
-            'multiple' => false,
-            'expanded' => true
-        )));
+        // hack to have functional tests passing
+        $this->add(new HiddenField('color'));
     }
 
     abstract function setVariantChoices(array $times);

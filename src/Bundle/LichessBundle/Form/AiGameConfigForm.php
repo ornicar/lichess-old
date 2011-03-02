@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Form;
 
-class AiGameConfigForm extends GameForm
+class AiGameConfigForm extends GameConfigForm
 {
     public function setVariantChoices(array $choices)
     {
