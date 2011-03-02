@@ -15,9 +15,9 @@ lichess_say:
     defaults:       { _controller: lichess.controller.player:sayAction }
     requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
 lichess_invite_friend:
-    pattern:        /friend/{color}
-    defaults:       { _controller: lichess.controller.game:inviteFriendAction, color: white }
-    requirements:   { color: (white|black), _method: "get|post" }
+    pattern:        /friend/
+    defaults:       { _controller: lichess.controller.game:inviteFriendAction }
+    requirements:   { _method: "get|post" }
 lichess_toggle_sound:
     pattern:        /toggle-sound
     defaults:       { _controller: lichess.controller.main:toggleSoundAction }
@@ -51,9 +51,9 @@ lichess_player_compat:
     defaults:       { _controller: lichess.controller.compat:playerShowAction }
     requirements:   { id: "[\w\-]{10}", _method: "get|head" }
 lichess_invite_ai:
-    pattern:        /ai/{color}
-    defaults:       { _controller: lichess.controller.game:inviteAiAction, color: white }
-    requirements:   { color: (white|black), _method: "get|post" }
+    pattern:        /ai
+    defaults:       { _controller: lichess.controller.game:inviteAiAction }
+    requirements:   { _method: "get|post" }
 lichess_join_game:
     pattern:        /join/{id}
     defaults:       { _controller: lichess.controller.game:joinAction }
@@ -63,9 +63,9 @@ lichess_join_game_head:
     defaults:       { _controller: lichess.controller.game:showHeadAction, color: white }
     requirements:   { id: "[\w\-]{8}", _method: "head" }
 lichess_invite_anybody:
-    pattern:        /anybody/{color}
-    defaults:       { _controller: lichess.controller.game:inviteAnybodyAction, color: white }
-    requirements:   { color: (white|black), _method: "get|post" }
+    pattern:        /anybody
+    defaults:       { _controller: lichess.controller.game:inviteAnybodyAction }
+    requirements:   { _method: "get|post" }
 lichess_wait_anybody:
     pattern:        /anybody/{id}
     defaults:       { _controller: lichess.controller.player:waitAnybodyAction }
