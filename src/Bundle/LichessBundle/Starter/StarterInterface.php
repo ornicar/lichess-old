@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Starter;
 
-use Bundle\LichessBundle\Form\GameConfig;
+use Bundle\LichessBundle\Config\GameConfig;
 
 interface StarterInterface
 {
