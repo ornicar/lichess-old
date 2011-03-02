@@ -101,39 +101,39 @@ class GameController extends Controller
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }
 
-    public function inviteFriendAction($color)
+    public function inviteFriendAction()
     {
         $form = $this->get('lichess.form.manager')->createFriendForm();
         $form->bind($this->get('request'), $form->getData());
 
         if($form->isValid()) {
-            $player = $this->get('lichess.starter.friend')->start($form->getData(), $color);
+            $player = $this->get('lichess.starter.friend')->start($form->getData());
             return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
         }
 
-        return $this->render('LichessBundle:Game:inviteFriend.html.twig', compact('form', 'color'));
+        return $this->render('LichessBundle:Game:inviteFriend.html.twig', array('form' => $form, 'color' => 'white'));
     }
 
-    public function inviteAiAction($color)
+    public function inviteAiAction()
     {
         $form = $this->get('lichess.form.manager')->createAiForm();
         $form->bind($this->get('request'), $form->getData());
 
         if($form->isValid()) {
-            $player = $this->get('lichess.starter.ai')->start($form->getData(), $color);
+            $player = $this->get('lichess.starter.ai')->start($form->getData());
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
         }
 
-        return $this->render('LichessBundle:Game:inviteAi.html.twig', compact('form', 'color'));
+        return $this->render('LichessBundle:Game:inviteAi.html.twig', array('form' => $form, 'color' => 'white'));
     }
 
-    public function inviteAnybodyAction($color)
+    public function inviteAnybodyAction()
     {
         $form = $this->get('lichess.form.manager')->createAnybodyForm();
         $form->bind($this->get('request'), $form->getData());
 
         if($form->isValid()) {
-            $return = $this->get('lichess.starter.anybody')->start($form->getData(), $color);
+            $return = $this->get('lichess.starter.anybody')->start($form->getData());
             if ($return instanceof Game) {
                 return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $return->getId())));
             } elseif ($return instanceof Player) {
@@ -141,7 +141,7 @@ class GameController extends Controller
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', compact('form', 'color'));
+        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array('form' => $form, 'color' => 'white'));
     }
 
     /**
