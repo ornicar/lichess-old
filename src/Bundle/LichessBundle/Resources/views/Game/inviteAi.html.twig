@@ -1,21 +1,8 @@
-{% extends "LichessBundle:Game:layoutGame.html.twig" %}
-{% block title %}Lichess - {% trans "play with the machine" %} - {{ color }}{% endblock %}
-{% block content %}
-<div class="lichess_game_not_started waiting_opponent clearfix lichess_player_{{ color }}">
-    <div class="lichess_board_wrap">
-        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".html.twig" %}
-        <div class="lichess_overboard game_config game_config_ai">
-            <h2>{% trans "Play with the machine" %}</h2>
-            <div class="game_config_form">
-                <form action="{{ path("lichess_invite_ai", {"color": color} ) }}" method="post" novalidate>
-                    <div class="variants buttons">
-                        {{ form_field(form.variant) }}
-                    </div>
-                    <button type="submit" class="submit">{% trans "Start" %}</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    {% include "LichessBundle:Game:bootGround.html.twig" with {"color": color, "active": "ai"} %}
+{% extends "LichessBundle:Game:invite.html.twig" %}
+{% block invite_type %}ai{% endblock %}
+{% block invite_title %}{% trans "Play with the machine" %}{% endblock %}
+{% block invite_form_fields %}
+<div class="variants buttons">
+    {{ form_field(form.variant) }}
 </div>
 {% endblock %}
