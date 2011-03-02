@@ -21,6 +21,15 @@ abstract class GameConfig
         return array_combine($this->colorChoices, $this->colorChoices);
     }
 
+    public function resolveColor()
+    {
+        if ('random' == $this->color) {
+            return mt_rand(0, 1) ? 'white' : 'black';
+        }
+
+        return $this->color;
+    }
+
     public function getModeChoices()
     {
         return $this->modeChoices;

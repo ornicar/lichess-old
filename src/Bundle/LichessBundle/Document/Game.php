@@ -833,6 +833,11 @@ class Game
         $this->creatorColor = $creatorColor;
     }
 
+    public function setCreator(Player $player)
+    {
+        $this->setCreatorColor($player->getColor());
+    }
+
     /**
      * @return Player
      */
@@ -851,11 +856,6 @@ class Game
         } elseif($this->getCreator()->isBlack()) {
             return $this->getPlayer('white');
         }
-    }
-
-    public function setCreator(Player $player)
-    {
-        $this->setCreatorColor($player->getColor());
     }
 
     public function getWinner()

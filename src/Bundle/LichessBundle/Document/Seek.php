@@ -75,14 +75,25 @@ class Seek
      */
     protected $createdAt = null;
 
-    public function __construct(array $variants, array $times, array $increments, array $modes, $sessionId)
+    /**
+     * color
+     *
+     * @var string
+     * @mongodb:Field(type="string")
+     */
+    protected $color = null;
+
+    protected $possibleColors = array('white', 'black', 'random');
+
+    public function __construct(array $variants, array $times, array $increments, array $modes, $color, $sessionId)
     {
-        $this->variants = $variants;
-        $this->times = $times;
+        $this->variants   = $variants;
+        $this->times      = $times;
         $this->increments = $increments;
-        $this->modes = $modes;
-        $this->sessionId = $sessionId;
-        $this->createdAt = new \DateTime();
+        $this->modes      = $modes;
+        $this->setColor($color);
+        $this->sessionId  = $sessionId;
+        $this->createdAt  = new \DateTime();
     }
 
     /**
@@ -90,7 +101,7 @@ class Seek
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -99,7 +110,7 @@ class Seek
      */
     public function setId($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -107,7 +118,7 @@ class Seek
      */
     public function getSessionId()
     {
-      return $this->sessionId;
+        return $this->sessionId;
     }
 
     /**
@@ -116,14 +127,14 @@ class Seek
      */
     public function setSessionId($sessionId)
     {
-      $this->sessionId = $sessionId;
+        $this->sessionId = $sessionId;
     }
     /**
      * @return Game
      */
     public function getGame()
     {
-      return $this->game;
+        return $this->game;
     }
 
     /**
@@ -132,7 +143,7 @@ class Seek
      */
     public function setGame($game)
     {
-      $this->game = $game;
+        $this->game = $game;
     }
 
     /**
@@ -140,7 +151,7 @@ class Seek
      */
     public function getTimes()
     {
-      return $this->times;
+        return $this->times;
     }
 
     /**
@@ -149,7 +160,7 @@ class Seek
      */
     public function setTimes($times)
     {
-      $this->times = $times;
+        $this->times = $times;
     }
 
     /**
@@ -157,7 +168,7 @@ class Seek
      */
     public function getIncrements()
     {
-      return $this->increments;
+        return $this->increments;
     }
 
     /**
@@ -166,7 +177,7 @@ class Seek
      */
     public function setIncrements($increments)
     {
-      $this->increments = $increments;
+        $this->increments = $increments;
     }
 
     /**
@@ -174,7 +185,7 @@ class Seek
      */
     public function getVariants()
     {
-      return $this->variants;
+        return $this->variants;
     }
 
     /**
@@ -183,7 +194,7 @@ class Seek
      */
     public function setVariants($variants)
     {
-      $this->variants = $variants;
+        $this->variants = $variants;
     }
 
     /**
@@ -191,7 +202,7 @@ class Seek
      */
     public function getModes()
     {
-      return $this->modes;
+        return $this->modes;
     }
 
     /**
@@ -200,7 +211,27 @@ class Seek
      */
     public function setModes($modes)
     {
-      $this->modes = $modes;
+        $this->modes = $modes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setColor($color)
+    {
+        if (!in_array($color, $this->possibleColors)) {
+            throw new \InvalidArgumentException('Not an acceptable color');
+        }
+        $this->color = $color;
     }
 
     /**
@@ -208,6 +239,6 @@ class Seek
      */
     public function getCreatedAt()
     {
-      return $this->createdAt;
+        return $this->createdAt;
     }
 }
