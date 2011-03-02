@@ -9,14 +9,15 @@
             <div class="game_config_form">
                 <form action="{{ path("lichess_invite_" ~ block('invite_type')) }}" method="post" novalidate>
                     {{ block('invite_form_fields') }}
+                    {{ form_field(form.color) }}
                     <div class="color_submits clearfix">
-                        <button type="submit" class="submit" name="{{ form.name }}[color]" value="white" title="{% trans "White" %}">
+                        <button type="submit" class="submit white" name="{{ form.name }}[color]" value="white" title="{% trans "White" %}">
                             <img src="{{ asset('bundles/lichess/images/white_king.png') }}" />
                         </button>
-                        <button type="submit" class="submit" name="{{ form.name }}[color]" value="black" title="{% trans "Black" %}">
+                        <button type="submit" class="submit black" name="{{ form.name }}[color]" value="black" title="{% trans "Black" %}">
                             <img src="{{ asset('bundles/lichess/images/black_king.png') }}" />
                         </button>
-                        <button type="submit" class="submit" name="{{ form.name }}[color]" value="random" title="{% trans "Random" %}">
+                        <button type="submit" class="submit random" name="{{ form.name }}[color]" value="random" title="{% trans "Random" %}">
                             <img src="{{ asset('bundles/lichess/images/interrogation.png') }}" />
                         </button>
                     </div>

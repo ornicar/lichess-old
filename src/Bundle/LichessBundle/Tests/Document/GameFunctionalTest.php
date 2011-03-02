@@ -24,7 +24,7 @@ class GameFunctionalTest extends WebTestCase
         $game = $this->createGame();
         $gameId = $game->getId();
         $this->dm->persist($game);
-        $this->dm->flush();
+        $this->dm->flush(array('safe' => true));
         $this->assertEquals($gameId, $game->getId());
         $this->assertEquals(2, $game->getPlayers()->count());
         $this->assertEquals('white', $game->getPlayer('white')->getColor());

@@ -60,7 +60,6 @@ class GameConfigFormManager
     {
         $form = call_user_func_array(array($class, 'create'), array($this->formContext, 'config'));
 
-        $form->setColorChoices($config->getColorChoices());
         $form->setVariantChoices($config->getVariantChoices());
         $form->setTimeChoices($config->getTimeChoices());
         $form->setIncrementChoices($config->getIncrementChoices());

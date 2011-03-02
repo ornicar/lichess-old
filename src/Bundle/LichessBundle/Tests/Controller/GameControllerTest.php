@@ -38,8 +38,8 @@ class GameControllerTest extends AbstractControllerTest
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->selectButton('Start')->form();
-        $client->submit($form);
+        $form = $crawler->filter('.submit.white')->form();
+        $client->submit($form, array('config[color]' => 'white'));
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
