@@ -1,16 +1,16 @@
 <?php
 
-namespace Bundle\LichessBundle\Form;
+namespace Bundle\LichessBundle\Config;
 use Bundle\LichessBundle\Document\Game;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class AnybodyGameConfig extends GameConfig
 {
-    public $modes = array(0, 1);
-    public $times = array(20, 0);
+    public $modes      = array(0, 1);
+    public $times      = array(20, 0);
     public $increments = array(2, 5, 10);
-    public $variants = array(Game::VARIANT_STANDARD);
+    public $variants   = array(Game::VARIANT_STANDARD);
 
     public function getCountTimes()
     {

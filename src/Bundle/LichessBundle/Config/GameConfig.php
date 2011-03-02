@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Form;
+namespace Bundle\LichessBundle\Config;
 use Bundle\LichessBundle\Document\Game;
 
 abstract class GameConfig

@@ -8,7 +8,7 @@ use Symfony\Component\Form\Field;
 class ChoiceField extends BaseChoiceField
 {
     /**
-     * Use == instead of === because of '1' beeing string or iny
+     * Use == instead of === because of '1' beeing string or int
      */
     protected function transform($value)
     {

@@ -2,6 +2,9 @@
 
 namespace Bundle\LichessBundle\Form;
 
+use Bundle\LichessBundle\Config\FriendGameConfig;
+use Bundle\LichessBundle\Config\AnybodyGameConfig;
+use Bundle\LichessBundle\Config\AiGameConfig;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Session;
 use Symfony\Component\Form\FormContext;
