@@ -32,17 +32,10 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertEquals($nbMates, $crawler->filter('div.game_row')->count());
     }
 
-    public function testInviteAi()
+    public function testInviteAiAsWhite()
     {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->filter('.submit.white')->form();
-        $client->submit($form, array('config[color]' => 'white'));
-        $this->assertTrue($client->getResponse()->isRedirect());
-        $crawler = $client->followRedirect();
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $crawler = $this->testInviteAiAs('white');
+
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Crafty A.I.")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
@@ -51,18 +44,42 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testInviteAiAsBlack()
     {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/black');
-        $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->selectButton('Start')->form();
-        $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect());
-        $crawler = $client->followRedirect();
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        return $this->testInviteAiAs('black');
+
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Crafty A.I.")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.black')->count());
+        $this->assertEquals(0, $crawler->filter('div.lichess_chat')->count());
+    }
+
+    protected function testInviteAiAs($color)
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/');
+        $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $form = $crawler->filter('.submit.'.$color)->form();
+        $client->submit($form, array('config[color]' => $color));
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        return $crawler;
+    }
+
+    protected function testInviteAiAsRandom()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/');
+        $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
+        $form = $crawler->filter('.submit.random')->form();
+        $client->submit($form, array('config[color]' => 'random'));
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Crafty A.I.")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
         $this->assertEquals(0, $crawler->filter('div.lichess_chat')->count());
     }
 
