@@ -33,11 +33,12 @@ class FriendStarter implements StarterInterface
         $this->session       = $session;
     }
 
-    public function start(GameConfig $config, $color)
+    public function start(GameConfig $config)
     {
         if($this->session) {
             $this->session->set('lichess.game_config.friend', $config->toArray());
         }
+        $color = $config->resolveColor();
         $player = $this->generator->createGameForPlayer($color, $config->variant);
         $this->playerBlamer->blame($player);
         $game = $player->getGame();
