@@ -96,9 +96,7 @@ $(function() {
 		$('#top_menu').find('a.toggle_signin').hide().closest('div.security').addClass('show_signin_form').find('input:first').focus();
 	});
 
-	$('#fos_user_user_form_username').focus();
-
-	$('#lichess_message input[value=""]:first').focus();
+	$('#lichess_message input[value=""]:first, #fos_user_user_form_username').focus();
 
 	$('#lichess_translation_form_code').change(function() {
 		if ("0" != $(this).val()) {

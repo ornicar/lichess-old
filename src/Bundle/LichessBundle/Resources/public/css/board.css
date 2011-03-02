@@ -218,6 +218,16 @@ div.lichess_overboard.game_config div.advanced {
 div.lichess_overboard.game_config button.submit {
     margin-top: 0.5em;
 }
+div.color_submits button.submit {
+    float: left;
+    width: 80px;
+    height: 64px;
+    padding: 5px 0 0 0;
+    margin: 0 5px;
+}
+div.color_submits button.submit span.ui-button-text {
+    padding: 0;
+}
 
 div.lichess_overboard.wait_anybody {
     width: 220px;
