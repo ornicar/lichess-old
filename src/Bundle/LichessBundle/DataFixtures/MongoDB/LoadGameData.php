@@ -7,8 +7,8 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-use Bundle\LichessBundle\Form\AiGameConfig;
-use Bundle\LichessBundle\Form\FriendGameConfig;
+use Bundle\LichessBundle\Config\AiGameConfig;
+use Bundle\LichessBundle\Config\FriendGameConfig;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Document\Stack;
 
@@ -45,7 +45,8 @@ class LoadGameData implements FixtureInterface, ContainerAwareInterface
     protected function loadAiGame($color, $username)
     {
         $config = new AiGameConfig();
-        $player = $this->aiStarter->start($config, $color);
+        $config->color = $color;
+        $player = $this->aiStarter->start($config);
         $game = $player->getGame();
         if ($username) {
             $this->blamePlayerWithUsername($player, $username);
@@ -62,7 +63,8 @@ class LoadGameData implements FixtureInterface, ContainerAwareInterface
     {
         $config = new FriendGameConfig();
         $config->fromArray($configArray);
-        $player = $this->friendStarter->start($config, $color);
+        $config->color = $color;
+        $player = $this->friendStarter->start($config);
         $game = $player->getGame();
         if ($username1) {
             $this->blamePlayerWithUsername($player, $username1);
