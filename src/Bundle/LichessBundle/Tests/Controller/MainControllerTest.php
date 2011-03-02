@@ -14,15 +14,6 @@ class MainControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_game_not_started.lichess_player_white')->count());
     }
 
-    public function testIndexSwitchToBlack()
-    {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->filter('.lichess_exchange')->link());
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_game_not_started.lichess_player_black')->count());
-    }
-
     public function testAbout()
     {
         $client = $this->createClient();

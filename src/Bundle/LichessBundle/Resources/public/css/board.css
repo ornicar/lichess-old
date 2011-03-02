@@ -164,17 +164,6 @@ div.lichess_game_not_started {
     position: relative;
 }
 
-a.lichess_exchange{
-    background: url(../images/exchange.png) top left no-repeat;
-    width: 128px;
-    height: 128px;
-    display: block;
-    position: absolute;
-    top: 193px;
-    left: 192px;
-    cursor: pointer;
-}
-
 div.lichess_overboard {
     position: absolute;
     width: 305px;
@@ -249,10 +238,6 @@ input.lichess_id_input {
     width: 100%;
     text-align: center;
     color: #444;
-}
-
-a.lichess_exchange:hover {
-    background-position: 0 -128px;
 }
 
 div.lichess_promotion_choice {

@@ -8,6 +8,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MainController extends Controller
 {
+    public function indexAction()
+    {
+        return $this->render('LichessBundle:Main:index.html.twig', array('color' => 'white'));
+    }
+
     public function todolistAction()
     {
         $text = file_get_contents($this->container->getParameter('kernel.root_dir').'/../TODO');
@@ -15,14 +20,6 @@ class MainController extends Controller
         array_pop($items);
 
         return $this->render('LichessBundle:Main:todolist.html.twig', array('items' => $items));
-    }
-
-    public function indexAction($color)
-    {
-        return $this->render('LichessBundle:Main:index.html.twig', array(
-            'color' => $color,
-            'reverseColor' => 'white' === $color ? 'black' : 'white'
-        ));
     }
 
     public function howManyPlayersNowAction()

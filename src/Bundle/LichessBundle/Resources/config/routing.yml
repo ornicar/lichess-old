@@ -1,7 +1,7 @@
 lichess_homepage:
-    pattern:        /{color}
-    defaults:       { _controller: lichess.controller.main:indexAction, color: white }
-    requirements:   { color: (white|black), _method: "get|head" }
+    pattern:        /
+    defaults:       { _controller: lichess.controller.main:indexAction }
+    requirements:   { _method: "get|head" }
 lichess_sync:
     pattern:        /sync/{id}/{color}/{version}/{playerFullId}
     defaults:       { _controller: lichess.controller.player:syncAction, playerFullId: "" }
