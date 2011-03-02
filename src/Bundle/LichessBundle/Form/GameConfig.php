@@ -5,14 +5,21 @@ use Bundle\LichessBundle\Document\Game;
 
 abstract class GameConfig
 {
-    protected $timeChoices = array(2, 5, 10, 20, 0);
+    protected $timeChoices      = array(2, 5, 10, 20, 0);
     protected $incrementChoices = array(0, 2, 5, 10, 20);
+    protected $modeChoices      = array(0 => 'Casual', 1 => 'Rated');
+    protected $colorChoices     = array('white', 'black', 'random');
 
-    protected $modeChoices = array(0 => 'Casual', 1 => 'Rated');
+    public $color = 'random';
 
     abstract public function toArray();
 
     abstract public function fromArray(array $data);
+
+    public function getColorChoices()
+    {
+        return array_combine($this->colorChoices, $this->colorChoices);
+    }
 
     public function getModeChoices()
     {
