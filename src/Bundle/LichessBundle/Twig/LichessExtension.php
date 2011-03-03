@@ -291,7 +291,7 @@ class LichessExtension extends Twig_Extension
 
     public function getNbConnectedPlayers()
     {
-        return $this->container->get('lichess_synchronizer')->getNbConnectedPlayers();
+        return $this->container->get('lichess.synchronizer')->getNbConnectedPlayers();
     }
 
     public function getLoadAverage()

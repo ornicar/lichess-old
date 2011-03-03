@@ -13,27 +13,27 @@
 
     <services>
         <service id="lichess.starter.ai" class="%lichess.starter.ai.class%">
-            <argument type="service" id="lichess_generator" />
+            <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
-            <argument type="service" id="lichess_ai" />
+            <argument type="service" id="lichess.ai_chain" />
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="session" />
         </service>
         <service id="lichess.starter.friend" class="%lichess.starter.friend.class%">
-            <argument type="service" id="lichess_generator" />
+            <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="session" />
         </service>
         <service id="lichess.starter.anybody" class="%lichess.starter.anybody.class%">
-            <argument type="service" id="lichess_generator" />
+            <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.seek_queue" />
-            <argument type="service" id="lichess_synchronizer" />
+            <argument type="service" id="lichess.synchronizer" />
             <argument type="service" id="session" />
         </service>
         <service id="lichess.joiner" class="%lichess.joiner.class%">

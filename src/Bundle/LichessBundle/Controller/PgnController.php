@@ -13,7 +13,7 @@ class PgnController extends Controller
     {
         $game = $this->findGame($id);
         $player = $game->getPlayer($color);
-        $pgn = $this->get('lichess_pgn_dumper')->dumpGame($game);
+        $pgn = $this->get('lichess.pgn_dumper')->dumpGame($game);
 
         return $this->render('LichessBundle:Pgn:analyse.html.twig', array(
             'game'         => $game,
@@ -26,7 +26,7 @@ class PgnController extends Controller
     public function exportAction($id)
     {
         $game = $this->findGame($id);
-        $pgn = $this->get('lichess_pgn_dumper')->dumpGame($game);
+        $pgn = $this->get('lichess.pgn_dumper')->dumpGame($game);
 
         $response = new Response($pgn);
         $response->headers->set('Content-Type', 'text/plain');

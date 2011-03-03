@@ -50,8 +50,7 @@
             <argument>%lichess.manipulator.class%</argument>
         </service>
 
-        <service id="lichess.hardware" class="%lichess.hardware.class%">
-        </service>
+        <service id="lichess.hardware" class="%lichess.hardware.class%" />
 
         <service id="lichess.messenger" class="%lichess.messenger.class%">
             <argument type="service" id="lichess.twig.extension" />
@@ -60,31 +59,32 @@
         <service id="lichess.rematcher" class="%lichess.rematcher.class%">
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.messenger" />
-            <argument type="service" id="lichess_generator" />
-            <argument type="service" id="lichess_synchronizer" />
+            <argument type="service" id="lichess.generator" />
+            <argument type="service" id="lichess.synchronizer" />
             <argument type="service" id="router" />
             <argument type="service" id="lichess.object_manager" />
         </service>
 
-        <service id="lichess_ai" class="%lichess.ai.class%">
+        <service id="lichess.ai" class="%lichess.ai.class%" public="false">
             <argument>%lichess.ai.options%</argument>
         </service>
 
-        <service id="lichess_ai_fallback" class="%lichess.ai_fallback.class%" />
+        <service id="lichess.ai_fallback" class="%lichess.ai_fallback.class%" public="false" />
 
         <service id="lichess.ai_chain" class="%lichess.ai_chain.class%">
             <argument type="collection">
-                <argument type="service" id="lichess_ai" />
-                <argument type="service" id="lichess_ai_fallback" />
+                <argument type="service" id="lichess.ai" />
+                <argument type="service" id="lichess.ai_fallback" />
             </argument>
             <argument type="service" id="lichess.logger" />
         </service>
 
-        <service id="lichess_generator" class="%lichess.generator.class%" />
+        <service id="lichess.generator" class="%lichess.generator.class%" />
 
-        <service id="lichess_finisher" class="%lichess.finisher.class%">
+        <service id="lichess.finisher" class="%lichess.finisher.class%">
             <argument type="service" id="lichess.elo.calculator" />
             <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess.synchronizer" />
             <argument type="service" id="lichess.logger" />
         </service>
 
@@ -96,25 +96,25 @@
         <service id="lichess.mover" class="%lichess.mover.class%">
             <argument type="service" id="lichess.manipulator_factory" />
             <argument type="service" id="lichess.client_updater" />
-            <argument type="service" id="lichess_synchronizer" />
+            <argument type="service" id="lichess.synchronizer" />
             <argument type="service" id="lichess.ai_chain" />
             <argument type="service" id="lichess.cheat.internal_detector" />
             <argument type="service" id="lichess.finisher" />
             <argument type="service" id="lichess.logger" />
         </service>
 
-        <service id="lichess_synchronizer" class="%lichess.synchronizer.class%">
+        <service id="lichess.synchronizer" class="%lichess.synchronizer.class%">
             <argument>%lichess.synchronizer.timeout%</argument>
         </service>
 
         <service id="lichess.client_updater" class="%lichess.client_updater.class%">
-            <argument type="service" id="lichess_synchronizer" />
+            <argument type="service" id="lichess.synchronizer" />
             <argument type="service" id="router" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.twig.extension" />
         </service>
 
-        <service id="lichess_pgn_dumper" class="%lichess.pgn_dumper.class%">
+        <service id="lichess.pgn_dumper" class="%lichess.pgn_dumper.class%">
             <argument type="service" id="router" />
         </service>
     </services>

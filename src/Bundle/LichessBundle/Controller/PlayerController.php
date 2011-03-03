@@ -40,7 +40,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPublicPlayer($id, $color);
         if($playerFullId) {
-            $this->get('lichess_synchronizer')->setAlive($player);
+            $this->get('lichess.synchronizer')->setAlive($player);
         }
         $player->getGame()->cachePlayerVersions();
 
@@ -112,7 +112,7 @@ class PlayerController extends Controller
     {
         $player = $this->findPlayer($id);
         $game = $player->getGame();
-        $this->get('lichess_synchronizer')->setAlive($player);
+        $this->get('lichess.synchronizer')->setAlive($player);
         if(!$game->getIsStarted()) {
             throw new RuntimeException(sprintf('Player:show game:%s, Game not started', $game->getId()), 410);
         }
@@ -121,7 +121,7 @@ class PlayerController extends Controller
 
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
-            'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent()),
+            'isOpponentConnected' => $this->get('lichess.synchronizer')->isConnected($player->getOpponent()),
             'checkSquareKey'      => $checkSquareKey,
             'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, (bool) $checkSquareKey) : null
         ));
@@ -137,7 +137,7 @@ class PlayerController extends Controller
         }
         $message = trim($this->get('request')->get('message'));
         $player = $this->findPlayer($id);
-        $this->get('lichess_synchronizer')->setAlive($player);
+        $this->get('lichess.synchronizer')->setAlive($player);
         $this->get('lichess.messenger')->addPlayerMessage($player, $message);
         $this->get('lichess.object_manager')->flush();
 
@@ -155,7 +155,7 @@ class PlayerController extends Controller
         if($player->getGame()->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
-        $this->get('lichess_synchronizer')->setAlive($player);
+        $this->get('lichess.synchronizer')->setAlive($player);
 
         $config = new AnybodyGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.anybody', array()));
@@ -185,7 +185,7 @@ class PlayerController extends Controller
         if($player->getGame()->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
-        $this->get('lichess_synchronizer')->setAlive($player);
+        $this->get('lichess.synchronizer')->setAlive($player);
 
         $config = new FriendGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
@@ -242,7 +242,7 @@ class PlayerController extends Controller
         }
         return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
             'player'              => $player,
-            'isOpponentConnected' => $this->get('lichess_synchronizer')->isConnected($player->getOpponent())
+            'isOpponentConnected' => $this->get('lichess.synchronizer')->isConnected($player->getOpponent())
         ));
     }
 
@@ -259,7 +259,7 @@ class PlayerController extends Controller
         $opponent = $player->getOpponent();
         return $this->render('LichessBundle:Player:'.$template.'.html.twig', array(
             'opponent'            => $opponent,
-            'isOpponentConnected' => $playerFullId ? $this->get('lichess_synchronizer')->isConnected($opponent) : true,
+            'isOpponentConnected' => $playerFullId ? $this->get('lichess.synchronizer')->isConnected($opponent) : true,
             'game'                => $player->getGame(),
             'playerFullId'        => $playerFullId
         ));
