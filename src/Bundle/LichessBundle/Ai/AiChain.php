@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Ai;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Logger;
 use Exception;
+use RunTimeException;
 
 class AiChain implements AiInterface
 {
@@ -19,7 +20,7 @@ class AiChain implements AiInterface
 
     public function move(Game $game, $level)
     {
-        foreach ($implementations as $implementation) {
+        foreach ($this->implementations as $implementation) {
             try {
                 return $implementation->move($game, $level);
             } catch(Exception $e) {
@@ -27,6 +28,6 @@ class AiChain implements AiInterface
             }
         }
 
-        throw RuntimeException('Failed to move using all available AI implementations');
+        throw new RuntimeException('Failed to move using all available AI implementations');
     }
 }
