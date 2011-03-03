@@ -3,16 +3,22 @@
 namespace Application\MessageBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Application\MessageBundle\Document\Message;
 
-class LoadUserData implements FixtureInterface, ContainerAwareInterface
+class LoadUserData implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
     protected $objectManager;
     protected $userManager;
     protected $messenger;
+
+    public function getOrder()
+    {
+        return 2;
+    }
 
     public function setContainer(ContainerInterface $container = null)
     {

@@ -3,6 +3,7 @@
 namespace Application\ForumBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
@@ -12,9 +13,14 @@ use Application\ForumBundle\Document\Post;
 use Bundle\ForumBundle\Creator\TopicCreator;
 use Bundle\ForumBundle\Creator\PostCreator;
 
-class LoadForumData implements FixtureInterface, ContainerAwareInterface
+class LoadForumData implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
     protected $container;
+
+    public function getOrder()
+    {
+        return 2;
+    }
 
     public function setContainer(ContainerInterface $container = null)
     {
