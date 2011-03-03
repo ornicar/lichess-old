@@ -5,7 +5,6 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Chess\Analyser;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -63,12 +62,11 @@ class GameController extends Controller
             if($player->getIsAi()) {
                 return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id, 'color' => $player->getOpponent()->getColor())));
             }
-            $analyser = new Analyser($game->getBoard());
 
             return $this->render('LichessBundle:Player:watch.html.twig', array(
                 'game'           => $game,
                 'player'         => $player,
-                'checkSquareKey' => $analyser->getCheckSquareKey($game->getTurnPlayer()),
+                'checkSquareKey' => $this->get('lichess.analyser_factory')->create($game->getBoard())->getCheckSquareKey($game->getTurnPlayer()),
                 'possibleMoves'  => ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null
             ));
         }

@@ -9,10 +9,19 @@
         <parameter key="lichess.ai.options" type="collection">
             <parameter key="executable_path">/usr/bin/crafty</parameter>
         </parameter>
+        <parameter key="lichess.ai_chain.class">Bundle\LichessBundle\Ai\AiChain</parameter>
+
+        <parameter key="lichess.analyser.class">Bundle\LichessBundle\Chess\Analyser</parameter>
+        <parameter key="lichess.analyser_factory.class">Bundle\LichessBundle\Chess\AnalyserFactory</parameter>
+
+        <parameter key="lichess.manipulator.class">Bundle\LichessBundle\Chess\Manipulator</parameter>
+        <parameter key="lichess.manipulator_factory.class">Bundle\LichessBundle\Chess\ManipulatorFactory</parameter>
 
         <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
 
         <parameter key="lichess.finisher.class">Bundle\LichessBundle\Chess\Finisher</parameter>
+
+        <parameter key="lichess.drawer.class">Bundle\LichessBundle\Chess\Drawer</parameter>
 
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">40</parameter>
@@ -31,6 +40,14 @@
     </parameters>
 
     <services>
+        <service id="lichess.analyser_factory" class="%lichess.analyser_factory.class%">
+            <argument>%lichess.analyser.class%</argument>
+        </service>
+
+        <service id="lichess.manipulator_factory" class="%lichess.manipulator_factory.class%">
+            <argument>%lichess.manipulator.class%</argument>
+        </service>
+
         <service id="lichess.hardware" class="%lichess.hardware.class%">
         </service>
 
@@ -51,15 +68,36 @@
             <argument>%lichess.ai.options%</argument>
         </service>
 
-        <service id="lichess_ai_fallback" class="%lichess.ai_fallback.class%">
+        <service id="lichess_ai_fallback" class="%lichess.ai_fallback.class%" />
+
+        <service id="lichess.ai_chain" class="%lichess.ai_chain%">
+            <argument type="collection">
+                <argument type="service" id="lichess_ai" />
+                <argument type="service" id="lichess_ai_fallback" />
+            </argument>
+            <argument type="service" id="lichess.logger" />
         </service>
 
-        <service id="lichess_generator" class="%lichess.generator.class%">
-        </service>
+        <service id="lichess_generator" class="%lichess.generator.class%" />
 
         <service id="lichess_finisher" class="%lichess.finisher.class%">
             <argument type="service" id="lichess.elo.calculator" />
             <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess.logger" />
+        </service>
+
+        <service id="lichess.drawer" class="%lichess.drawer.class%">
+            <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess.logger" />
+        </service>
+
+        <service id="lichess.mover" class="%lichess.mover.class%">
+            <argument type="service" id="lichess.manipulator_factory" />
+            <argument type="service" id="lichess.client_updater" />
+            <argument type="service" id="lichess_synchronizer" />
+            <argument type="service" id="lichess.ai_chain" />
+            <argument type="service" id="lichess.cheat.internal_detector" />
+            <argument type="service" id="lichess.finisher" />
             <argument type="service" id="lichess.logger" />
         </service>
 
