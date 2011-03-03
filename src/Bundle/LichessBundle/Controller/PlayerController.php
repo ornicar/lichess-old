@@ -116,7 +116,8 @@ class PlayerController extends Controller
         if(!$game->getIsStarted()) {
             throw new RuntimeException(sprintf('Player:show game:%s, Game not started', $game->getId()), 410);
         }
-        $checkSquareKey = $this->get('lichess.analyser_factory')->create($game->getBoard())->getCheckSquareKey($game->getTurnPlayer());
+        $analyser = $this->get('lichess.analyser_factory')->create($game->getBoard());
+        $checkSquareKey = $analyser->getCheckSquareKey($game->getTurnPlayer());
 
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
