@@ -221,12 +221,21 @@ div.lichess_overboard.game_config button.submit {
 div.color_submits button.submit {
     float: left;
     width: 80px;
-    height: 64px;
-    padding: 5px 0 0 0;
+    height: 65px;
+    padding: 5px 14px;
     margin: 0 5px;
 }
-div.color_submits button.submit span.ui-button-text {
+div.color_submits button.submit span {
+    background: url(../images/sprite_color.png) no-repeat;
+    width: 50px;
+    height: 51px;
     padding: 0;
+}
+div.color_submits button.black span {
+    background-position: 0 -51px;
+}
+div.color_submits button.random span {
+    background-position: 0 -102px;
 }
 
 div.lichess_overboard.wait_anybody {
