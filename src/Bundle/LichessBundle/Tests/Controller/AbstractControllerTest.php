@@ -8,11 +8,11 @@ abstract class AbstractControllerTest extends WebTestCase
     protected function inviteFriend($color = 'white')
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/'.$color);
+        $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with a friend')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->selectButton('Start')->form();
-        $client->submit($form);
+        $form = $crawler->filter('.submit.'.$color)->form();
+        $client->submit($form, array('config[color]' => $color));
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -27,8 +27,8 @@ abstract class AbstractControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with anybody')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->selectButton('Start')->form();
-        $client->submit($form);
+        $form = $crawler->filter('.submit.'.$color)->form();
+        $client->submit($form, array('config[color]' => $color));
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         if($join) {
