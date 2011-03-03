@@ -23,6 +23,8 @@
 
         <parameter key="lichess.drawer.class">Bundle\LichessBundle\Chess\Drawer</parameter>
 
+        <parameter key="lichess.mover.class">Bundle\LichessBundle\Chess\Mover</parameter>
+
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">40</parameter>
         <parameter key="lichess.synchronizer.delay">1</parameter>
@@ -70,7 +72,7 @@
 
         <service id="lichess_ai_fallback" class="%lichess.ai_fallback.class%" />
 
-        <service id="lichess.ai_chain" class="%lichess.ai_chain%">
+        <service id="lichess.ai_chain" class="%lichess.ai_chain.class%">
             <argument type="collection">
                 <argument type="service" id="lichess_ai" />
                 <argument type="service" id="lichess_ai_fallback" />
