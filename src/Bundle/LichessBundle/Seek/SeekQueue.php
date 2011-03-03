@@ -72,7 +72,7 @@ class SeekQueue
             $status = static::FOUND;
         }
         else {
-            $game = $this->generator->createGameForPlayer($color)->getGame();
+            $game = $this->generator->createGameForPlayer('white')->getGame();
             $seek->setGame($game);
             $this->objectManager->persist($game);
             $this->objectManager->persist($seek);
