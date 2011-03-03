@@ -8,7 +8,8 @@ use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Form;
+use Bundle\LichessBundle\Config\AnybodyGameConfig;
+use Bundle\LichessBundle\Config\FriendGameConfig;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -276,7 +277,7 @@ class PlayerController extends Controller
         }
         $this->get('lichess_synchronizer')->setAlive($player);
 
-        $config = new Form\AnybodyGameConfig();
+        $config = new AnybodyGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.anybody', array()));
         return $this->render('LichessBundle:Player:waitAnybody.html.twig', array(
             'player' => $player,
@@ -306,7 +307,7 @@ class PlayerController extends Controller
         }
         $this->get('lichess_synchronizer')->setAlive($player);
 
-        $config = new Form\FriendGameConfig();
+        $config = new FriendGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
         return $this->render('LichessBundle:Player:waitFriend.html.twig', array(
             'player' => $player,
