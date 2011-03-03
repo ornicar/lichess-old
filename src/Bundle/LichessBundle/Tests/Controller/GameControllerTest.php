@@ -34,15 +34,15 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testInviteAiAsWhite()
     {
-        $this->testInviteAiAs('white');
+        $this->inviteAiAs('white');
     }
 
     public function testInviteAiAsBlack()
     {
-        $this->testInviteAiAs('black');
+        $this->inviteAiAs('black');
     }
 
-    protected function testInviteAiAs($color)
+    protected function inviteAiAs($color)
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/');
@@ -61,12 +61,12 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testInviteFriendAsWhite()
     {
-        return $this->testInviteFriendAs('white');
+        return $this->inviteFriendAs('white');
     }
 
     public function testInviteFriendAsBlack()
     {
-        return $this->testInviteFriendAs('black');
+        return $this->inviteFriendAs('black');
     }
 
     public function testInviteFriendAsRandom()
@@ -100,7 +100,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
     }
 
-    protected function testInviteFriendAs($color)
+    protected function inviteFriendAs($color)
     {
         list($client, $crawler) = $this->inviteFriend($color);
 
@@ -136,15 +136,15 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testInviteAnybodyAsWhite()
     {
-        return $this->testInviteAnybodyAs('white');
+        return $this->inviteAnybodyAs('white');
     }
 
     public function testInviteAnybodyAsBlack()
     {
-        return $this->testInviteAnybodyAs('black');
+        return $this->inviteAnybodyAs('black');
     }
 
-    protected function testInviteAnybodyAs($color)
+    protected function inviteAnybodyAs($color)
     {
         $reverseColor = 'white' === $color ? 'black' : 'white';
         list($client, $crawler) = $this->inviteAnybody($color);
