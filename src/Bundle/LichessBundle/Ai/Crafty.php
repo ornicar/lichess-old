@@ -17,11 +17,11 @@ class Crafty implements AiInterface
 
     public function move(Game $game, $level)
     {
-        $forsyth = new Forsyth();
+        $forsyth    = new Forsyth();
         $oldForsyth = $forsyth->export($game);
         $oldForsyth = $this->removeCastlingInfos($oldForsyth);
         $newForsyth = $this->getNewForsyth($oldForsyth, $level);
-        $move = $forsyth->diffToMove($game, $newForsyth);
+        $move       = $forsyth->diffToMove($game, $newForsyth);
 
         return $move;
     }

@@ -10,7 +10,6 @@ use Bundle\LichessBundle\Document\Game;
  */
 class Stupid implements AiInterface
 {
-
     public function move(Game $game, $level)
     {
         $analyser = new Analyser($game->getBoard());
