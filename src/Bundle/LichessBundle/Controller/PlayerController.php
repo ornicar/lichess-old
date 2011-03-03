@@ -200,10 +200,8 @@ class PlayerController extends Controller
         $player = $this->findPlayer($id);
         try {
             $this->get('lichess.finisher')->resign($this->findPlayer($id));
-        } catch (FinisherException $e) {
-            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
-        }
-        $this->flush();
+            $this->flush();
+        } catch (FinisherException $e) {}
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
@@ -212,10 +210,8 @@ class PlayerController extends Controller
     {
         try {
             $this->get('lichess.finisher')->abort($this->findPlayer($id));
-        } catch (FinisherException $e) {
-            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
-        }
-        $this->flush();
+            $this->flush();
+        } catch (FinisherException $e) {}
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
