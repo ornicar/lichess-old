@@ -1,9 +1,9 @@
 {% extends "LichessBundle:Game:layoutGame.html.twig" %}
 {% block title %}Lichess - {{ block('invite_title') }}{% endblock %}
 {% block content %}
-<div class="lichess_game_not_started waiting_opponent clearfix lichess_player_{{ color }}">
+<div class="lichess_game_not_started waiting_opponent clearfix lichess_player_white">
     <div class="lichess_board_wrap">
-        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".html.twig" %}
+        {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
         <div class="lichess_overboard game_config game_config_{{ block('invite_type') }}">
             <h2>{{ block('invite_title') }}</h2>
             <div class="game_config_form">
@@ -26,6 +26,6 @@
             </div>
         </div>
     </div>
-    {% include "LichessBundle:Game:bootGround.html.twig" with {"color": color, "active": "{{ block('invite_type') }}"} %}
+    {% include "LichessBundle:Game:bootGround.html.twig" with {"active": block('invite_type')} %}
 </div>
 {% endblock %}

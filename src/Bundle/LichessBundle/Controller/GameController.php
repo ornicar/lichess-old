@@ -111,7 +111,7 @@ class GameController extends Controller
             return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
         }
 
-        return $this->render('LichessBundle:Game:inviteFriend.html.twig', array('form' => $form, 'color' => 'white'));
+        return $this->render('LichessBundle:Game:inviteFriend.html.twig', array('form' => $form));
     }
 
     public function inviteAiAction()
@@ -124,7 +124,7 @@ class GameController extends Controller
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
         }
 
-        return $this->render('LichessBundle:Game:inviteAi.html.twig', array('form' => $form, 'color' => 'white'));
+        return $this->render('LichessBundle:Game:inviteAi.html.twig', array('form' => $form));
     }
 
     public function inviteAnybodyAction()
@@ -141,7 +141,7 @@ class GameController extends Controller
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array('form' => $form, 'color' => 'white'));
+        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array('form' => $form));
     }
 
     /**

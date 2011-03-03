@@ -15,7 +15,7 @@ lichess_say:
     defaults:       { _controller: lichess.controller.player:sayAction }
     requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
 lichess_invite_friend:
-    pattern:        /friend/
+    pattern:        /friend
     defaults:       { _controller: lichess.controller.game:inviteFriendAction }
     requirements:   { _method: "get|post" }
 lichess_toggle_sound:
