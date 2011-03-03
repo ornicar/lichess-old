@@ -72,7 +72,7 @@ class SeekQueue
             $status = static::FOUND;
         }
         else {
-            $game = $this->generator->createGameForPlayer('white')->getGame();
+            $game = $this->generator->createGameForPlayer($this->getTempColor($color))->getGame();
             $seek->setGame($game);
             $this->objectManager->persist($game);
             $this->objectManager->persist($seek);
@@ -82,6 +82,11 @@ class SeekQueue
 
         $this->objectManager->flush();
         return array('status' => $status, 'game' => $game);
+    }
+
+    protected function getTempColor($color)
+    {
+        return 'random' === $color ? 'white' : $color;
     }
 
     public function remove(Game $game)
