@@ -14,14 +14,11 @@ class Analyser
      *
      * @var Board
      */
-    protected $board = null;
-
-    protected $game;
+    protected $board;
 
     public function __construct(Board $board)
     {
         $this->board = $board;
-        $this->game = $board->getGame();
     }
 
     public function isKingAttacked(Player $player)

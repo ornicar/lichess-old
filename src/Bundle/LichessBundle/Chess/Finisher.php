@@ -12,13 +12,15 @@ class Finisher
 {
     protected $calculator;
     protected $messenger;
+    protected $synchronizer;
     protected $logger;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Logger $logger)
+    public function __construct(Calculator $calculator, Messenger $messenger, Synchronizer $synchronizer, Logger $logger)
     {
-        $this->calculator = $calculator;
-        $this->messenger  = $messenger;
-        $this->logger     = $logger;
+        $this->calculator   = $calculator;
+        $this->messenger    = $messenger;
+        $this->synchronizer = $synchronizer;
+        $this->logger       = $logger;
     }
 
     public function finish(Game $game)
@@ -27,6 +29,12 @@ class Finisher
         $this->updateElo($game);
     }
 
+    /**
+     * Ends the game if out of time
+     *
+     * @param Game $game
+     * @return void
+     */
     public function outoftime(Game $game)
     {
         if($game->checkOutOfTime()) {
@@ -37,6 +45,88 @@ class Finisher
         } else {
             throw new LogicException($this->logger->formatPlayer($player, 'Player:outoftime'));
         }
+    }
+
+    /**
+     * Resign this player opponent if possible
+     *
+     * @param Player $player
+     * @return void
+     */
+    public function forceResign(Player $player)
+    {
+        $game = $player->getGame();
+        if($game->getIsPlayable() && $this->synchronizer->isTimeout($player->getOpponent())) {
+            $game->setStatus(Game::TIMEOUT);
+            $game->setWinner($player);
+            $this->finish($game);
+            $game->addEventToStacks(array('type' => 'end'));
+            $this->logger->notice($player, 'Player:forceResign');
+        }
+        else {
+            $this->logger->warn($player, 'Player:forceResign');
+        }
+    }
+
+    /**
+     * The player draws the game
+     *
+     * @param Player $player
+     * @return void
+     */
+    public function claimDraw(Player $player)
+    {
+        $game = $player->getGame();
+        if($game->getIsPlayable() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
+            $game->setStatus(GAME::DRAW);
+            $this->finish($game);
+            $game->addEventToStacks(array('type' => 'end'));
+            $this->logger->notice($player, 'Player:claimDraw');
+        }
+        else {
+            $this->logger->warn($player, 'Player:claimDraw FAIL');
+        }
+    }
+
+    /**
+     * The player aborts the game
+     *
+     * @param Player $player
+     * @return void
+     */
+    public function abort(Player $player)
+    {
+        $game = $player->getGame();
+        if(!$game->getIsAbortable()) {
+            $this->logger->warn($player, 'Player:abort non-abortable');
+            throw new FinisherException();
+        }
+        $game->setStatus(Game::ABORTED);
+        $this->finisher->finish($game);
+        $game->addEventToStacks(array('type' => 'end'));
+        $this->logger->notice($player, 'Player:abort');
+    }
+
+    /**
+     * The player resigns and loses the game
+     *
+     * @param Player $player
+     * @return void
+     */
+    public function resign(Player $player)
+    {
+        $game = $player->getGame();
+        if(!$game->isResignable()) {
+            $this->logger->warn($player, 'Player:resign non-resignable');
+            throw new FinisherException();
+        }
+        $opponent = $player->getOpponent();
+
+        $game->setStatus(Game::RESIGN);
+        $game->setWinner($opponent);
+        $this->finish($game);
+        $game->addEventToStacks(array('type' => 'end'));
+        $this->logger->notice($player, 'Player:resign');
     }
 
     protected function updateElo(Game $game)
