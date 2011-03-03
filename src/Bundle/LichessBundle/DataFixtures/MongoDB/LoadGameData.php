@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -12,11 +13,16 @@ use Bundle\LichessBundle\Config\FriendGameConfig;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Document\Stack;
 
-class LoadGameData implements FixtureInterface, ContainerAwareInterface
+class LoadGameData implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
     protected $userManager;
     protected $aiStarter;
     protected $friendStarter;
+
+    public function getOrder()
+    {
+        return 0;
+    }
 
     public function setContainer(ContainerInterface $container = null)
     {
