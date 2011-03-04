@@ -54,7 +54,7 @@ class GameController extends Controller
      */
     public function showAction($id, $color)
     {
-        $game = $this->findGame($id);
+        $game = $this->get('lichess.provider')->findGame($id);
 
         // game started: enter spectator mode
         if($game->getIsStarted()) {
@@ -80,14 +80,14 @@ class GameController extends Controller
 
     public function showHeadAction($id, $color)
     {
-        $game = $this->findGame($id);
+        $game = $this->get('lichess.provider')->findGame($id);
 
         return new Response(sprintf('Game #%s', $id));
     }
 
     public function joinAction($id)
     {
-        $game = $this->findGame($id);
+        $game = $this->get('lichess.provider')->findGame($id);
 
         try {
             $this->get('lichess.joiner')->join($game);
@@ -140,23 +140,6 @@ class GameController extends Controller
         }
 
         return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array('form' => $form));
-    }
-
-    /**
-     * Return the game for this id
-     *
-     * @param string $id
-     * @return Game
-     */
-    protected function findGame($id)
-    {
-        $game = $this->get('lichess.repository.game')->findOneById($id);
-
-        if(!$game) {
-            throw new NotFoundHttpException('Can\'t find game '.$id);
-        }
-
-        return $game;
     }
 
     protected function createPaginatorForQuery($query)

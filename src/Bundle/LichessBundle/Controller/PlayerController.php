@@ -3,8 +3,6 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Config\AnybodyGameConfig;
@@ -20,7 +18,7 @@ class PlayerController extends Controller
 {
     public function outoftimeAction($id, $version)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.finisher')->outoftime($player);
         $this->flush();
 
@@ -29,7 +27,7 @@ class PlayerController extends Controller
 
     public function rematchAction($id, $version)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.rematcher')->rematch($player);
         $this->flush();
 
@@ -38,7 +36,7 @@ class PlayerController extends Controller
 
     public function syncAction($id, $color, $version, $playerFullId)
     {
-        $player = $this->findPublicPlayer($id, $color);
+        $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
         if($playerFullId) {
             $this->get('lichess.synchronizer')->setAlive($player);
         }
@@ -49,7 +47,7 @@ class PlayerController extends Controller
 
     public function forceResignAction($id)
     {
-        $this->get('lichess.finisher')->forceResign($this->findPlayer($id));
+        $this->get('lichess.finisher')->forceResign($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
@@ -58,7 +56,7 @@ class PlayerController extends Controller
     public function offerDrawAction($id)
     {
         try {
-            $this->get('lichess.drawer')->offer($this->findPlayer($id));
+            $this->get('lichess.drawer')->offer($this->get('lichess.provider')->findPlayer($id));
         } catch (DrawerConcurrentOfferException $e) {
             return $this->acceptDrawOffer($id);
         }
@@ -69,7 +67,7 @@ class PlayerController extends Controller
 
     public function declineDrawOfferAction($id)
     {
-        $this->get('lichess.drawer')->decline($this->findPlayer($id));
+        $this->get('lichess.drawer')->decline($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
@@ -77,7 +75,7 @@ class PlayerController extends Controller
 
     public function acceptDrawOfferAction($id)
     {
-        $this->get('lichess.drawer')->accept($this->findPlayer($id));
+        $this->get('lichess.drawer')->accept($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
@@ -85,7 +83,7 @@ class PlayerController extends Controller
 
     public function cancelDrawOfferAction($id)
     {
-        $this->get('lichess.drawer')->cancel($this->findPlayer($id));
+        $this->get('lichess.drawer')->cancel($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
@@ -93,7 +91,7 @@ class PlayerController extends Controller
 
     public function claimDrawAction($id)
     {
-        $this->get('lichess.finisher')->claimDraw($this->findPlayer($id));
+        $this->get('lichess.finisher')->claimDraw($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
@@ -101,16 +99,16 @@ class PlayerController extends Controller
 
     public function moveAction($id, $version)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         $eventsSinceClientVersion = $this->get('lichess.mover')->move($player, $version, $this->get('request')->request->all());
-        $this->get('lichess.object_manager')->flush(false);
+        $this->flush(false);
 
         return $this->renderJson($eventsSinceClientVersion);
     }
 
     public function showAction($id)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         $game = $player->getGame();
         $this->get('lichess.synchronizer')->setAlive($player);
         if(!$game->getIsStarted()) {
@@ -136,10 +134,10 @@ class PlayerController extends Controller
             throw new NotFoundHttpException(sprintf('Player:say game:%s, POST method required', $id));
         }
         $message = trim($this->get('request')->get('message'));
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.synchronizer')->setAlive($player);
         $this->get('lichess.messenger')->addPlayerMessage($player, $message);
-        $this->get('lichess.object_manager')->flush();
+        $this->flush(false);
 
         return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
     }
@@ -147,7 +145,7 @@ class PlayerController extends Controller
     public function waitAnybodyAction($id)
     {
         try {
-            $player = $this->findPlayer($id);
+            $player = $this->get('lichess.provider')->findPlayer($id);
         }
         catch(NotFoundHttpException $e) {
             return new RedirectResponse($this->generateUrl('lichess_invite_anybody'));
@@ -167,13 +165,13 @@ class PlayerController extends Controller
 
     public function cancelAnybodyAction($id)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         $game   = $player->getGame();
         if($game->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
         $this->get('lichess.seek_queue')->remove($game);
-        $this->get('lichess.object_manager')->flush(array('safe' => true));
+        $this->flush();
         $this->get('lichess.logger')->notice($player, 'Game:inviteAnybody cancel');
 
         return new RedirectResponse($this->generateUrl('lichess_homepage', array('color' => $player->getColor())));
@@ -181,7 +179,7 @@ class PlayerController extends Controller
 
     public function waitFriendAction($id)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         if($player->getGame()->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
@@ -197,9 +195,9 @@ class PlayerController extends Controller
 
     public function resignAction($id)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         try {
-            $this->get('lichess.finisher')->resign($this->findPlayer($id));
+            $this->get('lichess.finisher')->resign($this->get('lichess.provider')->findPlayer($id));
             $this->flush();
         } catch (FinisherException $e) {}
 
@@ -209,7 +207,7 @@ class PlayerController extends Controller
     public function abortAction($id)
     {
         try {
-            $this->get('lichess.finisher')->abort($this->findPlayer($id));
+            $this->get('lichess.finisher')->abort($this->get('lichess.provider')->findPlayer($id));
             $this->flush();
         } catch (FinisherException $e) {}
 
@@ -218,7 +216,7 @@ class PlayerController extends Controller
 
     public function aiLevelAction($id)
     {
-        $player = $this->findPlayer($id);
+        $player = $this->get('lichess.provider')->findPlayer($id);
         $level = min(8, max(1, (int)$this->get('request')->get('level')));
         $player->getOpponent()->setAiLevel($level);
         $this->flush(false);
@@ -229,11 +227,11 @@ class PlayerController extends Controller
     public function tableAction($id, $color, $playerFullId)
     {
         if($playerFullId) {
-            $player = $this->findPlayer($playerFullId);
+            $player = $this->get('lichess.provider')->findPlayer($playerFullId);
             $template = $player->getGame()->getIsPlayable() ? 'table' : 'tableEnd';
         }
         else {
-            $player = $this->findPublicPlayer($id, $color);
+            $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
             $template = 'watchTable';
         }
         return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
@@ -245,11 +243,11 @@ class PlayerController extends Controller
     public function opponentAction($id, $color, $playerFullId)
     {
         if($playerFullId) {
-            $player = $this->findPlayer($playerFullId);
+            $player = $this->get('lichess.provider')->findPlayer($playerFullId);
             $template = 'opponent';
         }
         else {
-            $player = $this->findPublicPlayer($id, $color);
+            $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
             $template = 'watchOpponent';
         }
         $opponent = $player->getOpponent();
@@ -259,51 +257,6 @@ class PlayerController extends Controller
             'game'                => $player->getGame(),
             'playerFullId'        => $playerFullId
         ));
-    }
-
-    /**
-     * Get the player for this id
-     *
-     * @param string $id
-     * @return Player
-     */
-    protected function findPlayer($id)
-    {
-        $gameId = substr($id, 0, 8);
-        $playerId = substr($id, 8, 12);
-
-        $game = $this->get('lichess.repository.game')->findOneById($gameId);
-        if(!$game) {
-            throw new NotFoundHttpException('Player:findPlayer Can\'t find game '.$gameId);
-        }
-
-        $player = $game->getPlayerById($playerId);
-        if(!$player) {
-            throw new NotFoundHttpException('Player:findPlayer Can\'t find player '.$playerId);
-        }
-
-        return $player;
-    }
-
-    /**
-     * Get the public player for this id
-     *
-     * @param string $id
-     * @return Player
-     */
-    protected function findPublicPlayer($id, $color)
-    {
-        $game = $this->get('lichess.repository.game')->findOneById($id);
-        if(!$game) {
-            throw new NotFoundHttpException('Player:findPublicPlayer Can\'t find game '.$id);
-        }
-
-        $player = $game->getPlayer($color);
-        if(!$player) {
-            throw new NotFoundHttpException('Player:findPublicPlayer Can\'t find player '.$color);
-        }
-
-        return $player;
     }
 
     protected function renderJson($data)

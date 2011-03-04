@@ -27,6 +27,7 @@ class LichessExtension extends Extension
         $loader->load('starter.xml');
         $loader->load('seek.xml');
         $loader->load('akismet.xml');
+        $loader->load('provider.xml');
 
         $processor = new Processor();
         $configuration = new Configuration();

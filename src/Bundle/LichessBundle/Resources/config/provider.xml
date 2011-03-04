@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.provider.class">Bundle\LichessBundle\Provider</parameter>
+    </parameters>
+
+    <services>
+        <service id="lichess.provider" class="%lichess.provider.class%">
+            <argument type="service" id="lichess.repository.game" />
+        </service>
+    </services>
+</container>
