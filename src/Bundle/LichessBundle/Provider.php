@@ -20,7 +20,7 @@ class Provider
      * @param string $id
      * @return Game
      */
-    protected function findGame($id)
+    public function findGame($id)
     {
         $game = $this->gameRepository->findOneById($id);
 
@@ -37,7 +37,7 @@ class Provider
      * @param string $id
      * @return Player
      */
-    protected function findPlayer($id)
+    public function findPlayer($id)
     {
         $gameId = substr($id, 0, 8);
         $playerId = substr($id, 8, 12);
@@ -61,7 +61,7 @@ class Provider
      * @param string $id
      * @return Player
      */
-    protected function findPublicPlayer($id, $color)
+    public function findPublicPlayer($id, $color)
     {
         $game = $this->gameRepository->findOneById($id);
         if(!$game) {
