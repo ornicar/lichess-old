@@ -203,7 +203,7 @@ EOF
      **/
     protected function applyMoves(array $moves)
     {
-        $manipulator = new Manipulator($this->game);
+        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         foreach ($moves as $move)
         {
             $manipulator->play($move);

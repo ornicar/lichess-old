@@ -182,7 +182,7 @@ EOF;
         $this->game = $generator->createGame();
         $this->game->setVariant($this->getVariant());
         $this->board = $this->game->getBoard();
-        $this->manipulator = new Manipulator($this->game);
+        $this->manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
     }
 
     /**
@@ -198,7 +198,7 @@ EOF;
         $this->board = $this->game->getBoard();
         $this->game->setStatus(Game::STARTED);
         $this->game->setTurns($blackTurn ? 11 : 10);
-        $this->manipulator = new Manipulator($this->game);
+        $this->manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
     }
 
     /**

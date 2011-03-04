@@ -18,6 +18,7 @@
             <argument type="service" id="lichess.ai_chain" />
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.logger" />
+            <argument type="service" id="lichess.manipulator_factory" />
             <argument type="service" id="session" />
         </service>
         <service id="lichess.starter.friend" class="%lichess.starter.friend.class%">

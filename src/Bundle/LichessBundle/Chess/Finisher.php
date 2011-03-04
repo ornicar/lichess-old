@@ -102,7 +102,7 @@ class Finisher
             throw new FinisherException();
         }
         $game->setStatus(Game::ABORTED);
-        $this->finisher->finish($game);
+        $this->finish($game);
         $game->addEventToStacks(array('type' => 'end'));
         $this->logger->notice($player, 'Player:abort');
     }

@@ -6,12 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PlayerWithOpponentControllerTest extends WebTestCase
 {
-    protected function createGameWithFriend()
+    protected function createGameWithFriend($color = 'white')
     {
         $p1 = $this->createClient();
-        $crawler = $p1->request('GET', '/friend/white');
-        $form = $crawler->selectButton('Start')->form();
-        $p1->submit($form);
+        $crawler = $p1->request('GET', '/friend');
+        $form = $crawler->filter('.submit.'.$color)->form();
+        $p1->submit($form, array('config[color]' => $color));
         $crawler = $p1->followRedirect();
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';

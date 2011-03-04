@@ -29,12 +29,12 @@ class Manipulator
     protected $game = null;
     protected $analyser = null;
 
-    public function __construct(Game $game, Stack $stack = null)
+    public function __construct(Game $game, Stack $stack)
     {
-        $this->game = $game;
-        $this->board = $game->getBoard();
+        $this->game     = $game;
+        $this->board    = $game->getBoard();
         $this->analyser = new Analyser($this->board);
-        $this->stack = $stack ? $stack : new Stack();
+        $this->stack    = $stack;
     }
 
     public function play($notation, array $options = array())

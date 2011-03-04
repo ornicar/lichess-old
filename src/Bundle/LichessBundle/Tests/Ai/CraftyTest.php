@@ -17,7 +17,7 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
         $generator = new Generator();
         $this->game = $generator->createGame();
         $this->board = $this->game->getBoard();
-        $this->manipulator = new Manipulator($this->game);
+        $this->manipulator = new Manipulator($this->game, \Bundle\LichessBundle\Document\Stack());
     }
 
     public function testMoveFormat()

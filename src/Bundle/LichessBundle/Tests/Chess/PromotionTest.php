@@ -105,7 +105,7 @@ EOF;
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game);
+        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play($move, $options);
     }
 

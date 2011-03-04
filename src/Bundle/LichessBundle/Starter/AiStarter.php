@@ -10,7 +10,7 @@ use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Chess\ManipulatorFactory;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\HttpFoundation\Session;
@@ -24,14 +24,15 @@ class AiStarter implements StarterInterface
     protected $logger;
     protected $session;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, Session $session = null)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, ManipulatorFactory $manipulatorFactory, Session $session = null)
     {
-        $this->generator     = $generator;
-        $this->playerBlamer  = $playerBlamer;
-        $this->ai            = $ai;
-        $this->objectManager = $objectManager;
-        $this->logger        = $logger;
-        $this->session       = $session;
+        $this->generator          = $generator;
+        $this->playerBlamer       = $playerBlamer;
+        $this->ai                 = $ai;
+        $this->objectManager      = $objectManager;
+        $this->logger             = $logger;
+        $this->manipulatorFactory = $manipulatorFactory;
+        $this->session            = $session;
     }
 
     public function start(GameConfig $config)
@@ -49,8 +50,7 @@ class AiStarter implements StarterInterface
         $game->start();
 
         if($player->isBlack()) {
-            $manipulator = new Manipulator($game, new Stack());
-            $manipulator->play($this->ai->move($game, $opponent->getAiLevel()));
+            $this->manipulatorFactory->create($game)->play($this->ai->move($game, $opponent->getAiLevel()));
         }
         $this->objectManager->persist($game);
         $this->objectManager->flush(array('safe' => true));

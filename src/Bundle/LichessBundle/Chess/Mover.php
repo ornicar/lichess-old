@@ -3,6 +3,11 @@
 namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Ai\AiInterface;
+use Bundle\LichessBundle\Cheat\InternalDetector;
+use Bundle\LichessBundle\Logger;
+use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Stack;
 use Exception;
 
 class Mover
@@ -96,7 +101,7 @@ class Mover
      */
     protected function detectCheat(Game $game)
     {
-        if($cheater = $this->cheatDetector->detectCheater($game->getGame())) {
+        if($cheater = $this->cheatDetector->detectCheater($game)) {
             $game->setStatus(Game::CHEAT);
             $game->setWinner($cheater->getOpponent());
             $game->addEventToStacks(array('type' => 'end'));

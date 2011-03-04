@@ -8,7 +8,7 @@ use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Bundle\LichessBundle\Document\Game;
 
-class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
+class ThreefoldRepetitionRuleTest extends \PHPUnit_Framework_TestCase
 {
     protected $game;
 
@@ -89,7 +89,7 @@ class ThreefoldRepetitionRule extends \PHPUnit_Framework_TestCase
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game);
+        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play($move, $options);
     }
 

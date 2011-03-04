@@ -12,7 +12,7 @@ $start = microtime(true);
 
 for($it=0; $it<$iterations; $it++) {
     $game = $container->get('lichess.generator')->createGame();
-    $manipulator = new Bundle\LichessBundle\Chess\Manipulator($game);
+    $manipulator = $container->get('lichess.manipulator_factory')->create($game);
     foreach($moves as $i => $move) {
         $manipulator->play($move);
     }

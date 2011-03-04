@@ -13,7 +13,7 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
     {
         $generator = new Generator();
         $game = $generator->createGame();
-        $manipulator = new Manipulator($game);
+        $manipulator = new Manipulator($game, new \Bundle\LichessBundle\Document\Stack());
         $forsyth = new Forsyth();
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', $forsyth->export($game));
         $manipulator->play('e2 e4');
@@ -34,7 +34,7 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
         $game = $generator->createGame();
         $game->getBoard()->getPieceByKey('a1')->setFirstMove(1);
         $game->getBoard()->getPieceByKey('h8')->setFirstMove(1);
-        $manipulator = new Manipulator($game);
+        $manipulator = new Manipulator($game, new \Bundle\LichessBundle\Document\Stack());
         $forsyth = new Forsyth();
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w Kq - 0 1', $forsyth->export($game));
         $game->getBoard()->getPieceByKey('a8')->setFirstMove(1);

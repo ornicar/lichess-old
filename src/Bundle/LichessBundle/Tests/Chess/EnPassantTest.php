@@ -79,7 +79,7 @@ EOF;
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game);
+        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->move($move, $options);
         $this->game->getBoard()->compile();
         $this->game->addTurn();

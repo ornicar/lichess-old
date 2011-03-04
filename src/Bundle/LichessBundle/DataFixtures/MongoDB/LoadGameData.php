@@ -18,6 +18,7 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
     protected $userManager;
     protected $aiStarter;
     protected $friendStarter;
+    protected $manipulatorFactory;
 
     public function getOrder()
     {
@@ -26,9 +27,10 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
 
     public function setContainer(ContainerInterface $container = null)
     {
-        $this->userManager   = $container->get('fos_user.user_manager');
-        $this->aiStarter     = $container->get('lichess.starter.ai');
-        $this->friendStarter = $container->get('lichess.starter.friend');
+        $this->userManager        = $container->get('fos_user.user_manager');
+        $this->aiStarter          = $container->get('lichess.starter.ai');
+        $this->friendStarter      = $container->get('lichess.starter.friend');
+        $this->manipulatorFactory = $container->get('lichess.manipulator_factory');
     }
 
     public function load($manager)
@@ -57,7 +59,7 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         if ($username) {
             $this->blamePlayerWithUsername($player, $username);
         }
-        $manipulator = new Manipulator($game, new Stack());
+        $manipulator = $this->manipulatorFactory->create($game);
         if ('white' === $color) {
             $manipulator->play('d2 d4');
         } else {
@@ -79,7 +81,7 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
             $this->blamePlayerWithUsername($player->getOpponent(), $username2);
         }
         $game->start();
-        $manipulator = new Manipulator($game, new Stack());
+        $manipulator = $this->manipulatorFactory->create($game);
         $manipulator->play('d2 d4');
         $manipulator->play('e7 e5');
         $manipulator->play('b1 c3');

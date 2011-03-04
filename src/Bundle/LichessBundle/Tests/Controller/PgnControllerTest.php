@@ -8,11 +8,12 @@ class PgnControllerTest extends WebTestCase
 {
     public function testExportAction()
     {
+        $color = 'white';
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/ai/white');
+        $crawler = $client->request('GET', '/ai');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->selectButton('Start')->form();
-        $client->submit($form);
+        $form = $crawler->filter('.submit.'.$color)->form();
+        $client->submit($form, array('config[color]' => $color));
         $this->assertTrue($client->getResponse()->isRedirect());
         $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
