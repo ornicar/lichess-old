@@ -241,4 +241,14 @@ class Seek
     {
         return $this->createdAt;
     }
+
+    public function toArray()
+    {
+        $array = array();
+        foreach (array('color', 'modes', 'variants', 'times', 'increments', 'sessionId') as $property) {
+            $array[$property] = $this->$property;
+        }
+
+        return $array;
+    }
 }
