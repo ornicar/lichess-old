@@ -14,22 +14,6 @@ class LichessUserBundle extends Bundle
         return 'FOSUserBundle';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getNamespace()
-    {
-        return __NAMESPACE__;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPath()
-    {
-        return __DIR__;
-    }
-
     public function boot()
     {
         $this->container->get('event_dispatcher')->connect('core.response', array($this, 'listenToCoreResponseEvent'));

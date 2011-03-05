@@ -10,20 +10,4 @@ class LichessForumBundle extends Bundle
     {
         return 'ForumBundle';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNamespace()
-    {
-        return __NAMESPACE__;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPath()
-    {
-        return __DIR__;
-    }
 }
