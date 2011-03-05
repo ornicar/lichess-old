@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Application\MessageBundle\Document\Message;
 
-class LoadUserData implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
+class LoadMessageData implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
     protected $objectManager;
     protected $userManager;
