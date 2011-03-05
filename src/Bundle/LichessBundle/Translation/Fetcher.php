@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Translation;
 use phpGitRepo;
 
-require_once __DIR__.'/../../../vendor/php-git-repo/lib/phpGitRepo.php';
+require_once __DIR__.'/../../../../vendor/php-git-repo/lib/phpGitRepo.php';
 
 class Fetcher
 {
@@ -44,6 +44,9 @@ class Fetcher
         $repo = $this->createGitRepo();
         $currentBranch = $repo->getCurrentBranch();
         foreach($translations as $id => $translation) {
+            if (empty($translation['messages'])) {
+                continue;
+            }
             $branchName = sprintf('t/%d', $id);
             if(!$repo->hasBranch($branchName)) {
                 $commitMessage = sprintf('commit -m "Update \"%s\" translation. Author: %s. Messages: %d. Id: %d. %s"',
