@@ -53,7 +53,6 @@ class AiStarter implements StarterInterface
             $this->manipulatorFactory->create($game)->play($this->ai->move($game, $opponent->getAiLevel()));
         }
         $this->objectManager->persist($game);
-        $this->objectManager->flush(array('safe' => true));
         $this->logger->notice($game, 'Game:inviteAi create');
 
         return $player;

@@ -48,7 +48,6 @@ class FriendStarter implements StarterInterface
         }
         $game->setIsRated($config->mode);
         $this->objectManager->persist($game);
-        $this->objectManager->flush(array('safe' => true));
         $this->logger->notice($game, 'Game:inviteFriend create');
 
         return $player;

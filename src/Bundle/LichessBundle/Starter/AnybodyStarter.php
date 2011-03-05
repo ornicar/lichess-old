@@ -51,7 +51,8 @@ class AnybodyStarter implements StarterInterface
                 $this->objectManager->remove($game);
                 $this->objectManager->flush(array('safe' => true));
                 $this->logger->notice($game, 'Game:inviteAnybody remove');
-                return null;
+                // try again
+                return $this->start($config);
             }
             $this->logger->notice($game, 'Game:inviteAnybody join');
             return $game;

@@ -106,6 +106,7 @@ class GameController extends Controller
 
         if($form->isValid()) {
             $player = $this->get('lichess.starter.friend')->start($form->getData());
+            $this->flush();
             return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
         }
 
@@ -119,6 +120,7 @@ class GameController extends Controller
 
         if($form->isValid()) {
             $player = $this->get('lichess.starter.ai')->start($form->getData());
+            $this->flush();
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
         }
 
@@ -132,6 +134,7 @@ class GameController extends Controller
 
         if($form->isValid()) {
             $return = $this->get('lichess.starter.anybody')->start($form->getData());
+            $this->flush();
             if ($return instanceof Game) {
                 return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $return->getId())));
             } elseif ($return instanceof Player) {
