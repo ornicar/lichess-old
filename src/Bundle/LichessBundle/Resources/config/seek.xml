@@ -7,7 +7,6 @@
     <parameters>
         <parameter key="lichess.seek_queue.class">Bundle\LichessBundle\Seek\SeekQueue</parameter>
         <parameter key="lichess.seek_matcher.class">Bundle\LichessBundle\Seek\SeekMatcher</parameter>
-        <parameter key="lichess.seek_matcher.use_session">true</parameter>
     </parameters>
 
     <services>
