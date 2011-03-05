@@ -94,7 +94,7 @@ class GameController extends Controller
         } catch (InvalidArgumentException $e) {
             return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
         }
-        $this->get('lichess.object_manager')->flush(array('safe' => true));
+        $this->flush();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
     }
@@ -153,5 +153,10 @@ class GameController extends Controller
         $games->setPageRange(10);
 
         return $games;
+    }
+
+    protected function flush($safe = true)
+    {
+        return $this->get('lichess.object_manager')->flush(array('safe' => $safe));
     }
 }
