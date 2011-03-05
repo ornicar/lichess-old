@@ -22,7 +22,7 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
 
     public function getOrder()
     {
-        return 0;
+        return 1;
     }
 
     public function setContainer(ContainerInterface $container = null)
@@ -48,6 +48,8 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
 
         $this->loadFriendGame('black', 'user1', 'user2', array('time' => 20, 'increment' => 5));
         $this->loadFriendGame('black', 'user2', 'user1');
+
+        $manager->flush();
     }
 
     protected function loadAiGame($color, $username)
