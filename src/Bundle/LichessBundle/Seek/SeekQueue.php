@@ -80,7 +80,6 @@ class SeekQueue
             $status = static::QUEUED;
         }
 
-        $this->objectManager->flush();
         return array('status' => $status, 'game' => $game);
     }
 
@@ -105,56 +104,5 @@ class SeekQueue
                 return $candidate;
             }
         }
-    }
-
-    /**
-     * @return DocumentManager
-     */
-    public function getObjectManager()
-    {
-      return $this->objectManager;
-    }
-
-    /**
-     * @param  DocumentManager
-     * @return null
-     */
-    public function setObjectManager($objectManager)
-    {
-      $this->objectManager = $objectManager;
-    }
-
-    /**
-     * @return Generator
-     */
-    public function getGenerator()
-    {
-      return $this->generator;
-    }
-
-    /**
-     * @param  Generator
-     * @return null
-     */
-    public function setGenerator($generator)
-    {
-      $this->generator = $generator;
-    }
-
-    /**
-     * @return SeekRepository
-     */
-    public function getRepository()
-    {
-      return $this->repository;
-    }
-
-    /**
-     * @param  SeekRepository
-     * @return null
-     */
-    public function setRepository($repository)
-    {
-      $this->repository = $repository;
     }
 }
