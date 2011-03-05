@@ -1,3 +1,4 @@
+* use assetic
 * After game over, "rematch" and "new game" are easy to mix up, click wrong one. Would be better if wording is "find new opponent."
 * Comments on game
 * Ability to name a game
@@ -7,7 +8,6 @@
 * Automate draw when both players only have K(N|B)? left
 * Facebook share (http://lichess.org/forum/lichess-feedback/share-game-analyse-on-facebook/4cf4248430c3530873010000)
 * rematch chess960 keeps piece position
-* save game config in User document
 * analysis anchor (http://lichess.org/forum/lichess-feedback/4cd1967630c3534159000000)
 * propose to cancel a move
 * show game in forum
