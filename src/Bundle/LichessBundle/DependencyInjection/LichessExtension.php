@@ -38,6 +38,7 @@ class LichessExtension extends Extension
         $container->setParameter('lichess.debug_assets', $config['debug_assets']);
         $container->setParameter('akismet.api_key', $config['akismet']['api_key']);
         $container->setParameter('akismet.url', $config['akismet']['url']);
+        $container->setParameter('lichess.seek_matcher.use_session', $config['seek']['use_session']);
 
         if ($config['test']) {
             $loader->load('test.xml');
