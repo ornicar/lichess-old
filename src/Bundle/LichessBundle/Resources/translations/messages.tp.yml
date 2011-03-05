@@ -4,6 +4,7 @@
 "Challenge the artificial intelligence": "ilo li wile pali mute!"
 "Play with anybody": "musi tawa jan ijo"
 "Pick a random human opponent": "sina sona ala e jan musi sina"
+"Change side": "kule ante"
 "To invite someone to play, give this url": "sina o pana e ni tawa jan pona sina"
 "Your opponent has arrived!": "jan musi sina li lon!"
 "Game Over": "pini musi"
@@ -110,3 +111,5 @@
 "Casual": "nanpa ala pi pona jan"
 "Rated": "nanpa pi pona jan"
 "This game is rated": "sina kama jo e nanpa pi pona jan lon musi ni"
+"Rematch offer sent": "sina wile e musi sin"
+"Rematch offer accepted": "jan ante li wile kin e musi sin"
