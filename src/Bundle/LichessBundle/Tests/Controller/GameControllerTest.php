@@ -171,6 +171,8 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testInviteAnybodyAsRandom()
     {
+        $this->clearSeekQueue($this->createClient());
+
         list($client, $crawler) = $this->inviteAnybody('random');
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard.wait_anybody';
         $this->assertEquals(1, $crawler->filter($selector)->count());

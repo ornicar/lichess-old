@@ -41,7 +41,7 @@ class AnybodyStarter implements StarterInterface
             $this->session->set('lichess.game_config.anybody', $config->toArray());
         }
         $queue = $this->seekQueue;
-        $result = $queue->add($config->variants, $config->times, $config->increments, $config->modes, $config->color, $this->session->get('lichess.session_id'));
+        $result = $queue->add($config->variants, $config->times, $config->increments, $config->modes, $config->color, $this->getSessionId());
         $game = $result['game'];
         if(!$game) {
             return null;
@@ -59,5 +59,10 @@ class AnybodyStarter implements StarterInterface
         $this->logger->notice($game, 'Game:inviteAnybody queue');
 
         return $game->getCreator();
+    }
+
+    protected function getSessionId()
+    {
+        return $this->session->get('lichess.session_id');
     }
 }
