@@ -43,3 +43,6 @@
 [submodule "vendor/doctrine-data-fixtures"]
 	path = vendor/doctrine-data-fixtures
 	url = git://github.com/doctrine/data-fixtures
+[submodule "vendor/assetic"]
+	path = vendor/assetic
+	url = git://github.com/kriswallsmith/assetic.git
