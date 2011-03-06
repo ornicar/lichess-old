@@ -8,9 +8,8 @@
         {% if error %}
             <div class="error">{{ error|raw }}</div>
         {% endif %}
-        {% set notice %}{% flash "notice" %}{% endset %}
-        {% if notice %}
-            <div class="notice">{{ notice }}</div>
+        {% if app.session.hasFlash('notice') %}
+            <div class="notice">{{ app.session.getFlash('notice') }}</div>
         {% endif %}
         <form action="{{ path("lichess_translate_locale", {"locale": locale} ) }}" data-change-url="{{ path("lichess_translate_locale", {"locale": "__"} ) }}" method="post">
             <div class="field">
