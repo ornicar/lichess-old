@@ -1,9 +1,9 @@
 #!/bin/sh
 
-php lichess/console doctrine:mongodb:data:load
-php lichess/console doctrine:mongodb:schema:create --index
-php lichess/console lichess:generate-proxies
-php lichess/console lichess:generate-hydrators
+php lichess/console -e=dev -d doctrine:mongodb:data:load
+php lichess/console -e=dev -d doctrine:mongodb:schema:create --index
+php lichess/console -e=dev -d lichess:generate-proxies
+php lichess/console -e=dev -d lichess:generate-hydrators
 
-php lichess/console-test doctrine:mongodb:data:load
-php lichess/console-test doctrine:mongodb:schema:create --index
+php lichess/console -e=test -d doctrine:mongodb:data:load
+php lichess/console -e=test -d doctrine:mongodb:schema:create --index
