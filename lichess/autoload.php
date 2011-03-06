@@ -3,12 +3,6 @@
 $vendorDir = realpath(__DIR__.'/../vendor');
 $srcDir = realpath(__DIR__.'/../src');
 
-if (isset($debug) && true === $debug) {
-    require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
-} else {
-    require_once $vendorDir.'/symfony/src/Symfony/Component/HttpKernel/bootstrap.php';
-}
-//require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
