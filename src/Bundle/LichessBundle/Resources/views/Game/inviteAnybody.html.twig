@@ -24,7 +24,7 @@
             <label for="{{ child.id }}">{{ form.increments.label(choice) }}</label>
         {% endfor %}
     </div>
-    {% if form.modes %}
+    {% if form.modes is defined %}
         {% trans "Mode" %}
         <div class="modes buttons">
             {% for choice, child in form.modes %}
