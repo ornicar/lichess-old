@@ -9,10 +9,15 @@ framework:
         default_locale: en
         name:     SF
         lifetime: 2592000
+        auto_start:     true
     templating:
         assets_version: 121
         engines: ['twig']
     translator: { fallback: en }
+
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
 
 zend:
     logger:
