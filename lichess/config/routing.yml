@@ -4,7 +4,7 @@ user:
     resource: @FOSUserBundle/Resources/config/routing.yml
 
 lichess:
-  resource: @LichessBundle/Resources/config/routing.yml
+    resource: @LichessBundle/Resources/config/routing.yml
 
 forum:
     resource: @ForumBundle/Resources/config/routing/forum.xml
