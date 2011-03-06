@@ -10,7 +10,7 @@ class MainController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('LichessBundle:Main:index.html.twig', array('color' => 'white'));
+        return $this->render('LichessBundle:Main:index.html.twig');
     }
 
     public function todolistAction()

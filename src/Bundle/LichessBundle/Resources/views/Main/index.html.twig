@@ -4,10 +4,10 @@
 <link href="/bundles/lichess/css/board.css" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block content %}
-<div class="lichess_game_not_started clearfix lichess_player_{{ color }}">
+<div class="lichess_game_not_started clearfix lichess_player_white">
     <div class="lichess_board_wrap">
-        {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".html.twig" %}
+        {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
     </div>
-    {% include "LichessBundle:Game:bootGround.html.twig" with {"color": color} %}
+    {% include "LichessBundle:Game:bootGround.html.twig" with {"active": false} %}
 </div>
 {% endblock %}
