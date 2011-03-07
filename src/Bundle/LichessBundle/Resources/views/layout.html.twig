@@ -8,9 +8,7 @@
         <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         {% block stylesheets %}
-            {% stylesheets '@LichessBundle/Resources/public/css/common.css' %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-            {% endstylesheets %}
+            <link href="/bundles/lichess/css/common.css" type="text/css" rel="stylesheet" />
         {% endblock %}
     </head>
     <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
@@ -78,15 +76,9 @@
         <script>!window.jQuery && document.write(unescape('%3Cscript src="{{ asset("/bundles/lichess/vendor/jquery.min.js") }}"%3E%3C/script%3E'))</script>
         <script>!jQuery.ui && document.write(unescape('%3Cscript src="{{ asset("/bundles/lichess/vendor/jquery-ui.min.js") }}"%3E%3C/script%3E'))</script>
         {% block javascripts %}
-            {% javascripts '@LichessBundle/Resources/public/js/tipsy.min.js' %}
-                <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-            {% javascripts '@LichessBundle/Resources/public/js/ajaxqueue.js' %}
-                <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-            {% javascripts '@LichessBundle/Resources/public/js/ctrl.js' %}
-                <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
+            <script src="/bundles/lichess/js/tipsy.min.js"></script>
+            <script src="/bundles/lichess/js/ajaxqueue.js"></script>
+            <script src="/bundles/lichess/js/ctrl.js"></script>
         {% endblock %}
     </body>
 </html>
