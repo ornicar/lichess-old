@@ -19,10 +19,6 @@ twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
 
-assetic:
-    debug:          %kernel.debug%
-    use_controller: %kernel.debug%
-
 zend:
     logger:
         priority: NOTICE

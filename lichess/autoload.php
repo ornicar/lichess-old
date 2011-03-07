@@ -17,7 +17,6 @@ $loader->registerNamespaces(array(
     'FOS'                            => $srcDir,
     'Knplabs'                        => $srcDir,
     'Application'                    => $srcDir,
-    'Assetic'                        => $vendorDir.'/assetic/src/',
     'ZendPaginatorAdapter'           => $vendorDir.'/ZendPaginatorAdapter/src',
     'Zend'                           => $vendorDir.'/zend/library'
 ));
