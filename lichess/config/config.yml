@@ -21,7 +21,7 @@ twig:
 
 assetic:
     debug:          %kernel.debug%
-    use_controller: false
+    use_controller: %kernel.debug%
 
 zend:
     logger:
