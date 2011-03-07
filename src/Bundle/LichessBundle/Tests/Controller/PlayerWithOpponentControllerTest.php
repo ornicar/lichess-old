@@ -226,7 +226,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertTrue($p2->getResponse()->isSuccessful());
         $this->assertEquals('Cancel', $crawler->filter('.offered_draw a')->text());
 
-        $crawler = $p1->request('GET', '/'.$h2);
+        $crawler = $p1->request('GET', '/'.$h1);
 
         // p1 sees the draw offer
         $this->assertRegexp('/Your opponent offers a draw/', $p1->getResponse()->getContent());
