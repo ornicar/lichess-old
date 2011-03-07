@@ -59,7 +59,7 @@ class UserController extends BaseUserController
         $users->setPageRange(3);
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_list');
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users'));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users', 'pagerUrl'));
     }
 
     public function showAction($username)

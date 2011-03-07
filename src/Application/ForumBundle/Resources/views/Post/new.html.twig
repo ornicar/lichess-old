@@ -3,7 +3,7 @@
     <div class="forum_trap">Leave me empty: {{ form_field(form.trap) }}</div>
     {{ form_errors(form.message) }}
     <label><span class="required">Message</span>{{ form_field(form.message) }}</label>
-    {% if form.authorName %}
+    {% if form.authorName is defined %}
         <label><span>Author</span>{{ form_field(form.authorName, {"class": "authorName"}) }}</label>
     {% endif %}
     <input type="submit" class="submit button" value="Reply" />
