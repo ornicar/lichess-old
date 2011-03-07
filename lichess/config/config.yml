@@ -70,6 +70,9 @@ forum:
         posts_per_page: 10
         search_results_per_page: 10
 
+lichess_forum:
+    detect_spam: true
+
 security:
     providers:
         fos_user_provider:
@@ -110,11 +113,15 @@ fos_user:
             user: Application\UserBundle\Controller\UserController
             security: Application\UserBundle\Controller\SecurityController
 
+lichess_user: ~
+
 ornicar_message:
     db_driver: odm
     class:
         model:
             message: Application\MessageBundle\Document\Message
+
+lichess_message: ~
 
 lichess:
     ai:
@@ -122,9 +129,6 @@ lichess:
     akismet:
         url: http://lichess.org
         #api_key: see config_local.yml
-
-lichess_forum:
-    detect_spam: true
 
 imports:
     - { resource: config_local.yml }
