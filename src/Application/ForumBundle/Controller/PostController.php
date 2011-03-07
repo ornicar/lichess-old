@@ -38,10 +38,7 @@ class PostController extends BasePostController
 
         $url = $this->get('forum.router.url_generator')->urlForPost($post);
         $response = new RedirectResponse($url);
-
-        if(!$this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
-            $response->headers->setCookie(new Cookie('lichess_forum_authorName', urlencode($post->getAuthorName()), null, $this->generateUrl('forum_index'), '', false, new \DateTime('+ 6 month')));
-        }
+        $this->get('forum.authorname_persistence')->persistPost($post, $response);
 
         return $response;
     }

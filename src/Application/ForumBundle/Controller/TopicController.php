@@ -42,11 +42,8 @@ class TopicController extends BaseTopicController
 
         $this->get('session')->setFlash('forum_topic_create/success', true);
         $url = $this->get('forum.router.url_generator')->urlForTopic($topic);
-
         $response = new RedirectResponse($url);
-        if(!$this->get('security.context')->vote('IS_AUTHENTICATED_FULLY')) {
-            $response->headers->setCookie(new Cookie('lichess_forum_authorName', urlencode($topic->getLastPost()->getAuthorName()), null, $this->generateUrl('forum_index'), '', false, new \DateTime('+ 6 month')));
-        }
+        $this->get('forum.authorname_persistence')->persistTopic($topic, $response);
 
         return $response;
     }
