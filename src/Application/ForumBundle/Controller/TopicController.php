@@ -13,17 +13,34 @@ use Symfony\Component\Form\Error;
 
 class TopicController extends BaseTopicController
 {
+    public function newAction(Category $category = null)
+    {
+        $post = $this->get('forum.repository.post')->createNewPost();
+        $this->get('forum.authorname_persistence')->loadPost($post);
+        $topic = $this->get('forum.repository.topic')->createNewTopic();
+        $topic->setFirstPost($post);
+        if ($category) {
+            $topic->setCategory($category);
+        }
+        $form = $this->get('forum.form.new_topic');
+        $form->setData($topic);
+
+        return $this->get('templating')->renderResponse('ForumBundle:Topic:new.html.'.$this->getRenderer(), array(
+            'form'      => $form,
+            'category'  => $category
+        ));
+    }
+
     public function createAction(Category $category = null)
     {
-        $form = $this->get('forum.form.new_topic');
         $topic = $this->get('forum.repository.topic')->createNewTopic();
+        $form = $this->get('forum.form.new_topic');
         $form->bind($this->get('request'), $topic);
 
         if(!$form->isValid()) {
             return $this->invalidCreate($category, $form);
         }
 
-        $topic = $form->getData();
         $this->get('forum.blamer.topic')->blame($topic);
         $this->get('forum.blamer.post')->blame($topic->getFirstPost());
 

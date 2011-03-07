@@ -8,6 +8,7 @@
 
         <service id="forum.authorname_persistence" class="Application\ForumBundle\AuthorNamePersistence" scope="request">
             <argument type="service" id="security.context" />
+            <argument type="service" id="request" />
         </service>
 
     </services>

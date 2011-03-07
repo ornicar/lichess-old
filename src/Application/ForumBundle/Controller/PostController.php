@@ -12,11 +12,24 @@ use Symfony\Component\Form\Error;
 
 class PostController extends BasePostController
 {
+    public function newAction(Topic $topic)
+    {
+        $post = $this->get('forum.repository.post')->createNewPost();
+        $this->get('forum.authorname_persistence')->loadPost($post);
+        $form = $this->get('forum.form.post');
+        $form->setData($post);
+
+        return $this->get('templating')->renderResponse('ForumBundle:Post:new.html.'.$this->getRenderer(), array(
+            'form'  => $form,
+            'topic' => $topic,
+        ));
+    }
+
     public function createAction(Topic $topic)
     {
-        $form = $this->get('forum.form.post');
         $post = $this->get('forum.repository.post')->createNewPost();
         $post->setTopic($topic);
+        $form = $this->get('forum.form.post');
         $form->bind($this->get('request'), $post);
 
         if(!$form->isValid()) {

@@ -2,6 +2,7 @@
 
 namespace Application\ForumBundle;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -12,31 +13,48 @@ use DateTime;
 class AuthorNamePersistence
 {
     protected $securityContext;
+    protected $request;
+    protected $cookieName = 'lichess_forum_authorName';
 
-    public function __construct(SecurityContext $securityContext)
+    public function __construct(SecurityContext $securityContext, Request $request)
     {
         $this->securityContext = $securityContext;
+        $this->request = $request;
     }
 
     public function persistTopic(Topic $topic, Response $response)
     {
-        if(!$this->securityContext->vote('IS_AUTHENTICATED_FULLY')) {
+        if($this->isAnonymous()) {
             $response->headers->setCookie(new Cookie(
-                'lichess_forum_authorName',
+                $this->cookieName,
                 urlencode($topic->getLastPost()->getAuthorName()),
-                15552000
+                time() + 15552000
             ));
         }
     }
 
     public function persistPost(Post $post, Response $response)
     {
-        if(!$this->securityContext->vote('IS_AUTHENTICATED_FULLY')) {
+        if($this->isAnonymous()) {
             $response->headers->setCookie(new Cookie(
-                'lichess_forum_authorName',
+                $this->cookieName,
                 urlencode($post->getAuthorName()),
-                15552000
+                time() + 15552000
             ));
         }
+    }
+
+    public function loadPost(Post $post)
+    {
+        if($this->isAnonymous()) {
+            if ($authorName = $this->request->cookies->get($this->cookieName)) {
+                $post->setAuthorName($authorName);
+            }
+        }
+    }
+
+    protected function isAnonymous()
+    {
+        return !$this->securityContext->vote('IS_AUTHENTICATED_FULLY');
     }
 }
