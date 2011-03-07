@@ -3,7 +3,7 @@
 {% if player.game.hasClock %}
     {% include "LichessBundle:Game:clock.html.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
 {% endif %}
-<div class="lichess_table finished {{ game.next ? " lichess_table_next" : "" }}">
+<div class="lichess_table finished {{ game.next is defined ? " lichess_table_next" : "" }}">
     <div class="lichess_opponent">
         {% if player.opponent.isAi %}
         <span>{% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel} %}</span>
