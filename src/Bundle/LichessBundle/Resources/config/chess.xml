@@ -90,6 +90,7 @@
 
         <service id="lichess.drawer" class="%lichess.drawer.class%">
             <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess.finisher" />
             <argument type="service" id="lichess.logger" />
         </service>
 

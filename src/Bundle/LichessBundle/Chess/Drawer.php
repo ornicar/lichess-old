@@ -2,17 +2,22 @@
 
 namespace Bundle\LichessBundle\Chess;
 
+use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Logger;
+use LogicException;
 
 class Drawer
 {
     protected $messenger;
+    protected $finisher;
     protected $logger;
 
-    public function __construct(Messenger $messenger, Logger $logger)
+    public function __construct(Messenger $messenger, Finisher $finisher, Logger $logger)
     {
-        $this->messenger    = $messenger;
-        $this->logger       = $logger;
+        $this->messenger = $messenger;
+        $this->finisher  = $finisher;
+        $this->logger    = $logger;
     }
 
     /**
@@ -25,6 +30,9 @@ class Drawer
     {
         $game = $player->getGame();
         if($game->getIsPlayable()) {
+            if (!$game->getHasEnoughMovesToDraw()) {
+                throw new LogicException('Too early to draw');
+            }
             if(!$player->getIsOfferingDraw()) {
                 if($player->getOpponent()->getIsOfferingDraw()) {
                     throw new DrawerConcurrentOfferException();
@@ -71,8 +79,8 @@ class Drawer
         $game = $player->getGame();
         if($player->getOpponent()->getIsOfferingDraw()) {
             $this->messenger->addSystemMessage($game, 'Draw offer accepted');
-            $game->setStatus(GAME::DRAW);
-            $this->finish($game);
+            $game->setStatus(Game::DRAW);
+            $this->finisher->finish($game);
             $game->addEventToStacks(array('type' => 'end'));
             $this->logger->notice($player, 'Player:acceptDrawOffer');
         } else {

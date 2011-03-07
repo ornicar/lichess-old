@@ -35,15 +35,17 @@ class Finisher
      * @param Game $game
      * @return void
      */
-    public function outoftime(Game $game)
+    public function outoftime(Player $player)
     {
+        $game = $player->getGame();
         if($game->checkOutOfTime()) {
             $this->finish($game);
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
             $game->addEventToStacks($events);
-            $this->logger->notice($game, 'Player:outoftime');
+            $this->logger->notice($player, 'Player:outoftime');
+            return true;
         } else {
-            throw new LogicException($this->logger->formatPlayer($player, 'Player:outoftime'));
+            $this->logger->warn($player, 'Player:outoftime too early');
         }
     }
 
@@ -78,7 +80,7 @@ class Finisher
     {
         $game = $player->getGame();
         if($game->getIsPlayable() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
-            $game->setStatus(GAME::DRAW);
+            $game->setStatus(Game::DRAW);
             $this->finish($game);
             $game->addEventToStacks(array('type' => 'end'));
             $this->logger->notice($player, 'Player:claimDraw');

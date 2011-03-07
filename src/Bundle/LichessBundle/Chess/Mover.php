@@ -8,7 +8,7 @@ use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Stack;
-use Exception;
+use LogicException;
 
 class Mover
 {
