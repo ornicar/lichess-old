@@ -23,8 +23,9 @@ class AnybodyStarter implements StarterInterface
     protected $logger;
     protected $seekQueue;
     protected $session;
+    protected $checkCreatorIsConnected;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Synchronizer $synchronizer, Session $session)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Synchronizer $synchronizer, Session $session, $checkCreatorIsConnected)
     {
         $this->generator     = $generator;
         $this->playerBlamer  = $playerBlamer;
@@ -33,6 +34,7 @@ class AnybodyStarter implements StarterInterface
         $this->seekQueue     = $seekQueue;
         $this->synchronizer  = $synchronizer;
         $this->session       = $session;
+        $this->checkCreatorIsConnected = (bool) $checkCreatorIsConnected;
     }
 
     public function start(GameConfig $config)
@@ -47,7 +49,7 @@ class AnybodyStarter implements StarterInterface
             return null;
         }
         if($result['status'] === $queue::FOUND) {
-            if(!$this->synchronizer->isConnected($game->getCreator())) {
+            if($this->checkCreatorIsConnected && !$this->synchronizer->isConnected($game->getCreator())) {
                 $this->objectManager->remove($game);
                 $this->objectManager->flush(array('safe' => true));
                 $this->logger->notice($game, 'Game:inviteAnybody remove');

@@ -36,6 +36,7 @@
             <argument type="service" id="lichess.seek_queue" />
             <argument type="service" id="lichess.synchronizer" />
             <argument type="service" id="session" />
+            <argument>%lichess.starter.anybody.check_creator_is_connected%</argument>
         </service>
         <service id="lichess.joiner" class="%lichess.joiner.class%">
             <argument type="service" id="lichess.blamer.player" />
