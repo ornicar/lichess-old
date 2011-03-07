@@ -50,6 +50,10 @@ You can also run checks from command line, but the results may differ:
 
     php web/check.php
 
+### Build bootstrap
+
+    ./bin/build_bootstrap.php
+
 ### Install assets
 
     php lichess/console assets:install web --symlink
