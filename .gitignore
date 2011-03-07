@@ -2,6 +2,7 @@
 /lichess/cache/*
 /lichess/logs/*
 /lichess/deploy*
+/lichess/bootstrap*
 tags
 /web/.htaccess
 /web/google*
