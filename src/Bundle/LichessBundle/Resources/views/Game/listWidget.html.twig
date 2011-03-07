@@ -1,3 +1,4 @@
+{% if fromUser is not defined %}{% set fromUser = none %}{% endif %}
 {% for game in games %}
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
