@@ -30,6 +30,12 @@ span.board_mark {
     color: #bbb;
     font-weight: bold;
 }
+span.board_mark.vert {
+    right: -10px;
+}
+span.board_mark.horz {
+    bottom: -14px;
+}
 
 #GameBoard {
     position: relative;
