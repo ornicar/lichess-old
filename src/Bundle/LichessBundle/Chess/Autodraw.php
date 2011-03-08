@@ -15,6 +15,23 @@ class Autodraw
      **/
     public function isAutodraw(Game $game)
     {
+        if ($this->fewMaterial($game)) {
+            return true;
+        }
+        if ($this->fiftyMoves($game)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function fiftyMoves(Game $game)
+    {
+        return $game->isFiftyMoves();
+    }
+
+    protected function fewMaterial(Game $game)
+    {
         $white = $game->getPlayer('white');
         $black = $game->getPlayer('black');
         $whiteNbPieces = $white->getNbAlivePieces();

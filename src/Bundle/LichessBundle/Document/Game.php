@@ -459,6 +459,16 @@ class Game
     }
 
     /**
+     * Does the fifty moves autodraw rules apply now?
+     *
+     * @return bool
+     **/
+    public function isFiftyMoves()
+    {
+        return 50 <= count($this->positionHashes);
+    }
+
+    /**
      * Halfmove clock: This is the number of halfmoves since the last pawn advance or capture.
      * This is used to determine if a draw can be claimed under the fifty-move rule.
      *
