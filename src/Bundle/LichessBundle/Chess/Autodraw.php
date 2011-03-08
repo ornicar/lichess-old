@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
 
 class Autodraw
 {
@@ -46,7 +47,7 @@ class Autodraw
 
     protected function getLastPiece(Player $player)
     {
-        $pieces = PieceFilter::filterNotClass(PieceFilter::filterAlive($white->getPieces()), 'King');
+        $pieces = PieceFilter::filterNotClass(PieceFilter::filterAlive($player->getPieces()), 'King');
 
         return empty($pieces) ? null : $pieces[0];
     }
