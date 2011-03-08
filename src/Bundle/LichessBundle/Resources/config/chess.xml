@@ -50,6 +50,7 @@
 
         <service id="lichess.manipulator_factory" class="%lichess.manipulator_factory.class%">
             <argument type="service" id="lichess.autodraw" />
+            <argument type="service" id="lichess.analyser_factory" />
             <argument>%lichess.manipulator.class%</argument>
         </service>
 

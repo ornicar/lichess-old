@@ -17,25 +17,25 @@ class Manipulator
      *
      * @var Board
      */
-    protected $board = null;
+    protected $board;
 
     /**
      * The event stack to record chess events
      *
      * @var Stack
      */
-    protected $stack = null;
+    protected $stack;
 
-    protected $game = null;
-    protected $autodraw = null;
-    protected $analyser = null;
+    protected $game;
+    protected $autodraw;
+    protected $analyser;
 
-    public function __construct(Game $game, Autodraw $autodraw, Stack $stack)
+    public function __construct(Game $game, Autodraw $autodraw, Analyser $analyser, Stack $stack)
     {
         $this->game     = $game;
         $this->board    = $game->getBoard();
         $this->autodraw = $autodraw;
-        $this->analyser = new Analyser($this->board);
+        $this->analyser = $analyser;
         $this->stack    = $stack;
     }
 

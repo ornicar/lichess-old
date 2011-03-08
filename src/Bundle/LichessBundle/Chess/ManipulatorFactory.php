@@ -7,11 +7,14 @@ use Bundle\LichessBundle\Document\Stack;
 
 class ManipulatorFactory
 {
+    protected $autodraw;
+    protected $analyserFactory;
     protected $class;
 
-    public function __construct(Autodraw $autodraw, $class)
+    public function __construct(Autodraw $autodraw, AnalyserFactory $analyserFactory, $class)
     {
         $this->autodraw = $autodraw;
+        $this->analyserFactory = $analyserFactory;
         $this->class = $class;
     }
 
@@ -20,6 +23,6 @@ class ManipulatorFactory
         $class = $this->class;
         $stack = $stack ?: new Stack();
 
-        return new $class($game, $this->autodraw, $stack);
+        return new $class($game, $this->autodraw, $this->analyserFactory->create($game->getBoard()), $stack);
     }
 }
