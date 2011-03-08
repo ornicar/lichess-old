@@ -2,8 +2,6 @@
 
 php lichess/console -e=dev -d -v doctrine:mongodb:data:load
 php lichess/console -e=dev -d -v doctrine:mongodb:schema:create --index
-php lichess/console -e=dev -d -v lichess:generate-proxies
-php lichess/console -e=dev -d -v lichess:generate-hydrators
 
 php lichess/console -e=test -d -v doctrine:mongodb:data:load
 php lichess/console -e=test -d -v doctrine:mongodb:schema:create --index
