@@ -129,14 +129,12 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('div.lichess_current_player p:contains("Draw")')->count());
     }
 
-    /**
-     * @expectedException LogicException
-     */
     public function testDrawOfferTooEarly()
     {
         list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend();
 
         $p1->request('GET', '/offer-draw/'.$h1);
+        $this->assertFalse($p1->getResponse()->isSuccessful());
     }
 
     public function testDrawOffer()
@@ -245,9 +243,6 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('.offered_draw')->count());
     }
 
-    /**
-     * @expectedException LogicException
-     */
     public function testOutoftimeNoClock()
     {
         list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', function($form) {
@@ -255,6 +250,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         });
 
         $p1->request('POST', '/outoftime/'.$h1.'/1');
+        $this->assertFalse($p1->getResponse()->isSuccessful());
     }
 
     public function testOutOfTimeTooEarly()

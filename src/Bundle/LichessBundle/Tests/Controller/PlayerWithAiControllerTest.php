@@ -66,8 +66,6 @@ class PlayerWithAiControllerTest extends WebTestCase
 
     /**
      * @depends testMoveWithAi
-     *
-     * @expectedException LogicException
      */
     public function testIllegalMoveWithAi($id)
     {
@@ -75,6 +73,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $moveUrl = $this->getMoveUrl($id);
 
         $client->request('POST', $moveUrl, array('from' => 'a1', 'to' => 'a8'));
+        $this->assertFalse($client->getResponse()->isSuccessful());
     }
 
     /**
