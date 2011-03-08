@@ -12,12 +12,9 @@ require_once __DIR__.'/../vendor/symfony/src/Symfony/Component/ClassLoader/Unive
  * file that was distributed with this source code.
  */
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Component\ClassLoader\ClassCollectionLoader;
 
-$loader = new UniversalClassLoader();
-$loader->registerNamespaces(array('Symfony' => __DIR__.'/../vendor/symfony/src'));
-$loader->register();
+require_once __DIR__.'/../lichess/autoload.php';
 
 $file = __DIR__.'/../lichess/bootstrap.php';
 if (file_exists($file)) {
@@ -43,7 +40,6 @@ ClassCollectionLoader::load(array(
     'Symfony\\Component\\HttpFoundation\\ServerBag',
     'Symfony\\Component\\HttpFoundation\\HeaderBag',
     'Symfony\\Component\\HttpFoundation\\Request',
-    'Symfony\\Component\\HttpFoundation\\ApacheRequest',
 
     'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
     'Symfony\\Component\\ClassLoader\\UniversalClassLoader',
