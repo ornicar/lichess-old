@@ -14,8 +14,6 @@
 {{ lichess_date(game.updatedAt) }}
 {% endif %}
 </b>-
-turn 
-{{ game.fullMoveNumber }},
 {% if game.isFinishedOrAborted %}
 {% trans game.statusMessage %}
 {% if game.winner %}
