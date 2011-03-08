@@ -1,3 +1,4 @@
+* keyboard play
 * use assetic
 * After game over, "rematch" and "new game" are easy to mix up, click wrong one. Would be better if wording is "find new opponent."
 * Comments on game
@@ -5,7 +6,6 @@
 * Show exact date of games
 * The game may be drawn if each player has made at least the last 50 consecutive moves without the movement of any pawn and without any capture
 * when a player flags & the opponent has only K(N|B)? -> draw
-* Automate draw when both players only have K(N|B)? left
 * Facebook share (http://lichess.org/forum/lichess-feedback/share-game-analyse-on-facebook/4cf4248430c3530873010000)
 * rematch chess960 keeps piece position
 * analysis anchor (http://lichess.org/forum/lichess-feedback/4cd1967630c3534159000000)
