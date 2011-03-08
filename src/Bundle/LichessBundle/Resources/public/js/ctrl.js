@@ -63,20 +63,14 @@ $(function() {
 		$.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
 	}
 
-	$('div.lichess_language').hover(function() {
-		ul = $(this).find('ul');
-		if (!ul.length) {
-			var $div = $(this);
-			$.get($div.attr('data-path'), function(html) {
-				$div.append(html).find('ul').fadeIn(300);
-			});
-		} else {
-			ul.fadeIn(300);
+	$('div.lichess_language').click(function() {
+        $(this).toggleClass('toggled');
+	}).mouseenter(function() {
+        var $div = $(this);
+		if (!$div.find('ul').length) {
+			$.get($div.attr('data-path'), function(html) { $div.append(html); });
 		}
-	},
-	function() {
-		$(this).find('ul').fadeOut(300);
-	});
+    });
 
 	$('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
@@ -92,9 +86,11 @@ $(function() {
 		});
 	}
 
-	$('a.toggle_signin').one('click', function() {
-		$('#top_menu').find('a.toggle_signin').hide().closest('div.security').addClass('show_signin_form').find('input:first').focus();
-	});
+	$('a.toggle_signin').toggle(function() {
+		$('#top').find('div.security').addClass('show_signin_form').find('input:first').focus();
+	}, function() {
+		$('#top').find('div.security').removeClass('show_signin_form');
+    });
 
 	$('#lichess_message input[value=""]:first, #fos_user_user_form_username').focus();
 

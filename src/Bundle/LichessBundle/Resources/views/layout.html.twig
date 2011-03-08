@@ -12,11 +12,12 @@
         {% endblock %}
     </head>
     <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
+        {% include "LichessBundle::top.html.twig" with {"active": block("menu_active")} %}
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
                 {#
-                {% if app.session.getFlash("locale_change") != "en" %}{% render "LichessBundle:Translation:incomplete" with{"locale": newLocale} %}{% endif %}
+                {% if app.session.getFlash("locale_change") != "en" %}{% render "LichessBundle:Translation:incomplete.html.twig" with{"locale": app.session.locale} %}{% endif %}
                 #}
                 <div class="lichess_goodies_wrap">{% block goodies %}{% endblock %}</div>
                 <div class="lichess_chat_wrap">{% block chat %}{% endblock %}</div>
@@ -41,33 +42,9 @@
             </div>
         </div>
         <div class="lichess_server">
-            <a href="#top">{% trans "Back to top" %}</a> | [[time]] | {% trans "Server load" %}: <span class="value">{{ lichess_load_average() }}</span> |
+            <a href="#top_menu">{% trans "Back to top" %}</a> | [[time]] | {% trans "Server load" %}: <span class="value">{{ lichess_load_average() }}</span> |
             <a class="blank_if_play" href="/monitor/index.html">Server monitoring</a>
         </div>
-        <div id="top_menu">
-            {% block top_menu %}
-            <a title="{% trans "Toggle sound" %}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}"></a>
-            <div class="lichess_language" data-path="{{ path("lichess_locale_links") }}">
-                <span class="s16">{{ lichess_locale_name() }}</span>
-            </div>
-            <a class="s16 goto_forum goto_nav blank_if_play" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{{ path("forum_index") }}">{% trans "Forum" %}</a>
-            <a class="s16 goto_gamelist goto_nav blank_if_play" title="{% trans "See the games being played in real time" %}" href="{{ path("lichess_list_current") }}">{% trans "Games" %}</a>
-            <a class="s16 goto_userlist goto_nav blank_if_play" title="{% trans "Chess players" %}" href="{{ path("fos_user_user_list") }}">{% trans "People" %}</a>
-            {% endblock %}
-            {% block security %}
-                {% if fos_user_isAnonymous() %}
-                    {% include "FOSUserBundle:Security:embeddedLogin.html.twig" %}
-                {% else %}
-                    <a class="s16 goto_nav goto_message blank_if_play" href="{{ path("ornicar_message_message_list") }}">
-                        {% trans "Inbox" %}
-                        <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
-                    </a>
-                    <a class="s16 goto_nav goto_logout" href="{{ path("_security_logout") }}">{% trans "Log out" %}</a>
-                    <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": app.user.username}) }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="s16 blank_if_play goto_nav goto_profile">{{ app.user.usernameWithElo}}</a>
-                {% endif %}
-            {% endblock %}
-        </div>
-        <div id="top"></div>
         {% block js_data %}{% endblock %}
         {% if not lichess_debug_assets() %}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>

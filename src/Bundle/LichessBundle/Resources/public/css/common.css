@@ -30,7 +30,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 body {
     font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
     color: #888;
-    background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
+    background: #F7F7F7 url(../images/head_bg.png) +24px left repeat-x;
 }
 
 a, a:visited {
@@ -58,12 +58,22 @@ div.header strong {
 
 div.content {
     width: 1010px;
-    margin: 50px auto 50px auto;
-    position: relative;
+    margin: 40px auto 50px auto;
+}
+
+#top {
+    background: #eaeaea;
+    height: 24px;
+    opacity: 0.7;
+    width: 100%;
+}
+#top {
+    opacity: 1;
 }
 
 #lichess {
     margin-left: 211px;
+    display:none;
 }
 
 a.site_title {
@@ -162,125 +172,28 @@ div.lichess_goodies div.box {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
-
-#top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-}
-
-#top_menu {
-    position: absolute;
-    top: 5px;
-    right: 120px;
-    width: 800px;
-    opacity: 0.7;
-}
-#top_menu:hover {
-    opacity: 1;
-}
-a#sound_state {
-    margin-top: 4px;
-    float: right;
-    width: 18px;
-    height: 15px;
-    opacity: 0.7;
-    background: url(../images/s16.png) no-repeat;
-    display: block;
-}
-a#sound_state:hover {
-    opacity: 1;
-}
-a#sound_state.sound_state_on {
-    background-position: 0 -80px;
-}
-a#sound_state.sound_state_off {
-    background-position: 0 -64px;
-}
-a#sound_state.unavailable {
-    opacity: 0;
-}
-div.lichess_language {
-    margin-top: 4px;
-    margin-right: 1.5em;
-    float: right;
-    position: relative;
-}
-div.lichess_language span {
-    background-position: right -192px;
-    padding-left: 0;
-    padding-right: 20px;
-    cursor: pointer;
-    font-size: 13px;
-}
-ul.lichess_language_links {
-    display:none;
-    background: #FFF;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 7px #ccc;
-    -moz-box-shadow: 0 0 7px #ccc;
-    -webkit-box-shadow: 0 0 7px #ccc;
-    margin-top: 0.2em;
-    position: absolute;
-    top: 1em;
-    left: 0;
-    width: 183px;
-    z-index: 5;
-    max-height: 600px;
-    overflow:auto;
-}
-ul.lichess_language_links a {
-    display: block;
-    padding: 0.4em 0.5em;
-    text-decoration: none;
-    text-transform: capitalize;
-}
-ul.lichess_language_links a:hover {
-    background: #F0F0F0;
-    color: #444;
-}
-ul.lichess_language_links li:last-child {
-    border-top: 1px solid #ddd;
-}
-div.security, a.goto_nav {
-    margin-right: 2em;
-    float: right;
+a.goto_nav, #top a.toggle, a#sound_state {
     text-decoration: none;
     font-size: 13px;
-}
-div.security {
-    margin-top: 4px;
-}
-div.security form {
-    display: none;
-}
-div.security.show_signin_form {
-    margin-top: 0px;
-}
-div.security.show_signin_form a.toggle_signin {
-    display: none;
-}
-div.security.show_signin_form form {
-    display: inline;
-}
-div.security input.username, div.security input.password {
-    border: 1px solid #dadada;
-    padding: 2px 3px;
-    width: 100px;
-    background: #fff;
-}
-div.security input.login {
-    padding: 0 3px;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 12px;
+    text-decoration: none;
 }
 a.goto_nav {
-    margin-top: 4px;
+    float: left;
+    padding-left: 9px;
 }
-a.goto_nav:hover {
-    text-decoration: underline;
+a.goto_nav:hover, #top a.toggle:hover, a#sound_state:hover {
+    background: #fff;
 }
-a.goto_message {
+a.goto_nav.active {
+    color: #fff;
+    background: #222266;
+    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+}
+a.goto_message span.s16 {
     background-position: 0 -144px;
 }
 a.goto_message span.new_messages {
@@ -299,25 +212,128 @@ a.goto_message span.new_messages.unread {
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
     font-size: 1em;
 }
-a.goto_logout {
+a.goto_logout span.s16 {
     background-position: 0 -48px;
 }
-a.goto_userlist {
+a.goto_userlist span.s16 {
     background-position: 0 -176px;
 }
-a.goto_gamelist {
+a.goto_gamelist span.s16 {
     background-position: 0 -16px;
 }
-a.goto_forum {
+a.goto_forum span.s16 {
     background-position: 0 0px;
 }
-a.goto_play {
+a.goto_play span.s16 {
     background-position: 0 -32px;
 }
-a.goto_profile {
+a.goto_profile span.s16 {
     background-position: 0 -208px;
-    margin-right: 1em;
 }
+div.security {
+    float: right;
+    position: relative;
+}
+div.security form {
+    display: none;
+    position: absolute;
+    right: -1px;
+    top: 24px;
+    background: #fff;
+    padding: 1em;
+    border: 1px solid #dadada;
+    border-top: none;
+}
+div.security form input {
+    margin-bottom: 8px;
+}
+div.security form div.button_wrap {
+    text-align: right;
+    border-bottom: 1px solid #dadada;
+    margin-bottom: 8px
+}
+#top a.toggle {
+    display:block;
+    padding-right: 4px;
+}
+#top a.toggle span.s16 {
+    background-position: right -192px;
+    padding-left: 0;
+    padding-right: 20px;
+}
+div.security.show_signin_form a.toggle_signin {
+    background: #fff;
+}
+div.security.show_signin_form form {
+    display: block;
+}
+div.security input.username, div.security input.password {
+    border: 1px solid #dadada;
+    padding: 2px 3px;
+    width: 100px;
+    background: #fff;
+}
+div.security input.login {
+    padding: 0 3px;
+}
+div.lichess_language {
+    float: right;
+    position: relative;
+    line-height: 1.2em;
+}
+ul.lichess_language_links {
+    display: none;
+    position: absolute;
+    right: -1px;
+    top: 24px;
+    background: #fff;
+    border: 1px solid #dadada;
+    border-top: none;
+    width: 183px;
+    max-height: 600px;
+    overflow:auto;
+}
+div.lichess_language.toggled a.toggle {
+    background: #fff;
+}
+div.lichess_language.toggled ul.lichess_language_links {
+    display: block;
+}
+ul.lichess_language_links a {
+    display: block;
+    padding: 0.4em 0.5em;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+ul.lichess_language_links a:hover {
+    background: #F0F0F0;
+    color: #444;
+}
+ul.lichess_language_links li:last-child {
+    border-top: 1px solid #ddd;
+}
+a#sound_state {
+    float: right;
+    margin-
+}
+a#sound_state span {
+    margin-top: 4px;
+    width: 18px;
+    height: 15px;
+    opacity: 0.7;
+    background: url(../images/s16.png) no-repeat;
+    display: block;
+}
+a#sound_state.sound_state_on span {
+    background-position: 0 -80px;
+}
+a#sound_state.sound_state_off span {
+    background-position: 0 -64px;
+}
+a#sound_state.unavailable {
+    opacity: 0;
+}
+
 a.user_link {
     padding-left: 20px;
     background: transparent url(../images/s16.png) top left no-repeat;
