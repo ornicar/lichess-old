@@ -11,9 +11,9 @@
     {% trans "Playing right now" %}
 </a>,
 {% else %}
-{{ time_diff(game.updatedAt) }},
+{{ lichess_date(game.updatedAt) }}
 {% endif %}
-</b>
+</b>-
 turn 
 {{ game.fullMoveNumber }},
 {% if game.isFinishedOrAborted %}

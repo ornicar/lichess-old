@@ -26,7 +26,7 @@
         {% if game.isBeingPlayed %}
             {% trans "Playing right now" %}
         {% else %}
-            {{ time_diff(game.updatedAt) }}
+            {{ lichess_date(game.updatedAt) }}
         {% endif %}
         <br /><br />
         {% for p in [player.opponent, player] %}

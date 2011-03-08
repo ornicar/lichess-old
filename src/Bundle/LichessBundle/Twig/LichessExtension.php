@@ -8,10 +8,13 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
 use Twig_Extension;
 use Twig_Function_Method;
+use DateTime;
+use IntlDateFormatter;
 
 class LichessExtension extends Twig_Extension
 {
     protected $container;
+    protected $dateFormatter;
 
     /**
      * Constructor.
@@ -48,7 +51,8 @@ class LichessExtension extends Twig_Extension
             'lichess_current_url'          => 'getCurrentUrl',
             'lichess_room_message'         => 'roomMessage',
             'lichess_room_messages'        => 'roomMessages',
-            'lichess_debug_assets'         => 'debugAssets'
+            'lichess_debug_assets'         => 'debugAssets',
+            'lichess_date'                 => 'formatDate'
         );
 
         $functions = array();
@@ -57,6 +61,19 @@ class LichessExtension extends Twig_Extension
         }
 
         return $functions;
+    }
+
+    public function formatDate(DateTime $date)
+    {
+        if (null === $this->dateFormatter) {
+            $this->dateFormatter = new IntlDateFormatter(
+                $this->container->get('session')->getLocale(),
+                IntlDateFormatter::MEDIUM,
+                IntlDateFormatter::SHORT
+            );
+        }
+
+        return $this->dateFormatter->format($date);
     }
 
     public function choices($choices)
@@ -272,7 +289,7 @@ class LichessExtension extends Twig_Extension
             $html .= '<div class="lcsi"></div>';
             if($piece = $board->getPieceByKey($squareKey)) {
                 if($isGameStarted || $piece->getPlayer() === $player) {
-                    $html .= sprintf('<div class="lichess_piece %s %s"></div>',
+                    $html .= sprintf('<span class="lichess_piece %s %s"></span>',
                         strtolower($piece->getClass()), $piece->getColor()
                     );
                 }

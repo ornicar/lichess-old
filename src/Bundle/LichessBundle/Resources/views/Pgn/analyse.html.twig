@@ -22,7 +22,7 @@
                 Playing right now at {{ url("lichess_game", {"id": game.id} ) }}
             </a>
         {% else %}
-            {{ time_diff(game.updatedAt) }}
+            {{ lichess_date(game.updatedAt) }}
         {% endif %}
         {% if game.isFinishedOrAborted %}
             <br />{% trans game.statusMessage %}
