@@ -120,6 +120,24 @@ EOF;
         $this->assertFalse($this->getAutodraw()->isAutodraw($game));
     }
 
+    public function testFiftyMovesIsDraw()
+    {
+        $game = $this->game = $this->createGame();
+
+        $nbMoves = 0;
+        do {
+            $this->applyMoves(array(
+                'b1 c3',
+                'b8 c6',
+                'c3 b1',
+                'c6 b8'
+            ));
+            $nbMoves += 4;
+        } while ($nbMoves < 50);
+
+        $this->assertTrue($this->getAutodraw()->isAutodraw($game));
+    }
+
     /**
      * apply moves
      **/
