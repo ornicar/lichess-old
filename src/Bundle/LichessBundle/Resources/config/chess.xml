@@ -25,6 +25,8 @@
 
         <parameter key="lichess.mover.class">Bundle\LichessBundle\Chess\Mover</parameter>
 
+        <parameter key="lichess.autodraw.class">Bundle\LichessBundle\Chess\Autodraw</parameter>
+
         <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">40</parameter>
         <parameter key="lichess.synchronizer.delay">1</parameter>
@@ -47,6 +49,7 @@
         </service>
 
         <service id="lichess.manipulator_factory" class="%lichess.manipulator_factory.class%">
+            <argument type="service" id="lichess.autodraw" />
             <argument>%lichess.manipulator.class%</argument>
         </service>
 
@@ -103,6 +106,8 @@
             <argument type="service" id="lichess.finisher" />
             <argument type="service" id="lichess.logger" />
         </service>
+
+        <service id="lichess.autodraw" class="%lichess.autodraw.class%" />
 
         <service id="lichess.synchronizer" class="%lichess.synchronizer.class%">
             <argument>%lichess.synchronizer.timeout%</argument>

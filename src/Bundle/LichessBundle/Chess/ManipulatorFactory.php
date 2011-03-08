@@ -9,8 +9,9 @@ class ManipulatorFactory
 {
     protected $class;
 
-    public function __construct($class)
+    public function __construct(Autodraw $autodraw, $class)
     {
+        $this->autodraw = $autodraw;
         $this->class = $class;
     }
 
@@ -19,6 +20,6 @@ class ManipulatorFactory
         $class = $this->class;
         $stack = $stack ?: new Stack();
 
-        return new $class($game, $stack);
+        return new $class($game, $this->autodraw, $stack);
     }
 }

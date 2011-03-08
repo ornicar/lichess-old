@@ -27,12 +27,14 @@ class Manipulator
     protected $stack = null;
 
     protected $game = null;
+    protected $autodraw = null;
     protected $analyser = null;
 
-    public function __construct(Game $game, Stack $stack)
+    public function __construct(Game $game, Autodraw $autodraw, Stack $stack)
     {
         $this->game     = $game;
         $this->board    = $game->getBoard();
+        $this->autodraw = $autodraw;
         $this->analyser = new Analyser($this->board);
         $this->stack    = $stack;
     }
@@ -73,7 +75,7 @@ class Manipulator
             }
             $this->stack->addEvent(array('type' => 'end'));
         }
-        elseif($this->game->isCandidateToAutoDraw()) {
+        elseif($this->autodraw->isAutodraw($this->game)) {
             $this->game->setStatus(GAME::DRAW);
             $this->stack->addEvent(array('type' => 'end'));
         }
