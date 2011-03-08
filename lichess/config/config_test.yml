@@ -17,6 +17,8 @@ lichess:
     test: true
     seek:
         use_session: false
+    anybody_starter:
+        check_creator_is_connected: false
 
 lichess_forum:
     detect_spam: false
