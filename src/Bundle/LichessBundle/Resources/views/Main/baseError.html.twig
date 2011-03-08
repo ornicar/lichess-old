@@ -1,0 +1,15 @@
+{% extends "LichessBundle::layoutCommon.html.twig" %}
+{% block content %}
+<div class="content_box">
+    <h1 class="lichess_title">{{ block('error_title') }}</h1>
+    <p>
+        {{ block('error_text') }}
+        <span class="js_email"></span>
+    </p>
+    <br />
+    {{ block('error_next') }}
+    <br />
+    <br />
+    <img src="{{ asset('/bundles/lichess/images/error.jpg') }}" />
+</div>
+{% endblock %}

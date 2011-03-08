@@ -1,12 +1,4 @@
-{% extends "LichessBundle::layout.html.twig" %}
-{% block content %}
-<div class="lichess_box">
-    <h1 class="lichess_title">{% trans 'Server error' %} ({{ code }})</h1>
-    <img src="{{ asset('/bundles/lichess/images/sprite.png') }}" alt="Lichess - Open source online Chess game" />
-    <p>
-        {% trans "Lichess was unable to process your request. This may be due to maintenance. Please try again soon, or contact me if the problem persists:" %}
-        <span class="js_email"></span>
-    </p>
-    <a class="lichess_new_game" href="{{ url }}">{% trans 'Try again' %}</a>
-</div>
-{% endblock %}
+{% extends "LichessBundle:Main:baseError.html.twig" %}
+{% block error_title %}{% trans 'Server error' %} ({{ code }}){% endblock %}
+{% block error_text %}{% trans "Lichess was unable to process your request. This may be due to maintenance. Please try again soon, or contact me if the problem persists:" %}{% endblock %}
+{% block error_next %}<a class="lichess_new_game" href="{{ url }}">{% trans 'Try again' %}</a>{% endblock %}
