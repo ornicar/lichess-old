@@ -10,10 +10,8 @@ class PieceFilter
   // remove dead pieces
   public static function filterAlive(array $pieces)
   {
-    foreach($pieces as $it => $piece)
-    {
-      if ($piece->getIsDead())
-      {
+    foreach($pieces as $it => $piece) {
+      if ($piece->getIsDead()) {
         unset($pieces[$it]);
       }
     }
@@ -24,10 +22,8 @@ class PieceFilter
   // remove alive pieces
   public static function filterDead(array $pieces)
   {
-    foreach($pieces as $it => $piece)
-    {
-      if (!$piece->getIsDead())
-      {
+    foreach($pieces as $it => $piece) {
+      if (!$piece->getIsDead()) {
         unset($pieces[$it]);
       }
     }
@@ -38,10 +34,8 @@ class PieceFilter
   // only return bishop, rook and queen
   public static function filterProjection(array $pieces)
   {
-    foreach($pieces as $it => $piece)
-    {
-      if (!($piece instanceof Piece\Bishop || $piece instanceof Piece\Rook || $piece instanceof Piece\Queen))
-      {
+    foreach($pieces as $it => $piece) {
+      if (!($piece instanceof Piece\Bishop || $piece instanceof Piece\Rook || $piece instanceof Piece\Queen)) {
         unset($pieces[$it]);
       }
     }
@@ -90,8 +84,7 @@ class PieceFilter
    **/
   public static function filterNotMoved(array $pieces)
   {
-      foreach ($pieces as $index => $piece)
-      {
+      foreach ($pieces as $index => $piece) {
           if($piece->hasMoved()) {
               unset($pieces[$index]);
           }
