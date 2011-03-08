@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Document\Game;
 
 abstract class ManipulatorAbstractTest extends \PHPUnit_Framework_TestCase
@@ -182,7 +182,7 @@ EOF;
         $this->game = $generator->createGame();
         $this->game->setVariant($this->getVariant());
         $this->board = $this->game->getBoard();
-        $this->manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $this->manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
     }
 
     /**
@@ -198,7 +198,7 @@ EOF;
         $this->board = $this->game->getBoard();
         $this->game->setStatus(Game::STARTED);
         $this->game->setTurns($blackTurn ? 11 : 10);
-        $this->manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $this->manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
     }
 
     /**

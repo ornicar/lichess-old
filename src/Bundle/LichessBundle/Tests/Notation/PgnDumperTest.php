@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Tests\Notation;
 
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Notation\PgnDumper;
@@ -56,7 +56,7 @@ EOF;
 
         $this->createGame($data);
         $piece = $this->game->getBoard()->getPieceByKey('b1');
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play('b1 c3');
         $this->assertEquals(array('Nbc3'), $this->game->getPgnMoves());
     }
@@ -76,7 +76,7 @@ EOF;
 
         $this->createGame($data);
         $piece = $this->game->getBoard()->getPieceByKey('b1');
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play('b1 d2');
         $this->assertEquals(array('N1d2'), $this->game->getPgnMoves());
     }
@@ -95,7 +95,7 @@ RNBQKN R
 EOF;
 
         $this->createGame($data);
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play('b1 d2');
         $this->assertEquals(array('Nb1d2'), $this->game->getPgnMoves());
     }
@@ -115,7 +115,7 @@ EOF;
 
         $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('g5')->setFirstMove(9);
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play('f5 g6');
         $this->assertEquals(array('fxg6'), $this->game->getPgnMoves());
     }
@@ -135,7 +135,7 @@ EOF;
 
         $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('g7')->setFirstMove(2);
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play('g7 g8', array('promotion' => 'Knight'));
         $this->assertEquals(array('g8=N'), $this->game->getPgnMoves());
     }
@@ -155,7 +155,7 @@ EOF;
 
         $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('g7')->setFirstMove(2);
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play('g7 g8', array('promotion' => 'Queen'));
         $this->assertEquals(array('g8=Q#'), $this->game->getPgnMoves());
     }
@@ -277,7 +277,7 @@ EOF;
      **/
     protected function applyMoves(array $moves)
     {
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         foreach ($moves as $move)
         {
             $manipulator->play($move);

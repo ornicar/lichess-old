@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Tests\Ai;
 
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Ai\Stupid;
 
 class StupidTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +18,7 @@ class StupidTest extends \PHPUnit_Framework_TestCase
         $generator = new Generator();
         $this->game = $generator->createGame();
         $this->board = $this->game->getBoard();
-        $this->manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $this->manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $this->ai = new Stupid();
     }
 

@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Document;
 
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Tests\TestManipulator;
 
 class StackTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class StackTest extends \PHPUnit_Framework_TestCase
     {
         $this->createGame($this->getData());
         $stack = new Stack();
-        $manipulator = new Manipulator($this->game, $stack);
+        $manipulator = new TestManipulator($this->game, $stack);
         $this->assertEquals(array(), $stack->getEvents());
         $manipulator->play('a2 a4');
         $this->assertEquals(array(array('type' => 'move', 'from' => 'a2', 'to' => 'a4')), $stack->getEvents());
@@ -46,7 +46,7 @@ class StackTest extends \PHPUnit_Framework_TestCase
     {
         $this->createGame($this->getData());
         $stack = new Stack();
-        $manipulator = new Manipulator($this->game, $stack);
+        $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('c3 e4');
         $this->assertEquals(array(array('type' => 'move', 'from' => 'c3', 'to' => 'e4')), $stack->getEvents());
     }
@@ -70,7 +70,7 @@ EOF;
         $wp->setFirstMove(12);
         $bp->setFirstMove(29);
         $stack = new Stack();
-        $manipulator = new Manipulator($this->game, $stack);
+        $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('e5 f6');
         $this->assertEquals(array(
             array('type' => 'move', 'from' => 'e5', 'to' => 'f6'),
@@ -92,7 +92,7 @@ R   K  R
 EOF;
         $game = $this->createGame($data);
         $stack = new Stack();
-        $manipulator = new Manipulator($this->game, $stack);
+        $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('e1 c1');
         $this->assertEquals(array(
             array('type' => 'castling', 'king' => array('e1', 'c1'), 'rook' => array('a1', 'd1')),
@@ -115,7 +115,7 @@ EOF;
         $game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
         $stack = new Stack();
-        $manipulator = new Manipulator($this->game, $stack);
+        $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('b7 b8', array('promotion' => 'Queen'));
         $this->assertEquals(array(
             array('type' => 'move', 'from' => 'b7', 'to' => 'b8'),
@@ -138,7 +138,7 @@ EOF;
         $game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
         $stack = new Stack();
-        $manipulator = new Manipulator($this->game, $stack);
+        $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('b7 b8', array('promotion' => 'Knight'));
         $this->assertEquals(array(
             array('type' => 'move', 'from' => 'b7', 'to' => 'b8'),
@@ -161,7 +161,7 @@ EOF;
         $game = $this->createGame($data);
         $this->game->getBoard()->getPieceByKey('b7')->setFirstMove(1);
         $stack = new Stack();
-        $manipulator = new Manipulator($this->game, $stack);
+        $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('b7 b6', array('promotion' => 'Knight'));
         $this->assertEquals(array(
             array('type' => 'move', 'from' => 'b7', 'to' => 'b6'),

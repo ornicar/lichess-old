@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Tests\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
+use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Bundle\LichessBundle\Document\Game;
@@ -89,7 +89,7 @@ class ThreefoldRepetitionRuleTest extends \PHPUnit_Framework_TestCase
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play($move, $options);
     }
 
