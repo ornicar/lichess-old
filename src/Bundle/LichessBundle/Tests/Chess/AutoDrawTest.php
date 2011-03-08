@@ -1,11 +1,11 @@
 <?php
 
-namespace Bundle\LichessBundle\Tests\Chess;
+namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
+use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Document\Game;
 
 class AutoDrawTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +16,7 @@ class AutoDrawTest extends \PHPUnit_Framework_TestCase
     {
         $generator = new Generator();
         $game = $generator->createGame();
-        $this->assertFalse($game->isCandidateToAutoDraw());
+        $this->assertFalse($this->getAutodraw()->isAutodraw($game));
     }
 
     public function testPlayedGameIsNotDraw()
@@ -30,7 +30,7 @@ class AutoDrawTest extends \PHPUnit_Framework_TestCase
             'd7 d5',
             'e4 d5'
         ));
-        $this->assertFalse($game->isCandidateToAutoDraw());
+        $this->assertFalse($this->getAutodraw()->isAutodraw($game));
     }
 
     public function testEndGameIsDraw()
@@ -47,9 +47,77 @@ K
 EOF;
         $game = $this->game = $this->createGame($data);
         $game->setTurns(41);
-        $this->assertFalse($game->isCandidateToAutoDraw());
+        $this->assertFalse($this->getAutodraw()->isAutodraw($game));
         $this->move('h8 h7');
-        $this->assertTrue($game->isCandidateToAutoDraw());
+        $this->assertTrue($this->getAutodraw()->isAutodraw($game));
+    }
+
+    public function testFewMaterialIsDraw()
+    {
+        $data = <<<EOF
+       k
+
+
+
+
+B
+
+K
+EOF;
+        $game = $this->game = $this->createGame($data);
+        $game->setTurns(41);
+        $this->assertTrue($this->getAutodraw()->isAutodraw($game));
+    }
+
+    public function testFewMaterialIsDraw2()
+    {
+        $data = <<<EOF
+       k
+
+
+
+
+ Nb
+
+K
+EOF;
+        $game = $this->game = $this->createGame($data);
+        $game->setTurns(41);
+        $this->assertTrue($this->getAutodraw()->isAutodraw($game));
+    }
+
+    public function testFewMaterialWithPawnIsNotDraw()
+    {
+        $data = <<<EOF
+       k
+
+
+
+
+ Np
+
+K
+EOF;
+        $game = $this->game = $this->createGame($data);
+        $game->setTurns(41);
+        $this->assertFalse($this->getAutodraw()->isAutodraw($game));
+    }
+
+    public function testFewMaterialWithRookIsNotDraw()
+    {
+        $data = <<<EOF
+       k
+
+
+
+
+ Nr
+
+K
+EOF;
+        $game = $this->game = $this->createGame($data);
+        $game->setTurns(41);
+        $this->assertFalse($this->getAutodraw()->isAutodraw($game));
     }
 
     /**
@@ -57,8 +125,7 @@ EOF;
      **/
     protected function applyMoves(array $moves)
     {
-        foreach ($moves as $move)
-        {
+        foreach ($moves as $move) {
             $this->move($move);
         }
     }
@@ -70,7 +137,7 @@ EOF;
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new Manipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
         $manipulator->play($move, $options);
     }
 
@@ -92,5 +159,9 @@ EOF;
         $game->setStatus(Game::STARTED);
         return $game;
     }
-}
 
+    protected function getAutodraw()
+    {
+        return new Autodraw();
+    }
+}
