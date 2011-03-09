@@ -229,7 +229,7 @@ class Seek
     public function setColor($color)
     {
         if (!in_array($color, $this->possibleColors)) {
-            throw new \InvalidArgumentException('Not an acceptable color');
+            throw new \InvalidArgumentException(sprintf('Not an acceptable color: "%s"', $color));
         }
         $this->color = $color;
     }

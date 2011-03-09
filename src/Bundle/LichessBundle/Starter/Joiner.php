@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Blamer\PlayerBlamer;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Logger;
 use Symfony\Component\Routing\Router;
+use InvalidArgumentException;
 
 class Joiner
 {
