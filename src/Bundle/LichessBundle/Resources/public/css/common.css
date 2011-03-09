@@ -30,7 +30,8 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 body {
     font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
     color: #888;
-    background: #F7F7F7 url(../images/head_bg.png) +25px left repeat-x;
+    background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
+    background-position: 0 +25px;
 }
 
 a, a:visited {
@@ -58,20 +59,19 @@ div.header strong {
 
 div.content {
     width: 1010px;
-    margin: 40px auto 50px auto;
+    margin: 65px auto 50px auto;
 }
 
 #top {
+    position: absolute;
+    top:0;
+    left:0;
     background: #eaeaea;
     height: 24px;
     border-bottom: 1px solid #bbb;
-    opacity: 0.7;
     width: 100%;
     background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
-}
-#top {
-    opacity: 1;
 }
 
 #lichess {
@@ -188,6 +188,12 @@ a.goto_nav {
 a.goto_nav:hover, #top a.toggle:hover, a#sound_state:hover {
     background: #fff;
 }
+#top .s16 {
+    display:block;
+    height: 16px;
+    margin-top: 4px;
+    line-height: 16px;
+}
 a.goto_nav.active {
     color: #fff;
     background: #222266;
@@ -245,6 +251,7 @@ div.security form div.button_wrap {
 #top a.toggle {
     display:block;
     padding-right: 4px;
+    float: left;
 }
 #top a.toggle span.s16 {
     background-position: right -192px;
@@ -269,7 +276,6 @@ div.security input.login {
 div.lichess_language {
     float: right;
     position: relative;
-    line-height: 1.2em;
 }
 ul.lichess_language_links {
     display: none;
