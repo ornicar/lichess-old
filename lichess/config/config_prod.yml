@@ -3,3 +3,7 @@ imports:
 
 framework:
     exception_controller: LichessBundle:Main:exception
+
+lichess:
+    ai:
+        crafty_path: /usr/games/crafty
