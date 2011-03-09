@@ -12,7 +12,10 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $p1 = $this->createClient();
         $crawler = $p1->request('GET', '/friend');
         $form = $crawler->filter('.submit.'.$color)->form();
-        $p1->submit($form, array_merge(array('config[color]' => $color), $formConfig));
+        $p1->submit($form, array_merge(array(
+            'config[color]' => $color,
+            'config[variant]' => 1
+        ), $formConfig));
         $crawler = $p1->followRedirect();
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
