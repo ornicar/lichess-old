@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="lichess_server">
-            <a href="#top_menu">{% trans "Back to top" %}</a> | [[time]] | {% trans "Server load" %}: <span class="value">{{ lichess_load_average() }}</span> |
+            <a href="#top">{% trans "Back to top" %}</a> | [[time]] | {% trans "Server load" %}: <span class="value">{{ lichess_load_average() }}</span> |
             <a class="blank_if_play" href="/monitor/index.html">Server monitoring</a>
         </div>
         {% block js_data %}{% endblock %}
