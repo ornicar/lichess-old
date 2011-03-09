@@ -183,7 +183,7 @@ class Game
      * The previous game. This game is then a rematch of the previous game
      *
      * @var Game
-     * @mongodb:ReferenceOne(targetDocument="Game", nullable=true)
+     * @mongodb:ReferenceOne(targetDocument="Game")
      */
     protected $previous;
 
@@ -191,6 +191,7 @@ class Game
      * The next game, if this game has been rematched
      *
      * @var Game
+     * @mongodb:ReferenceOne(targetDocument="Game")
      */
     protected $next;
 
