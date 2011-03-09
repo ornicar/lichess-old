@@ -19,7 +19,6 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\ZendBundle\ZendBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Bundle\ApcBundle\ApcBundle(),
-            new Knplabs\TimeBundle\KnplabsTimeBundle(),
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Bundle\Ornicar\MessageBundle\OrnicarMessageBundle(),
