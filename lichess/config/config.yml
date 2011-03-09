@@ -122,8 +122,11 @@ ornicar_message:
     class:
         model:
             message: Application\MessageBundle\Document\Message
+        controller:
+            message: Application\MessageBundle\Controller\MessageController
 
-lichess_message: ~
+lichess_message:
+    detect_spam: true
 
 lichess:
     ai:

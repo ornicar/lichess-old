@@ -23,3 +23,6 @@ lichess:
 
 lichess_forum:
     detect_spam: false
+
+lichess_message:
+    detect_spam: false
