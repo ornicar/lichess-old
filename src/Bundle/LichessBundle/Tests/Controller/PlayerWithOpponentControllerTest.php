@@ -286,7 +286,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', array('config[time]' => 10));
 
         $p1->request('POST', '/outoftime/'.$h1.'/1');
-        $this->assertTrue($p1->getResponse()->isSuccessful());
+        $this->assertFalse($p1->getResponse()->isSuccessful());
 
         $crawler = $p1->request('GET', '/'.$h1);
         $this->assertTrue($p1->getResponse()->isSuccessful());
