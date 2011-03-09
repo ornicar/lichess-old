@@ -72,6 +72,26 @@ EOF;
     }
 
     /**
+     * @dataProvider fenProvider
+     */
+    public function testImportExport($fen)
+    {
+        $game = new Game(Game::VARIANT_960);
+        $forsyth = new Forsyth();
+
+        $this->assertEquals($fen, $forsyth->export($forsyth->import($game, $fen)));
+    }
+
+    public function fenProvider()
+    {
+        return array(
+            array('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'),
+            array('rnbqkb1r/pp1ppppp/7n/2p5/4P3/P4N2/1PPP1PPP/RNBQKB1R b KQkq - 0 3'),
+            array('rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2')
+        );
+    }
+
+    /**
      * Get a game from visual data block
      *
      * @return Game
