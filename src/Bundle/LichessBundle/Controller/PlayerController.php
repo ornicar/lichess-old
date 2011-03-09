@@ -175,7 +175,7 @@ class PlayerController extends Controller
         $this->flush();
         $this->get('lichess.logger')->notice($player, 'Game:inviteAnybody cancel');
 
-        return new RedirectResponse($this->generateUrl('lichess_homepage', array('color' => $player->getColor())));
+        return new RedirectResponse($this->generateUrl('lichess_homepage'));
     }
 
     public function waitFriendAction($id)
