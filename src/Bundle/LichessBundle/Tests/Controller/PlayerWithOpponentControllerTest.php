@@ -7,15 +7,12 @@ use Closure;
 
 class PlayerWithOpponentControllerTest extends WebTestCase
 {
-    protected function createGameWithFriend($color = 'white', Closure $configClosure = null)
+    protected function createGameWithFriend($color = 'white', array $formConfig = array())
     {
         $p1 = $this->createClient();
         $crawler = $p1->request('GET', '/friend');
         $form = $crawler->filter('.submit.'.$color)->form();
-        if ($configClosure) {
-            $configClosure($form);
-        }
-        $p1->submit($form, array('config[color]' => $color));
+        $p1->submit($form, array_merge(array('config[color]' => $color), $formConfig));
         $crawler = $p1->followRedirect();
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
@@ -43,7 +40,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.lichess_current_player p:contains("Game aborted")')->count());
     }
 
-    public function testAbortAndRematchFullProcess()
+    public function testRematchFullProcess()
     {
         list($p1, $h1, $p2, $h2) = $this->createGameWithFriend();
         $p1->request('GET', '/abort/'.$h1);
@@ -69,6 +66,36 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
         $p2->request('GET', $url);
         $this->assertTrue($p2->getResponse()->isSuccessful());
+    }
+
+    public function testRematch960KeepsInitialPosition()
+    {
+        list($p1, $h1, $p2, $h2) = $this->createGameWithFriend('white', array('config[variant]' => 2));
+
+        $crawler = $p1->request('GET', '/'.$h1);
+        $getPieceOn = function($square) use ($crawler) {
+            return preg_replace('(white|black|lichess_piece) ', '', $crawler->filter('#'.$square.' .lichess_piece')->attr('class'));
+        };
+        $a1 = $getPieceOn('a1');
+        $b1 = $getPieceOn('b1');
+        $c1 = $getPieceOn('c1');
+        $d1 = $getPieceOn('d1');
+        $p1->request('GET', '/abort/'.$h1);
+        $p1->request('POST', '/rematch/'.$h1.'/0');
+
+        $p2->request('POST', '/rematch/'.$h2.'/0');
+        $response = json_decode($p2->getResponse()->getContent(), true);
+        $lastEvent = array_pop($response['e']);
+        $url = $lastEvent['url'];
+        $crawler = $p2->request('GET', $url);
+
+        $getPieceOn = function($square) use ($crawler) {
+            return preg_replace('(white|black|lichess_piece) ', '', $crawler->filter('#'.$square.' .lichess_piece')->attr('class'));
+        };
+        $this->assertEquals($a1, $getPieceOn('a1'));
+        $this->assertEquals($b1, $getPieceOn('b1'));
+        $this->assertEquals($c1, $getPieceOn('c1'));
+        $this->assertEquals($d1, $getPieceOn('d1'));
     }
 
     public function testClaimDrawWithoutThreefold()
@@ -245,9 +272,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
     public function testOutoftimeNoClock()
     {
-        list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', function($form) {
-            $form['config[time]'] = 0;
-        });
+        list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', array('config[time]' => 0));
 
         $p1->request('POST', '/outoftime/'.$h1.'/1');
         $this->assertFalse($p1->getResponse()->isSuccessful());
@@ -255,9 +280,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
     public function testOutOfTimeTooEarly()
     {
-        list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', function($form) {
-            $form['config[time]'] = 10;
-        });
+        list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', array('config[time]' => 10));
 
         $p1->request('POST', '/outoftime/'.$h1.'/1');
         $this->assertTrue($p1->getResponse()->isSuccessful());
