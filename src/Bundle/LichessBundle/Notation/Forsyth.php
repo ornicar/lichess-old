@@ -95,7 +95,43 @@ class Forsyth
      */
     public function import(Game $game, $forsyth)
     {
-        throw new \Exception('Not implemented');
+        $x = 1;
+        $y = 8;
+
+        $board = $game->getBoard();
+        $forsyth = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsyth));
+        $pieces = array('white', 'black');
+
+        for($itForsyth = 0, $forsythLen = strlen($forsyth); $itForsyth < $forsythLen; $itForsyth++) {
+            $letter = $forsyth{$itForsyth};
+            $key = Board::posToKey($x, $y);
+
+            if (is_numeric($letter)) {
+                $x += intval($letter);
+            } else {
+                $color = ctype_lower($letter) ? 'black' : 'white';
+                switch(strtolower($letter)) {
+                    case 'p': $class = 'Pawn'; break;
+                    case 'r': $class = 'Rook'; break;
+                    case 'n': $class = 'Knight'; break;
+                    case 'b': $class = 'Bishop'; break;
+                    case 'q': $class = 'Queen'; break;
+                    case 'k': $class = 'King'; break;
+                }
+                $pieces[$color][] = $this->createPiece($class, $x, $y);
+                ++$x;
+            }
+
+            if($x > 8) {
+                $x = 1;
+                --$y;
+            }
+        }
+
+        foreach ($game->getPlayers() as $player) {
+            $player->setPieces($pieces[$player->getColor()]);
+        }
+        $game->ensureDependencies();
     }
 
     public function diffToMove(Game $game, $forsyth)
@@ -126,12 +162,12 @@ class Forsyth
                 $color = ctype_lower($letter) ? 'black' : 'white';
 
                 switch(strtolower($letter)) {
-                    case 'p': $class = 'Pawn'; break;
-                    case 'r': $class = 'Rook'; break;
-                    case 'n': $class = 'Knight'; break;
-                    case 'b': $class = 'Bishop'; break;
-                    case 'q': $class = 'Queen'; break;
-                    case 'k': $class = 'King'; break;
+                case 'p': $class = 'Pawn'; break;
+                case 'r': $class = 'Rook'; break;
+                case 'n': $class = 'Knight'; break;
+                case 'b': $class = 'Bishop'; break;
+                case 'q': $class = 'Queen'; break;
+                case 'k': $class = 'King'; break;
                 }
 
                 if ($piece = $board->getPieceByKey($key)) {
@@ -185,14 +221,14 @@ class Forsyth
                     $from = $moves['from'][0];
                 }
                 $to = $moves['to'][0];
-        } else {
-            throw new \RuntimeException(sprintf('Forsyth:diffToMove game:%s, variant:%s, moves: %s, forsyth:%s',
-                $game->getId(),
-                $game->getVariantName(),
-                str_replace("\n", " ", var_export($moves, true)),
-                $forsyth
-            ));
-        }
+            } else {
+                throw new \RuntimeException(sprintf('Forsyth:diffToMove game:%s, variant:%s, moves: %s, forsyth:%s',
+                    $game->getId(),
+                    $game->getVariantName(),
+                    str_replace("\n", " ", var_export($moves, true)),
+                    $forsyth
+                ));
+            }
 
         return $from.' '.$to;
     }
@@ -212,5 +248,17 @@ class Forsyth
         }
 
         return $notation;
+    }
+
+    /**
+     * @return Piece
+     */
+    protected function createPiece($class, $x, $y)
+    {
+        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
+
+        $piece = new $fullClass($x, $y);
+
+        return $piece;
     }
 }

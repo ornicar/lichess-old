@@ -78,8 +78,8 @@ EOF;
     {
         $game = new Game(Game::VARIANT_960);
         $forsyth = new Forsyth();
-
-        $this->assertEquals($fen, $forsyth->export($forsyth->import($game, $fen)));
+        $forsyth->import($game, $fen);
+        $this->assertEquals($fen, $forsyth->export($game));
     }
 
     public function fenProvider()
