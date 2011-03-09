@@ -33,6 +33,7 @@ class Configuration
             ->arrayNode('ai')
                 ->addDefaultsIfNotSet()
                 ->scalarNode('class')->defaultValue('Bundle\\LichessBundle\\Ai\\Crafty')->end()
+                ->scalarNode('crafty_path')->defaultValue('/usr/bin/crafty')->end()
             ->end()
             ->arrayNode('seek')
                 ->addDefaultsIfNotSet()

@@ -35,6 +35,7 @@ class LichessExtension extends Extension
         $config = $processor->process($configuration->getConfigTree(), $configs);
 
         $container->setParameter('lichess.ai.class', $config['ai']['class']);
+        $container->setParameter('lichess.ai.crafty_path', $config['ai']['crafty_path']);
         $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
         $container->setParameter('lichess.debug_assets', $config['debug_assets']);
         $container->setParameter('akismet.api_key', $config['akismet']['api_key']);

@@ -7,7 +7,7 @@
     <parameters>
         <parameter key="lichess.ai_fallback.class">Bundle\LichessBundle\Ai\Stupid</parameter>
         <parameter key="lichess.ai.options" type="collection">
-            <parameter key="executable_path">/usr/bin/crafty</parameter>
+            <parameter key="executable_path">%lichess.ai.crafty_path%</parameter>
         </parameter>
         <parameter key="lichess.ai_chain.class">Bundle\LichessBundle\Ai\AiChain</parameter>
 
