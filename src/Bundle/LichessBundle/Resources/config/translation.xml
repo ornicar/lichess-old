@@ -57,6 +57,7 @@
             <parameter key="mk">македонски јази</parameter>
             <parameter key="id">Bahasa Indonesia</parameter>
             <parameter key="ja">日本語</parameter>
+            <parameter key="bg">български език</parameter>
         </parameter>
 
     </parameters>
