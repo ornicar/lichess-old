@@ -30,7 +30,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 body {
     font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
     color: #888;
-    background: #F7F7F7 url(../images/head_bg.png) +24px left repeat-x;
+    background: #F7F7F7 url(../images/head_bg.png) +25px left repeat-x;
 }
 
 a, a:visited {
@@ -64,8 +64,11 @@ div.content {
 #top {
     background: #eaeaea;
     height: 24px;
+    border-bottom: 1px solid #bbb;
     opacity: 0.7;
     width: 100%;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
 }
 #top {
     opacity: 1;
@@ -181,24 +184,15 @@ a.goto_nav, #top a.toggle, a#sound_state {
 }
 a.goto_nav {
     float: left;
-    padding-left: 9px;
-}
-a.goto_nav .s16 {
 }
 a.goto_nav:hover, #top a.toggle:hover, a#sound_state:hover {
     background: #fff;
-    box-shadow: 0 0 6px #009ab0;
-    -moz-box-shadow: 0 0 6px #009ab0;
-    -webkit-box-shadow: 0 0 6px #009ab0;
 }
 a.goto_nav.active {
     color: #fff;
     background: #222266;
     background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
-}
-a.goto_message span.s16 {
-    background-position: 0 -144px;
 }
 a.goto_message span.new_messages {
     padding: 1px 4px;
@@ -219,20 +213,11 @@ a.goto_message span.new_messages.unread {
 a.goto_logout span.s16 {
     background-position: 0 -48px;
 }
-a.goto_userlist span.s16 {
-    background-position: 0 -176px;
-}
-a.goto_gamelist span.s16 {
-    background-position: 0 -16px;
-}
-a.goto_forum span.s16 {
-    background-position: 0 0px;
-}
-a.goto_play span.s16 {
-    background-position: 0 -32px;
-}
 a.goto_profile span.s16 {
     background-position: 0 -208px;
+}
+a.goto_profile {
+    float: right;
 }
 div.security {
     float: right;

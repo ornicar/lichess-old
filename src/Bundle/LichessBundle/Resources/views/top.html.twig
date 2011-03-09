@@ -3,20 +3,20 @@
     <div class="lichess_language" data-path="{{ path("lichess_locale_links") }}">
         <a class="toggle_language toggle"><span class="s16">{{ lichess_locale_name() }}</span></a>
     </div>
-    <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " active" : "" }}" href="{{ path("lichess_homepage") }}"><span class="s16">{% trans "Play" %}</span></a>
-    <a class="goto_gamelist goto_nav blank_if_play{{ active == "game" ? " active" : "" }}" title="{% trans "See the games being played in real time" %}" href="{{ path("lichess_list_current") }}"><span class="s16">{% trans "Games" %}</span></a>
-    <a class="goto_userlist goto_nav blank_if_play{{ active == "user" ? " active" : "" }}" title="{% trans "Chess players" %}" href="{{ path("fos_user_user_list") }}"><span class="s16">{% trans "People" %}</span></a>
-    <a class="goto_forum goto_nav blank_if_play{{ active == "forum" ? " active" : "" }}" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{{ path("forum_index") }}"><span class="s16">{% trans "Forum" %}</span></a>
+    <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " active" : "" }}" href="{{ path("lichess_homepage") }}">{% trans "Play" %}</a>
+    <a class="goto_gamelist goto_nav blank_if_play{{ active == "game" ? " active" : "" }}" title="{% trans "See the games being played in real time" %}" href="{{ path("lichess_list_current") }}">{% trans "Games" %}</a>
+    <a class="goto_userlist goto_nav blank_if_play{{ active == "user" ? " active" : "" }}" title="{% trans "Chess players" %}" href="{{ path("fos_user_user_list") }}">{% trans "People" %}</a>
+    <a class="goto_forum goto_nav blank_if_play{{ active == "forum" ? " active" : "" }}" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{{ path("forum_index") }}">{% trans "Forum" %}</a>
     {% if fos_user_isAnonymous() %}
         {% include "FOSUserBundle:Security:embeddedLogin.html.twig" %}
     {% else %}
         <a class="goto_nav goto_message blank_if_play{{ active == "message" ? " active" : "" }}" href="{{ path("ornicar_message_message_list") }}">
-            <span class="s16">{% trans "Inbox" %}</span>
+            {% trans "Inbox" %}
             <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
         </a>
-        <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": app.user.username}) }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="blank_if_play goto_nav goto_profile"><span class="s16">{{ app.user.usernameWithElo}}</span></a>
         <div class="security">
             <a class="goto_nav goto_logout" href="{{ path("_security_logout") }}"><span class="s16">{% trans "Log out" %}</span></a>
         </div>
+        <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": app.user.username}) }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="blank_if_play goto_nav goto_profile"><span class="s16">{{ app.user.usernameWithElo}}</span></a>
     {% endif %}
 </div>
