@@ -7,6 +7,7 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
+use Bundle\LichessBundle\Notation\Forsyth;
 
 class Generator
 {
@@ -58,18 +59,6 @@ class Generator
     }
 
     /**
-     * Regenerate game pieces for the given fen string
-     *
-     * @return null
-     **/
-    public function applyFen(Game $game, $fen)
-    {
-        if ($game->getIsStarted()) {
-            throw new LogicException('Can not apply FEN to a started game');
-        }
-    }
-
-    /**
      * Creates a return game for the given player,
      * reverting players colors
      *
@@ -82,7 +71,8 @@ class Generator
         $variant = $game->getVariant();
         $nextGame = $this->createGame($variant);
         if (Game::VARIANT_960 === $game->getVariant()) {
-            $this->applyFen($nextGame, $game->getInitialFen());
+            $forsyth = new Forsyth();
+            $forsyth->import($nextGame, $game->getInitialFen());
         }
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
