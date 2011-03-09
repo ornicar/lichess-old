@@ -1,3 +1,6 @@
+* throw exception on bad outoftime (the client keeps requesting outoftime)
+* user s16 on forum post
+* dates on prod
 * keyboard play
 * use assetic
 * After game over, "rematch" and "new game" are easy to mix up, click wrong one. Would be better if wording is "find new opponent."
