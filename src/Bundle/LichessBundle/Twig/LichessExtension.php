@@ -8,6 +8,7 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
 use Twig_Extension;
 use Twig_Function_Method;
+use Twig_Filter_Method;
 use DateTime;
 use IntlDateFormatter;
 
@@ -61,6 +62,21 @@ class LichessExtension extends Twig_Extension
         }
 
         return $functions;
+    }
+
+    /**
+     * Returns a list of filters to add to the existing list.
+     *
+     * @return array An array of filters
+     */
+    public function getFilters()
+    {
+        $filters = array(
+            // formatting filters
+            'date'    => new Twig_Filter_Method($this, 'formatDate'),
+        );
+
+        return $filters;
     }
 
     public function formatDate(DateTime $date)
