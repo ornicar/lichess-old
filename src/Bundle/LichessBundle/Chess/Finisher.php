@@ -41,7 +41,7 @@ class Finisher
         if($game->checkOutOfTime()) {
             $this->finish($game);
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
-            $game->addEventToStacks($events);
+            $game->addEventsToStacks($events);
             $this->logger->notice($player, 'Player:outoftime');
             return true;
         } else {

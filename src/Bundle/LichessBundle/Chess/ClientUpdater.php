@@ -47,9 +47,6 @@ class ClientUpdater
 
         // render system messages
         foreach($events as $index => $event) {
-            if (!isset($event['type'])) {
-                $this->logger->warn($player, sprintf('Event without type: %s', var_export($event, true)));
-            }
             if('message' === $event['type']) {
                 $events[$index]['html'] = $this->twigExtension->roomMessage($event['message']);
                 unset($events[$index]['message']);
