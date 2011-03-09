@@ -19,27 +19,19 @@ class Forsyth
         $emptySquare = 0;
         $forsyth = '';
 
-        for($y = 8; $y > 0; $y --)
-        {
-            for($x = 1; $x < 9; $x ++)
-            {
-                if ($piece = $board->getPieceByPos($x, $y))
-                {
-                    if ($emptySquare)
-                    {
+        for($y = 8; $y > 0; $y --) {
+            for($x = 1; $x < 9; $x ++) {
+                if ($piece = $board->getPieceByPos($x, $y)) {
+                    if ($emptySquare) {
                         $forsyth .= $emptySquare;
                         $emptySquare = 0;
                     }
-
                     $forsyth .= $this->pieceToForsyth($piece);
-                }
-                else
-                {
+                } else {
                     ++$emptySquare;
                 }
             }
-            if ($emptySquare)
-            {
+            if ($emptySquare) {
                 $forsyth .= $emptySquare;
                 $emptySquare = 0;
             }
@@ -56,15 +48,12 @@ class Forsyth
         $forsyth .= ' ';
         $hasCastle = false;
         $analyser = new Analyser($board);
-        foreach($game->getPlayers() as $player)
-        {
-            if ($analyser->canCastleKingside($player))
-            {
+        foreach($game->getPlayers() as $player) {
+            if ($analyser->canCastleKingside($player)) {
                 $hasCastle = true;
                 $forsyth .= $player->isWhite() ? 'K' : 'k';
             }
-            if ($analyser->canCastleQueenside($player))
-            {
+            if ($analyser->canCastleQueenside($player)) {
                 $hasCastle = true;
                 $forsyth .= $player->isWhite() ? 'Q' : 'q';
             }
@@ -122,28 +111,21 @@ class Forsyth
         $board = $game->getBoard();
         $forsyth = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsyth));
 
-        for($itForsyth = 0, $forsythLen = strlen($forsyth); $itForsyth < $forsythLen; $itForsyth++)
-        {
+        for($itForsyth = 0, $forsythLen = strlen($forsyth); $itForsyth < $forsythLen; $itForsyth++) {
             $letter = $forsyth{$itForsyth};
             $key = Board::posToKey($x, $y);
 
-            if (is_numeric($letter))
-            {
-                for($x = $x, $max = $x+intval($letter); $x < $max; $x++)
-                {
+            if (is_numeric($letter)) {
+                for($x = $x, $max = $x+intval($letter); $x < $max; $x++) {
                     $_key = Board::posToKey($x, $y);
-                    if (!$board->getSquareByKey($_key)->isEmpty())
-                    {
+                    if (!$board->getSquareByKey($_key)->isEmpty()) {
                         $moves['from'][] = $_key;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $color = ctype_lower($letter) ? 'black' : 'white';
 
-                switch(strtolower($letter))
-                {
+                switch(strtolower($letter)) {
                     case 'p': $class = 'Pawn'; break;
                     case 'r': $class = 'Rook'; break;
                     case 'n': $class = 'Knight'; break;
@@ -152,23 +134,19 @@ class Forsyth
                     case 'k': $class = 'King'; break;
                 }
 
-                if ($piece = $board->getPieceByKey($key))
-                {
-                    if($class != $piece->getClass() || $color !== $piece->getColor())
-                    {
+                if ($piece = $board->getPieceByKey($key)) {
+                    if($class != $piece->getClass() || $color !== $piece->getColor()) {
                         $moves['to'][] = $key;
                     }
                 }
-                else
-                {
+                else {
                     $moves['to'][] = $key;
                 }
 
                 ++$x;
             }
 
-            if($x > 8)
-            {
+            if($x > 8) {
                 $x = 1;
                 --$y;
             }
@@ -223,17 +201,13 @@ class Forsyth
     {
         $class = $piece->getClass();
 
-        if ('Knight' === $class)
-        {
+        if ('Knight' === $class) {
             $notation = 'N';
-        }
-        else
-        {
+        } else {
             $notation = $class{0};
         }
 
-        if('black' === $piece->getColor())
-        {
+        if('black' === $piece->getColor()) {
             $notation = strtolower($notation);
         }
 
