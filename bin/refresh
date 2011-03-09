@@ -2,10 +2,8 @@
 
 php lichess/console --env=prod apc:clear --opcode
 rm -r lichess/cache/prod/*
-php lichess/console --env=prod --debug cache:warmup
-php lichess/console --env=prod --debug doctrine:mongodb:data:load
-php lichess/console --env=prod --debug doctrine:mongodb:schema:create --index
-php lichess/console --env=prod --debug cache:warmup
+chmod -R 777 lichess/cache/prod
 php lichess/console --env=prod cache:warmup
+php lichess/console --env=prod doctrine:mongodb:schema:create --index
 php lichess/console --env=prod apc:clear
 chmod -R 777 lichess/cache/prod
