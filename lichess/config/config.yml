@@ -82,7 +82,7 @@ security:
             form_login:
                 provider:                       fos_user_provider
                 login_path:                     /login
-                check_path:                     /login-check
+                check_path:                     /login_check
             remember_me:
                 key:  kRopAjYEwDza74
                 name: lichess_remember_me
