@@ -169,7 +169,7 @@ class Game
      * @var bool
      * @mongodb:Field(type="boolean")
      */
-    protected $isRated = null;
+    protected $isRated;
 
     /**
      * If true, the elo points exchanged during this game have been canceled
@@ -177,7 +177,22 @@ class Game
      * @var bool
      * @mongodb:Field(type="boolean")
      */
-    protected $isEloCanceled = null;
+    protected $isEloCanceled;
+
+    /**
+     * The previous game. This game is then a rematch of the previous game
+     *
+     * @var Game
+     * @mongodb:ReferenceOne(targetDocument="Game", nullable=true)
+     */
+    protected $previous;
+
+    /**
+     * The next game, if this game has been rematched
+     *
+     * @var Game
+     */
+    protected $next;
 
     /**
      * The game board
@@ -215,6 +230,40 @@ class Game
             throw new \LogicException('Can not change the id of a saved game');
         }
         $this->id = KeyGenerator::generate(8);
+    }
+
+    /**
+     * @return Game
+     */
+    public function getPrevious()
+    {
+        return $this->previous;
+    }
+
+    /**
+     * @param  Game
+     * @return null
+     */
+    public function setPrevious(Game $previous)
+    {
+        $this->previous = $previous;
+    }
+
+    /**
+     * @return Game
+     */
+    public function getNext()
+    {
+        return $this->next;
+    }
+
+    /**
+     * @param  Game
+     * @return null
+     */
+    public function setNext(Game $next)
+    {
+        $this->next = $next;
     }
 
     /**
