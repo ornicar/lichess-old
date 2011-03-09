@@ -1,7 +1,7 @@
 #!/bin/sh
 
-#php lichess/console --env=prod apc:clear --opcode
+php lichess/console --env=prod apc:clear --opcode
 rm -r lichess/cache/prod/*
 php lichess/console --env=prod cache:warmup
-#php lichess/console --env=prod apc:clear
+php lichess/console --env=prod apc:clear
 chmod -R 777 lichess/cache/prod
