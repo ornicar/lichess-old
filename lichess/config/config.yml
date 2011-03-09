@@ -29,11 +29,18 @@ apc:
     web_dir: %kernel.root_dir%/../web
 
 doctrine_mongo_db:
+    server: mongodb://localhost:27017
+    default_database: lichess_%kernel.environment%
+    options:
+        connect: true
+        persist: lichess
+    metadata_cache_driver: apc
+
+doctrine_mongo_db:
     auto_generate_proxy_classes: false
     auto_generate_hydrator_classes: false
     default_database: lichess
     metadata_cache_driver: apc
-    cache_driver: apc
     mappings:
         LichessBundle: ~
         FOSUserBundle: ~
@@ -42,11 +49,6 @@ doctrine_mongo_db:
         LichessMessageBundle: ~
         ForumBundle:
         LichessForumBundle:
-    connections:
-        default:
-            options:
-                connect: true
-                persist: lichess
 
 forum:
     db_driver: odm

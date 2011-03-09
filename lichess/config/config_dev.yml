@@ -18,18 +18,6 @@ zend:
 twig:
     auto_reload: true
 
-doctrine_mongo_db:
-    auto_generate_proxy_classes: true
-    auto_generate_hydrator_classes: true
-    metadata_cache_driver: array
-    cache_driver: array
-    default_database: lichess_dev
-    connections:
-        default:
-            options:
-                connect: true
-                persist: lichess_dev
-
 lichess:
     debug_assets: true
 
