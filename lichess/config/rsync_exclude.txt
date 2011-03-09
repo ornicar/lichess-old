@@ -6,8 +6,8 @@
 /web/apcmonitor.php
 /web/monitor
 /web/bundles
-/src/vendor/zend/documentation/manual
-/src/vendor/zend/tests
+/vendor/zend/documentation/manual
+/vendor/zend/tests
 /dump*
 tags
 .git*
