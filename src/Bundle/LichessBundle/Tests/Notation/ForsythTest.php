@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Notation\Forsyth;
 use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
 
 class ForsythTest extends \PHPUnit_Framework_TestCase
 {
@@ -76,10 +77,13 @@ EOF;
      */
     public function testImportExport($fen)
     {
-        $game = new Game(Game::VARIANT_960);
+        $game = $this->createGame();
         $forsyth = new Forsyth();
         $forsyth->import($game, $fen);
-        $this->assertEquals($fen, $forsyth->export($game));
+        $simplifyFen = function($fen) {
+            return substr($fen, 0, strpos($fen, ' '));
+        };
+        $this->assertEquals($simplifyFen($fen), $simplifyFen($forsyth->export($game)));
     }
 
     public function fenProvider()
