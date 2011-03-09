@@ -48,7 +48,7 @@ class AuthorNamePersistence
     {
         if($this->isAnonymous()) {
             if ($authorName = $this->request->cookies->get($this->cookieName)) {
-                $post->setAuthorName($authorName);
+                $post->setAuthorName(urldecode($authorName));
             }
         }
     }
