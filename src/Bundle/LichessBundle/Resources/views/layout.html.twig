@@ -16,9 +16,7 @@
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
-                {#
-                {% if app.session.getFlash("locale_change") != "en" %}{% render "LichessBundle:Translation:incomplete.html.twig" with{"locale": app.session.locale} %}{% endif %}
-                #}
+                {% if app.session.getFlash("locale_change", "en") != "en" %}{% render "LichessBundle:Translation:incomplete" with{"locale": app.session.locale} %}{% endif %}
                 <div class="lichess_goodies_wrap">{% block goodies %}{% endblock %}</div>
                 <div class="lichess_chat_wrap">{% block chat %}{% endblock %}</div>
             </div>
