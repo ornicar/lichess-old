@@ -42,16 +42,31 @@ class Generator
     /**
      * Regenerate game pieces for the given variant
      *
-     * @return Game
+     * @return null
      **/
     public function applyVariant(Game $game, $variant)
     {
+        if ($game->getIsStarted()) {
+            throw new LogicException('Can not apply variant to a started game');
+        }
         if($game->getVariant() === $variant) {
             return $game;
         }
         $game->setVariant($variant);
 
         $this->getVariantGenerator($variant)->createPieces($game);
+    }
+
+    /**
+     * Regenerate game pieces for the given fen string
+     *
+     * @return null
+     **/
+    public function applyFen(Game $game, $fen)
+    {
+        if ($game->getIsStarted()) {
+            throw new LogicException('Can not apply FEN to a started game');
+        }
     }
 
     /**
@@ -66,6 +81,9 @@ class Generator
         $game = $player->getGame();
         $variant = $game->getVariant();
         $nextGame = $this->createGame($variant);
+        if (Game::VARIANT_960 === $game->getVariant()) {
+            $this->applyFen($nextGame, $game->getInitialFen());
+        }
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
         if($game->hasClock()) {
@@ -75,6 +93,8 @@ class Generator
         $nextGame->getPlayer('white')->setUser($game->getPlayer('black')->getUser());
         $nextGame->getPlayer('black')->setUser($game->getPlayer('white')->getUser());
         $nextGame->setRoom(clone $game->getRoom());
+        $nextGame->setPrevious($game);
+        $game->setNext($nextGame);
 
         return $nextPlayer;
     }
