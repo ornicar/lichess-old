@@ -79,8 +79,14 @@ class LichessExtension extends Twig_Extension
         return $filters;
     }
 
-    public function formatDate(DateTime $date)
+    public function formatDate(DateTime $date, $format = null)
     {
+        if (!$date instanceof DateTime) {
+            $date = new DateTime((ctype_digit($date) ? '@' : '').$date);
+        }
+        if ($format) {
+            return $date->format($format);
+        }
         if (null === $this->dateFormatter) {
             $this->dateFormatter = new IntlDateFormatter(
                 $this->container->get('session')->getLocale(),
