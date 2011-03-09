@@ -1,7 +1,7 @@
 <div class="forum_posts_list">
     {% for post in posts %}
     <div class="post" id="{{ post.number|raw }}">
-        <div class="metas">
+        <div class="metas clearfix">
             {% if post.author %}
                 <span class="authorName authenticated">{{ lichess_link_user(post.author) }}</span>
             {% else %}

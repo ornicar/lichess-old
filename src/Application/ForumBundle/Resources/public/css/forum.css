@@ -109,13 +109,20 @@ div.post .anchor {
 div.post .authorName {
     font-size: 1.2em;
     font-weight: bold;
+    float: left;
+}
+div.post .authorName a {
+    height: 16px;
+    display: block;
 }
 
 div.post .createdAt {
     font-size: 0.8em;
     font-style: italic;
     color: #aaa;
-    margin-left: 0.5em;
+    margin-top: 0.3em;
+    margin-left: 1em;
+    float: left;
 }
 
 div.post .message {
