@@ -60,6 +60,7 @@ class AnybodyStarter implements StarterInterface
             return $game;
         }
         $this->logger->notice($game, 'Game:inviteAnybody queue');
+        $game->setConfigArray($config->toArray());
 
         return $game->getCreator();
     }

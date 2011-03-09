@@ -196,6 +196,14 @@ class Game
     protected $next;
 
     /**
+     * Config values used to create the game. Cleared when game starts.
+     *
+     * @var array
+     * @mongodb:Field(type="hash")
+     */
+    protected $configArray;
+
+    /**
      * The game board
      *
      * @var Board
@@ -231,6 +239,23 @@ class Game
             throw new \LogicException('Can not change the id of a saved game');
         }
         $this->id = KeyGenerator::generate(8);
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigArray()
+    {
+        return $this->configArray;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setConfigArray(array $configArray = null)
+    {
+        $this->configArray = $configArray;
     }
 
     /**
@@ -658,6 +683,7 @@ class Game
         if($this->getIsRated()) {
             $this->addRoomMessage('system', 'This game is rated');
         }
+        $this->setConfigArray(null);
     }
 
     /**

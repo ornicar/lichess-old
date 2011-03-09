@@ -157,7 +157,7 @@ class PlayerController extends Controller
         $this->get('lichess.synchronizer')->setAlive($player);
 
         $config = new AnybodyGameConfig();
-        $config->fromArray($this->get('session')->get('lichess.game_config.anybody', array()));
+        $config->fromArray($player->getGame()->getConfigArray());
         return $this->render('LichessBundle:Player:waitAnybody.html.twig', array(
             'player' => $player,
             'config' => $config
