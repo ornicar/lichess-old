@@ -10,12 +10,17 @@
 .ui-state-default.ui-state-hover {
     border-color: #aaa;
 }
-.ui-state-active, button.ui-state-hover {
-    border: 1px solid #497F2C;
-    background: #6EAC2C;
-    background: -moz-linear-gradient(center top , #6EAC2C, #497F2C) repeat scroll 0 0 #6EAC2C;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#62AC2C), to(#497F2C));
+.ui-state-active {
+    border: 1px solid #50a0b0;
+    background: #222266;
+    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
     color: #FFF;
+}
+button.ui-state-hover {
+    box-shadow: 0 0 9px #009ab0;
+    -moz-box-shadow: 0 0 9px #009ab0;
+    -webkit-box-shadow: 0 0 9px #009ab0;
 }
 .ui-state-active.ui-state-hover {
     border-color: #295F1A;
@@ -504,8 +509,6 @@ div.lichess_table .lichess_button {
     display: block;
     text-decoration: none;
     padding: 1em;
-    background: #F0F0F0;
-    border: 1px solid #ddd;
     border-radius: 32px;
     -moz-border-radius: 32px;
     -webkit-border-radius: 32px;
@@ -513,11 +516,24 @@ div.lichess_table .lichess_button {
     -moz-box-shadow: 0 0 3px #ccc;
     -webkit-box-shadow: 0 0 3px #ccc;
     text-align: center;
+    border: 1px solid #d3d3d3;
+    background: #fafafa;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
+    color: #666;
 }
 
-div.lichess_table .lichess_button.active,
+div.lichess_table .lichess_button.active {
+    border: 1px solid #50a0b0;
+    background: #222266;
+    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+    color: #fff;
+}
 div.lichess_table a.lichess_button:hover {
-    background: #fff;
+    box-shadow: 0 0 9px #009ab0;
+    -moz-box-shadow: 0 0 9px #009ab0;
+    -webkit-box-shadow: 0 0 9px #009ab0;
 }
 
 div.lichess_current_player {

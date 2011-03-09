@@ -73,7 +73,6 @@ div.content {
 
 #lichess {
     margin-left: 211px;
-    display:none;
 }
 
 a.site_title {
@@ -184,8 +183,13 @@ a.goto_nav {
     float: left;
     padding-left: 9px;
 }
+a.goto_nav .s16 {
+}
 a.goto_nav:hover, #top a.toggle:hover, a#sound_state:hover {
     background: #fff;
+    box-shadow: 0 0 6px #009ab0;
+    -moz-box-shadow: 0 0 6px #009ab0;
+    -webkit-box-shadow: 0 0 6px #009ab0;
 }
 a.goto_nav.active {
     color: #fff;
@@ -243,6 +247,7 @@ div.security form {
     padding: 1em;
     border: 1px solid #dadada;
     border-top: none;
+    z-index: 1;
 }
 div.security form input {
     margin-bottom: 8px;
@@ -292,6 +297,7 @@ ul.lichess_language_links {
     width: 183px;
     max-height: 600px;
     overflow:auto;
+    z-index: 1;
 }
 div.lichess_language.toggled a.toggle {
     background: #fff;

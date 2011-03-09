@@ -289,7 +289,7 @@ class LichessExtension extends Twig_Extension
             $html .= '<div class="lcsi"></div>';
             if($piece = $board->getPieceByKey($squareKey)) {
                 if($isGameStarted || $piece->getPlayer() === $player) {
-                    $html .= sprintf('<span class="lichess_piece %s %s"></span>',
+                    $html .= sprintf('<div class="lichess_piece %s %s"></div>',
                         strtolower($piece->getClass()), $piece->getColor()
                     );
                 }
