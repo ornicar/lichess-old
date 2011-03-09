@@ -1,6 +1,6 @@
 {% for post in posts %}
     <entry>
-        <title>#{{ post.number|raw }}</title>
+        <title>#{{ post.number|raw }} by {{ post.author|default("Anonymous") }}</title>
         <summary>{{ lichess_shorten(post.message) }}</summary>
         <author>{{ post.author|default("Anonymous") }}</author>
         <published>{{ post.createdAt|date("c") }}</published>

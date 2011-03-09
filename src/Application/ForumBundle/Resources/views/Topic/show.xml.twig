@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>{{ topic.subject }} - Lichess Forum</title>
-    <id>{{ _view.forum.urlForTopic(topic, true)|raw }}</id>
-    <link href="{{ _view.forum.urlForTopic(topic, true)|raw }}" rel="alternate" />
+    <id>{{ forum_urlForTopic(topic, true) }}</id>
+    <link href="{{ forum_urlForTopic(topic, true) }}" rel="alternate" />
     <link href="{{ url("forum_index") }}" />
     <updated>{{ topic.pulledAt|date("c")|raw }}</updated>
     <author>
         <name>{{ topic.firstPost.authorName|default("Anonymous") }}</name>
     </author>
-    {% include "ForumBundle:Post:list.html.twig" with {"posts": posts} %}
+    {% include "ForumBundle:Post:list.xml.twig" with {"posts": posts} %}
 </feed>
