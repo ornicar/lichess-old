@@ -24,7 +24,7 @@ abstract class AbstractAcceptanceTest extends WebTestCase
 
     protected function authenticate(Client $client, $username = 'user1', $password = 'password1')
     {
-        $client->request('POST', '/login-check', array(
+        $client->request('POST', '/login_check', array(
             '_username' => $username,
             '_password' => $password
         ));
