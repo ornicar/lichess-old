@@ -18,7 +18,7 @@ class MessageController extends BaseMessageController
             $message->setFrom($this->get('security.context')->getToken()->getUser());
             if ($this->get('lichess_message.akismet')->isMessageSpam($message)) {
                 $form['body']->addError(new Error('Sorry, but your message looks like spam. If you think it is an error, send me an email.'));
-                $this->get('logger')->notice('Message spam block: '.$message->getFrom());
+                $this->get('logger')->notice('Message spam block: '.$message->getFrom().' - '.$message->getSubject());
                 return $this->render('OrnicarMessageBundle:Message:new.html.twig', compact('form'));
             }
             $this->get('ornicar_message.messenger')->send($message);
