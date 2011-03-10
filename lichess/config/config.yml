@@ -11,7 +11,7 @@ framework:
         lifetime: 15552000 # 6 months
         auto_start:     true
     templating:
-        assets_version: 11
+        assets_version: 14
         engines: ['twig']
     translator: { fallback: en }
 
@@ -29,26 +29,24 @@ apc:
     web_dir: %kernel.root_dir%/../web
 
 doctrine_mongo_db:
-    server: mongodb://localhost:27017
-    default_database: lichess_%kernel.environment%
-    options:
-        connect: true
-        persist: lichess
-    metadata_cache_driver: apc
-
-doctrine_mongo_db:
-    auto_generate_proxy_classes: false
-    auto_generate_hydrator_classes: false
+    connections:
+        default:
+            server: mongodb://localhost:27017
+            options:
+                connect: true
+                persist: lichess
     default_database: lichess
-    metadata_cache_driver: apc
-    mappings:
-        LichessBundle: ~
-        FOSUserBundle: ~
-        LichessUserBundle: ~
-        OrnicarMessageBundle: ~
-        LichessMessageBundle: ~
-        ForumBundle:
-        LichessForumBundle:
+    document_managers:
+        default:
+            mappings:
+                LichessBundle: ~
+                FOSUserBundle: ~
+                LichessUserBundle: ~
+                OrnicarMessageBundle: ~
+                LichessMessageBundle: ~
+                ForumBundle:
+                LichessForumBundle:
+            metadata_cache_driver: apc
 
 forum:
     db_driver: odm

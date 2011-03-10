@@ -24,4 +24,6 @@ lichess_forum:
     detect_spam: false
 
 doctrine_mongo_db:
-    metadata_cache_driver: array
+    document_managers:
+        default:
+            metadata_cache_driver: array
