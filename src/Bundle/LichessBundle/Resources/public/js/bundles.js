@@ -38,29 +38,23 @@
         this.state = this.options.max;
         this.timeout = null;
         this.lastPingDate = new Date().getTime();
-        for (i=1;i<=this.options.max;i++) {
-            this.element.append(
-                $('<span>')
-                .attr('class', 'bar'+i)
-                .css('height', (4*i)+"px")
-                .css('margin-top', (20 - 4*i)+"px")
-            );
-        }
+        this.$bars = this.element.find('span');
 	};
 	$.connectivity.prototype = {
         ping: function() {
             var self = this;
             self.timeout && clearTimeout(self.timeout);
-            now = new Date().getTime();
-            timeSincePreviousPing = now - self.lastPingDate;
-            waitTime = timeSincePreviousPing - self.options.delay;
-            waitFactor = parseInt(waitTime / self.options.tolerance);
-            self.state = Math.max(0, self.options.max - waitFactor);
-            self.show();
+            self.setLatency(new Date().getTime() - self.lastPingDate - self.options.delay);
             self.lastPingDate = now;
             if (self.state > 0) {
                 self.timeout = setTimeout(function() { self.decrease(); }, timeSincePreviousPing);
             }
+        },
+        setLatency: function(latency) {
+            var self = this;
+            waitFactor = parseInt(latency / self.options.tolerance);
+            self.state = Math.max(0, self.options.max - waitFactor);
+            self.show();
         },
         decrease: function() {
 			var self = this;
@@ -71,9 +65,9 @@
             }
         },
         show: function() {
-            this.element.find('span').removeClass('on').toggleClass('alert', 0 == this.state);
-            for (i=1;i<=this.state;i++) {
-                this.element.find('span.bar'+i).addClass('on');
+            this.$bars.removeClass('on').toggleClass('alert', 0 == this.state);
+            for (i=0;i<this.state;i++) {
+                $(this.$bars[i]).addClass('on');
             }
         }
 	};
