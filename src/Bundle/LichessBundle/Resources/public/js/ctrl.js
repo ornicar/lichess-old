@@ -63,13 +63,18 @@ $(function() {
 		$.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
 	}
 
+    function loadLanguageList() {
+        $div = $('div.lichess_language');
+		if (!$div.hasClass('loaded')) {
+			$.get($div.attr('data-path'), function(html) { $div.append(html); });
+            $div.addClass('loaded');
+		}
+    }
 	$('div.lichess_language').click(function() {
         $(this).toggleClass('toggled');
+        loadLanguageList();
 	}).mouseenter(function() {
-        var $div = $(this);
-		if (!$div.find('ul').length) {
-			$.get($div.attr('data-path'), function(html) { $div.append(html); });
-		}
+        loadLanguageList();
     });
 
 	$('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
