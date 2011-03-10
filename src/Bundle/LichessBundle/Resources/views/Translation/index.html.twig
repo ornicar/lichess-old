@@ -5,15 +5,15 @@
     <h1 class="lichess_title">Help translate Lichess!</h1>
     <div class="lichess_text">
         Lichess is OpenSource and needs contributors to get better.
-        {% if error %}
+        {% if error is defined and error %}
             <div class="error">{{ error|raw }}</div>
         {% endif %}
         {% if app.session.hasFlash('notice') %}
             <div class="notice">{{ app.session.getFlash('notice') }}</div>
         {% endif %}
-        <form action="{{ path("lichess_translate_locale", {"locale": locale} ) }}" data-change-url="{{ path("lichess_translate_locale", {"locale": "__"} ) }}" method="post">
+        <form action="{{ path("lichess_translate_locale", {"locale": locale} ) }}" data-change-url="{{ path("lichess_translate_locale", {"locale": "__"} ) }}" method="post" novalidate>
             <div class="field">
-                {{ form.code|render_label("Translate from english to") }}
+                {{ form_label(form.code, "Translate from english to") }}
                 {{ form_field(form.code) }}
             </div>
             {% block translation %}{% endblock %}

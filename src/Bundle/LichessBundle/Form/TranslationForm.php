@@ -30,7 +30,9 @@ class TranslationForm extends Form
     {
         parent::setData($data);
 
-        $translations = new CollectionField(new TextField('messagesValues'));
+        $translations = new CollectionField('messagesValues', array(
+            'prototype' => new TextField()
+        ));
         $this->add($translations);
     }
 }

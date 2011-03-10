@@ -21,11 +21,11 @@ For example, <strong>View %nb% checkmates</strong> translated to french is <stro
     {% endfor %}
 </div>
 <div class="field">
-    {{ form.author|render_label("Author (optional)") }}
+    {{ form_label(form.author, "Author (optional)") }}
     {{ form_field(form.author) }}
 </div>
 <div class="field">
-    {{ form.comment|render_label("Comment (optional)") }}
+    {{ form_label(form.comment, "Comment (optional)") }}
     {{ form_field(form.comment) }}
 </div>
 <div class="field">

@@ -44,16 +44,14 @@ class TranslationController extends Controller
         $translation->setCode($locale);
         try {
             $translation->setMessages($manager->getMessagesWithReferenceKeys($locale));
-        }
-        catch(\InvalidArgumentException $e) {
+        } catch(\InvalidArgumentException $e) {
             $translation->setMessages($manager->getEmptyMessages());
         }
         $form = $this->get('lichess.form.translation');
         $form->setData($translation);
 
-        if ($this->get('request')->getMethod() == 'POST')
-        {
-            $form->bind($this->get('request')->request->get($form->getName()));
+        if ($this->get('request')->getMethod() == 'POST') {
+            $form->bind($this->get('request'));
             if($form->isValid()) {
                 $this->get('lichess.object_manager')->persist($translation);
                 $this->get('lichess.object_manager')->flush(array('safe' => true));
