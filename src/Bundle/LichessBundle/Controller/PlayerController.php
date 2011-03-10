@@ -40,8 +40,8 @@ class PlayerController extends Controller
         $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
         if($playerFullId) {
             $this->get('lichess.synchronizer')->setAlive($player);
+            $player->getGame()->cachePlayerVersions();
         }
-        $player->getGame()->cachePlayerVersions();
 
         return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version, (bool) $playerFullId));
     }
