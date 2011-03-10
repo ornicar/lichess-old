@@ -16,10 +16,12 @@ class PlayerBlamer
 
     public function blame(Player $player)
     {
-        if ($token = $this->securityContext->getToken()) {
-            $user = $token->getUser();
-            if($user instanceof User) {
-                $player->setUser($user);
+        if ($this->securityContext->vote('IS_AUTHENTICATED_FULLY')) {
+            if ($token = $this->securityContext->getToken()) {
+                $user = $token->getUser();
+                if($user instanceof User) {
+                    $player->setUser($user);
+                }
             }
         }
     }
