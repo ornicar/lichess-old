@@ -228,6 +228,9 @@ div.color_submits button.submit span {
     height: 51px;
     padding: 0;
 }
+div.color_submits button.submit[disabled] {
+    opacity: 0.3;
+}
 div.color_submits button.black span {
     background-position: 0 -51px;
 }
