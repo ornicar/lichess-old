@@ -83,9 +83,6 @@ class TopicController extends BaseTopicController
         if(!$topic) {
             throw new NotFoundHttpException(sprintf('The topic with id "%s" does not exist', $id));
         }
-        return $this->redirect($this->generateUrl('forum_topic_show', array(
-            'categorySlug' => $categorySlug,
-            'slug' => $topic->getSlug()
-        )));
+        return new RedirectResponse($this->generateUrl('forum_topic_show', array('categorySlug' => $categorySlug, 'slug' => $topic->getSlug())));
     }
 }
