@@ -407,7 +407,7 @@ ul.ui-autocomplete li a.ui-state-hover {
     width: 30px;
     padding: 2px 12px;
     display: block;
-    float: left;
+    float: right;
 }
 #connectivity span {
     display: block;
@@ -424,6 +424,9 @@ ul.ui-autocomplete li a.ui-state-hover {
     background-color: red;
     height: 4px!important;
     margin-top: 16px!important;
+    box-shadow: 0 0 2px red;
+    -moz-box-shadow: 0 0 2px red;
+    -webkit-box-shadow: 0 0 2px red;
 }
 
 /* glossy */

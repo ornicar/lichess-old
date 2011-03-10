@@ -85,9 +85,7 @@ $(function() {
 
 	$('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join('')).removeClass('js_email');
 
-	$.fn.tipsy && $('a, input, label, div.lichess_server').not('.notipsy').tipsy({
-		fade: true
-	});
+	$.fn.tipsy && $('a, input, label, div.tipsyme').not('.notipsy').tipsy({ fade: true });
 
 	if ($autocomplete = $('input.autocomplete').orNot()) {
 		$autocomplete.autocomplete({
