@@ -122,8 +122,8 @@ div.footer div.right {
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    background: -moz-linear-gradient(center top , #FAFAFA, #EAEAEA) repeat scroll 0 0 #EFEFEF;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EAEAEA));
+    background: -moz-linear-gradient(center top , #FAFAFA, #dfdfdf) repeat scroll 0 0 #EFEFEF;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#dfdfdf));
     border: 1px solid #DADADA;
     padding: 0.4em 1em;
     text-decoration: none;
@@ -193,12 +193,6 @@ a.goto_nav:hover, #top a.toggle:hover, a#sound_state:hover {
     height: 16px;
     margin-top: 4px;
     line-height: 16px;
-}
-a.goto_nav.active {
-    color: #fff;
-    background: #222266;
-    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
 }
 a.goto_message span.new_messages {
     padding: 1px 4px;
@@ -412,4 +406,46 @@ ul.ui-autocomplete li a {
 ul.ui-autocomplete li a.ui-state-hover {
     background: #E1F6F8;
     color: #444;
+}
+
+/* glossy */
+/*#top, div.lichess_table .lichess_button, .ui-state-default {*/
+    /*color: #666;*/
+    /*background: #f6f8f9; [> old browsers <]*/
+    /*background: -moz-linear-gradient(top, #f6f8f9 0%, #e5ebee 50%, #d7dee3 51%, #f5f7f9 100%); [> firefox <]*/
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f8f9), color-stop(50%,#e5ebee), color-stop(51%,#d7dee3), color-stop(100%,#f5f7f9)); [> webkit <]*/
+/*}*/
+/*div.lichess_table .lichess_button, .ui-state-default {*/
+    /*border: 1px solid #d7dee3;*/
+/*}*/
+
+/*#top a.goto_nav.active, div.lichess_table .lichess_button.active, .ui-state-active {*/
+    /*color: #fff;*/
+    /*background: #909e40; [> old browsers <]*/
+    /*background: -moz-linear-gradient(top, #909E40 0%, #65841E 50%, #507500 51%, #759622 100%); [> firefox <]*/
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#909E40), color-stop(50%,#65841E), color-stop(51%,#507500), color-stop(100%,#759622)); [> webkit <]*/
+/*}*/
+/*div.lichess_table .lichess_button.active, .ui-state-active {*/
+    /*border: 1px solid #507500;*/
+/*}*/
+
+/* gradient */
+#top, div.lichess_table .lichess_button, .ui-state-default {
+    color: #666;
+    background: #fafafa;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
+}
+div.lichess_table .lichess_button, .ui-state-default {
+    border: 1px solid #d3d3d3;
+}
+
+#top a.goto_nav.active, div.lichess_table .lichess_button.active, .ui-state-active {
+    color: #fff;
+    background: #222266;
+    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+}
+div.lichess_table .lichess_button.active, .ui-state-active {
+    border: 1px solid #50a0b0;
 }

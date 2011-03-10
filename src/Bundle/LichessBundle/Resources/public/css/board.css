@@ -1,21 +1,7 @@
 /* button */
 .ui-helper-hidden-accessible { position: absolute; left: -99999999px; }
-.ui-state-default {
-    border: 1px solid #d3d3d3;
-    background: #fafafa;
-    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
-    color: #666;
-}
 .ui-state-default.ui-state-hover {
     border-color: #aaa;
-}
-.ui-state-active {
-    border: 1px solid #50a0b0;
-    background: #222266;
-    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
-    color: #FFF;
 }
 button.ui-state-hover {
     box-shadow: 0 0 9px #009ab0;
@@ -516,19 +502,6 @@ div.lichess_table .lichess_button {
     -moz-box-shadow: 0 0 3px #ccc;
     -webkit-box-shadow: 0 0 3px #ccc;
     text-align: center;
-    border: 1px solid #d3d3d3;
-    background: #fafafa;
-    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
-    color: #666;
-}
-
-div.lichess_table .lichess_button.active {
-    border: 1px solid #50a0b0;
-    background: #222266;
-    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
-    color: #fff;
 }
 div.lichess_table a.lichess_button:hover {
     box-shadow: 0 0 9px #009ab0;
