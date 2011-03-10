@@ -9,7 +9,7 @@
             <div class="game_config_form">
                 <form action="{{ path("lichess_invite_" ~ block('invite_type')) }}" method="post" novalidate>
                     {{ block('invite_form_fields') }}
-                    {{ form_field(form.color) }}
+                    {% if form.hasHiddenColor() %}{{ form_field(form.color) }}{% endif %}
                     <div class="color_submits clearfix">
                         {% set randomOnly = block("random_only") %}
                         <button{{ "true" == randomOnly ? " disabled" : ""}} type="submit" class="submit white" name="{{ form.name }}[color]" value="white" title="{% trans "White" %}"></button>

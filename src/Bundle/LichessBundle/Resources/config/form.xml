@@ -9,6 +9,7 @@
 
         <parameter key="lichess.form.translation.class">Bundle\LichessBundle\Form\TranslationForm</parameter>
         <parameter key="lichess.form.translation.name">lichess_translation_form</parameter>
+        <parameter key="lichess.form.add_color_hidden_field">false</parameter>
     </parameters>
 
     <services>
@@ -16,6 +17,8 @@
             <argument type="service" id="security.context" />
             <argument type="service" id="session" />
             <argument type="service" id="form.context" />
+            <argument type="service" id="logger" />
+            <argument>%lichess.form.add_color_hidden_field%</argument>
         </service>
 
         <service id="lichess.form.translation" class="%lichess.form.translation.class%" factory-class="%lichess.form.translation.class%" factory-method="create">

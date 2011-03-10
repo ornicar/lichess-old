@@ -8,18 +8,23 @@ use Bundle\LichessBundle\Config\AiGameConfig;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Session;
 use Symfony\Component\Form\FormContext;
+use Symfony\Bundle\ZendBundle\Logger\Logger;
 
 class GameConfigFormManager
 {
     protected $security;
     protected $session;
     protected $formContext;
+    protected $logger;
+    protected $addColorHiddenField;
 
-    public function __construct(SecurityContext $security, Session $session, FormContext $formContext)
+    public function __construct(SecurityContext $security, Session $session, FormContext $formContext, Logger $logger, $addColorHiddenField)
     {
-        $this->security  = $security;
-        $this->session   = $session;
-        $this->formContext = $formContext;
+        $this->security            = $security;
+        $this->session             = $session;
+        $this->formContext         = $formContext;
+        $this->logger              = $logger;
+        $this->addColorHiddenField = $addColorHiddenField;
     }
 
     public function createFriendForm()
@@ -60,9 +65,15 @@ class GameConfigFormManager
     {
         $form = call_user_func_array(array($class, 'create'), array($this->formContext, 'config'));
 
+        $form->setLogger($this->logger);
+
         $form->setVariantChoices($config->getVariantChoices());
         $form->setTimeChoices($config->getTimeChoices());
         $form->setIncrementChoices($config->getIncrementChoices());
+
+        if ($this->addColorHiddenField) {
+            $form->addColorHiddenField();
+        }
 
         $form->setData($config);
 

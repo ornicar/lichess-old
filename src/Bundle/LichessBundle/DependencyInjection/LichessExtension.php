@@ -46,5 +46,6 @@ class LichessExtension extends Extension
         if ($config['test']) {
             $loader->load('test.xml');
         }
+        $container->setParameter("lichess.form.add_color_hidden_field", $config['test']);
     }
 }
