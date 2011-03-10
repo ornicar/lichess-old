@@ -89,7 +89,7 @@
 			});
 		},
 		onError: function(xhr) {
-			//location.reload();
+			location.reload();
 		},
 		isMyTurn: function() {
 			return this.options.possible_moves != null;
