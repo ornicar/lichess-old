@@ -40,6 +40,7 @@ class PostController extends BasePostController
 
         if ($this->get('forum.akismet')->isPostSpam($post)) {
             $form['message']->addError(new Error('Sorry, but your post looks like spam. If you think it is an error, send me an email.'));
+            $this->get('logger')->notice('Forum:post spam block: '.$post->getAuthor());
             return $this->invalidCreate($topic);
         }
 

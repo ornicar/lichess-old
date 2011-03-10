@@ -46,6 +46,7 @@ class TopicController extends BaseTopicController
 
         if ($this->get('forum.akismet')->isTopicSpam($topic)) {
             $form['firstPost']->addError(new Error('Sorry, but your topic looks like spam. If you think it is an error, send me an email.'));
+            $this->get('logger')->notice('Forum:topic spam block: '.$topic->getFirstPost()->getAuthor());
             return $this->invalidCreate($category, $form);
         }
 
