@@ -7,7 +7,8 @@ use Bundle\LichessBundle\Document\Game;
 class Crafty implements AiInterface
 {
     protected $options = array(
-        'executable_path' => '/usr/bin/crafty'
+        'executable_path' => '/usr/bin/crafty',
+        'book_path' => '/usr/share/crafty'
     );
 
     public function __construct(array $options = array())
@@ -33,21 +34,20 @@ class Crafty implements AiInterface
 
     protected function getNewForsyth($forsythNotation, $level)
     {
-        $file = tempnam(sys_get_temp_dir(), 'lichess_crafty_'.md5(uniqid().mt_rand(0, 1000)));
+        $file = tempnam(sys_get_temp_dir(), 'lichess_crafty_'.md5(uniqid().mt_rand(0, 9000)));
         touch($file);
 
         $command = $this->getPlayCommand($forsythNotation, $file, $level);
         exec($command, $output, $code);
-        if($code !== 0)
-        {
+        if($code !== 0) {
             throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
         }
 
-        $forsyth = $this->extractForsyth(file($file, FILE_IGNORE_NEW_LINES));
+        $craftyAnswer = file($file, FILE_IGNORE_NEW_LINES);
+        $forsyth = $this->extractForsyth($craftyAnswer);
         unlink($file);
 
-        if(!$forsyth)
-        {
+        if(!$forsyth) {
             throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
         }
 
@@ -61,7 +61,9 @@ class Crafty implements AiInterface
 
     protected function getPlayCommand($forsythNotation, $file, $level)
     {
-        return sprintf("cd %s && %s log=off ponder=off smpmt=1 %s <<EOF
+        return sprintf("cd %s && %s bookpath=%s log=off ponder=off smpmt=1 %s <<EOF
+book random 1
+book width 10
 setboard %s
 move
 savepos %s
@@ -69,6 +71,7 @@ quit
 EOF",
             dirname($file),
             $this->options['executable_path'],
+            $this->options['book_path'],
             $this->getCraftyLevel($level),
             $forsythNotation,
             basename($file)
@@ -88,9 +91,10 @@ EOF",
             'st='.$this->getTimeForLevel($level),
         );
 
-        if($level < 4) {
-            $config[] = 'book=off';
-        }
+        //if($level < 4) {
+            //$config[] = 'book=off';
+        //}
+        $config[] = 'book=on';
 
         return implode(' ', $config);
     }
