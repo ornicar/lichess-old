@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\Output;
 /**
  * Redistributes a cheater ELO to his victims
  */
-class PunishmentCommand extends BaseCommand
+class CheatAdjustCommand extends BaseCommand
 {
     /**
      * @see Command
@@ -23,7 +23,7 @@ class PunishmentCommand extends BaseCommand
             ->setDefinition(array(
                 new InputArgument('username', InputArgument::REQUIRED, 'Username of the cheater'),
             ))
-            ->setName('lichess:cheat:punish')
+            ->setName('lichess:cheat:adjust')
         ;
     }
 
