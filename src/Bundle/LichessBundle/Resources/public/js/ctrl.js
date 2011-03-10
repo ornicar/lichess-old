@@ -83,7 +83,7 @@ $(function() {
         loadLanguageList();
     });
 
-	$('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
+	$('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join('')).removeClass('js_email');
 
 	$.fn.tipsy && $('a, input, label, div.lichess_server').not('.notipsy').tipsy({
 		fade: true
