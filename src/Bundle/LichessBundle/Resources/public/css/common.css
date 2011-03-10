@@ -408,6 +408,29 @@ ul.ui-autocomplete li a.ui-state-hover {
     color: #444;
 }
 
+#connectivity {
+    height: 20px;
+    width: 30px;
+    padding: 2px 12px;
+    display: block;
+    float: left;
+}
+#connectivity span {
+    display: block;
+    width: 4px;
+    height: 10px;
+    margin-right: 2px;
+    background-color: #cacaca;
+    float: left;
+    display: block;
+}
+#connectivity span.on {
+    background-color: #808080;
+}
+#connectivity span.alert {
+    background-color: red;
+}
+
 /* glossy */
 /*#top, div.lichess_table .lichess_button, .ui-state-default {*/
     /*color: #666;*/

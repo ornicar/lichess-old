@@ -6,8 +6,12 @@ $(function() {
 		});
 		if (!lichess_data.player.spectator) $('a.blank_if_play').attr('target', '_blank');
 	}
-	$nbConnectedPlayers = $nbConnectedPlayers = $('#nb_connected_players').orNot();
-	if ($userTag = $('#user_tag').orNot()) {
+    var $nbConnectedPlayers = $('#nb_connected_players').orNot();
+    var $userTag = $userTag = $('#user_tag').orNot();
+    var $connectivity = $("#connectivity");
+    var pingDelay = 5000;
+    var connectivity = new $.connectivity($connectivity, { delay: pingDelay, tolerance: 500 });
+	if ($userTag) {
 		function onlinePing() {
 			setTimeout(function() {
 				$.get($userTag.attr('data-online-url'), function(data) {
@@ -15,11 +19,12 @@ $(function() {
 					if (typeof data.nbm != 'undefined') {
 						$('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0);
 					}
+                    connectivity.ping();
 					onlinePing();
 				},
 				"json");
 			},
-			5000);
+			pingDelay);
 		};
 		onlinePing();
 	}
@@ -28,10 +33,11 @@ $(function() {
 			setTimeout(function() {
 				$.get($nbConnectedPlayers.attr('data-url'), function(nb) {
 					$nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
+                    connectivity.ping();
 					reloadNbConnectedPlayers();
 				});
 			},
-			5000);
+			pingDelay);
 		};
 		reloadNbConnectedPlayers();
 	}
