@@ -10,10 +10,14 @@
             <a class="delete" href="{{ path('ornicar_message_message_delete', {"id": message.id}) }}">{% trans "Delete" %}</a>
         </span>
         <span class="infos">
-            <a class="user" href="{{ path('fos_user_user_show', {"username": message.from.username}) }}">{{ message.from }}</a>
-            said {{ lichess_date(message.createdAt) }}:
+            {% if message.from == app.user %}
+                You said to {{ lichess_link_user(message.to) }}
+            {% else %}
+                {{ lichess_link_user(message.from) }} said
+            {% endif %}
+            {{ lichess_date(message.createdAt) }}:
         </span>
-        <div class="body">{{ lichess_user_text(message.body)|raw }}</div>
+        <div class="body">{{ lichess_user_text(message.body) }}</div>
         {% if form %}
             <div class="answer">
                 {% trans "Reply" %}
