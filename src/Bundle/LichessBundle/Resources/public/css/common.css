@@ -160,12 +160,6 @@ div.content_box .lichess_title {
     margin-bottom: 0.5em;
 }
 
-div.lichess_goodies {
-    opacity: 0.7;
-}
-div.lichess_goodies:hover {
-    opacity: 1;
-}
 div.lichess_goodies div.box {
     width: 182px;
     border: 1px solid #C0C0C0;
