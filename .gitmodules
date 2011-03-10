@@ -1,6 +1,6 @@
 [submodule "vendor/symfony"]
 	path = vendor/symfony
-	url = git://github.com/ornicar/symfony.git
+	url = git://github.com/symfony/symfony.git
 [submodule "src/Bundle/LichessBundle/Resources/public/vendor/pgn4web"]
 	path = src/Bundle/LichessBundle/Resources/public/vendor/pgn4web
 	url = git://github.com/ornicar/pgn4web.git
