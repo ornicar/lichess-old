@@ -1,0 +1,4 @@
+#!/bin/sh
+
+(cd /tmp && ln -s /usr/share/crafty/book.bin ./)
+(cd /tmp && ln -s /usr/share/crafty/books.bin ./)
