@@ -76,6 +76,9 @@
 #lichess_message div.show div.answer {
     margin-top: 2em;
 }
+#lichess_message div.show div.body {
+    color: #666;
+}
 
 #lichess_message div.form {
     margin-top: 1em;
