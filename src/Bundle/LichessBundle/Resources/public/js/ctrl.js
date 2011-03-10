@@ -10,7 +10,7 @@ $(function() {
     var $userTag = $userTag = $('#user_tag').orNot();
     var $connectivity = $("#connectivity");
     var pingDelay = 5000;
-    var connectivity = new $.connectivity($connectivity, { delay: pingDelay, tolerance: 500 });
+    var connectivity = new $.connectivity($connectivity, { delay: pingDelay, tolerance: 300 });
 	if ($userTag) {
 		function onlinePing() {
 			setTimeout(function() {
