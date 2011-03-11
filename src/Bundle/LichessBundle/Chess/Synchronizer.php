@@ -27,7 +27,7 @@ class Synchronizer
         if(false === $nb) {
             $it = new APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
             $nb = 0;
-            $limit = time() - $this->getTimeout();
+            $limit = time() - $this->timeout;
             foreach($it as $i) {
                 apc_fetch($i['key']); // clear invalidated entries
                 if($i['mtime'] >= $limit) ++$nb;
@@ -36,25 +36,6 @@ class Synchronizer
         }
 
         return $nb;
-    }
-
-    /**
-     * Get timeout
-     * @return int
-     */
-    public function getTimeout()
-    {
-        return $this->timeout;
-    }
-
-    /**
-     * Set timeout
-     * @param  int
-     * @return null
-     */
-    public function setTimeout($timeout)
-    {
-        $this->timeout = (int) $timeout;
     }
 
     public function getDiffEvents(Player $player, $clientVersion)
@@ -77,7 +58,7 @@ class Synchronizer
 
     public function setAlive(Player $player)
     {
-        apc_store($player->getGame()->getId().'.'.$player->getColor().'.alive', 1, $this->getTimeout());
+        apc_store($this->getPlayerAliveKey($player), 1, $this->timeout);
     }
 
     public function isTimeout(Player $player)
@@ -87,6 +68,11 @@ class Synchronizer
 
     public function isConnected(Player $player)
     {
-        return $player->getIsAi() || (bool) apc_fetch($player->getGame()->getId().'.'.$player->getColor().'.alive');
+        return $player->getIsAi() || (bool) apc_fetch($this->getPlayerAliveKey($player));
+    }
+
+    protected function getPlayerAliveKey(Player $player)
+    {
+        return $player->getGame()->getId().'.'.$player->getColor().'.alive';
     }
 }
