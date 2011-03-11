@@ -144,16 +144,16 @@ div.category .description {
     margin-top: 1em;
 }
 
-form {
+#liches_forum form {
     margin-top: 2em;
     font-size: 1.3em;
 }
-form label {
+#liches_forum form label {
     display: block;
     margin-bottom: 2em;
 }
 
-form label span {
+#liches_forum form label span {
     float: left;
     display: block;
     width: 100px;
@@ -161,37 +161,37 @@ form label span {
     margin-right: 10px;
     margin-top: 3px;
 }
-form label span.required:after {
+#liches_forum form label span.required:after {
     content: "*";
     color: #FF6666;
     margin-left: 3px;
 }
 
-form input.subject {
+#liches_forum form input.subject {
     width: 500px;
     padding: 0.5em;
     border: 1px solid #D4D4D4;
 }
-form textarea {
+#liches_forum form textarea {
     width: 500px;
     height: 150px;
     padding: 0.5em;
     border: 1px solid #D4D4D4;
 }
-form input.authorName {
+#liches_forum form input.authorName {
     padding: 0.5em;
     width: 300px;
     border: 1px solid #D4D4D4;
 }
-form .submit {
+#liches_forum form .submit {
     margin-left: 110px;
 }
-form .forum_trap {
+#liches_forum form .forum_trap {
     margin-left: -10000px;
     height: 0;
 }
 
-form ul {
+#liches_forum form ul {
     margin-left: 110px;
     margin-bottom: 10px;
     color: red;

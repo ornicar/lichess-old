@@ -1,10 +1,7 @@
 * allow user profile message
-* login box style in forum
 * remember_me does not work
 * Summaries in forum feeds are badly chopped, could be nice to make them lil' bit longer and add "..." in the end to denote they were trimmed, or perhaps, don't trim it in the first place
-* email displayed twice on 404 page
 * "empty space" issue (i wrote about it before) on /inbox/new when username suggestion box is active
-* factorise connectivity delays
 * put user icons to separate sprite
 * BUG unfinished game http://lichess.org/_e52se0v
 * keyboard play
