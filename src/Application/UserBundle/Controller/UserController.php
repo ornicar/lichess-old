@@ -74,6 +74,8 @@ class UserController extends BaseUserController
         $critic = $this->container->get('lichess.critic.user');
         $critic->setUser($user);
 
+        $history = $this->container->get('lichess.repository.history')->findOneByUserOrCreate($user);
+
         $query = $this->container->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
         $games->setCurrentPageNumber($this->container->get('request')->query->get('page', 1));
@@ -81,7 +83,7 @@ class UserController extends BaseUserController
         $games->setPageRange(10);
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:show.html.twig', compact('user', 'critic', 'games', 'pagerUrl'));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:show.html.twig', compact('user', 'critic', 'history', 'games', 'pagerUrl'));
     }
 
     /**

@@ -7,14 +7,14 @@
 {% block content %}
 <div class="content_box">
 <div class="user_show">
-    <img class="elo_history" src="{{ lichess_elo_chart_url(user, "400x160") }}" width="400" height="160" alt="ELO history" />
+    <img class="elo_history" src="{{ lichess_elo_chart_url(history, "400x160") }}" width="400" height="160" alt="ELO history" />
     <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
     <div class="stats">
         {% trans "Rank" %}: {{ critic.rank }} / {{ critic.nbUsers }}<br />
         {% trans "Games played" %}: <strong>{{ critic.nbGames|default("0") }}</strong><br />
         {% trans "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws" with {"%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws} %}<br />
         Registered {{ lichess_date(user.createdAt) }}<br />
-        {% trans "Best ELO" %}: {{ user.maxElo }}, {{ lichess_date(user.maxEloDate) }}
+        {% trans "Best ELO" %}: {{ history.maxElo }}, {{ lichess_date(history.maxEloDate) }}
         {% if not fos_user_isAnonymous() and app.user != user %}
             <div class="actions">
                 <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{% trans "Send a message" %}</a>

@@ -44,14 +44,6 @@ class User extends BaseUser
     protected $elo = null;
 
     /**
-     * History of user ELO
-     *
-     * @mongodb:Field(type="hash")
-     * @var array
-     */
-    protected $eloHistory = array();
-
-    /**
      * Whether the user is online or not
      *
      * @mongodb:Field(type="boolean")
@@ -85,19 +77,6 @@ class User extends BaseUser
     }
 
     /**
-     * @return array
-     */
-    public function getEloHistory()
-    {
-        return $this->eloHistory;
-    }
-
-    public function setEloHistory(array $eloHistory)
-    {
-        $this->eloHistory = $eloHistory;
-    }
-
-    /**
      * @return int
      */
     public function getElo()
@@ -112,7 +91,6 @@ class User extends BaseUser
     public function setElo($elo)
     {
         $this->elo = round($elo);
-        $this->eloHistory[time()] = $this->elo;
     }
 
     public function addElo($elo)
@@ -120,25 +98,10 @@ class User extends BaseUser
         $this->setElo($this->getElo() + $elo);
     }
 
-    public function getMaxElo()
-    {
-        $eloHistory = $this->getEloHistory();
-
-        return max($eloHistory);
-    }
-
-    public function getMaxEloDate()
-    {
-        $eloHistory = $this->getEloHistory();
-        $times = array_keys($eloHistory, max($eloHistory));
-        $time =  max($times);
-
-        return date_create()->setTimestamp($time);
-    }
-
     public function setUsername($username)
     {
         parent::setUsername($username);
+
         $this->setEmail($username.'@lichess.org');
     }
 
