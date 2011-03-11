@@ -83,7 +83,7 @@ $(function() {
         loadLanguageList();
     });
 
-	$('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join('')).removeClass('js_email');
+	$('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
 	$.fn.tipsy && $('a, input, label, div.tipsyme').not('.notipsy').tipsy({ fade: true });
 
