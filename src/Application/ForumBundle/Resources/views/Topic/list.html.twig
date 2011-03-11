@@ -25,6 +25,7 @@
             {% if is_granted('ROLE_SUPERADMIN') %}
                 <td><a class="delete" href="{{ path('forum_topic_delete', { "id": topic.id }) }}">Delete</a></td>
             {% endif %}
+            <td class="feed"><a href="{{ forum_urlForTopicAtomFeed(topic) }}" title="{% trans "Follow this topic" %}" class="forum_feed_link"></a></a>
         </tr>
     {% endfor %}
     </tbody>
