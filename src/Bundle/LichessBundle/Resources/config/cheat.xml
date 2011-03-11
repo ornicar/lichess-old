@@ -22,6 +22,7 @@
 
         <service id="lichess.cheat.punisher" class="%lichess.cheat.punisher.class%">
             <argument type="service" id="lichess.repository.game" />
+            <argument type="service" id="lichess.elo.updater" />
         </service>
 
     </services>

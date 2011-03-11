@@ -89,6 +89,7 @@
             <argument type="service" id="lichess.elo.calculator" />
             <argument type="service" id="lichess.messenger" />
             <argument type="service" id="lichess.synchronizer" />
+            <argument type="service" id="lichess.elo.updater" />
             <argument type="service" id="lichess.logger" />
         </service>
 

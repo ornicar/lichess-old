@@ -9,9 +9,7 @@ class PunisherTest extends \PHPUnit_Framework_TestCase
     public function testPunishUserWithNoWin()
     {
         $user = $this->createUserMock(array('setElo'));
-        $user->expects($this->once())
-            ->method('setElo')
-            ->with(User::STARTING_ELO);
+
         $game = $this->createGameMock(array());
         $game->expects($this->never())
             ->method('setIsEloCanceled');
@@ -24,16 +22,19 @@ class PunisherTest extends \PHPUnit_Framework_TestCase
             ->with($user)
             ->will($this->returnValue($games));
 
-        $punisher = new Punisher($gameRepo);
+        $updater = $this->createUpdaterRepositoryMock();
+        $updater->expects($this->once())
+            ->method('adjustElo')
+            ->with($user, User::STARTING_ELO);
+
+        $punisher = new Punisher($gameRepo, $updater);
         $punisher->punish($user);
     }
 
     public function testPunishUserWithAWinWithoutEloDiff()
     {
         $user = $this->createUserMock(array('setElo'));
-        $user->expects($this->once())
-            ->method('setElo')
-            ->with(User::STARTING_ELO);
+
         $loserUser = $this->createUserMock(array('setElo'));
         $loserUser->expects($this->never())
             ->method('setElo');
@@ -56,19 +57,20 @@ class PunisherTest extends \PHPUnit_Framework_TestCase
             ->with($user)
             ->will($this->returnValue($games));
 
-        $punisher = new Punisher($gameRepo);
+        $updater = $this->createUpdaterRepositoryMock();
+        $updater->expects($this->once())
+            ->method('adjustElo')
+            ->with($user, User::STARTING_ELO);
+
+        $punisher = new Punisher($gameRepo, $updater);
         $punisher->punish($user);
     }
 
     public function testPunishUserWithAWinAndEloDiff()
     {
         $user = $this->createUserMock(array('setElo'));
-        $user->expects($this->once())
-            ->method('setElo')
-            ->with(User::STARTING_ELO);
         $loserUser = $this->createUserMock(array('setElo'));
-        $loserUser->expects($this->once())
-            ->method('setElo');
+
         $loser = $this->createPlayerMock(array('getUser', 'getEloDiff'));
         $loser->expects($this->once())
             ->method('getUser')
@@ -90,7 +92,11 @@ class PunisherTest extends \PHPUnit_Framework_TestCase
             ->with($user)
             ->will($this->returnValue($games));
 
-        $punisher = new Punisher($gameRepo);
+        $updater = $this->createUpdaterRepositoryMock();
+        $updater->expects($this->exactly(2))
+            ->method('adjustElo');
+
+        $punisher = new Punisher($gameRepo, $updater);
         $punisher->punish($user);
     }
 
@@ -120,5 +126,14 @@ class PunisherTest extends \PHPUnit_Framework_TestCase
         $userMock = $this->getMock('Application\UserBundle\Document\User', $methods, array(), '', false);
 
         return $userMock;
+    }
+
+    protected function createUpdaterRepositoryMock()
+    {
+        $updaterMock = $this->getMock('Bundle\LichessBundle\Elo\Updater', array('updateElo', 'adjustElo'), array(), '', false);
+        $updaterMock->expects($this->never())
+            ->method('updateElo');
+
+        return $updaterMock;
     }
 }

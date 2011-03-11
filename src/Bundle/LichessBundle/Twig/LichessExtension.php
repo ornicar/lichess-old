@@ -134,9 +134,9 @@ class LichessExtension extends Twig_Extension
         return sprintf('<a class="user_link%s" href="%s"%s>%s</a>', $user->getIsOnline() ? ' online' : '', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
     }
 
-    public function eloChartUrl(User $user, $size)
+    public function eloChartUrl(History $history, $size)
     {
-        $elos = $user->getEloHistory();
+        $elos = $history->getEloByTs();
         $min = 20*round((min($elos) - 10)/20);
         $max = 20*round((max($elos) + 10)/20);
         $dots = array_map(function($e) use($min, $max) { return round(($e - $min) / ($max - $min) * 100); }, $elos);

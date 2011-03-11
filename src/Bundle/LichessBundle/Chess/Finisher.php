@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Elo\Calculator;
+use Bundle\LichessBundle\Elo\Updater;
 use LogicException;
 
 class Finisher
@@ -13,13 +14,15 @@ class Finisher
     protected $calculator;
     protected $messenger;
     protected $synchronizer;
+    protected $eloUpdater;
     protected $logger;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Synchronizer $synchronizer, Logger $logger)
+    public function __construct(Calculator $calculator, Messenger $messenger, Synchronizer $synchronizer, Updater $eloUpdater, Logger $logger)
     {
         $this->calculator   = $calculator;
         $this->messenger    = $messenger;
         $this->synchronizer = $synchronizer;
+        $this->eloUpdater   = $eloUpdater;
         $this->logger       = $logger;
     }
 
@@ -160,9 +163,10 @@ class Finisher
         }
         list($whiteElo, $blackElo) = $this->calculator->calculate($white->getElo(), $black->getElo(), $win);
         $white->setEloDiff($whiteEloDiff = $whiteElo - $white->getElo());
-        $whiteUser->setElo($whiteElo);
         $black->setEloDiff($blackElo - $black->getElo());
-        $blackUser->setElo($blackElo);
+
+        $this->eloUpdater->updateElo($whiteUser, $whiteElo, $game);
+        $this->eloUpdater->updateElo($blackUser, $blackElo, $game);
 
         $this->logger->notice($game, sprintf('Elo exchanged: %s', $whiteEloDiff));
     }
