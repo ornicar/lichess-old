@@ -1,11 +1,11 @@
 {% extends "LichessBundle::layout.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="/bundles/lichess/css/translation.css" type="text/css" rel="stylesheet" />
+<link href="/bundles/lichess/css/translation.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script src="/bundles/lichess/js/translation.js"></script>
+<script src="/bundles/lichess/js/translation.js{{ lichess_assetsVersion() }}"></script>
 {% endblock %}
 {% block layout_content %}
 <div class="content_box">{% block content %}{% endblock %}</div>

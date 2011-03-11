@@ -1,12 +1,12 @@
 {% extends "LichessBundle::layoutCommon.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="/bundles/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css" type="text/css" rel="stylesheet" />
-<link href="/bundles/lichess/css/analyse.css" type="text/css" rel="stylesheet" />
+<link href="/bundles/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
+<link href="/bundles/lichess/css/analyse.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script src="/bundles/lichess/vendor/pgn4web/pgn4web.js"></script>
-<script src="/bundles/lichess/js/analyse.js"></script>
+<script src="/bundles/lichess/vendor/pgn4web/pgn4web.js{{ lichess_assetsVersion() }}"></script>
+<script src="/bundles/lichess/js/analyse.js{{ lichess_assetsVersion() }}"></script>
 {% endblock %}
 {% block menu_active %}game{% endblock %}

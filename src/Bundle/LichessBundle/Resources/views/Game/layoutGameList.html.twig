@@ -1,10 +1,10 @@
 {% extends "LichessBundle::layoutCommon.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="/bundles/lichess/css/gamelist.css" type="text/css" rel="stylesheet" />
+<link href="/bundles/lichess/css/gamelist.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script src="/bundles/lichess/js/gamelist.js"></script>
+<script src="/bundles/lichess/js/gamelist.js{{ lichess_assetsVersion() }}"></script>
 {% endblock %}
 {% block menu_active %}game{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'LichessBundle::layoutCommon.html.twig' %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="/bundles/lichess/css/board.css" type="text/css" rel="stylesheet" />
+<link href="/bundles/lichess/css/board.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block content %}
 <div class="lichess_game_not_started clearfix lichess_player_white">
