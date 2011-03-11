@@ -263,6 +263,7 @@ input.lichess_id_input {
     width: 100%;
     text-align: center;
     color: #444;
+    font-size: 1.2em;
 }
 
 div.lichess_promotion_choice {

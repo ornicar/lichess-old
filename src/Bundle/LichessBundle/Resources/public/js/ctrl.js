@@ -68,6 +68,8 @@ $(function() {
 		centerOverboard();
 	}
 
+    $('input.lichess_id_input').select();
+
 	// Append marks 1-8 && a-h
 	if ($bw = $('div.lichess_board_wrap').orNot()) {
 		$.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
