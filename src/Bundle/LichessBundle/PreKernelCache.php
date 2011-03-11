@@ -9,7 +9,7 @@
  **/
 
 // Configuration
-$timeout = 30;
+$timeout = 40;
 
 // Get url
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
@@ -75,7 +75,7 @@ if($userVersion != $clientVersion) return;
 
 if($playerFullId) {
     // If previously disconnected, hit the application
-    if (false === apc_fetch($id.'.'.$color.'.alive')) return;
+    //if (false === apc_fetch($id.'.'.$color.'.alive')) return;
     // Set the client as connected
     apc_store($id.'.'.$color.'.alive', 1, $timeout);
 }
