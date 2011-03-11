@@ -16,8 +16,8 @@ class PlayerBlamer
 
     public function blame(Player $player)
     {
-        if ($this->securityContext->vote('IS_AUTHENTICATED_FULLY')) {
-            if ($token = $this->securityContext->getToken()) {
+        if ($token = $this->securityContext->getToken()) {
+            if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
                 $user = $token->getUser();
                 if($user instanceof User) {
                     $player->setUser($user);

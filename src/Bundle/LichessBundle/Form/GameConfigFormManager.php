@@ -29,7 +29,7 @@ class GameConfigFormManager
 
     public function createFriendForm()
     {
-        $isAuthenticated = $this->security->vote('IS_AUTHENTICATED_FULLY');
+        $isAuthenticated = $this->security->isGranted('IS_AUTHENTICATED_FULLY');
         $config = new FriendGameConfig();
         $config->fromArray($this->session->get('lichess.game_config.friend', array()));
         if(!$isAuthenticated) {
@@ -42,7 +42,7 @@ class GameConfigFormManager
 
     public function createAnybodyForm()
     {
-        $isAuthenticated = $this->security->vote('IS_AUTHENTICATED_FULLY');
+        $isAuthenticated = $this->security->isGranted('IS_AUTHENTICATED_FULLY');
         $config = new AnybodyGameConfig();
         $config->fromArray($this->session->get('lichess.game_config.anybody', array()));
         if(!$isAuthenticated) {
