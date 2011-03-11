@@ -7,7 +7,7 @@ framework:
         enabled: false
     session:
         default_locale: en
-        name:     SF
+        name:     lichess1
         lifetime: 15552000 # 6 months
         auto_start:     true
     templating:
@@ -93,7 +93,6 @@ security:
             anonymous: true
     access_control:
         - { path: "/inbox.*", role: IS_AUTHENTICATED_FULLY }
-        - { path: "/.*", role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "/forum/(post|topic)/delete/.+", role: IS_SUPERADMIN }
 
 fos_user:

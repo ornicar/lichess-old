@@ -22,7 +22,7 @@
             <td class="right">{{ topic.numViews|raw }}</td>
             <td class="right">{{ topic.numPosts-1 }}</td>
             <td class="last_post"><a href="{{ forum_urlForPost(topic.lastPost) }}">{{ lichess_date(topic.lastPost.createdAt) }}</a><br />by {{ topic.lastPost.authorName|default("Anonymous") }}</td>
-            {% if has_role('ROLE_SUPERADMIN') %}
+            {% if is_granted('ROLE_SUPERADMIN') %}
                 <td><a class="delete" href="{{ path('forum_topic_delete', { "id": topic.id }) }}">Delete</a></td>
             {% endif %}
         </tr>
