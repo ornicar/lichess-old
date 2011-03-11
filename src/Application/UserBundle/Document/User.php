@@ -93,11 +93,6 @@ class User extends BaseUser
         $this->elo = round($elo);
     }
 
-    public function addElo($elo)
-    {
-        $this->setElo($this->getElo() + $elo);
-    }
-
     public function setUsername($username)
     {
         parent::setUsername($username);
