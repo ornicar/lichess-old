@@ -45,7 +45,10 @@
 		},
 		syncUrl: function(url, callback, postData) {
 			var self = this;
-			self.xqueue.add(function() { return url.replace(/9999999/, self.options.player.version); }, {
+			self.xqueue.add(function() {
+				return url.replace(/9999999/, self.options.player.version);
+			},
+			{
 				type: 'POST',
 				dataType: 'json',
 				data: postData || {},
@@ -58,7 +61,9 @@
 							type: 'GET',
 							cache: false,
 							success: function(html) {
-								self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({ fade: true });
+								self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
+									fade: true
+								});
 							},
 							error: self.onError
 						});
@@ -412,12 +417,7 @@
 
 				// toggle the chat
 				self.$chat.find('input.toggle_chat').change(function() {
-					if ($(this).attr('checked')) {
-						self.$chat.removeClass('hidden');
-					}
-					else {
-						self.$chat.addClass('hidden');
-					}
+					self.$chat.toggleClass('hidden', $(this).attr('checked'));
 				}).trigger('change');
 			}
 		},
@@ -505,7 +505,10 @@
 				}
 			}
 			return false;
-		}
+		},
+        isPlayable: function() {
+            return !this.options.game.finished;
+        }
 	});
 
 	$.widget("lichess.clock", {

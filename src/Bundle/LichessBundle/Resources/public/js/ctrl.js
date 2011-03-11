@@ -1,10 +1,14 @@
 $(function() {
-	if ($game = $('div.lichess_game').orNot()) {
+    var $game = $game = $('div.lichess_game').orNot();
+	if ($game) {
 		$game.game(lichess_data);
-		$('input').click(function() {
-			this.select();
-		});
-		if (!lichess_data.player.spectator) $('a.blank_if_play').attr('target', '_blank');
+        if (!lichess_data.player.spectator) {
+            $('a.blank_if_play').click(function() {
+                if ($game.game('isPlayable')) {
+                    $(this).attr('target', '_blank');
+                }
+            });
+        }
 	}
     var $nbConnectedPlayers = $('#nb_connected_players').orNot();
     var $userTag = $userTag = $('#user_tag').orNot();
