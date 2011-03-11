@@ -13,14 +13,6 @@ class MainController extends Controller
         return $this->render('LichessBundle:Main:index.html.twig');
     }
 
-    public function ccTrapAction()
-    {
-        $file = sprintf('%s/logs/cctrap', $this->container->getParameter('kernel.root_dir'));
-        file_put_contents($file, var_export($this->get('request')->server->all(), true));
-
-        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
-    }
-
     public function todolistAction()
     {
         $text = file_get_contents($this->container->getParameter('kernel.root_dir').'/../TODO');

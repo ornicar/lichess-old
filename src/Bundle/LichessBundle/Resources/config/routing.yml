@@ -184,6 +184,3 @@ lichess_todolist:
     pattern:        /todo-list
     defaults:       { _controller: lichess.controller.main:todolistAction }
     requirements:   { _method: "get|head" }
-cc_trap:
-    pattern:        /bundle/lichess/images/cc-80x15.png
-    defaults:       { _controller: lichess.controller.main:ccTrapAction }
