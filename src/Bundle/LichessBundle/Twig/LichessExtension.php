@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Application\UserBundle\Document\User;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\History;
 use Twig_Extension;
 use Twig_Function_Method;
 use Twig_Filter_Method;
@@ -79,7 +80,7 @@ class LichessExtension extends Twig_Extension
         return $filters;
     }
 
-    public function formatDate(DateTime $date, $format = null)
+    public function formatDate($date, $format = null)
     {
         if (!$date instanceof DateTime) {
             $date = new DateTime((ctype_digit($date) ? '@' : '').$date);
