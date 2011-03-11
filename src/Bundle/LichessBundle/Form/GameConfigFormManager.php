@@ -71,7 +71,7 @@ class GameConfigFormManager
         $form->setTimeChoices($config->getTimeChoices());
         $form->setIncrementChoices($config->getIncrementChoices());
 
-        if ($this->addColorHiddenField) {
+        if ($this->addColorHiddenField && $form instanceof GameConfigFormWithColor) {
             $form->addColorHiddenField();
         }
 

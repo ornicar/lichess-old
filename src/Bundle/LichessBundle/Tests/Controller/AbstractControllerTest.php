@@ -20,15 +20,15 @@ abstract class AbstractControllerTest extends WebTestCase
         return array($client, $crawler);
     }
 
-    protected function inviteAnybody($color = 'white', $join = false)
+    protected function inviteAnybody($join = false)
     {
         $client = $this->createClient();
         !$join && $this->clearSeekQueue($client);
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with anybody')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->filter('.submit.'.$color)->form();
-        $client->submit($form, array('config[color]' => $color));
+        $form = $crawler->filter('.submit')->form();
+        $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         if($join) {
@@ -38,9 +38,11 @@ abstract class AbstractControllerTest extends WebTestCase
             $this->assertTrue($client->getResponse()->isRedirect());
             $crawler = $client->followRedirect();
             $this->assertTrue($client->getResponse()->isSuccessful());
+            $this->assertEquals(1, $crawler->filter('div.lichess_game.lichess_player_black')->count());
         } else {
             $this->assertTrue($client->getResponse()->isSuccessful());
             $this->assertRegexp('/Waiting for opponent/', $client->getResponse()->getContent());
+            $this->assertEquals(1, $crawler->filter('div.lichess_game_not_started.lichess_player_white')->count());
         }
 
         return array($client, $crawler);

@@ -57,14 +57,13 @@ class SeekQueue
         $this->playerBlamer  = $playerBlamer;
     }
 
-    public function add(array $variants, array $times, array $increments, array $modes, $color, $sessionId)
+    public function add(array $variants, array $times, array $increments, array $modes, $sessionId)
     {
-        $seek = new Seek($variants, $times, $increments, $modes, $color, $sessionId);
+        $seek = new Seek($variants, $times, $increments, $modes, $sessionId);
 
         if($existing = $this->searchMatching($seek)) {
             $game = $existing->getGame();
             $this->generator->applyVariant($game, $this->matcher->getCommonVariant($seek, $existing));
-            $game->setCreatorColor($this->matcher->resolveCreatorColor($existing, $seek));
             $game->setClockTime($this->matcher->getCommonTime($seek, $existing) * 60, $this->matcher->getCommonIncrement($seek, $existing));
             $game->setIsRated($this->matcher->getCommonMode($seek, $existing));
             $this->objectManager->remove($existing);
@@ -72,7 +71,7 @@ class SeekQueue
             $status = static::FOUND;
         }
         else {
-            $game = $this->generator->createGameForPlayer($this->getTempColor($color))->getGame();
+            $game = $this->generator->createGameForPlayer('white')->getGame();
             $seek->setGame($game);
             $this->objectManager->persist($game);
             $this->objectManager->persist($seek);
@@ -81,11 +80,6 @@ class SeekQueue
         }
 
         return array('status' => $status, 'game' => $game);
-    }
-
-    protected function getTempColor($color)
-    {
-        return 'random' === $color ? 'white' : $color;
     }
 
     public function remove(Game $game)

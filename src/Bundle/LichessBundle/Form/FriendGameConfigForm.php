@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Form;
 
-class FriendGameConfigForm extends GameConfigForm
+class FriendGameConfigForm extends GameConfigFormWithColor
 {
     public function setVariantChoices(array $choices)
     {
@@ -29,5 +29,17 @@ class FriendGameConfigForm extends GameConfigForm
             'multiple' => false,
             'expanded' => true
         )));
+    }
+
+    public function submit($data)
+    {
+        if (!in_array($data['color'], $this->possibleColors)) {
+            if ($this->logger) {
+                $this->logger->warn(sprintf('%s: Invalid color submitted "%s" by %s', get_class($this), $data['color'], $_SERVER['HTTP_USER_AGENT']));
+            }
+            $data['color'] = $this->defaultColor;
+        }
+
+        return parent::submit($data);
     }
 }

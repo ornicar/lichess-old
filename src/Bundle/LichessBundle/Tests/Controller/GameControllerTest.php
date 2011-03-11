@@ -134,30 +134,19 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
     }
 
-    public function testInviteAnybodyAsWhite()
+    public function testInviteAnybody()
     {
-        return $this->inviteAnybodyAs('white');
-    }
-
-    public function testInviteAnybodyAsBlack()
-    {
-        return $this->inviteAnybodyAs('black');
-    }
-
-    protected function inviteAnybodyAs($color)
-    {
-        $reverseColor = 'white' === $color ? 'black' : 'white';
-        list($client, $crawler) = $this->inviteAnybody($color);
+        list($client, $crawler) = $this->inviteAnybody();
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard.wait_anybody';
         $this->assertEquals(1, $crawler->filter($selector)->count());
 
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
-        $this->assertRegexp('#^/sync/[\w-]{8}/'.$color.'/0/[\w-]{12}$#i', $syncUrl);
+        $this->assertRegexp('#^/sync/[\w-]{8}/white/0/[\w-]{12}$#i', $syncUrl);
 
-        list($friend, $crawler) = $this->inviteAnybody($reverseColor, true);
+        list($friend, $crawler) = $this->inviteAnybody(true);
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.'.$color)->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
 
         $client->reload();
@@ -165,30 +154,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.'.$color)->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
-    }
-
-    public function testInviteAnybodyAsRandom()
-    {
-        $this->clearSeekQueue($this->createClient());
-
-        list($client, $crawler) = $this->inviteAnybody('random');
-        $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard.wait_anybody';
-        $this->assertEquals(1, $crawler->filter($selector)->count());
-
-        $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
-
-        list($friend, $crawler) = $this->inviteAnybody('random', true);
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
-
-        $client->reload();
-        $crawler = $client->followRedirect();
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_player div.king.white')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_chat')->count());
     }
 

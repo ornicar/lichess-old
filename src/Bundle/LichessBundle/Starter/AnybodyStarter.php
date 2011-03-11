@@ -39,17 +39,15 @@ class AnybodyStarter implements StarterInterface
 
     public function start(GameConfig $config)
     {
-        if($this->session) {
-            $this->session->set('lichess.game_config.anybody', $config->toArray());
-        }
+        $this->session->set('lichess.game_config.anybody', $config->toArray());
         $queue = $this->seekQueue;
-        $result = $queue->add($config->variants, $config->times, $config->increments, $config->modes, $config->color, $this->getSessionId());
+        $result = $queue->add($config->variants, $config->times, $config->increments, $config->modes, $this->getSessionId());
         $game = $result['game'];
         if(!$game) {
             return null;
         }
         if($result['status'] === $queue::FOUND) {
-            if($this->checkCreatorIsConnected && !$this->synchronizer->isConnected($game->getCreator())) {
+            if($this->checkCreatorIsConnected && !$this->isGameCreatorConnected($game)) {
                 $this->objectManager->remove($game);
                 $this->objectManager->flush(array('safe' => true));
                 $this->logger->notice($game, 'Game:inviteAnybody remove');
@@ -63,6 +61,11 @@ class AnybodyStarter implements StarterInterface
         $game->setConfigArray($config->toArray());
 
         return $game->getCreator();
+    }
+
+    protected function isGameCreatorConnected(Game $game)
+    {
+        return $this->synchronizer->isConnected($game->getCreator());
     }
 
     protected function getSessionId()

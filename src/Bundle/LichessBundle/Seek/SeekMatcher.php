@@ -22,29 +22,7 @@ class SeekMatcher
         return true
             && false !== $this->getCommonVariant($a, $b)
             && false !== $this->getCommonTime($a, $b)
-            && false !== $this->getCommonMode($a, $b)
-            && false !== $this->hasCompatibleColors($a, $b);
-    }
-
-    public function hasCompatibleColors(Seek $a, Seek $b)
-    {
-        return $a->getColor() != $b->getColor() || 'random' == $a->getColor();
-    }
-
-    public function resolveCreatorColor(Seek $creator, Seek $joiner)
-    {
-        if (!$this->hasCompatibleColors($creator, $joiner)) {
-            throw new \LogicException('seek colors are not compatible');
-        }
-
-        if ('random' === $creator->getColor()) {
-            if ('random' === $joiner->getColor()) {
-                return mt_rand(0, 1) ? 'white' : 'black';
-            }
-            return 'white' === $joiner->getColor() ? 'black' : 'white';
-        }
-
-        return $creator->getColor();
+            && false !== $this->getCommonMode($a, $b);
     }
 
     public function getCommonVariant(Seek $a, Seek $b)

@@ -75,23 +75,12 @@ class Seek
      */
     protected $createdAt = null;
 
-    /**
-     * color
-     *
-     * @var string
-     * @mongodb:Field(type="string")
-     */
-    protected $color = null;
-
-    protected $possibleColors = array('white', 'black', 'random');
-
-    public function __construct(array $variants, array $times, array $increments, array $modes, $color, $sessionId)
+    public function __construct(array $variants, array $times, array $increments, array $modes, $sessionId)
     {
         $this->variants   = $variants;
         $this->times      = $times;
         $this->increments = $increments;
         $this->modes      = $modes;
-        $this->setColor($color);
         $this->sessionId  = $sessionId;
         $this->createdAt  = new \DateTime();
     }
@@ -215,26 +204,6 @@ class Seek
     }
 
     /**
-     * @return string
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-
-    /**
-     * @param  string
-     * @return null
-     */
-    public function setColor($color)
-    {
-        if (!in_array($color, $this->possibleColors)) {
-            throw new \InvalidArgumentException(sprintf('Not an acceptable color: "%s"', $color));
-        }
-        $this->color = $color;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getCreatedAt()
@@ -245,7 +214,7 @@ class Seek
     public function toArray()
     {
         $array = array();
-        foreach (array('color', 'modes', 'variants', 'times', 'increments', 'sessionId') as $property) {
+        foreach (array('modes', 'variants', 'times', 'increments', 'sessionId') as $property) {
             $array[$property] = $this->$property;
         }
 

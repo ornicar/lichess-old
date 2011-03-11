@@ -9,13 +9,19 @@
             <div class="game_config_form">
                 <form action="{{ path("lichess_invite_" ~ block('invite_type')) }}" method="post" novalidate>
                     {{ block('invite_form_fields') }}
-                    {% if form.hasHiddenColor() %}{{ form_field(form.color) }}{% endif %}
-                    <div class="color_submits clearfix">
-                        {% set randomOnly = block("random_only") %}
-                        <button{{ "true" == randomOnly ? " disabled" : ""}} type="submit" class="submit white" name="{{ form.name }}[color]" value="white" title="{% trans "White" %}"></button>
-                        <button{{ "true" == randomOnly ? " disabled" : ""}} type="submit" class="submit black" name="{{ form.name }}[color]" value="black" title="{% trans "Black" %}"></button>
-                        <button type="submit" class="submit random" name="{{ form.name }}[color]" value="random" title="{% trans "Random" %}"></button>
-                    </div>
+                    {% if form.has("color") %}
+                        {% if form.hasHiddenColor() %}{{ form_field(form.color) }}{% endif %}
+                        <div class="color_submits clearfix">
+                            {% set randomOnly = block("random_only") %}
+                            <button{{ "true" == randomOnly ? " disabled" : ""}} type="submit" class="submit white" name="{{ form.name }}[color]" value="white" title="{% trans "White" %}"></button>
+                            <button{{ "true" == randomOnly ? " disabled" : ""}} type="submit" class="submit black" name="{{ form.name }}[color]" value="black" title="{% trans "Black" %}"></button>
+                            <button type="submit" class="submit random" name="{{ form.name }}[color]" value="random" title="{% trans "Random" %}"></button>
+                        </div>
+                    {% else %}
+                        <div class="color_submits clearfix">
+                            <button type="submit" class="submit nocolor">{% trans "Start" %}</button>
+                        </div>
+                    {% endif %}
                     {{ block('invite_extra') }}
                 </form>
             </div>

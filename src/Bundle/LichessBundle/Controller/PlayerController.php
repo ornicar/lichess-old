@@ -147,8 +147,7 @@ class PlayerController extends Controller
     {
         try {
             $player = $this->get('lichess.provider')->findPlayer($id);
-        }
-        catch(NotFoundHttpException $e) {
+        } catch(NotFoundHttpException $e) {
             return new RedirectResponse($this->generateUrl('lichess_invite_anybody'));
         }
         if($player->getGame()->getIsStarted()) {

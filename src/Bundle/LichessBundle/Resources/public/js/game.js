@@ -58,9 +58,7 @@
 							type: 'GET',
 							cache: false,
 							success: function(html) {
-								self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
-									fade: true
-								});
+								self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({ fade: true });
 							},
 							error: self.onError
 						});

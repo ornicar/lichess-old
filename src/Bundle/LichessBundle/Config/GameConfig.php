@@ -8,27 +8,10 @@ abstract class GameConfig
     protected $timeChoices      = array(2, 5, 10, 20, 0);
     protected $incrementChoices = array(0, 2, 5, 10, 20);
     protected $modeChoices      = array(0 => 'Casual', 1 => 'Rated');
-    protected $colorChoices     = array('white', 'black', 'random');
-
-    public $color = 'random';
 
     abstract public function toArray();
 
     abstract public function fromArray(array $data);
-
-    public function getColorChoices()
-    {
-        return array_combine($this->colorChoices, $this->colorChoices);
-    }
-
-    public function resolveColor()
-    {
-        if ('random' == $this->color) {
-            return mt_rand(0, 1) ? 'white' : 'black';
-        }
-
-        return $this->color;
-    }
 
     public function getModeChoices()
     {
