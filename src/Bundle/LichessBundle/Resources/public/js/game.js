@@ -45,10 +45,7 @@
 		},
 		syncUrl: function(url, callback, postData) {
 			var self = this;
-			self.xqueue.add(function() {
-				return url.replace(/9999999/, self.options.player.version);
-			},
-			{
+			self.xqueue.add(function() { return url.replace(/9999999/, self.options.player.version); }, {
 				type: 'POST',
 				dataType: 'json',
 				data: postData || {},
