@@ -51,7 +51,7 @@ class Logger
 
     public function expandGame(Game $game)
     {
-        return sprintf('game(%s,%s,%s,%s,%s,%d)',
+        return sprintf('game(%s,%s,%s,%s,%d,%s)',
             $game->getVariantName(),
             $game->getClockName(),
             $game->getIsRated() ? 'rated' : 'casual',
