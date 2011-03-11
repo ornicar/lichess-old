@@ -80,9 +80,10 @@ security:
     firewalls:
         main:
             form_login:
-                provider:                       fos_user_provider
-                login_path:                     /login
-                check_path:                     /login_check
+                provider:    fos_user_provider
+                login_path:  /login
+                check_path:  /login_check
+                use_referer: true
             remember_me:
                 key:  kRopAjYEwDza74
                 name: lichess_remember_me
