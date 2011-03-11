@@ -1,9 +1,9 @@
 #!/bin/sh
 
+bin/build_bootstrap.php
 php lichess/console --env=prod apc:clear --opcode
 rm -r lichess/cache/prod/*
 chmod -R 777 lichess/cache/prod
-bin/build_bootstrap.php
 php lichess/console --env=prod cache:warmup
 php lichess/console --env=prod doctrine:mongodb:schema:create --index
 php lichess/console --env=prod apc:clear

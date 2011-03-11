@@ -3,9 +3,9 @@
 bin/build_bootstrap.php
 
 rm -rf lichess/cache/*
-php lichess/console --env=dev --debug -v cache:warmup
-php lichess/console --env=dev --debug -v doctrine:mongodb:schema:create --index
+php lichess/console --env=dev -v cache:warmup
+php lichess/console --env=dev -v doctrine:mongodb:schema:create --index
 
-php lichess/console --env=test --debug -v cache:warmup
-php lichess/console --env=test --debug -v doctrine:mongodb:data:load
-php lichess/console --env=test --debug -v doctrine:mongodb:schema:create --index
+php lichess/console --env=test -v cache:warmup
+php lichess/console --env=test -v doctrine:mongodb:data:load
+php lichess/console --env=test -v doctrine:mongodb:schema:create --index
