@@ -60,11 +60,36 @@ class User extends BaseUser
      */
     protected $isOnline = false;
 
+    /**
+     * Small text description
+     *
+     * @mongodb:Field(type="string")
+     * @var string
+     */
+    protected $bio = null;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->setElo(self::STARTING_ELO);
+    }
+
+    /**
+     * @return string
+     */
+    public function getBio()
+    {
+        return $this->bio;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
     }
 
     /**

@@ -33,6 +33,7 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface, Contain
             $user->setEmail('user'.$it.'@site.org');
             $user->setPlainPassword('password'.$it);
             $user->setEnabled(true);
+            $user->setBio('Here I describe myself and say philosophical bullshits, because I am '.$user->getUsername());
             $this->userManager->updateUser($user);
         }
 
@@ -41,6 +42,7 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface, Contain
         $user->setEmail('thibault.duplessis@gmail.com');
         $user->setPlainPassword('pass');
         $user->setEnabled(true);
+        $user->setBio('Here I describe myself and say philosophical bullshits, because I am '.$user->getUsername());
         $user->addRole(User::ROLE_SUPERADMIN);
         $this->userManager->updateUser($user);
     }
