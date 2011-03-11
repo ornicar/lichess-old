@@ -9,6 +9,7 @@
         <parameter key="lichess.model.game.class">Bundle\LichessBundle\Document\Game</parameter>
         <parameter key="lichess.model.seek.class">Bundle\LichessBundle\Document\Seek</parameter>
         <parameter key="lichess.model.translation.class">Bundle\LichessBundle\Document\Translation</parameter>
+        <parameter key="lichess.model.history.class">Bundle\LichessBundle\Document\History</parameter>
 
     </parameters>
 
@@ -16,16 +17,20 @@
 
         <service id="lichess.object_manager" alias="doctrine.odm.mongodb.document_manager" />
 
-        <service id="lichess.repository.game" class="Bundle\LichessBundle\Document\GameRepository" factory-service="forum.object_manager" factory-method="getRepository">
+        <service id="lichess.repository.game" class="Bundle\LichessBundle\Document\GameRepository" factory-service="lichess.object_manager" factory-method="getRepository">
             <argument type="string">%lichess.model.game.class%</argument>
         </service>
 
-        <service id="lichess.repository.seek" class="Bundle\LichessBundle\Document\SeekRepository" factory-service="forum.object_manager" factory-method="getRepository">
+        <service id="lichess.repository.seek" class="Bundle\LichessBundle\Document\SeekRepository" factory-service="lichess.object_manager" factory-method="getRepository">
             <argument type="string">%lichess.model.seek.class%</argument>
         </service>
 
-        <service id="lichess.repository.translation" class="Bundle\LichessBundle\Document\TranslationRepository" factory-service="forum.object_manager" factory-method="getRepository">
+        <service id="lichess.repository.translation" class="Bundle\LichessBundle\Document\TranslationRepository" factory-service="lichess.object_manager" factory-method="getRepository">
             <argument type="string">%lichess.model.translation.class%</argument>
+        </service>
+
+        <service id="lichess.repository.history" class="Bundle\LichessBundle\Document\HistoryRepository" factory-service="lichess.object_manager" factory-method="getRepository">
+            <argument type="string">%lichess.model.history.class%</argument>
         </service>
 
     </services>
