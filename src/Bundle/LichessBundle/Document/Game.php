@@ -7,6 +7,7 @@ use Bundle\LichessBundle\Util\KeyGenerator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User;
+use LogicException;
 
 /**
  * Represents a single Chess game
@@ -236,7 +237,7 @@ class Game
     protected function generateId()
     {
         if(null !== $this->id) {
-            throw new \LogicException('Can not change the id of a saved game');
+            throw new LogicException('Can not change the id of a saved game');
         }
         $this->id = KeyGenerator::generate(8);
     }
@@ -307,7 +308,7 @@ class Game
     public function setIsRated($isRated)
     {
         if($this->getIsStarted()) {
-            throw new \LogicException('Can not change ranking mode, game is already started');
+            throw new LogicException('Can not change ranking mode, game is already started');
         }
         $this->isRated = $isRated ? true : null;
     }
@@ -394,7 +395,7 @@ class Game
             throw new \InvalidArgumentException(sprintf('%s is not a valid game variant', $variant));
         }
         if($this->getIsStarted()) {
-            throw new \LogicException('Can not change variant, game is already started');
+            throw new LogicException('Can not change variant, game is already started');
         }
         $this->variant = $variant;
     }
@@ -436,7 +437,7 @@ class Game
     public function setClock(Clock $clock = null)
     {
         if($this->getIsStarted()) {
-            throw new \LogicException('Can not add clock, game is already started');
+            throw new LogicException('Can not add clock, game is already started');
         }
 
         $this->clock = $clock;
@@ -481,7 +482,7 @@ class Game
     public function checkOutOfTime()
     {
         if(!$this->hasClock()) {
-            throw new \LogicException('This game has no clock');
+            throw new LogicException('This game has no clock');
         }
         if($this->getIsFinishedOrAborted()) {
             return;

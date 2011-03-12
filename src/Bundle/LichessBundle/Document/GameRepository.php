@@ -1,8 +1,11 @@
 <?php
 
 namespace Bundle\LichessBundle\Document;
+
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use FOS\UserBundle\Model\User;
+use DateTime;
+use MongoDate;
 
 class GameRepository extends DocumentRepository
 {
@@ -202,13 +205,36 @@ class GameRepository extends DocumentRepository
             ->getQuery()->execute();
     }
 
+    /**
+     * Find old, unplayed games
+     *
+     * @return void
+     */
     public function findCandidatesToCleanup()
     {
-        $date = new \DateTime('-7 day');
+        $date = new DateTime('-7 day');
         return $this->createQueryBuilder()
-            ->field('updatedAt')->lt(new \MongoDate($date->getTimestamp()))
+            ->field('updatedAt')->lt(new MongoDate($date->getTimestamp()))
             ->field('status')->lt(Game::MATE)
             ->field('turns')->lt(2)
+            ->limit(500)
+            ->getQuery()->execute();
+    }
+
+    /**
+     * Find unfinished games where a opponent flagged
+     *
+     * @return array
+     */
+    public function findCandidatesToFinish()
+    {
+        $date = new DateTime('-2 hours');
+        return $this->repo->createQueryBuilder()
+            ->field('status')->equals(Game::STARTED)
+            ->field('clock')->exists(true)
+            ->field('clock')->notEqual(null)
+            ->field('updatedAt')->lt(new MongoDate($date->getTimestamp()))
+            ->limit(500)
             ->getQuery()->execute();
     }
 }
