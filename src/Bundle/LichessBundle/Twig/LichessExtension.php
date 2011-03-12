@@ -391,7 +391,7 @@ class LichessExtension extends Twig_Extension
 
     public function shorten($text, $length = 140)
     {
-        return mb_substr(str_replace("\n", ' ', $this->escape($text)), 0, 140);
+        return mb_substr(str_replace("\n", ' ', $this->escape($text)), 0, $length);
     }
 
     public function getCurrentUrl()
