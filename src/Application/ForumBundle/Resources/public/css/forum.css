@@ -39,25 +39,28 @@ ol.crumbs h1 {
 #lichess_forum th {
     padding: 1em 0 0.5em 0;
 }
+#lichess_forum th:last {
+    padding-left: 1em;
+}
 
-td.subject {
+#lichess_forum td.subject {
     padding: 2em 1em;
 }
 
-td.right, th.right {
+#lichess_forum td.right, #lichess_forum th.right {
     text-align: right;
     padding-right: 2em;
 }
 
-td.last_post {
+#lichess_forum td.last_post {
     min-width: 150px;
     padding-right: 1em;
 }
-td.feed {
+#lichess_forum td.feed {
     padding-right: 1em;
 }
 
-td.subject a {
+#lichess_forum td.subject a {
     font-size: 1.2em;
     font-weight: bold;
     color: #0090B0;
