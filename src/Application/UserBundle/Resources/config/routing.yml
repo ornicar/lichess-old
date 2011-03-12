@@ -37,12 +37,17 @@ fos_user_autocomplete:
     defaults:    { _controller: fos_user.controller.user:autocompleteAction }
     requirements: { _method: get }
 
-fos_user_update_online:
+fos_user_online_update:
     pattern:    /update-online-users
     defaults:   { _controller: fos_user.controller.user:updateOnlineAction }
     requirements: { _method: post }
 
-fos_user_update_profile:
+fos_user_profile_update:
     pattern:    /profile/update.json
     defaults:   { _controller: fos_user.controller.user:updateProfileAction }
     requirements: { _method: post }
+
+fos_user_profile_bio:
+    pattern:    /profile/bio
+    defaults:   { _controller: fos_user.controller.user:profileBioAction }
+    requirements: { _method: get }

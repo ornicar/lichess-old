@@ -11,7 +11,7 @@ framework:
         lifetime: 15552000 # 6 months
         auto_start:     true
     templating:
-        assets_version: 3
+        assets_version: 5
         engines: ['twig']
     translator: { fallback: en }
 

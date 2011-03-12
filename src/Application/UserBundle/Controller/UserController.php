@@ -14,17 +14,18 @@ class UserController extends BaseUserController
 {
     public function updateProfileAction()
     {
-        $extension = $this->container->get('lichess.twig.extension');
         $bio = $this->container->get('request')->request->get('bio');
-        $bio = str_replace("\n", ' ', $bio);
-        $bio = $extension->shorten($bio, 160);
-        $user = $this->getUser();
-        $user->setBio($bio);
+        $this->getUser()->setBio($bio);
         $this->container->get('lichess.object_manager')->flush();
 
-        $response = new Response(json_encode(array('bio' => $extension->escape($bio))));
+        $response = new Response(json_encode(array('bio' => $bio)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    public function profileBioAction()
+    {
+        return new Response($this->getUser()->getBio());
     }
 
     public function autocompleteAction()
