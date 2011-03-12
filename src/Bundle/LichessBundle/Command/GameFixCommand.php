@@ -9,15 +9,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Chess\FinisherException;
 
 /**
  * Fix games that reached an anormal state
  */
 class GameFixCommand extends BaseCommand
 {
-    protected $dm;
-    protected $repo;
-
     /**
      * @see Command
      */
@@ -26,8 +24,9 @@ class GameFixCommand extends BaseCommand
         $this
             ->setDefinition(array(
             ))
+            ->addOption('execute', null, InputOption::VALUE_NONE, 'Execute game finish')
             ->setName('lichess:game:fix')
-        ;
+            ;
     }
 
     /**
@@ -35,35 +34,27 @@ class GameFixCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->dm = $this->container->get('lichess.object_manager');
-        $this->repo = $this->container->get('lichess.repository.game');
+        $repo = $this->container->get('lichess.repository.game');
+        $games = $this->repo->findCandidatesToFinish();
+        $nb = $games->count();
 
-        $this->fixUnFinishedGames($output);
+        $output->writeLn(sprintf('Found %d unfinished games', $nb));
 
-        $this->dm->flush();
-    }
-
-    protected function fixUnFinishedGames(OutputInterface $output)
-    {
-        $date = new \DateTime('-1 day');
-        $games = $this->repo->createQueryBuilder()
-            ->field('status')->equals(Game::STARTED)
-            ->field('clock')->exists(true)
-            ->field('clock')->notEqual(null)
-            ->field('updatedAt')->lt(new \MongoDate($date->getTimestamp()))
-            ->limit(1000)
-            ->getQuery()->execute();
-
-        $output->writeLn(sprintf('Found %d unfinished games', $games->count()));
-
-        $finisher = $this->container->get('lichess.finisher');
-
-        foreach ($games as $game) {
-            if (!$game->hasClock()) {
-                continue;
+        if($input->getOption('execute') && $nb) {
+            $finisher = $this->container->get('lichess.finisher');
+            foreach ($games as $game) {
+                if (!$game->hasClock()) {
+                    continue;
+                }
+                $output->writeLn(sprintf('Finish %s', $this->generateUrl($game->getId())));
+                try {
+                    $finisher->outoftime($game->getCreator());
+                } catch (FinisherException $e) {
+                    $output->writeLn($e->getMessage());
+                }
             }
-            $output->writeLn(sprintf('Finish %s', $this->generateUrl($game->getId())));
-            $finisher->outoftime($game->getCreator());
+            $dm = $this->container->get('lichess.object_manager');
+            $dm->flush();
         }
     }
 

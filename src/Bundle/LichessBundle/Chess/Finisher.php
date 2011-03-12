@@ -48,8 +48,7 @@ class Finisher
             $this->logger->notice($player, 'Player:outoftime');
             return true;
         } else {
-            $this->logger->warn($player, 'Player:outoftime too early or not applicable');
-            throw new FinisherException();
+            throw new FinisherException($this->logger->formatPlayer($player, 'Player:outoftime too early or not applicable'));
         }
     }
 

@@ -34,8 +34,10 @@ class GameCleanupCommand extends BaseCommand
     {
         $repo = $this->container->get('lichess.repository.game');
         $games = $repo->findCandidatesToCleanup();
-        $nb = count($games);
+        $nb = $games->count();
+
         $output->writeLn(sprintf('Found %d games to remove', $nb));
+
         if($input->getOption('execute') && $nb) {
             $max = 2000;
             $output->writeLn(sprintf('Removing %d games...', $max));
