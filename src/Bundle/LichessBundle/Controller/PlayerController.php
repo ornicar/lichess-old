@@ -110,6 +110,9 @@ class PlayerController extends Controller
     public function showAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
+        if ($player->getIsAi()) {
+            throw new NotFoundHttpException('Can not show AI player');
+        }
         $game = $player->getGame();
         $this->get('lichess.synchronizer')->setAlive($player);
         if(!$game->getIsStarted()) {
