@@ -63,7 +63,8 @@ form.signup li ul {
 }
 
 div.user_show div.games {
-    margin-top: 1em;
+    margin-top: 0;
+    width: 100%;
 }
 
 div.user_lists div.all_users {
