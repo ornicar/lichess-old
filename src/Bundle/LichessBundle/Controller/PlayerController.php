@@ -19,9 +19,8 @@ class PlayerController extends Controller
     public function outoftimeAction($id, $version)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
-        if ($this->get('lichess.finisher')->outoftime($player)) {
-            $this->flush();
-        }
+        $this->get('lichess.finisher')->outoftime($player);
+        $this->flush();
 
         return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
     }
