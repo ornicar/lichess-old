@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\Output;
 /**
  * Remove games that don't have really started and are old
  */
-class CleanupGamesCommand extends BaseCommand
+class GameCleanupCommand extends BaseCommand
 {
     /**
      * @see Command
