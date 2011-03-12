@@ -1,7 +1,7 @@
 <?php
 
-$path = '/usr/bin/';
-//$path = '/usr/games/';
+//$path = '/usr/bin/';
+$path = '/usr/games/';
 
 $command = '{path}fortune';
 
