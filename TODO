@@ -1,5 +1,3 @@
-* click "play" open in new tab. Don't when game is finished?
-* long wait and cancel->404
 * allow user profile message
 * remember_me does not work
 * Summaries in forum feeds are badly chopped, could be nice to make them lil' bit longer and add "..." in the end to denote they were trimmed, or perhaps, don't trim it in the first place
