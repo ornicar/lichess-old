@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Ensure indexes"
+php lichess/console --env=prod doctrine:mongodb:schema:create --index
+
+echo "Delete old unplayed games"
+php lichess/console --env=prod --execute lichess:game:cleanup
+
+echo "Finish games"
+php lichess/console --env=prod --execute lichess:game:fix

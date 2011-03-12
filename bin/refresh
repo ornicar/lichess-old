@@ -1,11 +1,23 @@
 #!/bin/sh
 
+echo "Build bootstrap"
 bin/build_bootstrap.php
+
+echo "Clear APC cache opcode"
 php lichess/console --env=prod apc:clear --opcode
+
+echo "Remove cache dir"
 rm -r lichess/cache/prod/*
 chmod -R 777 lichess/cache/prod
+
+echo "Warmup cache"
 php lichess/console --env=prod cache:warmup
-php lichess/console --env=prod doctrine:mongodb:schema:create --index
+
+echo "Clear APC cache opcode and user"
 php lichess/console --env=prod apc:clear
+
+echo "Raise cache permissions"
 chmod -R 777 lichess/cache/prod
+
+echo "Install crafty books"
 bin/install_crafty_books
