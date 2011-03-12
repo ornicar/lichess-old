@@ -417,7 +417,7 @@
 
 				// toggle the chat
 				self.$chat.find('input.toggle_chat').change(function() {
-					self.$chat.toggleClass('hidden', $(this).attr('checked'));
+					self.$chat.toggleClass('hidden', !$(this).attr('checked'));
 				}).trigger('change');
 			}
 		},
