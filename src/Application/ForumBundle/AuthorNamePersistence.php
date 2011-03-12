@@ -55,6 +55,6 @@ class AuthorNamePersistence
 
     protected function isAnonymous()
     {
-        return !$this->securityContext->isGranted('ROLE_USER');
+        return !$this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
     }
 }
