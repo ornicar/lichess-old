@@ -34,7 +34,7 @@
             delay: 5000,
             tolerance: 300,
             max: 5,
-            refreshDelay: 200
+            refreshDelay: 300
         }, options);
         this.state = this.options.max;
         this.lastPingDate = new Date().getTime();
