@@ -2,10 +2,10 @@
 
 bin/build_bootstrap.php
 
-for environment in dev test; do
-    rm -rf lichess/cache/$environment/*
-    php lichess/console --env=$environment --debug -v cache:warmup
-    php lichess/console --env=$environment --debug -v doctrine:mongodb:data:load
-    php lichess/console --env=$environment --debug -v doctrine:mongodb:schema:create --index
-    php lichess/console --env=$environment --debug -v cache:warmup
-done
+rm -rf lichess/cache/*
+php lichess/console --env=dev -v cache:warmup
+php lichess/console --env=dev -v doctrine:mongodb:schema:create --index
+
+php lichess/console --env=test -v cache:warmup
+php lichess/console --env=test -v doctrine:mongodb:data:load
+php lichess/console --env=test -v doctrine:mongodb:schema:create --index

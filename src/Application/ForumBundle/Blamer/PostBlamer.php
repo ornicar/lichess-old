@@ -10,7 +10,7 @@ class PostBlamer extends AbstractSecurityBlamer implements BlamerInterface
     public function blame($post)
     {
         if ($token = $this->security->getToken()) {
-            if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ($this->security->isGranted('ROLE_USER')) {
                 $user = $token->getUser();
                 if($user instanceof User) {
                     $post->setAuthor($user);

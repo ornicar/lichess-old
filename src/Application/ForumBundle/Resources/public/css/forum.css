@@ -31,30 +31,36 @@ ol.crumbs h1 {
     vertical-align: middle;
 }
 
-table {
+#lichess_forum table {
     width: 100%;
     margin-bottom: 5px;
 }
 
-th {
+#lichess_forum th {
     padding: 1em 0 0.5em 0;
 }
+#lichess_forum th:last {
+    padding-left: 1em;
+}
 
-td.subject {
+#lichess_forum td.subject {
     padding: 2em 1em;
 }
 
-td.right, th.right {
+#lichess_forum td.right, #lichess_forum th.right {
     text-align: right;
     padding-right: 2em;
 }
 
-td:last-child {
+#lichess_forum td.last_post {
     min-width: 150px;
     padding-right: 1em;
 }
+#lichess_forum td.feed {
+    padding-right: 1em;
+}
 
-td.subject a {
+#lichess_forum td.subject a {
     font-size: 1.2em;
     font-weight: bold;
     color: #0090B0;
@@ -63,17 +69,17 @@ td.subject a {
     padding-left: 20px;
 }
 
-td .description {
+#lichess_forum td .description {
     margin-top: 0.5em;
     display: block;
 }
 
-th {
+#lichess_forum th {
     font-weight: bold;
     color: #A0A0A0;
 }
 
-h1 {
+#lichess_forum h1 {
     font-size: 1.5em;
     color: #666;
     font-weight: normal;
@@ -83,7 +89,7 @@ h1 {
     margin-bottom: 1em;
 }
 
-tr.odd {
+#lichess_forum tr.odd {
     background: #F7F7F7;
 }
 
@@ -144,16 +150,16 @@ div.category .description {
     margin-top: 1em;
 }
 
-#liches_forum form {
+#lichess_forum form {
     margin-top: 2em;
     font-size: 1.3em;
 }
-#liches_forum form label {
+#lichess_forum form label {
     display: block;
     margin-bottom: 2em;
 }
 
-#liches_forum form label span {
+#lichess_forum form label span {
     float: left;
     display: block;
     width: 100px;
@@ -161,37 +167,37 @@ div.category .description {
     margin-right: 10px;
     margin-top: 3px;
 }
-#liches_forum form label span.required:after {
+#lichess_forum form label span.required:after {
     content: "*";
     color: #FF6666;
     margin-left: 3px;
 }
 
-#liches_forum form input.subject {
+#lichess_forum form input.subject {
     width: 500px;
     padding: 0.5em;
     border: 1px solid #D4D4D4;
 }
-#liches_forum form textarea {
+#lichess_forum form textarea {
     width: 500px;
     height: 150px;
     padding: 0.5em;
     border: 1px solid #D4D4D4;
 }
-#liches_forum form input.authorName {
+#lichess_forum form input.authorName {
     padding: 0.5em;
     width: 300px;
     border: 1px solid #D4D4D4;
 }
-#liches_forum form .submit {
+#lichess_forum form .submit {
     margin-left: 110px;
 }
-#liches_forum form .forum_trap {
+#lichess_forum form .forum_trap {
     margin-left: -10000px;
     height: 0;
 }
 
-#liches_forum form ul {
+#lichess_forum form ul {
     margin-left: 110px;
     margin-bottom: 10px;
     color: red;

@@ -18,7 +18,7 @@ class PostForm extends BasePostForm
     {
         parent::configure();
 
-        if (!$this->getOption('security_context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if (!$this->getOption('security_context')->isGranted('ROLE_USER')) {
             $this->add(new TextField('authorName'));
         }
         $this->add(new TextField('trap'));
