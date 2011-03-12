@@ -8,9 +8,25 @@ use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Application\UserBundle\Document\User;
 
 class UserController extends BaseUserController
 {
+    public function updateProfileAction()
+    {
+        $extension = $this->container->get('lichess.twig.extension');
+        $bio = $this->container->get('request')->request->get('bio');
+        $bio = str_replace("\n", ' ', $bio);
+        $bio = $extension->shorten($bio, 160);
+        $user = $this->getUser();
+        $user->setBio($bio);
+        $this->container->get('lichess.object_manager')->flush();
+
+        $response = new Response(json_encode(array('bio' => $extension->escape($bio))));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
     public function autocompleteAction()
     {
         $term = $this->container->get('request')->query->get('term');
@@ -71,6 +87,8 @@ class UserController extends BaseUserController
 
             return $response;
         }
+        $authenticatedUser = $this->container->get('security.context')->getToken()->getUser();
+
         $critic = $this->container->get('lichess.critic.user');
         $critic->setUser($user);
 
@@ -83,7 +101,12 @@ class UserController extends BaseUserController
         $games->setPageRange(10);
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:show.html.twig', compact('user', 'critic', 'history', 'games', 'pagerUrl'));
+        if ($authenticatedUser instanceof User && $user->is($authenticatedUser)) {
+            $template = 'FOSUserBundle:User:home.html.twig';
+        } else {
+            $template = 'FOSUserBundle:User:show.html.twig';
+        }
+        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'history', 'games', 'pagerUrl'));
     }
 
     /**

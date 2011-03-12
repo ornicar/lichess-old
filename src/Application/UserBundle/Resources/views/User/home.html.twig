@@ -1,0 +1,22 @@
+{% extends "FOSUserBundle:User:show.html.twig" %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link href="/bundles/lichessuser/css/useredit.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="/bundles/lichessuser/js/jquery.editable-set.js{{ lichess_assetsVersion() }}"></script>
+<script src="/bundles/lichessuser/js/useredit.js{{ lichess_assetsVersion() }}"></script>
+{% endblock %}
+
+{% block user_bio %}
+    <div class="editable" data-url="/profile/update">
+    <span class="user_bio" data-name="bio" data-type="textarea" data-orig="{{ user.bio }}">{{ user.bio|default("Click here to tell about yourself in fewer than 160 chars.") }}</span>
+    </div>
+{% endblock %}
+
+{% block user_message %}
+<br /><br />
+{% endblock %}

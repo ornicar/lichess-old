@@ -41,3 +41,8 @@ fos_user_update_online:
     pattern:    /update-online-users
     defaults:   { _controller: fos_user.controller.user:updateOnlineAction }
     requirements: { _method: post }
+
+fos_user_update_profile:
+    pattern:    /profile/update.json
+    defaults:   { _controller: fos_user.controller.user:updateProfileAction }
+    requirements: { _method: post }

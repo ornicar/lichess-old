@@ -147,8 +147,16 @@ div.pager span.current {
 #lichess_user .actions {
     margin-top: 0.5em;
 }
-.button {
+div.user_show .button {
     font-size: 1em;
     font-weight: normal;
     padding: 0.3em 0.8em;
+}
+
+div.user_show h1.lichess_title {
+    margin-bottom: 0.2em;
+}
+div.user_show span.user_bio {
+    margin-bottom: 1em;
+    display: block;
 }
