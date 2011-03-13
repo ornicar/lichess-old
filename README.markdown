@@ -70,13 +70,21 @@ The default AI is crafty, a opensource program written in C.
 
     sudo apt-get install crafty
 
-If you can't or don't want to install crafty, you can use a `Stupid` AI:
+If you can't or don't want to install crafty, you can disable it:
 
     # lichess/config/config.yml
-    lichess.config:
+    lichess:
         ai:
-            class: Bundle\LichessBundle\Ai\Stupid
+            crafty:
+                enabled: false
+                priority: 2
+                executable_path: /usr/bin/crafty
+                book_dir: /usr/share/crafty
+            stupid:
+                enabled: true
+                priority: 1
 
+Lichess will then use the next AI available, called "stupid".
 It's dumb as hell but it plays :)
 
 ### Create mongodb indexes
