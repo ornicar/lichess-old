@@ -54,3 +54,6 @@
 </div>
 {% endblock %}
 {% block menu_active %}game{% endblock %}
+{% block comments %}
+{% render "FOSCommentBundle:Thread:show" with {"identifier": player.game.id} %}
+{% endblock %}

@@ -24,3 +24,6 @@
 {% block chat %}
 {% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"player": player} %}{% endif %}
 {% endblock %}
+{% block comments %}
+{% render "FOSCommentBundle:Thread:show" with {"identifier": player.game.id} %}
+{% endblock %}

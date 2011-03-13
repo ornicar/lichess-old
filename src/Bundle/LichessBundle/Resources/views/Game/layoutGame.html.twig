@@ -3,4 +3,8 @@
 {{ parent() }}
 <link href="/bundles/lichess/css/board.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
 {% endblock %}
+{% block javascripts %}
+<script src="/bundles/lichesscomment/js/jquery.form.js"></script>
+<script src="/bundles/lichesscomment/js/form.js"></script>
+{% endblock %}
 {% block menu_active %}game{% endblock %}
