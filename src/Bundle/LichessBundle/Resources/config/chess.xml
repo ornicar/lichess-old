@@ -5,12 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.ai_fallback.class">Bundle\LichessBundle\Ai\Stupid</parameter>
-        <parameter key="lichess.ai.options" type="collection">
-            <parameter key="executable_path">%lichess.ai.crafty_path%</parameter>
-        </parameter>
-        <parameter key="lichess.ai_chain.class">Bundle\LichessBundle\Ai\AiChain</parameter>
-
         <parameter key="lichess.analyser.class">Bundle\LichessBundle\Chess\Analyser</parameter>
         <parameter key="lichess.analyser_factory.class">Bundle\LichessBundle\Chess\AnalyserFactory</parameter>
 
@@ -69,20 +63,6 @@
             <argument type="service" id="lichess.object_manager" />
         </service>
 
-        <service id="lichess.ai" class="%lichess.ai.class%" public="false">
-            <argument>%lichess.ai.options%</argument>
-        </service>
-
-        <service id="lichess.ai_fallback" class="%lichess.ai_fallback.class%" public="false" />
-
-        <service id="lichess.ai_chain" class="%lichess.ai_chain.class%">
-            <argument type="collection">
-                <argument type="service" id="lichess.ai" />
-                <argument type="service" id="lichess.ai_fallback" />
-            </argument>
-            <argument type="service" id="lichess.logger" />
-        </service>
-
         <service id="lichess.generator" class="%lichess.generator.class%" />
 
         <service id="lichess.finisher" class="%lichess.finisher.class%">
@@ -103,7 +83,7 @@
             <argument type="service" id="lichess.manipulator_factory" />
             <argument type="service" id="lichess.client_updater" />
             <argument type="service" id="lichess.synchronizer" />
-            <argument type="service" id="lichess.ai_chain" />
+            <argument type="service" id="lichess.ai.chain" />
             <argument type="service" id="lichess.cheat.internal_detector" />
             <argument type="service" id="lichess.finisher" />
             <argument type="service" id="lichess.logger" />

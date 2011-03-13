@@ -15,7 +15,7 @@
         <service id="lichess.starter.ai" class="%lichess.starter.ai.class%">
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
-            <argument type="service" id="lichess.ai_chain" />
+            <argument type="service" id="lichess.ai.chain" />
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.manipulator_factory" />

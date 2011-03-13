@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.ai.stupid.class">Bundle\LichessBundle\Ai\Stupid</parameter>
+
+        <parameter key="lichess.ai.crafty.class">Bundle\LichessBundle\Ai\Stupid</parameter>
+        <parameter key="lichess.ai.crafty.options" type="collection">
+            <parameter key="executable_path">%lichess.ai.crafty_path%</parameter>
+        </parameter>
+
+        <parameter key="lichess.ai.chain.class">Bundle\LichessBundle\Ai\AiChain</parameter>
+    </parameters>
+
+    <services>
+        <service id="lichess.ai.stupid" class="%lichess.ai.stupid.class%" public="false" />
+
+        <service id="lichess.ai.crafty" class="%lichess.ai.crafty.class%" public="false">
+            <argument>%lichess.ai.crafty.options%</argument>
+        </service>
+
+        <service id="lichess.ai.chain" class="%lichess.ai.chain.class%">
+            <argument type="collection">
+                <argument type="service" id="lichess.ai.crafty" />
+                <argument type="service" id="lichess.ai.stupid" />
+            </argument>
+            <argument type="service" id="lichess.logger" />
+        </service>
+    </services>
+</container>
