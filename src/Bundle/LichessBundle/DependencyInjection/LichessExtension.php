@@ -36,8 +36,12 @@ class LichessExtension extends Extension
         $configuration = new Configuration();
         $config = $processor->process($configuration->getConfigTree(), $configs);
 
-        $container->setParameter('lichess.ai.class', $config['ai']['class']);
-        $container->setParameter('lichess.ai.crafty_path', $config['ai']['crafty_path']);
+        foreach (array('enabled', 'priority', 'executable_path', 'book_dir') as $option) {
+            $container->setParameter('lichess.ai.crafty.'.$option, $config['ai']['crafty'][$option]);
+        }
+        foreach (array('enabled', 'priority') as $option) {
+            $container->setParameter('lichess.ai.stupid.'.$option, $config['ai']['stupid'][$option]);
+        }
         $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
         $container->setParameter('lichess.debug_assets', $config['debug_assets']);
         $container->setParameter('akismet.api_key', $config['akismet']['api_key']);

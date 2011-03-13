@@ -8,7 +8,7 @@ class Crafty implements AiInterface
 {
     protected $options = array(
         'executable_path' => '/usr/bin/crafty',
-        'book_path' => '/usr/share/crafty'
+        'book_dir'       => '/usr/share/crafty'
     );
 
     public function __construct(array $options = array())
@@ -71,7 +71,7 @@ quit
 EOF",
             dirname($file),
             $this->options['executable_path'],
-            $this->options['book_path'],
+            $this->options['book_dir'],
             $this->getCraftyLevel($level),
             $forsythNotation,
             basename($file)
