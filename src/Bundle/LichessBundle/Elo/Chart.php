@@ -26,7 +26,7 @@ class Chart
     protected function reduce(array $elos)
     {
         $count = count($elos);
-        $limit = 100;
+        $limit = 150;
         if ($count <= $limit) {
             return $elos;
         }
