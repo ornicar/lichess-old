@@ -35,7 +35,7 @@ class GameFixCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $repo = $this->container->get('lichess.repository.game');
-        $games = $this->repo->findCandidatesToFinish();
+        $games = $repo->findCandidatesToFinish();
         $nb = $games->count();
 
         $output->writeLn(sprintf('Found %d unfinished games', $nb));

@@ -229,7 +229,7 @@ class GameRepository extends DocumentRepository
     public function findCandidatesToFinish()
     {
         $date = new DateTime('-2 hours');
-        return $this->repo->createQueryBuilder()
+        return $this->createQueryBuilder()
             ->field('status')->equals(Game::STARTED)
             ->field('clock')->exists(true)
             ->field('clock')->notEqual(null)
