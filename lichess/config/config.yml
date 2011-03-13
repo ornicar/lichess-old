@@ -11,7 +11,7 @@ framework:
         lifetime: 15552000 # 6 months
         auto_start:     true
     templating:
-        assets_version: 7
+        assets_version: 8
         engines: ['twig']
     translator: { fallback: en }
 
@@ -134,7 +134,14 @@ lichess_message:
 
 lichess:
     ai:
-        class: Bundle\LichessBundle\Ai\Crafty # also available: Bundle\LichessBundle\Ai\Stupid
+        crafty:
+            enabled: true
+            priority: 2
+            executable_path: /usr/bin/crafty
+            book_dir: /usr/share/crafty
+        stupid:
+            enabled: true
+            priority: 1
     akismet:
         url: http://lichess.org
         #api_key: see config_local.yml

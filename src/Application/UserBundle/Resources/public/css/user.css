@@ -5,6 +5,12 @@
 #lichess_user div.stats {
     font-size: 1.2em;
 }
+#lichess_user div.user_top {
+    width: 100%;
+}
+#lichess_user div.stats .user_is_online {
+    color: green;
+}
 
 #lichess_user img.elo_history {
     float:right;
@@ -117,6 +123,10 @@ ol.users li {
 .users a.send {
     font-size: 0.8em;
     margin-left: 1em;
+    color: #fff;
+}
+.users li:hover a.send {
+    color: #888;
 }
 
 /* pagination */

@@ -7,27 +7,32 @@
 {% block content %}
 <div class="content_box">
 <div class="user_show">
-    <img class="elo_history" src="{{ lichess_elo_chart_url(history, "400x200") }}" width="400" height="200" alt="ELO history" />
-    <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
-    {% block user_bio %}
-        <span class="user_bio">{{ lichess_shorten(user.bio) }}</span>
-    {% endblock %}
-    <div class="stats">
-        {% trans "Rank" %}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}<br />
-        {% trans "Games played" %}: <strong>{{ critic.nbGames|default("0") }}</strong><br />
-        {% trans "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws" with {"%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws} %}<br />
-        Registered {{ lichess_date(user.createdAt) }}<br />
-        {% trans "Best ELO" %}: {{ history.maxElo }}, {{ lichess_date(history.maxEloDate) }}
-        {% block user_message %}
-        {% if not fos_user_isAnonymous() %}
-            <div class="actions">
-                <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{% trans "Send a message" %}</a>
-            </div>
-        {% endif %}
+    <div class="user_top clearfix">
+        <img class="elo_history" src="{{ lichess_elo_chart_url(history, "400x200") }}" width="400" height="200" alt="ELO history" />
+        <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
+        {% block user_bio %}
+            <span class="user_bio">{{ lichess_shorten(user.bio, 400) }}</span>
         {% endblock %}
+        <div class="stats">
+            {% trans "Rank" %}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}<br />
+            {% trans "Games played" %}: <strong>{{ critic.nbGames|default("0") }}</strong><br />
+            {% trans "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws" with {"%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws} %}<br />
+            {% trans "Registered" %} {{ lichess_date(user.createdAt) }}<br />
+            {% trans "Best ELO" %}: {{ history.maxElo }}, {{ lichess_date(history.maxEloDate) }}
+            {% if user.isOnline %}
+                <br /><span class="user_is_online">{% trans "%user% is online" with {"%user%": user.username} %}</span>
+            {% endif %}
+            {% block user_message %}
+            {% if not fos_user_isAnonymous() %}
+                <div class="actions">
+                    <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{% trans "Send a message" %}</a>
+                </div>
+            {% endif %}
+            {% endblock %}
+        </div>
     </div>
     {% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": games.pages, "url": pagerUrl} %}{% endset %}
-    <div class="games all_games clearfix">
+    <div class="games all_games">
         <div class="pager pager_top">{{ pagination|raw }}</div>
         {% include "LichessBundle:Game:listWidget.html.twig" with {"games": games, "fromUser": user} %}
         <div class="pager pager_bottom">{{ pagination|raw }}</div>

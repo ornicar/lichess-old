@@ -6,4 +6,5 @@ framework:
 
 lichess:
     ai:
-        crafty_path: /usr/games/crafty
+        crafty:
+            executable_path: /usr/games/crafty
