@@ -11,9 +11,9 @@ use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Document\Clock;
+use Bundle\LichessBundle\Config\Persistence;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Symfony\Component\HttpFoundation\Session;
 
 class FriendStarter implements StarterInterface
 {
@@ -22,22 +22,20 @@ class FriendStarter implements StarterInterface
     protected $ai;
     protected $objectManager;
     protected $logger;
-    protected $session;
+    protected $configPersistence;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, Session $session = null)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, Persistence $configPersistence)
     {
-        $this->generator     = $generator;
-        $this->playerBlamer  = $playerBlamer;
-        $this->objectManager = $objectManager;
-        $this->logger        = $logger;
-        $this->session       = $session;
+        $this->generator         = $generator;
+        $this->playerBlamer      = $playerBlamer;
+        $this->objectManager     = $objectManager;
+        $this->logger            = $logger;
+        $this->configPersistence = $configPersistence;
     }
 
     public function start(GameConfig $config)
     {
-        if($this->session) {
-            $this->session->set('lichess.game_config.friend', $config->toArray());
-        }
+        $this->configPersistence->saveConfigFor('friend', $config->toArray());
         $color = $config->resolveColor();
         $player = $this->generator->createGameForPlayer($color, $config->variant);
         $this->playerBlamer->blame($player);

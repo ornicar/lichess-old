@@ -5,23 +5,23 @@ namespace Bundle\LichessBundle\Form;
 use Bundle\LichessBundle\Config\FriendGameConfig;
 use Bundle\LichessBundle\Config\AnybodyGameConfig;
 use Bundle\LichessBundle\Config\AiGameConfig;
+use Bundle\LichessBundle\Config\Persistence;
 use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\HttpFoundation\Session;
 use Symfony\Component\Form\FormContext;
 use Symfony\Bundle\ZendBundle\Logger\Logger;
 
 class GameConfigFormManager
 {
     protected $security;
-    protected $session;
+    protected $configPersistence;
     protected $formContext;
     protected $logger;
     protected $addColorHiddenField;
 
-    public function __construct(SecurityContext $security, Session $session, FormContext $formContext, Logger $logger, $addColorHiddenField)
+    public function __construct(SecurityContext $security, Persistence $configPersistence, FormContext $formContext, Logger $logger, $addColorHiddenField)
     {
         $this->security            = $security;
-        $this->session             = $session;
+        $this->configPersistence   = $configPersistence;
         $this->formContext         = $formContext;
         $this->logger              = $logger;
         $this->addColorHiddenField = $addColorHiddenField;
@@ -31,7 +31,7 @@ class GameConfigFormManager
     {
         $isAuthenticated = $this->security->isGranted('IS_AUTHENTICATED_REMEMBERED');
         $config = new FriendGameConfig();
-        $config->fromArray($this->session->get('lichess.game_config.friend', array()));
+        $config->fromArray($this->configPersistence->loadConfigFor('friend'));
         if(!$isAuthenticated) {
             $config->mode = 0;
         }
@@ -44,7 +44,7 @@ class GameConfigFormManager
     {
         $isAuthenticated = $this->security->isGranted('IS_AUTHENTICATED_REMEMBERED');
         $config = new AnybodyGameConfig();
-        $config->fromArray($this->session->get('lichess.game_config.anybody', array()));
+        $config->fromArray($this->configPersistence->loadConfigFor('anybody'));
         if(!$isAuthenticated) {
             $config->modes = array(0);
         }
@@ -56,7 +56,7 @@ class GameConfigFormManager
     public function createAiForm()
     {
         $config = new AiGameConfig();
-        $config->fromArray($this->session->get('lichess.game_config.ai', array()));
+        $config->fromArray($this->configPersistence->loadConfigFor('ai'));
 
         return $this->createForm('Bundle\LichessBundle\Form\AiGameConfigForm', $config);
     }

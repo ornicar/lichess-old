@@ -19,14 +19,14 @@
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.manipulator_factory" />
-            <argument type="service" id="session" />
+            <argument type="service" id="lichess.config.persistence" />
         </service>
         <service id="lichess.starter.friend" class="%lichess.starter.friend.class%">
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.logger" />
-            <argument type="service" id="session" />
+            <argument type="service" id="lichess.config.persistence" />
         </service>
         <service id="lichess.starter.anybody" class="%lichess.starter.anybody.class%">
             <argument type="service" id="lichess.generator" />
@@ -35,6 +35,7 @@
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.seek_queue" />
             <argument type="service" id="lichess.synchronizer" />
+            <argument type="service" id="lichess.config.persistence" />
             <argument type="service" id="session" />
             <argument>%lichess.starter.anybody.check_creator_is_connected%</argument>
         </service>

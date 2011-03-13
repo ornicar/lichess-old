@@ -11,6 +11,7 @@ use Bundle\LichessBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Seek\SeekQueue;
 use Bundle\LichessBundle\Chess\Synchronizer;
+use Bundle\LichessBundle\Config\Persistence;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\HttpFoundation\Session;
@@ -23,23 +24,25 @@ class AnybodyStarter implements StarterInterface
     protected $logger;
     protected $seekQueue;
     protected $session;
+    protected $configPersistence;
     protected $checkCreatorIsConnected;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Synchronizer $synchronizer, Session $session, $checkCreatorIsConnected)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Synchronizer $synchronizer, Persistence $configPersistence, Session $session, $checkCreatorIsConnected)
     {
-        $this->generator     = $generator;
-        $this->playerBlamer  = $playerBlamer;
-        $this->objectManager = $objectManager;
-        $this->logger        = $logger;
-        $this->seekQueue     = $seekQueue;
-        $this->synchronizer  = $synchronizer;
-        $this->session       = $session;
+        $this->generator               = $generator;
+        $this->playerBlamer            = $playerBlamer;
+        $this->objectManager           = $objectManager;
+        $this->logger                  = $logger;
+        $this->seekQueue               = $seekQueue;
+        $this->synchronizer            = $synchronizer;
+        $this->session                 = $session;
+        $this->configPersistence       = $configPersistence;
         $this->checkCreatorIsConnected = (bool) $checkCreatorIsConnected;
     }
 
     public function start(GameConfig $config)
     {
-        $this->session->set('lichess.game_config.anybody', $config->toArray());
+        $this->configPersistence->saveConfigFor('anybody', $config->toArray());
         $queue = $this->seekQueue;
         $result = $queue->add($config->variants, $config->times, $config->increments, $config->modes, $this->getSessionId());
         $game = $result['game'];
