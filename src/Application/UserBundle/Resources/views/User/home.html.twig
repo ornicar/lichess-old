@@ -13,7 +13,7 @@
 
 {% block user_bio %}
     <div class="editable" data-url="/profile/update">
-    <span class="user_bio" data-name="bio" data-type="textarea" data-provider-url="{{ path("fos_user_profile_bio") }}">{{ lichess_shorten(user.bio|default("Click here to tell about yourself.")) }}</span>
+    <span class="user_bio" data-name="bio" data-type="textarea" data-provider-url="{{ path("fos_user_profile_bio") }}">{{ lichess_shorten(user.bio|default("Click here to tell about yourself."), 400) }}</span>
     </div>
 {% endblock %}
 
