@@ -11,7 +11,7 @@ framework:
         lifetime: 15552000 # 6 months
         auto_start:     true
     templating:
-        assets_version: 5
+        assets_version: 7
         engines: ['twig']
     translator: { fallback: en }
 
@@ -46,6 +46,8 @@ doctrine_mongo_db:
                 LichessMessageBundle: ~
                 ForumBundle:
                 LichessForumBundle:
+                FOSCommentBundle:
+                LichessCommentBundle:
             metadata_cache_driver: apc
 
 forum:
@@ -113,7 +115,11 @@ fos_user:
             user: Application\UserBundle\Controller\UserController
             security: Application\UserBundle\Controller\SecurityController
 
-lichess_user: ~
+fos_comment:
+    db_driver: mongodb
+    class:
+        model:
+            comment: FOS\CommentBundle\Document\Comment
 
 ornicar_message:
     db_driver: odm
