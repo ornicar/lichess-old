@@ -3,9 +3,6 @@
 echo "Build bootstrap"
 bin/build_bootstrap.php
 
-echo "Clear APC cache opcode"
-php lichess/console --env=prod apc:clear --opcode
-
 echo "Remove cache dir"
 rm -r lichess/cache/prod/*
 chmod -R 777 lichess/cache/prod
