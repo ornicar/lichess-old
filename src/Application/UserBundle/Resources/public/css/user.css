@@ -123,6 +123,10 @@ ol.users li {
 .users a.send {
     font-size: 0.8em;
     margin-left: 1em;
+    color: #fff;
+}
+.users li:hover a.send {
+    color: #888;
 }
 
 /* pagination */
