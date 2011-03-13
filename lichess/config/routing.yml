@@ -26,3 +26,7 @@ forum_topic_show_compat:
 ornicar_message:
     resource: @OrnicarMessageBundle/Resources/config/routing.xml
     prefix: /inbox
+
+fos_comment_comment_create:
+    resource: @FOSCommentBundle/Resources/config/routing.yml
+    prefix: /comment
