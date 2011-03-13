@@ -60,11 +60,46 @@ class User extends BaseUser
      */
     protected $bio = null;
 
+    /**
+     * Preferred game config
+     *
+     * @var array
+     * @mongodb:Field(type="hash")
+     */
+    protected $gameConfigs = array();
+
     public function __construct()
     {
         parent::__construct();
 
         $this->setElo(self::STARTING_ELO);
+    }
+
+    /**
+     * @return array
+     */
+    public function getGameConfigs()
+    {
+        return $this->gameConfigs;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setGameConfigs($gameConfigs)
+    {
+        $this->gameConfigs = $gameConfigs;
+    }
+
+    public function getGameConfig($key)
+    {
+        return isset($this->gameConfigs[$key]) ? $this->gameConfigs[$key] : null;
+    }
+
+    public function setGameConfig($key, array $config)
+    {
+        $this->gameConfigs[$key] = $config;
     }
 
     /**
