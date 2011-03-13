@@ -43,3 +43,6 @@
 [submodule "vendor/assetic"]
 	path = vendor/assetic
 	url = git://github.com/kriswallsmith/assetic.git
+[submodule "src/FOS/CommentBundle"]
+	path = src/FOS/CommentBundle
+	url = git://github.com/FriendsOfSymfony/CommentBundle.git
