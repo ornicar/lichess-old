@@ -119,7 +119,14 @@ fos_comment:
     db_driver: mongodb
     class:
         model:
-            comment: FOS\CommentBundle\Document\Comment
+            comment: Application\CommentBundle\Document\Comment
+        form:
+            comment: FOS\CommentBundle\Form\CommentForm
+    service:
+        blamer:
+            comment: fos_comment.blamer.comment.security
+        form_factory:
+            comment: lichess_comment.form_factory.comment
 
 ornicar_message:
     db_driver: odm

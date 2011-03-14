@@ -1,0 +1,19 @@
+<div class="fos_comment_comment_show">
+    <div class="fos_comment_comment_metas">
+        By {% if comment.author %}
+            <span class="authorName authenticated">{{ lichess_link_user(comment.author) }}</span>
+        {% else %}
+            <span class="authorName">{{ comment.authorName|default("Anonymous") }}</span>
+        {% endif %}
+        - {{ comment.createdAt|date }}
+    </div>
+    <div class="fos_comment_comment_body">
+        {{ comment.body }}
+    </div>
+    <div class="fos_comment_comment_reply">
+        <button data-id="{{ comment.id }}" data-name="[someone]" class="fos_comment_comment_reply_show_form">Reply</button>
+    </div>
+    <div class="fos_comment_comment_replies">
+        {% include "FOSCommentBundle:Comment:tree.html.twig" with {"nodes": children|default([])} %}
+    </div>
+</div>

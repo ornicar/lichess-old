@@ -1,0 +1,27 @@
+{% block fos_comment_form_title %}
+    {% if first %}
+        <h3>Be the first to comment</h3>
+    {% else %}
+        <h3>Add New Comment</h3>
+    {% endif %}
+{% endblock %}
+
+<form class="fos_comment_comment_form" action="{{ path("fos_comment_comment_create") }}" method="POST">
+
+    {% block fos_comment_form_fields %}
+        <textarea name="{{ form.body.name }}"></textarea>
+        {% if form.has("authorName") %}
+            <label>Post as:
+                <input class="author" type="text" name="{{ form.authorName.name }}" value="{{ form.authorName.displayedData }}" />
+            </label>
+        {% endif %}
+        <input type="hidden" name="{{ form.thread.name }}" value="{{ form.thread.displayedData }}" />
+    {% endblock %}
+
+    <div class="fos_comment_submit">
+        {% block fos_comment_form_submit %}
+            <input type="submit" value="Post" />
+        {% endblock %}
+    </div>
+
+</form>
