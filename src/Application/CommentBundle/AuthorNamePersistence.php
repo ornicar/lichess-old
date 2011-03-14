@@ -14,6 +14,7 @@ class AuthorNamePersistence
     protected $securityContext;
     protected $request;
     protected $cookieName = 'lichess_authorName';
+    protected $authorName;
 
     public function __construct(SecurityContext $securityContext, Request $request)
     {
@@ -29,16 +30,17 @@ class AuthorNamePersistence
                 urlencode($comment->getAuthorName()),
                 time() + 15552000
             ));
+            $this->authorName = $comment->getAuthorName();
         }
     }
 
     public function loadComment(Comment $comment)
     {
         if($this->isAnonymous()) {
-            if ($authorName = $this->request->cookies->get($this->cookieName)) {
+            if ($this->authorName) {
+                $comment->setAuthorName($this->authorName);
+            } elseif ($authorName = $this->request->cookies->get($this->cookieName)) {
                 $comment->setAuthorName(urldecode($authorName));
-            } else {
-                $comment->setAuthorName('Anonymous');
             }
         }
     }

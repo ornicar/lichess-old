@@ -8,15 +8,12 @@ use FOS\CommentBundle\Form\CommentForm;
 
 class CommentController extends BaseCommentController
 {
-    protected function createForm()
-    {
-        return $this->container->get('fos_comment.form_factory.comment')->createForm();
-    }
-
     protected function onCreateSuccess(CommentForm $form)
     {
-        $this->get('lichess_comment.authorname_persistence')->persistComment($form->getData());
+        $response = parent::onCreateSuccess($form);
 
-        return parent::onCreateSuccess($form);
+        $this->container->get('lichess_comment.authorname_persistence')->persistComment($form->getData(), $response);
+
+        return $response;
     }
 }
