@@ -11,8 +11,8 @@
     {% block fos_comment_form_fields %}
         <textarea name="{{ form.body.name }}"></textarea>
         {% if form.has("authorName") %}
-            <label>Post as:
-                <input class="author" type="text" name="{{ form.authorName.name }}" value="{{ form.authorName.displayedData }}" />
+            <label class="author_name">Post as:
+                <input type="text" name="{{ form.authorName.name }}" value="{{ form.authorName.displayedData }}" />
             </label>
         {% endif %}
         <input type="hidden" name="{{ form.thread.name }}" value="{{ form.thread.displayedData }}" />

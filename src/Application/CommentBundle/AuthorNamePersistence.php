@@ -37,6 +37,8 @@ class AuthorNamePersistence
         if($this->isAnonymous()) {
             if ($authorName = $this->request->cookies->get($this->cookieName)) {
                 $comment->setAuthorName(urldecode($authorName));
+            } else {
+                $comment->setAuthorName('Anonymous');
             }
         }
     }

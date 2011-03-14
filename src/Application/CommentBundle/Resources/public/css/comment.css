@@ -60,6 +60,16 @@ div.fos_comment_thread_comments {
 div.fos_comment_reply_prototype {
     display: none;
 }
+div.fos_comment_thread_show > form.fos_comment_comment_form {
+    margin-bottom: 1em;
+}
+form.fos_comment_comment_form label.author_name {
+    margin-top: 3px;
+    float:left;
+}
+form.fos_comment_comment_form label.author_name input {
+    padding: 2px 5px;
+}
 form.fos_comment_comment_form textarea {
     width: 98%;
     height: 6em;
