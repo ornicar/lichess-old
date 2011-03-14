@@ -1,13 +1,12 @@
 <?php
 
-namespace Application\ForumBundle;
+namespace Application\CommentBundle;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Security\Core\SecurityContext;
-use Application\ForumBundle\Document\Topic;
-use Application\ForumBundle\Document\Post;
+use Application\CommentBundle\Document\Comment;
 use DateTime;
 
 class AuthorNamePersistence
@@ -22,33 +21,22 @@ class AuthorNamePersistence
         $this->request = $request;
     }
 
-    public function persistTopic(Topic $topic, Response $response)
+    public function persistComment(Comment $comment, Response $response)
     {
         if($this->isAnonymous()) {
             $response->headers->setCookie(new Cookie(
                 $this->cookieName,
-                urlencode($topic->getLastPost()->getAuthorName()),
+                urlencode($comment->getAuthorName()),
                 time() + 15552000
             ));
         }
     }
 
-    public function persistPost(Post $post, Response $response)
-    {
-        if($this->isAnonymous()) {
-            $response->headers->setCookie(new Cookie(
-                $this->cookieName,
-                urlencode($post->getAuthorName()),
-                time() + 15552000
-            ));
-        }
-    }
-
-    public function loadPost(Post $post)
+    public function loadComment(Comment $comment)
     {
         if($this->isAnonymous()) {
             if ($authorName = $this->request->cookies->get($this->cookieName)) {
-                $post->setAuthorName(urldecode($authorName));
+                $comment->setAuthorName(urldecode($authorName));
             }
         }
     }

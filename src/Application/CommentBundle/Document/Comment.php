@@ -65,4 +65,13 @@ class Comment extends BaseComment
     {
         return $this->authorName;
     }
+
+    /**
+     * Set authorName
+     * @return string
+     */
+    public function setAuthorName($authorName)
+    {
+        $this->authorName = $authorName;
+    }
 }

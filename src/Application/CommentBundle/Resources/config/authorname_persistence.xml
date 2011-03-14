@@ -6,7 +6,7 @@
 
     <services>
 
-        <service id="forum.authorname_persistence" class="Application\ForumBundle\AuthorNamePersistence" scope="request">
+        <service id="lichess_comment.authorname_persistence" class="Application\CommentBundle\AuthorNamePersistence" scope="request">
             <argument type="service" id="security.context" />
             <argument type="service" id="request" />
         </service>
