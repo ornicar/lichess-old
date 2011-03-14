@@ -1,18 +1,6 @@
 {% extends "LichessBundle:Player:layoutPlayer.html.twig" %}
 {% block title_suffix %} #{{ game.id }} as {{ player.color }}{% endblock %}
 {% block content %}
-<div class="lichess_game clearfix lichess_player_{{ player.color }}">
-    <div class="lichess_board_wrap">
-        {{ lichess_game_board(player, checkSquareKey)|raw }}
-    </div>
-    <div class="lichess_ground">
-        {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
-        <div class="lichess_table_wrap">
-            {% render "LichessBundle:Player:table" with {"id": game.id, "color": player.color, "playerFullId": ""} %}
-        </div>
-        {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player.opponent, "position": "bottom"} %}
-    </div>
-</div>
 {% endblock %}
 {% block js_data %}
     {{ lichess_game_watch_data(player, possibleMoves)|raw }}
@@ -55,5 +43,5 @@
 {% endblock %}
 {% block menu_active %}game{% endblock %}
 {% block comments %}
-{% render "FOSCommentBundle:Thread:show" with {"identifier": player.game.id} %}
+{% render "FOSCommentBundle:Thread:show" with {"identifier": "game:" ~ player.game.id} %}
 {% endblock %}
