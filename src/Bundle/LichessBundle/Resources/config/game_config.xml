@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.config.persistence.class">Bundle\LichessBundle\Config\Persistence</parameter>
+    </parameters>
+
+    <services>
+        <service id="lichess.config.persistence" class="%lichess.config.persistence.class%">
+            <argument type="service" id="session" />
+            <argument type="service" id="security.context" />
+        </service>
+    </services>
+
+</container>

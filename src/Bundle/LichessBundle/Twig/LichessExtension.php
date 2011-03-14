@@ -143,18 +143,7 @@ class LichessExtension extends Twig_Extension
 
     public function eloChartUrl(History $history, $size)
     {
-        $elos = $history->getEloByTs();
-        $min = 20*round((min($elos) - 10)/20);
-        $max = 20*round((max($elos) + 10)/20);
-        $dots = array_map(function($e) use($min, $max) { return round(($e - $min) / ($max - $min) * 100); }, $elos);
-        $yStep = ($max - $min) / 4 ;
-        return sprintf('%scht=lc&chs=%s&chd=t:%s&chxt=y&chxr=%s&chf=%s',
-            'http://chart.apis.google.com/chart?',
-            $size,
-            implode(',', $dots),
-            implode(',', array(0, $min, $max, $yStep)),
-            'bg,s,65432100' // Transparency
-        );
+        return $this->container->get('lichess.elo.chart')->getUrl($history, $size);
     }
 
     public function escape($string)

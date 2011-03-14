@@ -1,50 +1,61 @@
 $(function() {
-    var $game = $game = $('div.lichess_game').orNot();
+	var $game = $game = $('div.lichess_game').orNot();
 	if ($game) {
 		$game.game(lichess_data);
-        if (!lichess_data.player.spectator) {
-            $('a.blank_if_play').click(function() {
-                if ($game.game('isPlayable')) {
-                    $(this).attr('target', '_blank');
-                }
-            });
-        }
+		if (!lichess_data.player.spectator) {
+			$('a.blank_if_play').click(function() {
+				if ($game.game('isPlayable')) {
+					$(this).attr('target', '_blank');
+				}
+			});
+		}
 	}
-    var $nbConnectedPlayers = $('#nb_connected_players').orNot();
-    var $userTag = $userTag = $('#user_tag').orNot();
-    var $connectivity = $("#connectivity");
-    var pingDelay = 5000;
-    var connectivity = new $.connectivity($connectivity, { delay: pingDelay, tolerance: 300 });
+	var $nbConnectedPlayers = $('#nb_connected_players').orNot();
+	var $userTag = $userTag = $('#user_tag').orNot();
+	var $connectivity = $("#connectivity");
 	if ($userTag) {
-		function onlinePing() {
-			setTimeout(function() {
-				$.get($userTag.attr('data-online-url'), function(data) {
-					showNbConnectedPlayers(data.nbp);
-					if (typeof data.nbm != 'undefined') {
-						$('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0);
-					}
-                    connectivity.ping();
-					onlinePing();
+		pingConfig = {
+			url: $userTag.attr('data-online-url'),
+			dataType: "json",
+			onResponse: function(data) {
+				showNbConnectedPlayers(data.nbp);
+				if (typeof data.nbm != 'undefined') {
+					$('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0);
+				}
+			}
+		};
+	} else if ($nbConnectedPlayers) {
+		pingConfig = {
+			url: $nbConnectedPlayers.attr('data-url'),
+			dataType: "text",
+			onResponse: function(data) {
+				$nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, data));
+			}
+		};
+	}
+	pingConfig.delay = 5000;
+	var connectivity = new $.connectivity($connectivity, {
+		delay: pingConfig.delay,
+		tolerance: 300
+	});
+
+	(function ping(config) {
+		setTimeout(function() {
+			$.ajax(config.url, {
+				success: function(data) {
+					config.onResponse(data);
+					connectivity.ping();
 				},
-				"json");
-			},
-			pingDelay);
-		};
-		onlinePing();
-	}
-	else if ($nbConnectedPlayers) {
-		function reloadNbConnectedPlayers() {
-			setTimeout(function() {
-				$.get($nbConnectedPlayers.attr('data-url'), function(nb) {
-					$nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
-                    connectivity.ping();
-					reloadNbConnectedPlayers();
-				});
-			},
-			pingDelay);
-		};
-		reloadNbConnectedPlayers();
-	}
+				complete: function() {
+					ping(config);
+				},
+                dataType: config.dataType,
+                method: "GET",
+                cache: false
+			});
+		},
+		config.delay);
+	})(pingConfig);
 
 	function showNbConnectedPlayers(nb) {
 		if ($nbConnectedPlayers) $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
@@ -52,8 +63,8 @@ $(function() {
 
 	if ($config = $('div.game_config_form').orNot()) {
 		$('div.lichess_overboard').show();
-        $config.find('div.buttons').buttonset().disableSelection();
-        $config.find('button.submit').button().disableSelection();
+		$config.find('div.buttons').buttonset().disableSelection();
+		$config.find('button.submit').button().disableSelection();
 		$config.find('a.show_advanced').one('click', function() {
 			$(this).hide();
 			$config.find('div.advanced, p.explanations').show();
@@ -68,30 +79,34 @@ $(function() {
 		centerOverboard();
 	}
 
-    $('input.lichess_id_input').select();
+	$('input.lichess_id_input').select();
 
 	// Append marks 1-8 && a-h
 	if ($bw = $('div.lichess_board_wrap').orNot()) {
 		$.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
 	}
 
-    function loadLanguageList() {
-        $div = $('div.lichess_language');
+	function loadLanguageList() {
+		$div = $('div.lichess_language');
 		if (!$div.hasClass('loaded')) {
-			$.get($div.attr('data-path'), function(html) { $div.append(html); });
-            $div.addClass('loaded');
+			$.get($div.attr('data-path'), function(html) {
+				$div.append(html);
+			});
+			$div.addClass('loaded');
 		}
-    }
+	}
 	$('div.lichess_language').click(function() {
-        $(this).toggleClass('toggled');
-        loadLanguageList();
+		$(this).toggleClass('toggled');
+		loadLanguageList();
 	}).mouseenter(function() {
-        loadLanguageList();
-    });
+		loadLanguageList();
+	});
 
 	$('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
 
-	$.fn.tipsy && $('a, input, label, div.tipsyme').not('.notipsy').tipsy({ fade: true });
+	$.fn.tipsy && $('a, input, label, div.tipsyme').not('.notipsy').tipsy({
+		fade: true
+	});
 
 	if ($autocomplete = $('input.autocomplete').orNot()) {
 		$autocomplete.autocomplete({
@@ -103,9 +118,10 @@ $(function() {
 
 	$('a.toggle_signin').toggle(function() {
 		$('#top').find('div.security').addClass('show_signin_form').find('input:first').focus();
-	}, function() {
+	},
+	function() {
 		$('#top').find('div.security').removeClass('show_signin_form');
-    });
+	});
 
 	$('#lichess_message input[value=""]:first, #fos_user_user_form_username').focus();
 
@@ -176,10 +192,10 @@ $.displayBoardMarks = function($board, isWhite) {
 	}
 	$board.find('span.board_mark').remove();
 	letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    marks = '';
+	marks = '';
 	for (i = 1; i < 9; i++) {
-		marks += '<span class="board_mark vert" style="bottom:'+ (factor * i * 64 - 38 + base) +'px;">'+ i +'</span>';
-		marks += '<span class="board_mark horz" style="left:'+ (factor * i * 64 - 35 + base) +'px;">'+ letters[i-1] +'</span>';
+		marks += '<span class="board_mark vert" style="bottom:' + (factor * i * 64 - 38 + base) + 'px;">' + i + '</span>';
+		marks += '<span class="board_mark horz" style="left:' + (factor * i * 64 - 35 + base) + 'px;">' + letters[i - 1] + '</span>';
 	}
 	$board.append(marks);
 };
