@@ -14,11 +14,11 @@ for env in dev test; do
     echo "--- Warming up $env cache"
     php lichess/console --env=$env -v cache:warmup
 
-    echo "--- Creating $env indexes"
-    php lichess/console --env=$env -v doctrine:mongodb:schema:create --index
-
     echo "--- Loading $env fixtures"
     php lichess/console --env=$env -v doctrine:mongodb:data:load
+
+    echo "--- Creating $env indexes"
+    php lichess/console --env=$env -v doctrine:mongodb:schema:create --index
 
 done
 
