@@ -1,8 +1,10 @@
 {% extends 'LichessBundle::layoutCommon.html.twig' %}
+
 {% block stylesheets %}
-{{ parent() }}
-<link href="/bundles/lichess/css/board.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lichess/css/board.css') }}" />
 {% endblock %}
+
 {% block content %}
 <div class="lichess_game_not_started clearfix lichess_player_white">
     <div class="lichess_board_wrap">
@@ -11,6 +13,7 @@
     {% include "LichessBundle:Game:bootGround.html.twig" with {"active": false} %}
 </div>
 {% endblock %}
+
 {% block goodies %}
 <br />
 Play chess without hassles<br />
@@ -19,4 +22,5 @@ Do not install plugins<br />
 Do not endure ads<br />
 Lichess is free and opensource.
 {% endblock %}
+
 {% block menu_active %}play{% endblock %}

@@ -1,11 +1,11 @@
 {% extends "LichessBundle::layoutCommon.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="/bundles/lichess/css/board.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
-<link href="/bundles/lichesscomment/css/comment.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/lichess/css/board.css') }}" />
+<link href="asset("bundles/lichesscomment/css/comment.css") }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
-<script src="/bundles/lichesscomment/js/jquery.form.js"></script>
-<script src="/bundles/lichesscomment/js/form.js"></script>
+<script src="{{ asset("bundles/lichesscomment/js/jquery.form.js") }}"></script>
+<script src="{{ asset("bundles/lichesscomment/js/form.js") }}"></script>
 {% endblock %}
 {% block menu_active %}game{% endblock %}
