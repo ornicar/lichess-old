@@ -2,7 +2,7 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lichess/css/board.css') }}" />
-<link href="asset("bundles/lichesscomment/css/comment.css") }}" type="text/css" rel="stylesheet" />
+<link href="{{ asset("bundles/lichesscomment/css/comment.css") }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
 <script src="{{ asset("bundles/lichesscomment/js/jquery.form.js") }}"></script>
