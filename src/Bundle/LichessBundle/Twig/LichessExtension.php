@@ -54,8 +54,7 @@ class LichessExtension extends Twig_Extension
             'lichess_room_message'         => 'roomMessage',
             'lichess_room_messages'        => 'roomMessages',
             'lichess_debug_assets'         => 'debugAssets',
-            'lichess_date'                 => 'formatDate',
-            'lichess_assetsVersion'         => 'appendAssetVersion'
+            'lichess_date'                 => 'formatDate'
         );
 
         $functions = array();
@@ -79,11 +78,6 @@ class LichessExtension extends Twig_Extension
         );
 
         return $filters;
-    }
-
-    public function appendAssetVersion()
-    {
-        return '?'.$this->container->getParameter('templating.assets.version');
     }
 
     public function formatDate($date, $format = null)
