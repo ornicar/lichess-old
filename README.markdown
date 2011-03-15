@@ -98,6 +98,8 @@ If you get cache slam warning in logs, upgrade APC and/or disable the warnings i
 
 ### TEST
 
+Lichess is well tested. You should run the tests if you plan to modify the code.
+
 You need [PHPUnit 3.5](http://github.com/sebastianbergmann/phpunit) installed.
 
 Run all unit and functional tests

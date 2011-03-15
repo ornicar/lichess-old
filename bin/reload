@@ -1,10 +1,12 @@
 #!/bin/sh
 
-# Show a cow saying something smart.
-curl --connect-timeout 1 -s -f "http://lichess.org/fortune.php?cowsay=1" 2>/dev/null
-
 echo "--- Building bootstrap"
 bin/build_bootstrap.php
+
+if [ ! -f lichess/config/config_local.yml ]; then
+    echo "--- Creating local configuration file"
+    cp lichess/config/config_local.yml.dist lichess/config/config_local.yml
+fi
 
 for env in dev test; do
 
@@ -26,3 +28,4 @@ echo "--- Creating assets symlinks"
 php lichess/console assets:install web --symlink
 
 echo "--- All set."
+
