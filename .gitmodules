@@ -9,7 +9,7 @@
 	url = git://github.com/Herzult/ForumBundle.git
 [submodule "vendor/mongodb-odm"]
 	path = vendor/mongodb-odm
-	url = git://github.com/doctrine/mongodb-odm
+	url = git://github.com/ornicar/mongodb-odm
 [submodule "vendor/zend"]
 	path = vendor/zend
 	url = git://github.com/zendframework/zf2.git

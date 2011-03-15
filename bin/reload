@@ -1,11 +1,31 @@
 #!/bin/sh
 
+echo "--- Building bootstrap"
 bin/build_bootstrap.php
 
-rm -rf lichess/cache/*
-php lichess/console --env=dev -v cache:warmup
-php lichess/console --env=dev -v doctrine:mongodb:schema:create --index
+if [ ! -f lichess/config/config_local.yml ]; then
+    echo "--- Creating local configuration file"
+    cp lichess/config/config_local.yml.dist lichess/config/config_local.yml
+fi
 
-php lichess/console --env=test -v cache:warmup
-php lichess/console --env=test -v doctrine:mongodb:data:load
-php lichess/console --env=test -v doctrine:mongodb:schema:create --index
+for env in dev test; do
+
+    echo "--- Clearing $env cache"
+    rm -rf lichess/cache/$env/*
+
+    echo "--- Warming up $env cache"
+    php lichess/console --env=$env -v cache:warmup
+
+    echo "--- Loading $env fixtures"
+    php lichess/console --env=$env -v doctrine:mongodb:data:load
+
+    echo "--- Creating $env indexes"
+    php lichess/console --env=$env -v doctrine:mongodb:schema:create --index
+
+done
+
+echo "--- Creating assets symlinks"
+php lichess/console assets:install web --symlink
+
+echo "--- All set."
+

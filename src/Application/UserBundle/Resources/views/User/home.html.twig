@@ -2,13 +2,13 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link href="/bundles/lichessuser/css/useredit.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
+<link href="{{ asset("bundles/lichessuser/css/useredit.css") }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
-<script src="/bundles/lichessuser/js/jquery.editable-set.js{{ lichess_assetsVersion() }}"></script>
-<script src="/bundles/lichessuser/js/useredit.js{{ lichess_assetsVersion() }}"></script>
+<script src="{{ asset("bundles/lichessuser/js/jquery.editable-set.js") }}"></script>
+<script src="{{ asset("bundles/lichessuser/js/useredit.js") }}"></script>
 {% endblock %}
 
 {% block user_bio %}

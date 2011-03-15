@@ -1,11 +1,11 @@
 {% extends "LichessBundle::layout.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="/bundles/lichessforum/css/forum.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
+<link href="{{ asset("bundles/lichessforum/css/forum.css") }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script src="/bundles/lichessforum/js/forum.js{{ lichess_assetsVersion() }}"></script>
+<script src="{{ asset("bundles/lichessforum/js/forum.js") }}"></script>
 {% endblock %}
 {% block layout_content %}
 <div id="lichess_forum" class="content_box">{% block content %}{% endblock %}</div>
