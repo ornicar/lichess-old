@@ -1,11 +1,11 @@
 {% extends "LichessBundle::layout.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="/bundles/lichessuser/css/user.css{{ lichess_assetsVersion() }}" type="text/css" rel="stylesheet" />
+<link href="{{ asset("bundles/lichessuser/css/user.css") }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script src="/bundles/lichessuser/js/user.js{{ lichess_assetsVersion() }}"></script>
+<script src="{{ asset("bundles/lichessuser/js/user.js") }}"></script>
 {% endblock %}
 {% block layout_content %}
 <div id="lichess_user">{% block content %}{% endblock %}</div>
