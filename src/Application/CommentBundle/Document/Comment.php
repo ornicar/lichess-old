@@ -3,6 +3,7 @@
 namespace Application\CommentBundle\Document;
 
 use FOS\CommentBundle\Document\Comment as BaseComment;
+use FOS\CommentBundle\Model\SignedCommentInterface;
 use Application\UserBundle\Document\User;
 
 /**
@@ -11,7 +12,7 @@ use Application\UserBundle\Document\User;
  * )
  * @mongodb:HasLifecycleCallbacks
  */
-class Comment extends BaseComment
+class Comment extends BaseComment implements SignedCommentInterface
 {
     /**
      * The author name

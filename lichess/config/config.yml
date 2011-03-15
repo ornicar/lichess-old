@@ -117,6 +117,10 @@ fos_user:
 
 fos_comment:
     db_driver: mongodb
+    akismet:
+        enabled: true
+        url: http://lichess.org
+        #api_key: see config_local.yml
     class:
         model:
             comment: Application\CommentBundle\Document\Comment

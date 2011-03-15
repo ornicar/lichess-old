@@ -63,6 +63,9 @@ div.fos_comment_reply_prototype {
 div.fos_comment_thread_show > form.fos_comment_comment_form {
     margin-bottom: 1em;
 }
+form.fos_comment_comment_form.processing {
+    opacity: 0.5;
+}
 form.fos_comment_comment_form label.author_name {
     margin-top: 3px;
     float:left;
