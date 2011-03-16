@@ -1,7 +1,7 @@
 {% extends "LichessBundle:Timeline:entry.twig.html" %}
 
 {% block author %}{% include "LichessBundle:Timeline:author.twig.html" with {"author": comment.author} %}{% endblock %}
-{% block verb %}commented on{% endblock %}
+{% block verb %}commented{% endblock %}
 {% block subject_name %}Game {{ game_id }}{% endblock %}
 {% block subject_url %}{{ path("lichess_game", {"id": game_id}) }}{% endblock %}
 {% block view_name %}Comment{% endblock %}
