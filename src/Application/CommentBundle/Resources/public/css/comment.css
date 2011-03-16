@@ -89,3 +89,10 @@ div.fos_comment_submit input {
     padding: 3px 12px;
     margin-top: 3px;
 }
+a.fos_comment_thread_feed {
+    width: 16px;
+    height: 16px;
+    display: block;
+    background: url(../../lichess/images/feed-balloon.png) top left no-repeat;
+    float: right;
+}

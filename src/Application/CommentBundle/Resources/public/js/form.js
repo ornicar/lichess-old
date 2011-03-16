@@ -22,5 +22,6 @@ $('button.fos_comment_comment_reply_show_form').live('click', function() {
             $reply.remove();
             $container.removeClass('replying');
         }).end()
-        .appendTo($container);
+        .appendTo($container)
+        .find('textarea').focus();
 });
