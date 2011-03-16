@@ -23,6 +23,7 @@ class Calculator
      * Player 1 wins
      */
     const P1WIN = -1;
+
     /**
      * No player wins
      */
@@ -48,7 +49,7 @@ class Calculator
      *
      * @param float $playerOneElo
      * @param float $playerTwopponentElo
-     * @param int   $win Game result (-1: p1 win, 0: draw, +1: p2 win)
+     * @param int   $win Game result (-1: p1 win, 0: draw, +1: p2 win) see class constants
      * @return array playerOneNewElo, playerTwoNewElo
      */
     public function calculate($playerOneElo, $playerTwopponentElo, $win)
