@@ -48,7 +48,7 @@ class MainController extends Controller
         }
         $baseUrl = $this->generateUrl('lichess_homepage', array(), true);
         $localeUrl = $this->generateUrl('lichess_locale', array('locale' => $locale), true);
-        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+        $referer = $this->container->get('request')->server->get('HTTP_REFERER');
         if(empty($referer) || 0 != strpos($referer, $baseUrl) || 0 === strpos($referer, $localeUrl)) {
             $referer = $baseUrl;
         }
