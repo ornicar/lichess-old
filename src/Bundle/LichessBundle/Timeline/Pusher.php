@@ -2,21 +2,10 @@
 
 namespace Bundle\LichessBundle\Timeline;
 
-use Bundle\LichessBundle\Document\TimelineEntryRepository;
 use Bundle\LichessBundle\Document\Game;
-use Symfony\Component\Templating\EngineInterface as Templating;
 
-class Pusher
+class Pusher extends AbstractPusher
 {
-    protected $timeline;
-    protected $templating;
-
-    public function __construct(TimelineEntryRepository $timeline, Templating $templating)
-    {
-        $this->timeline      = $timeline;
-        $this->templating    = $templating;
-    }
-
     public function pushMate(Game $game)
     {
         $entry = $this->templating->render('LichessBundle:Timeline:mateEntry.html.twig', array(
