@@ -16,6 +16,7 @@ class LichessForumExtension extends Extension
         $loader->load('form.xml');
         $loader->load('akismet.xml');
         $loader->load('authorname_persistence.xml');
+        $loader->load('timeline.xml');
 
         $config = array();
         foreach ($configs as $c) {
