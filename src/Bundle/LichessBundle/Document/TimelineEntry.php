@@ -81,7 +81,7 @@ class TimelineEntry
      * @param  User
      * @return null
      */
-    public function setAuthor(User $author)
+    public function setAuthor(User $author = null)
     {
         $this->author = $author;
     }

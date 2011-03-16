@@ -2,11 +2,12 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Elo\Calculator;
 use Bundle\LichessBundle\Elo\Updater;
+use Bundle\LichessBundle\Logger;
+use Bundle\LichessBundle\Timeline\Pusher;
 use LogicException;
 
 class Finisher
@@ -16,19 +17,26 @@ class Finisher
     protected $synchronizer;
     protected $eloUpdater;
     protected $logger;
+    protected $timelinePusher;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Synchronizer $synchronizer, Updater $eloUpdater, Logger $logger)
+    public function __construct(Calculator $calculator, Messenger $messenger, Synchronizer $synchronizer, Updater $eloUpdater, Logger $logger, Pusher $timelinePusher)
     {
-        $this->calculator   = $calculator;
-        $this->messenger    = $messenger;
-        $this->synchronizer = $synchronizer;
-        $this->eloUpdater   = $eloUpdater;
-        $this->logger       = $logger;
+        $this->calculator     = $calculator;
+        $this->messenger      = $messenger;
+        $this->synchronizer   = $synchronizer;
+        $this->eloUpdater     = $eloUpdater;
+        $this->logger         = $logger;
+        $this->timelinePusher = $timelinePusher;
     }
 
     public function finish(Game $game)
     {
         $this->messenger->addSystemMessage($game, $game->getStatusMessage());
+
+        if (Game::MATE == $game->getStatus()) {
+            $this->timelinePusher->addMate($game);
+        }
+
         $this->updateElo($game);
     }
 

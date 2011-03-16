@@ -20,3 +20,6 @@ li.entry .subject {
 li.entry .view {
     font-weight: bold;
 }
+li.entry .user_link {
+    font-weight: bold;
+}
