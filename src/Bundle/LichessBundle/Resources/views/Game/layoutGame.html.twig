@@ -5,6 +5,7 @@
 <link href="{{ asset("bundles/lichesscomment/css/comment.css") }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
+{{ parent() }}
 <script src="{{ asset("bundles/lichesscomment/js/jquery.form.js") }}"></script>
 <script src="{{ asset("bundles/lichesscomment/js/form.js") }}"></script>
 {% endblock %}
