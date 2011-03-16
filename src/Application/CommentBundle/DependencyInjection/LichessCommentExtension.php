@@ -16,6 +16,7 @@ class LichessCommentExtension extends Extension
         $loader->load('form.xml');
         $loader->load('authorname_persistence.xml');
         $loader->load('creator.xml');
+        $loader->load('timeline.xml');
 
         $config = array();
         foreach ($configs as $c) {

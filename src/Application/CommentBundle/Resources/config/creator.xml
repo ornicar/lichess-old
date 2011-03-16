@@ -9,9 +9,8 @@
             <argument type="service" id="request" />
             <argument type="service" id="fos_comment.manager.comment" />
             <argument type="service" id="fos_comment.blamer.comment" />
-            <argument type="service" id="lichess.repository.timeline_entry" />
+            <argument type="service" id="lichess_comment.timeline.pusher" />
             <argument type="service" id="lichess.object_manager" />
-            <argument type="service" id="templating" />
             <argument type="service" id="fos_comment.akismet" on-invalid="null" />
         </service>
     </services>
