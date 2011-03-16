@@ -2,50 +2,103 @@
 
 namespace Bundle\LichessBundle\Elo;
 
+/**
+ * Calculates players ELO
+ * @see http://en.wikipedia.org/wiki/Elo_rating_system
+ *
+ * @author Thibault Duplessis <thibault.duplessis@gmail.com>
+ * @license MIT {@link http://opensource.org/licenses/mit-license.html}
+ */
 class Calculator
 {
+    /**
+     * kFactor
+     * @see http://en.wikipedia.org/wiki/Elo_rating_system#Most_accurate_K-factor
+     *
+     * @var float
+     */
     protected $kFactor;
 
+    /**
+     * Player 1 wins
+     */
     const P1WIN = -1;
+    /**
+     * No player wins
+     */
     const DRAW  = 0;
+
+    /**
+     * Player 2 wins
+     */
     const P2WIN = 1;
 
+    /**
+     * Instanciates an ELO calculator
+     *
+     * @param float $kFactor
+     */
     public function __construct($kFactor)
     {
         $this->kFactor = $kFactor;
     }
 
     /**
-     * Calculate p1 and p2 new Elos
+     * Calculate both players new Elos
      *
-     * @param float $p1Elo
-     * @param float $p2Elo
+     * @param float $playerOneElo
+     * @param float $playerTwopponentElo
      * @param int   $win Game result (-1: p1 win, 0: draw, +1: p2 win)
-     * @return array newP1Elo, newP2Elo
+     * @return array playerOneNewElo, playerTwoNewElo
      */
-    public function calculate($p1Elo, $p2Elo, $win)
+    public function calculate($playerOneElo, $playerTwopponentElo, $win)
     {
-        $newP1Elo = $this->calculatePlayerElo($p1Elo, $p2Elo, -$win);
-        $newP2Elo = $this->calculatePlayerElo($p2Elo, $p1Elo, $win);
+        $playerOneNewElo = $this->calculatePlayerElo($playerOneElo, $playerTwopponentElo, -$win);
+        $playerTwoNewElo = $this->calculatePlayerElo($playerTwopponentElo, $playerOneElo, $win);
 
-        return array(round($newP1Elo), round($newP2Elo));
+        return array($playerOneNewElo, $playerTwoNewElo);
     }
 
-    protected function calculatePlayerElo($pElo, $oElo, $win)
+    /**
+     * Calculate a single player new elo
+     *
+     * @param int $playerElo
+     * @param int $opponentElo
+     * @param int $win
+     * @return int
+     */
+    protected function calculatePlayerElo($playerElo, $opponentElo, $win)
     {
-        $score    = $this->calculateScore($win);
-        $expected = $this->calculateExpected($pElo, $oElo);
+        $score      = $this->calculateScore($win);
+        $expected   = $this->calculateExpected($playerElo, $opponentElo);
+        $difference = $this->kFactor * ($score - $expected);
 
-        return $pElo + $this->kFactor * ($score - $expected);
+        return round($playerElo + $difference);
     }
 
+    /**
+     * Calculate base score:
+     * win: 1
+     * draw: 0.5
+     * loss: 0
+     *
+     * @param int $win
+     * @return float
+     */
     protected function calculateScore($win)
     {
         return (1+$win)/2;
     }
 
-    protected function calculateExpected($pElo, $oElo)
+    /**
+     * Calculate win expectation
+     *
+     * @param int $playerElo
+     * @param int $opponentElo
+     * @return float
+     */
+    protected function calculateExpected($playerElo, $opponentElo)
     {
-        return 1/(1+pow(10, (($oElo-$pElo)/400)));
+        return 1/(1+pow(10, (($opponentElo-$playerElo)/400)));
     }
 }
