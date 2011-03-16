@@ -7,6 +7,13 @@ use FOS\UserBundle\Model\User;
 
 class PostBlamer extends AbstractSecurityBlamer implements BlamerInterface
 {
+    protected $timelinePusher;
+
+    public function setTimelinePusher(Pusher $timelinePusher)
+    {
+        $this->timelinePusher = $timelinePusher;
+    }
+
     public function blame($post)
     {
         if ($token = $this->security->getToken()) {
@@ -17,5 +24,6 @@ class PostBlamer extends AbstractSecurityBlamer implements BlamerInterface
                 }
             }
         }
+        $this->timelinePusher->pushPost($post);
     }
 }
