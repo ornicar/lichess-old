@@ -5,12 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-
         <parameter key="lichess.model.game.class">Bundle\LichessBundle\Document\Game</parameter>
         <parameter key="lichess.model.seek.class">Bundle\LichessBundle\Document\Seek</parameter>
         <parameter key="lichess.model.translation.class">Bundle\LichessBundle\Document\Translation</parameter>
         <parameter key="lichess.model.history.class">Bundle\LichessBundle\Document\History</parameter>
-
+        <parameter key="lichess.model.timeline_entry.class">Bundle\LichessBundle\Document\TimelineEntry</parameter>
     </parameters>
 
     <services>
@@ -31,6 +30,10 @@
 
         <service id="lichess.repository.history" class="Bundle\LichessBundle\Document\HistoryRepository" factory-service="lichess.object_manager" factory-method="getRepository">
             <argument type="string">%lichess.model.history.class%</argument>
+        </service>
+
+        <service id="lichess.repository.timeline_entry" class="Bundle\LichessBundle\Document\TimelineEntryRepository" factory-service="lichess.object_manager" factory-method="getRepository">
+            <argument type="string">%lichess.model.timeline_entry.class%</argument>
         </service>
 
     </services>
