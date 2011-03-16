@@ -3,10 +3,13 @@
 {{ parent() }}
 <link href="{{ asset("bundles/lichess/vendor/pgn4web/fonts/pgn4web-fonts.css") }}" type="text/css" rel="stylesheet" />
 <link href="{{ asset("bundles/lichess/css/analyse.css") }}" type="text/css" rel="stylesheet" />
+<link href="{{ asset("bundles/lichesscomment/css/comment.css") }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
 <script src="{{ asset("bundles/lichess/vendor/pgn4web/pgn4web.js") }}"></script>
 <script src="{{ asset("bundles/lichess/js/analyse.js") }}"></script>
+<script src="{{ asset("bundles/lichesscomment/js/jquery.form.js") }}"></script>
+<script src="{{ asset("bundles/lichesscomment/js/form.js") }}"></script>
 {% endblock %}
 {% block menu_active %}game{% endblock %}

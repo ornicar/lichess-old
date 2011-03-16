@@ -54,3 +54,6 @@
     <textarea id="pgnText" readonly="readonly">{{ pgn }}</textarea>
 </div>
 {% endblock %}
+{% block comments %}
+{% render "FOSCommentBundle:Thread:show" with {"identifier": "game:" ~ player.game.id} %}
+{% endblock %}
