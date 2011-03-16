@@ -29,6 +29,9 @@ lichess_wait_friend:
 lichess_timeline:
     pattern:        /timeline
     defaults:       { _controller: LichessBundle:Timeline:index }
+lichess_timeline_inner:
+    pattern:        /timeline/refresh
+    defaults:       { _controller: LichessBundle:Timeline:inner }
 lichess_game:
     pattern:        /{id}/{color}
     defaults:       { _controller: lichess.controller.game:showAction, color: white }

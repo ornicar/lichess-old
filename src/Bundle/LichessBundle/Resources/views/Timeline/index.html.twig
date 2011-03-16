@@ -3,13 +3,15 @@
 {{ parent() }}
 <link href="{{ asset("bundles/lichess/css/timeline.css") }}" type="text/css" rel="stylesheet" />
 {% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset("bundles/lichess/js/timeline.js") }}"></script>
+{% endblock %}
 {% block content %}
 <div class="content_box small_box timeline_box">
     <h1 class="lichess_title">Timeline</h1>
-    <ol class="entries">
-        {% for entry in entries %}
-            <li class="entry">{{ entry.html|raw }}</li>
-        {% endfor %}
+    <ol class="timeline_entries" data-url="{{ path("lichess_timeline_inner") }}">
+        {% render "LichessBundle:Timeline:inner" %}
     </ol>
 </div>
 {% endblock %}
