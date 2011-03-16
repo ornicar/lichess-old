@@ -1,0 +1,17 @@
+{#
+
+<Author> commented <Game> on date - View <Comment>
+
+<Author> posted in topic <Topic> on date - View <Post>
+
+<Author> won against <loser> on date - View <Game>
+
+#}
+
+{{ block("author") }}
+<span class="verb">{{ block("verb") }}</span>
+<a href="{{ block("subject_url") }}" class="subject">{{ block("subject_name") }}</a>
+on
+<span class="date">{{ block("date") }}</span>
+-
+<a href="{{ block("view_url") }}" class="view">View {{ block("view_name") }}</a>
