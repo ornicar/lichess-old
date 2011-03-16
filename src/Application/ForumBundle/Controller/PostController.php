@@ -50,6 +50,9 @@ class PostController extends BasePostController
         $objectManager->persist($post);
         $objectManager->flush();
 
+        $this->get('lichess_forum.timeline.pusher')->pushPost($topic->getFirstPost());
+        $objectManager->flush();
+
         $url = $this->get('forum.router.url_generator')->urlForPost($post);
         $response = new RedirectResponse($url);
         $this->get('forum.authorname_persistence')->persistPost($post, $response);

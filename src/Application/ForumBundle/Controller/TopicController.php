@@ -58,6 +58,9 @@ class TopicController extends BaseTopicController
         $objectManager->persist($topic->getFirstPost());
         $objectManager->flush();
 
+        $this->get('lichess_forum.timeline.pusher')->pushPost($topic->getFirstPost());
+        $objectManager->flush();
+
         $this->get('session')->setFlash('forum_topic_create/success', true);
         $url = $this->get('forum.router.url_generator')->urlForTopic($topic);
         $response = new RedirectResponse($url);
