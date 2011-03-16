@@ -15,6 +15,6 @@
         {{ lichess_link_player(game.loser) }}
     {% endif %}
 {% endblock %}
-{% block view_url %}{{ path("lichess_game", {"id": game.id}) }}{% endblock %}
+{% block view_url %}{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.winner.color}) }}{% endblock %}
 {% block view_name %}Game{% endblock %}
 {% block date %}{{ game.updatedAt|date }}{% endblock %}
