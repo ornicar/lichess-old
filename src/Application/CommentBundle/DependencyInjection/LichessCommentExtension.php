@@ -20,9 +20,5 @@ class LichessCommentExtension extends Extension
         foreach ($configs as $c) {
             $config = array_merge($config, $c);
         }
-
-        //if (!empty($config['detect_spam'])) {
-            //$container->setParameter('forum.akismet.enabled', true);
-        //}
     }
 }
