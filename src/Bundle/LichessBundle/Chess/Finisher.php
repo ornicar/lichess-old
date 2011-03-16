@@ -34,7 +34,7 @@ class Finisher
         $this->messenger->addSystemMessage($game, $game->getStatusMessage());
 
         if (Game::MATE == $game->getStatus()) {
-            $this->timelinePusher->addMate($game);
+            $this->timelinePusher->pushMate($game);
         }
 
         $this->updateElo($game);
