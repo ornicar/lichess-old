@@ -8,8 +8,9 @@ li.entry .date {
     color: #aaa;
 }
 li.entry .verb {
-    background: #c0e0f0;
+    background: #d0f0ff;
     color: #444;
+    padding: 2px 5px;
 }
 li.entry .author {
     font-weight: bold;
