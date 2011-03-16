@@ -26,6 +26,9 @@ lichess_wait_friend:
     pattern:        /friend/{id}
     defaults:       { _controller: lichess.controller.player:waitFriendAction }
     requirements:   { id: "[\w\-]{12}", _method: "get" }
+lichess_timeline:
+    pattern:        /timeline
+    defaults:       { _controller: LichessBundle:Timeline:index }
 lichess_game:
     pattern:        /{id}/{color}
     defaults:       { _controller: lichess.controller.game:showAction, color: white }

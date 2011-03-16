@@ -1,0 +1,22 @@
+li.entry {
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid #d4d4d4;
+    line-height: 2;
+}
+li.entry .date {
+    color: #aaa;
+}
+li.entry .verb {
+    background: #c0e0f0;
+    color: #444;
+}
+li.entry .author {
+    font-weight: bold;
+}
+li.entry .subject {
+    font-weight: bold;
+}
+li.entry .view {
+    font-weight: bold;
+}

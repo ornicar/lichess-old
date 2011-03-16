@@ -18,4 +18,13 @@ class TimelineEntryRepository extends DocumentRepository
 
         $this->dm->persist($entry);
     }
+
+    public function findLatests($nb)
+    {
+        return $this->createQueryBuilder()
+            ->sort('createdAt', 'desc')
+            ->limit($nb)
+            ->getQuery()
+            ->execute();
+    }
 }

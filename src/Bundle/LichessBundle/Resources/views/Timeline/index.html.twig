@@ -1,0 +1,15 @@
+{% extends "LichessBundle::layoutCommon.html.twig" %}
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset("bundles/lichess/css/timeline.css") }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+<div class="content_box small_box timeline_box">
+    <h1 class="lichess_title">Timeline</h1>
+    <ol class="entries">
+        {% for entry in entries %}
+            <li class="entry">{{ entry.html|raw }}</li>
+        {% endfor %}
+    </ol>
+</div>
+{% endblock %}
