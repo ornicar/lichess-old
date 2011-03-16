@@ -14,7 +14,6 @@ class AuthorNamePersistence
     protected $securityContext;
     protected $request;
     protected $cookieName = 'lichess_authorName';
-    protected $authorName;
 
     public function __construct(SecurityContext $securityContext, Request $request)
     {
@@ -22,7 +21,7 @@ class AuthorNamePersistence
         $this->request = $request;
     }
 
-    public function persistComment(Comment $comment, Response $response)
+    public function persistCommentInCookie(Comment $comment, Response $response)
     {
         if($this->isAnonymous()) {
             $response->headers->setCookie(new Cookie(
@@ -30,15 +29,21 @@ class AuthorNamePersistence
                 urlencode($comment->getAuthorName()),
                 time() + 15552000
             ));
-            $this->authorName = $comment->getAuthorName();
+        }
+    }
+
+    public function persistCommentInSession(Comment $comment)
+    {
+        if($this->isAnonymous()) {
+            $this->request->getSession()->set($this->cookieName, $comment->getAuthorName());
         }
     }
 
     public function loadComment(Comment $comment)
     {
         if($this->isAnonymous()) {
-            if ($this->authorName) {
-                $comment->setAuthorName($this->authorName);
+            if ($authorName = $this->request->getSession()->get($this->cookieName)) {
+                $comment->setAuthorName($authorName);
             } elseif ($authorName = $this->request->cookies->get($this->cookieName)) {
                 $comment->setAuthorName(urldecode($authorName));
             }
