@@ -15,6 +15,7 @@ class LichessCommentExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('form.xml');
         $loader->load('authorname_persistence.xml');
+        $loader->load('creator.xml');
 
         $config = array();
         foreach ($configs as $c) {

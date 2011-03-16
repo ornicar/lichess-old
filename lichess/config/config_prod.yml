@@ -8,3 +8,7 @@ lichess:
     ai:
         crafty:
             executable_path: /usr/games/crafty
+
+fos_comment:
+    akismet:
+        enabled: true

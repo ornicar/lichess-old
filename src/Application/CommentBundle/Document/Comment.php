@@ -76,4 +76,9 @@ class Comment extends BaseComment implements SignedCommentInterface
     {
         $this->authorName = $authorName;
     }
+
+    public function getGameId()
+    {
+        return preg_replace('/^game\:(.+)$/', '$1', $this->getThread()->getIdentifier());
+    }
 }

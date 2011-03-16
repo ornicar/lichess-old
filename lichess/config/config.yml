@@ -11,7 +11,7 @@ framework:
         lifetime: 15552000 # 6 months
         auto_start:     true
     templating:
-        assets_version: 8
+        assets_version: 9
         engines: ['twig']
     translator: { fallback: en }
 
@@ -131,6 +131,8 @@ fos_comment:
             comment: fos_comment.blamer.comment.security
         form_factory:
             comment: lichess_comment.form_factory.comment
+        creator:
+            comment: lichess_comment.creator.comment
 
 ornicar_message:
     db_driver: odm
