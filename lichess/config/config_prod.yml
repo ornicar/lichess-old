@@ -4,6 +4,9 @@ imports:
 framework:
     exception_controller: LichessBundle:Main:exception
 
+doctrine_mongo_db:
+    default_database: lichess
+
 lichess:
     ai:
         crafty:
