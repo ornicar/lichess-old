@@ -10,7 +10,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lichess/css/common.css') }}" />
         {% endblock %}
-        {% block feed %}{% endblock %}
+        {% block feed_link %}{% endblock %}
     </head>
     <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         {% include "LichessBundle::top.html.twig" with {"active": block("menu_active")} %}
