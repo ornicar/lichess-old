@@ -27,6 +27,5 @@ ornicar_message:
     resource: @OrnicarMessageBundle/Resources/config/routing.xml
     prefix: /inbox
 
-fos_comment_comment_create:
+fos_comment:
     resource: @FOSCommentBundle/Resources/config/routing.yml
-    prefix: /comment
