@@ -1,6 +1,6 @@
 {% extends "LichessBundle:Timeline:entry.twig.html" %}
 
-{% block author %}{% include "LichessBundle:Timeline:author.twig.html" with {"author": post.author|default(post.authorName)} %}{% endblock %}
+{% block author %}{% include "LichessBundle:Timeline:author.twig.html" with {"author": post.author|default(post.authorName|default("Anonymous"))} %}{% endblock %}
 {% block verb %}posted{% endblock %}
 {% block post_verb %}on{% endblock %}
 {% block subject_name %}Forum {{ post.topic.subject }}{% endblock %}
