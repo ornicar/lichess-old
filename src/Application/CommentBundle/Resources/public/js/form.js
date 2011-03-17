@@ -1,14 +1,12 @@
 $('form.fos_comment_comment_form').live('submit', function() {
-    var $form = $(this).ajaxSubmit({
+    var $form = $(this).addClass('processing').ajaxSubmit({
         success: function(html) {
             $form.closest('div.fos_comment_thread_show').replaceWith(html);
         },
         error: function(xhr, status, error) {
             $form.addClass('error').removeClass('processing');
         }
-    })
-    .addClass('processing')
-    .find('div.fos_comment_submit input').attr('disabled', true);
+    });
     return false;
 });
 $('button.fos_comment_comment_reply_show_form').live('click', function() {
@@ -23,5 +21,5 @@ $('button.fos_comment_comment_reply_show_form').live('click', function() {
             $container.removeClass('replying');
         }).end()
         .appendTo($container)
-        .find('textarea').focus();
+        .find('textarea').focus().end();
 });
