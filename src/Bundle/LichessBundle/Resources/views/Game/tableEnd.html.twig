@@ -27,7 +27,6 @@
         {% endif %}
     </div>
     <div class="lichess_control clearfix">
-        <a class="lichess_new_game" href="{{ path("lichess_homepage") }}">{% trans "New game" %}</a>
         {% if player.opponent.isHuman %}
             {% if player.opponent.isOfferingRematch %}
                 <div class="lichess_separator"></div>
@@ -43,8 +42,10 @@
                     {% trans 'Waiting for opponent' %}...
                 </div>
             {% else %}
-                | <a class="lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{{ path("lichess_rematch", {"id": player.fullId, "version": 9999999} ) }}">{% trans "Rematch" %}</a>
+                <a class="lichess_rematch" title="{% trans "Play with the same opponent again" %}" href="{{ path("lichess_rematch", {"id": player.fullId, "version": 9999999} ) }}">{% trans "Rematch" %}</a>
             {% endif %}
+        {% else %}
+            <a class="lichess_new_game" href="{{ path("lichess_homepage") }}">{% trans "New game" %}</a>
         {% endif %}
     </div>
 </div>
