@@ -55,7 +55,7 @@
 {% endblock %}
 {% block menu_active %}game{% endblock %}
 {% block comments %}
-{% render "FOSCommentBundle:Thread:show" with {"identifier": game.id} %}
+{% render "FOSCommentBundle:Thread:show" with {"identifier": "game:" ~ game.id} %}
 {% endblock %}
 {% block feed %}
 <link rel="alternate" type="application/atom+xml" title="Comments on Game #{{ game.id }} | lichess.org, play free online chess" href="{{ path("fos_comment_thread_show_feed", {"identifier": game.id}) }}" />
