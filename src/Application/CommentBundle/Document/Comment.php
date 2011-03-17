@@ -5,13 +5,11 @@ namespace Application\CommentBundle\Document;
 use FOS\CommentBundle\Document\Comment as BaseComment;
 use FOS\CommentBundle\Model\SignedCommentInterface;
 use Application\UserBundle\Document\User;
-use FOS\UserBundle\Model\UserInterface as FOSUser;
 
 /**
  * @mongodb:Document(
  *   collection="fos_comment_comment"
  * )
- * @mongodb:HasLifecycleCallbacks
  */
 class Comment extends BaseComment implements SignedCommentInterface
 {
@@ -43,7 +41,7 @@ class Comment extends BaseComment implements SignedCommentInterface
      * @param  FOSUser
      * @return null
      */
-    public function setAuthor(FOSUser $author)
+    public function setAuthor($author)
     {
         $this->author = $author;
         $this->authorName = $author->getUsername();

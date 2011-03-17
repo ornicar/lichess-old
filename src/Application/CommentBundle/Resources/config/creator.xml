@@ -11,7 +11,7 @@
             <argument type="service" id="fos_comment.blamer.comment" />
             <argument type="service" id="lichess_comment.timeline.pusher" />
             <argument type="service" id="lichess.object_manager" />
-            <argument type="service" id="fos_comment.akismet" on-invalid="null" />
+            <argument type="service" id="fos_comment.spam_detection.comment" />
         </service>
     </services>
 

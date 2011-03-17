@@ -7,7 +7,7 @@ use FOS\CommentBundle\Creator\DefaultCommentCreator;
 use FOS\CommentBundle\Model\CommentManagerInterface;
 use FOS\CommentBundle\Model\CommentInterface;
 use FOS\CommentBundle\Blamer\CommentBlamerInterface;
-use FOS\CommentBundle\Akismet;
+use FOS\CommentBundle\SpamDetection\SpamDetectionInterface;
 use Application\CommentBundle\Timeline\Pusher;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
@@ -16,19 +16,15 @@ use Doctrine\ODM\MongoDB\DocumentManager;
  */
 class CommentCreator extends DefaultCommentCreator
 {
-    protected $request;
-    protected $commentManager;
-    protected $commentBlamer;
     protected $timelinePusher;
     protected $objectManager;
-    protected $akismet;
 
-    public function __construct(Request $request, CommentManagerInterface $commentManager, CommentBlamerInterface $commentBlamer, Pusher $timelinePusher, DocumentManager $objectManager, Akismet $akismet = null)
+    public function __construct(Request $request, CommentManagerInterface $commentManager, CommentBlamerInterface $commentBlamer, Pusher $timelinePusher, DocumentManager $objectManager, SpamDetectionInterface $spamDetection)
     {
         $this->timelinePusher = $timelinePusher;
         $this->objectManager  = $objectManager;
 
-        parent::__construct($request, $commentManager, $commentBlamer, $akismet);
+        parent::__construct($request, $commentManager, $commentBlamer, $spamDetection);
     }
 
     public function create(CommentInterface $comment)
