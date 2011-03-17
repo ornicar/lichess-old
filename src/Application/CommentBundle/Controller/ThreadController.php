@@ -15,4 +15,9 @@ class ThreadController extends BaseThreadController
 
         return $comment;
     }
+
+    public function showFeedAction($identifier)
+    {
+        return parent::showFeedAction('game:'.$identifier);
+    }
 }

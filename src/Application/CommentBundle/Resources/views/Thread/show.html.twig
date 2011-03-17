@@ -1,6 +1,6 @@
 <div class="fos_comment_thread_show">
 
-    <a title="{% trans "Follow these comments" %}" class="fos_comment_thread_feed" href="{{ path("fos_comment_thread_show_feed", {"identifier": thread.identifier}) }}"></a>
+    <a title="{% trans "Follow these comments" %}" class="fos_comment_thread_feed" href="{{ path("fos_comment_thread_show_feed", {"identifier": thread.identifier|replace({"game:": ""})}) }}"></a>
 
     <h3>
         {% set count = thread.numComments %}
