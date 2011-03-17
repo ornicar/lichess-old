@@ -1,5 +1,7 @@
 * 14T01:28:31+01:00 ERR: Zend\Service\Akismet\Exception\InvalidArgumentException: Missing required Akismet fields (user_ip and user_agent are required) (uncaught exception)
 * simplify baseline
+* show number of watchers
+* remove "play new game" (rematch confusion possible)
 * add color wish in anybody mode
 * try stockfish
 * "empty space" issue on /inbox/new when username suggestion box is active
