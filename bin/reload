@@ -1,31 +1,37 @@
 #!/bin/sh
 
+show_run()
+{
+    echo "$*"
+    $*
+}
+
 echo "--- Building bootstrap"
-bin/build_bootstrap.php
+show_run bin/build_bootstrap.php
 
 if [ ! -f lichess/config/config_local.yml ]; then
     echo "--- Creating local configuration file"
-    cp lichess/config/config_local.yml.dist lichess/config/config_local.yml
+    show_run cp lichess/config/config_local.yml.dist lichess/config/config_local.yml
 fi
 
 for env in dev test; do
 
     echo "--- Clearing $env cache"
-    rm -rf lichess/cache/$env/*
+    show_run rm -rf "lichess/cache/$env/*"
 
     echo "--- Warming up $env cache"
-    php lichess/console --env=$env -v cache:warmup
+    show_run php lichess/console --env=$env -v cache:warmup
 
     echo "--- Loading $env fixtures"
-    php lichess/console --env=$env -v doctrine:mongodb:data:load
+    show_run php lichess/console --env=$env -v doctrine:mongodb:data:load
 
     echo "--- Creating $env indexes"
-    php lichess/console --env=$env -v doctrine:mongodb:schema:create --index
+    show_run php lichess/console --env=$env -v doctrine:mongodb:schema:create --index
 
 done
 
 echo "--- Creating assets symlinks"
-php lichess/console assets:install web --symlink
+show_run php lichess/console assets:install web --symlink
 
 echo "--- All set."
 
