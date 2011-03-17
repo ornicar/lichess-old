@@ -7,11 +7,10 @@
         <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
         <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lichess/css/common.css') }}" />
         {% endblock %}
-
+        {% block feed %}{% endblock %}
     </head>
     <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         {% include "LichessBundle::top.html.twig" with {"active": block("menu_active")} %}
