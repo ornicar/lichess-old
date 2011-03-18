@@ -9,6 +9,7 @@ use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Stack;
 use LogicException;
+use InvalidArgumentException;
 
 class Mover
 {
@@ -34,9 +35,14 @@ class Mover
     public function move(Player $player, $version, array $data)
     {
         $this->synchronizer->setAlive($player);
+
+        if (empty($data['from']) || empty($data['to'])) {
+            throw new InvalidArgumentException('Mover::move Invalid data received, from and to are required.');
+        }
         if(!$player->isMyTurn()) {
             throw new LogicException($this->logger->formatPlayer($player, 'Player:move - not my turn'));
         }
+
         $game            = $player->getGame();
         $opponent        = $player->getOpponent();
         $isGameAbortable = $game->getIsAbortable();
