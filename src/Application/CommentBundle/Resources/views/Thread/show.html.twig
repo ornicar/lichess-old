@@ -1,11 +1,4 @@
 <div class="fos_comment_thread_show">
-
-    <a title="{% trans "Follow these comments" %}" class="fos_comment_thread_feed" href="{{ path("fos_comment_thread_show_feed", {"identifier": game.id}) }}"></a>
-
-    <div class="game_sharing">
-        <div class="lichess_twitter"><a href="http://twitter.com/share" class="twitter-share-button" data-text="What a great #Chess game!" data-count="none" data-url="http://lichess.org">Tweet this game</a></div>
-    </div>
-
     <h3>
         {% set count = thread.numComments %}
         {% transchoice count %}{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments{% endtranschoice %}

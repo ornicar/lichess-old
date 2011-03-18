@@ -1,15 +1,5 @@
 div.fos_comment_thread_show {
-    margin-top: 2em;
-    padding: 1em 20px;
-    width: 472px;
-    background: #f0f0f0;
-    box-shadow: 0 0 7px #bbb;
-    -moz-box-shadow: 0 0 7px #bbb;
-    -webkit-box-shadow: 0 0 7px #bbb;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
+    padding: 1em 4%;
 }
 div.fos_comment_thread_show h3 {
     font-size: 1.3em;
@@ -71,12 +61,15 @@ form.fos_comment_comment_form label.author_name {
     float:left;
 }
 form.fos_comment_comment_form label.author_name input {
-    padding: 2px 5px;
+    border: 1px solid #c0c0c0;
+    padding: 3px 5px;
+    width: 140px;
 }
 form.fos_comment_comment_form textarea {
     width: 98%;
     height: 6em;
     padding: 1%;
+    border: 1px solid #c0c0c0;
 }
 form.fos_comment_comment_form.error textarea {
     border-color: red;
@@ -88,20 +81,4 @@ div.fos_comment_submit input {
     font-size: 1.2em;
     padding: 3px 12px;
     margin-top: 3px;
-}
-a.fos_comment_thread_feed {
-    width: 16px;
-    height: 16px;
-    display: block;
-    background: url(../../lichess/images/feed-balloon.png) top left no-repeat;
-    float: right;
-}
-div.game_sharing > div {
-    float: right;
-    opacity: 0;
-    margin-left: 10px;
-    max-width: 100px;
-}
-div.game_sharing.loaded > div {
-    opacity: 1;
 }
