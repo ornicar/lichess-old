@@ -1,15 +1,13 @@
+* replays for chess960 are broken
 * visual bu in profile page http://lichess.org/forum/lichess-feedback/bug-in-profile-games
 * verify concurrent games update elo properly
 * add new translation notice
-[18-Mar-2011 14:28:19] PHP Notice:  Undefined index: from in /home/lichess/src/Bundle/LichessBundle/Chess/Mover.php on line 44
-[18-Mar-2011 14:28:19] PHP Notice:  Undefined index: to in /home/lichess/src/Bundle/LichessBundle/Chess/Mover.php on line 44
 * remove service classes parameters
 * make more services private
 * blog about circular reference
 * move AI level selection to game config form
 * show player color in game lists
 * last move highlight is lost on page refresh
-* remove route methods to accelerate url matcher
 * show capture count
 * game list order choice
 * filter timeline
