@@ -56,6 +56,10 @@ class GameController extends Controller
     {
         $game = $this->get('lichess.provider')->findGame($id);
 
+        if ('HEAD' === $this->get('request')->getMethod()) {
+            return new Response(sprintf('Game #%s', $id));
+        }
+
         // game started: enter spectator mode
         if($game->getIsStarted()) {
             $player = $game->getPlayer($color);
@@ -78,16 +82,13 @@ class GameController extends Controller
         ));
     }
 
-    public function showHeadAction($id, $color)
-    {
-        $game = $this->get('lichess.provider')->findGame($id);
-
-        return new Response(sprintf('Game #%s', $id));
-    }
-
     public function joinAction($id)
     {
         $game = $this->get('lichess.provider')->findGame($id);
+
+        if ('HEAD' === $this->get('request')->getMethod()) {
+            return new Response(sprintf('Game #%s', $id));
+        }
 
         try {
             $this->get('lichess.joiner')->join($game);

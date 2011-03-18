@@ -1,11 +1,10 @@
 lichess_homepage:
     pattern:        /
     defaults:       { _controller: lichess.controller.main:indexAction }
-    requirements:   { _method: "get|head" }
 lichess_sync:
     pattern:        /sync/{id}/{color}/{version}/{playerFullId}
     defaults:       { _controller: lichess.controller.player:syncAction, playerFullId: "" }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), version: "\d+", playerFullId: "([\w\-]{12}|)", _method: "get|post" }
+    requirements:   { id: "[\w\-]{8}", color: (white|black), version: "\d+", playerFullId: "([\w\-]{12}|)" }
 lichess_move:
     pattern:        /move/{id}/{version}
     defaults:       { _controller: lichess.controller.player:moveAction }
@@ -17,15 +16,13 @@ lichess_say:
 lichess_invite_friend:
     pattern:        /friend
     defaults:       { _controller: lichess.controller.game:inviteFriendAction }
-    requirements:   { _method: "get|post" }
 lichess_toggle_sound:
     pattern:        /toggle-sound
     defaults:       { _controller: lichess.controller.main:toggleSoundAction }
-    requirements:   { _method: "post" }
 lichess_wait_friend:
     pattern:        /friend/{id}
     defaults:       { _controller: lichess.controller.player:waitFriendAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_timeline:
     pattern:        /timeline
     defaults:       { _controller: LichessBundle:Timeline:index }
@@ -35,158 +32,135 @@ lichess_timeline_inner:
 lichess_game:
     pattern:        /{id}/{color}
     defaults:       { _controller: lichess.controller.game:showAction, color: white }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), _method: "get" }
-lichess_game_head:
-    pattern:        /{id}/{color}
-    defaults:       { _controller: lichess.controller.game:showHeadAction, color: white }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), _method: "head" }
+    requirements:   { id: "[\w\-]{8}", color: (white|black) }
 lichess_player:
     pattern:        /{id}
     defaults:       { _controller: lichess.controller.player:showAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get|head" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_game_compat:
     pattern:        /{id}
     defaults:       { _controller: lichess.controller.compat:gameShowAction }
-    requirements:   { id: "[\w\-]{6}", _method: "get|head" }
+    requirements:   { id: "[\w\-]{6}" }
 lichess_analyse_compat:
     pattern:        /analyse/{id}/{color}
     defaults:       { _controller: lichess.controller.compat:analyzeAction, color: white }
-    requirements:   { id: "[\w\-]{6}", color: (white|black), _method: "get|head" }
+    requirements:   { id: "[\w\-]{6}", color: (white|black) }
 lichess_player_compat:
     pattern:        /{id}
     defaults:       { _controller: lichess.controller.compat:playerShowAction }
-    requirements:   { id: "[\w\-]{10}", _method: "get|head" }
+    requirements:   { id: "[\w\-]{10}" }
 lichess_invite_ai:
     pattern:        /ai
     defaults:       { _controller: lichess.controller.game:inviteAiAction }
-    requirements:   { _method: "get|post" }
 lichess_join_game:
     pattern:        /join/{id}
     defaults:       { _controller: lichess.controller.game:joinAction }
-    requirements:   { id: "[\w\-]{8}", _method: "get" }
-lichess_join_game_head:
-    pattern:        /join/{id}
-    defaults:       { _controller: lichess.controller.game:showHeadAction, color: white }
-    requirements:   { id: "[\w\-]{8}", _method: "head" }
+    requirements:   { id: "[\w\-]{8}" }
 lichess_invite_anybody:
     pattern:        /anybody
     defaults:       { _controller: lichess.controller.game:inviteAnybodyAction }
-    requirements:   { _method: "get|post" }
 lichess_wait_anybody:
     pattern:        /anybody/{id}
     defaults:       { _controller: lichess.controller.player:waitAnybodyAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_cancel_anybody:
     pattern:        /anybody/{id}/cancel
     defaults:       { _controller: lichess.controller.player:cancelAnybodyAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_resign:
     pattern:        /resign/{id}
     defaults:       { _controller: lichess.controller.player:resignAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_abort:
     pattern:        /abort/{id}
     defaults:       { _controller: lichess.controller.player:abortAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_outoftime:
     pattern:        /outoftime/{id}/{version}
     defaults:       { _controller: lichess.controller.player:outoftimeAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
+    requirements:   { id: "[\w\-]{12}", version: "\d+" }
 lichess_table:
     pattern:        /table/{id}/{color}/{playerFullId}
     defaults:       { _controller: lichess.controller.player:tableAction, playerFullId "" }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)", _method: "get" }
+    requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)" }
 lichess_opponent:
     pattern:        /opponent/{id}/{color}/{playerFullId}
     defaults:       { _controller: lichess.controller.player:opponentAction, playerFullId "" }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)", _method: "get" }
+    requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)" }
 lichess_ai_level:
     pattern:        /level/{id}
     defaults:       { _controller: lichess.controller.player:aiLevelAction }
-    requirements:   { id: "[\w\-]{12}", _method: "post" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_list_current:
     pattern:        /games
     defaults:       { _controller: lichess.controller.game:listCurrentAction }
-    requirements:   { _method: "get|head" }
 lichess_list_current_inner:
     pattern:        /games-refresh/{ids}
     defaults:       { _controller: lichess.controller.game:listCurrentInnerAction }
-    requirements:   { _method: "get|head" }
 lichess_list_all:
     pattern:        /games/all
     defaults:       { _controller: lichess.controller.game:listAllAction }
-    requirements:   { _method: "get|head" }
 lichess_list_mates:
     pattern:        /games/checkmate
     defaults:       { _controller: lichess.controller.game:listCheckmateAction }
-    requirements:   { _method: "get|head" }
 lichess_about:
     pattern:        /about
     defaults:       { _controller: lichess.controller.main:aboutAction }
-    requirements:   { _method: "get|head" }
 lichess_rematch:
     pattern:        /rematch/{id}/{version}
     defaults:       { _controller: lichess.controller.player:rematchAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
+    requirements:   { id: "[\w\-]{12}", version: "\d+" }
 lichess_force_resignation:
     pattern:        /force-resign/{id}
     defaults:       { _controller: lichess.controller.player:forceResignAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_claim_draw:
     pattern:        /claim-draw/{id}
     defaults:       { _controller: lichess.controller.player:claimDrawAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_offer_draw:
     pattern:        /offer-draw/{id}
     defaults:       { _controller: lichess.controller.player:offerDrawAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_cancel_draw_offer:
     pattern:        /cancel-draw-offer/{id}
     defaults:       { _controller: lichess.controller.player:cancelDrawOfferAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_accept_draw_offer:
     pattern:        /accept-draw-offer/{id}
     defaults:       { _controller: lichess.controller.player:acceptDrawOfferAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_decline_draw_offer:
     pattern:        /decline-draw-offer/{id}
     defaults:       { _controller: lichess.controller.player:declineDrawOfferAction }
-    requirements:   { id: "[\w\-]{12}", _method: "get" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_locale:
     pattern:        /locale/{locale}
     defaults:       { _controller: lichess.controller.main:localeAction }
-    requirements:   { locale: "\w{2,3}", _method: "get" }
+    requirements:   { locale: "\w{2,3}" }
 lichess_locale_links:
     pattern:        /locale/links
     defaults:       { _controller: lichess.controller.main:localeLinksAction }
-    requirements:   { _method: "get|head" }
 lichess_translate:
     pattern:        /translate
     defaults:       { _controller: lichess.controller.translation:indexAction }
-    requirements:   { _method: "get|head" }
 lichess_translate_locale:
     pattern:        /translate/{locale}
     defaults:       { _controller: lichess.controller.translation:localeAction }
     requirements:   { locale: "\w{2,3}" }
-    requirements:   { _method: "get|post" }
 lichess_translate_list:
     pattern:        /translate_list
     defaults:       { _controller: lichess.controller.translation:listAction }
-    requirements:   { _method: "get|head" }
 lichess_translate_export:
     pattern:        /translate/export.json
     defaults:       { _controller: lichess.controller.translation:exportAction, _format: json }
-    requirements:   { _method: "get|head" }
 lichess_pgn_viewer:
     pattern:        /analyse/{id}/{color}
     defaults:       { _controller: lichess.controller.pgn:analyseAction, color: white }
     requirements:   { id: "[\w\-]{8}", color: (white|black) }
-    requirements:   { _method: "get|head" }
 lichess_nb_players:
     pattern:        /how-many-players-now
     defaults:       { _controller: lichess.controller.main:howManyPlayersNowAction }
-    requirements:   { _method: "get" }
 lichess_todolist:
     pattern:        /todo-list
     defaults:       { _controller: lichess.controller.main:todolistAction }
-    requirements:   { _method: "get|head" }
