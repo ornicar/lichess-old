@@ -1,13 +1,15 @@
 <div class="game_share">
 
+    {% set url = url("lichess_game", {"id": game.id}) %}
+    {% set title = "I like this Chess game! " ~ url %}
     <div class="game_share_top">
         <div class="game_share_widgets clearfix">
             <a title="{% trans "Follow these comments" %}" class="fos_comment_thread_feed" href="{{ path("fos_comment_thread_show_feed", {"identifier": game.id}) }}"></a>
             <div class="facebook_placeholder"></div>
-            <div><a class="DiggThisButton DiggCompact"></a></div>
-            <div><a href="http://twitter.com/share" class="twitter-share-button" data-text="What a great #Chess game!" data-count="none" data-url="http://lichess.org">Tweet this game</a></div>
+            <div><a href="http://digg.com/submit?url={{ url|url_encode }}&title={{ title|url_encode }}" class="DiggThisButton DiggCompact" rev="news, gaming"></a></div>
+            <div><a href="http://twitter.com/share" class="twitter-share-button" data-text="{{ title }}" data-count="none" data-url="http://lichess.org">Tweet this game</a></div>
         </div>
-        <a title="{% trans "Share this url to let spectators see the game" %}" class="game_permalink blank_if_play" href="{{ path("lichess_game", {"id": game.id}) }}">{{ url("lichess_game", {"id": game.id}) }}</a>
+        <a title="{% trans "Share this url to let spectators see the game" %}" class="game_permalink blank_if_play" href="{{ path("lichess_game", {"id": game.id}) }}">{{ url }}</a>
     </div>
 
     {% render "LichessCommentBundle:Thread:show" with {"identifier": "game:" ~ game.id} %}
