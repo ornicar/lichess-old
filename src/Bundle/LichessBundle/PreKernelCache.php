@@ -41,7 +41,7 @@ function _lichess_return_response($text, $type = 'application/json')
 
 // Handle number of connected players requests
 
-if('/how-many-players-now' === $url) {
+if(0 === strpos($url, '/how-many-players-now')) {
     _lichess_return_response(_lichess_get_nb_players($timeout), 'text/plain');
 }
 
