@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Bundle\ForumBundle\Router\ForumUrlGenerator;
 use Application\ForumBundle\Document\Post;
 use Application\ForumBundle\Document\Topic;
+use Zend\Service\Akismet\Exception as AkismetException;
 
 class Akismet
 {
@@ -40,7 +41,16 @@ class Akismet
         }
         $data = array_merge($this->getRequestData(), $this->getTopicData($topic));
 
-        return $this->akismet->isSpam($data);
+        return $this->isSpam($data);
+    }
+
+    protected function isSpam(array $data)
+    {
+        try {
+            return $this->akismet->isSpam($data);
+        } catch (AkismetException $e) {
+            return true;
+        }
     }
 
     protected function getPostData(Post $post)

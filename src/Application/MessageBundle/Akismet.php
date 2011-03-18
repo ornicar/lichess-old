@@ -5,6 +5,7 @@ namespace Application\MessageBundle;
 use Zend\Service\Akismet\Akismet as ZendAkismet;
 use Symfony\Component\HttpFoundation\Request;
 use Application\MessageBundle\Document\Message;
+use Zend\Service\Akismet\Exception as AkismetException;
 
 class Akismet
 {
@@ -26,7 +27,16 @@ class Akismet
         }
         $data = array_merge($this->getRequestData(), $this->getMessageData($message));
 
-        return $this->akismet->isSpam($data);
+        return $this->isSpam($data);
+    }
+
+    protected function isSpam(array $data)
+    {
+        try {
+            return $this->akismet->isSpam($data);
+        } catch (AkismetException $e) {
+            return true;
+        }
     }
 
     protected function getMessageData(Message $message)
