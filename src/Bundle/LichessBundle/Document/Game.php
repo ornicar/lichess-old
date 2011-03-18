@@ -345,8 +345,7 @@ class Game
         // Denormalization
         if($user = $player->getUser()) {
             $this->winnerUserId = (string) $user->getId();
-        }
-        else {
+        } else {
             $this->winnerUserId = false;
         }
     }

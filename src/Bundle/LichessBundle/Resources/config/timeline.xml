@@ -9,7 +9,7 @@
     </parameters>
 
     <services>
-        <service id="lichess.timeline.pusher" class="%lichess.timeline.pusher.class%" public="false">
+        <service id="lichess.timeline.pusher" class="%lichess.timeline.pusher.class%">
             <argument type="service" id="lichess.repository.timeline_entry" />
             <argument type="service" id="templating" />
         </service>
