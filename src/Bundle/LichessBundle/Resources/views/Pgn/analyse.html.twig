@@ -54,5 +54,5 @@
     <textarea id="pgnText" readonly="readonly">{{ pgn }}</textarea>
 </div>
 {% endblock %}
-{% block comments %}{% render "LichessCommentBundle:Thread:showGame" with {"game": game} %}{% endblock %}
+{% block share %}{% include "LichessBundle:Game:share.html.twig" with {"game": game} %}{% endblock %}
 {% block feed_link %}{% include "LichessCommentBundle:Thread:feedLink.html.twig" with {"game": game} %}{% endblock %}

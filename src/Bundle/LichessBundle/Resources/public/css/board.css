@@ -374,6 +374,9 @@ div.lichess_table {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+    box-shadow: 0 0 7px #d0d0d0;
+    -moz-box-shadow: 0 0 7px #d0d0d0;
+    -webkit-box-shadow: 0 0 7px #d0d0d0;
     height: auto;
     padding: 10px;
 }
@@ -392,15 +395,15 @@ div.lichess_table_not_started {
     padding: 0;
     top: 100px;
 }
-.username {
+div.lichess_table div.username {
     background: url(../images/s16.png) no-repeat;
     padding-left: 16px;
     background-position: 0 +16px;
 }
-.username.connected {
+div.lichess_table div.username.connected {
     background-position: 0 -112px;
 }
-.username.offline {
+div.lichess_table div.username.offline {
     background-position: 0 -128px;
 }
 div.clock {
@@ -570,11 +573,18 @@ div.lichess_cemetery div.lichess_piece {
     opacity: 0.5;
 }
 
+div.lichess_goodies {
+    margin-top: 1em;
+}
+
 div.lichess_chat {
     font-size: 11px;
     position: absolute;
     top: 177px;
     left: 0;
+    box-shadow: 0 0 7px #d0d0d0;
+    -moz-box-shadow: 0 0 7px #d0d0d0;
+    -webkit-box-shadow: 0 0 7px #d0d0d0;
 }
 div.lichess_chat_inner {
     position: relative;

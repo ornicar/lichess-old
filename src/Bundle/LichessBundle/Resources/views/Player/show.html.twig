@@ -17,7 +17,10 @@
 </div>
 {% endblock %}
 {% block goodies %}
-    {% include "LichessBundle:Game:goodies.html.twig" with {"game": game, "color": player.color} %}
+    <div class="lichess_goodies">
+        <br />
+        <a class="lichess_replay_link blank_if_play" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": player.color} ) }}">{% trans "Replay and analyse" %}</a>
+    </div>
 {% endblock %}
 {% block js_data %}
     {{ lichess_game_data(player, possibleMoves, isOpponentConnected)|raw }}
@@ -25,5 +28,5 @@
 {% block chat %}
 {% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"player": player} %}{% endif %}
 {% endblock %}
-{% block comments %}{% render "LichessCommentBundle:Thread:showGame" with {"game": game} %}{% endblock %}
+{% block share %}{% include "LichessBundle:Game:share.html.twig" with {"game": game} %}{% endblock %}
 {% block feed_link %}{% include "LichessCommentBundle:Thread:feedLink.html.twig" with {"game": game} %}{% endblock %}
