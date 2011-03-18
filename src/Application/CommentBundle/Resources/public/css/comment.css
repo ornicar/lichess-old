@@ -96,3 +96,12 @@ a.fos_comment_thread_feed {
     background: url(../../lichess/images/feed-balloon.png) top left no-repeat;
     float: right;
 }
+div.game_sharing {
+    float: right;
+}
+div.game_sharing .lazy_load {
+    opacity: 0;
+}
+div.game_sharing .lazy_load.loaded {
+    opacity: 1;
+}

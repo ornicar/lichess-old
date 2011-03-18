@@ -1,12 +1,14 @@
 <div class="fos_comment_thread_show">
 
-    <a title="{% trans "Follow these comments" %}" class="fos_comment_thread_feed" href="{{ path("fos_comment_thread_show_feed", {"identifier": thread.identifier|replace({"game:": ""})}) }}"></a>
+    <a title="{% trans "Follow these comments" %}" class="fos_comment_thread_feed" href="{{ path("fos_comment_thread_show_feed", {"identifier": game.id}) }}"></a>
+
+    <div class="game_sharing">
+        <a href="http://twitter.com/share" class="twitter-share-button" data-text="What a great #Chess game!" data-count="none" data-url="http://lichess.org">Tweet this game</a>
+    </div>
 
     <h3>
         {% set count = thread.numComments %}
-        {% transchoice count %}
-            {0} Comment this game|{1} One Comment|]1,Inf] %count% Comments
-        {% endtranschoice %}
+        {% transchoice count %}{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments{% endtranschoice %}
     </h3>
 
     {% include "FOSCommentBundle:Comment:new.html.twig" with {"form": form, "first": 0 == thread.numComments} %}
