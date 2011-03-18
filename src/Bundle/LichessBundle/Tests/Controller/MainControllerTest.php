@@ -59,7 +59,7 @@ class MainControllerTest extends WebTestCase
         foreach ($locales as $locale => $name) {
             $cultures[] = array($locale, $gameUrl);
         }
-        $cultures[] = array('en');
+        $cultures[] = array('en', $gameUrl);
 
         return $cultures;
     }
