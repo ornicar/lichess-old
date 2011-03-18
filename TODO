@@ -1,3 +1,5 @@
+* show player color in game lists
+* last move highlight is lost on page refresh
 * remove route methods to accelerate url matcher
 * show capture count
 * game list order choice
