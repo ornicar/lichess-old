@@ -13,6 +13,7 @@ fos_user_online_users:
 fos_user_user_new:
     pattern:    /signup
     defaults:   { _controller: fos_user.controller.user:newAction }
+    requirements: { _method: get }
 
 fos_user_user_create:
     pattern:    /signup
