@@ -180,7 +180,6 @@ class LichessExtension extends Twig_Extension
                 'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'move'      => $generator->generate('lichess_move', array('id' => $playerFullId, 'version' => 9999999)),
                 'say'       => $generator->generate('lichess_say', array('id' => $playerFullId, 'version' => 9999999)),
-                'ai_level'  => $opponent->getIsAi() ? $generator->generate('lichess_ai_level', array('id' => $playerFullId)) : null,
                 'outoftime' => $game->hasClock() ? $generator->generate('lichess_outoftime', array('id' => $playerFullId, 'version' => 9999999)) : null
             ),
             'i18n' => array(

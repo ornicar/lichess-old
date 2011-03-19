@@ -215,16 +215,6 @@ class PlayerController extends Controller
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
-    public function aiLevelAction($id)
-    {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        $level = min(8, max(1, (int)$this->get('request')->get('level')));
-        $player->getOpponent()->setAiLevel($level);
-        $this->flush(false);
-
-        return new Response('done');
-    }
-
     public function tableAction($id, $color, $playerFullId)
     {
         if($playerFullId) {

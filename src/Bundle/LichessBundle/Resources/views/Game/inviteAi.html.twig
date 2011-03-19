@@ -3,6 +3,16 @@
 {% block invite_title %}{% trans "Play with the machine" %}{% endblock %}
 {% block invite_form_fields %}
 <div class="variants buttons">
-    {{ form_field(form.variant) }}
+    {% for choice, child in form.variant %}
+        {{ form_field(child) }}
+        <label for="{{ child.id }}">{% trans form.variant.label(choice) %}</label>
+    {% endfor %}
+</div>
+<a class="show_advanced">{% trans "Show advanced options" %}</a>
+<div class="advanced">
+    {% trans "Level" %}
+    <div class="level buttons">
+        {{ form_field(form.level) }}
+    </div>
 </div>
 {% endblock %}

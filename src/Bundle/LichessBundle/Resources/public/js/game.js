@@ -441,16 +441,6 @@
 		},
 		initTable: function() {
 			var self = this;
-			if (!self.options.player.spectator) {
-				self.$table.find("select.lichess_ai_level").change(function() {
-					$.ajax(self.options.url.ai_level, {
-						type: 'POST',
-						data: {
-							level: $(this).val()
-						}
-					});
-				});
-			}
 			self.$table.css('top', (256 - self.$table.height() / 2) + 'px');
 			self.$table.find('a, input, label').tipsy({
 				fade: true

@@ -44,7 +44,7 @@ class AiStarter implements StarterInterface
         $game = $player->getGame();
         $opponent = $player->getOpponent();
         $opponent->setIsAi(true);
-        $opponent->setAiLevel(1);
+        $opponent->setAiLevel($config->level);
         $game->start();
 
         if($player->isBlack()) {
