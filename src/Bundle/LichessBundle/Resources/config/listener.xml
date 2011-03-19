@@ -11,7 +11,7 @@
     <services>
         <service id="lichess.core_request_listener" class="%lichess.core_request_listener.class%">
             <argument>%lichess.locales%</argument>
-            <tag name="kernel.listener" event="core.request" method="listenToCoreRequest" priority="0" />
+            <tag name="kernel.listener" event="onCoreRequest" priority="0" />
         </service>
     </services>
 
