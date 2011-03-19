@@ -12,7 +12,7 @@
 
         <service id="forum.akismet" class="Application\ForumBundle\Akismet" scope="request">
             <argument type="service" id="request" />
-            <argument type="service" id="akismet" />
+            <argument type="service" id="lichess.akismet" />
             <argument type="service" id="forum.router.url_generator" />
             <argument>%forum.akismet.enabled%</argument>
         </service>

@@ -12,7 +12,7 @@
 
         <service id="lichess_message.akismet" class="Application\MessageBundle\Akismet" scope="request">
             <argument type="service" id="request" />
-            <argument type="service" id="akismet" />
+            <argument type="service" id="lichess.akismet" />
             <argument>%lichess_message.akismet.enabled%</argument>
         </service>
 
