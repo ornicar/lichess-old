@@ -8,7 +8,9 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
     {
         $client = $this->createClient();
         $crawler = $this->requestCategoryPage($client);
-        $crawler = $client->click($crawler->selectLink('Create a new topic')->link());
+        $link = $crawler->selectLink('Create a new topic');
+        $this->assertEquals(2, $link->count());
+        $crawler = $client->click($link->first()->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('New topic', $crawler->filter('#lichess_forum h1')->text());
     }

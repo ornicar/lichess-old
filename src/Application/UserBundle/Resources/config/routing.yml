@@ -1,17 +1,14 @@
 fos_user_online:
     pattern:    /ping/{username}
     defaults:   { _controller: fos_user.controller.user:onlineAction }
-    requirements: { _method: get }
 
 fos_user_user_list:
     pattern:    /people
     defaults:   { _controller: fos_user.controller.user:listAction }
-    requirements: { _method: get|head }
 
 fos_user_online_users:
     pattern:    /online-users
     defaults:   { _controller: fos_user.controller.user:listOnlineAction }
-    requirements: { _method: get }
 
 fos_user_user_new:
     pattern:    /signup
@@ -26,7 +23,6 @@ fos_user_user_create:
 fos_user_user_show:
     pattern:    /@/{username}
     defaults:   { _controller: fos_user.controller.user:showAction }
-    requirements: { _method: get|head }
 
 fos_user_user_confirmed:
     pattern:    /signup-confirmed
@@ -35,7 +31,6 @@ fos_user_user_confirmed:
 fos_user_autocomplete:
     pattern:    /autocomplete-user
     defaults:    { _controller: fos_user.controller.user:autocompleteAction }
-    requirements: { _method: get }
 
 fos_user_online_update:
     pattern:    /update-online-users
@@ -50,4 +45,3 @@ fos_user_profile_update:
 fos_user_profile_bio:
     pattern:    /profile/bio
     defaults:   { _controller: fos_user.controller.user:profileBioAction }
-    requirements: { _method: get }
