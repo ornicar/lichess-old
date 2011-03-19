@@ -17,7 +17,7 @@ class Manager
 
     public function getTranslationStatus($code)
     {
-        if($this->isAvailable($code)) {
+        if($available = $this->isAvailable($code)) {
             $keys = array_keys(array_filter($this->getMessages($code)));
             $name = $this->getAvailableLanguageName($code);
         } else {
@@ -31,7 +31,8 @@ class Manager
         return array(
             'name' => $name,
             'missing' => $missing,
-            'percent' => floor($percent)
+            'percent' => floor($percent),
+            'available' => $available
         );
     }
 

@@ -27,9 +27,14 @@ class CoreRequestListener
             if(!$session->has('lichess.session_id') || true) {
                 $session->set('lichess.session_id', KeyGenerator::generate(10));
 
-                $bestLocale = $event->getRequest()->getPreferredLanguage($this->languageCodes);
-                $session->setLocale($bestLocale);
-                $session->setFlash('locale_change', $bestLocale);
+                $preferredLanguages = $event->getRequest()->getLanguages();
+                $preferredLanguage = $preferredLanguages[0];
+                $chosenLanguage = $event->getRequest()->getPreferredLanguage($this->languageCodes);
+                $session->setLocale($chosenLanguage);
+                $session->setFlash('locale_change', $chosenLanguage);
+                if ($chosenLanguage != $preferredLanguage) {
+                    $session->setFlash('locale_missing', $preferredLanguage);
+                }
             }
         }
     }

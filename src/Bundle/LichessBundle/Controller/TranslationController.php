@@ -14,7 +14,20 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class TranslationController extends Controller
 {
-    public function incompleteAction($locale)
+    public function onMissingAction($locale)
+    {
+        $status = $this->get('lichess.translation.manager')->getTranslationStatus($locale);
+        if($status['available']) {
+            return new Response('');
+        }
+
+        return $this->render('LichessBundle:Translation:missing.html.twig', array(
+            'locale' => $locale,
+            'name' => $status['name']
+        ));
+    }
+
+    public function onChangeAction($locale)
     {
         $status = $this->get('lichess.translation.manager')->getTranslationStatus($locale);
         if(!$status['missing']) {
