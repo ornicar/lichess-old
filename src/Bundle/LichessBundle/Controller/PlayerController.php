@@ -172,9 +172,8 @@ class PlayerController extends Controller
         if($game->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
-        $this->get('lichess.seek_queue')->remove($game);
+        $this->get('lichess.starter.anybody')->cancel($player);
         $this->flush();
-        $this->get('lichess.logger')->notice($player, 'Game:inviteAnybody cancel');
 
         return new RedirectResponse($this->generateUrl('lichess_homepage'));
     }

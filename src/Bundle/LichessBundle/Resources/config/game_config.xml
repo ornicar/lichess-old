@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="lichess.config.persistence" class="Bundle\LichessBundle\Config\Persistence">
+        <service id="lichess.config.persistence" class="Bundle\LichessBundle\Config\Persistence" public="false">
             <argument type="service" id="session" />
             <argument type="service" id="security.context" />
         </service>

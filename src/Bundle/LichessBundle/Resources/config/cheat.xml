@@ -10,7 +10,7 @@
 
     <services>
 
-        <service id="lichess.cheat.internal_detector" class="Bundle\LichessBundle\Cheat\InternalDetector">
+        <service id="lichess.cheat.internal_detector" class="Bundle\LichessBundle\Cheat\InternalDetector" public="false">
             <argument type="service" id="lichess.repository.game" />
             <argument>%lichess.cheat.internal_detector.turns%</argument>
         </service>

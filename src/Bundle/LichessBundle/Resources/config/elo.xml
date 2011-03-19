@@ -10,11 +10,11 @@
 
     <services>
 
-        <service id="lichess.elo.calculator" class="Bundle\LichessBundle\Elo\Calculator">
+        <service id="lichess.elo.calculator" class="Bundle\LichessBundle\Elo\Calculator" public="false">
             <argument>%lichess.elo.calculator.kFactor%</argument>
         </service>
 
-        <service id="lichess.elo.updater" class="Bundle\LichessBundle\Elo\Updater">
+        <service id="lichess.elo.updater" class="Bundle\LichessBundle\Elo\Updater" public="false">
             <argument type="service" id="lichess.repository.history" />
         </service>
 

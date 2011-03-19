@@ -70,10 +70,5 @@
         <service id="lichess.translation.provider" class="Bundle\LichessBundle\Translation\Provider">
             <argument type="service" id="lichess.repository.translation" />
         </service>
-        <service id="templating.helper.locale" class="Bundle\LichessBundle\Helper\LocaleHelper">
-            <tag name="templating.helper" alias="locale" />
-            <argument type="service" id="session" />
-            <argument type="service" id="lichess.translation.manager" />
-        </service>
     </services>
 </container>

@@ -24,7 +24,7 @@ class CoreRequestListener
             if(!$session->has('lichess.sound.enabled')) {
                 $session->set('lichess.sound.enabled', true);
             }
-            if(!$session->has('lichess.session_id') || true) {
+            if(!$session->has('lichess.session_id')) {
                 $session->set('lichess.session_id', KeyGenerator::generate(10));
 
                 $preferredLanguages = $event->getRequest()->getLanguages();

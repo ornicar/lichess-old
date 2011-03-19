@@ -66,6 +66,12 @@ class AnybodyStarter implements StarterInterface
         return $game->getCreator();
     }
 
+    public function cancel(Player $player)
+    {
+        $this->logger->notice($player, 'Game:inviteAnybody cancel');
+        $this->seekQueue->remove($player->getGame());
+    }
+
     protected function isGameCreatorConnected(Game $game)
     {
         return $this->synchronizer->isConnected($game->getCreator());

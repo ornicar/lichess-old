@@ -23,7 +23,7 @@
             <argument type="service" id="security.context" />
         </service>
 
-        <service id="lichess.form.translation" class="Bundle\LichessBundle\Form\TranslationForm" factory-class="%lichess.form.translation.class%" factory-method="create">
+        <service id="lichess.form.translation" class="Bundle\LichessBundle\Form\TranslationForm" factory-class="Bundle\LichessBundle\Form\TranslationForm" factory-method="create">
             <argument type="service" id="form.context" />
             <argument>%lichess.form.translation.name%</argument>
             <argument type="collection">
