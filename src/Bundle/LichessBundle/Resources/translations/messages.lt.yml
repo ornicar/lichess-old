@@ -113,3 +113,5 @@
 "Rematch offer sent": "Revanšo pasiūlymas išsiųstas"
 "Rematch offer accepted": "Revanšo pasiūlymas priimtas"
 "Play": "Žaisti"
+"%user% is online": "%user% prisijungęs"
+"{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} Komentuotį šią partiją|{1} Vienas komentaras|]1,Inf] %count% Komentarai"
