@@ -1,14 +1,9 @@
-* replays for chess960 are broken
-* visual bug in profile page http://lichess.org/forum/lichess-feedback/bug-in-profile-games
-* remove service classes parameters
-* make more services private
 * blog about circular reference
 * move AI level selection to game config form
 * show player color in game lists
 * last move highlight is lost on page refresh
 * show capture count
 * game list order choice
-* filter timeline
 * allow to edit previous forum post
 * feature X
 * share links in comments box
