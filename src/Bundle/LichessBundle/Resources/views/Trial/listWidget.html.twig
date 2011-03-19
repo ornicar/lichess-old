@@ -1,34 +1,31 @@
 {% if fromUser is not defined %}{% set fromUser = none %}{% endif %}
-{% for game in games %}
+{% for trial in trials %}
+{% set game = trial.game %}
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
 <div class="game_row clearfix">
 {{ lichess_game_mini(game, fromUser)|raw }}
 <div class="infos">
+{% if trial.guilty %}
+<div class="trial_verdict trial_guilty">Guilty</div>
+{% elseif trial.innocent %}
+<div class="trial_verdict trial_innocent">Innocent</div>
+{% endif %}
 <b>
-{% if game.isBeingPlayed %}
-<a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">
-    {% trans "Playing right now" %}
-</a>,
-{% else %}
 {{ lichess_date(game.updatedAt) }}
-{% endif %}
 </b>-
-{% if game.isFinishedOrAborted %}
 {% trans game.statusMessage %}
-{% if game.winner %}
 , <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{% trans game.winner.color|capitalize ~ " is victorious" %}</span>
-{% endif %}
-{% else %}
-{% trans game.turnColor|capitalize ~ " plays" %}
-{% endif %}
 <br /><br />
 {% block players %}
 <table class="game_players">
 {% for player in [firstPlayer.opponent, firstPlayer] %}
-<tr>
+<tr{% if player.user == trial.user %} class="trial_suspect"{% endif %}>
 <td>{% trans player.color|capitalize %}</td>
 <td>{{ lichess_link_player(player) }}</td>
+{% if player.user == trial.user %}
+<td class="trial_score">suspicion level = {{ trial.score }}%</td>
+{% endif %}
 </tr>
 {% endfor %}
 </table>
@@ -38,9 +35,11 @@
 <br /><br />
 {% trans "Time control" %}: {{ game.clockName }}
 <br /><br />
-{% if game.isRated %}
-{% trans "This game is rated" %}
-<br /><br />
+{% if is_granted('ROLE_SUPERADMIN') %}
+<a class="button" href="{{ path("lichess_trial_verdict", {"id": trial.id, "verdict": 0}) }}">Innocent</a>
+<a class="button" href="{{ path("lichess_trial_verdict", {"id": trial.id, "verdict": 1}) }}">Guilty</a>
+<br />
+<br />
 {% endif %}
 <a href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {% trans "Replay and analyse" %}</a>
 </div>

@@ -35,6 +35,10 @@ div.game_row div.infos span.loss {
     color: #AA0000;
 }
 
+table.game_players td {
+    padding-right: 1em;
+}
+
 div.pager {
     text-align:center;
     margin-top: 2em;

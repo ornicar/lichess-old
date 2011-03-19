@@ -104,13 +104,6 @@ class Game
     protected $blackBlurs;
 
     /**
-     * @var int
-     * @mongodb:Field(type="int")
-     * @mongodb:Index(order="desc")
-     */
-    protected $bestBlurFactor;
-
-    /**
      * Color of the player who created the game
      *
      * @var string
@@ -382,22 +375,12 @@ class Game
         }
     }
 
-    public function getBlurFactor($color)
+    public function getBlurs()
     {
-        if ('white' === $color) {
-            $blurs = $this->whiteBlurs;
-        } elseif ('black' === $color) {
-            $blurs = $this->blackBlurs;
-        }
-        $turns = $this->getFullmoveNumber();
-        if ($turns > 0) {
-            return round(100*max(0, min(1, $blurs / $turns)));
-        }
-    }
-
-    public function calculateBestBlurFactor()
-    {
-        $this->bestBlurFactor = max($this->getBlurFactor('white'), $this->getBlurFactor('black'));
+        return array(
+            'white' => $this->whiteBlurs,
+            'black' => $this->blackBlurs
+        );
     }
 
     /**

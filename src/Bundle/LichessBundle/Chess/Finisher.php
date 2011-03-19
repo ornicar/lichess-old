@@ -8,6 +8,7 @@ use Bundle\LichessBundle\Elo\Calculator;
 use Bundle\LichessBundle\Elo\Updater;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Timeline\Pusher;
+use Bundle\LichessBundle\Cheat\Judge;
 use LogicException;
 
 class Finisher
@@ -18,8 +19,9 @@ class Finisher
     protected $eloUpdater;
     protected $logger;
     protected $timelinePusher;
+    protected $judge;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Synchronizer $synchronizer, Updater $eloUpdater, Logger $logger, Pusher $timelinePusher)
+    public function __construct(Calculator $calculator, Messenger $messenger, Synchronizer $synchronizer, Updater $eloUpdater, Logger $logger, Pusher $timelinePusher, Judge $judge)
     {
         $this->calculator     = $calculator;
         $this->messenger      = $messenger;
@@ -27,12 +29,13 @@ class Finisher
         $this->eloUpdater     = $eloUpdater;
         $this->logger         = $logger;
         $this->timelinePusher = $timelinePusher;
+        $this->judge          = $judge;
     }
 
     public function finish(Game $game)
     {
         $this->messenger->addSystemMessage($game, $game->getStatusMessage());
-        $game->calculateBestBlurFactor();
+        $this->judge->study($game);
 
         if (Game::MATE == $game->getStatus()) {
             $this->timelinePusher->pushMate($game);

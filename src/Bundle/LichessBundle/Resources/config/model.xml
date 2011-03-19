@@ -28,6 +28,10 @@
             <argument type="string">Bundle\LichessBundle\Document\TimelineEntry</argument>
         </service>
 
+        <service id="lichess.repository.trial" class="Bundle\LichessBundle\Document\Trial" factory-service="lichess.object_manager" factory-method="getRepository">
+            <argument type="string">Bundle\LichessBundle\Document\Trial</argument>
+        </service>
+
     </services>
 
 </container>

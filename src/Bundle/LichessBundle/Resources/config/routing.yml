@@ -103,9 +103,6 @@ lichess_list_all:
 lichess_list_mates:
     pattern:        /games/checkmate
     defaults:       { _controller: lichess.controller.game:listCheckmateAction }
-lichess_list_suspicious:
-    pattern:        /games/suspicious
-    defaults:       { _controller: lichess.controller.game:listSuspiciousAction }
 lichess_about:
     pattern:        /about
     defaults:       { _controller: lichess.controller.main:aboutAction }
@@ -167,3 +164,15 @@ lichess_nb_players:
 lichess_todolist:
     pattern:        /todo-list
     defaults:       { _controller: lichess.controller.main:todolistAction }
+lichess_trial_list_unresolved:
+    pattern:        /trial/unresolved
+    defaults:       { _controller: LichessBundle:Trial:listUnresolved }
+lichess_trial_list_guilty:
+    pattern:        /trial/guilty
+    defaults:       { _controller: LichessBundle:Trial:listGuilty }
+lichess_trial_list_innocent:
+    pattern:        /trial/innocent
+    defaults:       { _controller: LichessBundle:Trial:listInnocent }
+lichess_trial_verdict:
+    pattern:        /trial/verdict/{id}/{verdict}
+    defaults:       { _controller: LichessBundle:Trial:verdict }
