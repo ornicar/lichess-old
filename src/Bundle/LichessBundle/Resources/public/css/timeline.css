@@ -25,3 +25,18 @@ li.entry .view {
 li.entry .user_link {
     font-weight: bold;
 }
+
+div.timeline_filters {
+    float:right;
+}
+
+div.timeline_filters > a {
+    float: left;
+    display: block;
+    margin-left: 10px;
+}
+div.timeline_filters > a.active {
+    color: #fff;
+    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+}
