@@ -4,13 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="lichess.seek_queue.class">Bundle\LichessBundle\Seek\SeekQueue</parameter>
-        <parameter key="lichess.seek_matcher.class">Bundle\LichessBundle\Seek\SeekMatcher</parameter>
-    </parameters>
-
     <services>
-        <service id="lichess.seek_queue" class="%lichess.seek_queue.class%">
+        <service id="lichess.seek_queue" class="Bundle\LichessBundle\Seek\SeekQueue">
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.repository.seek" />
             <argument type="service" id="lichess.seek_matcher" />
@@ -18,7 +13,7 @@
             <argument type="service" id="lichess.blamer.player" />
         </service>
 
-        <service id="lichess.seek_matcher" class="%lichess.seek_matcher.class%">
+        <service id="lichess.seek_matcher" class="Bundle\LichessBundle\Seek\SeekMatcher">
             <argument>%lichess.seek_matcher.use_session%</argument>
         </service>
     </services>

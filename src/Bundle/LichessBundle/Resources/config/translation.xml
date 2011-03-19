@@ -5,12 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.translation.fetcher.class">Bundle\LichessBundle\Translation\Fetcher</parameter>
-        <parameter key="lichess.translation.provider.class">Bundle\LichessBundle\Translation\Provider</parameter>
-
-        <parameter key="lichess.translation.manager.class">Bundle\LichessBundle\Translation\Manager</parameter>
         <parameter key="lichess.translation.manager.reference_language">fr</parameter>
-        <parameter key="templating.helper.locale.class">Bundle\LichessBundle\Helper\LocaleHelper</parameter>
 
         <parameter key="lichess.locales" type="collection">
             <parameter key="en">English</parameter>
@@ -64,18 +59,18 @@
     </parameters>
 
     <services>
-        <service id="lichess.translation.manager" class="%lichess.translation.manager.class%">
+        <service id="lichess.translation.manager" class="Bundle\LichessBundle\Translation\Manager">
             <argument>%lichess.translation.manager.reference_language%</argument>
             <argument>%lichess.locales%</argument>
         </service>
-        <service id="lichess.translation.fetcher" class="%lichess.translation.fetcher.class%">
+        <service id="lichess.translation.fetcher" class="Bundle\LichessBundle\Translation\Fetcher">
             <argument type="service" id="lichess.translation.manager" />
             <argument>%lichess.translation.remote_domain%</argument>
         </service>
-        <service id="lichess.translation.provider" class="%lichess.translation.provider.class%">
+        <service id="lichess.translation.provider" class="Bundle\LichessBundle\Translation\Provider">
             <argument type="service" id="lichess.repository.translation" />
         </service>
-        <service id="templating.helper.locale" class="%templating.helper.locale.class%">
+        <service id="templating.helper.locale" class="Bundle\LichessBundle\Helper\LocaleHelper">
             <tag name="templating.helper" alias="locale" />
             <argument type="service" id="session" />
             <argument type="service" id="lichess.translation.manager" />

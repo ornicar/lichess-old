@@ -5,22 +5,17 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-
-        <parameter key="lichess.cheat.internal_detector.class">Bundle\LichessBundle\Cheat\InternalDetector</parameter>
         <parameter key="lichess.cheat.internal_detector.turns">10</parameter>
-
-        <parameter key="lichess.cheat.punisher.class">Bundle\LichessBundle\Cheat\Punisher</parameter>
-
     </parameters>
 
     <services>
 
-        <service id="lichess.cheat.internal_detector" class="%lichess.cheat.internal_detector.class%">
+        <service id="lichess.cheat.internal_detector" class="Bundle\LichessBundle\Cheat\InternalDetector">
             <argument type="service" id="lichess.repository.game" />
             <argument>%lichess.cheat.internal_detector.turns%</argument>
         </service>
 
-        <service id="lichess.cheat.punisher" class="%lichess.cheat.punisher.class%">
+        <service id="lichess.cheat.punisher" class="Bundle\LichessBundle\Cheat\Punisher">
             <argument type="service" id="lichess.repository.game" />
             <argument type="service" id="lichess.elo.updater" />
         </service>

@@ -5,15 +5,12 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="session.class">Bundle\LichessBundle\Session\TestSession</parameter>
-        <parameter key="session.storage.file.class">Bundle\LichessBundle\Session\Storage\FileSessionStorage</parameter>
         <parameter key="session.storage.file.dir">%kernel.root_dir%/cache/%kernel.environment%</parameter>
-
         <parameter key="lichess.seek_matcher.use_session">false</parameter>
     </parameters>
 
     <services>
-        <service id="session.storage.file" class="%session.storage.file.class%" public="true">
+        <service id="session.storage.file" class="Bundle\LichessBundle\Session\Storage\FileSessionStorage" public="true">
             <argument>%session.storage.file.dir%</argument>
         </service>
         <service id="session.storage" alias="session.storage.file" public="false" />

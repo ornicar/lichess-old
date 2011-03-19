@@ -5,56 +5,29 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.analyser.class">Bundle\LichessBundle\Chess\Analyser</parameter>
-        <parameter key="lichess.analyser_factory.class">Bundle\LichessBundle\Chess\AnalyserFactory</parameter>
-
-        <parameter key="lichess.manipulator.class">Bundle\LichessBundle\Chess\Manipulator</parameter>
-        <parameter key="lichess.manipulator_factory.class">Bundle\LichessBundle\Chess\ManipulatorFactory</parameter>
-
-        <parameter key="lichess.generator.class">Bundle\LichessBundle\Chess\Generator</parameter>
-
-        <parameter key="lichess.finisher.class">Bundle\LichessBundle\Chess\Finisher</parameter>
-
-        <parameter key="lichess.drawer.class">Bundle\LichessBundle\Chess\Drawer</parameter>
-
-        <parameter key="lichess.mover.class">Bundle\LichessBundle\Chess\Mover</parameter>
-
-        <parameter key="lichess.autodraw.class">Bundle\LichessBundle\Chess\Autodraw</parameter>
-
-        <parameter key="lichess.synchronizer.class">Bundle\LichessBundle\Chess\Synchronizer</parameter>
         <parameter key="lichess.synchronizer.timeout">40</parameter>
         <parameter key="lichess.synchronizer.delay">1</parameter>
         <parameter key="lichess.animation.delay">400</parameter>
-
-        <parameter key="lichess.pgn_dumper.class">Bundle\LichessBundle\Notation\PgnDumper</parameter>
-
-        <parameter key="lichess.messenger.class">Bundle\LichessBundle\Chess\Messenger</parameter>
-
-        <parameter key="lichess.rematcher.class">Bundle\LichessBundle\Chess\Rematcher</parameter>
-
-        <parameter key="lichess.client_updater.class">Bundle\LichessBundle\Chess\ClientUpdater</parameter>
-
-        <parameter key="lichess.hardware.class">Bundle\LichessBundle\Chess\Hardware</parameter>
     </parameters>
 
     <services>
-        <service id="lichess.analyser_factory" class="%lichess.analyser_factory.class%">
-            <argument>%lichess.analyser.class%</argument>
+        <service id="lichess.analyser_factory" class="Bundle\LichessBundle\Chess\AnalyserFactory">
+            <argument>Bundle\LichessBundle\Chess\Analyser</argument>
         </service>
 
-        <service id="lichess.manipulator_factory" class="%lichess.manipulator_factory.class%">
+        <service id="lichess.manipulator_factory" class="Bundle\LichessBundle\Chess\ManipulatorFactory">
             <argument type="service" id="lichess.autodraw" />
             <argument type="service" id="lichess.analyser_factory" />
-            <argument>%lichess.manipulator.class%</argument>
+            <argument>Bundle\LichessBundle\Chess\Manipulator</argument>
         </service>
 
-        <service id="lichess.hardware" class="%lichess.hardware.class%" />
+        <service id="lichess.hardware" class="Bundle\LichessBundle\Chess\Hardware" />
 
-        <service id="lichess.messenger" class="%lichess.messenger.class%">
+        <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger">
             <argument type="service" id="lichess.twig.extension" />
         </service>
 
-        <service id="lichess.rematcher" class="%lichess.rematcher.class%">
+        <service id="lichess.rematcher" class="Bundle\LichessBundle\Chess\Rematcher">
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.messenger" />
             <argument type="service" id="lichess.generator" />
@@ -63,9 +36,9 @@
             <argument type="service" id="lichess.object_manager" />
         </service>
 
-        <service id="lichess.generator" class="%lichess.generator.class%" />
+        <service id="lichess.generator" class="Bundle\LichessBundle\Chess\Generator" />
 
-        <service id="lichess.finisher" class="%lichess.finisher.class%">
+        <service id="lichess.finisher" class="Bundle\LichessBundle\Chess\Finisher">
             <argument type="service" id="lichess.elo.calculator" />
             <argument type="service" id="lichess.messenger" />
             <argument type="service" id="lichess.synchronizer" />
@@ -74,13 +47,13 @@
             <argument type="service" id="lichess.timeline.pusher" />
         </service>
 
-        <service id="lichess.drawer" class="%lichess.drawer.class%">
+        <service id="lichess.drawer" class="Bundle\LichessBundle\Chess\Drawer">
             <argument type="service" id="lichess.messenger" />
             <argument type="service" id="lichess.finisher" />
             <argument type="service" id="lichess.logger" />
         </service>
 
-        <service id="lichess.mover" class="%lichess.mover.class%">
+        <service id="lichess.mover" class="Bundle\LichessBundle\Chess\Mover">
             <argument type="service" id="lichess.manipulator_factory" />
             <argument type="service" id="lichess.client_updater" />
             <argument type="service" id="lichess.synchronizer" />
@@ -90,20 +63,20 @@
             <argument type="service" id="lichess.logger" />
         </service>
 
-        <service id="lichess.autodraw" class="%lichess.autodraw.class%" />
+        <service id="lichess.autodraw" class="Bundle\LichessBundle\Chess\Autodraw" public="false"/>
 
-        <service id="lichess.synchronizer" class="%lichess.synchronizer.class%">
+        <service id="lichess.synchronizer" class="Bundle\LichessBundle\Chess\Synchronizer">
             <argument>%lichess.synchronizer.timeout%</argument>
         </service>
 
-        <service id="lichess.client_updater" class="%lichess.client_updater.class%">
+        <service id="lichess.client_updater" class="Bundle\LichessBundle\Chess\ClientUpdater">
             <argument type="service" id="lichess.synchronizer" />
             <argument type="service" id="router" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.twig.extension" />
         </service>
 
-        <service id="lichess.pgn_dumper" class="%lichess.pgn_dumper.class%">
+        <service id="lichess.pgn_dumper" class="Bundle\LichessBundle\Notation\PgnDumper">
             <argument type="service" id="router" />
         </service>
     </services>
