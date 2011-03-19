@@ -6,6 +6,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Bundle\LichessBundle\Util\KeyGenerator;
+use Symfony\Component\HttpFoundation\Request;
 use DateTime;
 
 class CoreRequestListener
@@ -27,14 +28,23 @@ class CoreRequestListener
             if(!$session->has('lichess.session_id')) {
                 $session->set('lichess.session_id', KeyGenerator::generate(10));
 
-                $preferredLanguages = $event->getRequest()->getLanguages();
-                $preferredLanguage = $preferredLanguages[0];
                 $chosenLanguage = $event->getRequest()->getPreferredLanguage($this->languageCodes);
                 $session->setLocale($chosenLanguage);
                 $session->setFlash('locale_change', $chosenLanguage);
-                if ($chosenLanguage != $preferredLanguage) {
+
+                $preferredLanguage = $this->getPreferredLanguage($event->getRequest());
+                if ($preferredLanguage && $chosenLanguage != $preferredLanguage) {
                     $session->setFlash('locale_missing', $preferredLanguage);
                 }
+            }
+        }
+    }
+
+    private function getPreferredLanguage(Request $request)
+    {
+        foreach ($request->getLanguages() as $language) {
+            if (preg_match('/^[a-z]{2,3}$/i', $language)) {
+                return $language;
             }
         }
     }
