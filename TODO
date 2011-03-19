@@ -1,7 +1,5 @@
 * replays for chess960 are broken
-* visual bu in profile page http://lichess.org/forum/lichess-feedback/bug-in-profile-games
-* verify concurrent games update elo properly
-* add new translation notice
+* visual bug in profile page http://lichess.org/forum/lichess-feedback/bug-in-profile-games
 * remove service classes parameters
 * make more services private
 * blog about circular reference
