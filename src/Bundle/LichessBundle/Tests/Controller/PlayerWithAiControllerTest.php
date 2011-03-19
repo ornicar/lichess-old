@@ -79,19 +79,6 @@ class PlayerWithAiControllerTest extends WebTestCase
     /**
      * @depends testMoveWithAi
      */
-    public function testChangeAiLevelValid($id)
-    {
-        $client = $this->createClient();
-        $changeLevelUrl = $this->getChangeLevelUrl($id);
-
-        $client->request('POST', $changeLevelUrl, array('level' => 3));
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals('done', $client->getResponse()->getContent());
-    }
-
-    /**
-     * @depends testMoveWithAi
-     */
     public function testResign($id)
     {
         $client = $this->createClient();
