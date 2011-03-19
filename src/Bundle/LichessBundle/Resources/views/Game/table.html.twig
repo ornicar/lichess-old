@@ -3,18 +3,9 @@
 {% endif %}
 <div class="lichess_table">
     <div class="lichess_opponent">
-        {% if player.opponent.isAi %}
-            <span>Crafty A.I.</span>
-            <select class="lichess_ai_level">
-                {% for level in 1..8 %}
-                    <option value="{{ level|raw }}" {{ level == player.opponent.aiLevel ? 'selected="selected" ' : "" }}>{% trans 'Level' %} {{ level|raw }}</option>
-                {% endfor %}
-            </select>
-        {% else %}
-            <div class="opponent_status">
-                {% render "LichessBundle:Player:opponent" with {"id": player.game.id, "color": player.color, "playerFullId": player.fullId} %}
-            </div>
-        {% endif %}
+        <div class="opponent_status">
+            {% render "LichessBundle:Player:opponentPlayer" with {"opponent": player.opponent, "playerFullId": player.fullId} %}
+        </div>
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
