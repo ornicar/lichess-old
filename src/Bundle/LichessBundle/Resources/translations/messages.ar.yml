@@ -113,4 +113,6 @@
 "Rematch offer sent": "تم إرسال عرض مباراة ثانية"
 "Rematch offer accepted": "تم قبول عرض المباراة الثانية"
 "Play": "إلعب"
+"%user% is online": "%user% متواجد"
 "Registered": "مسجَل"
+"{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} تعليق على هذه اللعبة|{1} تعليق واحد|]1,Inf] %count% تعليق"
