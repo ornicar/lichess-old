@@ -172,7 +172,7 @@ $(function() {
 	if (false || document.domain == 'lichess.org') {
 		setTimeout(function() {
             if ($gameSharing = $('div.game_share_widgets').orNot()) {
-                $gameSharing.find('div.facebook_placeholder').replaceWith('<div class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href='+encodeURIComponent(document.url)+'&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></div>');
+                $gameSharing.find('div.facebook_placeholder').replaceWith('<div class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href='+encodeURIComponent(document.location.href)+'&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></div>');
                 $.getScript('http://widgets.digg.com/buttons.js');
                 $.getScript('http://platform.twitter.com/widgets.js', function() { $gameSharing.addClass('loaded') });
             } else {

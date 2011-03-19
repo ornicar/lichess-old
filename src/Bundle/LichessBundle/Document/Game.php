@@ -79,6 +79,7 @@ class Game
     protected $userIds = array();
 
     /**
+     * Denormalization
      * Id of the user who won the game
      * - string if the winner has a user
      * - false if the winner has no user
@@ -89,6 +90,25 @@ class Game
      * @mongodb:Index()
      */
     protected $winnerUserId = null;
+
+    /**
+     * @var integer
+     * @mongodb:Field(type="int")
+     */
+    protected $whiteBlurs;
+
+    /**
+     * @var integer
+     * @mongodb:Field(type="int")
+     */
+    protected $blackBlurs;
+
+    /**
+     * @var int
+     * @mongodb:Field(type="int")
+     * @mongodb:Index(order="desc")
+     */
+    protected $bestBlurFactor;
 
     /**
      * Color of the player who created the game
@@ -169,6 +189,7 @@ class Game
      *
      * @var bool
      * @mongodb:Field(type="boolean")
+     * @mongodb:Index()
      */
     protected $isRated;
 
@@ -348,6 +369,35 @@ class Game
         } else {
             $this->winnerUserId = false;
         }
+    }
+
+    public function incrementBlurs($color)
+    {
+        if ($this->getIsRated()) {
+            if ('white' === $color) {
+                ++ $this->whiteBlurs;
+            } elseif ('black' === $color) {
+                ++ $this->blackBlurs;
+            }
+        }
+    }
+
+    public function getBlurFactor($color)
+    {
+        if ('white' === $color) {
+            $blurs = $this->whiteBlurs;
+        } elseif ('black' === $color) {
+            $blurs = $this->blackBlurs;
+        }
+        $turns = $this->getFullmoveNumber();
+        if ($turns > 0) {
+            return round(100*max(0, min(1, $blurs / $turns)));
+        }
+    }
+
+    public function calculateBestBlurFactor()
+    {
+        $this->bestBlurFactor = max($this->getBlurFactor('white'), $this->getBlurFactor('black'));
     }
 
     /**

@@ -237,4 +237,11 @@ class GameRepository extends DocumentRepository
             ->limit(500)
             ->getQuery()->execute();
     }
+
+    public function createHighestBlurQuery()
+    {
+        return $this->createQueryBuilder()
+            ->field('bestBlurFactor')->gt(40)
+            ->sort('bestBlurFactor', 'DESC');
+    }
 }

@@ -7,7 +7,9 @@
 <div class="all_games">
     <div class="pager pager_top">{{ pagination|raw }}</div>
     <div class="all_games_inner">
+    {% block games_inner %}
         {% include "LichessBundle:Game:listWidget.html.twig" with {"games": games} %}
+    {% endblock %}
     </div>
     <div class="pager pager_bottom">{{ pagination|raw }}</div>
 </div>

@@ -12,6 +12,7 @@ use Bundle\LichessBundle\Config\AiGameConfig;
 use Bundle\LichessBundle\Config\FriendGameConfig;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Document\Stack;
+use Bundle\LichessBundle\Document\Game;
 
 class LoadGameData implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
@@ -31,6 +32,7 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         $this->aiStarter          = $container->get('lichess.starter.ai');
         $this->friendStarter      = $container->get('lichess.starter.friend');
         $this->manipulatorFactory = $container->get('lichess.manipulator_factory');
+        $this->finisher           = $container->get('lichess.finisher');
     }
 
     public function load($manager)
@@ -46,8 +48,19 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         $this->loadFriendGame('white', 'user1', null, array('time' => 5, 'increment' => 10));
         $this->loadFriendGame('white', null, 'user1', array('time' => 2, 'increment' => 20));
 
-        $this->loadFriendGame('black', 'user1', 'user2', array('time' => 20, 'increment' => 5));
-        $this->loadFriendGame('black', 'user2', 'user1');
+        $game = $this->loadFriendGame('black', 'user1', 'user2', array('time' => 20, 'increment' => 5, 'mode' => 1));
+        $game->incrementBlurs('white');
+        $game->incrementBlurs('white');
+        $game->incrementBlurs('black');
+        $game->setStatus(Game::MATE);
+        $game->setWinner($game->getPlayer('white'));
+        $this->finisher->finish($game);
+
+        $game = $this->loadFriendGame('black', 'user2', 'user1', array('mode' => 1));
+        $game->incrementBlurs('black');
+        $game->setStatus(Game::MATE);
+        $game->setWinner($game->getPlayer('black'));
+        $this->finisher->finish($game);
 
         $manager->flush();
     }
@@ -87,6 +100,8 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         $manipulator->play('d2 d4');
         $manipulator->play('e7 e5');
         $manipulator->play('b1 c3');
+
+        return $game;
     }
 
     protected function blamePlayerWithUsername($player, $username)

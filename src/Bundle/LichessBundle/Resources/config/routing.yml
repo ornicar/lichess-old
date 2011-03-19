@@ -103,6 +103,9 @@ lichess_list_all:
 lichess_list_mates:
     pattern:        /games/checkmate
     defaults:       { _controller: lichess.controller.game:listCheckmateAction }
+lichess_list_suspicious:
+    pattern:        /games/suspicious
+    defaults:       { _controller: lichess.controller.game:listSuspiciousAction }
 lichess_about:
     pattern:        /about
     defaults:       { _controller: lichess.controller.main:aboutAction }

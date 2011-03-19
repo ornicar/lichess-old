@@ -23,14 +23,16 @@
 {% trans game.turnColor|capitalize ~ " plays" %}
 {% endif %}
 <br /><br />
+{% block players %}
 {% for player in [firstPlayer.opponent, firstPlayer] %}
 {% if player.isAi %}
     {% trans '%ai_name% level %ai_level%' with{'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel} %}
 {% else %}
-    {{ lichess_link_player(player)|raw }}
+    {{ lichess_link_player(player) }}
 {% endif %}
 <br />
 {% endfor %}
+{% endblock %}
 <br />
 {% trans "Variant" %}: {{ game.variantName }}
 <br /><br />

@@ -32,6 +32,7 @@ class Finisher
     public function finish(Game $game)
     {
         $this->messenger->addSystemMessage($game, $game->getStatusMessage());
+        $game->calculateBestBlurFactor();
 
         if (Game::MATE == $game->getStatus()) {
             $this->timelinePusher->pushMate($game);

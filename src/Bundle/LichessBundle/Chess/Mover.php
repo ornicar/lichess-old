@@ -52,6 +52,11 @@ class Mover
         $stack           = new Stack();
         $manipulator     = $this->manipulatorFactory->create($game, $stack);
 
+        // increment player blur
+        if (!empty($data['b']) && 1 == intval($data['b'])) {
+            $game->incrementBlurs($player->getColor());
+        }
+
         // perform move and increase game turn
         $opponentPossibleMoves = $manipulator->play($move, $options);
 

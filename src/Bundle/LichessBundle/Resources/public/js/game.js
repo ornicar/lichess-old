@@ -19,6 +19,10 @@
 				if (self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() {
 					$.playSound();
 				});
+                if (!self.options.game.finished && !self.options.player.spectator) {
+                    self.blur = 0;
+                    $(window).blur(function() { self.blur=1; });
+                }
 			}
 
 			if (!self.options.opponent.ai || self.options.player.spectator) {
@@ -89,7 +93,7 @@
 			});
 		},
 		onError: function(xhr) {
-			location.reload();
+            location.reload();
 		},
 		isMyTurn: function() {
 			return this.options.possible_moves != null;
@@ -99,26 +103,27 @@
 			document.title = text + " - " + this.initialTitle;
 		},
 		indicateTurn: function() {
-			if (this.options.game.finished) {
-				this.changeTitle(this.translate('Game over'));
+            var self = this;
+			if (self.options.game.finished) {
+				self.changeTitle(self.translate('Game over'));
 			}
-			else if (this.isMyTurn()) {
-				this.element.addClass("my_turn");
-				this.changeTitle(this.translate('Your turn'));
+			else if (self.isMyTurn()) {
+				self.element.addClass("my_turn");
+				self.changeTitle(self.translate('Your turn'));
 			}
 			else {
-				this.element.removeClass("my_turn");
-				this.changeTitle(this.translate('Waiting for opponent'));
+				self.element.removeClass("my_turn");
+				self.changeTitle(self.translate('Waiting for opponent'));
 			}
 
-			if (!this.$table.find('>div').hasClass('finished')) {
-				this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.opponent.color: this.options.player.color)).fadeOut(this.options.animation_delay);
-				this.$table.find("div.lichess_current_player div.lichess_player." + (this.isMyTurn() ? this.options.player.color: this.options.opponent.color)).fadeIn(this.options.animation_delay);
+			if (!self.$table.find('>div').hasClass('finished')) {
+				self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.opponent.color: self.options.player.color)).fadeOut(self.options.animation_delay);
+				self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.player.color: self.options.opponent.color)).fadeIn(self.options.animation_delay);
 			}
 		},
 		movePiece: function(from, to, callback) {
 			var self = this,
-			$piece = this.$board.find("div#" + from + " div.lichess_piece");
+			$piece = self.$board.find("div#" + from + " div.lichess_piece");
 
 			// already moved
 			if (!$piece.length) {
@@ -267,9 +272,11 @@
 			squareId = $newSquare.attr('id'),
 			moveData = {
 				from: $oldSquare.attr("id"),
-				to: squareId
+				to: squareId,
+                b: self.blur
 			};
 
+            self.blur = 0;
 			self.$board.find('div.lcs.selected').removeClass('selected');
 			self.options.possible_moves = null;
 			self.movePiece($oldSquare.attr("id"), squareId);
