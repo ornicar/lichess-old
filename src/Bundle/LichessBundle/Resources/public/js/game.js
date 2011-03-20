@@ -59,18 +59,18 @@
 				timeout: 8000,
 				success: function(data) {
 					if (!data) return self.onError();
-					if (!self.options.opponent.ai && self.options.opponent.connected != data.o && self.options.game.started) {
-						self.options.opponent.connected = data.o;
-						$.ajax(self.options.url.opponent, {
-							type: 'GET',
-							cache: false,
-							success: function(html) {
-								self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
-									fade: true
-								});
-							},
-							error: self.onError
-						});
+					if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
+                        self.options.opponent.active = data.oa;
+                        $.ajax(self.options.url.opponent, {
+                            type: 'GET',
+                            cache: false,
+                            success: function(html) {
+                                self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
+                                    fade: true
+                                });
+                            },
+                            error: self.onError
+                        });
 					}
 					if (data.v && data.v != self.options.player.version) {
 						self.options.player.version = data.v;

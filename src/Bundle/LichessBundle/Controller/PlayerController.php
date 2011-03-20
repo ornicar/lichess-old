@@ -122,7 +122,7 @@ class PlayerController extends Controller
 
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
-            'isOpponentConnected' => $this->get('lichess.synchronizer')->isConnected($player->getOpponent()),
+            'opponentActivity'    => $this->get('lichess.synchronizer')->getActivity($player->getOpponent()),
             'checkSquareKey'      => $checkSquareKey,
             'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, (bool) $checkSquareKey) : null
         ));
@@ -226,8 +226,8 @@ class PlayerController extends Controller
             $template = 'watchTable';
         }
         return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
-            'player'              => $player,
-            'isOpponentConnected' => $this->get('lichess.synchronizer')->isConnected($player->getOpponent())
+            'player'           => $player,
+            'opponentActivity' => $this->get('lichess.synchronizer')->getActivity($player->getOpponent())
         ));
     }
 
@@ -250,11 +250,13 @@ class PlayerController extends Controller
         } else {
             $template = 'watchOpponent';
         }
+        $opponentActivity = $playerFullId ? $this->get('lichess.synchronizer')->getActivity($opponent) : 2;
+
         return $this->render('LichessBundle:Player:'.$template.'.html.twig', array(
-            'opponent'            => $opponent,
-            'isOpponentConnected' => $playerFullId ? $this->get('lichess.synchronizer')->isConnected($opponent) : true,
-            'game'                => $opponent->getGame(),
-            'playerFullId'        => $playerFullId
+            'opponent'         => $opponent,
+            'opponentActivity' => $opponentActivity,
+            'game'             => $opponent->getGame(),
+            'playerFullId'     => $playerFullId
         ));
     }
 

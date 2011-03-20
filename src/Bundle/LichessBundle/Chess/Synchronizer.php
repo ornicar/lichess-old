@@ -4,38 +4,41 @@ namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
-use APCIterator;
 
 class Synchronizer
 {
-    /**
-     * If a player doesn't synchronize during this amount of seconds,
-     * he is disconnected and resigns automatically
-     *
-     * @var int
-     */
-    protected $timeout = null;
+    protected $lowLevelSynchronizer;
 
-    public function __construct($timeout)
+    public function __construct($lowLevelSynchronizer)
     {
-        $this->timeout = $timeout;
+        $this->lowLevelSynchronizer = $lowLevelSynchronizer;
     }
 
-    public function getNbConnectedPlayers()
+    public function getNbActivePlayers()
     {
-        $nb = apc_fetch('lichess.nb_players');
-        if(false === $nb) {
-            $it = new APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
-            $nb = 0;
-            $limit = time() - $this->timeout;
-            foreach($it as $i) {
-                apc_fetch($i['key']); // clear invalidated entries
-                if($i['mtime'] >= $limit) ++$nb;
-            }
-            apc_store('lichess.nb_players', $nb, 2);
-        }
+        return $this->lowLevelSynchronizer->getNbActivePlayers();
+    }
 
-        return $nb;
+    public function setAlive(Player $player)
+    {
+        $this->lowLevelSynchronizer->setAlive($player->getGame()->getId(), $player->getColor());
+    }
+
+    /**
+     * Get player activity (or connectivity)
+     * 2 - good connectivity
+     * 1 - recently offline
+     * 0 - offline for long time
+     *
+     * @param Player $player
+     * @return int
+     */
+    public function getActivity(Player $player)
+    {
+        if ($player->getIsAi()) {
+            return 2;
+        }
+        return $this->lowLevelSynchronizer->getActivity($player->getGame()->getId(), $player->getColor());
     }
 
     public function getDiffEvents(Player $player, $clientVersion)
@@ -54,25 +57,5 @@ class Synchronizer
         }
 
         return $events;
-    }
-
-    public function setAlive(Player $player)
-    {
-        apc_store($this->getPlayerAliveKey($player), 1, $this->timeout);
-    }
-
-    public function isTimeout(Player $player)
-    {
-        return !$this->isConnected($player);
-    }
-
-    public function isConnected(Player $player)
-    {
-        return $player->getIsAi() || (bool) apc_fetch($this->getPlayerAliveKey($player));
-    }
-
-    protected function getPlayerAliveKey(Player $player)
-    {
-        return $player->getGame()->getId().'.'.$player->getColor().'.alive';
     }
 }

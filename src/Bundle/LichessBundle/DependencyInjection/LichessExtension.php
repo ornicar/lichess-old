@@ -32,6 +32,7 @@ class LichessExtension extends Extension
         $loader->load('game_config.xml');
         $loader->load('ai.xml');
         $loader->load('timeline.xml');
+        $loader->load('synchronizer.xml');
 
         $processor = new Processor();
         $configuration = new Configuration();
@@ -48,7 +49,7 @@ class LichessExtension extends Extension
         $container->setParameter('akismet.api_key', $config['akismet']['api_key']);
         $container->setParameter('akismet.url', $config['akismet']['url']);
         $container->setParameter('lichess.seek_matcher.use_session', $config['seek']['use_session']);
-        $container->setParameter('lichess.starter.anybody.check_creator_is_connected', $config['anybody_starter']['check_creator_is_connected']);
+        $container->setParameter('lichess.starter.anybody.check_creator_is_active', $config['anybody_starter']['check_creator_is_active']);
 
         if ($config['test']) {
             $loader->load('test.xml');

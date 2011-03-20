@@ -23,7 +23,7 @@
     </div>
 {% endblock %}
 {% block js_data %}
-    {{ lichess_game_data(player, possibleMoves, isOpponentConnected)|raw }}
+    {{ lichess_game_data(player, possibleMoves, opponentActivity) }}
 {% endblock %}
 {% block chat %}
 {% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"player": player} %}{% endif %}

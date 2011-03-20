@@ -30,7 +30,7 @@
             <argument type="service" id="lichess.synchronizer" />
             <argument type="service" id="lichess.config.persistence" />
             <argument type="service" id="session" />
-            <argument>%lichess.starter.anybody.check_creator_is_connected%</argument>
+            <argument>%lichess.starter.anybody.check_creator_is_active%</argument>
         </service>
         <service id="lichess.joiner" class="Bundle\LichessBundle\Starter\Joiner">
             <argument type="service" id="lichess.blamer.player" />

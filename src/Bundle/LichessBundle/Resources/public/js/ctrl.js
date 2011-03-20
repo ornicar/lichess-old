@@ -50,8 +50,7 @@ $(function() {
 					ping(config);
 				},
                 dataType: config.dataType,
-                method: "GET",
-                cache: false
+                type: "POST"
 			});
 		},
 		config.delay);
@@ -164,9 +163,6 @@ $(function() {
 		$game && $game.trigger('lichess.audio_ready');
 	} else {
 		$('#sound_state').addClass('unavailable');
-		if ($('a.lichess_table_not_started').length) {
-			$('div.lichess_goodies_wrap').append('<br />Your browser does not support latest HTML5 features, please consider upgrading.<br /><a href="http://getfirefox.com" target="_blank"><img src="http://sfx-images.mozilla.org/firefox/3.6/96x31_edit_green.png" width="96" height="31" /></a>');
-		}
 	}
 
 	if (false || document.domain == 'lichess.org') {
@@ -183,7 +179,7 @@ $(function() {
 	}
 });
 
-jQuery.fn.orNot = function() {
+$.fn.orNot = function() {
 	return this.length == 0 ? false: this;
 };
 

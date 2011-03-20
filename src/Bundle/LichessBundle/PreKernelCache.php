@@ -8,29 +8,17 @@
  * If this script returns, the normal Symfony application is run.
  **/
 
-// Configuration
-$timeout = 40;
-
 // Get url
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
 
-// get number of players from apc cache
-function _lichess_get_nb_players($timeout)
+// instanciate a synchronizer
+function _lichess_get_synchronizer()
 {
-    $nb = apc_fetch('lichess.nb_players');
-    if(false === $nb) {
-        $it = new \APCIterator('user', '/alive$/', APC_ITER_MTIME | APC_ITER_KEY, 100, APC_LIST_ACTIVE);
-        $nb = 0;
-        $limit = time() - $timeout;
-        foreach($it as $i) {
-            apc_fetch($i['key']); // clear invalidated entries
-            if($i['mtime'] >= $limit) ++$nb;
-        }
-        apc_store('lichess.nb_players', $nb, 2);
-    }
-
-    return $nb;
+    require_once __DIR__.'/Chess/LowLevelSynchronizer.php';
+    // params: lichess.synchronizer.soft_timeout, lichess.synchronizer.hard_timeout
+    return new Bundle\LichessBundle\Chess\LowLevelSynchronizer(10, 120);
 }
+
 // Send response to the client
 function _lichess_return_response($text, $type = 'application/json')
 {
@@ -39,18 +27,19 @@ function _lichess_return_response($text, $type = 'application/json')
     die((string)$text);
 }
 
-// Handle number of connected players requests
+// Handle number of active players requests
 
 if(0 === strpos($url, '/how-many-players-now')) {
-    _lichess_return_response(_lichess_get_nb_players($timeout), 'text/plain');
+    _lichess_return_response(_lichess_get_synchronizer()->getNbActivePlayers(), 'text/plain');
 }
 
 // Handle authenticated user ping
 
 if (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)$#x', $url, $matches)) {
     $username = $matches['username'];
-    apc_store('online.'.$username, true, $timeout);
-    _lichess_return_response(sprintf('{"nbp":%d,"nbm":%d}', _lichess_get_nb_players($timeout), apc_fetch('nbm.'.$username)));
+    $synchronizer = _lichess_get_synchronizer();
+    $synchronizer->setUsernameOnline($username);
+    _lichess_return_response(sprintf('{"nbp":%d,"nbm":%d}', $synchronizer->getNbActivePlayers(), apc_fetch('nbm.'.$username)));
 }
 
 // Handle game synchronization
@@ -64,8 +53,10 @@ if (0 === strpos($url, '/sync/') && preg_match('#^/sync/(?P<id>[\w-]{8})/(?P<col
     return;
 }
 
+$synchronizer = _lichess_get_synchronizer();
+
 // Get user cache from APC
-$userVersion = apc_fetch($id.'.'.$color.'.data');
+$userVersion = $synchronizer->getVersion($id, $color);
 
 // If the user has no cache, hit the application
 if(false === $userVersion) return;
@@ -74,17 +65,15 @@ if(false === $userVersion) return;
 if($userVersion != $clientVersion) return;
 
 if($playerFullId) {
-    // If previously disconnected, hit the application
-    //if (false === apc_fetch($id.'.'.$color.'.alive')) return;
-    // Set the client as connected
-    apc_store($id.'.'.$color.'.alive', 1, $timeout);
+    // Set the client as active
+    $synchronizer->setAlive($id, $color);
 }
 
-// Check is opponent is connected
+// Check is opponent is active
 if($playerFullId) {
-    $isOpponentAlive = apc_fetch($id.'.'.$opponentColor.'.alive') ? 1 : 0;
+    $opponentActivity = $synchronizer->getActivity($id, $opponentColor);
 } else {
-    $isOpponentAlive = true;
+    $opponentActivity = "2";
 }
 
-_lichess_return_response('{"o":'.$isOpponentAlive.'}');
+_lichess_return_response('{"oa":'.$opponentActivity.'}');

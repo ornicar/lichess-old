@@ -27,7 +27,7 @@ class ClientUpdater
     {
         $game                = $player->getGame();
         $version             = $player->getStack()->getVersion();
-        $isOpponentConnected = $this->synchronizer->isConnected($player->getOpponent());
+        $opponentActivity    = $this->synchronizer->getActivity($player->getOpponent());
         $currentPlayerColor  = $game->getTurnColor();
         try {
             $events = $version != $clientVersion ? $this->synchronizer->getDiffEvents($player, $clientVersion) : array();
@@ -53,7 +53,7 @@ class ClientUpdater
             }
         }
 
-        $data = array('v' => $version, 'o' => $isOpponentConnected, 'e' => $events, 'p' => $currentPlayerColor, 't' => $game->getTurns());
+        $data = array('v' => $version, 'oa' => $opponentActivity, 'e' => $events, 'p' => $currentPlayerColor, 't' => $game->getTurns());
         if($game->hasClock()) {
             $data['c'] = $game->getClock()->getRemainingTimes();
         }

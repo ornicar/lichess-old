@@ -25,19 +25,19 @@ class AnybodyStarter implements StarterInterface
     protected $seekQueue;
     protected $session;
     protected $configPersistence;
-    protected $checkCreatorIsConnected;
+    protected $checkCreatorIsActive;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Synchronizer $synchronizer, Persistence $configPersistence, Session $session, $checkCreatorIsConnected)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Synchronizer $synchronizer, Persistence $configPersistence, Session $session, $checkCreatorIsActive)
     {
-        $this->generator               = $generator;
-        $this->playerBlamer            = $playerBlamer;
-        $this->objectManager           = $objectManager;
-        $this->logger                  = $logger;
-        $this->seekQueue               = $seekQueue;
-        $this->synchronizer            = $synchronizer;
-        $this->session                 = $session;
-        $this->configPersistence       = $configPersistence;
-        $this->checkCreatorIsConnected = (bool) $checkCreatorIsConnected;
+        $this->generator            = $generator;
+        $this->playerBlamer         = $playerBlamer;
+        $this->objectManager        = $objectManager;
+        $this->logger               = $logger;
+        $this->seekQueue            = $seekQueue;
+        $this->synchronizer         = $synchronizer;
+        $this->session              = $session;
+        $this->configPersistence    = $configPersistence;
+        $this->checkCreatorIsActive = (bool) $checkCreatorIsActive;
     }
 
     public function start(GameConfig $config)
@@ -50,7 +50,7 @@ class AnybodyStarter implements StarterInterface
             return null;
         }
         if($result['status'] === $queue::FOUND) {
-            if($this->checkCreatorIsConnected && !$this->isGameCreatorConnected($game)) {
+            if($this->checkCreatorIsActive && !$this->isGameCreatorActive($game)) {
                 $this->objectManager->remove($game);
                 $this->objectManager->flush(array('safe' => true));
                 $this->logger->notice($game, 'Game:inviteAnybody remove');
@@ -72,9 +72,9 @@ class AnybodyStarter implements StarterInterface
         $this->seekQueue->remove($player->getGame());
     }
 
-    protected function isGameCreatorConnected(Game $game)
+    protected function isGameCreatorActive(Game $game)
     {
-        return $this->synchronizer->isConnected($game->getCreator());
+        return 2 == $this->synchronizer->getActivity($game->getCreator());
     }
 
     protected function getSessionId()

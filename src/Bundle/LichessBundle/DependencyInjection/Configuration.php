@@ -57,7 +57,7 @@ class Configuration
                 ->end()
                 ->arrayNode('anybody_starter')->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('check_creator_is_connected')->defaultTrue()->end()
+                        ->booleanNode('check_creator_is_active')->defaultTrue()->end()
                     ->end()
                 ->end()
                 ->arrayNode('translation')->addDefaultsIfNotSet()

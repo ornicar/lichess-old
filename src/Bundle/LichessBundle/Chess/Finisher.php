@@ -73,7 +73,7 @@ class Finisher
     public function forceResign(Player $player)
     {
         $game = $player->getGame();
-        if($game->getIsPlayable() && $this->synchronizer->isTimeout($player->getOpponent())) {
+        if($game->getIsPlayable() && 0 == $this->synchronizer->getActivity($player->getOpponent())) {
             $game->setStatus(Game::TIMEOUT);
             $game->setWinner($player);
             $this->finish($game);

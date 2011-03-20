@@ -31,8 +31,8 @@ class PlayerWithAiControllerTest extends WebTestCase
 
         $client->request('POST', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $nbConnectedPlayers = $client->getContainer()->get('lichess.synchronizer')->getNbConnectedPlayers();
-        $this->assertEquals('{"v":0,"o":true,"e":[],"p":"white","t":0}', $client->getResponse()->getContent());
+        $nbActivePlayers = $client->getContainer()->get('lichess.synchronizer')->getNbActivePlayers();
+        $this->assertEquals('{"v":0,"oa":2,"e":[],"p":"white","t":0}', $client->getResponse()->getContent());
     }
 
     /**
@@ -45,8 +45,8 @@ class PlayerWithAiControllerTest extends WebTestCase
 
         $client->request('POST', $moveUrl, array('from' => 'b1', 'to' => 'c3'));
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $nbConnectedPlayers = $client->getContainer()->get('lichess.synchronizer')->getNbConnectedPlayers();
-        $this->assertEquals('{"v":2,"o":true,"e":[{"type":"move","from":"b1","to":"c3"},{"type":"possible_moves","possible_moves":null}],"p":"black","t":1}', $client->getResponse()->getContent());
+        $nbActivePlayers = $client->getContainer()->get('lichess.synchronizer')->getNbActivePlayers();
+        $this->assertEquals('{"v":2,"oa":2,"e":[{"type":"move","from":"b1","to":"c3"},{"type":"possible_moves","possible_moves":null}],"p":"black","t":1}', $client->getResponse()->getContent());
 
         return $id;
     }
@@ -61,7 +61,7 @@ class PlayerWithAiControllerTest extends WebTestCase
 
         $client->request('POST', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertRegexp('#^\{"v":5,"o":true,"e":\[.+\],"p":"(white|black)","t":\d+}$#', $client->getResponse()->getContent());
+        $this->assertRegexp('#^\{"v":5,"oa":2,"e":\[.+\],"p":"(white|black)","t":\d+}$#', $client->getResponse()->getContent());
     }
 
     /**
