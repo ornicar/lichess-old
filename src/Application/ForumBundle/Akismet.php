@@ -4,6 +4,7 @@ namespace Application\ForumBundle;
 
 use Zend\Service\Akismet\Akismet as ZendAkismet;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContext;
 use Bundle\ForumBundle\Router\ForumUrlGenerator;
 use Application\ForumBundle\Document\Post;
 use Application\ForumBundle\Document\Topic;
@@ -14,19 +15,21 @@ class Akismet
     protected $request;
     protected $akismet;
     protected $urlGenerator;
+    protected $securityContext;
     protected $enabled;
 
-    public function __construct(Request $request, ZendAkismet $akismet, ForumUrlGenerator $urlGenerator, $enabled)
+    public function __construct(Request $request, ZendAkismet $akismet, ForumUrlGenerator $urlGenerator, SecurityContext $securityContext, $enabled)
     {
-        $this->request = $request;
-        $this->akismet = $akismet;
-        $this->urlGenerator = $urlGenerator;
-        $this->enabled = (bool) $enabled;
+        $this->request         = $request;
+        $this->akismet         = $akismet;
+        $this->urlGenerator    = $urlGenerator;
+        $this->securityContext = $securityContext;
+        $this->enabled         = (bool) $enabled;
     }
 
     public function isPostSpam(Post $post)
     {
-        if (!$this->enabled) {
+        if (!$this->isEnabled()) {
             return $post->getAuthorName() == 'viagra-test-123';
         }
         $data = array_merge($this->getRequestData(), $this->getPostData($post));
@@ -36,12 +39,17 @@ class Akismet
 
     public function isTopicSpam(Topic $topic)
     {
-        if (!$this->enabled) {
+        if (!$this->isEnabled()) {
             return $topic->getFirstPost()->getAuthorName() == 'viagra-test-123';
         }
         $data = array_merge($this->getRequestData(), $this->getTopicData($topic));
 
         return $this->isSpam($data);
+    }
+
+    protected function isEnabled()
+    {
+        return $this->isEnabled && !$this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
     }
 
     protected function isSpam(array $data)
