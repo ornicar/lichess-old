@@ -11,7 +11,7 @@ framework:
         lifetime: 15552000 # 6 months
         auto_start:     true
     templating:
-        assets_version: 17
+        assets_version: 20
         engines: ['twig']
     translator: { fallback: en }
 
@@ -97,6 +97,7 @@ security:
     access_control:
         - { path: "/(inbox|profile)(/.*|$)", role: ROLE_USER }
         - { path: "/forum/(post|topic)/delete/.+", role: ROLE_SUPERADMIN }
+        - { path: "/trial/verdict/.+", role: ROLE_SUPERADMIN }
 
 fos_user:
     db_driver: mongodb
