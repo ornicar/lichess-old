@@ -32,7 +32,8 @@ class LichessExtension extends Extension
         $loader->load('game_config.xml');
         $loader->load('ai.xml');
         $loader->load('timeline.xml');
-        $loader->load('synchronizer.xml');
+        $loader->load('sync.xml');
+        $loader->load('renderer.xml');
 
         $processor = new Processor();
         $configuration = new Configuration();

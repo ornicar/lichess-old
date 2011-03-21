@@ -34,17 +34,6 @@ class PlayerController extends Controller
         return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
     }
 
-    public function syncAction($id, $color, $version, $playerFullId)
-    {
-        $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
-        if($playerFullId) {
-            $this->get('lichess.synchronizer')->setAlive($player);
-        }
-        $player->getGame()->cachePlayerVersions();
-
-        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version, (bool) $playerFullId));
-    }
-
     public function forceResignAction($id)
     {
         $this->get('lichess.finisher')->forceResign($this->get('lichess.provider')->findPlayer($id));
@@ -113,7 +102,7 @@ class PlayerController extends Controller
             throw new NotFoundHttpException('Can not show AI player');
         }
         $game = $player->getGame();
-        $this->get('lichess.synchronizer')->setAlive($player);
+        $this->get('lichess.memory')->setAlive($player);
         if(!$game->getIsStarted()) {
             throw new RuntimeException(sprintf('Player:show game:%s, Game not started', $game->getId()), 410);
         }
@@ -122,7 +111,7 @@ class PlayerController extends Controller
 
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
-            'opponentActivity'    => $this->get('lichess.synchronizer')->getActivity($player->getOpponent()),
+            'opponentActivity'    => $this->get('lichess.memory')->getActivity($player->getOpponent()),
             'checkSquareKey'      => $checkSquareKey,
             'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, (bool) $checkSquareKey) : null
         ));
@@ -138,7 +127,7 @@ class PlayerController extends Controller
         }
         $message = trim($this->get('request')->get('message'));
         $player = $this->get('lichess.provider')->findPlayer($id);
-        $this->get('lichess.synchronizer')->setAlive($player);
+        $this->get('lichess.memory')->setAlive($player);
         $this->get('lichess.messenger')->addPlayerMessage($player, $message);
         $this->flush(false);
 
@@ -155,7 +144,7 @@ class PlayerController extends Controller
         if($player->getGame()->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
-        $this->get('lichess.synchronizer')->setAlive($player);
+        $this->get('lichess.memory')->setAlive($player);
 
         $config = new AnybodyGameConfig();
         $config->fromArray($player->getGame()->getConfigArray());
@@ -184,7 +173,7 @@ class PlayerController extends Controller
         if($player->getGame()->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
-        $this->get('lichess.synchronizer')->setAlive($player);
+        $this->get('lichess.memory')->setAlive($player);
 
         $config = new FriendGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
@@ -227,7 +216,7 @@ class PlayerController extends Controller
         }
         return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
             'player'           => $player,
-            'opponentActivity' => $this->get('lichess.synchronizer')->getActivity($player->getOpponent())
+            'opponentActivity' => $this->get('lichess.memory')->getActivity($player->getOpponent())
         ));
     }
 
@@ -250,7 +239,7 @@ class PlayerController extends Controller
         } else {
             $template = 'watchOpponent';
         }
-        $opponentActivity = $playerFullId ? $this->get('lichess.synchronizer')->getActivity($opponent) : 2;
+        $opponentActivity = $playerFullId ? $this->get('lichess.memory')->getActivity($opponent) : 2;
 
         return $this->render('LichessBundle:Player:'.$template.'.html.twig', array(
             'opponent'         => $opponent,

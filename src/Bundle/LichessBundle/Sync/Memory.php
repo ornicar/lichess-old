@@ -1,10 +1,12 @@
 <?php
 
-namespace Bundle\LichessBundle\Chess;
+namespace Bundle\LichessBundle\Sync;
 
+use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Game;
 use APCIterator;
 
-class LowLevelSynchronizer
+class Memory
 {
     /**
      * If a player doesn't synchronize during this amount of seconds,
@@ -13,7 +15,6 @@ class LowLevelSynchronizer
      * @var int
      */
     protected $hardTimeout;
-
     protected $softTimeout;
 
     public function __construct($softTimeout, $hardTimeout)
@@ -39,9 +40,9 @@ class LowLevelSynchronizer
         return $nb;
     }
 
-    public function setAlive($gameId, $color)
+    public function setAlive(Player $player)
     {
-        apc_store($this->getAliveKey($gameId, $color), time(), $this->hardTimeout);
+        apc_store($this->getAliveKey($player), time(), $this->hardTimeout);
     }
 
     /**
@@ -53,9 +54,12 @@ class LowLevelSynchronizer
      * @param Player $player
      * @return int
      */
-    public function getActivity($gameId, $color)
+    public function getActivity(Player $player)
     {
-        $latency = $this->getLatency($gameId, $color);
+        if ($player->getIsAi()) {
+            return 2;
+        }
+        $latency = $this->getLatency($player);
 
         if ($latency <= $this->softTimeout) {
             return 2;
@@ -66,9 +70,9 @@ class LowLevelSynchronizer
         return 0;
     }
 
-    public function getVersion($gameId, $color)
+    public function getVersion(Player $player)
     {
-        return apc_fetch($gameId.'.'.$color.'.data');
+        return apc_fetch($player->getGame()->getId().'.'.$player->getColor().'.data');
     }
 
     public function setUsernameOnline($username)
@@ -76,17 +80,17 @@ class LowLevelSynchronizer
         apc_store('online.'.$username, true, $this->softTimeout);
     }
 
-    protected function getLatency($gameId, $color)
+    protected function getLatency(Player $player)
     {
-        $lastPlayerPing = apc_fetch($this->getAliveKey($gameId, $color));
+        $lastPlayerPing = apc_fetch($this->getAliveKey($player));
         if (!$lastPlayerPing) {
             return 999999;
         }
         return time() - $lastPlayerPing;
     }
 
-    protected function getAliveKey($gameId, $color)
+    protected function getAliveKey(Player $player)
     {
-        return $gameId.'.'.$color.'.alive';
+        return $player->getGame()->getId().'.'.$player->getColor().'.alive';
     }
 }

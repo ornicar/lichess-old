@@ -15,17 +15,17 @@ class Finisher
 {
     protected $calculator;
     protected $messenger;
-    protected $synchronizer;
+    protected $memory;
     protected $eloUpdater;
     protected $logger;
     protected $timelinePusher;
     protected $judge;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Synchronizer $synchronizer, Updater $eloUpdater, Logger $logger, Pusher $timelinePusher, Judge $judge)
+    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Pusher $timelinePusher, Judge $judge)
     {
         $this->calculator     = $calculator;
         $this->messenger      = $messenger;
-        $this->synchronizer   = $synchronizer;
+        $this->memory   = $memory;
         $this->eloUpdater     = $eloUpdater;
         $this->logger         = $logger;
         $this->timelinePusher = $timelinePusher;
@@ -73,7 +73,7 @@ class Finisher
     public function forceResign(Player $player)
     {
         $game = $player->getGame();
-        if($game->getIsPlayable() && 0 == $this->synchronizer->getActivity($player->getOpponent())) {
+        if($game->getIsPlayable() && 0 == $this->memory->getActivity($player->getOpponent())) {
             $game->setStatus(Game::TIMEOUT);
             $game->setWinner($player);
             $this->finish($game);

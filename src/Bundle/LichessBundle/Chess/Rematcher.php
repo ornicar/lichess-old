@@ -6,7 +6,7 @@ use LogicException;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Chess\Messenger;
 use Bundle\LichessBundle\Chess\Generator as GameGenerator;
-use Bundle\LichessBundle\Chess\Synchronizer;
+use Bundle\LichessBundle\Sync\Memory;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Routing\Router;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -16,16 +16,16 @@ class Rematcher
     protected $logger;
     protected $messenger;
     protected $gameGenerator;
-    protected $synchronizer;
+    protected $memory;
     protected $urlGenerator;
     protected $objectManager;
 
-    public function __construct(Logger $logger, Messenger $messenger, Generator $generator, Synchronizer $synchronizer, Router $router, DocumentManager $objectManager)
+    public function __construct(Logger $logger, Messenger $messenger, Generator $generator, Memory $memory, Router $router, DocumentManager $objectManager)
     {
         $this->logger        = $logger;
         $this->messenger     = $messenger;
         $this->gameGenerator = $generator;
-        $this->synchronizer  = $synchronizer;
+        $this->memory  = $memory;
         $this->urlGenerator  = $router->getGenerator();
         $this->objectManager = $objectManager;
     }
@@ -61,7 +61,7 @@ class Rematcher
         $this->messenger->addSystemMessage($game, 'Rematch offer accepted');
         $nextGame->start();
         foreach(array(array($player, $nextPlayer), array($opponent, $nextOpponent)) as $pair) {
-            $this->synchronizer->setAlive($pair[1]);
+            $this->memory->setAlive($pair[1]);
             $pair[0]->addEventToStack(array('type' => 'redirect', 'url' => $this->urlGenerator->generate('lichess_player', array('id' => $pair[1]->getFullId()))));
         }
         $this->objectManager->persist($nextGame);

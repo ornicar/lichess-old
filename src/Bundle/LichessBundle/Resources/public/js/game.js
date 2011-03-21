@@ -56,7 +56,7 @@
 				type: 'POST',
 				dataType: 'json',
 				data: postData || {},
-				timeout: 8000,
+				//timeout: 8000,
 				success: function(data) {
 					if (!data) return self.onError();
 					if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
@@ -93,7 +93,7 @@
 			});
 		},
 		onError: function(xhr) {
-            location.reload();
+            //location.reload();
 		},
 		isMyTurn: function() {
 			return this.options.possible_moves != null;

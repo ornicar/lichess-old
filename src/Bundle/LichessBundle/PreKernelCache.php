@@ -1,4 +1,5 @@
 <?php
+return;
 
 /**
  * The purpose of this flat script is to dramatically improve performances, and save my webserver.

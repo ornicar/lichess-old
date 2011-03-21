@@ -188,7 +188,7 @@ class LichessExtension extends Twig_Extension
                 'Your turn'            => $translator->trans('Your turn'),
             ),
             'possible_moves'  => $possibleMoves,
-            'sync_delay'      => $this->container->getParameter('lichess.synchronizer.delay') * 1000,
+            'sync_delay'      => $this->container->getParameter('lichess.memory.delay') * 1000,
             'animation_delay' => $this->container->getParameter('lichess.animation.delay'),
             'debug'           => $this->container->getParameter('kernel.debug')
         );
@@ -224,7 +224,7 @@ class LichessExtension extends Twig_Extension
                 'ai'     => $opponent->getIsAi(),
                 'active' => true
             ),
-            'sync_delay'      => $this->container->getParameter('lichess.synchronizer.delay') * 1000,
+            'sync_delay'      => $this->container->getParameter('lichess.memory.delay') * 1000,
             'animation_delay' => $this->container->getParameter('lichess.animation.delay'),
             'url' => array(
                 'sync'     => $generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
@@ -321,7 +321,7 @@ class LichessExtension extends Twig_Extension
 
     public function getNbActivePlayers()
     {
-        return $this->container->get('lichess.synchronizer')->getNbActivePlayers();
+        return $this->container->get('lichess.memory')->getNbActivePlayers();
     }
 
     public function getLoadAverage()
@@ -383,11 +383,7 @@ class LichessExtension extends Twig_Extension
 
     public function roomMessage(array $message)
     {
-        if('system' === $message[0]) {
-            $message[1] = $this->container->get('translator')->trans($message[1]);
-        }
-
-        return sprintf('<li class="%s">%s</li>', $message[0], $this->userText($message[1]));
+        return $this->container->get('lichess.renderer.room_message')->renderRoomMessage($message);
     }
 
     public function roomMessages(array $messages)

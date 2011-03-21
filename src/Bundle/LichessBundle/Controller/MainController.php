@@ -24,7 +24,7 @@ class MainController extends Controller
 
     public function howManyPlayersNowAction()
     {
-        $nbActivePlayers = $this->get('lichess.synchronizer')->getNbActivePlayers();
+        $nbActivePlayers = $this->get('lichess.memory')->getNbActivePlayers();
         $response = new Response($nbActivePlayers ?: "0");
         $response->headers->set('Content-Type', 'text/plain');
         return $response;

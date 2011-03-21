@@ -27,7 +27,7 @@
             <argument type="service" id="lichess.object_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.seek_queue" />
-            <argument type="service" id="lichess.synchronizer" />
+            <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.config.persistence" />
             <argument type="service" id="session" />
             <argument>%lichess.starter.anybody.check_creator_is_active%</argument>

@@ -15,17 +15,17 @@ class Mover
 {
     protected $manipulatorFactory;
     protected $clientUpdater;
-    protected $synchronizer;
+    protected $memory;
     protected $ai;
     protected $cheatDetector;
     protected $finisher;
     protected $logger;
 
-    public function __construct(ManipulatorFactory $manipulatorFactory, ClientUpdater $clientUpdater, Synchronizer $synchronizer, AiInterface $ai, InternalDetector $cheatDetector, Finisher $finisher, Logger $logger)
+    public function __construct(ManipulatorFactory $manipulatorFactory, ClientUpdater $clientUpdater, Memory $memory, AiInterface $ai, InternalDetector $cheatDetector, Finisher $finisher, Logger $logger)
     {
         $this->manipulatorFactory = $manipulatorFactory;
         $this->clientUpdater      = $clientUpdater;
-        $this->synchronizer       = $synchronizer;
+        $this->memory       = $memory;
         $this->ai                 = $ai;
         $this->cheatDetector      = $cheatDetector;
         $this->finisher           = $finisher;
@@ -34,7 +34,7 @@ class Mover
 
     public function move(Player $player, $version, array $data)
     {
-        $this->synchronizer->setAlive($player);
+        $this->memory->setAlive($player);
 
         if (empty($data['from']) || empty($data['to'])) {
             throw new InvalidArgumentException('Mover::move Invalid data received, from and to are required.');

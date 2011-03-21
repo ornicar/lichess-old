@@ -10,7 +10,7 @@ use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Seek\SeekQueue;
-use Bundle\LichessBundle\Chess\Synchronizer;
+use Bundle\LichessBundle\Sync\Memory;
 use Bundle\LichessBundle\Config\Persistence;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -27,14 +27,14 @@ class AnybodyStarter implements StarterInterface
     protected $configPersistence;
     protected $checkCreatorIsActive;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Synchronizer $synchronizer, Persistence $configPersistence, Session $session, $checkCreatorIsActive)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, SeekQueue $seekQueue, Memory $memory, Persistence $configPersistence, Session $session, $checkCreatorIsActive)
     {
         $this->generator            = $generator;
         $this->playerBlamer         = $playerBlamer;
         $this->objectManager        = $objectManager;
         $this->logger               = $logger;
         $this->seekQueue            = $seekQueue;
-        $this->synchronizer         = $synchronizer;
+        $this->memory               = $memory;
         $this->session              = $session;
         $this->configPersistence    = $configPersistence;
         $this->checkCreatorIsActive = (bool) $checkCreatorIsActive;
@@ -74,7 +74,7 @@ class AnybodyStarter implements StarterInterface
 
     protected function isGameCreatorActive(Game $game)
     {
-        return 2 == $this->synchronizer->getActivity($game->getCreator());
+        return 2 == $this->memory->getActivity($game->getCreator());
     }
 
     protected function getSessionId()

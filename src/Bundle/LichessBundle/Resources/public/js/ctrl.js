@@ -39,22 +39,22 @@ $(function() {
 		tolerance: 300
 	});
 
-	(function ping(config) {
-		setTimeout(function() {
-			$.ajax(config.url, {
-				success: function(data) {
-					config.onResponse(data);
-					connectivity.ping();
-				},
-				complete: function() {
-					ping(config);
-				},
-                dataType: config.dataType,
-                type: "POST"
-			});
-		},
-		config.delay);
-	})(pingConfig);
+	//(function ping(config) {
+		//setTimeout(function() {
+			//$.ajax(config.url, {
+				//success: function(data) {
+					//config.onResponse(data);
+					//connectivity.ping();
+				//},
+				//complete: function() {
+					//ping(config);
+				//},
+                //dataType: config.dataType,
+                //type: "POST"
+			//});
+		//},
+		//config.delay);
+	//})(pingConfig);
 
 	function showNbConnectedPlayers(nb) {
 		if ($nbConnectedPlayers) $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
