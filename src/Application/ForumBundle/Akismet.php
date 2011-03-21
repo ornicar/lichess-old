@@ -49,7 +49,7 @@ class Akismet
 
     protected function isEnabled()
     {
-        return $this->isEnabled && !$this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
+        return $this->enabled && !$this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
     }
 
     protected function isSpam(array $data)
