@@ -7,7 +7,7 @@
     <services>
 
         <service id="lichess_user.online.cache" class="Application\UserBundle\Online\Cache">
-            <argument>%lichess.synchronizer.soft_timeout%</argument>
+            <argument>%lichess.memory.soft_timeout%</argument>
         </service>
 
         <service id="lichess_user.online.updater" class="Application\UserBundle\Online\Updater">
