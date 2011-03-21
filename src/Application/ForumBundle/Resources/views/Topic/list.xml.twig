@@ -1,7 +1,9 @@
 {% for topic in topics %}
     <entry>
         <title>{{ topic.subject }}</title>
-        <author>{{ topic.authorName|default("Anonymous") }}</author>
+        <author>
+            <name>{{ topic.authorName|default("Anonymous") }}</name>
+        </author>
         <updated>{{ topic.pulledAt|date("c")|raw }}</updated>
         <id>{{ forum_urlForTopic(topic, true) }}</id>
         <link rel="alternate">{{ forum_urlForTopic(topic, true) }}</link>
