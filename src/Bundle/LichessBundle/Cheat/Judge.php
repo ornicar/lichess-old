@@ -48,7 +48,7 @@ class Judge
         $blurFactor  = $this->calculateBlurFactor($winner);
         $timePerMove = $this->calculateTimePerMove($game);
         $score = $this->trialScoreCalculator->calculateScore($blurFactor, $timePerMove);
-        if ($score < 50) {
+        if ($score < 75) {
             return;
         }
         $trial = new Trial();

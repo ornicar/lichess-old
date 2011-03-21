@@ -20,7 +20,7 @@ class TrialScoreCalculator
         $timePerMove       = min(60, max(1, $timePerMove));
         $probabilityToBlur = $this->calculateProbabilityToBlur($timePerMove);
 
-        $score = $blurFactor * (1.25 - $probabilityToBlur);
+        $score = $blurFactor * (1.2 - $probabilityToBlur);
 
         $score = round(min(100, max(1, $score)), 1);
 
@@ -30,13 +30,14 @@ class TrialScoreCalculator
     public function calculateProbabilityToBlur($timePerMove)
     {
         switch (true) {
-            case $timePerMove <= 5: return 0.01;
-            case $timePerMove <= 8: return 0.1;
-            case $timePerMove <= 10: return 0.2;
-            case $timePerMove <= 20: return 0.3;
-            case $timePerMove <= 30: return 0.4;
-            case $timePerMove <= 40: return 0.5;
-            default: return 0.6;
+            case $timePerMove <= 3: return 0.01;
+            case $timePerMove <= 5: return 0.1;
+            case $timePerMove <= 8: return 0.2;
+            case $timePerMove <= 10: return 0.3;
+            case $timePerMove <= 20: return 0.4;
+            case $timePerMove <= 30: return 0.5;
+            case $timePerMove <= 40: return 0.6;
+            default: return 0.7;
         }
     }
 }
