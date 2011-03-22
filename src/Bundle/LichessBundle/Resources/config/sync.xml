@@ -10,7 +10,7 @@
         <parameter key="lichess.memory.delay">0</parameter>
 
         <parameter key="lichess.http_push.latency">10</parameter>
-        <parameter key="lichess.http_push.delay">0.2</parameter>
+        <parameter key="lichess.http_push.delay">0.25</parameter>
     </parameters>
 
     <services>

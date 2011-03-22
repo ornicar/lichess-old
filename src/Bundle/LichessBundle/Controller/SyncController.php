@@ -2,20 +2,28 @@
 
 namespace Bundle\LichessBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Document\Game;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use RuntimeException;
 
-class SyncController extends Controller
+class SyncController implements ContainerAwareInterface
 {
+    protected $container;
+
+    /**
+     * Sets the Container associated with this Controller.
+     *
+     * @param ContainerInterface $container A ContainerInterface instance
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     public function syncAction($id, $color, $version, $playerFullId)
     {
-        session_write_close();
-        $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
-        $memory = $this->get('lichess.memory');
+        $player = $this->container->get('lichess.provider')->findPublicPlayer($id, $color);
+        $memory = $this->container->get('lichess.memory');
 
         if($playerFullId) {
             $memory->setAlive($player);
@@ -24,11 +32,8 @@ class SyncController extends Controller
 
         $this->container->get('lichess.http_push')->poll($player, $version);
 
-        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version, (bool) $playerFullId));
-    }
+        $data = $this->container->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version, (bool) $playerFullId);
 
-    protected function renderJson($data)
-    {
         return new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
     }
 }

@@ -21,20 +21,21 @@ class CoreRequestListener
     public function onCoreRequest(GetResponseEvent $event)
     {
         if(HttpKernelInterface::MASTER_REQUEST === $event->getRequestType()) {
-            $session = $event->getRequest()->getSession();
-            if(!$session->has('lichess.sound.enabled')) {
-                $session->set('lichess.sound.enabled', true);
-            }
-            if(!$session->has('lichess.session_id')) {
-                $session->set('lichess.session_id', KeyGenerator::generate(10));
+            if ($session = $event->getRequest()->getSession()) {
+                if(!$session->has('lichess.sound.enabled')) {
+                    $session->set('lichess.sound.enabled', true);
+                }
+                if(!$session->has('lichess.session_id')) {
+                    $session->set('lichess.session_id', KeyGenerator::generate(10));
 
-                $chosenLanguage = $event->getRequest()->getPreferredLanguage($this->languageCodes);
-                $session->setLocale($chosenLanguage);
-                $session->setFlash('locale_change', $chosenLanguage);
+                    $chosenLanguage = $event->getRequest()->getPreferredLanguage($this->languageCodes);
+                    $session->setLocale($chosenLanguage);
+                    $session->setFlash('locale_change', $chosenLanguage);
 
-                $preferredLanguage = $this->getPreferredLanguage($event->getRequest());
-                if ($preferredLanguage && $chosenLanguage != $preferredLanguage) {
-                    $session->setFlash('locale_missing', $preferredLanguage);
+                    $preferredLanguage = $this->getPreferredLanguage($event->getRequest());
+                    if ($preferredLanguage && $chosenLanguage != $preferredLanguage) {
+                        $session->setFlash('locale_missing', $preferredLanguage);
+                    }
                 }
             }
         }

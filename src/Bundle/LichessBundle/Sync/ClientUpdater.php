@@ -34,13 +34,13 @@ class ClientUpdater
                     unset($events[$index]);
                 }
             }
-        }
-
-        // render system messages
-        foreach($events as $index => $event) {
-            if('message' === $event['type']) {
-                $events[$index]['html'] = $this->roomMessageRenderer->renderRoomMessage($event['message']);
-                unset($events[$index]['message']);
+        } else {
+            // render room messages
+            foreach($events as $index => $event) {
+                if('message' === $event['type']) {
+                    $events[$index]['html'] = $this->roomMessageRenderer->renderRoomMessage($event['message']);
+                    unset($events[$index]['message']);
+                }
             }
         }
 

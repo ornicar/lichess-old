@@ -145,6 +145,15 @@ class LichessExtension extends Twig_Extension
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 
+    protected function getXhrUrlPrefix()
+    {
+        if ($this->container->getParameter('kernel.environment') === 'prod') {
+            return '/xhr.php';
+        } else {
+            return '/xhr_dev.php';
+        }
+    }
+
     public function renderGameData(Player $player, $possibleMoves, $isOpponentActive)
     {
         $game = $player->getGame();
@@ -175,7 +184,7 @@ class LichessExtension extends Twig_Extension
                 'active' => $isOpponentActive,
             ),
             'url' => array(
-                'sync'      => $generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
+                'sync'      => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'move'      => $generator->generate('lichess_move', array('id' => $playerFullId, 'version' => 9999999)),
@@ -190,7 +199,7 @@ class LichessExtension extends Twig_Extension
             'possible_moves'    => $possibleMoves,
             'sync_delay'        => $this->container->getParameter('lichess.memory.delay') * 1000,
             'http_push_latency' => $this->container->getParameter('lichess.http_push.latency') * 1000,
-            'animation_delay'   => $this->container->getParameter('lichess.animation.delay'),
+            'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000,
             'debug'             => $this->container->getParameter('kernel.debug')
         );
 
@@ -226,7 +235,7 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
+                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
                 'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
             ),
@@ -238,7 +247,7 @@ class LichessExtension extends Twig_Extension
             'possible_moves'    => $possibleMoves,
             'sync_delay'        => $this->container->getParameter('lichess.memory.delay') * 1000,
             'http_push_latency' => $this->container->getParameter('lichess.http_push.latency') * 1000,
-            'animation_delay'   => $this->container->getParameter('lichess.animation.delay')
+            'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
