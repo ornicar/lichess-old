@@ -4,10 +4,10 @@ imports:
 framework:
     router: { resource: "%kernel.root_dir%/config/routing_dev.yml" }
     profiler:
-        only_exceptions: false
+        only_exceptions: true
 
 web_profiler:
-    toolbar: true
+    toolbar: false
     intercept_redirects: false
 
 doctrine_mongo_db:
@@ -19,9 +19,6 @@ zend:
     logger:
         priority: NOTICE
         path:     %kernel.logs_dir%/%kernel.environment%.log
-
-twig:
-    auto_reload: true
 
 lichess:
     debug_assets: true
