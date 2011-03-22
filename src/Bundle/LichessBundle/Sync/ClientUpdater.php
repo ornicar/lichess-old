@@ -17,7 +17,7 @@ class ClientUpdater
         $this->roomMessageRenderer = $roomMessageRenderer;
     }
 
-    public function getEventsSinceClientVersion(Player $player, $clientVersion, $withPrivateEvents = true)
+    public function getEventsSinceClientVersion(Player $player, $clientVersion, $withPrivateEvents)
     {
         $game                = $player->getGame();
         $version             = $player->getStack()->getVersion();

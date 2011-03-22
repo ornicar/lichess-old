@@ -18,19 +18,22 @@
 				if (self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() {
 					$.playSound();
 				});
-                if (!self.options.game.finished && !self.options.player.spectator) {
-                    self.blur = 0;
-                    $(window).blur(function() { self.blur=1; });
-                }
+				if (!self.options.game.finished && ! self.options.player.spectator) {
+					self.blur = 0;
+					$(window).blur(function() {
+						self.blur = 1;
+					});
+				}
 			}
 
 			if (!self.options.opponent.ai || self.options.player.spectator) {
-                
+
 				// synchronize with game
 				if (!self.options.game.finished || ! self.options.player.spectator) {
-                    setTimeout(function() {
-                        self.syncUrl(self.options.url.sync);
-                    }, 1000);
+					setTimeout(function() {
+						self.syncUrl(self.options.url.sync);
+					},
+					1000);
 				}
 
 				if (!self.options.player.spectator) {
@@ -45,9 +48,6 @@
 		},
 		syncUrl: function(url, callback, postData) {
 			var self = this;
-            if (self.currentSync) {
-                self.currentSync.abort();
-            }
 			self.currentSync = $.ajax(url.replace(/9999999/, self.options.player.version), {
 				type: 'POST',
 				dataType: 'json',
@@ -56,17 +56,17 @@
 				success: function(data) {
 					if (!data) return self.onError();
 					if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
-                        self.options.opponent.active = data.oa;
-                        $.ajax(self.options.url.opponent, {
-                            type: 'GET',
-                            cache: false,
-                            success: function(html) {
-                                self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
-                                    fade: true
-                                });
-                            },
-                            error: self.onError
-                        });
+						self.options.opponent.active = data.oa;
+						$.ajax(self.options.url.opponent, {
+							type: 'GET',
+							cache: false,
+							success: function(html) {
+								self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
+									fade: true
+								});
+							},
+							error: self.onError
+						});
 					}
 					if (data.v && data.v != self.options.player.version) {
 						self.options.player.version = data.v;
@@ -82,24 +82,20 @@
 						self.updateClocks(data.c);
 					}
 				},
-                complete: function(xhr, status) {
-                    if (status == 'error') {
-                        self.onError();
-                        return;
-                    }
-                    $.isFunction(callback) && callback();
-                    
-                    if (status == 'abort') {
-                        return;
-                    }
-                    
-                    // success, timeout: resync
-                    if (!self.options.opponent.ai || self.options.player.spectator) {
-                        if (!self.options.game.finished || !self.options.player.spectator) {
-                            self.syncUrl(self.options.url.sync);
-                        }
-                    }
-                }
+				complete: function(xhr, status) {
+					if (status != 'success') {
+						self.onError();
+						return;
+					}
+					$.isFunction(callback) && callback();
+
+					// success, timeout: resync
+					if (!self.options.opponent.ai || self.options.player.spectator) {
+						if (!self.options.game.finished || ! self.options.player.spectator) {
+							self.syncUrl(self.options.url.sync);
+						}
+					}
+				}
 			});
 		},
 		onError: function() {
@@ -113,7 +109,7 @@
 			document.title = text + " - " + this.initialTitle;
 		},
 		indicateTurn: function() {
-            var self = this;
+			var self = this;
 			if (self.options.game.finished) {
 				self.changeTitle(self.translate('Game over'));
 			}
@@ -283,34 +279,42 @@
 			moveData = {
 				from: $oldSquare.attr("id"),
 				to: squareId,
-                b: self.blur
+				b: self.blur
 			};
 
-            self.blur = 0;
+			self.blur = 0;
 			self.$board.find('div.lcs.selected').removeClass('selected');
 			self.options.possible_moves = null;
 			self.movePiece($oldSquare.attr("id"), squareId);
 
 			function sendMoveRequest(moveData) {
-				self.syncUrl(self.options.url.move, function() {
-					if (self.options.opponent.ai) {
-						setTimeout(function() {
-							self.syncUrl(self.options.url.sync);
-						},
-						self.options.animation_delay * 2);
+				$.ajax(self.options.url.move, {
+					success: function() {
+						if (self.options.opponent.ai) {
+							setTimeout(function() {
+								self.syncUrl(self.options.url.sync);
+							},
+							self.options.animation_delay);
+						}
+					},
+					data: moveData,
+					type: 'POST',
+					complete: function(xhr, status) {
+						if (status != 'success' || 'ok' != xhr.responseText) {
+							self.onError();
+						}
 					}
-				},
-				moveData);
+				});
 			}
 
 			var color = self.options.player.color;
 			// promotion
 			if ($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1))) {
 				var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
-                     <div rel="queen" class="lichess_piece queen ' + color + '"></div>\
-                     <div rel="knight" class="lichess_piece knight ' + color + '"></div>\
-                     <div rel="rook" class="lichess_piece rook ' + color + '"></div>\
-                     <div rel="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
+                                   <div rel="queen" class="lichess_piece queen ' + color + '"></div>\
+                                   <div rel="knight" class="lichess_piece knight ' + color + '"></div>\
+                                   <div rel="rook" class="lichess_piece rook ' + color + '"></div>\
+                                   <div rel="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
 					moveData.options = {
 						promotion: $(this).attr('rel')
 					};
@@ -363,8 +367,8 @@
 			});
 
 			/*
-          * Code for touch screens like android or iphone
-          */
+                                   * Code for touch screens like android or iphone
+                                   */
 
 			self.$board.find("div.lichess_piece." + self.options.player.color).each(function() {
 				$(this).click(function() {
@@ -395,8 +399,8 @@
 			});
 
 			/*
-          * End of code for touch screens
-          */
+                                   * End of code for touch screens
+                                   */
 		},
 		initChat: function() {
 			var self = this;
@@ -419,8 +423,12 @@
 						return false;
 					}
 					$input.val('');
-					self.syncUrl(self.options.url.say, null, {
-						message: text
+					$.ajax(self.options.url.say, {
+						data: {
+							message: text
+						},
+						type: 'POST',
+						complete: self.onXhrComplete
 					});
 					return false;
 				});
@@ -459,7 +467,9 @@
 				$(this).parent().remove();
 			});
 			self.$table.find('a.lichess_rematch').click(function() {
-				self.syncUrl($(this).attr('href'));
+				$.ajax($(this).attr('href'), {
+                    complete: self.onComplete
+                });
 				return false;
 			});
 		},
@@ -471,7 +481,9 @@
 					time: $(this).attr('data-time'),
 					buzzer: function() {
 						if (!self.options.game.finished && ! self.options.player.spectator) {
-							self.syncUrl(self.options.url.outoftime);
+							$.ajax(self.options.url.outoftime, {
+                                complete: self.onXhrComplete
+                            });
 						}
 					}
 				});
@@ -513,6 +525,11 @@
 		},
 		isPlayable: function() {
 			return ! this.options.game.finished;
+		},
+		onXhrComplete: function(xhr, status) {
+			if (status != 'success' || 'ok' != xhr.responseText) {
+				self.onError();
+			}
 		}
 	});
 
@@ -580,4 +597,3 @@
 	});
 
 })(jQuery);
-

@@ -1,18 +1,14 @@
 lichess_homepage:
     pattern:        /
     defaults:       { _controller: lichess.controller.main:indexAction }
-lichess_sync:
-    pattern:        /sync/{id}/{color}/{version}/{playerFullId}
-    defaults:       { _controller: LichessBundle:Sync:sync, playerFullId: "" }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), version: "\d+", playerFullId: "([\w\-]{12}|)" }
 lichess_move:
-    pattern:        /move/{id}/{version}
+    pattern:        /move/{id}
     defaults:       { _controller: lichess.controller.player:moveAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_say:
-    pattern:        /talk/{id}/{version}
+    pattern:        /talk/{id}
     defaults:       { _controller: lichess.controller.player:sayAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_invite_friend:
     pattern:        /friend
     defaults:       { _controller: lichess.controller.game:inviteFriendAction }
@@ -76,9 +72,9 @@ lichess_abort:
     defaults:       { _controller: lichess.controller.player:abortAction }
     requirements:   { id: "[\w\-]{12}" }
 lichess_outoftime:
-    pattern:        /outoftime/{id}/{version}
+    pattern:        /outoftime/{id}
     defaults:       { _controller: lichess.controller.player:outoftimeAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_table:
     pattern:        /table/{id}/{color}/{playerFullId}
     defaults:       { _controller: lichess.controller.player:tableAction, playerFullId "" }
@@ -103,9 +99,9 @@ lichess_about:
     pattern:        /about
     defaults:       { _controller: lichess.controller.main:aboutAction }
 lichess_rematch:
-    pattern:        /rematch/{id}/{version}
+    pattern:        /rematch/{id}
     defaults:       { _controller: lichess.controller.player:rematchAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+" }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_force_resignation:
     pattern:        /force-resign/{id}
     defaults:       { _controller: lichess.controller.player:forceResignAction }

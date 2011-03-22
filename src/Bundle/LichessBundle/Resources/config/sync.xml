@@ -18,14 +18,19 @@
             <argument>%lichess.memory.soft_timeout%</argument>
             <argument>%lichess.memory.hard_timeout%</argument>
         </service>
-        <service id="lichess.http_push" class="Bundle\LichessBundle\Sync\HttpPush">
+        <service id="lichess.http_push" class="Bundle\LichessBundle\Sync\HttpPush" public="false">
             <argument type="service" id="lichess.memory" />
             <argument>%lichess.http_push.latency%</argument>
             <argument>%lichess.http_push.delay%</argument>
         </service>
-        <service id="lichess.client_updater" class="Bundle\LichessBundle\Sync\ClientUpdater">
+        <service id="lichess.client_updater" class="Bundle\LichessBundle\Sync\ClientUpdater" public="false">
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.renderer.room_message" />
+        </service>
+        <service id="lichess.synchronizer" class="Bundle\LichessBundle\Sync\Synchronizer">
+            <argument type="service" id="lichess.memory" />
+            <argument type="service" id="lichess.http_push" />
+            <argument type="service" id="lichess.client_updater" />
         </service>
     </services>
 </container>

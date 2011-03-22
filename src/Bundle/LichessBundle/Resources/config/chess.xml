@@ -52,7 +52,6 @@
 
         <service id="lichess.mover" class="Bundle\LichessBundle\Chess\Mover">
             <argument type="service" id="lichess.manipulator_factory" />
-            <argument type="service" id="lichess.client_updater" />
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.ai.chain" />
             <argument type="service" id="lichess.cheat.internal_detector" />

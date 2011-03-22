@@ -8,7 +8,6 @@ use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Stack;
-use Bundle\LichessBundle\Sync\ClientUpdater;
 use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
 use InvalidArgumentException;
@@ -16,17 +15,15 @@ use InvalidArgumentException;
 class Mover
 {
     protected $manipulatorFactory;
-    protected $clientUpdater;
     protected $memory;
     protected $ai;
     protected $cheatDetector;
     protected $finisher;
     protected $logger;
 
-    public function __construct(ManipulatorFactory $manipulatorFactory, ClientUpdater $clientUpdater, Memory $memory, AiInterface $ai, InternalDetector $cheatDetector, Finisher $finisher, Logger $logger)
+    public function __construct(ManipulatorFactory $manipulatorFactory, Memory $memory, AiInterface $ai, InternalDetector $cheatDetector, Finisher $finisher, Logger $logger)
     {
         $this->manipulatorFactory = $manipulatorFactory;
-        $this->clientUpdater      = $clientUpdater;
         $this->memory             = $memory;
         $this->ai                 = $ai;
         $this->cheatDetector      = $cheatDetector;
@@ -34,7 +31,7 @@ class Mover
         $this->logger             = $logger;
     }
 
-    public function move(Player $player, $version, array $data)
+    public function move(Player $player, array $data)
     {
         $this->memory->setAlive($player);
 
@@ -65,8 +62,6 @@ class Mover
         $player->addEventsToStack($stack->getEvents());
         $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => null));
 
-        $eventsSinceClientVersion = $this->clientUpdater->getEventsSinceClientVersion($player, $version);
-
         if($opponent->getIsAi()) {
             if(!empty($opponentPossibleMoves)) {
                 $this->performAiAnswer($player);
@@ -83,8 +78,6 @@ class Mover
         if($isGameAbortable != $game->getIsAbortable() || $canOfferDraw != $player->canOfferDraw()) {
             $game->addEventToStacks(array('type' => 'reload_table'));
         }
-
-        return $eventsSinceClientVersion;
     }
 
     /**

@@ -16,22 +16,22 @@ use RuntimeException;
 
 class PlayerController extends Controller
 {
-    public function outoftimeAction($id, $version)
+    public function outoftimeAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.finisher')->outoftime($player);
         $this->flush();
 
-        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
+        return new Response('ok');
     }
 
-    public function rematchAction($id, $version)
+    public function rematchAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.rematcher')->rematch($player);
         $this->flush();
 
-        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
+        return new Response('ok');
     }
 
     public function forceResignAction($id)
@@ -86,13 +86,13 @@ class PlayerController extends Controller
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
-    public function moveAction($id, $version)
+    public function moveAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
-        $eventsSinceClientVersion = $this->get('lichess.mover')->move($player, $version, $this->get('request')->request->all());
+        $this->get('lichess.mover')->move($player, $this->get('request')->request->all());
         $this->flush(false);
 
-        return $this->renderJson($eventsSinceClientVersion);
+        return new Response('ok');
     }
 
     public function showAction($id)
@@ -120,18 +120,14 @@ class PlayerController extends Controller
     /**
      * Add a message to the chat room
      */
-    public function sayAction($id, $version)
+    public function sayAction($id)
     {
-        if('POST' !== $this->get('request')->getMethod()) {
-            throw new NotFoundHttpException(sprintf('Player:say game:%s, POST method required', $id));
-        }
         $message = trim($this->get('request')->get('message'));
         $player = $this->get('lichess.provider')->findPlayer($id);
-        $this->get('lichess.memory')->setAlive($player);
         $this->get('lichess.messenger')->addPlayerMessage($player, $message);
         $this->flush(false);
 
-        return $this->renderJson($this->get('lichess.client_updater')->getEventsSinceClientVersion($player, $version));
+        return new Response('ok');
     }
 
     public function waitAnybodyAction($id)
