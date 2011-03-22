@@ -1,0 +1,50 @@
+framework:
+    charset:       UTF-8
+    error_handler: null
+    router: { resource: "%kernel.root_dir%/config/routing.yml" }
+    validation: { enabled: true, annotations: true }
+    csrf_protection:
+        enabled: false
+    session: false
+    templating:
+        engines: ['php']
+    translator: { fallback: en }
+
+doctrine_mongo_db:
+    connections:
+        default:
+            server: mongodb://localhost:27017
+            options:
+                connect: true
+                persist: lichess
+    default_database: lichess_%kernel.environment%
+    document_managers:
+        default:
+            mappings:
+                LichessBundle: ~
+                LichessUserBundle:
+                    type: annotation
+                    dir: %kernel.root_dir%/../src/Application/UserBundle/Document
+                    prefix: Application\UserBundle\Document
+                FOSUserBundle:
+                    type: xml
+                    dir: %kernel.root_dir%/../src/FOS/UserBundle/Document
+                    prefix: FOS\UserBundle\Document
+            metadata_cache_driver: apc
+
+lichess:
+    ai:
+        crafty:
+            enabled: true
+            priority: 2
+            executable_path: /usr/bin/crafty
+            book_dir: /usr/share/crafty
+        stupid:
+            enabled: true
+            priority: 1
+    akismet:
+        url: http://lichess.org
+        #api_key: see config_local.yml
+
+imports:
+    - { resource: config_local.yml }

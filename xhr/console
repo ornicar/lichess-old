@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__.'/bootstrap.php.cache';
+require_once __DIR__.'/XhrKernel.php';
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Bundle\LichessBundle\ConsoleGuardRail;
+
+$input = new ArgvInput();
+$env = $input->getParameterOption(array('--env', '-e'), 'dev');
+$debug = true;
+$guardRail = new ConsoleGuardRail();
+
+if (!$guardRail->isSafe($input, $env)) {
+    die('It is not safe to run this command in this environment');
+}
+
+$kernel = new XhrKernel($env, $debug);
+$application = new Application($kernel);
+$application->run();

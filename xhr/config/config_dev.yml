@@ -1,0 +1,7 @@
+imports:
+    - { resource: config.yml }
+
+doctrine_mongo_db:
+    document_managers:
+        default:
+            metadata_cache_driver: array
