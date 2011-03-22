@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.animation.delay">400</parameter>
+        <parameter key="lichess.animation.delay">0.3</parameter>
     </parameters>
 
     <services>
@@ -21,9 +21,7 @@
 
         <service id="lichess.hardware" class="Bundle\LichessBundle\Chess\Hardware" />
 
-        <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger">
-            <argument type="service" id="lichess.twig.extension" />
-        </service>
+        <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger" />
 
         <service id="lichess.rematcher" class="Bundle\LichessBundle\Chess\Rematcher">
             <argument type="service" id="lichess.logger" />

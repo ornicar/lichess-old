@@ -3,17 +3,9 @@
 namespace Bundle\LichessBundle\Chess;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Twig\LichessExtension;
 
 class Messenger
 {
-    protected $helper;
-
-    public function __construct(LichessExtension $helper)
-    {
-        $this->helper = $helper;
-    }
-
     public function addPlayerMessage(Player $player, $message)
     {
         return $this->addMessage($player->getGame(), $player->getColor(), $message);
