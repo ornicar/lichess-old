@@ -26,46 +26,42 @@
 				}
 			}
 
-			if (!self.options.opponent.ai || self.options.player.spectator) {
-
-				// synchronize with game
-				if (!self.options.game.finished || ! self.options.player.spectator) {
-					setTimeout(function() {
-						self.syncUrl(self.options.url.sync);
-					},
-					1000);
-				}
-
-				if (!self.options.player.spectator) {
-					// update document title to show playing state
-					setTimeout(self.updateTitle = function() {
-						document.title = (self.isMyTurn() && ! self.options.game.finished) ? document.title = document.title.indexOf('/\\/') == 0 ? '\\/\\ ' + document.title.replace(/\/\\\/ /, '') : '/\\/ ' + document.title.replace(/\\\/\\ /, '') : document.title;
-						setTimeout(self.updateTitle, 400);
-					},
-					400);
-				}
+			if (!self.options.opponent.ai) {
+                // update document title to show playing state
+                setTimeout(self.updateTitle = function() {
+                    document.title = (self.isMyTurn() && ! self.options.game.finished) ? document.title = document.title.indexOf('/\\/') == 0 ? '\\/\\ ' + document.title.replace(/\/\\\/ /, '') : '/\\/ ' + document.title.replace(/\\\/\\ /, '') : document.title;
+                    setTimeout(self.updateTitle, 400);
+                },
+                400);
 			}
+
+            function syncLoop () {
+                if (!self.options.opponent.ai || self.options.player.spectator) {
+                    if (!self.options.game.finished || !self.options.player.spectator) {
+                        self.sync(syncLoop);
+                    }
+                }
+            }
+            setTimeout(syncLoop, 1000);
 		},
-		syncUrl: function(url, callback, postData) {
+		sync: function(callback) {
 			var self = this;
-			self.currentSync = $.ajax(url.replace(/9999999/, self.options.player.version), {
-				type: 'POST',
+			self.currentSync = $.ajax(self.options.url.sync.replace(/9999999/, self.options.player.version), {
+                type: 'POST',
 				dataType: 'json',
-				data: postData || {},
 				timeout: self.options.http_push_latency + 5000,
 				success: function(data) {
 					if (!data) return self.onError();
 					if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
 						self.options.opponent.active = data.oa;
 						$.ajax(self.options.url.opponent, {
-							type: 'GET',
 							cache: false,
 							success: function(html) {
 								self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
 									fade: true
 								});
 							},
-							error: self.onError
+							complete: self.onXhrComplete
 						});
 					}
 					if (data.v && data.v != self.options.player.version) {
@@ -88,18 +84,8 @@
 						return;
 					}
 					$.isFunction(callback) && callback();
-
-					// success, timeout: resync
-					if (!self.options.opponent.ai || self.options.player.spectator) {
-						if (!self.options.game.finished || ! self.options.player.spectator) {
-							self.syncUrl(self.options.url.sync);
-						}
-					}
 				}
 			});
-		},
-		onError: function() {
-            location.reload();
 		},
 		isMyTurn: function() {
 			return this.options.possible_moves != null;
@@ -289,21 +275,10 @@
 
 			function sendMoveRequest(moveData) {
 				$.ajax(self.options.url.move, {
-					success: function() {
-						if (self.options.opponent.ai) {
-							setTimeout(function() {
-								self.syncUrl(self.options.url.sync);
-							},
-							self.options.animation_delay);
-						}
-					},
+                    success: self.options.opponent.ai ? function() {self.sync();} : null,
 					data: moveData,
 					type: 'POST',
-					complete: function(xhr, status) {
-						if (status != 'success' || 'ok' != xhr.responseText) {
-							self.onError();
-						}
-					}
+					complete: self.onXhrComplete
 				});
 			}
 
@@ -454,7 +429,8 @@
 					self.$table.html(html);
 					self.initTable();
 					self.initClocks();
-				}
+				},
+                complete: self.onXhrComplete
 			});
 		},
 		initTable: function() {
@@ -528,8 +504,11 @@
 		},
 		onXhrComplete: function(xhr, status) {
 			if (status != 'success' || 'ok' != xhr.responseText) {
-				self.onError();
+				this.onError();
 			}
+		},
+		onError: function() {
+            location.reload();
 		}
 	});
 
