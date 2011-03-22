@@ -7,10 +7,6 @@
     <parameters>
         <parameter key="lichess.memory.soft_timeout">15</parameter>
         <parameter key="lichess.memory.hard_timeout">180</parameter>
-        <parameter key="lichess.memory.delay">0</parameter>
-
-        <parameter key="lichess.http_push.latency">10</parameter>
-        <parameter key="lichess.http_push.delay">0.25</parameter>
     </parameters>
 
     <services>
@@ -20,8 +16,8 @@
         </service>
         <service id="lichess.http_push" class="Bundle\LichessBundle\Sync\HttpPush" public="false">
             <argument type="service" id="lichess.memory" />
-            <argument>%lichess.http_push.latency%</argument>
-            <argument>%lichess.http_push.delay%</argument>
+            <argument>%lichess.sync.latency%</argument>
+            <argument>%lichess.sync.delay%</argument>
         </service>
         <service id="lichess.client_updater" class="Bundle\LichessBundle\Sync\ClientUpdater" public="false">
             <argument type="service" id="lichess.memory" />

@@ -52,6 +52,10 @@ class LichessExtension extends Extension
         $container->setParameter('lichess.seek_matcher.use_session', $config['seek']['use_session']);
         $container->setParameter('lichess.starter.anybody.check_creator_is_active', $config['anybody_starter']['check_creator_is_active']);
 
+        $container->setParameter('lichess.sync.path', $config['sync']['path']);
+        $container->setParameter('lichess.sync.latency', $config['sync']['latency']);
+        $container->setParameter('lichess.sync.delay', $config['sync']['delay']);
+
         if ($config['test']) {
             $loader->load('test.xml');
         }

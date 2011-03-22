@@ -147,11 +147,7 @@ class LichessExtension extends Twig_Extension
 
     protected function getXhrUrlPrefix()
     {
-        if ($this->container->getParameter('kernel.environment') === 'prod') {
-            return '/xhr.php';
-        } else {
-            return '/xhr_dev.php';
-        }
+        return $this->container->getParameter('lichess.sync.path');
     }
 
     public function renderGameData(Player $player, $possibleMoves, $isOpponentActive)
@@ -197,8 +193,7 @@ class LichessExtension extends Twig_Extension
                 'Your turn'            => $translator->trans('Your turn'),
             ),
             'possible_moves'    => $possibleMoves,
-            'sync_delay'        => $this->container->getParameter('lichess.memory.delay') * 1000,
-            'http_push_latency' => $this->container->getParameter('lichess.http_push.latency') * 1000,
+            'sync_latency' => $this->container->getParameter('lichess.sync.latency') * 1000,
             'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000,
             'debug'             => $this->container->getParameter('kernel.debug')
         );
@@ -245,8 +240,7 @@ class LichessExtension extends Twig_Extension
                 'Your turn'            => $translator->trans('Your turn')
             ),
             'possible_moves'    => $possibleMoves,
-            'sync_delay'        => $this->container->getParameter('lichess.memory.delay') * 1000,
-            'http_push_latency' => $this->container->getParameter('lichess.http_push.latency') * 1000,
+            'sync_latency' => $this->container->getParameter('lichess.sync.latency') * 1000,
             'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000
         );
 
