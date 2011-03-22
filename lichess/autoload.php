@@ -23,6 +23,3 @@ $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'
 ));
 $loader->register();
-
-// hack to make Zend work
-set_include_path(get_include_path() . PATH_SEPARATOR . $vendorDir.'/zend/library');
