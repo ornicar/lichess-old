@@ -22,6 +22,8 @@ zend:
 
 lichess:
     debug_assets: true
+    sync:
+        path: /xhr_dev.php
 
 lichess_forum:
     detect_spam: false

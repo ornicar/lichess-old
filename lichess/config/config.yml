@@ -160,6 +160,10 @@ lichess:
     akismet:
         url: http://lichess.org
         #api_key: see config_local.yml
+    sync:
+        path: /xhr.php
+        latency: 10
+        delay: 0.25
 
 imports:
     - { resource: config_local.yml }
