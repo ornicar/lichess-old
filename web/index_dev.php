@@ -1,8 +1,5 @@
 <?php
 
-// Try PreKernelCache
-require_once __DIR__.'/../src/Bundle/LichessBundle/PreKernelCache.php';
-
 // Start timer
 $start = microtime(true);
 ob_start();
