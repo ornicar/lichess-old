@@ -9,7 +9,7 @@
         <parameter key="lichess.memory.hard_timeout">180</parameter>
         <parameter key="lichess.memory.delay">0</parameter>
 
-        <parameter key="lichess.http_push.latency">5</parameter>
+        <parameter key="lichess.http_push.latency">10</parameter>
         <parameter key="lichess.http_push.delay">0.2</parameter>
     </parameters>
 

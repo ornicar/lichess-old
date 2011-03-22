@@ -9,6 +9,7 @@ use Bundle\LichessBundle\Elo\Updater;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Timeline\Pusher;
 use Bundle\LichessBundle\Cheat\Judge;
+use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
 
 class Finisher

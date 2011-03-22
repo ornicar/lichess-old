@@ -13,6 +13,7 @@ class SyncController extends Controller
 {
     public function syncAction($id, $color, $version, $playerFullId)
     {
+        session_write_close();
         $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
         $memory = $this->get('lichess.memory');
 

@@ -8,11 +8,11 @@ lichess_sync:
 lichess_move:
     pattern:        /move/{id}/{version}
     defaults:       { _controller: lichess.controller.player:moveAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
+    requirements:   { id: "[\w\-]{12}", version: "\d+" }
 lichess_say:
     pattern:        /talk/{id}/{version}
     defaults:       { _controller: lichess.controller.player:sayAction }
-    requirements:   { id: "[\w\-]{12}", version: "\d+", _method: "post" }
+    requirements:   { id: "[\w\-]{12}", version: "\d+" }
 lichess_invite_friend:
     pattern:        /friend
     defaults:       { _controller: lichess.controller.game:inviteFriendAction }

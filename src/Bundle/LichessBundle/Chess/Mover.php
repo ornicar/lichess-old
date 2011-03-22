@@ -8,6 +8,8 @@ use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Stack;
+use Bundle\LichessBundle\Sync\ClientUpdater;
+use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
 use InvalidArgumentException;
 
@@ -25,7 +27,7 @@ class Mover
     {
         $this->manipulatorFactory = $manipulatorFactory;
         $this->clientUpdater      = $clientUpdater;
-        $this->memory       = $memory;
+        $this->memory             = $memory;
         $this->ai                 = $ai;
         $this->cheatDetector      = $cheatDetector;
         $this->finisher           = $finisher;

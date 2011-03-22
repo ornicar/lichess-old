@@ -187,10 +187,11 @@ class LichessExtension extends Twig_Extension
                 'Waiting for opponent' => $translator->trans('Waiting for opponent'),
                 'Your turn'            => $translator->trans('Your turn'),
             ),
-            'possible_moves'  => $possibleMoves,
-            'sync_delay'      => $this->container->getParameter('lichess.memory.delay') * 1000,
-            'animation_delay' => $this->container->getParameter('lichess.animation.delay'),
-            'debug'           => $this->container->getParameter('kernel.debug')
+            'possible_moves'    => $possibleMoves,
+            'sync_delay'        => $this->container->getParameter('lichess.memory.delay') * 1000,
+            'http_push_latency' => $this->container->getParameter('lichess.http_push.latency') * 1000,
+            'animation_delay'   => $this->container->getParameter('lichess.animation.delay'),
+            'debug'             => $this->container->getParameter('kernel.debug')
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
@@ -224,8 +225,6 @@ class LichessExtension extends Twig_Extension
                 'ai'     => $opponent->getIsAi(),
                 'active' => true
             ),
-            'sync_delay'      => $this->container->getParameter('lichess.memory.delay') * 1000,
-            'animation_delay' => $this->container->getParameter('lichess.animation.delay'),
             'url' => array(
                 'sync'     => $generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
@@ -236,7 +235,10 @@ class LichessExtension extends Twig_Extension
                 'Waiting for opponent' => $translator->trans('Waiting for opponent'),
                 'Your turn'            => $translator->trans('Your turn')
             ),
-            'possible_moves' => $possibleMoves
+            'possible_moves'    => $possibleMoves,
+            'sync_delay'        => $this->container->getParameter('lichess.memory.delay') * 1000,
+            'http_push_latency' => $this->container->getParameter('lichess.http_push.latency') * 1000,
+            'animation_delay'   => $this->container->getParameter('lichess.animation.delay')
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));

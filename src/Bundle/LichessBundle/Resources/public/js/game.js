@@ -26,15 +26,12 @@
 			}
 
 			if (!self.options.opponent.ai || self.options.player.spectator) {
+                
 				// synchronize with game
 				if (!self.options.game.finished || ! self.options.player.spectator) {
-					setTimeout(self.syncPlayer = function(postData) {
-						self.syncUrl(self.options.url.sync, function() {
-							setTimeout(self.syncPlayer, self.options.sync_delay);
-						},
-						postData || {});
-					},
-					self.options.sync_delay);
+                    setTimeout(function() {
+                        self.syncUrl(self.options.url.sync);
+                    }, 1000);
 				}
 
 				if (!self.options.player.spectator) {
@@ -49,14 +46,14 @@
 		},
 		syncUrl: function(url, callback, postData) {
 			var self = this;
-			self.xqueue.add(function() {
-				return url.replace(/9999999/, self.options.player.version);
-			},
-			{
+            if (self.currentSync) {
+                self.currentSync.abort();
+            }
+			self.currentSync = $.ajax(url.replace(/9999999/, self.options.player.version), {
 				type: 'POST',
 				dataType: 'json',
 				data: postData || {},
-				//timeout: 8000,
+				timeout: self.options.http_push_latency + 5000,
 				success: function(data) {
 					if (!data) return self.onError();
 					if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
@@ -85,15 +82,29 @@
 					if (data.c) {
 						self.updateClocks(data.c);
 					}
-					if (!self.options.game.finished || ! self.options.player.spectator) {
-						$.isFunction(callback) && callback();
-					}
 				},
-				error: self.onError
+                complete: function(xhr, status) {
+                    if (status == 'error') {
+                        self.onError();
+                        return;
+                    }
+                    $.isFunction(callback) && callback();
+                    
+                    if (status == 'abort') {
+                        return;
+                    }
+                    
+                    // success, timeout: resync
+                    if (!self.options.opponent.ai || self.options.player.spectator) {
+                        if (!self.options.game.finished || !self.options.player.spectator) {
+                            self.syncUrl(self.options.url.sync);
+                        }
+                    }
+                }
 			});
 		},
-		onError: function(xhr) {
-            //location.reload();
+		onError: function() {
+            location.reload();
 		},
 		isMyTurn: function() {
 			return this.options.possible_moves != null;
@@ -554,12 +565,6 @@
 			clearInterval(this.options.interval);
 			this.options.state = 'stop';
 			this.element.removeClass('running');
-		},
-
-		debug: function(message) {
-			color = this.element.hasClass('clock_white') ? 'white': 'black';
-			id = this.options.interval;
-			console.debug(color + ':' + id + ' ' + message);
 		},
 
 		_show: function() {
