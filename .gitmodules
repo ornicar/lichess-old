@@ -7,9 +7,15 @@
 [submodule "src/Bundle/ForumBundle"]
 	path = src/Bundle/ForumBundle
 	url = git://github.com/Herzult/ForumBundle.git
-[submodule "vendor/mongodb-odm"]
-	path = vendor/mongodb-odm
+[submodule "vendor/doctrine-mongodb-odm"]
+	path = vendor/doctrine-mongodb-odm
 	url = git://github.com/doctrine/mongodb-odm
+[submodule "vendor/doctrine-common"]
+	path = vendor/doctrine-common
+	url = git://github.com/doctrine/common
+[submodule "vendor/doctrine-mongodb"]
+	path = vendor/doctrine-mongodb
+	url = git://github.com/doctrine/mongodb
 [submodule "vendor/zend"]
 	path = vendor/zend
 	url = git://github.com/zendframework/zf2.git

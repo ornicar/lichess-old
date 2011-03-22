@@ -8,10 +8,10 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony'                        => $vendorDir.'/symfony/src',
-    'Doctrine\\MongoDB'              => $vendorDir.'/mongodb-odm/lib/vendor/doctrine-mongodb/lib',
-    'Doctrine\\ODM\\MongoDB'         => $vendorDir.'/mongodb-odm/lib',
+    'Doctrine\\MongoDB'              => $vendorDir.'/doctrine-mongodb/lib',
+    'Doctrine\\ODM\\MongoDB'         => $vendorDir.'/doctrine-mongodb-odm/lib',
     'Doctrine\\Common\\DataFixtures' => $vendorDir.'/doctrine-data-fixtures/lib',
-    'Doctrine\\Common'               => $vendorDir.'/mongodb-odm/lib/vendor/doctrine-common/lib',
+    'Doctrine\\Common'               => $vendorDir.'/doctrine-common/lib',
     'DoctrineExtensions'             => $vendorDir.'/Doctrine2-Sluggable-Functional-Behavior/lib',
     'Bundle'                         => $srcDir,
     'FOS'                            => $srcDir,
