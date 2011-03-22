@@ -8,7 +8,7 @@ $start = microtime(true);
 ob_start();
 
 // Symfony2 boot
-require_once __DIR__.'/../lichess/bootstrap.php';
+require_once __DIR__.'/../lichess/bootstrap.php.cache';
 require_once __DIR__.'/../lichess/LichessKernel.php';
 
 use Symfony\Component\HttpFoundation\Request;

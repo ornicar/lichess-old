@@ -11,45 +11,26 @@ show_run()
     fi
 }
 
-echo -e "\n--- Clearing cache"
-show_run rm -rf lichess/cache/*
-
 echo -e "\n--- Building bootstrap"
 show_run "bin/build_bootstrap.php"
 
-if [ ! -f lichess/config/config_local.yml ]; then
-    echo "\n--- Creating local configuration file"
-    show_run cp lichess/config/config_local.yml.dist lichess/config/config_local.yml
-fi
+for application in xhr lichess; do
+    echo -e "\n------------------- $application -----------------"
 
-for cache in proxies hydrators; do
-    echo -e "\n--- Generating Doctrine $cache for dev"
-    show_run "php lichess/console --env=dev doctrine:mongodb:generate:$cache"
+    if [ ! -f lichess/config/config_local.yml ]; then
+        echo -e "\n--- Creating local configuration file for $application"
+        show_run cp $application/config/config_local.yml.dist $application/config/config_local.yml
+    fi
+
+    echo -e "\n--- Warming up the cache"
+    show_run "php $application/console cache:clear"
 done
-
-echo -e "\n--- Copying Doctrine cache from dev to test"
-show_run "mkdir -p lichess/cache/test"
-show_run "cp -r lichess/cache/dev/doctrine lichess/cache/test/doctrine"
 
 echo -e "\n--- Loading dev fixtures"
 show_run "php lichess/console --env=dev doctrine:mongodb:data:load"
 
 echo -e "\n--- Creating dev MongoDB standard indexes"
 show_run "php lichess/console --env=dev doctrine:mongodb:schema:create --index"
-
-echo -e "\n--- Loading fixtures"
-show_run "php lichess/console --env=test doctrine:mongodb:data:load"
-
-echo -e "\n--- Creating test MongoDB standard indexes"
-show_run "php lichess/console --env=test doctrine:mongodb:schema:create --index"
-
-#echo -e "\n--- Dropping test database"
-#echo "    $ mongo lichessTest --eval \"db.dropDatabase();\""
-#mongo lichessTest --eval "db.dropDatabase();" > /dev/null
-
-#echo -e "\n--- Copying dev database to test database"
-#echo "    $ mongo lichessDev --eval \"db.copyDatabase('lichess_dev', 'lichess_test');\""
-#mongo lichessDev --eval "db.copyDatabase('lichess_dev', 'lichess_test');" > /dev/null
 
 echo -e "\n--- Creating assets symlinks"
 show_run php lichess/console assets:install web --symlink

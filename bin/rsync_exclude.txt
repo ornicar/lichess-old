@@ -1,8 +1,9 @@
 /lichess/cache
 /lichess/logs
-/lichess/data
-/lichess/translation
+/xhr/cache
+/xhr/logs
 /web/index_*
+/web/xhr_*
 /web/apcmonitor.php
 /web/monitor
 /web/bundles

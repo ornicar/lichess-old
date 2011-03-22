@@ -8,7 +8,7 @@ framework:
     session:
         default_locale: en
         name:     lichess1
-        lifetime: 15552000 # 6 months
+        lifetime: 72000
         auto_start:     true
     templating:
         assets_version: 20

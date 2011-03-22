@@ -1,10 +1,14 @@
 /lichess/config/config_local.yml
 /lichess/cache/*
 /lichess/logs/*
-/bin/deploy*
 /lichess/bootstrap*
-tags
+/xhr/config/config_local.yml
+/xhr/cache/*
+/xhr/logs/*
+/xhr/bootstrap*
+/bin/deploy*
 /web/.htaccess
 /web/google*
 /web/apcmonitor.php
+tags
 dump*

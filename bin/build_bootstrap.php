@@ -6,17 +6,20 @@ require_once __DIR__.'/../vendor/symfony/src/Symfony/Component/ClassLoader/Unive
 /*
  * This file is part of the Symfony package.
  *
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
+ * (c) Fabien Potencier <fabien@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Component\ClassLoader\ClassCollectionLoader;
 
-require_once __DIR__.'/../lichess/autoload.php';
+$loader = new UniversalClassLoader();
+$loader->registerNamespaces(array('Symfony' => __DIR__.'/../vendor/symfony/src'));
+$loader->register();
 
-$file = __DIR__.'/../lichess/bootstrap.php';
+$file = __DIR__.'/../lichess/bootstrap.php.cache';
 if (file_exists($file)) {
     unlink($file);
 }
@@ -46,9 +49,11 @@ ClassCollectionLoader::load(array(
     'Symfony\\Component\\ClassLoader\\MapFileClassLoader',
 
     'Symfony\\Component\\Config\\ConfigCache',
-), dirname($file), basename($file, '.php'), false);
+), dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
 
 file_put_contents($file, "<?php\n\nnamespace { require_once __DIR__.'/autoload.php'; }\n\n".substr(file_get_contents($file), 5));
+
+copy($file, __DIR__.'/../xhr/bootstrap.php.cache');
 
 return;
 
@@ -76,6 +81,6 @@ ClassCollectionLoader::load(array(
     'Symfony\\Component\\HttpFoundation\\Response',
 
     'Symfony\\Component\\ClassLoader\\UniversalClassLoader',
-), dirname($file), basename($file, '.php'), false);
+), dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
 
 file_put_contents($file, "<?php\n\nnamespace { require_once __DIR__.'/autoload.php'; }\n\n".substr(file_get_contents($file), 5));
