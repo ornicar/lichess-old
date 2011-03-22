@@ -8,7 +8,6 @@
 			self.$table = self.element.find("div.lichess_table_wrap");
 			self.$chat = $("div.lichess_chat");
 			self.initialTitle = document.title;
-			self.xqueue = new $.xqueue('lichess_sync');
 
 			if (self.options.game.started) {
 				self.indicateTurn();
