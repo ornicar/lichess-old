@@ -5,6 +5,8 @@ user:
 
 lichess:
     resource: @LichessBundle/Resources/config/routing.yml
+lichess_sync:
+    resource: @LichessBundle/Resources/config/routing_sync.yml
 
 forum:
     resource: @ForumBundle/Resources/config/routing/forum.xml
