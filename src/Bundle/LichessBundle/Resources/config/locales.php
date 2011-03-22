@@ -42,6 +42,7 @@ return array(
     "eo" => "Esperanto",
     "et" => "eesti, eesti keel",
     "ee" => "Eʋegbe",
+    "fa" => "فارسی",
     "fo" => "føroyskt",
     "fj" => "vosa Vakaviti",
     "fi" => "suomi, suomen kieli",
