@@ -1,9 +1,6 @@
 [submodule "vendor/symfony"]
 	path = vendor/symfony
 	url = git://github.com/symfony/symfony.git
-[submodule "src/Bundle/LichessBundle/Resources/public/vendor/pgn4web"]
-	path = src/Bundle/LichessBundle/Resources/public/vendor/pgn4web
-	url = git://github.com/ornicar/pgn4web.git
 [submodule "src/Bundle/ForumBundle"]
 	path = src/Bundle/ForumBundle
 	url = git://github.com/Herzult/ForumBundle.git
@@ -49,3 +46,6 @@
 [submodule "src/FOS/CommentBundle"]
 	path = src/FOS/CommentBundle
 	url = git://github.com/FriendsOfSymfony/CommentBundle.git
+[submodule "web/vendor/pgn4web"]
+	path = web/vendor/pgn4web
+	url = git://github.com/ornicar/pgn4web.git
