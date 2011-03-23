@@ -1,0 +1,452 @@
+/* YUI reset version: 2.8.0r4 */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+
+/* tipsy */
+.tipsy { padding: 5px; font-size: 10px; position: absolute; z-index: 100000; text-shadow: none; }
+.tipsy-inner { padding: 5px 8px 4px 8px; background-color: black; color: white; max-width: 200px; text-align: center; }
+.tipsy-inner { border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
+.tipsy-arrow { position: absolute; background: url('../vendor/tipsy/images/tipsy.gif') no-repeat top left; width: 9px; height: 5px; }
+.tipsy-n .tipsy-arrow { top: 0; left: 50%; margin-left: -4px; }
+.tipsy-nw .tipsy-arrow { top: 0; left: 10px; }
+.tipsy-ne .tipsy-arrow { top: 0; right: 10px; }
+.tipsy-s .tipsy-arrow { bottom: 0; left: 50%; margin-left: -4px; background-position: bottom left; }
+.tipsy-sw .tipsy-arrow { bottom: 0; left: 10px; background-position: bottom left; }
+.tipsy-se .tipsy-arrow { bottom: 0; right: 10px; background-position: bottom left; }
+.tipsy-e .tipsy-arrow { top: 50%; margin-top: -4px; right: 0; width: 5px; height: 9px; background-position: top right; }
+.tipsy-w .tipsy-arrow { top: 50%; margin-top: -4px; left: 0; width: 5px; height: 9px; }
+
+.clearfix:after { content:"."; display:block; height:0; clear:both; visibility:hidden; }
+.clearfix {display:inline-block;}
+
+.none {
+    display: none;
+}
+
+.s16 {
+    padding-left: 20px;
+    background: transparent url(../images/s16.png) top left no-repeat;
+}
+
+body {
+    font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
+    color: #888;
+    background: #F7F7F7 url(../images/head_bg.png) top left repeat-x;
+    background-position: 0 +25px;
+}
+
+a, a:visited {
+    color: #888;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+strong {
+    font-weight: bold;
+}
+
+div.header {
+    width: 200px;
+    float: left;
+    position: relative;
+}
+div.header strong {
+    font-weight: normal;
+}
+
+div.content {
+    width: 1010px;
+    margin: 55px auto 50px auto;
+}
+
+#top {
+    position: absolute;
+    top:0;
+    left:0;
+    background: #eaeaea;
+    height: 24px;
+    border-bottom: 1px solid #bbb;
+    width: 100%;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
+}
+
+#lichess {
+    margin-left: 211px;
+}
+
+a.site_title {
+    width: 130px;
+    color: #666;
+    padding-top: 15px;
+    font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;
+    font-size: 30px;
+    color: #aaa;
+    text-decoration: none;
+}
+a.site_title span.extension {
+    color: #c0c0c0;
+    font-weight: normal;
+}
+a.site_title:hover {
+    color: #8899aa;
+}
+a.site_title:hover span.extension {
+    color: #99aabb;
+}
+
+div.footer_wrap {
+    width: 100%;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #EEE;
+    padding: 20px 0;
+    display: block;
+}
+
+div.footer {
+    width: 1000px;
+    margin: auto;
+    line-height: 2em;
+}
+
+div.footer div.right {
+    float: right;
+    text-align: right;
+}
+
+.button, a.easy_button {
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: -moz-linear-gradient(center top , #FAFAFA, #dfdfdf) repeat scroll 0 0 #EFEFEF;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#dfdfdf));
+    border: 1px solid #DADADA;
+    padding: 0.4em 1em;
+    text-decoration: none;
+    color: #888;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+.button:hover {
+    color: #fff;
+    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+}
+
+a.easy_button {
+    font-weight: normal;
+}
+
+div.content_box {
+    box-shadow: 0 0 7px #bbb;
+    -moz-box-shadow: 0 0 7px #bbb;
+    -webkit-box-shadow: 0 0 7px #bbb;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    background: #fff;
+    padding: 1.5em 2em 2em 2em;
+    text-align: left;
+}
+div.content_box.small_box {
+    width: 500px;
+}
+
+div.content_box .lichess_title {
+    font-size: 2em;
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+div.lichess_goodies div.box {
+    width: 182px;
+    border: 1px solid #C0C0C0;
+    padding: 5px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0 0 7px #d0d0d0;
+    -moz-box-shadow: 0 0 7px #d0d0d0;
+    -webkit-box-shadow: 0 0 7px #d0d0d0;
+}
+a.goto_nav, #top a.toggle, a#sound_state {
+    text-decoration: none;
+    font-size: 13px;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 12px;
+    text-decoration: none;
+}
+a.goto_nav {
+    float: left;
+}
+a.goto_nav:hover, #top a.toggle:hover, a#sound_state:hover {
+    background: #fff;
+}
+#top .s16 {
+    display:block;
+    height: 16px;
+    margin-top: 4px;
+    line-height: 16px;
+}
+a.goto_message span.new_messages {
+    padding: 1px 4px;
+    background: #AAA;
+    color: white;
+    font-weight: bold;
+    border-radius:4px 4px 4px 4px;
+    -moz-border-radius:4px 4px 4px 4px;
+    -webkit-border-radius:4px 4px 4px 4px;
+    font-size: 0.9em;
+}
+a.goto_message span.new_messages.unread {
+    background: #222266;
+    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+    font-size: 1em;
+}
+a.goto_logout span.s16 {
+    background-position: 0 -48px;
+}
+a.goto_profile span.s16 {
+    background-position: 0 -208px;
+}
+a.goto_profile {
+    float: right;
+}
+div.security {
+    float: right;
+    position: relative;
+}
+div.security form {
+    display: none;
+    position: absolute;
+    right: -1px;
+    top: 24px;
+    background: #fff;
+    padding: 1em;
+    border: 1px solid #dadada;
+    border-top: none;
+    z-index: 1;
+}
+div.security form input {
+    margin-bottom: 8px;
+}
+div.security form div.button_wrap {
+    text-align: right;
+    border-bottom: 1px solid #dadada;
+    margin-bottom: 8px
+}
+#top a.toggle {
+    display:block;
+    padding-right: 4px;
+    float: left;
+}
+#top a.toggle span.s16 {
+    background-position: right -192px;
+    padding-left: 0;
+    padding-right: 20px;
+}
+div.security.show_signin_form a.toggle_signin {
+    background: #fff;
+}
+div.security.show_signin_form form {
+    display: block;
+}
+div.security input.username, div.security input.password {
+    border: 1px solid #dadada;
+    padding: 2px 3px;
+    width: 100px;
+    background: #fff;
+}
+div.security input.login {
+    padding: 0 3px;
+}
+div.lichess_language {
+    float: right;
+    position: relative;
+}
+ul.lichess_language_links {
+    display: none;
+    position: absolute;
+    right: -1px;
+    top: 24px;
+    background: #fff;
+    border: 1px solid #dadada;
+    border-top: none;
+    width: 183px;
+    max-height: 600px;
+    overflow:auto;
+    z-index: 1;
+}
+div.lichess_language.toggled a.toggle {
+    background: #fff;
+}
+div.lichess_language.toggled ul.lichess_language_links {
+    display: block;
+}
+ul.lichess_language_links a {
+    display: block;
+    padding: 0.4em 0.5em;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+ul.lichess_language_links a:hover {
+    background: #F0F0F0;
+    color: #444;
+}
+ul.lichess_language_links li:last-child {
+    border-top: 1px solid #ddd;
+}
+a#sound_state {
+    float: right;
+    margin-
+}
+a#sound_state span {
+    margin-top: 4px;
+    width: 18px;
+    height: 15px;
+    opacity: 0.7;
+    background: url(../images/s16.png) no-repeat;
+    display: block;
+}
+a#sound_state.sound_state_on span {
+    background-position: 0 -80px;
+}
+a#sound_state.sound_state_off span {
+    background-position: 0 -64px;
+}
+a#sound_state.unavailable {
+    opacity: 0;
+}
+
+a.user_link {
+    padding-left: 20px;
+    background: transparent url(../images/s16.png) top left no-repeat;
+    background-position: 0 -160px;
+    line-height: 16px;
+}
+a.user_link.online {
+    background-position: 0 -208px;
+}
+#incomplete_translation {
+    margin-top: 1em;
+    padding: 0.5em;
+    background: #FFEEB1;
+    border: 1px solid #ECD688;
+    position: relative;
+}
+#incomplete_translation span.percent {
+    font-size: 18px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+#incomplete_translation span.name {
+    font-weight: bold;
+    display: block;
+}
+#incomplete_translation a.contribute {
+    display: block;
+    text-align: center;
+    padding: 0.2em 0;
+}
+#incomplete_translation a.close {
+    position: absolute;
+    top: 1px;
+    right: 4px;
+    text-decoration: none;
+}
+
+ul.lichess_social {
+    height: 25px;
+    text-align: center;
+}
+ul.lichess_social li {
+    display: inline;
+}
+.lichess_facebook iframe,
+.lichess_stumbleupon iframe {
+    border:none;
+    width: 110px;
+    height: 22px;
+    margin-left: 5px;
+    overflow: hidden;
+    background: transparent;
+}
+.lichess_stumbleupon iframe {
+    width: 80px;
+}
+
+div.lichess_server {
+    margin: 20px 0;
+    text-align: center;
+}
+
+ul.ui-autocomplete {
+    width: 200px;
+    background: #FAFAFA;
+    border: 1px solid #DADADA;
+    max-height: 200px;
+    overflow: auto;
+}
+ul.ui-autocomplete li a {
+    display: block;
+    padding: 0.6em 1em;
+    text-decoration: none;
+}
+ul.ui-autocomplete li a.ui-state-hover {
+    background: #E1F6F8;
+    color: #444;
+}
+
+#connectivity {
+    height: 20px;
+    width: 30px;
+    padding: 2px 12px;
+    display: block;
+    float: right;
+}
+#connectivity span {
+    display: block;
+    width: 4px;
+    margin-right: 2px;
+    background-color: #cacaca;
+    float: left;
+    display: block;
+}
+#connectivity span.on {
+    background-color: #808080;
+}
+#connectivity span.alert {
+    background-color: red;
+    height: 4px!important;
+    margin-top: 16px!important;
+}
+
+/* gradient */
+#top, div.lichess_table .lichess_button, .ui-state-default {
+    color: #666;
+    background: #fafafa;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
+}
+div.lichess_table .lichess_button, .ui-state-default {
+    border: 1px solid #d3d3d3;
+}
+
+#top a.goto_nav.active, div.lichess_table .lichess_button.active, .ui-state-active {
+    color: #fff;
+    background: #222266;
+    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+}
+div.lichess_table .lichess_button.active, .ui-state-active {
+    border: 1px solid #50a0b0;
+}

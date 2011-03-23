@@ -1,0 +1,38 @@
+{% extends "LichessBundle:Translation:index.html.twig" %}
+{% block translation %}
+Please translate the following English words and phrases below.<br />
+Words wrapped with "%" are variables. You must not translate them, but they must be present in your translation.<br />
+Lichess will replace them with a number or a name when displaying the message.<br />
+For example, <strong>View %nb% checkmates</strong> translated to french is <strong>Voir les %nb% mats</strong>
+<br /><br />
+{% if 0 == status.percent %}
+    No need to submit a complete translation. You can just translate some sentences, and let the others complete it :)
+{% endif %}
+<h2 class="translation_title">{{ status.name }} - {{ status.percent }}%</h2>
+<div class="locale_menu clearfix">
+    <a class="all active">View all sentences</a>
+    <a class="missing">View {{ status.missing }} missing sentences</a>
+</div>
+<div class="field messages">
+    {% set messagesKeys = form.data.messagesKeys %}
+    {% for child in form.messagesValues %}
+        <div class="message">
+            <span class="number">{{ loop.index }}/{{ messagesKeys|length }}</span>
+            <label for="{{ child.id }}">{{ messagesKeys[loop.index0] }}</label>
+            {{ form_errors(child) }}
+            {{ form_field(child) }}
+        </div>
+    {% endfor %}
+</div>
+<div class="field">
+    {{ form_label(form.author, "Author (optional)") }}
+    {{ form_field(form.author) }}
+</div>
+<div class="field">
+    {{ form_label(form.comment, "Comment (optional)") }}
+    {{ form_field(form.comment) }}
+</div>
+<div class="field">
+    <input type="submit" value="Submit translations" />
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "LichessBundle:Game:list.html.twig" %}
+{% block title %}{% trans 'View suspicious games' %} - Page {{ games.currentPageNumber }}{% endblock %}
+{% block list_type %}Suspicious games{% endblock %}
+{% block list_menu %}
+{% endblock %}
+{% block games_inner %}
+    {% include "LichessBundle:Game:listWidgetSuspicious.html.twig" with {"games": games} %}
+{% endblock %}

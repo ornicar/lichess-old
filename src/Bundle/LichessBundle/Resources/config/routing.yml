@@ -1,0 +1,158 @@
+lichess_homepage:
+    pattern:        /
+    defaults:       { _controller: lichess.controller.main:indexAction }
+lichess_move:
+    pattern:        /move/{id}
+    defaults:       { _controller: lichess.controller.player:moveAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_say:
+    pattern:        /talk/{id}
+    defaults:       { _controller: lichess.controller.player:sayAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_invite_friend:
+    pattern:        /friend
+    defaults:       { _controller: lichess.controller.game:inviteFriendAction }
+lichess_toggle_sound:
+    pattern:        /toggle-sound
+    defaults:       { _controller: lichess.controller.main:toggleSoundAction }
+lichess_wait_friend:
+    pattern:        /friend/{id}
+    defaults:       { _controller: lichess.controller.player:waitFriendAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_timeline:
+    pattern:        /timeline
+    defaults:       { _controller: LichessBundle:Timeline:index }
+lichess_timeline_inner:
+    pattern:        /timeline/refresh
+    defaults:       { _controller: LichessBundle:Timeline:inner }
+lichess_game:
+    pattern:        /{id}/{color}
+    defaults:       { _controller: lichess.controller.game:showAction, color: white }
+    requirements:   { id: "[\w\-]{8}", color: (white|black) }
+lichess_player:
+    pattern:        /{id}
+    defaults:       { _controller: lichess.controller.player:showAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_invite_ai:
+    pattern:        /ai
+    defaults:       { _controller: lichess.controller.game:inviteAiAction }
+lichess_join_game:
+    pattern:        /join/{id}
+    defaults:       { _controller: lichess.controller.game:joinAction }
+    requirements:   { id: "[\w\-]{8}" }
+lichess_invite_anybody:
+    pattern:        /anybody
+    defaults:       { _controller: lichess.controller.game:inviteAnybodyAction }
+lichess_wait_anybody:
+    pattern:        /anybody/{id}
+    defaults:       { _controller: lichess.controller.player:waitAnybodyAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_cancel_anybody:
+    pattern:        /anybody/{id}/cancel
+    defaults:       { _controller: lichess.controller.player:cancelAnybodyAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_resign:
+    pattern:        /resign/{id}
+    defaults:       { _controller: lichess.controller.player:resignAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_abort:
+    pattern:        /abort/{id}
+    defaults:       { _controller: lichess.controller.player:abortAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_outoftime:
+    pattern:        /outoftime/{id}
+    defaults:       { _controller: lichess.controller.player:outoftimeAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_table:
+    pattern:        /table/{id}/{color}/{playerFullId}
+    defaults:       { _controller: lichess.controller.player:tableAction, playerFullId "" }
+    requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)" }
+lichess_opponent:
+    pattern:        /opponent/{id}/{color}/{playerFullId}
+    defaults:       { _controller: lichess.controller.player:opponentAction, playerFullId "" }
+    requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)" }
+lichess_list_current:
+    pattern:        /games
+    defaults:       { _controller: lichess.controller.game:listCurrentAction }
+lichess_list_current_inner:
+    pattern:        /games-refresh/{ids}
+    defaults:       { _controller: lichess.controller.game:listCurrentInnerAction }
+lichess_list_all:
+    pattern:        /games/all
+    defaults:       { _controller: lichess.controller.game:listAllAction }
+lichess_list_mates:
+    pattern:        /games/checkmate
+    defaults:       { _controller: lichess.controller.game:listCheckmateAction }
+lichess_about:
+    pattern:        /about
+    defaults:       { _controller: lichess.controller.main:aboutAction }
+lichess_rematch:
+    pattern:        /rematch/{id}
+    defaults:       { _controller: lichess.controller.player:rematchAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_force_resignation:
+    pattern:        /force-resign/{id}
+    defaults:       { _controller: lichess.controller.player:forceResignAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_claim_draw:
+    pattern:        /claim-draw/{id}
+    defaults:       { _controller: lichess.controller.player:claimDrawAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_offer_draw:
+    pattern:        /offer-draw/{id}
+    defaults:       { _controller: lichess.controller.player:offerDrawAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_cancel_draw_offer:
+    pattern:        /cancel-draw-offer/{id}
+    defaults:       { _controller: lichess.controller.player:cancelDrawOfferAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_accept_draw_offer:
+    pattern:        /accept-draw-offer/{id}
+    defaults:       { _controller: lichess.controller.player:acceptDrawOfferAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_decline_draw_offer:
+    pattern:        /decline-draw-offer/{id}
+    defaults:       { _controller: lichess.controller.player:declineDrawOfferAction }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_locale:
+    pattern:        /locale/{locale}
+    defaults:       { _controller: lichess.controller.main:localeAction }
+    requirements:   { locale: "\w{2,3}" }
+lichess_locale_links:
+    pattern:        /locale/links
+    defaults:       { _controller: lichess.controller.main:localeLinksAction }
+lichess_translate:
+    pattern:        /translate
+    defaults:       { _controller: lichess.controller.translation:indexAction }
+lichess_translate_locale:
+    pattern:        /translate/{locale}
+    defaults:       { _controller: lichess.controller.translation:localeAction }
+    requirements:   { locale: "\w{2,3}" }
+lichess_translate_list:
+    pattern:        /translate_list
+    defaults:       { _controller: lichess.controller.translation:listAction }
+lichess_translate_export:
+    pattern:        /translate/export.json
+    defaults:       { _controller: lichess.controller.translation:exportAction, _format: json }
+lichess_pgn_viewer:
+    pattern:        /analyse/{id}/{color}
+    defaults:       { _controller: lichess.controller.pgn:analyseAction, color: white }
+    requirements:   { id: "[\w\-]{8}", color: (white|black) }
+lichess_nb_players:
+    pattern:        /how-many-players-now
+    defaults:       { _controller: lichess.controller.main:howManyPlayersNowAction }
+lichess_todolist:
+    pattern:        /todo-list
+    defaults:       { _controller: lichess.controller.main:todolistAction }
+lichess_trial_list_unresolved:
+    pattern:        /trial/unresolved
+    defaults:       { _controller: LichessBundle:Trial:listUnresolved }
+lichess_trial_list_guilty:
+    pattern:        /trial/guilty
+    defaults:       { _controller: LichessBundle:Trial:listGuilty }
+lichess_trial_list_innocent:
+    pattern:        /trial/innocent
+    defaults:       { _controller: LichessBundle:Trial:listInnocent }
+lichess_trial_verdict:
+    pattern:        /trial/verdict/{id}/{verdict}
+    defaults:       { _controller: LichessBundle:Trial:verdict }

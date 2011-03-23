@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="session.storage.file.dir">%kernel.root_dir%/cache/%kernel.environment%</parameter>
+        <parameter key="lichess.seek_matcher.use_session">false</parameter>
+    </parameters>
+
+    <services>
+        <service id="session.storage.file" class="Bundle\LichessBundle\Session\Storage\FileSessionStorage" public="true">
+            <argument>%session.storage.file.dir%</argument>
+        </service>
+        <service id="session.storage" alias="session.storage.file" public="false" />
+    </services>
+</container>

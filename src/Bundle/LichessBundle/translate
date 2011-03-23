@@ -1,0 +1,26 @@
+#!/bin/sh
+
+version=$(cat .translate_version)
+
+if [ "$1" = "set" ]; then
+    if [ "$2" ]; then
+        version="$2"
+        printf "Set version to %s\n" $2
+    fi
+elif [ "$1" = "fetch" ]; then
+    printf "Fetch from version %s\n" $version
+    php ../../../lichess/console lichess:translation:fetch $(echo $version)
+elif [ "$1" = "show" ]; then
+    printf "Log translation %s\n" $version
+    git log -p t/$(echo $version)
+elif [ "$1" = "apply" ]; then
+    printf "Apply translation %s\n" $version
+    git cherry-pick t/$(echo $version)
+    version=$(($version+1))
+elif [ "$1" = "next" ]; then
+    printf "Increment translation version\n"
+    version=$(($version+1))
+fi
+
+echo $version > .translate_version
+printf "current version: %s\n" $version

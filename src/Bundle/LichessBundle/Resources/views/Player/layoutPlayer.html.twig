@@ -1,0 +1,6 @@
+{% extends "LichessBundle:Game:layoutGame.html.twig" %}
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset("bundles/lichess/js/game.js") }}"></script>
+{% endblock %}
+{% block menu_active %}play{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "LichessBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset("bundles/lichess/css/translation.css") }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset("bundles/lichess/js/translation.js") }}"></script>
+{% endblock %}
+{% block layout_content %}
+<div class="content_box">{% block content %}{% endblock %}</div>
+{% endblock %}

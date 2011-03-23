@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.translation.manager.reference_language">fr</parameter>
+
+        <parameter key="lichess.locales" type="collection">
+            <parameter key="en">English</parameter>
+            <parameter key="fr">français</parameter>
+            <parameter key="ru">русский язык</parameter>
+            <parameter key="de">Deutsch</parameter>
+            <parameter key="tr">Türkçe</parameter>
+            <parameter key="sr">српски јези</parameter>
+            <parameter key="lv">latviešu valoda</parameter>
+            <parameter key="bs">bosanski jezik</parameter>
+            <parameter key="da">Dansk</parameter>
+            <parameter key="es">Español</parameter>
+            <parameter key="ro">Română</parameter>
+            <parameter key="it">Italian</parameter>
+            <parameter key="fi">suomi, suomen kieli</parameter>
+            <parameter key="uk">українськ</parameter>
+            <parameter key="pt">Português</parameter>
+            <parameter key="pl">polski</parameter>
+            <parameter key="nl">Nederlands, Vlaams</parameter>
+            <parameter key="vi">Tiếng Việt</parameter>
+            <parameter key="sv">svensk</parameter>
+            <parameter key="cs">česky, čeština</parameter>
+            <parameter key="sk">slovenčina</parameter>
+            <parameter key="hu">magyar nyelv</parameter>
+            <parameter key="ca">Català</parameter>
+            <parameter key="sl">slovenščina</parameter>
+            <parameter key="az">azərbaycan dili</parameter>
+            <parameter key="nn">Norsk nynors</parameter>
+            <parameter key="eo">Esperanto</parameter>
+            <parameter key="tp">Toki Pona</parameter>
+            <parameter key="el">Ελληνικά</parameter>
+            <parameter key="frp">arpitan</parameter>
+            <parameter key="lt">lietuvių kalba</parameter>
+            <parameter key="no">Nors</parameter>
+            <parameter key="et">eesti, eesti keel</parameter>
+            <parameter key="hy">Հայերեն</parameter>
+            <parameter key="af">Afrikaans</parameter>
+            <parameter key="hi">हिन्दी, हिंदी</parameter>
+            <parameter key="ar">العربية</parameter>
+            <parameter key="zh">中文</parameter>
+            <parameter key="gl">Galego</parameter>
+            <parameter key="tk">Türkçe</parameter>
+            <parameter key="hr">hrvatski</parameter>
+            <parameter key="mk">македонски јази</parameter>
+            <parameter key="id">Bahasa Indonesia</parameter>
+            <parameter key="ja">日本語</parameter>
+            <parameter key="bg">български език</parameter>
+            <parameter key="th">ไทย</parameter>
+            <parameter key="fa">فارسی</parameter>
+        </parameter>
+
+    </parameters>
+
+    <services>
+        <service id="lichess.translation.manager" class="Bundle\LichessBundle\Translation\Manager">
+            <argument>%lichess.translation.manager.reference_language%</argument>
+            <argument>%lichess.locales%</argument>
+        </service>
+        <service id="lichess.translation.fetcher" class="Bundle\LichessBundle\Translation\Fetcher">
+            <argument type="service" id="lichess.translation.manager" />
+            <argument>%lichess.translation.remote_domain%</argument>
+        </service>
+        <service id="lichess.translation.provider" class="Bundle\LichessBundle\Translation\Provider">
+            <argument type="service" id="lichess.repository.translation" />
+        </service>
+    </services>
+</container>

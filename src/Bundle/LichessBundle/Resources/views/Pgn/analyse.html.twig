@@ -1,0 +1,58 @@
+{% extends "LichessBundle:Pgn:layoutAnalyse.html.twig" %}
+{% block title %}Lichess - {% trans "Replay and analyse" %}{% endblock %}
+{% block title_suffix %} #{{ game.id }}{% endblock %}
+{% block content %}
+<div class="analyse clearfix">
+    <div class="board_wrap">
+        <div id="GameBoard"{{ reverseColor == "white" ? ' class="flip"' : "" }}></div>
+        <div id="GameButtons"></div>
+    </div>
+    <div class="moves_wrap">
+        <h1>{% trans "Replay and analyse" %}</h1>
+        <div id="GameText"></div>
+    </div>
+</div>
+{% endblock %}
+{% block goodies %}
+<div class="lichess_goodies">
+    <br />
+    <div class="box">
+        {% if game.isBeingPlayed %}
+            <a class="link" href="{{ path("lichess_game", {"id": game.id} ) }}">
+                Playing right now at {{ url("lichess_game", {"id": game.id} ) }}
+            </a>
+        {% else %}
+            {{ lichess_date(game.updatedAt) }}
+        {% endif %}
+        {% if game.isFinishedOrAborted %}
+            <br />{% trans game.statusMessage %}
+        {% endif %}
+        <br />
+        <br />
+        <div id="player_links">
+        {% for p in [player.opponent, player] %}
+            <div>
+                {% if p.isAi %}
+                    {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': p.aiLevel} %}
+                {% else %}
+                    {{ lichess_link_player(p)|raw }}
+                {% endif %}
+            </div>
+        {% endfor %}
+        </div>
+        <br />
+        {% trans "Variant" %} - {{ game.variantName|capitalize }}<br />
+        {% trans "Time control" %} - {{ game.clockName }}<br />
+        {% if game.isRated %}
+            {% trans "This game is rated" %}<br />
+        {% endif %}
+    </div>
+    <br />
+    <a class="rotate_board" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": reverseColor} ) }}">{% trans "Flip board" %}</a><br />
+    <br />
+    {% trans "Export PGN" %}:
+    <textarea id="pgnText" readonly="readonly">{{ pgn }}</textarea>
+</div>
+{% endblock %}
+{% block share %}{% include "LichessBundle:Game:share.html.twig" with {"game": game} %}{% endblock %}
+{% block feed_link %}{% include "LichessCommentBundle:Thread:feedLink.html.twig" with {"game": game} %}{% endblock %}

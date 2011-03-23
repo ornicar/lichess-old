@@ -1,0 +1,37 @@
+{% extends "LichessBundle:Game:invite.html.twig" %}
+{% block invite_type %}friend{% endblock %}
+{% block invite_title %}{% trans "Play with a friend" %}{% endblock %}
+{% block invite_form_fields %}
+<div class="variants buttons">
+    {% for choice, child in form.variant %}
+        {{ form_field(child) }}
+        <label for="{{ child.id }}">{% trans form.variant.label(choice) %}</label>
+    {% endfor %}
+</div>
+<a class="show_advanced">{% trans "Show advanced options" %}</a>
+<div class="advanced">
+    {% trans "Minutes per side" %}
+    <div class="times buttons">
+        {% for choice, child in form.time %}
+            {{ form_field(child) }}
+            <label for="{{ child.id }}">{% trans form.time.label(choice) %}</label>
+        {% endfor %}
+    </div>
+    {% trans "Increment in seconds" %}
+    <div class="increments buttons">
+        {% for choice, child in form.increment %}
+            {{ form_field(child) }}
+            <label for="{{ child.id }}">{{ form.increment.label(choice) }}</label>
+        {% endfor %}
+    </div>
+    {% if form.mode is defined %}
+        {% trans "Mode" %}
+        <div class="modes buttons">
+            {% for choice, child in form.mode %}
+                {{ form_field(child) }}
+                <label for="{{ child.id }}">{% trans form.mode.label(choice) %}</label>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

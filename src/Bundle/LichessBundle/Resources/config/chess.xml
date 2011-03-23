@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess.animation.delay">0.3</parameter>
+    </parameters>
+
+    <services>
+        <service id="lichess.analyser_factory" class="Bundle\LichessBundle\Chess\AnalyserFactory">
+            <argument>Bundle\LichessBundle\Chess\Analyser</argument>
+        </service>
+
+        <service id="lichess.manipulator_factory" class="Bundle\LichessBundle\Chess\ManipulatorFactory">
+            <argument type="service" id="lichess.autodraw" />
+            <argument type="service" id="lichess.analyser_factory" />
+            <argument>Bundle\LichessBundle\Chess\Manipulator</argument>
+        </service>
+
+        <service id="lichess.hardware" class="Bundle\LichessBundle\Chess\Hardware" />
+
+        <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger" />
+
+        <service id="lichess.rematcher" class="Bundle\LichessBundle\Chess\Rematcher">
+            <argument type="service" id="lichess.logger" />
+            <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess.generator" />
+            <argument type="service" id="lichess.memory" />
+            <argument type="service" id="router" />
+            <argument type="service" id="lichess.object_manager" />
+        </service>
+
+        <service id="lichess.generator" class="Bundle\LichessBundle\Chess\Generator" />
+
+        <service id="lichess.finisher" class="Bundle\LichessBundle\Chess\Finisher">
+            <argument type="service" id="lichess.elo.calculator" />
+            <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess.memory" />
+            <argument type="service" id="lichess.elo.updater" />
+            <argument type="service" id="lichess.logger" />
+            <argument type="service" id="lichess.timeline.pusher" />
+            <argument type="service" id="lichess.cheat.judge" />
+        </service>
+
+        <service id="lichess.drawer" class="Bundle\LichessBundle\Chess\Drawer">
+            <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lichess.finisher" />
+            <argument type="service" id="lichess.logger" />
+        </service>
+
+        <service id="lichess.mover" class="Bundle\LichessBundle\Chess\Mover">
+            <argument type="service" id="lichess.manipulator_factory" />
+            <argument type="service" id="lichess.memory" />
+            <argument type="service" id="lichess.ai.chain" />
+            <argument type="service" id="lichess.cheat.internal_detector" />
+            <argument type="service" id="lichess.finisher" />
+            <argument type="service" id="lichess.logger" />
+        </service>
+
+        <service id="lichess.autodraw" class="Bundle\LichessBundle\Chess\Autodraw" public="false"/>
+
+        <service id="lichess.pgn_dumper" class="Bundle\LichessBundle\Notation\PgnDumper">
+            <argument type="service" id="router" />
+        </service>
+    </services>
+</container>

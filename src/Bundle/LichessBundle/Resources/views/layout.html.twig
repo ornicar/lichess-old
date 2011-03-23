@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="{{ app.session.locale }}">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <title>{% block title %}Lichess{% endblock %} | free online Chess game{% block title_suffix %}{% endblock %}</title>
+        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, Symfony2 and JavaScript with jQuery 1.4" name="description">
+        <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript, artificial intelligence" name="keywords">
+        <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lichess/css/common.css') }}" />
+        {% endblock %}
+        {% block feed_link %}{% endblock %}
+        <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
+    </head>
+    <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
+        {% include "LichessBundle::top.html.twig" with {"active": block("menu_active")} %}
+        <div class="content">
+            <div class="header">
+                <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
+                {% block baseline %}{% endblock %}
+                {% if app.session.hasFlash("locale_missing") %}{% render "LichessBundle:Translation:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
+                {% elseif app.session.getFlash("locale_change", "en") != "en" %}{% render "LichessBundle:Translation:onChange" with{"locale": app.session.locale} %}
+                {% endif %}
+                <div class="lichess_goodies_wrap">{% block goodies %}{% endblock %}</div>
+                <div class="lichess_chat_wrap">{% block chat %}{% endblock %}</div>
+            </div>
+            <div id="lichess">
+                {% block layout_content %}{% endblock %}
+            </div>
+        </div>
+        <div class="footer_wrap">
+            <ul class="lichess_social"></ul>
+            <div class="footer">
+                <div class="right">
+                    <a href="http://twitter.com/#!/ornicar">twitter.com/ornicar</a> | <a href="http://github.com/ornicar">github.com/ornicar</a><br />
+                    {% trans "Contact" %}: <span class="js_email"></span><br />
+                    <a href="{{ path("lichess_about") }}" class="blank_if_play">{% trans "Learn more about Lichess" %}</a>
+                </div>
+                <div id="nb_connected_players" class="nb_connected_players" data-url="{{ path("lichess_nb_players") }}">
+                    {% trans "%nb% connected players" with{"%nb%": lichess_nb_active_players()} %}
+                </div>
+                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> | help <a href="{{ path("lichess_translate") }}">translate Lichess</a> | view <a href="{{ path("lichess_todolist") }}">TODO list</a><br />
+                {% trans "Open Source software built with %php%, %symfony% and %jqueryui%" with{'%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'} %}<br />
+            </div>
+        </div>
+        <div class="lichess_server">
+            <a href="#top">{% trans "Back to top" %}</a> | [[time]] | {% trans "Server load" %}: <span class="value">{{ lichess_load_average() }}</span> |
+            <a class="blank_if_play" href="/monitor/index.html">Server monitoring</a>
+        </div>
+        {% block js_data %}{% endblock %}
+        {% if not lichess_debug_assets() %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+            <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        {% endif %}
+
+        <script>!window.jQuery && document.write(unescape('%3Cscript src="{{ asset('bundles/lichess/vendor/jquery.min.js') }}"%3E%3C/script%3E'))</script>
+        <script>!jQuery.ui && document.write(unescape('%3Cscript src="{{ asset('bundles/lichess/vendor/jquery-ui.min.js') }}"%3E%3C/script%3E'))</script>
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/lichess/js/tipsy.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/lichess/js/bundles.js')   }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/lichess/js/ctrl.js')      }}"></script>
+        {% endblock %}
+
+    </body>
+</html>

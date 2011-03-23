@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="lichess.core_request_listener" class="Bundle\LichessBundle\CoreRequestListener">
+            <argument>%lichess.locales%</argument>
+            <tag name="kernel.listener" event="onCoreRequest" priority="0" />
+        </service>
+    </services>
+
+</container>

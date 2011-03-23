@@ -1,0 +1,24 @@
+{% extends "LichessBundle:Player:layoutPlayer.html.twig" %}
+{% block title %}Lichess - {% trans "Play with a friend" %} - {{ player.color }}{% endblock %}
+{% block content %}
+<div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_{{ player.color }}">
+    <div class="lichess_board_wrap">
+        {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".html.twig" %}
+        <div class="lichess_overboard">
+            {% trans "To invite someone to play, give this url" %}:
+            <input class="lichess_id_input" readonly="readonly" value="{{ url("lichess_game", {"id": player.game.id} ) }}" />
+            <p class="explanations">{% trans "The first person to come on this url will play with you." %}<p>
+            <p class="explanations">
+                {% trans "Variant" %}: {% trans config.variantName %}<br />
+                {% trans "Minutes per side" %}: {% trans config.timeName %}<br />
+                {% trans "Increment in seconds" %}: {% trans config.incrementName %}<br />
+                {% trans "Mode" %}: {% trans config.modeName %}
+            </p>
+        </div>
+    </div>
+    {% include "LichessBundle:Game:bootGround.html.twig" with {"color": player.color, "active": "friend"} %}
+</div>
+{% endblock %}
+{% block js_data %}
+    {{ lichess_game_data(player, none, false) }}
+{% endblock %}

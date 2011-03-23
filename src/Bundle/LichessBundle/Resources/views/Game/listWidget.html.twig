@@ -1,0 +1,50 @@
+{% if fromUser is not defined %}{% set fromUser = none %}{% endif %}
+{% for game in games %}
+{% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
+{% set fromPlayer = game.getPlayerByUser(fromUser) %}
+<div class="game_row clearfix">
+{{ lichess_game_mini(game, fromUser)|raw }}
+<div class="infos">
+<b>
+{% if game.isBeingPlayed %}
+<a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">
+    {% trans "Playing right now" %}
+</a>,
+{% else %}
+{{ lichess_date(game.updatedAt) }}
+{% endif %}
+</b>-
+{% if game.isFinishedOrAborted %}
+{% trans game.statusMessage %}
+{% if game.winner %}
+, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{% trans game.winner.color|capitalize ~ " is victorious" %}</span>
+{% endif %}
+{% else %}
+{% trans game.turnColor|capitalize ~ " plays" %}
+{% endif %}
+<br /><br />
+{% block players %}
+<table class="game_players">
+{% for player in [firstPlayer.opponent, firstPlayer] %}
+<tr>
+<td>{% trans player.color|capitalize %}</td>
+<td>{{ lichess_link_player(player) }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
+<br />
+{% trans "Variant" %}: {{ game.variantName }}
+<br /><br />
+{% trans "Time control" %}: {{ game.clockName }}
+<br /><br />
+{% if game.isRated %}
+{% trans "This game is rated" %}
+<br /><br />
+{% endif %}
+<a href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {% trans "Replay and analyse" %}</a>
+</div>
+</div>
+{% else %}
+- No recent game at the moment -
+{% endfor %}

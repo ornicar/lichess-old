@@ -1,0 +1,8 @@
+<div id="incomplete_translation">
+    <span class="percent">{{ status.percent}}%</span>
+    <span class="name">{{ status.name }}</span>
+    <span class="missing">{{ status.missing }} missing sentences</span>
+    <br /><br />
+    <a class="blank_if_play contribute" href="{{ path("lichess_translate_locale", {"locale": locale} ) }}">Contribute to translation!</a>
+    <a class="close">x</a>
+</div>

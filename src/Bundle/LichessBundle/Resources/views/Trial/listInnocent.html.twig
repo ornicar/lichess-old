@@ -1,0 +1,7 @@
+{% extends "LichessBundle:Trial:list.html.twig" %}
+{% block title %}{% trans "View %nb% trials resolved as innocent" with {"%nb%": nbInnocent} %} - Page {{ trials.currentPageNumber }}{% endblock %}
+{% block list_type %}Trials resolved as innocent{% endblock %}
+{% block list_menu %}
+<a class="game_list" href="{{ path("lichess_trial_list_unresolved") }}">Unresolved ({{ nbUnresolved }})</a>
+<a class="game_list" href="{{ path("lichess_trial_list_guilty") }}">Resolved as guilty ({{ nbGuilty }})</a>
+{% endblock %}
