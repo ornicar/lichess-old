@@ -65,8 +65,10 @@
             <argument>%lichess.locales%</argument>
         </service>
         <service id="lichess.translation.fetcher" class="Bundle\LichessBundle\Translation\Fetcher">
+            <file>%kernel.root_dir%/../vendor/php-git-repo/lib/phpGitRepo.php</file>
             <argument type="service" id="lichess.translation.manager" />
             <argument>%lichess.translation.remote_domain%</argument>
+            <argument>%kernel.root_dir%/..</argument>
         </service>
         <service id="lichess.translation.provider" class="Bundle\LichessBundle\Translation\Provider">
             <argument type="service" id="lichess.repository.translation" />

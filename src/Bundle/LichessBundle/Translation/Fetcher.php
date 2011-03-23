@@ -1,9 +1,9 @@
 <?php
 
 namespace Bundle\LichessBundle\Translation;
-use phpGitRepo;
 
-require_once __DIR__.'/../../../../vendor/php-git-repo/lib/phpGitRepo.php';
+use phpGitRepo;
+use InvalidArgumentException;
 
 class Fetcher
 {
@@ -12,11 +12,13 @@ class Fetcher
     protected $path = '/translate/export.json';
     protected $protocol = 'http://';
     protected $logger;
+    protected $gitDir;
 
-    public function __construct(Manager $manager, $domain)
+    public function __construct(Manager $manager, $domain, $gitDir)
     {
         $this->manager = $manager;
         $this->domain = trim($domain, '/');
+        $this->gitDir = realpath($gitDir);
     }
 
     public function setLogger(\Closure $closure)
@@ -96,6 +98,6 @@ class Fetcher
 
     protected function createGitRepo()
     {
-        return new phpGitRepo(realpath(__DIR__.'/..'), false);
+        return new phpGitRepo($this->gitDir, false);
     }
 }
