@@ -50,10 +50,13 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $crawler = $p1->followRedirect();
         $p1->request('POST', $crawler->selectLink('Rematch')->attr('href'));
         $this->assertTrue($p1->getResponse()->isSuccessful());
+        $this->assertEquals('ok', $p1->getResponse()->getContent());
+
+        $p1->request('POST', $this->getSyncUrl($h1));
         $response = json_decode($p1->getResponse()->getContent(), true);
         $this->assertEquals('redirect', $response['e'][0]['type']);
 
-        $crawler = $p1->back();
+        $crawler = $p1->request('GET', '/'.$h1);
         $this->assertEquals(0, $crawler->selectLink('Rematch')->count());
         $this->assertRegexp('/Rematch offer sent/', $p1->getResponse()->getContent());
 
@@ -62,9 +65,13 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertEquals(1, $link->count());
         $p2->request('POST', $link->attr('href'));
         $this->assertTrue($p2->getResponse()->isSuccessful());
+        $this->assertEquals('ok', $p2->getResponse()->getContent());
+
+        $p2->request('POST', $this->getSyncUrl($h2));
         $response = json_decode($p2->getResponse()->getContent(), true);
-        $this->assertEquals('redirect', $response['e'][0]['type']);
-        $url = $response['e'][0]['url'];
+        $lastEvent = array_pop($response['e']);
+        $this->assertEquals('redirect', $lastEvent['type']);
+        $url = $lastEvent['url'];
         $this->assertRegexp('#/\w{12}#', $url);
 
         $p2->request('GET', $url);
@@ -84,9 +91,12 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $c1 = $getPieceOn('c1');
         $d1 = $getPieceOn('d1');
         $p1->request('GET', '/abort/'.$h1);
-        $p1->request('POST', '/rematch/'.$h1.'/0');
+        $p1->request('POST', '/rematch/'.$h1);
 
-        $p2->request('POST', '/rematch/'.$h2.'/0');
+        $p2->request('POST', '/rematch/'.$h2);
+        $this->assertEquals('ok', $p2->getResponse()->getContent());
+
+        $p2->request('POST', $this->getSyncUrl($h2));
         $response = json_decode($p2->getResponse()->getContent(), true);
         $lastEvent = array_pop($response['e']);
         $url = $lastEvent['url'];
@@ -300,7 +310,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
             list($from, $to) = explode(' ', $move);
             $player = $it%2 ? $p2 : $p1;
             $id = $it%2 ? $h2 : $h1;
-            $moveUrl = '/move/'.$id.'/0';
+            $moveUrl = '/move/'.$id;
             $player->request('POST', $moveUrl, array('from' => $from, 'to' => $to));
             $this->assertTrue($player->getResponse()->isSuccessful());
         }

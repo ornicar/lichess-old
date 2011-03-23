@@ -20,7 +20,6 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('#^All games.+$#', $crawler->filter('.title')->text());
         $this->assertGreaterThan(4, $crawler->filter('div.game_row')->count());
-        $this->assertRegexp('#'.preg_quote('Time control: 20 minutes/side + 5 seconds/move', '#').'#', $client->getResponse()->getContent());
     }
 
     public function testViewMateGames()
