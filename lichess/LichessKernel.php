@@ -29,6 +29,7 @@ class LichessKernel extends Kernel
             new Application\ForumBundle\LichessForumBundle(),
             new Application\CommentBundle\LichessCommentBundle(),
             new Bundle\LichessBundle\LichessBundle(),
+            new Lichess\SearchBundle\LichessSearchBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -15,6 +15,7 @@ $loader->registerNamespaces(array(
     'DoctrineExtensions'             => $vendorDir.'/Doctrine2-Sluggable-Functional-Behavior/lib',
     'Bundle'                         => $srcDir,
     'FOS'                            => $srcDir,
+    'Lichess'                        => $srcDir,
     'Application'                    => $srcDir,
     'ZendPaginatorAdapter'           => $vendorDir.'/ZendPaginatorAdapter/src',
     'Zend'                           => $vendorDir.'/zend/library'

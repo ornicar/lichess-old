@@ -1,0 +1,6 @@
+{% extends "LichessBundle::layoutCommon.html.twig" %}
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset("bundles/lichesssearch/css/game.css") }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block menu_active %}game{% endblock %}
