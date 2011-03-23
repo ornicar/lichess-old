@@ -31,9 +31,6 @@
 [submodule "vendor/php-git-repo"]
 	path = vendor/php-git-repo
 	url = git://github.com/ornicar/php-git-repo.git
-[submodule "src/Bundle/LichessBundle"]
-	path = src/Bundle/LichessBundle
-	url = git://github.com/ornicar/LichessBundle.git
 [submodule "vendor/Doctrine2-Sluggable-Functional-Behavior"]
 	path = vendor/Doctrine2-Sluggable-Functional-Behavior
 	url = git://github.com/ornicar/Doctrine2-Sluggable-Functional-Behavior.git
