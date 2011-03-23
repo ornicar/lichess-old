@@ -9,7 +9,7 @@ if [ "$1" = "set" ]; then
     fi
 elif [ "$1" = "fetch" ]; then
     printf "Fetch from version %s\n" $version
-    php ../../../lichess/console lichess:translation:fetch $(echo $version)
+    php lichess/console lichess:translation:fetch $(echo $version) -v
 elif [ "$1" = "show" ]; then
     printf "Log translation %s\n" $version
     git log -p t/$(echo $version)
