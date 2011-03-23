@@ -493,17 +493,21 @@ $.widget("lichess.game", {
     },
     get: function(url, options) {
         var self = this;
-        options.type = 'GET';
-        options.timeout = 6000;
-        options.cache = false,
+        options = $.extend({
+            type: 'GET',
+            timeout: 6000,
+            cache: false
+        }, options || {});
         $.ajax(url, options).complete(function(x, s) {
             self.onXhrComplete(x, s);
         });
     },
     post: function(url, options) {
         var self = this;
-        options.type = 'POST';
-        options.timeout = 6000;
+        options = $.extend({
+            type: 'POST',
+            timeout: 6000
+        }, options || {});
         $.ajax(url, options).complete(function(x, s) {
             self.onXhrComplete(x, s, 'ok');
         });
@@ -517,7 +521,7 @@ $.widget("lichess.game", {
         }
     },
     onError: function() {
-        location.reload();
+        setTimeout(location.reload, 3000);
     }
 });
 
