@@ -23,7 +23,8 @@ for application in xhr lichess; do
     fi
 
     echo -e "\n--- Warming up the cache"
-    show_run "php $application/console cache:clear"
+    show_run "php $application/console cache:clear --no-warmup"
+    show_run "php $application/console cache:warmup"
 done
 
 echo -e "\n--- Loading dev fixtures"

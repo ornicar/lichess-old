@@ -3,18 +3,19 @@
 echo "Build bootstrap"
 bin/build_bootstrap.php
 
-echo "Remove cache dir"
-rm -r lichess/cache/prod/*
-chmod -R 777 lichess/cache/prod
-
-echo "Warmup cache"
-php lichess/console --env=prod cache:warmup
+for application in xhr lichess; do
+    echo -e "\n------------------- $application -----------------"
+    echo "Remove cache dir"
+    rm -r $application/cache/prod/*
+    chmod -R 777 $application/cache/prod
+    echo "Warmup cache"
+    php $application/console -e=prod cache:warmup
+    echo "Raise cache permissions"
+    chmod -R 777 $application/cache/prod
+done
 
 echo "Clear APC cache opcode and user"
 php lichess/console --env=prod apc:clear
-
-echo "Raise cache permissions"
-chmod -R 777 lichess/cache/prod
 
 echo "Install crafty books"
 bin/install_crafty_books
