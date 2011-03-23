@@ -46,7 +46,14 @@ class PlayerWithAiControllerTest extends WebTestCase
         $client->request('POST', $moveUrl, array('from' => 'b1', 'to' => 'c3'));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $nbActivePlayers = $client->getContainer()->get('lichess.memory')->getNbActivePlayers();
-        $this->assertEquals('{"v":2,"oa":2,"e":[{"type":"move","from":"b1","to":"c3"},{"type":"possible_moves","possible_moves":null}],"p":"black","t":1}', $client->getResponse()->getContent());
+        $this->assertEquals('ok', $client->getResponse()->getContent());
+
+        $client->request('POST', $this->getSyncUrl($id));
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals(5, $response['v']);
+        $this->assertEquals(2, $response['oa']);
+        $this->assertEquals('white', $response['p']);
+        $this->assertEquals(2, $response['t']);
 
         return $id;
     }
