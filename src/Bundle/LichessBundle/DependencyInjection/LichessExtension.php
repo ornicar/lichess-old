@@ -20,7 +20,6 @@ class LichessExtension extends Extension
         $loader->load('elo.xml');
         $loader->load('controller.xml');
         $loader->load('twig.xml');
-        $loader->load('translation.xml');
         $loader->load('form.xml');
         $loader->load('logger.xml');
         $loader->load('cheat.xml');
@@ -45,7 +44,6 @@ class LichessExtension extends Extension
         foreach (array('enabled', 'priority') as $option) {
             $container->setParameter('lichess.ai.stupid.'.$option, $config['ai']['stupid'][$option]);
         }
-        $container->setParameter('lichess.translation.remote_domain', $config['translation']['remote_domain']);
         $container->setParameter('lichess.debug_assets', $config['debug_assets']);
         $container->setParameter('akismet.api_key', $config['akismet']['api_key']);
         $container->setParameter('akismet.url', $config['akismet']['url']);

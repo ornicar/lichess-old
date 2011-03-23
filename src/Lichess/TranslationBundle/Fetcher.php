@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Translation;
+namespace Lichess\TranslationBundle;
 
 use phpGitRepo;
 use InvalidArgumentException;

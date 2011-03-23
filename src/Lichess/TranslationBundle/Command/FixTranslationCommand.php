@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Command;
+namespace Lichess\TranslationBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;

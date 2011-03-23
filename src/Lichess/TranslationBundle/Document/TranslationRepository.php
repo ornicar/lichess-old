@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Lichess\TranslationBundle\Document;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
 class TranslationRepository extends DocumentRepository

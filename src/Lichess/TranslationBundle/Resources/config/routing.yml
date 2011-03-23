@@ -1,0 +1,14 @@
+lichess_translate:
+    pattern:        /
+    defaults:       { _controller: Lichess:TranslationBundle:index}
+lichess_translate_locale:
+    pattern:        /{locale}
+    defaults:       { _controller: Lichess:TranslationBundle:locale}
+    requirements:   { locale: "\w{2,3}" }
+lichess_translate_list:
+    pattern:        /list
+    defaults:       { _controller: Lichess:TranslationBundle:list}
+lichess_translate_export:
+    pattern:        /export.json
+    defaults:       { _controller: Lichess:TranslationBundle:export, _format: json }
+

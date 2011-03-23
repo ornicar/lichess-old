@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Bundle\LichessBundle\Util\KeyGenerator;
@@ -11,11 +11,11 @@ use DateTime;
 
 class CoreRequestListener
 {
-    protected $languageCodes;
+    protected $container;
 
-    public function __construct(array $locales)
+    public function __construct(ContainerInterface $container)
     {
-        $this->languageCodes = array_keys($locales);
+        $this->container = $container;
     }
 
     public function onCoreRequest(GetResponseEvent $event)
@@ -28,7 +28,7 @@ class CoreRequestListener
                 if(!$session->has('lichess.session_id')) {
                     $session->set('lichess.session_id', KeyGenerator::generate(10));
 
-                    $chosenLanguage = $event->getRequest()->getPreferredLanguage($this->languageCodes);
+                    $chosenLanguage = $event->getRequest()->getPreferredLanguage($this->container->getParameter('lichess.locales'));
                     $session->setLocale($chosenLanguage);
                     $session->setFlash('locale_change', $chosenLanguage);
 

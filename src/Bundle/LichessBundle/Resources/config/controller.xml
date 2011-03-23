@@ -29,12 +29,6 @@
             </call>
         </service>
 
-        <service id="lichess.controller.translation" class="Bundle\LichessBundle\Controller\TranslationController">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
-
         <service id="lichess.controller.compat" class="Bundle\LichessBundle\Controller\CompatController">
             <call method="setContainer">
                 <argument type="service" id="service_container" />

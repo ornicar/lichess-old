@@ -1,7 +1,8 @@
 <?php
 
-namespace Bundle\LichessBundle\Form;
-use Bundle\LichessBundle\Translation\Manager;
+namespace Lichess\TranslationBundle\Form;
+
+use Lichess\TranslationBundle\Translation\Manager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\TextField;
 use Symfony\Component\Form\ChoiceField;

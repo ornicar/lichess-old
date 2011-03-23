@@ -11,7 +11,7 @@ framework:
         lifetime: 72000
         auto_start:     true
     templating:
-        assets_version: 23
+        assets_version: 24
         engines: ['twig']
     translator: { fallback: en }
 
@@ -39,15 +39,16 @@ doctrine_mongo_db:
     document_managers:
         default:
             mappings:
-                LichessBundle: ~
-                FOSUserBundle: ~
-                LichessUserBundle: ~
-                OrnicarMessageBundle: ~
-                LichessMessageBundle: ~
+                LichessBundle:
+                FOSUserBundle:
+                LichessUserBundle:
+                OrnicarMessageBundle:
+                LichessMessageBundle:
                 ForumBundle:
                 LichessForumBundle:
                 FOSCommentBundle:
                 LichessCommentBundle:
+                LichessTranslationBundle:
             metadata_cache_driver: apc
 
 forum:

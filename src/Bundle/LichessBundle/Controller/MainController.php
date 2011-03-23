@@ -42,7 +42,7 @@ class MainController extends Controller
 
     public function localeAction($locale)
     {
-        if($this->get('lichess.translation.manager')->isAvailable($locale)) {
+        if($this->get('lichess_translation.manager')->isAvailable($locale)) {
             $this->get('session')->setLocale($locale);
             $this->get('session')->setFlash('locale_change', $locale);
         }
@@ -57,7 +57,7 @@ class MainController extends Controller
 
     public function localeLinksAction()
     {
-        $locales = $this->container->get('lichess.translation.manager')->getAvailableLanguages();
+        $locales = $this->container->get('lichess_translation.manager')->getAvailableLanguages();
         unset($locales[$this->container->get('session')->getLocale()]);
         ksort($locales);
         return $this->render('LichessBundle:Main:localeLinks.html.twig', array('locales' => $locales));

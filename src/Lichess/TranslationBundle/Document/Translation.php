@@ -1,12 +1,12 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Lichess\TranslationBundle\Document;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * @mongodb:Document(
  *   collection="translation",
- *   repositoryClass="Bundle\LichessBundle\Document\TranslationRepository"
+ *   repositoryClass="Lichess\TranslationBundle\Document\TranslationRepository"
  * )
  */
 class Translation

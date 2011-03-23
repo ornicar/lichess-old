@@ -6,7 +6,7 @@
 
     <services>
         <service id="lichess.core_request_listener" class="Bundle\LichessBundle\CoreRequestListener">
-            <argument>%lichess.locales%</argument>
+            <argument type="service" id="service_container" />
             <tag name="kernel.listener" event="onCoreRequest" priority="0" />
         </service>
     </services>

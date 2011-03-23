@@ -409,12 +409,12 @@ class LichessExtension extends Twig_Extension
     {
         $locale = $this->container->get('session')->getLocale();
 
-        return $this->container->get('lichess.translation.manager')->getAvailableLanguageName($locale);
+        return $this->container->get('lichess_translation.manager')->getAvailableLanguageName($locale);
     }
 
     public function getLocales()
     {
-        return $this->container->get('lichess.translation.manager')->getAvailableLanguages();
+        return $this->container->get('lichess_translation.manager')->getAvailableLanguages();
     }
 
     /**

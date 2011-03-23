@@ -7,6 +7,9 @@ lichess:
     resource: @LichessBundle/Resources/config/routing.yml
 lichess_sync:
     resource: @LichessBundle/Resources/config/routing_sync.yml
+lichess_translation:
+    resource: @LichessTranslationBundle/Resources/config/routing.yml
+    prefix: /translate
 lichess_search:
     resource: @LichessSearchBundle/Resources/config/routing.yml
     prefix: /search
