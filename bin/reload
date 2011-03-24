@@ -3,20 +3,13 @@
 show_run()
 {
     echo "    $ $*"
-    result=$($*)
-    if [ $? -ne  0 ]; then
-        echo "--- FAIL"
-        echo $result
-        exit 1
-    fi
+    $*
 }
 
 echo -e "\n--- Building bootstrap"
 show_run "bin/build_bootstrap.php"
 
 for application in xhr lichess; do
-    echo -e "\n------------------- $application -----------------"
-
     if [ ! -f lichess/config/config_local.yml ]; then
         echo -e "\n--- Creating local configuration file for $application"
         show_run cp $application/config/config_local.yml.dist $application/config/config_local.yml
@@ -24,13 +17,13 @@ for application in xhr lichess; do
 done
 
 for environment in dev test; do
-    echo -e "\n--- Warming up the cache"
+    echo -e "\n--- Warming up $environment cache"
     show_run "php lichess/console --env=$environment cache:clear"
 
-    echo -e "\n--- Loading dev fixtures"
+    echo -e "\n--- Loading $environment fixtures"
     show_run "php lichess/console --env=$environment doctrine:mongodb:data:load"
 
-    echo -e "\n--- Creating dev MongoDB indexes"
+    echo -e "\n--- Creating $environment MongoDB indexes"
     show_run "php lichess/console --env=$environment doctrine:mongodb:schema:create --index"
 done
 
