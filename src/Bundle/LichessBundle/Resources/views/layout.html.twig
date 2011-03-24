@@ -19,8 +19,8 @@
             <div class="header">
                 <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
                 {% block baseline %}{% endblock %}
-                {% if app.session.hasFlash("locale_missing") %}{% render "Lichess:TranslationBundle:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
-                {% elseif app.session.getFlash("locale_change", "en") != "en" %}{% render "Lichess:TranslationBundle:onChange" with{"locale": app.session.locale} %}
+                {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslationBundle:Translation:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
+                {% elseif app.session.getFlash("locale_change", "en") != "en" %}{% render "LichessTranslationBundle:Translation:onChange" with{"locale": app.session.locale} %}
                 {% endif %}
                 <div class="lichess_goodies_wrap">{% block goodies %}{% endblock %}</div>
                 <div class="lichess_chat_wrap">{% block chat %}{% endblock %}</div>

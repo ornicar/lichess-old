@@ -1,4 +1,4 @@
-{% extends "Lichess:TranslationBundle:layoutTranslation.html.twig" %}
+{% extends "LichessTranslationBundle:Translation:layoutTranslation.html.twig" %}
 {% block title %}Help translate Lichess{% endblock %}
 {% block content %}
 <div class="lichess_box">
@@ -20,7 +20,7 @@
         </form>
         <hr />
         Big thanks go to all translators!
-        {% include "Lichess:TranslationBundle:translators.html.twig" %}
+        {% include "LichessTranslationBundle:Translation:translators.html.twig" %}
     </div>
 </div>
 {% endblock %}
