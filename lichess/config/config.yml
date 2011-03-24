@@ -25,7 +25,7 @@ zend:
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
 apc:
-    host: http://lichess.org
+    host: lichess.org
     web_dir: %kernel.root_dir%/../web
 
 doctrine_mongo_db:
@@ -96,9 +96,9 @@ security:
             logout: true
             anonymous: true
     access_control:
-        - { path: "/(inbox|profile)(/.*|$)", role: ROLE_USER }
-        - { path: "/forum/(post|topic)/delete/.+", role: ROLE_SUPERADMIN }
-        - { path: "/trial/verdict/.+", role: ROLE_SUPERADMIN }
+        - { path: "^/(inbox|profile)(/.*|$)", role: ROLE_USER }
+        - { path: "^/forum/(post|topic)/delete/.+", role: ROLE_SUPERADMIN }
+        - { path: "^/trial/verdict/.+", role: ROLE_SUPERADMIN }
 
 fos_user:
     db_driver: mongodb

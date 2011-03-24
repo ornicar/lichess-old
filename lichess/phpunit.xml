@@ -15,6 +15,7 @@
     <testsuite name="Lichess Test Suite">
         <directory>../src/Application/*/Tests</directory>
         <directory>../src/Bundle/*/Tests</directory>
+        <directory>../src/Lichess/*/Tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>

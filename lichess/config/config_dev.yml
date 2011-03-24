@@ -13,7 +13,7 @@ web_profiler:
 doctrine_mongo_db:
     document_managers:
         default:
-            metadata_cache_driver: array
+            metadata_cache_driver: apc
 
 zend:
     logger:
@@ -24,6 +24,9 @@ lichess:
     debug_assets: true
     sync:
         path: /xhr_dev.php
+
+apc:
+    host: lichess
 
 lichess_forum:
     detect_spam: false
