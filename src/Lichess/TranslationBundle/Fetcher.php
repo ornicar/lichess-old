@@ -9,7 +9,7 @@ class Fetcher
 {
     protected $manager;
     protected $domain;
-    protected $path = '/translate/export.json';
+    protected $path = '/translation/contribute/export.json';
     protected $protocol = 'http://';
     protected $logger;
     protected $gitDir;
