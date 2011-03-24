@@ -1,6 +1,6 @@
 #!/bin/sh
 
-version=$(cat .translate_version)
+version=$(cat bin/.translate_version)
 
 if [ "$1" = "set" ]; then
     if [ "$2" ]; then
@@ -22,5 +22,5 @@ elif [ "$1" = "next" ]; then
     version=$(($version+1))
 fi
 
-echo $version > .translate_version
+echo $version > bin/.translate_version
 printf "current version: %s\n" $version
