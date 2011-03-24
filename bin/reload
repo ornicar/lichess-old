@@ -21,17 +21,18 @@ for application in xhr lichess; do
         echo -e "\n--- Creating local configuration file for $application"
         show_run cp $application/config/config_local.yml.dist $application/config/config_local.yml
     fi
-
-    echo -e "\n--- Warming up the cache"
-    show_run "php $application/console cache:clear --no-warmup"
-    show_run "php $application/console cache:warmup"
 done
 
-echo -e "\n--- Loading dev fixtures"
-show_run "php lichess/console --env=dev doctrine:mongodb:data:load"
+for environment in dev test; do
+    echo -e "\n--- Warming up the cache"
+    show_run "php lichess/console --env=$environment cache:clear"
 
-echo -e "\n--- Creating dev MongoDB standard indexes"
-show_run "php lichess/console --env=dev doctrine:mongodb:schema:create --index"
+    echo -e "\n--- Loading dev fixtures"
+    show_run "php lichess/console --env=$environment doctrine:mongodb:data:load"
+
+    echo -e "\n--- Creating dev MongoDB indexes"
+    show_run "php lichess/console --env=$environment doctrine:mongodb:schema:create --index"
+done
 
 echo -e "\n--- Creating assets symlinks"
 show_run php lichess/console assets:install web --symlink
