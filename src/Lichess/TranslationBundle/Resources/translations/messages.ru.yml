@@ -116,5 +116,5 @@
 "%user% is online": "%user% в сети"
 "Registered": "Зарегистрирован"
 "{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} Комментировать эту игру |{1} Один комментарий|]1,Inf] %count% комментариев"
-"Inbox": "Сообщения"
-"Chat room": "Чат"
+"Inbox": "Входящие"
+"Chat room": "Чат-комната"
