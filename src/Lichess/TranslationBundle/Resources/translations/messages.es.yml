@@ -1,5 +1,9 @@
 "Play with a friend": "Juega con un amigo"
+<<<<<<< HEAD
 "Invite a friend to play with you": "Invita a un amigo a jugar contra ti"
+=======
+"Invite a friend to play with you": "Invita a un amigo a jugar contigo"
+>>>>>>> 224e9a7... Update "es - español, castellano" translation. Author: Anonymous. Messages: 120. Id: 625.
 "Play with the machine": "Juega contra la máquina"
 "Challenge the artificial intelligence": "Desafía a la inteligencia artificial"
 "Play with anybody": "Jugar con cualquiera"
@@ -65,7 +69,7 @@
 "Games being played right now": "Partidas jugándose ahora mismo"
 "View all %nb% games": "Ver todas las %nb% partidas"
 "View %nb% checkmates": "Ver todos los %nb% jaques"
-"View in full size": "Ver imagen completa"
+"View in full size": "Ver a tamaño real"
 "Hold on, we are searching for a game that matches your criteria": "Espera, estamos buscando una partida que coincida con tus criterios"
 "Log out": "Cerrar sesión"
 "Sign in": "Iniciar sesión"
@@ -85,7 +89,7 @@
 "Username": "Usuario"
 "Password": "Contraseña"
 "Have an account?": "¿Tienes una cuenta?"
-"All you need is a username and a password.": "Todo lo que necesitas es un nombre de usuario y contraseña."
+"All you need is a username and a password.": "Todo lo que necesitas es un nombre de usuario y una contraseña."
 "Learn more about Lichess": "Aprender más sobre Lichess"
 "Rank": "Posición"
 "Games played": "Partidas jugadas"
@@ -116,5 +120,5 @@
 "%user% is online": "%user% está conectado"
 "Registered": "Registrado"
 "{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} Comentar esta partida|Un comentario|]1,Inf] %count% Comentados"
-"Inbox": "Bandeja de entrada"
+"Inbox": "Buzón"
 "Chat room": "Sala de chat"
