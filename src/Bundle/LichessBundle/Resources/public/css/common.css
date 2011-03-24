@@ -197,7 +197,7 @@ a.goto_nav:hover, #top a.toggle:hover, a#sound_state:hover {
 }
 a.goto_message span.new_messages {
     padding: 1px 4px;
-    background: #AAA;
+    background: #bbb;
     color: white;
     font-weight: bold;
     border-radius:4px 4px 4px 4px;
@@ -206,9 +206,9 @@ a.goto_message span.new_messages {
     font-size: 0.9em;
 }
 a.goto_message span.new_messages.unread {
-    background: #222266;
-    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+    background: #703000;
+    background: -moz-linear-gradient(center top , #f09070, #703000) repeat scroll 0 0 #703000;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f09070), to(#703000));
     font-size: 1em;
 }
 a.goto_logout span.s16 {
