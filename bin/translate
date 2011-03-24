@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 version=$(cat bin/.translate_version)
 
@@ -20,6 +20,11 @@ elif [ "$1" = "apply" ]; then
 elif [ "$1" = "next" ]; then
     printf "Increment translation version\n"
     version=$(($version+1))
+elif [ "$1" = "commit" ]; then
+    printf "Commit resolved conflict\n"
+    (( prevVersion = version -1 ))
+    git clean -f
+    git commit -C t/$(echo $prevVersion)
 fi
 
 echo $version > bin/.translate_version
