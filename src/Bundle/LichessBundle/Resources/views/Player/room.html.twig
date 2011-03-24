@@ -1,6 +1,9 @@
 <div class="lichess_chat">
-    <div class="lichess_chat_inner">
+    <div class="lichess_chat_top">
+        <span class="s16 title">{% trans "Chat room" %}</span>
         <input title="{% trans "Toggle the chat" %}" class="toggle_chat" type="checkbox" checked="checked" />
+    </div>
+    <div class="lichess_chat_inner">
         <ol class="lichess_messages">
             {{ lichess_room_messages(player.game.room.messages)|raw }}
         </ol>

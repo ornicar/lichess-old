@@ -586,6 +586,21 @@ div.lichess_chat {
     -moz-box-shadow: 0 0 7px #d0d0d0;
     -webkit-box-shadow: 0 0 7px #d0d0d0;
 }
+div.lichess_chat_top {
+    border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border: 1px solid #ccc;
+    padding: 3px 5px;
+    background: #eaeaea;
+    background: #fafafa;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
+}
+div.lichess_chat_top span.title {
+    font-weight: bold;
+    color: #999;
+}
 div.lichess_chat_inner {
     position: relative;
 }
@@ -604,10 +619,8 @@ div.lichess_chat ol {
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid #ccc;
+    border-top: none;
     padding: 2px 5px;
-    border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
 }
 
 div.lichess_chat form {
@@ -659,5 +672,5 @@ div.lichess_chat ol.lichess_messages li.system {
     background: url(../images/system.png) no-repeat;
 }
 div.lichess_chat.hidden ol.lichess_messages, div.lichess_chat.hidden form {
-    opacity: 0.05;
+    opacity: 0;
 }
