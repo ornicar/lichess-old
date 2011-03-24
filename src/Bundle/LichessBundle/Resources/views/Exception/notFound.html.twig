@@ -1,4 +1,4 @@
-{% extends "LichessBundle:Main:baseError.html.twig" %}
-{% block error_title %}{% trans 'Page not found' %} (404){% endblock %}
+{% extends "LichessBundle:Exception:base.html.twig" %}
+{% block error_title %}{% trans 'Page not found' %} ({{ status_code }}: {{ status_text }}){% endblock %}
 {% block error_text %}{% trans "There is nothing to see here. If you think it's a bug, you could send an email to %email%" with {'%email%': '<span class="js_email"></span>'} %}{% endblock %}
 {% block error_next %}<a class="lichess_new_game" href="{{ path("lichess_homepage") }}">{% trans 'Play a new game' %}</a>{% endblock %}

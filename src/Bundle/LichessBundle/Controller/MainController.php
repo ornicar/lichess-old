@@ -43,32 +43,4 @@ class MainController extends Controller
     {
         return $this->render('LichessBundle:Main:about.html.twig');
     }
-
-    public function exceptionAction($exception)
-    {
-        $code = $exception->getCode();
-        if(404 == $code) {
-            if($this->get('request')->isXmlHttpRequest()) {
-                $response = new Response('You should not do that.');
-            }
-            else {
-                $response = $this->render('LichessBundle:Main:notFound.html.twig');
-            }
-            $response->setStatusCode(404);
-        } else {
-            if ($code < 100 || $code > 599) {
-                $code = 500;
-            }
-            if($this->get('request')->isXmlHttpRequest()) {
-                $response = new Response('Something went terribly wrong.');
-            }
-            else {
-                $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
-                $response = $this->render('LichessBundle:Main:error.html.twig', array('code' => $code, 'url' => $url));
-            }
-            $response->setStatusCode($code);
-        }
-
-        return $response;
-    }
 }
