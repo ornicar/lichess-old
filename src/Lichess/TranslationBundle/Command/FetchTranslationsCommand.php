@@ -33,7 +33,7 @@ class FetchTranslationsCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $fetcher = $this->container->get('lichess.translation.fetcher');
+        $fetcher = $this->container->get('lichess_translation.fetcher');
         $fetcher->setLogger(function($message) use ($output)
         {
             $output->writeLn(sprintf('<info>%s</info>', $message));

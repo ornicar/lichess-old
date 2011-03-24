@@ -32,7 +32,7 @@ class FixTranslationCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dm = $this->container->get('lichess.object_manager');
-        $tm = $this->container->get('lichess.translation.manager');
+        $tm = $this->container->get('lichess_translation.manager');
         foreach($tm->getAvailableLanguages() as $code => $name) {
             if("en" === $code) {
                 continue;
