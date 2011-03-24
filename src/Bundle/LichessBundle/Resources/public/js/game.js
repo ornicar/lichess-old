@@ -25,7 +25,7 @@ $.widget("lichess.game", {
             }
         }
 
-        if (!self.options.opponent.ai) {
+        if (!self.options.opponent.ai && !self.options.player.spectator) {
             // update document title to show playing state
             setTimeout(self.updateTitle = function() {
                 document.title = (self.isMyTurn() && ! self.options.game.finished) ? document.title = document.title.indexOf('/\\/') == 0 ? '\\/\\ ' + document.title.replace(/\/\\\/ /, '') : '/\\/ ' + document.title.replace(/\\\/\\ /, '') : document.title;
