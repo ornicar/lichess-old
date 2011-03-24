@@ -2,6 +2,7 @@
 
 namespace Lichess\TranslationBundle;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session;
 
 /**
@@ -40,12 +41,11 @@ class Switcher
      **/
     public function switchLocaleForRequest(Request $request)
     {
-        $chosenLanguage = $event->getRequest()->getPreferredLanguage(array_keys(
-            $this->manager->getAvailableLanguageCodes()
-        ));
+        $chosenLanguage = $request->getPreferredLanguage($this->manager->getAvailableLanguageCodes());
+
         $this->switchLocale($request->getSession(), $chosenLanguage);
 
-        $preferredLanguage = $this->getRequestPreferredLanguage($event->getRequest());
+        $preferredLanguage = $this->getRequestPreferredLanguage($request);
         if ($preferredLanguage && $chosenLanguage != $preferredLanguage) {
             $allLanguageCodes = array_keys($this->manager->getLanguages());
             if (in_array($preferredLanguage, $allLanguageCodes)) {
