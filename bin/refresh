@@ -5,11 +5,8 @@ bin/build_bootstrap.php
 
 for application in xhr lichess; do
     echo -e "\n------------------- $application -----------------"
-    echo "Remove cache dir"
-    rm -r $application/cache/prod/*
-    chmod -R 777 $application/cache/prod
     echo "Warmup cache"
-    php $application/console -e=prod cache:warmup
+    php $application/console -e=prod cache:clear
     echo "Raise cache permissions"
     chmod -R 777 $application/cache/prod
 done
