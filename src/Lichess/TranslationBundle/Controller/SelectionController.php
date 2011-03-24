@@ -10,15 +10,15 @@ class SelectionController extends Controller
     public function switchAction($locale)
     {
         if($this->get('lichess_translation.manager')->isAvailable($locale)) {
-            $this->get('session')->setLocale($locale);
-            $this->get('session')->setFlash('locale_change', $locale);
+            $this->get('lichess_translation.switcher')->switchLocale($this->get('request')->getSession(), $locale);
         }
-        $baseUrl = $this->generateUrl('lichess_homepage', array(), true);
+        $baseUrl   = $this->generateUrl('lichess_homepage', array(), true);
         $localeUrl = $this->generateUrl('lichess_translation_selection_switch', array('locale' => $locale), true);
-        $referer = $this->container->get('request')->server->get('HTTP_REFERER');
+        $referer   = $this->container->get('request')->server->get('HTTP_REFERER');
         if(empty($referer) || 0 != strpos($referer, $baseUrl) || 0 === strpos($referer, $localeUrl)) {
             $referer = $baseUrl;
         }
+
         return new RedirectResponse($referer);
     }
 

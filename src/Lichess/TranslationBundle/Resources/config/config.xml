@@ -66,6 +66,10 @@
             <argument>%lichess.locales%</argument>
         </service>
 
+        <service id="lichess_translation.switcher" class="Lichess\TranslationBundle\Switcher">
+            <argument type="service" id="lichess_translation.manager" />
+        </service>
+
         <service id="lichess_translation.fetcher" class="Lichess\TranslationBundle\Fetcher">
             <file>%kernel.root_dir%/../vendor/php-git-repo/lib/phpGitRepo.php</file>
             <argument type="service" id="lichess_translation.manager" />
