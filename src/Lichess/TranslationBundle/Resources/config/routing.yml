@@ -1,14 +1,18 @@
-lichess_translate:
-    pattern:        /
-    defaults:       { _controller: Lichess:TranslationBundle:index}
-lichess_translate_locale:
-    pattern:        /{locale}
-    defaults:       { _controller: Lichess:TranslationBundle:locale}
+lichess_translation_selection_list:
+    pattern:        /switch/list
+    defaults:       { _controller: LichessTranslationBundle:Selection:list }
+lichess_translation_selection_switch:
+    pattern:        /switch/{locale}
+    defaults:       { _controller: LichessTranslationBundle:Selection:switch }
     requirements:   { locale: "\w{2,3}" }
-lichess_translate_list:
-    pattern:        /list
-    defaults:       { _controller: Lichess:TranslationBundle:list}
-lichess_translate_export:
-    pattern:        /export.json
-    defaults:       { _controller: Lichess:TranslationBundle:export, _format: json }
 
+lichess_translation_contribution:
+    pattern:        /contribute
+    defaults:       { _controller: LichessTranslationBundle:Contribution:index}
+lichess_translation_contribution_locale:
+    pattern:        /contribute/{locale}
+    defaults:       { _controller: LichessTranslationBundle:Contribution:locale}
+    requirements:   { locale: "\w{2,3}" }
+lichess_translation_contribution_export:
+    pattern:        /contribute/export.json
+    defaults:       { _controller: LichessTranslationBundle:Contribution:export, _format: json }

@@ -12,7 +12,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class TranslationController extends Controller
+class ContributionController extends Controller
 {
     public function onMissingAction($locale)
     {
@@ -21,7 +21,7 @@ class TranslationController extends Controller
             return new Response('');
         }
 
-        return $this->render('Lichess:TranslationBundle:missing.html.twig', array(
+        return $this->render('LichessTranslationBundle:Contribution:missing.html.twig', array(
             'locale' => $locale,
             'name' => $status['name']
         ));
@@ -34,7 +34,7 @@ class TranslationController extends Controller
             return new Response('');
         }
 
-        return $this->render('Lichess:TranslationBundle:incomplete.html.twig', array(
+        return $this->render('LichessTranslationBundle:Contribution:incomplete.html.twig', array(
             'locale' => $locale,
             'status' => $status
         ));
@@ -44,7 +44,7 @@ class TranslationController extends Controller
     {
         $form = $this->get('lichess.form.translation');
 
-        return $this->render('Lichess:TranslationBundle:index.html.twig', array(
+        return $this->render('LichessTranslationBundle:Contribution:index.html.twig', array(
             'form' => $form,
             'locale' => '__'
         ));
@@ -70,13 +70,13 @@ class TranslationController extends Controller
                 $this->get('lichess.object_manager')->flush(array('safe' => true));
                 $this->get('session')->setFlash('notice', "Your translation has been submitted, thanks!\nI will review it and include it soon to the game.");
 
-                return new RedirectResponse($this->generateUrl('lichess_translate_locale', array('locale' => $locale)));
+                return new RedirectResponse($this->generateUrl('lichess_translation_contribution_locale', array('locale' => $locale)));
             } else {
                 $error = $translation->getYamlError();
             }
         }
 
-        return $this->render('Lichess:TranslationBundle:locale.html.twig', array(
+        return $this->render('LichessTranslationBundle:Contribution:locale.html.twig', array(
             'form' => $form,
             'locale' => $locale,
             'status' => $manager->getTranslationStatus($locale),
@@ -90,16 +90,5 @@ class TranslationController extends Controller
         $translations = $this->get('lichess_translation.provider')->getTranslations($start);
 
         return new Response(json_encode($translations), 200, array('Content-Type' => 'application/json'));
-    }
-
-    public function listAction()
-    {
-        $translations = $this->get('lichess.object_manager')->getRepository('Lichess:TranslationBundle')->createQueryBuilder()
-            ->sort('createdAt', 'DESC')->getQuery()->execute();
-
-        return $this->render('Lichess:TranslationBundle:list.html.twig', array(
-            'translations' => $translations,
-            'manager' => $this->get('lichess_translation.manager')
-        ));
     }
 }

@@ -1,4 +1,4 @@
-{% extends "LichessTranslationBundle:Translation:layoutTranslation.html.twig" %}
+{% extends "LichessTranslationBundle::layout.html.twig" %}
 {% block title %}Help translate Lichess{% endblock %}
 {% block content %}
 <div class="lichess_box">
@@ -11,7 +11,7 @@
         {% if app.session.hasFlash('notice') %}
             <div class="notice">{{ app.session.getFlash('notice') }}</div>
         {% endif %}
-        <form action="{{ path("lichess_translate_locale", {"locale": locale} ) }}" data-change-url="{{ path("lichess_translate_locale", {"locale": "__"} ) }}" method="post" novalidate>
+        <form action="{{ path("lichess_translation_contribution_locale", {"locale": locale} ) }}" data-change-url="{{ path("lichess_translation_contribution_locale", {"locale": "__"} ) }}" method="post" novalidate>
             <div class="field">
                 {{ form_label(form.code, "Translate from english to") }}
                 {{ form_field(form.code) }}
@@ -20,7 +20,7 @@
         </form>
         <hr />
         Big thanks go to all translators!
-        {% include "LichessTranslationBundle:Translation:translators.html.twig" %}
+        {% include "LichessTranslationBundle:Contribution:translators.html.twig" %}
     </div>
 </div>
 {% endblock %}

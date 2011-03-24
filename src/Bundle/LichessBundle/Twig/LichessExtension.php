@@ -44,7 +44,6 @@ class LichessExtension extends Twig_Extension
             'lichess_game_watch_data'   => 'renderGameWatchData',
             'lichess_game_board'        => 'renderGameBoard',
             'lichess_game_mini'         => 'renderGameMini',
-            'lichess_locale_name'       => 'getLocaleName',
             'lichess_session'           => 'getSession',
             'lichess_nb_active_players' => 'getNbActivePlayers',
             'lichess_load_average'      => 'getLoadAverage',
@@ -403,18 +402,6 @@ class LichessExtension extends Twig_Extension
     public function getSession($key, $default = null)
     {
         return $this->container->get('session')->get($key, $default);
-    }
-
-    public function getLocaleName()
-    {
-        $locale = $this->container->get('session')->getLocale();
-
-        return $this->container->get('lichess_translation.manager')->getAvailableLanguageName($locale);
-    }
-
-    public function getLocales()
-    {
-        return $this->container->get('lichess_translation.manager')->getAvailableLanguages();
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Translation;
+namespace Lichess\TranslationBundle\Tests\Acceptance;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -22,7 +22,7 @@ class TranslationControllerTest extends WebTestCase
     public function translationProvider()
     {
         $container = $this->createClient()->getContainer();
-        $manager = $container->get('lichess.translation.manager');
+        $manager = $container->get('lichess_translation.manager');
 
         $languages = $manager->getAvailableLanguages();
 

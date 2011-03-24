@@ -1,7 +1,9 @@
 <?php
 
 namespace Lichess\TranslationBundle;
+
 use Symfony\Component\Yaml\Yaml;
+use InvalidArgumentException;
 
 class Manager
 {
@@ -77,11 +79,11 @@ class Manager
 
     public function getMessages($code)
     {
-        $file = __DIR__.'/../Resources/translations/messages.'.$code.'.yml';
+        $file = __DIR__.'/Resources/translations/messages.'.$code.'.yml';
         if(file_exists($file)) {
             return Yaml::load($file);
         }
-        throw new \InvalidArgumentException();
+        throw new InvalidArgumentException(sprintf('No messages for language "%s"', $code));
     }
 
     public function saveMessages($code, array $messages)
@@ -106,7 +108,7 @@ class Manager
     public function getLanguages()
     {
         if(null === $this->languages) {
-            $this->languages = include(__DIR__.'/../Resources/config/locales.php');
+            $this->languages = include(__DIR__.'/Resources/locales.php');
             foreach($this->languages as $code => $name) {
                 $this->languages[$code] = $code.' - '.$name;
             }

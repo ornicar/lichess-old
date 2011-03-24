@@ -114,13 +114,6 @@ lichess_decline_draw_offer:
     pattern:        /decline-draw-offer/{id}
     defaults:       { _controller: lichess.controller.player:declineDrawOfferAction }
     requirements:   { id: "[\w\-]{12}" }
-lichess_locale:
-    pattern:        /locale/{locale}
-    defaults:       { _controller: lichess.controller.main:localeAction }
-    requirements:   { locale: "\w{2,3}" }
-lichess_locale_links:
-    pattern:        /locale/links
-    defaults:       { _controller: lichess.controller.main:localeLinksAction }
 lichess_pgn_viewer:
     pattern:        /analyse/{id}/{color}
     defaults:       { _controller: lichess.controller.pgn:analyseAction, color: white }

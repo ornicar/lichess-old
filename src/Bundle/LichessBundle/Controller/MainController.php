@@ -39,30 +39,6 @@ class MainController extends Controller
 
         return new Response($enableSound ? 'on' : 'off');
     }
-
-    public function localeAction($locale)
-    {
-        if($this->get('lichess_translation.manager')->isAvailable($locale)) {
-            $this->get('session')->setLocale($locale);
-            $this->get('session')->setFlash('locale_change', $locale);
-        }
-        $baseUrl = $this->generateUrl('lichess_homepage', array(), true);
-        $localeUrl = $this->generateUrl('lichess_locale', array('locale' => $locale), true);
-        $referer = $this->container->get('request')->server->get('HTTP_REFERER');
-        if(empty($referer) || 0 != strpos($referer, $baseUrl) || 0 === strpos($referer, $localeUrl)) {
-            $referer = $baseUrl;
-        }
-        return new RedirectResponse($referer);
-    }
-
-    public function localeLinksAction()
-    {
-        $locales = $this->container->get('lichess_translation.manager')->getAvailableLanguages();
-        unset($locales[$this->container->get('session')->getLocale()]);
-        ksort($locales);
-        return $this->render('LichessBundle:Main:localeLinks.html.twig', array('locales' => $locales));
-    }
-
     public function aboutAction()
     {
         return $this->render('LichessBundle:Main:about.html.twig');
