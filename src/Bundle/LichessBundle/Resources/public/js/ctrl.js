@@ -220,7 +220,6 @@ if (document.domain == 'lichess.org') {
 $.connectivity = function(element, options) {
     this.element = element;
     this.options = $.extend({
-        delay: 5000,
         tolerance: 300,
         max: 5,
         refreshDelay: 300

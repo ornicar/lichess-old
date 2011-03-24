@@ -48,7 +48,7 @@ $.widget("lichess.game", {
         self.currentSync = $.ajax(self.options.url.sync.replace(/9999999/, self.options.player.version), {
             type: 'POST',
             dataType: 'json',
-            timeout: self.options.sync_latency + 4000,
+            timeout: self.options.sync_latency + 5000,
             success: function(data) {
                 if (!data) return self.onError();
                 if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
