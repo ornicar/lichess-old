@@ -27,6 +27,9 @@ for environment in dev test; do
     show_run "php lichess/console --env=$environment doctrine:mongodb:schema:create --index"
 done
 
+echo -e "\n--- Clearing APC cache"
+show_run "php lichess/console apc:clear"
+
 echo -e "\n--- Creating assets symlinks"
 show_run php lichess/console assets:install web --symlink
 

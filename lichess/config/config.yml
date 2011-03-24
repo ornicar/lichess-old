@@ -25,7 +25,7 @@ zend:
         path:     %kernel.logs_dir%/%kernel.environment%.log
 
 apc:
-    host: lichess.org
+    host: lichess
     web_dir: %kernel.root_dir%/../web
 
 doctrine_mongo_db:

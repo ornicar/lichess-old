@@ -16,3 +16,7 @@ fos_comment:
     service:
         spam_detection:
             comment: fos_comment.spam_detection.comment.akismet
+
+apc:
+    host: lichess.org
+    web_dir: %kernel.root_dir%/../web

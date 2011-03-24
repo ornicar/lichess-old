@@ -28,7 +28,7 @@ doctrine_mongo_db:
                     prefix: Application\UserBundle\Document
                 FOSUserBundle:
                     type: xml
-                    dir: %kernel.root_dir%/../src/FOS/UserBundle/Document
+                    dir: %kernel.root_dir%/../src/FOS/UserBundle/Resources/config/doctrine/metadata/mongodb
                     prefix: FOS\UserBundle\Document
             metadata_cache_driver: apc
 
