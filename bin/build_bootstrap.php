@@ -19,9 +19,12 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array('Symfony' => __DIR__.'/../vendor/symfony/src'));
 $loader->register();
 
-$file = __DIR__.'/../lichess/bootstrap.php.cache';
-if (file_exists($file)) {
-    unlink($file);
+$lichessFile = __DIR__.'/../lichess/bootstrap.php.cache';
+$xhrFile = __DIR__.'/../xhr/bootstrap.php.cache';
+$tmpFile = $lichessFile.'.tmp';
+
+if (file_exists($tmpFile)) {
+    unlink($tmpFile);
 }
 
 ClassCollectionLoader::load(array(
@@ -49,11 +52,12 @@ ClassCollectionLoader::load(array(
     'Symfony\\Component\\ClassLoader\\MapFileClassLoader',
 
     'Symfony\\Component\\Config\\ConfigCache',
-), dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
+), dirname($tmpFile), basename($tmpFile, '.php.cache.tmp'), false, false, '.php.cache.tmp');
 
-file_put_contents($file, "<?php\n\nnamespace { require_once __DIR__.'/autoload.php'; }\n\n".substr(file_get_contents($file), 5));
+file_put_contents($tmpFile, "<?php\n\nnamespace { require_once __DIR__.'/autoload.php'; }\n\n".substr(file_get_contents($tmpFile), 5));
 
-copy($file, __DIR__.'/../xhr/bootstrap.php.cache');
+rename($tmpFile, $lichessFile);
+copy($lichessFile, $xhrFile);
 
 return;
 
