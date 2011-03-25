@@ -68,6 +68,16 @@ class History
         return isset($this->entries[$ts]);
     }
 
+    public function getEntries()
+    {
+        return $this->entries;
+    }
+
+    public function setEntries(array $entries)
+    {
+        $this->entries = $entries;
+    }
+
     public function addGame($ts, $elo, $gameId)
     {
         return $this->addEntry($ts, $elo, self::TYPE_GAME, $gameId);
