@@ -17,12 +17,16 @@ $.widget("lichess.game", {
             if (self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() {
                 $.playSound();
             });
-            if (!self.options.game.finished && ! self.options.player.spectator) {
+            if (!self.options.game.finished && !self.options.player.spectator) {
                 self.blur = 0;
                 $(window).blur(function() {
                     self.blur = 1;
                 });
             }
+            self.unloaded = false;
+            $(window).unload(function() {
+                self.unloaded = true;
+            });
         }
 
         if (!self.options.opponent.ai && !self.options.player.spectator) {
@@ -273,7 +277,9 @@ $.widget("lichess.game", {
         function sendMoveRequest(moveData) {
             self.post(self.options.url.move, {
                 success: self.options.opponent.ai ? function() {
-                    self.sync();
+                    setTimeout(function() {
+                        self.sync();
+                    }, self.options.animation_delay);
                 }: null,
                 data: moveData,
             });
@@ -521,7 +527,12 @@ $.widget("lichess.game", {
         }
     },
     onError: function() {
-        setTimeout(location.reload, 3000);
+        var self = this;
+        setTimeout(function() {
+            if (!self.unloaded) {
+                location.reload();
+            }
+        }, 1000);
     }
 });
 

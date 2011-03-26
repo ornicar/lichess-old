@@ -38,7 +38,7 @@ class Mover
         if (empty($data['from']) || empty($data['to'])) {
             throw new InvalidArgumentException('Mover::move Invalid data received, from and to are required.');
         }
-        if (!$game->getIsPlayable()) {
+        if (!$player->getGame()->getIsPlayable()) {
             throw new LogicException($this->logger->formatPlayer($player, 'Player:move - game is already finished'));
         }
         if(!$player->isMyTurn()) {
