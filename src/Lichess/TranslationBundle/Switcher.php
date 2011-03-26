@@ -49,7 +49,7 @@ class Switcher
         if ($preferredLanguage && $chosenLanguage != $preferredLanguage) {
             $allLanguageCodes = array_keys($this->manager->getLanguages());
             if (in_array($preferredLanguage, $allLanguageCodes)) {
-                $session->setFlash('locale_missing', $preferredLanguage);
+                $request->getSession()->setFlash('locale_missing', $preferredLanguage);
             }
         }
     }
