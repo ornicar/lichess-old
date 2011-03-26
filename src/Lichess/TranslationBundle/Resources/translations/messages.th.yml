@@ -115,3 +115,6 @@
 "Play": "เล่น"
 "%user% is online": "%user% ออนไลน์"
 "Registered": "ลงทะเบียนแล้ว"
+"{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} แสดงความคิดเห็นต่อเกมนี้|{1} หนึ่งความคิดเห็น|]1,Inf] %count% ความคิดเห็น"
+"Inbox": "กล่องรับ"
+"Chat room": "ห้องสนทนา"
