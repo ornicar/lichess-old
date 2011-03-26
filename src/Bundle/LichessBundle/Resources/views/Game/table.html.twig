@@ -1,7 +1,8 @@
-{% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
+{% set game = player.game %}
+{% if game.hasClock %}
+    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.opponent.color, "position": "top"} %}
 {% endif %}
-<div class="lichess_table">
+<div class="lichess_table{{ game.hasClock ? " table_with_clock" : "" }}">
     <div class="lichess_opponent">
         <div class="opponent_status">
             {% render "LichessBundle:Player:opponentPlayer" with {"opponent": player.opponent, "playerFullId": player.fullId} %}
@@ -9,17 +10,17 @@
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
-        <div class="lichess_player white {{ player.game.turnColor == "black" ? " none" : "" }}">
+        <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
             <div class="lichess_piece king white"></div>
             <p>{% trans player.isWhite ? 'Your turn' : 'Waiting' %}</p>
         </div>
-        <div class="lichess_player black {{ player.game.turnColor == "white" ? " none" : "" }}">
+        <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
             <div class="lichess_piece king black"></div>
             <p>{% trans player.isBlack ? 'Your turn' : 'Waiting' %}</p>
         </div>
     </div>
     <div class="lichess_control clearfix">
-        {% if player.game.isAbortable %}
+        {% if game.isAbortable %}
             <a href="{{ path("lichess_abort", {'id': player.fullId} ) }}" class="lichess_abort">{% trans "Abort game" %}</a>
         {% else %}
             <a href="{{ path("lichess_resign", {'id': player.fullId} ) }}" class="lichess_resign" title="{% trans "Give up" %}">{% trans "Resign" %}</a>
@@ -28,7 +29,7 @@
             {% endif %}
         {% endif %}
     </div>
-    {% if player.isMyTurn and player.game.isThreefoldRepetition %}
+    {% if player.isMyTurn and game.isThreefoldRepetition %}
     <div class="lichess_claim_draw_zone">
         {% trans "Threefold repetition" %}.&nbsp;
         <a class="lichess_claim_draw" href="{{ path("lichess_claim_draw", {"id": player.fullId} ) }}">{% trans "Claim a draw" %}</a>
@@ -46,6 +47,6 @@
     </div>
     {% endif %}
 </div>
-{% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": player.game.clock, "color": player.color, "position": "bottom"} %}
+{% if game.hasClock %}
+    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
 {% endif %}

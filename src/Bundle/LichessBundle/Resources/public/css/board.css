@@ -380,6 +380,11 @@ div.lichess_table {
     height: auto;
     padding: 10px;
 }
+div.lichess_table.table_with_clock {
+    border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+}
 div.lichess_table.spectator {
     top: 160px;
 }
@@ -407,19 +412,21 @@ div.lichess_table div.username.offline {
     background-position: 0 -128px;
 }
 div.clock {
-    margin-left: 78px;
-    width: 50px;
+    background: #F7F7F7;
+    width: 65px;
     border: 1px solid #ccc;
-    padding: 3px 0 3px 25px;
-    background: url(../images/clock.png) top left no-repeat;
+    padding: 5px 0 5px 10px;
     background-position: +5px +3px;
-    height: 16px;
-    font-size: 14px;
+    font-size: 18px;
     font-family: monospace;
+    font-weight: bold;
+    box-shadow: 0 0 7px #d0d0d0;
+    -moz-box-shadow: 0 0 7px #d0d0d0;
+    -webkit-box-shadow: 0 0 7px #d0d0d0;
 }
 div.clock.running {
-    background-color: #FAFAAA;
-    font-weight: bold;
+    background: #fff077;
+    color: #444;
 }
 div.clock.outoftime {
     background-color: #eFAAAA;

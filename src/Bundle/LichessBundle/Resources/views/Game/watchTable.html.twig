@@ -2,7 +2,7 @@
 {% if game.hasClock %}
     {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.opponent.color, "position": "top"} %}
 {% endif %}
-<div class="lichess_table {{ game.isFinished ? "finished " : "" }}spectator">
+<div class="lichess_table{{ game.hasClock ? " table_with_clock" : "" }}{{ game.isFinished ? " finished" : "" }} spectator">
     <div class="lichess_opponent">
         {% render "LichessBundle:Player:opponentPlayer" with {"opponent": player.opponent, "playerFullId": ""} %}
     </div>
