@@ -1,4 +1,5 @@
-* tipsy persistence
+* language on 2 cols
+* verify non-game sync is robust
 * improve /games: reduce req. size and increase frequency
 * favorite games
 * send culture in sync parameters
