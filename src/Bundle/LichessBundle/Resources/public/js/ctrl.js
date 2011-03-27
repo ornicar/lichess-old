@@ -54,7 +54,8 @@ $(function() {
                     ping(config);
                 },
                 dataType: config.dataType,
-                type: "POST"
+                type: "POST",
+                timeout: 5000
             });
         },
         config.delay);
