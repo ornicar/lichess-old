@@ -10,11 +10,13 @@ class Manager
     protected $languages;
     protected $availableLanguages;
     protected $referenceLanguage;
+    protected $translationDir;
 
-    public function __construct($referenceLanguage, array $availableLanguages)
+    public function __construct($referenceLanguage, array $availableLanguages, $translationDir)
     {
         $this->referenceLanguage = $referenceLanguage;
         $this->availableLanguages = $availableLanguages;
+        $this->translationDir = $translationDir;
     }
 
     public function getTranslationStatus($code)
@@ -79,7 +81,7 @@ class Manager
 
     public function getMessages($code)
     {
-        $file = __DIR__.'/Resources/translations/messages.'.$code.'.yml';
+        $file = $this->translationDir.'/messages.'.$code.'.yml';
         if(file_exists($file)) {
             return Yaml::load($file);
         }
@@ -102,7 +104,7 @@ class Manager
 
     public function getLanguageFile($code)
     {
-        return __DIR__.'/Resources/translations/messages.'.$code.'.yml';
+        return $this->translationDir.'/messages.'.$code.'.yml';
     }
 
     public function getLanguages()

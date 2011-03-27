@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="lichess_translation.manager.reference_language">fr</parameter>
+        <parameter key="lichess_translation.translation_dir">%kernel.root_dir%/../src/Bundle/LichessBundle/Resources/translations</parameter>
 
         <parameter key="lichess.locales" type="collection">
             <parameter key="en">English</parameter>
@@ -64,6 +65,7 @@
         <service id="lichess_translation.manager" class="Lichess\TranslationBundle\Manager">
             <argument>%lichess_translation.manager.reference_language%</argument>
             <argument>%lichess.locales%</argument>
+            <argument>%lichess_translation.translation_dir%</argument>
         </service>
 
         <service id="lichess_translation.switcher" class="Lichess\TranslationBundle\Switcher">
