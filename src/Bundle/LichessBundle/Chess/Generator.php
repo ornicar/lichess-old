@@ -73,6 +73,7 @@ class Generator
         if (Game::VARIANT_960 === $game->getVariant()) {
             $forsyth = new Forsyth();
             $forsyth->import($nextGame, $game->getInitialFen());
+            $nextGame->setInitialFen($game->getInitialFen());
         }
         $nextPlayer = $nextGame->getPlayer($player->getOpponent()->getColor());
         $nextGame->setCreator($nextPlayer);
