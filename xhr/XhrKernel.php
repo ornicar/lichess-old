@@ -16,7 +16,7 @@ class XhrKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
-            new Bundle\LichessBundle\LichessBundle(),
+            new Bundle\LichessBundle\LichessBundle()
         );
 
         return $bundles;

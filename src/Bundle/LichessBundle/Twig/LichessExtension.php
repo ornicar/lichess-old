@@ -194,6 +194,7 @@ class LichessExtension extends Twig_Extension
             'possible_moves'    => $possibleMoves,
             'sync_latency' => $this->container->getParameter('lichess.sync.latency') * 1000,
             'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000,
+            'locale' => $this->container->get('session')->getLocale(),
             'debug'             => $this->container->getParameter('kernel.debug')
         );
 
@@ -240,7 +241,8 @@ class LichessExtension extends Twig_Extension
             ),
             'possible_moves'    => $possibleMoves,
             'sync_latency' => $this->container->getParameter('lichess.sync.latency') * 1000,
-            'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000
+            'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000,
+            'locale' => $this->container->get('session')->getLocale()
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));

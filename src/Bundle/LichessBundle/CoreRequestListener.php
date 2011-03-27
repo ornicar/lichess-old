@@ -29,6 +29,10 @@ class CoreRequestListener
                     $session->set('lichess.session_id', KeyGenerator::generate(10));
                     $this->container->get('lichess_translation.switcher')->switchLocaleForRequest($event->getRequest());
                 }
+            } else {
+                // sessionless request, use explicit requested locale
+                $locale = $this->container->get('request')->request->get('locale', 'en');
+                $this->container->get('translator')->setLocale($locale);
             }
         }
     }
