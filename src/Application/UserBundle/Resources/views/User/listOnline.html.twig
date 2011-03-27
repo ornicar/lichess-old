@@ -1,8 +1,8 @@
-<h2>{% trans "All players " %}</h2>
+<h2>{% trans "All players" %} ({{ nbPlayers}})</h2>
 <ul class="anonymous_users clearfix">
-    {% for player in 0..nbPlayers %}<li></li>{% endfor %}
+    {% for player in 1..nbPlayers %}<li></li>{% endfor %}
 </ul>
-<h2>{% trans "Named players " %}</h2>
+<h2>{% trans "Named players" %} ({{ users.count }})</h2>
 <ul class="users">
     {% set isAnonymous = fos_user_isAnonymous() %}
     {% for user in users %}
