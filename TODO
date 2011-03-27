@@ -1,3 +1,4 @@
+* improve /games: reduce req. size and increase frequency
 * favorite games
 * chess960 replay: http://lichess.org/analyse/rpwxef86
 * send culture in sync parameters

@@ -16,8 +16,11 @@ for application in xhr lichess; do
     fi
 done
 
+echo -e "\n--- warming up xhr cache"
+show_run "php xhr/console --env=dev cache:clear"
+
 for environment in dev test; do
-    echo -e "\n--- Warming up $environment cache"
+    echo -e "\n--- warming up $environment cache"
     show_run "php lichess/console --env=$environment cache:clear"
 
     echo -e "\n--- Loading $environment fixtures"
