@@ -9,7 +9,7 @@ $(function() {
 					reloadGameList();
 				});
 			},
-			2500);
+			2100);
 		};
 		reloadGameList();
 	}
