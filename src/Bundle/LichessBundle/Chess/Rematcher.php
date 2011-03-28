@@ -60,8 +60,8 @@ class Rematcher
         $this->logger->notice($player, 'Player:rematch accept');
         $this->messenger->addSystemMessage($game, 'Rematch offer accepted');
         $nextGame->start();
+        $this->memory->setAlive($nextPlayer);
         foreach(array(array($player, $nextPlayer), array($opponent, $nextOpponent)) as $pair) {
-            $this->memory->setAlive($pair[1]);
             $pair[0]->addEventToStack(array('type' => 'redirect', 'url' => $this->urlGenerator->generate('lichess_player', array('id' => $pair[1]->getFullId()))));
         }
         $this->objectManager->persist($nextGame);
