@@ -95,7 +95,7 @@ class PlayerWithAiControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_current_player p:contains("White resigned")')->count());
-        $this->assertEquals(1, $crawler->filter('div.lichess_table a:contains("New game")')->count());
+        $this->assertEquals(1, $crawler->filter('div.lichess_table a:contains("New opponent")')->count());
     }
 
     /**
