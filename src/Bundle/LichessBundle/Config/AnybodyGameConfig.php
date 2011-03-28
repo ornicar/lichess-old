@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class AnybodyGameConfig extends GameConfig
 {
     public $modes      = array(0, 1);
-    public $times      = array(20, 0);
+    public $times      = array(5, 10, 20, 0);
     public $increments = array(2, 5, 10);
     public $variants   = array(Game::VARIANT_STANDARD);
 
