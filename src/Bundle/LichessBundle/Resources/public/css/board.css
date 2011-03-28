@@ -483,10 +483,12 @@ div.lichess_control div.lichess_play_again_join a.lichess_play_again {
 div.lichess_control div.rematch_alert {
     background: url(../images/rematch.gif) center left no-repeat;
     padding-left: 60px;
+    margin-bottom: 1em;
 }
 div.lichess_control div.rematch_wait {
     background: url(../images/loader2.gif) center left no-repeat;
     padding-left: 40px;
+    margin-bottom: 1em;
 }
 
 div.lichess_control a.lichess_resign,
@@ -495,6 +497,12 @@ div.lichess_control a.offer_draw {
     float: right;
     display: block;
     margin-left: 1em;
+}
+
+div.lichess_control.buttons a.button {
+    display: block;
+    margin-bottom: 0.7em;
+    text-align: center;
 }
 
 div.lichess_claim_draw_zone,
