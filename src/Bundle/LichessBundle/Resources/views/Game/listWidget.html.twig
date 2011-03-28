@@ -3,7 +3,7 @@
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
 <div class="game_row clearfix">
-{{ lichess_game_mini(game, fromUser)|raw }}
+{{ lichess_game_mini(game, fromUser) }}
 <div class="infos">
 <b>
 {% if game.isBeingPlayed %}

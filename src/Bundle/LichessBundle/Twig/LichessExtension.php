@@ -151,13 +151,13 @@ class LichessExtension extends Twig_Extension
 
     public function renderGameData(Player $player, $possibleMoves, $isOpponentActive)
     {
-        $game = $player->getGame();
-        $gameId = $game->getId();
-        $color = $player->getColor();
-        $opponent = $player->getOpponent();
+        $game         = $player->getGame();
+        $gameId       = $game->getId();
+        $color        = $player->getColor();
+        $opponent     = $player->getOpponent();
         $playerFullId = $player->getFullId();
-        $generator = $this->getRouterGenerator();
-        $translator = $this->getTranslator();
+        $generator    = $this->getRouterGenerator();
+        $translator   = $this->getTranslator();
 
         $data = array(
             'game' => array(
@@ -203,11 +203,11 @@ class LichessExtension extends Twig_Extension
 
     public function renderGameWatchData(Player $player, $possibleMoves)
     {
-        $game = $player->getGame();
-        $gameId = $game->getId();
-        $color = $player->getColor();
-        $opponent = $player->getOpponent();
-        $generator = $this->getRouterGenerator();
+        $game       = $player->getGame();
+        $gameId     = $game->getId();
+        $color      = $player->getColor();
+        $opponent   = $player->getOpponent();
+        $generator  = $this->getRouterGenerator();
         $translator = $this->getTranslator();
 
         $data = array(
@@ -255,11 +255,17 @@ class LichessExtension extends Twig_Extension
 
     public function renderGameMini(Game $game, User $user = null)
     {
-        $player = $game->getPlayerByUserOrCreator($user);
-        $board = $player->getGame()->getBoard();
-        $squares = $board->getSquares();
-        $generator = $this->getRouterGenerator();
+        $player     = $game->getPlayerByUserOrCreator($user);
+        $board      = $player->getGame()->getBoard();
+        $squares    = $board->getSquares();
+        $generator  = $this->getRouterGenerator();
         $translator = $this->getTranslator();
+        $authUser   = $this->container->get('security.context')->getToken()->getUser();
+        if ($authPlayer = $game->getPlayerByUser($authUser)) {
+            $gameUrl = $generator->generate('lichess_player', array('id' => $player->getFullId()));
+        } else {
+            $gameUrl = $generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()));
+        }
 
         if ($player->isBlack()) {
             $squares = array_reverse($squares, true);
@@ -268,7 +274,7 @@ class LichessExtension extends Twig_Extension
         $x = $y = 1;
 
         $html = sprintf('<a href="%s" title="%s" class="mini_board notipsy">',
-            $generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor())),
+            $gameUrl,
             $translator->trans('View in full size')
         );
 
