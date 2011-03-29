@@ -55,6 +55,7 @@ return array(
     "el" => "Ελληνικά",
     "gn" => "Avañe'ẽ",
     "gu" => "ગુજરાતી",
+    "he" => "עִבְרִית",
     "ht" => "Kreyòl ayisyen",
     "hz" => "Otjiherero",
     "hi" => "हिन्दी, हिंदी",
