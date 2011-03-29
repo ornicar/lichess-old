@@ -31,6 +31,7 @@ class LichessKernel extends Kernel
             new Application\CommentBundle\LichessCommentBundle(),
             new Bundle\LichessBundle\LichessBundle(),
             new Lichess\SearchBundle\LichessSearchBundle(),
+            new Lichess\HookBundle\LichessHookBundle(),
             new Lichess\TranslationBundle\LichessTranslationBundle(),
         );
 

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User;
 use LogicException;
+use DateTime;
 
 /**
  * Represents a single Chess game
@@ -45,7 +46,7 @@ class Game
     protected $id;
 
     /**
-     * Game variant (like standard or 960)
+     * Game variant (like standard or chess960)
      *
      * @var int
      * @mongodb:Field(type="int")
@@ -139,7 +140,7 @@ class Game
     /**
      * Last update time
      *
-     * @var \DateTime
+     * @var DateTime
      * @mongodb:Field(type="date")
      * @mongodb:Index(order="desc")
      */
@@ -148,7 +149,7 @@ class Game
     /**
      * Creation date
      *
-     * @var \DateTime
+     * @var DateTime
      * @mongodb:Field(type="date")
      */
     protected $createdAt;
