@@ -61,6 +61,11 @@ class Rematcher
         $this->messenger->addSystemMessage($game, 'Rematch offer accepted');
         $nextGame->start();
         $this->memory->setAlive($nextPlayer);
+        // the opponent still pings the old game,
+        // so we set it as active on the new game
+        if ($this->memory->getActivity($opponent)) {
+            $this->memory->setAlive($nextOpponent);
+        }
         foreach(array(array($player, $nextPlayer), array($opponent, $nextOpponent)) as $pair) {
             $pair[0]->addEventToStack(array('type' => 'redirect', 'url' => $this->urlGenerator->generate('lichess_player', array('id' => $pair[1]->getFullId()))));
         }
