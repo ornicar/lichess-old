@@ -44,8 +44,10 @@
             {% else %}
             <a class="lichess_rematch button" title="{% trans "Play with the same opponent again" %}" href="{{ path("lichess_rematch", {"id": player.fullId} ) }}">{% trans "Rematch" %}</a>
             {% endif %}
+        {% else %}
+            <a class="button" title="{% trans "Play with the same opponent again" %}" href="{{ path("lichess_invite_ai", {"id": player.fullId} ) }}">{% trans "Rematch" %}</a>
         {% endif %}
-        <a class="lichess_new_game button" title="{% trans "Play with another opponent" %}" href="{{ path("lichess_homepage") }}">{% trans "New opponent" %}</a>
+            <a class="lichess_new_game button" title="{% trans "Play with another opponent" %}" href="{{ path("lichess_invite_anybody") }}">{% trans "New opponent" %}</a>
     </div>
 </div>
 {% if player.game.hasClock %}
