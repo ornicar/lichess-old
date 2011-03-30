@@ -34,6 +34,7 @@ class FixTranslationCommand extends BaseCommand
         $dm = $this->container->get('lichess.object_manager');
         $tm = $this->container->get('lichess_translation.manager');
         foreach($tm->getAvailableLanguages() as $code => $name) {
+            print($code.', ');
             if("en" === $code) {
                 continue;
             }
@@ -41,5 +42,6 @@ class FixTranslationCommand extends BaseCommand
             $messages = $tm->sortMessages($messages);
             $tm->saveMessages($code, $messages);
         }
+        $output->writeLn('Done');
     }
 }
