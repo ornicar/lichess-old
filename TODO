@@ -1,3 +1,4 @@
+* no more exceptions on out of bounds
 * language on 2 cols
 * improve /games: reduce req. size and increase frequency
 * favorite games
