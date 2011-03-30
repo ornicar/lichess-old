@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.cheat.internal_detector.turns">10</parameter>
+        <parameter key="lichess.cheat.internal_detector.turns">14</parameter>
     </parameters>
 
     <services>
