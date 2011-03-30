@@ -151,7 +151,7 @@ $.widget("lichess.game", {
             top: to_offset.top,
             left: to_offset.left
         },
-        self.options.animation_delay * (isMyPiece ? 1: 2), function() {
+        self.options.animation_delay * (self.options.player.spectator ? 2 : isMyPiece ? 1 : 2), function() {
             if ($killed.length) {
                 self.killPiece($killed);
             }
