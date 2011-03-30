@@ -14,10 +14,11 @@ class LoadCommentData implements FixtureInterface, OrderedFixtureInterface, Cont
     protected $objectManager;
     protected $commentThreadManager;
     protected $commentManager;
+    protected $gameManager;
 
     public function getOrder()
     {
-        return 3;
+        return 5;
     }
 
     public function setContainer(ContainerInterface $container = null)
@@ -25,10 +26,39 @@ class LoadCommentData implements FixtureInterface, OrderedFixtureInterface, Cont
         $this->objectManager  = $container->get('doctrine.odm.mongodb.document_manager');
         $this->threadManager  = $container->get('fos_comment.manager.thread');
         $this->commentManager = $container->get('fos_comment.manager.comment');
+        $this->gameManager    = $container->get('lichess.repository.game');
     }
 
     public function load($manager)
     {
+        //game comments
+
+        $gameId = $this->gameManager->findOneBy(array())->getId();
+
+        $gameThread = $this->threadManager->createThread();
+        $gameThread->setIdentifier('game:'.$gameId);
+        $this->objectManager->persist($gameThread);
+
+        $comment1 = $this->commentManager->createComment();
+        $comment1->setBody('1 - First comment in root');
+        $comment1->setThread($gameThread);
+        $this->commentManager->addComment($comment1);
+        $this->objectManager->flush();
+
+        $comment2 = $this->commentManager->createComment();
+        $comment2->setBody('2 - Second comment in root');
+        $comment2->setThread($gameThread);
+        $this->commentManager->addComment($comment2);
+        $this->objectManager->flush();
+
+        $comment3 = $this->commentManager->createComment();
+        $comment3->setBody('3 - First comment in comment 2');
+        $comment3->setThread($gameThread);
+        $this->commentManager->addComment($comment3, $comment2);
+        $this->objectManager->flush();
+
+        // home comments
+
         $homepageThread = $this->threadManager->createThread();
         $homepageThread->setIdentifier('homepage');
         $this->objectManager->persist($homepageThread);

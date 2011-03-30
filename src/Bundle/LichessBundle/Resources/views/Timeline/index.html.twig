@@ -1,4 +1,4 @@
-{% extends "LichessBundle::layoutCommon.html.twig" %}
+{% extends "Lichess::layoutCommon.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
 <link href="{{ asset("bundles/lichess/css/timeline.css") }}" type="text/css" rel="stylesheet" />
@@ -18,7 +18,7 @@
     </div>
     <h1 class="lichess_title">Timeline</h1>
     <ol class="timeline_entries" data-url="{{ path("lichess_timeline_inner") }}">
-        {% render "LichessBundle:Timeline:inner" %}
+        {% render "Lichess:Timeline:inner" %}
     </ol>
 </div>
 {% endblock %}

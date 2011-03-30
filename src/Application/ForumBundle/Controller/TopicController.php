@@ -25,7 +25,7 @@ class TopicController extends BaseTopicController
         $form = $this->get('forum.form.new_topic');
         $form->setData($topic);
 
-        return $this->get('templating')->renderResponse('ForumBundle:Topic:new.html.'.$this->getRenderer(), array(
+        return $this->get('templating')->renderResponse('Forum:Topic:new.html.'.$this->getRenderer(), array(
             'form'      => $form,
             'category'  => $category
         ));
@@ -71,7 +71,7 @@ class TopicController extends BaseTopicController
 
     protected function invalidCreate(Category $category, $form)
     {
-        return $this->render('ForumBundle:Topic:new.html.twig', array(
+        return $this->render('Forum:Topic:new.html.twig', array(
             'form'      => $form,
             'category'  => $category
         ));

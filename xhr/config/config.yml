@@ -21,12 +21,12 @@ doctrine_mongo_db:
     document_managers:
         default:
             mappings:
-                LichessBundle: ~
-                LichessUserBundle:
+                Lichess: ~
+                LichessUser:
                     type: annotation
                     dir: %kernel.root_dir%/../src/Application/UserBundle/Document
                     prefix: Application\UserBundle\Document
-                FOSUserBundle:
+                FOSUser:
                     type: xml
                     dir: %kernel.root_dir%/../src/FOS/UserBundle/Resources/config/doctrine/metadata/mongodb
                     prefix: FOS\UserBundle\Document

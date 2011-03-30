@@ -33,14 +33,14 @@ class ExceptionController extends ContainerAware
             if($this->container->get('request')->isXmlHttpRequest()) {
                 $response = new Response('You should not do that.');
             } else {
-                $response = $templating->renderResponse('LichessBundle:Exception:notFound.html.twig', $params);
+                $response = $templating->renderResponse('Lichess:Exception:notFound.html.twig', $params);
             }
         } else {
             if($this->container->get('request')->isXmlHttpRequest()) {
                 $response = new Response('Something went terribly wrong.');
             } else {
                 $params['url'] = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
-                $response = $templating->renderResponse('LichessBundle:Exception:error.html.twig', $params);
+                $response = $templating->renderResponse('Lichess:Exception:error.html.twig', $params);
             }
         }
         $response->setStatusCode($code);

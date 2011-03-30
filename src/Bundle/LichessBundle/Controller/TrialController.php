@@ -24,7 +24,7 @@ class TrialController extends Controller
 
     public function listUnresolvedAction()
     {
-        return $this->render('LichessBundle:Trial:listUnresolved.html.twig', $this->addNumbers(array(
+        return $this->render('Lichess:Trial:listUnresolved.html.twig', $this->addNumbers(array(
             'trials'   => $this->createPaginatorForQuery($this->get('lichess.repository.trial')->createUnresolvedQuery()),
             'pagerUrl' => $this->generateUrl('lichess_trial_list_unresolved')
         )));
@@ -32,7 +32,7 @@ class TrialController extends Controller
 
     public function listGuiltyAction()
     {
-        return $this->render('LichessBundle:Trial:listGuilty.html.twig', $this->addNumbers(array(
+        return $this->render('Lichess:Trial:listGuilty.html.twig', $this->addNumbers(array(
             'trials'   => $this->createPaginatorForQuery($this->get('lichess.repository.trial')->createGuiltyQuery()),
             'pagerUrl' => $this->generateUrl('lichess_trial_list_guilty')
         )));
@@ -40,7 +40,7 @@ class TrialController extends Controller
 
     public function listInnocentAction()
     {
-        return $this->render('LichessBundle:Trial:listInnocent.html.twig', $this->addNumbers(array(
+        return $this->render('Lichess:Trial:listInnocent.html.twig', $this->addNumbers(array(
             'trials'   => $this->createPaginatorForQuery($this->get('lichess.repository.trial')->createInnocentQuery()),
             'pagerUrl' => $this->generateUrl('lichess_trial_list_innocent')
         )));

@@ -1,14 +1,14 @@
-{% extends "LichessBundle:Trial:layoutTrial.html.twig" %}
+{% extends "Lichess:Trial:layoutTrial.html.twig" %}
 {% block content %}
 <div class="content_box">
-{% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": trials.pages, "url": pagerUrl} %}{% endset %}
+{% set pagination %}{% include "Lichess::pagination.html.twig" with {"pager": trials.pages, "url": pagerUrl} %}{% endset %}
 <h1 class="title">{% block list_type %}{% endblock %} {{ trials.pages.firstItemNumber }} - {{ trials.pages.lastItemNumber }} of {{ trials.pages.totalItemCount }}</h1>
 {% block list_menu %}{% endblock %}
 <div class="all_games">
     <div class="pager pager_top">{{ pagination|raw }}</div>
     <div class="all_games_inner">
     {% block games_inner %}
-        {% include "LichessBundle:Trial:listWidget.html.twig" with {"trials": trials} %}
+        {% include "Lichess:Trial:listWidget.html.twig" with {"trials": trials} %}
     {% endblock %}
     </div>
     <div class="pager pager_bottom">{{ pagination|raw }}</div>

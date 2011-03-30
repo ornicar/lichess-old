@@ -39,7 +39,7 @@ class GameFunctionalTest extends WebTestCase
      */
     public function testFetchInsertedGame($gameId)
     {
-        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
+        $game = $this->dm->getRepository('Lichess:Game')->findOneById($gameId);
         $this->assertEquals($gameId, $game->getId());
         $this->assertEquals(2, $game->getPlayers()->count());
         $this->assertEquals('white', $game->getPlayer('white')->getColor());
@@ -56,7 +56,7 @@ class GameFunctionalTest extends WebTestCase
      */
     public function testUpdateGame($gameId)
     {
-        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
+        $game = $this->dm->getRepository('Lichess:Game')->findOneById($gameId);
         $game->setVariant(Game::VARIANT_960);
         $game->start();
         $this->dm->flush();
@@ -71,7 +71,7 @@ class GameFunctionalTest extends WebTestCase
      */
     public function testFetchUpdatedGame($gameId)
     {
-        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
+        $game = $this->dm->getRepository('Lichess:Game')->findOneById($gameId);
         $this->assertTrue($game->getIsStarted());
         $this->assertEquals(Game::VARIANT_960, $game->getVariant());
         $this->assertEquals(2, $game->getRoom()->getNbMessages());
@@ -98,7 +98,7 @@ class GameFunctionalTest extends WebTestCase
      */
     public function testFetchFullFeaturedGame($gameId)
     {
-        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
+        $game = $this->dm->getRepository('Lichess:Game')->findOneById($gameId);
         $this->assertInstanceOf('\Bundle\LichessBundle\Document\Clock', $game->getClock());
         $this->assertEquals(2, $game->getClock()->getLimitInMinutes());
         $this->assertEquals(5, $game->getRoom()->getNbMessages());
@@ -112,13 +112,13 @@ class GameFunctionalTest extends WebTestCase
         $this->dm->persist($game);
         $this->dm->flush();
         $this->dm->clear();
-        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
+        $game = $this->dm->getRepository('Lichess:Game')->findOneById($game->getId());
         $player = $game->getPlayer('white');
         $this->assertEquals(1, $player->getStack()->getNbEvents());
         $player->addEventsToStack(array(array('type' => 'test'), array('type' => 'test')));
         $this->dm->flush();
         $this->dm->clear();
-        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
+        $game = $this->dm->getRepository('Lichess:Game')->findOneById($game->getId());
         $player = $game->getPlayer('white');
         $this->assertEquals(3, $player->getStack()->getNbEvents());
         for($i=0; $i<$player->getStack()->getMaxEvents(); $i++) {
@@ -127,7 +127,7 @@ class GameFunctionalTest extends WebTestCase
         $this->assertEquals($player->getStack()->getMaxEvents(), $player->getStack()->getNbEvents());
         $this->dm->flush();
         $this->dm->clear();
-        $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
+        $game = $this->dm->getRepository('Lichess:Game')->findOneById($game->getId());
         $player = $game->getPlayer('white');
         $this->assertEquals($player->getStack()->getMaxEvents(), $player->getStack()->getNbEvents());
     }

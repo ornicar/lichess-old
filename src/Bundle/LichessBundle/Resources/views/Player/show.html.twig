@@ -1,4 +1,4 @@
-{% extends "LichessBundle:Player:layoutPlayer.html.twig" %}
+{% extends "Lichess:Player:layoutPlayer.html.twig" %}
 {% set game = player.game %}
 {% block robots %}noindex, nofollow{% endblock %}
 {% block title_suffix %} #{{ player.fullId }}{% endblock %}
@@ -8,11 +8,11 @@
         {{ lichess_game_board(player, checkSquareKey)|raw }}
     </div>
     <div class="lichess_ground">
-        {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
+        {% include "Lichess:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
         <div class="lichess_table_wrap">
-            {% render "LichessBundle:Player:table" with {"id": game.id, "color": player.color, "playerFullId": player.fullId} %}
+            {% render "Lichess:Player:table" with {"id": game.id, "color": player.color, "playerFullId": player.fullId} %}
         </div>
-        {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player.opponent, "position": "bottom"} %}
+        {% include "Lichess:Game:cemetery.html.twig" with {"player": player.opponent, "position": "bottom"} %}
     </div>
 </div>
 {% endblock %}
@@ -26,7 +26,7 @@
     {{ lichess_game_data(player, possibleMoves, opponentActivity) }}
 {% endblock %}
 {% block chat %}
-{% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"player": player} %}{% endif %}
+{% if player.opponent.isHuman %}{% include "Lichess:Player:room.html.twig" with {"player": player} %}{% endif %}
 {% endblock %}
-{% block share %}{% include "LichessBundle:Game:share.html.twig" with {"game": game} %}{% endblock %}
-{% block feed_link %}{% include "LichessCommentBundle:Thread:feedLink.html.twig" with {"game": game} %}{% endblock %}
+{% block share %}{% include "Lichess:Game:share.html.twig" with {"game": game} %}{% endblock %}
+{% block feed_link %}{% include "LichessComment:Thread:feedLink.html.twig" with {"game": game} %}{% endblock %}

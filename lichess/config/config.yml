@@ -39,16 +39,16 @@ doctrine_mongo_db:
     document_managers:
         default:
             mappings:
-                LichessBundle:
-                FOSUserBundle:
-                LichessUserBundle:
-                OrnicarMessageBundle:
-                LichessMessageBundle:
-                ForumBundle:
-                LichessForumBundle:
-                FOSCommentBundle:
-                LichessCommentBundle:
-                LichessTranslationBundle:
+                Lichess:
+                FOSUser:
+                LichessUser:
+                OrnicarMessage:
+                LichessMessage:
+                Forum:
+                LichessForum:
+                FOSComment:
+                LichessComment:
+                LichessTranslation:
             metadata_cache_driver: apc
 
 forum:
@@ -110,7 +110,6 @@ fos_user:
     class:
         model:
             user: Application\UserBundle\Document\User
-            group: FOS\UserBundle\Document\DefaultGroup
         form:
             user: Application\UserBundle\Form\UserForm
         controller:

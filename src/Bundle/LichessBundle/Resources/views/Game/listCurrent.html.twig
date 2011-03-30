@@ -1,4 +1,4 @@
-{% extends "LichessBundle:Game:layoutGameList.html.twig" %}
+{% extends "Lichess:Game:layoutGameList.html.twig" %}
 {% block title %}Currently playing games{% endblock %}
 {% block content %}
 <div class="content_box current_games_box">
@@ -6,7 +6,7 @@
 <a class="all_games" href="{{ path("lichess_list_all") }}">{% trans 'View all %nb% games' with {'%nb%': nbGames} %}</a>
 <a class="all_games" href="{{ path("lichess_list_mates") }}">{% trans 'View %nb% checkmates' with {'%nb%': nbMates} %}</a>
 <div class="game_list" data-url="{{ path("lichess_list_current_inner", {"ids": ids|join(',') } ) }}">
-{% render "LichessBundle:Game:listCurrentInner" with {"ids": ids} %}
+{% render "Lichess:Game:listCurrentInner" with {"ids": ids} %}
 </div>
 </div>
 {% endblock %}

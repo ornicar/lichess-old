@@ -1,7 +1,7 @@
 {% set game = player.game %}
 {% set winner = game.winner %}
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
+    {% include "Lichess:Game:clock.html.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
 {% endif %}
 <div class="lichess_table finished{{ game.hasClock ? " table_with_clock" : "" }}{{ game.next is defined ? " lichess_table_next" : "" }}">
     <div class="lichess_opponent">
@@ -9,7 +9,7 @@
         <span>{% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel} %}</span>
         {% else %}
             <div class="opponent_status">
-                {% render "LichessBundle:Player:opponent" with {"id": game.id, "color": player.color, "playerFullId": player.fullId} %}
+                {% render "Lichess:Player:opponent" with {"id": game.id, "color": player.color, "playerFullId": player.fullId} %}
             </div>
         {% endif %}
     </div>
@@ -51,5 +51,5 @@
     </div>
 </div>
 {% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
+    {% include "Lichess:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
 {% endif %}

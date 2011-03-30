@@ -4,11 +4,11 @@
 </ul>
 <h2>{% trans "Named players" %} ({{ users.count }})</h2>
 <ul class="users">
-    {% set isAnonymous = fos_user_isAnonymous() %}
+    {% set isAuthenticated = is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     {% for user in users %}
     <li>
         {{ lichess_link_user(user) }}
-        {% if not isAnonymous and app.user != user %}
+        {% if isAuthenticated and app.user != user %}
             <a class="send" href="{{ path("ornicar_message_message_new", {"to": user.username}) }}">{% trans "Send a message" %}</a>
         {% endif %}
     </li>

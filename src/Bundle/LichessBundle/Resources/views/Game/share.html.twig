@@ -12,5 +12,5 @@
         <a title="{% trans "Share this url to let spectators see the game" %}" class="game_permalink blank_if_play" href="{{ path("lichess_game", {"id": game.id}) }}">{{ url }}</a>
     </div>
 
-    {% render "LichessCommentBundle:Thread:show" with {"identifier": "game:" ~ game.id} %}
+    {% render "LichessComment:Thread:show" with {"identifier": "game:" ~ game.id} %}
 </div>

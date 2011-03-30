@@ -1,11 +1,11 @@
-{% extends "ForumBundle::layout.html.twig" %}
+{% extends "Forum::layout.html.twig" %}
 {% block title %}{{ topic.subject }}{% if posts.currentPageNumber > 1 %} - Page {{ posts.currentPageNumber }}{% endif %}{% endblock %}
 {% block description %}{{ topic.subject }} - {{ topic.category.description|raw }}{% endblock %}
 {% block feed_link %}
 <link href="{{ forum_urlForTopicAtomFeed(topic) }}" type="application/atom+xml" rel="alternate" title="{{ topic.subject }} - Lichess Forum" />
 {% endblock %}
 {% block content %}
-{% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": posts.pages, "url": forum_urlForTopic(topic)} %}{% endset %}
+{% set pagination %}{% include "Lichess::pagination.html.twig" with {"pager": posts.pages, "url": forum_urlForTopic(topic)} %}{% endset %}
 {% set replyUrl = forum_urlForTopicReply(topic) %}
 {% set isLastPage = forum_topicNumPages(topic) == posts.currentPageNumber %}
 
@@ -23,11 +23,11 @@
         <a href="{{ replyUrl }}" class="action button">Reply to this topic</a>
     </div>
 
-    {% include "ForumBundle:Post:list.html.twig" with {"posts": posts} %}
+    {% include "Forum:Post:list.html.twig" with {"posts": posts} %}
 
     {% if isLastPage %}
         <div class="topicReply">
-            {% render "ForumBundle:Post:new" with {"topic": topic} %}
+            {% render "Forum:Post:new" with {"topic": topic} %}
         </div>
     {% endif %}
 

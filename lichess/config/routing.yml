@@ -1,30 +1,30 @@
 security:
-    resource: @FOSUserBundle/Resources/config/routing/security.xml
+    resource: @FOSUser/Resources/config/routing/security.xml
 user:
-    resource: @FOSUserBundle/Resources/config/routing.yml
+    resource: @FOSUser/Resources/config/routing.yml
 
 lichess:
-    resource: @LichessBundle/Resources/config/routing.yml
+    resource: @Lichess/Resources/config/routing.yml
 lichess_sync:
-    resource: @LichessBundle/Resources/config/routing_sync.yml
+    resource: @Lichess/Resources/config/routing_sync.yml
 lichess_translation:
-    resource: @LichessTranslationBundle/Resources/config/routing.yml
+    resource: @LichessTranslation/Resources/config/routing.yml
     prefix: /translation
 lichess_search:
-    resource: @LichessSearchBundle/Resources/config/routing.yml
+    resource: @LichessSearch/Resources/config/routing.yml
     prefix: /search
 
 forum:
-    resource: @ForumBundle/Resources/config/routing/forum.xml
+    resource: @Forum/Resources/config/routing/forum.xml
     prefix: /forum
 forum_category:
-    resource: @ForumBundle/Resources/config/routing/category.xml
+    resource: @Forum/Resources/config/routing/category.xml
     prefix: /forum
 forum_topic:
-    resource: @ForumBundle/Resources/config/routing/topic.xml
+    resource: @Forum/Resources/config/routing/topic.xml
     prefix: /forum
 forum_post:
-    resource: @ForumBundle/Resources/config/routing/post.xml
+    resource: @Forum/Resources/config/routing/post.xml
     prefix: /forum
 forum_topic_show_compat:
     pattern:        /forum/{categorySlug}/{slug}/{id}.{_format}
@@ -32,8 +32,8 @@ forum_topic_show_compat:
     requirements:   { _method: "get|head", _format: "html|xml", slug: "[-\w]+" }
 
 ornicar_message:
-    resource: @OrnicarMessageBundle/Resources/config/routing.xml
+    resource: @OrnicarMessage/Resources/config/routing.xml
     prefix: /inbox
 
 fos_comment:
-    resource: @FOSCommentBundle/Resources/config/routing.yml
+    resource: @FOSComment/Resources/config/routing.yml

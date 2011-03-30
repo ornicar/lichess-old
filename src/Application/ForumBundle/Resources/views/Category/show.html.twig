@@ -1,4 +1,4 @@
-{% extends "ForumBundle::layout.html.twig" %}
+{% extends "Forum::layout.html.twig" %}
 {% block title %}{{ category.name|raw }}{% endblock %}
 {% block description %}{{ category.description|raw }}{% endblock %}
 {% block feed_link %}
@@ -14,6 +14,6 @@
 
     <p class="description">{{ category.description|raw }}</p>
 
-    {% render "ForumBundle:Topic:list" with {"category": category, "page": page} %}
+    {% render "Forum:Topic:list" with {"category": category, "page": page} %}
 </div>
 {% endblock %}

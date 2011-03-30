@@ -19,7 +19,7 @@ class MessageController extends BaseMessageController
             if ($this->get('lichess_message.akismet')->isMessageSpam($message)) {
                 $form['body']->addError(new Error('Sorry, but your message looks like spam. If you think it is an error, send me an email.'));
                 $this->get('logger')->notice('Message spam block: '.$message->getFrom().' - '.$message->getSubject());
-                return $this->render('OrnicarMessageBundle:Message:new.html.twig', compact('form'));
+                return $this->render('OrnicarMessage:Message:new.html.twig', compact('form'));
             }
             $this->get('ornicar_message.messenger')->send($message);
             $this->get('ornicar_message.object_manager')->flush();
@@ -28,6 +28,6 @@ class MessageController extends BaseMessageController
             return new RedirectResponse($this->generateUrl('ornicar_message_message_sent'));
         }
 
-        return $this->render('OrnicarMessageBundle:Message:new.html.twig', compact('form'));
+        return $this->render('OrnicarMessage:Message:new.html.twig', compact('form'));
     }
 }

@@ -8,6 +8,6 @@ class LichessCommentBundle extends Bundle
 {
     public function getParent()
     {
-        return 'FOSCommentBundle';
+        return 'FOSComment';
     }
 }

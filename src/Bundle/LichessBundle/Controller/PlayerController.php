@@ -109,7 +109,7 @@ class PlayerController extends Controller
         $analyser = $this->get('lichess.analyser_factory')->create($game->getBoard());
         $checkSquareKey = $analyser->getCheckSquareKey($game->getTurnPlayer());
 
-        return $this->render('LichessBundle:Player:show.html.twig', array(
+        return $this->render('Lichess:Player:show.html.twig', array(
             'player'              => $player,
             'opponentActivity'    => $this->get('lichess.memory')->getActivity($player->getOpponent()),
             'checkSquareKey'      => $checkSquareKey,
@@ -144,7 +144,7 @@ class PlayerController extends Controller
 
         $config = new AnybodyGameConfig();
         $config->fromArray($player->getGame()->getConfigArray());
-        return $this->render('LichessBundle:Player:waitAnybody.html.twig', array(
+        return $this->render('Lichess:Player:waitAnybody.html.twig', array(
             'player' => $player,
             'config' => $config
         ));
@@ -173,7 +173,7 @@ class PlayerController extends Controller
 
         $config = new FriendGameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
-        return $this->render('LichessBundle:Player:waitFriend.html.twig', array(
+        return $this->render('Lichess:Player:waitFriend.html.twig', array(
             'player' => $player,
             'config' => $config
         ));
@@ -210,7 +210,7 @@ class PlayerController extends Controller
             $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
             $template = 'watchTable';
         }
-        return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
+        return $this->render('Lichess:Game:'.$template.'.html.twig', array(
             'player'           => $player,
             'opponentActivity' => $this->get('lichess.memory')->getActivity($player->getOpponent())
         ));
@@ -237,7 +237,7 @@ class PlayerController extends Controller
         }
         $opponentActivity = $playerFullId ? $this->get('lichess.memory')->getActivity($opponent) : 2;
 
-        return $this->render('LichessBundle:Player:'.$template.'.html.twig', array(
+        return $this->render('Lichess:Player:'.$template.'.html.twig', array(
             'opponent'         => $opponent,
             'opponentActivity' => $opponentActivity,
             'game'             => $opponent->getGame(),

@@ -19,7 +19,7 @@ class PostController extends BasePostController
         $form = $this->get('forum.form.post');
         $form->setData($post);
 
-        return $this->get('templating')->renderResponse('ForumBundle:Post:new.html.'.$this->getRenderer(), array(
+        return $this->get('templating')->renderResponse('Forum:Post:new.html.'.$this->getRenderer(), array(
             'form'  => $form,
             'topic' => $topic,
         ));
@@ -64,7 +64,7 @@ class PostController extends BasePostController
     {
         $lastPage = $this->get('forum.router.url_generator')->getTopicNumPages($topic);
 
-        return $this->forward('ForumBundle:Topic:show', array(
+        return $this->forward('Forum:Topic:show', array(
             'categorySlug' => $topic->getCategory()->getSlug(),
             'slug'         => $topic->getSlug(),
             'id'           => $topic->getId()

@@ -28,9 +28,7 @@
             <a class="goto_userlist goto_nav blank_if_play{{ active == "user" ? " active" : "" }}" title="{% trans "Chess players" %}" href="{{ path("fos_user_user_list") }}">{% trans "People" %}</a>
             <a class="goto_forum goto_nav blank_if_play{{ active == "forum" ? " active" : "" }}" title="{% trans "Talk about chess and discuss lichess features in the forum" %}" href="{{ path("forum_index") }}">{% trans "Forum" %}</a>
             {% block top_security %}
-            {% if fos_user_isAnonymous() %}
-                {% include "FOSUserBundle:Security:embeddedLogin.html.twig" %}
-            {% else %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <a class="goto_nav goto_message blank_if_play{{ active == "message" ? " active" : "" }}" href="{{ path("ornicar_message_message_list") }}">
                     {% trans "Inbox" %}
                     <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
@@ -39,6 +37,8 @@
                     <a class="goto_nav goto_logout" href="{{ path("_security_logout") }}"><span class="s16">{% trans "Log out" %}</span></a>
                 </div>
                 <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": app.user.username}) }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="blank_if_play goto_nav goto_profile"><span class="s16">{{ app.user.usernameWithElo}}</span></a>
+            {% else %}
+                {% include "FOSUser:Security:embeddedLogin.html.twig" %}
             {% endif %}
             {% endblock %}
         </div>
@@ -46,8 +46,8 @@
             <div class="header">
                 <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
                 {% block baseline %}{% endblock %}
-                {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
-                {% elseif app.session.getFlash("locale_change", "en") != "en" %}{% render "LichessTranslationBundle:Contribution:onChange" with{"locale": app.session.locale} %}
+                {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslation:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
+                {% elseif app.session.getFlash("locale_change", "en") != "en" %}{% render "LichessTranslation:Contribution:onChange" with{"locale": app.session.locale} %}
                 {% endif %}
                 <div class="lichess_goodies_wrap">{% block goodies %}{% endblock %}</div>
                 <div class="lichess_chat_wrap">{% block chat %}{% endblock %}</div>
