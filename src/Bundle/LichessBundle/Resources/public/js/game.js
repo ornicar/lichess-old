@@ -58,6 +58,10 @@ $.widget("lichess.game", {
             timeout: self.options.sync_latency + 5000,
             success: function(data) {
                 if (!data) return self.onError();
+                if (data.reload) {
+                    location.reload();
+                    return;
+                }
                 if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
                     self.options.opponent.active = data.oa;
                     self.get(self.options.url.opponent, {
@@ -84,8 +88,7 @@ $.widget("lichess.game", {
             },
             complete: function(xhr, status) {
                 if (status != 'success') {
-                    self.onError();
-                    return;
+                    return self.onError();
                 }
                 $.isFunction(callback) && callback();
             }
