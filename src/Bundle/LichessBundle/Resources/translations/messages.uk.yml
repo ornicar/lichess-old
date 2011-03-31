@@ -26,6 +26,8 @@
 "Play a new game": "Створити нову гру"
 "Rematch": "Матч-реванш"
 "Play with the same opponent again": "Грати з цим суперником знову"
+"New opponent": "Новий суперник"
+"Play with another opponent": "Грати з іншим суперником"
 "Your opponent wants to play a new game with you": "Ваш суперник хоче зіграти з вами нову гру"
 "Join the game": "Приєднатися до гри"
 "You are viewing this game as a spectator": "Ви споглядаєте цю гру у якості споглядача"
@@ -115,3 +117,4 @@
 "Play": "Грати"
 "%user% is online": "Юзер - онлайн"
 "Registered": "Зареєестровано"
+"Chat room": "Чат"
