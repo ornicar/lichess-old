@@ -5,19 +5,16 @@ namespace Bundle\LichessBundle\Sync;
 use OutOfBoundsException;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Renderer\RoomMessageRenderer;
-use Bundle\LichessBundle\Logger;
 
 class ClientUpdater
 {
     protected $memory;
     protected $roomMessageRenderer;
-    protected $logger;
 
-    public function __construct(Memory $memory, RoomMessageRenderer $roomMessageRenderer, Logger $logger)
+    public function __construct(Memory $memory, RoomMessageRenderer $roomMessageRenderer)
     {
         $this->memory              = $memory;
         $this->roomMessageRenderer = $roomMessageRenderer;
-        $this->logger              = $logger;
     }
 
     public function getEventsSinceClientVersion(Player $player, $clientVersion, $withPrivateEvents)
@@ -30,7 +27,6 @@ class ClientUpdater
         try {
             $events = $version != $clientVersion ? $this->getDiffEvents($player, $clientVersion) : array();
         } catch (OutOfBoundsException $e) {
-            $this->logger->warn($player, $e->getMessage());
             return array('reload' => true);
         }
 
@@ -67,7 +63,7 @@ class ClientUpdater
             return array();
         }
         if(!$playerStack->hasVersion($clientVersion)) {
-            throw new OutOfBoundsException(sprintf('ClientUpdater:OutOfBound player=%d requested=%s', $playerVersion, $clientVersion));
+            throw new OutOfBoundsException(sprintf('ClientUpdater:OutOfBound player=%d requested=%s', $stackVersion, $clientVersion));
         }
         $events = array();
         for($version = $clientVersion+1; $version <= $stackVersion; $version++) {
