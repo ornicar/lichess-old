@@ -117,4 +117,6 @@
 "Play": "Грати"
 "%user% is online": "Юзер - онлайн"
 "Registered": "Зареєестровано"
+"{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} Коментувати цю гру|{1} Один коментар|]1,Inf] %count% Коментарів"
+"Inbox": "Вхідні повідомлення"
 "Chat room": "Чат"
