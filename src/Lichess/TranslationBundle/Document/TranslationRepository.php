@@ -8,7 +8,7 @@ class TranslationRepository extends DocumentRepository
     public function findAllSortByCreatedAt()
     {
         return $this->createQueryBuilder()
-            ->sort('createdAt', 'DESC')
+            ->sort('_id', 'DESC')
             ->getQuery()->execute();
     }
 }
