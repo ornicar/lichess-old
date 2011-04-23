@@ -573,7 +573,8 @@ class Game
      **/
     public function isFiftyMoves()
     {
-        return 50 <= count($this->positionHashes);
+        // position hashes are half moves
+        return 100 <= count($this->positionHashes);
     }
 
     /**

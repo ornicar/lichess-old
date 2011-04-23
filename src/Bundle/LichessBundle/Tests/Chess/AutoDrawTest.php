@@ -133,7 +133,7 @@ EOF;
                 'c6 b8'
             ));
             $nbMoves += 4;
-        } while ($nbMoves < 50);
+        } while ($nbMoves < 100);
 
         $this->assertTrue($this->getAutodraw()->isAutodraw($game));
     }
