@@ -48,6 +48,10 @@ strong {
     font-weight: bold;
 }
 
+.small {
+    font-size: 11px;
+}
+
 div.header {
     width: 200px;
     float: left;

@@ -12,6 +12,20 @@ use Application\UserBundle\Document\User;
 
 class UserController extends BaseUserController
 {
+    public function closeAccountAction()
+    {
+        if ($this->container->get('request')->getMethod() == 'POST') {
+            $response = new RedirectResponse($this->container->get('router')->generate('fos_user_user_show', array(
+                'username' => $this->getUser()->getUsername()
+            )));
+            $this->container->get('lichess_user.account_closer')->closeAccount($response);
+
+            return $response;
+        }
+
+        return $this->container->get('templating')->renderResponse('FOSUser:User:closeAccount.html.twig');
+    }
+
     public function updateProfileAction()
     {
         $bio = $this->container->get('request')->request->get('bio');

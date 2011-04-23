@@ -19,9 +19,12 @@
             {% trans "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws" with {"%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws} %}<br />
             {% trans "Registered" %} {{ lichess_date(user.createdAt) }}<br />
             {% trans "Best ELO" %}: {{ history.maxElo }}, {{ lichess_date(history.maxEloDate) }}
-            {% if user.isOnline %}
+            {% if not user.isEnabled %}
+                <br /><span>This account is closed.</span>
+            {% elseif user.isOnline %}
                 <br /><span class="user_is_online">{% trans "%user% is online" with {"%user%": user.username} %}</span>
             {% endif %}
+            {% block actions %}{% endblock %}
             {% block user_message %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <div class="actions">
