@@ -2,7 +2,7 @@
 {% block content %}
 <div class="message_show">
     <div class="head">
-        <h1>{{ message.subject }}</h1>
+        <h1>{{ message.subject|default("No subject") }}</h1>
     </div>
     {% include "OrnicarMessage::sidebar.html.twig" %}
     <div class="center show">
