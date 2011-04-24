@@ -31,6 +31,7 @@
                     <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{% trans "Send a message" %}</a>
                 </div>
             {% endif %}
+            {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}<br /><a href="?_impersonate={{ user.username }}">Impersonate</a>{% endif %}
             {% endblock %}
         </div>
     </div>

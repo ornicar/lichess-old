@@ -77,6 +77,8 @@ lichess_forum:
     detect_spam: true
 
 security:
+    role_hierarchy:
+        ROLE_SUPERADMIN: [ROLE_ALLOWED_TO_SWITCH]
     providers:
         fos_user_provider:
             id: fos_user.user_manager
@@ -95,6 +97,7 @@ security:
                 remember_me_parameter: _remember_me
             logout: true
             anonymous: true
+            switch_user: { parameter: _impersonate }
     access_control:
         - { path: "^/(inbox|profile)(/.*|$)", role: ROLE_USER }
         - { path: "^/forum/(post|topic)/delete/.+", role: ROLE_SUPERADMIN }
