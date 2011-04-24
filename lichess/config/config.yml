@@ -78,7 +78,7 @@ lichess_forum:
 
 security:
     role_hierarchy:
-        ROLE_SUPERADMIN: [ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPERADMIN: [ROLE_ALLOWED_TO_SWITCH, ROLE_VIEW_TRIALS_IN_GAME]
     providers:
         fos_user_provider:
             id: fos_user.user_manager

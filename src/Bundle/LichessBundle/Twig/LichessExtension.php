@@ -53,7 +53,8 @@ class LichessExtension extends Twig_Extension
             'lichess_room_message'      => 'roomMessage',
             'lichess_room_messages'     => 'roomMessages',
             'lichess_debug_assets'      => 'debugAssets',
-            'lichess_date'              => 'formatDate'
+            'lichess_date'              => 'formatDate',
+            'lichess_game_trials'       => 'getGameTrials'
         );
 
         $functions = array();
@@ -77,6 +78,11 @@ class LichessExtension extends Twig_Extension
         );
 
         return $filters;
+    }
+
+    public function getGameTrials(Game $game)
+    {
+        return $this->container->get('lichess.repository.trial')->findByGame($game);
     }
 
     public function formatDate($date, $format = null)

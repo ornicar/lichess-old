@@ -36,3 +36,9 @@
 {% if player.game.hasClock %}
     {% include "Lichess:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
 {% endif %}
+{% if is_granted('ROLE_VIEW_TRIALS_IN_GAME') %}
+    {% for trial in lichess_game_trials(game) %}
+    <br />{{ trial.user.username }}: {{ trial.score }}% suspicion
+    {% endfor %}
+{% endif %}
+        

@@ -7,6 +7,14 @@ use FOS\UserBundle\Model\User;
 
 class TrialRepository extends DocumentRepository
 {
+    public function findByGame(Game $game)
+    {
+        return $this->createQueryBuilder()
+            ->field('game.$id')->equals($game->getId())
+            ->getQuery()
+            ->execute();
+    }
+
     /**
      * Return the number of unresolved games
      *
