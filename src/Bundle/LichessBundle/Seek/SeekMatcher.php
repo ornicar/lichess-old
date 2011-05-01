@@ -61,14 +61,14 @@ class SeekMatcher
         $matches = array_values(array_intersect($a->getIncrements(), $b->getIncrements()));
 
         if(empty($matches)) {
-            return $matches = array_values(array_merge($a->getIncrements(), $b->getIncrements()));
+            $matches = array_values(array_merge($a->getIncrements(), $b->getIncrements()));
         }
 
         if(1 === count($matches)) {
             return $matches[0];
         }
 
-        return $matches[mt_rand(0, count($matches)-1)];
+        return $matches[array_rand($matches)];
     }
 
     public function getCommonMode(Seek $a, Seek $b)
