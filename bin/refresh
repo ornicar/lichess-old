@@ -1,18 +1,41 @@
 #!/bin/sh
 
-echo "Build bootstrap"
-bin/build_bootstrap.php
+if [ $# -lt 1 ]
+then
+    echo "usage: refresh [-at]"
+    echo "   -a Refresh all"
+    echo "   -t Refresh only translations"
+    exit 1
+fi
 
-for application in xhr lichess; do
-    echo -e "\n------------------- $application -----------------"
-    echo "Warmup cache"
-    php $application/console -e=prod cache:clear
-    echo "Raise cache permissions"
-    chmod -R 777 $application/cache/prod
+while getopts ":at" Option; do
+    case $Option in
+        a   ) refresh="all";;
+        t   ) refresh="trans";;
+    esac
 done
 
-echo "Clear APC cache opcode and user"
-php lichess/console --env=prod apc:clear
+if [ $refresh == "all" ]; then
+    echo "Build bootstrap"
+    bin/build_bootstrap.php
 
-echo "Install crafty books"
-bin/install_crafty_books
+    for application in xhr lichess; do
+        echo -e "\n------------------- $application -----------------"
+        echo "Warmup cache"
+        php $application/console -e=prod cache:clear
+        echo "Raise cache permissions"
+        chmod -R 777 $application/cache/prod
+    done
+
+    echo "Clear APC cache opcode and user"
+    php lichess/console --env=prod apc:clear
+
+    echo "Install crafty books"
+    bin/install_crafty_books
+elif [ $refresh == "trans" ]; then
+    echo "Warmup cache"
+    php lichess/console -e=prod cache:clear
+
+    echo "Clear APC cache opcode"
+    php lichess/console --env=prod apc:clear --opcode
+fi
