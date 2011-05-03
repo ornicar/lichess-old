@@ -120,3 +120,7 @@
 "{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} แสดงความคิดเห็นต่อเกมนี้|{1} หนึ่งความคิดเห็น|]1,Inf] %count% ความคิดเห็น"
 "Inbox": "กล่องรับ"
 "Chat room": "ห้องสนทนา"
+"Show advanced options": "แสดงตัวเลือกเพิ่มเติม"
+"Compose message": "เขียนข้อความ"
+"Sent messages": "ข้อความที่ส่ง"
+"Increment in seconds": "เพิ่มขึ้นในหน่วยวินาที"
