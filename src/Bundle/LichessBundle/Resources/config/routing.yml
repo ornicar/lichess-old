@@ -136,3 +136,7 @@ lichess_trial_list_innocent:
 lichess_trial_verdict:
     pattern:        /trial/verdict/{id}/{verdict}
     defaults:       { _controller: Lichess:Trial:verdict }
+lichess_api_new:
+    pattern:        /api/game/new
+    defaults:       { _controller: Lichess:Api:new }
+    requirements:   { _method: POST }

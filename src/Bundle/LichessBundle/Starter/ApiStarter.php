@@ -3,48 +3,47 @@
 namespace Bundle\LichessBundle\Starter;
 
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
-use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Document\Clock;
-use Bundle\LichessBundle\Config\Persistence;
+use Bundle\LichessBundle\Sync\Memory;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 
-class FriendStarter implements StarterInterface
+class ApiStarter implements StarterInterface
 {
     protected $generator;
     protected $playerBlamer;
     protected $objectManager;
+    protected $memory;
     protected $logger;
-    protected $configPersistence;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, Persistence $configPersistence)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Memory $memory, Logger $logger)
     {
-        $this->generator         = $generator;
-        $this->playerBlamer      = $playerBlamer;
-        $this->objectManager     = $objectManager;
-        $this->logger            = $logger;
-        $this->configPersistence = $configPersistence;
+        $this->generator     = $generator;
+        $this->playerBlamer  = $playerBlamer;
+        $this->objectManager = $objectManager;
+        $this->memory        = $memory;
+        $this->logger        = $logger;
     }
 
     public function start(GameConfig $config)
     {
-        $this->configPersistence->saveConfigFor('friend', $config->toArray());
         $color = $config->resolveColor();
         $player = $this->generator->createGameForPlayer($color, $config->variant);
-        $this->playerBlamer->blame($player);
         $game = $player->getGame();
         if($config->time) {
             $clock = new Clock($config->time * 60, $config->increment);
             $game->setClock($clock);
         }
         $game->setIsRated($config->mode);
+        $game->start();
         $this->objectManager->persist($game);
-        $this->logger->notice($game, 'Game:inviteFriend create');
+        $this->logger->notice($game, 'Game:api create');
+        foreach ($game->getPlayers() as $player) {
+            $this->memory->setAlive($player);
+        }
 
         return $player;
     }
