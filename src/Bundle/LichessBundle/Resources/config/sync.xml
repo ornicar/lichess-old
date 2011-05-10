@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="lichess.memory.soft_timeout">15</parameter>
-        <parameter key="lichess.memory.hard_timeout">180</parameter>
+        <parameter key="lichess.memory.hard_timeout">120</parameter>
     </parameters>
 
     <services>
