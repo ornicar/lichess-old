@@ -103,8 +103,14 @@ class PlayerController extends Controller
         }
         $game = $player->getGame();
         $this->get('lichess.memory')->setAlive($player);
+
         if(!$game->getIsStarted()) {
-            throw new RuntimeException(sprintf('Player:show game:%s, Game not started', $game->getId()), 410);
+            if ($this->get('lichess.memory')->getActivity($player->getOpponent()) > 0) {
+                $this->get('lichess.joiner')->join($player);
+                $this->flush();
+            } else {
+                return $this->render('Lichess:Player:waitOpponent.html.twig', array('player' => $player));
+            }
         }
         $analyser = $this->get('lichess.analyser_factory')->create($game->getBoard());
         $checkSquareKey = $analyser->getCheckSquareKey($game->getTurnPlayer());

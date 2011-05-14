@@ -38,12 +38,8 @@ class ApiStarter implements StarterInterface
             $game->setClock($clock);
         }
         $game->setIsRated($config->mode);
-        $game->start();
         $this->objectManager->persist($game);
         $this->logger->notice($game, 'Game:api create');
-        foreach ($game->getPlayers() as $player) {
-            $this->memory->setAlive($player);
-        }
 
         return $player;
     }

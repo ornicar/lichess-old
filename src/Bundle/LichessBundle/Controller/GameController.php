@@ -98,14 +98,15 @@ class GameController extends Controller
             return new Response(sprintf('Game #%s', $id));
         }
 
+        $player = $game->getInvited();
         try {
-            $this->get('lichess.joiner')->join($game);
+            $this->get('lichess.joiner')->join($player);
         } catch (InvalidArgumentException $e) {
             return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
         }
         $this->flush();
 
-        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }
 
     public function inviteFriendAction()
