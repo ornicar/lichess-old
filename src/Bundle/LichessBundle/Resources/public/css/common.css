@@ -324,7 +324,7 @@ a#sound_state.sound_state_off span {
     background-position: 0 -64px;
 }
 a#sound_state.unavailable {
-    opacity: 0;
+    display: none;
 }
 
 a.user_link {
