@@ -31,8 +31,8 @@ abstract class AbstractControllerTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
+        $this->assertTrue($client->getResponse()->isSuccessful());
         if($join) {
-            $this->assertTrue($client->getResponse()->isSuccessful());
             $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
             $client->request('GET', $redirectUrl);
             $this->assertTrue($client->getResponse()->isRedirect());
@@ -40,7 +40,6 @@ abstract class AbstractControllerTest extends WebTestCase
             $this->assertTrue($client->getResponse()->isSuccessful());
             $this->assertEquals(1, $crawler->filter('div.lichess_game.lichess_player_black')->count());
         } else {
-            $this->assertTrue($client->getResponse()->isSuccessful());
             $this->assertRegexp('/Waiting for opponent/', $client->getResponse()->getContent());
             $this->assertEquals(1, $crawler->filter('div.lichess_game_not_started.lichess_player_white')->count());
         }

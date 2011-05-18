@@ -3,7 +3,6 @@
 namespace Bundle\LichessBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Closure;
 
 class PlayerWithOpponentControllerTest extends WebTestCase
 {
@@ -12,10 +11,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $p1 = $this->createClient();
         $crawler = $p1->request('GET', '/friend');
         $form = $crawler->filter('.submit.'.$color)->form();
-        $p1->submit($form, array_merge(array(
-            'config[color]' => $color,
-            'config[variant]' => 1
-        ), $formConfig));
+        $p1->submit($form, array_merge(array('config[color]' => $color, 'config[variant]' => 1), $formConfig));
         $crawler = $p1->followRedirect();
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
@@ -28,6 +24,32 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $p2->request('GET', $redirectUrl);
         $crawler = $p2->followRedirect();
         $this->assertTrue($p2->getResponse()->isSuccessful());
+        $h2 = preg_replace('#^.+([\w-]{12}+)$#', '$1', $p2->getRequest()->getUri());
+
+        return array($p1, $h1, $p2, $h2);
+    }
+
+    protected function createGameWithAnybody($color = 'white', array $formConfig = array())
+    {
+        $p1 = $this->createClient();
+        $p1->getContainer()->get('lichess.repository.seek')->createQueryBuilder()->remove()->getQuery()->execute();
+        $crawler = $p1->request('GET', '/anybody');
+        $form = $crawler->filter('.submit')->form();
+        $p1->submit($form, $formConfig);
+        $crawler = $p1->followRedirect();
+        $this->assertTrue($p1->getResponse()->isSuccessful());
+        $h1 = preg_replace('#^.+([\w-]{12}+)$#', '$1', $p1->getRequest()->getUri());
+
+        $p2 = $this->createClient();
+        $crawler = $p2->request('GET', '/anybody');
+        $form = $crawler->filter('.submit')->form();
+        $p2->submit($form, $formConfig);
+        $crawler = $p2->followRedirect();
+        $this->assertTrue($p2->getResponse()->isSuccessful());
+        $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
+        $p2->request('GET', $redirectUrl);
+        $this->assertTrue($p2->getResponse()->isRedirect());
+        $crawler = $p2->followRedirect();
         $h2 = preg_replace('#^.+([\w-]{12}+)$#', '$1', $p2->getRequest()->getUri());
 
         return array($p1, $h1, $p2, $h2);
@@ -78,18 +100,29 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertTrue($p2->getResponse()->isSuccessful());
     }
 
-    public function testRematch960KeepsInitialPosition()
+    public function testRematch960KeepsInitialPositionFriend()
     {
         list($p1, $h1, $p2, $h2) = $this->createGameWithFriend('white', array('config[variant]' => 2));
 
+        $this->rematch960KeepsInitialPosition($p1, $h1, $p2, $h2);
+    }
+
+    public function testRematch960KeepsInitialPositionAnybody()
+    {
+        list($p1, $h1, $p2, $h2) = $this->createGameWithAnybody('white', array('config[variants][2]' => true));
+
+        $this->rematch960KeepsInitialPosition($p1, $h1, $p2, $h2);
+    }
+
+    protected function rematch960KeepsInitialPosition($p1, $h1, $p2, $h2)
+    {
+        $squares = array('a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1');
         $crawler = $p1->request('GET', '/'.$h1);
         $getPieceOn = function($square) use ($crawler) {
-            return preg_replace('(white|black|lichess_piece) ', '', $crawler->filter('#'.$square.' .lichess_piece')->attr('class'));
+            return trim(preg_replace('(white|black|lichess_piece) ', '', $crawler->filter('#'.$square.' .lichess_piece')->attr('class')));
         };
-        $a1 = $getPieceOn('a1');
-        $b1 = $getPieceOn('b1');
-        $c1 = $getPieceOn('c1');
-        $d1 = $getPieceOn('d1');
+        $pieces = array_map(function ($square) use ($getPieceOn) { return $getPieceOn($square); }, $squares);
+
         $p1->request('GET', '/abort/'.$h1);
         $p1->request('POST', '/rematch/'.$h1);
 
@@ -102,13 +135,9 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $url = $lastEvent['url'];
         $crawler = $p2->request('GET', $url);
 
-        $getPieceOn = function($square) use ($crawler) {
-            return preg_replace('(white|black|lichess_piece) ', '', $crawler->filter('#'.$square.' .lichess_piece')->attr('class'));
-        };
-        $this->assertEquals($a1, $getPieceOn('a1'));
-        $this->assertEquals($b1, $getPieceOn('b1'));
-        $this->assertEquals($c1, $getPieceOn('c1'));
-        $this->assertEquals($d1, $getPieceOn('d1'));
+        foreach ($squares as $it => $square) {
+            $this->assertEquals($pieces[$it], $getPieceOn($square));
+        }
     }
 
     public function testClaimDrawWithoutThreefold()
