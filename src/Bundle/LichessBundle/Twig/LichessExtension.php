@@ -268,7 +268,7 @@ class LichessExtension extends Twig_Extension
         $translator = $this->getTranslator();
         $authUser   = $this->container->get('security.context')->getToken()->getUser();
         if ($authUser instanceof User && ($authPlayer = $game->getPlayerByUser($authUser))) {
-            $gameUrl = $generator->generate('lichess_player', array('id' => $player->getFullId()));
+            $gameUrl = $generator->generate('lichess_player', array('id' => $authPlayer->getFullId()));
         } else {
             $gameUrl = $generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()));
         }
