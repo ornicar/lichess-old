@@ -120,3 +120,7 @@
 "{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} پیغام گذاشتن|{1} 1 پیغام|]1,Inf] %count% پیغام ها"
 "Inbox": "صندوق"
 "Chat room": "اتاق چت"
+"Show advanced options": "نمایش اختیارات پیشرفته"
+"Compose message": "نوشتن پیام"
+"Sent messages": "پیام های ارسال شده"
+"Increment in seconds": "افزایش در ثانیه"
