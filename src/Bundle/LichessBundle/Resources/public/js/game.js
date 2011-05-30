@@ -219,35 +219,36 @@ $.widget("lichess.game", {
         }
         events = actionEvents;
 
-        // move first
+        // move and promotions and check first
         for (var i in events) {
-            if (events[i].type == 'move') {
+            var event = events[i];
+            if (event.type == 'move') {
                 self.$board.find("div.lcs.check").removeClass("check");
-                var from = events[i].from,
-                to = events[i].to;
                 events.splice(i, 1);
-                self.movePiece(from, to, function() {
+                self.movePiece(event.from, event.to, function() {
                     self.applyEvents(events);
                 });
                 return;
+            } else if (event.type == 'promotion') {
+                $("div#" + event.key + " div.lichess_piece").addClass(event.pieceClass).removeClass("pawn");
+                events.splice(i, 1);
+                return self.applyEvents(events);
+            } else if (event.type == 'check') {
+                $("div#" + event.key, self.$board).addClass("check");
+                events.splice(i, 1);
+                return self.applyEvents(events);
             }
         }
 
         for (var i in events) {
             var event = events[i];
             switch (event.type) {
-            case "promotion":
-                $("div#" + event.key + " div.lichess_piece").addClass(event.pieceClass).removeClass("pawn");
-                break;
             case "castling":
                 $("div#" + event.rook[1], self.$board).append($("div#" + event.rook[0] + " div.lichess_piece.rook", self.$board));
                 $("div#" + event.king[1], self.$board).append($("div#" + event.king[0] + " div.lichess_piece.king", self.$board));
                 break;
             case "enpassant":
                 self.killPiece($("div#" + event.killed + " div.lichess_piece", self.$board));
-                break;
-            case "check":
-                $("div#" + event.key, self.$board).addClass("check");
                 break;
             case "redirect":
                 window.location.href = event.url;
