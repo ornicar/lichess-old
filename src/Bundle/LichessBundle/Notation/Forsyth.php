@@ -100,7 +100,7 @@ class Forsyth
 
         $board = $game->getBoard();
         $forsyth = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsyth));
-        $pieces = array('white', 'black');
+        $pieces = array('white' => array(), 'black' => array());
 
         for($itForsyth = 0, $forsythLen = strlen($forsyth); $itForsyth < $forsythLen; $itForsyth++) {
             $letter = $forsyth{$itForsyth};

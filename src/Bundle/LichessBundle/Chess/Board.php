@@ -25,8 +25,7 @@ class Board
     {
         $this->pieces = array();
 
-        foreach(PieceFilter::filterAlive($this->getPieces()) as $piece)
-        {
+        foreach(PieceFilter::filterAlive($this->getPieces()) as $piece) {
             $this->pieces[$piece->getSquareKey()] = $piece;
         }
     }
@@ -123,6 +122,11 @@ RNBQK  R
         return isset($this->squares[$key]) ? $this->squares[$key] : null;
     }
 
+    public function hasSquareByKey($key)
+    {
+        return isset($this->squares[$key]);
+    }
+
     public function getSquareByPos($x, $y)
     {
         if($x<1 || $x>8 || $y<1 || $y>8) {
@@ -192,24 +196,16 @@ RNBQK  R
      */
     public function cleanSquares(array $squares, $passedKeys = array())
     {
-        foreach($squares as $it => $square)
-        {
-            if($square instanceof Square)
-            {
+        foreach($squares as $it => $square) {
+            if($square instanceof Square) {
                 $key = $square->getKey();
-            }
-            else
-            {
+            } else {
                 unset($squares[$it]);
                 continue;
             }
-
-            if(in_array($key, $passedKeys))
-            {
+            if(in_array($key, $passedKeys)) {
                 unset($squares[$it]);
-            }
-            else
-            {
+            } else {
                 $passedKeys[] = $key;
             }
         }

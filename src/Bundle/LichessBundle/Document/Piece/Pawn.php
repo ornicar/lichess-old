@@ -27,10 +27,9 @@ class Pawn extends Piece
             $keys[] = $key;
         }
 
-        if (!$this->hasMoved() && !empty($keys))
-        {
+        if (!$this->hasMoved() && !empty($keys)) {
             $key = Board::posToKey($x, $y+(2*$dy));
-            if(!$this->board->hasPieceByKey($key)) {
+            if($this->board->hasSquareByKey($key) && !$this->board->hasPieceByKey($key)) {
                 $keys[] = $key;
             }
         }
