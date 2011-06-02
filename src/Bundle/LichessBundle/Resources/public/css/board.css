@@ -4,9 +4,9 @@
     border-color: #aaa;
 }
 button.ui-state-hover {
-    box-shadow: 0 0 9px #009ab0;
-    -moz-box-shadow: 0 0 9px #009ab0;
-    -webkit-box-shadow: 0 0 9px #009ab0;
+    box-shadow: 0 0 9px #d85000;
+    -moz-box-shadow: 0 0 9px #d85000;
+    -webkit-box-shadow: 0 0 9px #d85000;
 }
 .ui-state-active.ui-state-hover {
     border-color: #295F1A;
@@ -531,9 +531,9 @@ div.lichess_table .lichess_button {
     text-align: center;
 }
 div.lichess_table a.lichess_button:hover {
-    box-shadow: 0 0 9px #009ab0;
-    -moz-box-shadow: 0 0 9px #009ab0;
-    -webkit-box-shadow: 0 0 9px #009ab0;
+    box-shadow: 0 0 9px #d85000;
+    -moz-box-shadow: 0 0 9px #d85000;
+    -webkit-box-shadow: 0 0 9px #d85000;
 }
 
 div.lichess_current_player {

@@ -150,8 +150,8 @@ div.pager span {
     color: #ccc;
 }
 div.pager span.current {
-    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+    background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
     color: #FFF;
     margin: 0 0.5em;
 }

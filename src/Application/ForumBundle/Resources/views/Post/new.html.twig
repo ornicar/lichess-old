@@ -7,4 +7,5 @@
         <label><span>Author</span>{{ form_field(form.authorName, {"class": "authorName"}) }}</label>
     {% endif %}
     <input type="submit" class="submit button" value="Reply" />
+    <a href="{{ path("forum_category_show", {"slug": topic.category.slug}) }}" style="margin-left:20px">{% trans "Cancel" %}</a>
 </form>

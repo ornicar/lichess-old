@@ -135,8 +135,8 @@ div.footer div.right {
 }
 .button:hover {
     color: #fff;
-    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
+    background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
 }
 
 a.easy_button {
@@ -444,10 +444,10 @@ div.lichess_table .lichess_button, .ui-state-default {
 
 #top a.goto_nav.active, div.lichess_table .lichess_button.active, .ui-state-active {
     color: #fff;
-    background: #222266;
-    background: -moz-linear-gradient(center top , #50C0D0, #008090) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#008090));
+    background: #d85000;
+    background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
 }
 div.lichess_table .lichess_button.active, .ui-state-active {
-    border: 1px solid #50a0b0;
+    border: 1px solid #bc6000;
 }
