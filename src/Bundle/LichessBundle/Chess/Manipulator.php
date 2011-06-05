@@ -86,6 +86,7 @@ class Manipulator
         }
 
         $this->game->addPgnMove($pgn);
+        $this->game->setLastMove($notation);
 
         return $opponentPossibleMoves;
     }

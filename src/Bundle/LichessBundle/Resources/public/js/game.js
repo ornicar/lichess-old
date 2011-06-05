@@ -17,7 +17,7 @@ $.widget("lichess.game", {
             if (self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() {
                 $.playSound();
             });
-            if (!self.options.game.finished && !self.options.player.spectator) {
+            if (!self.options.game.finished && ! self.options.player.spectator) {
                 self.blur = 0;
                 $(window).blur(function() {
                     self.blur = 1;
@@ -27,9 +27,12 @@ $.widget("lichess.game", {
             $(window).unload(function() {
                 self.unloaded = true;
             });
+            if (self.options.game.last_move) {
+                self.highlightLastMove(self.options.game.last_move);
+            }
         }
 
-        if (!self.options.opponent.ai && !self.options.player.spectator) {
+        if (!self.options.opponent.ai && ! self.options.player.spectator) {
             // update document title to show playing state
             setTimeout(self.updateTitle = function() {
                 document.title = (self.isMyTurn() && ! self.options.game.finished) ? document.title = document.title.indexOf('/\\/') == 0 ? '\\/\\ ' + document.title.replace(/\/\\\/ /, '') : '/\\/ ' + document.title.replace(/\\\/\\ /, '') : document.title;
@@ -43,7 +46,8 @@ $.widget("lichess.game", {
                 if (!self.options.game.finished || ! self.options.player.spectator) {
                     setTimeout(function() {
                         self.sync(syncLoop);
-                    }, 500);
+                    },
+                    500);
                 }
             }
         }
@@ -132,13 +136,13 @@ $.widget("lichess.game", {
             return;
         }
 
-        $("div.lcs.moved", self.$board).removeClass("moved");
-        var $from = $("div#" + from, self.$board).addClass("moved");
-        var $to = $("div#" + to, self.$board).addClass("moved");
-        var $killed = $to.find("div.lichess_piece");
-        from_offset = $from.offset();
-        to_offset = $to.offset();
-        isMyPiece = $piece.hasClass(self.options.player.color);
+        self.highlightLastMove(from + " " + to);
+        var $from = $("div#" + from, self.$board),
+        $to = $("div#" + to, self.$board),
+        $killed = $to.find("div.lichess_piece"),
+        from_offset = $from.offset(),
+        to_offset = $to.offset(),
+        isMyPiece = $piece.hasClass(self.options.player.color),
         castling = $killed.length && self.getPieceColor($piece) == self.getPieceColor($killed);
 
         if (!isMyPiece || this.options.player.spectator) $.playSound();
@@ -156,7 +160,7 @@ $.widget("lichess.game", {
             top: to_offset.top,
             left: to_offset.left
         },
-        self.options.animation_delay * (self.options.player.spectator ? 2 : isMyPiece ? 1 : 2), function() {
+        self.options.animation_delay * (self.options.player.spectator ? 2: isMyPiece ? 1: 2), function() {
             if ($killed.length) {
                 self.killPiece($killed);
             }
@@ -166,6 +170,13 @@ $.widget("lichess.game", {
             }));
             $.isFunction(callback || null) && callback();
         });
+    },
+    highlightLastMove: function(notation) {
+        var self = this;
+        var squareIds = notation.split(" ");
+        $("div.lcs.moved", self.$board).removeClass("moved");
+        $("#" + squareIds[0] + ",#" + squareIds[1], self.$board).addClass("moved");
+
     },
     killPiece: function($piece) {
         if ($.data($piece, 'draggable')) $piece.draggable("destroy");
@@ -288,7 +299,8 @@ $.widget("lichess.game", {
                 success: self.options.opponent.ai ? function() {
                     setTimeout(function() {
                         self.sync();
-                    }, self.options.animation_delay);
+                    },
+                    self.options.animation_delay);
                 }: null,
                 data: moveData,
             });
@@ -512,7 +524,8 @@ $.widget("lichess.game", {
             type: 'GET',
             timeout: 6000,
             cache: false
-        }, options || {});
+        },
+        options || {});
         $.ajax(url, options).complete(function(x, s) {
             self.onXhrComplete(x, s);
         });
@@ -522,7 +535,8 @@ $.widget("lichess.game", {
         options = $.extend({
             type: 'POST',
             timeout: 6000
-        }, options || {});
+        },
+        options || {});
         $.ajax(url, options).complete(function(x, s) {
             self.onXhrComplete(x, s, 'ok');
         });
@@ -541,7 +555,8 @@ $.widget("lichess.game", {
             if (!self.unloaded) {
                 location.reload();
             }
-        }, 1000);
+        },
+        1000);
     }
 });
 

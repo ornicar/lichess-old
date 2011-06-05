@@ -1,12 +1,11 @@
 * search engine in forum
-* player chat on analyse mode
+* player chat on analyse mode (hard - adds a private url and leads to confusion)
 * propose to spectate or join when reaching a unstarted game
 * language on 2 cols
 * improve /games: reduce req. size and increase frequency
 * favorite games http://lichess.org/forum/lichess-feedback/folder-in-profile
 * more player stats (including running score)
 * timeline post entry author is wrong
-* last move highlight is lost on page refresh
 * show capture count
 * game list order choice and search engine
 * allow to edit previous forum post

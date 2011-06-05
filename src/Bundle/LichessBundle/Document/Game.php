@@ -162,6 +162,14 @@ class Game
     protected $positionHashes = array();
 
     /**
+     * Internal notation of the last move played
+     *
+     * @var string
+     * @mongodb:Field(type="string")
+     */
+    protected $lastMove;
+
+    /**
      * The game clock
      *
      * @var Clock
@@ -271,6 +279,23 @@ class Game
     public function setConfigArray(array $configArray = null)
     {
         $this->configArray = $configArray;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastMove()
+    {
+        return $this->lastMove;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setLastMove($lastMove)
+    {
+        $this->lastMove = $lastMove;
     }
 
     /**

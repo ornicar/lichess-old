@@ -167,12 +167,13 @@ class LichessExtension extends Twig_Extension
 
         $data = array(
             'game' => array(
-                'id'       => $game->getId(),
-                'started'  => $game->getIsStarted(),
-                'finished' => $game->getIsFinishedOrAborted(),
-                'clock'    => $game->hasClock(),
-                'player'   => $game->getTurnPlayer()->getColor(),
-                'turns'    => $game->getTurns()
+                'id'        => $game->getId(),
+                'started'   => $game->getIsStarted(),
+                'finished'  => $game->getIsFinishedOrAborted(),
+                'clock'     => $game->hasClock(),
+                'player'    => $game->getTurnPlayer()->getColor(),
+                'turns'     => $game->getTurns(),
+                'last_move' => $game->getLastMove()
             ),
             'player' => array(
                 'color'     => $player->getColor(),
@@ -218,12 +219,13 @@ class LichessExtension extends Twig_Extension
 
         $data = array(
             'game' => array(
-                'id'       => $game->getId(),
-                'started'  => $game->getIsStarted(),
-                'finished' => $game->getIsFinishedOrAborted(),
-                'clock'    => $game->hasClock(),
-                'player'   => $game->getTurnPlayer()->getColor(),
-                'turns'    => $game->getTurns()
+                'id'        => $game->getId(),
+                'started'   => $game->getIsStarted(),
+                'finished'  => $game->getIsFinishedOrAborted(),
+                'clock'     => $game->hasClock(),
+                'player'    => $game->getTurnPlayer()->getColor(),
+                'turns'     => $game->getTurns(),
+                'last_move' => $game->getLastMove()
             ),
             'player' => array(
                 'color'     => $player->getColor(),
