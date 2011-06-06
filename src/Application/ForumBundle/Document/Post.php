@@ -99,7 +99,7 @@ class Post extends BasePost
     protected function processMessage($message)
     {
         $message = wordwrap($message, 200);
-        $message = preg_replace('#(?:http://)?lichess\.org/([\w-]{6})[\w-]{4}#si', 'http://lichess.org/$1', $message);
+        $message = preg_replace('#(?:http://)?lichess\.org/([\w-]{8})[\w-]{4}#si', 'http://lichess.org/$1', $message);
 
         return $message;
     }
