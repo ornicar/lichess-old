@@ -39,3 +39,5 @@ elif [ $refresh == "trans" ]; then
     echo "Clear APC cache opcode"
     php lichess/console --env=prod apc:clear --opcode
 fi
+
+chmod -R 777 lichess/cache/prod lichess/logs
