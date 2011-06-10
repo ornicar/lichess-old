@@ -67,7 +67,7 @@ class MigrateUserCommand extends Command
         }
         if(isset($user['isSuperAdmin'])) {
             unset($user['isSuperAdmin']);
-            $user['roles'] = array(User::ROLE_SUPERADMIN);
+            $user['roles'] = array(User::ROLE_SUPER_ADMIN);
         }
     }
 }

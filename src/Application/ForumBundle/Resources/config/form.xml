@@ -14,7 +14,7 @@
             class="%forum.form.post.class%"
             factory-class="%forum.form.post.class%"
             factory-method="create">
-            <argument type="service" id="form.context" />
+            <!--<argument type="service" id="form.context" />-->
             <argument>%forum.form.post.name%</argument>
             <argument type="collection">
                 <argument key="theme">%forum.template.theme%</argument>
@@ -27,7 +27,7 @@
             class="%forum.form.first_post.class%"
             factory-class="%forum.form.first_post.class%"
             factory-method="create">
-            <argument type="service" id="form.context" />
+            <!--<argument type="service" id="form.context" />-->
             <argument>%forum.form.first_post.name%</argument>
             <argument type="collection">
                 <argument key="theme">%forum.template.theme%</argument>

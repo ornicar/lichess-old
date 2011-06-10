@@ -89,7 +89,7 @@
         </service>
 
         <service id="lichess.form.translation" class="Lichess\TranslationBundle\Form\TranslationForm" factory-class="Lichess\TranslationBundle\Form\TranslationForm" factory-method="create">
-            <argument type="service" id="form.context" />
+            <!--<argument type="service" id="form.context" />-->
             <argument>lichess_translation_form</argument>
             <argument type="collection">
                 <argument key="translation_manager" type="service" id="lichess_translation.manager" />

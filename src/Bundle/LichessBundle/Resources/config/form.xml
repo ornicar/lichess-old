@@ -12,7 +12,7 @@
         <service id="lichess.form.manager" class="Bundle\LichessBundle\Form\GameConfigFormManager">
             <argument type="service" id="security.context" />
             <argument type="service" id="lichess.config.persistence" />
-            <argument type="service" id="form.context" />
+            <!--<argument type="service" id="form.context" />-->
             <argument type="service" id="logger" />
             <argument>%lichess.form.add_color_hidden_field%</argument>
         </service>

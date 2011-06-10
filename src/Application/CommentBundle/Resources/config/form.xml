@@ -6,7 +6,7 @@
 
     <services>
         <service id="lichess_comment.form_factory.comment" class="Application\CommentBundle\FormFactory\CommentFormFactory">
-            <argument type="service" id="form.context" />
+            <!--<argument type="service" id="form.context" />-->
             <argument type="service" id="fos_comment.value_transformer.thread" />
             <argument type="service" id="security.context" />
             <argument>%fos_comment.form.comment.class%</argument>

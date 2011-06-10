@@ -19,9 +19,10 @@ $loader->registerNamespaces(array(
     'FOQ'                            => $srcDir,
     'Lichess'                        => $srcDir,
     'Application'                    => $srcDir,
+    'Ornicar'                        => $srcDir,
     'ZendPaginatorAdapter'           => $vendorDir.'/ZendPaginatorAdapter/src',
     'Zend'                           => $vendorDir.'/zend/library',
-    'Monolog'                           => $vendorDir.'/monolog/src',
+    'Monolog'                        => $vendorDir.'/monolog/src',
 ));
 $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'

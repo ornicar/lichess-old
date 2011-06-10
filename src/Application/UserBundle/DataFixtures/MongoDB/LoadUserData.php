@@ -43,7 +43,7 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface, Contain
         $user->setPlainPassword('pass');
         $user->setEnabled(true);
         $user->setBio('Here I describe myself and say philosophical bullshits, because I am '.$user->getUsername());
-        $user->addRole(User::ROLE_SUPERADMIN);
+        $user->addRole(User::ROLE_SUPER_ADMIN);
         $this->userManager->updateUser($user);
     }
 }

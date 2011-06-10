@@ -8,6 +8,6 @@ class LichessMessageBundle extends Bundle
 {
     public function getParent()
     {
-        return 'OrnicarMessage';
+        return 'OrnicarMessageBundle';
     }
 }

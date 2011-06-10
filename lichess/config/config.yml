@@ -1,13 +1,12 @@
 framework:
     charset:       UTF-8
-    error_handler: null
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
-    validation: { enabled: true, annotations: true }
-    csrf_protection:
-        enabled: false
+    validation: { enable_annotations: true }
+    form:            true
+    csrf_protection: false
     session:
         default_locale: en
-        name:     lichess1
+        name:     lichess2
         lifetime: 72000
         auto_start:     true
     templating:
@@ -19,16 +18,11 @@ twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
 
-zend:
-    logger:
-        priority: NOTICE
-        path:     %kernel.logs_dir%/%kernel.environment%.log
-
 apc:
     host: lichess
     web_dir: %kernel.root_dir%/../web
 
-doctrine_mongo_db:
+doctrine_mongodb:
     connections:
         default:
             server: mongodb://localhost:27017
@@ -38,18 +32,8 @@ doctrine_mongo_db:
     default_database: lichess_%kernel.environment%
     document_managers:
         default:
-            mappings:
-                Lichess:
-                FOSUser:
-                LichessUser:
-                OrnicarMessage:
-                LichessMessage:
-                Forum:
-                LichessForum:
-                FOSComment:
-                LichessComment:
-                LichessTranslation:
             metadata_cache_driver: apc
+            auto_mapping: true
 
 forum:
     db_driver: odm
@@ -76,48 +60,19 @@ forum:
 lichess_forum:
     detect_spam: true
 
-security:
-    role_hierarchy:
-        ROLE_SUPERADMIN: [ROLE_ALLOWED_TO_SWITCH, ROLE_VIEW_TRIALS_IN_GAME]
-    providers:
-        fos_user_provider:
-            id: fos_user.user_manager
-    firewalls:
-        main:
-            form_login:
-                provider:    fos_user_provider
-                login_path:  /login
-                check_path:  /login_check
-                use_referer: true
-            remember_me:
-                key:  kRopAjYEwDza74
-                name: lichess_remember_me
-                lifetime: 31536000
-                always_remember_me: true
-                remember_me_parameter: _remember_me
-            logout: true
-            anonymous: true
-            switch_user: { parameter: _impersonate }
-    access_control:
-        - { path: "^/(inbox|profile)(/.*|$)", role: ROLE_USER }
-        - { path: "^/forum/(post|topic)/delete/.+", role: ROLE_SUPERADMIN }
-        - { path: "^/trial/verdict/.+", role: ROLE_SUPERADMIN }
-
 fos_user:
+    firewall_name: main
     db_driver: mongodb
-    provider_key: main
+    user_class: Application\UserBundle\Document\User
+    registration:
+        confirmation:
+            enabled:    false
+        form:
+            type: Application\UserBundle\Form\RegistrationFormType
     encoder:
         iterations: 1
         encode_as_base64: false
         algorithm: sha1
-    class:
-        model:
-            user: Application\UserBundle\Document\User
-        form:
-            user: Application\UserBundle\Form\UserForm
-        controller:
-            user: Application\UserBundle\Controller\UserController
-            security: Application\UserBundle\Controller\SecurityController
 
 fos_comment:
     db_driver: mongodb
@@ -169,4 +124,5 @@ lichess:
         delay: 0.25
 
 imports:
+    - { resource: security.yml }
     - { resource: config_local.yml }

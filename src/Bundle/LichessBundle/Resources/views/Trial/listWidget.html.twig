@@ -35,7 +35,7 @@
 <br /><br />
 {% trans "Time control" %}: {{ game.clockName }}
 <br /><br />
-{% if is_granted('ROLE_SUPERADMIN') %}
+{% if is_granted('ROLE_SUPER_ADMIN') %}
 <a class="button" href="{{ path("lichess_trial_verdict", {"id": trial.id, "verdict": 0}) }}">Innocent</a>
 <a class="button" href="{{ path("lichess_trial_verdict", {"id": trial.id, "verdict": 1}) }}">Guilty</a>
 <br />

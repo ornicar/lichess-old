@@ -11,6 +11,6 @@ class LichessUserBundle extends Bundle
 {
     public function getParent()
     {
-        return 'FOSUser';
+        return 'FOSUserBundle';
     }
 }

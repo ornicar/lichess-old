@@ -37,6 +37,6 @@ class AiPass implements CompilerPassInterface
         krsort($ais);
         $ais = call_user_func_array('array_merge', $ais);
 
-        $container->getDefinition('lichess.ai.chain')->setArgument(0, $ais);
+        $container->getDefinition('lichess.ai.chain')->replaceArgument(0, $ais);
     }
 }

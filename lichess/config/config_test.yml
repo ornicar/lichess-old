@@ -1,11 +1,6 @@
 imports:
     - { resource: config_dev.yml }
 
-zend:
-    logger:
-        priority: ERR
-        path:     %kernel.logs_dir%/%kernel.environment%.log
-
 web_profiler:
     toolbar: false
 
