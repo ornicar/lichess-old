@@ -34,9 +34,6 @@
 [submodule "src/FOS/UserBundle"]
 	path = src/FOS/UserBundle
 	url = git://github.com/FriendsOfSymfony/UserBundle.git
-[submodule "src/Bundle/Ornicar/MessageBundle"]
-	path = src/Bundle/Ornicar/MessageBundle
-	url = git://github.com/ornicar/MessageBundle
 [submodule "vendor/doctrine-data-fixtures"]
 	path = vendor/doctrine-data-fixtures
 	url = git://github.com/ornicar/data-fixtures
@@ -52,3 +49,15 @@
 [submodule "src/FOQ/TyperBundle"]
 	path = src/FOQ/TyperBundle
 	url = git://github.com/ornicar/TyperBundle
+[submodule "src/Symfony/Bundle/DoctrineMongoDBBundle"]
+	path = src/Symfony/Bundle/DoctrineMongoDBBundle
+	url = git://github.com/symfony/DoctrineMongoDBBundle
+[submodule "src/Symfony/Bundle/DoctrineFixturesBundle"]
+	path = src/Symfony/Bundle/DoctrineFixturesBundle
+	url = git://github.com/symfony/DoctrineFixturesBundle
+[submodule "vendor/monolog"]
+	path = vendor/monolog
+	url = git://github.com/Seldaek/monolog.git
+[submodule "src/Ornicar/MessageBundle"]
+	path = src/Ornicar/MessageBundle
+	url = git://github.com/ornicar/MessageBundle

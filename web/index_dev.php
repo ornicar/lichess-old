@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 // Run application
 $kernel = new LichessKernel('dev', true);
+$kernel->loadClassCache();
 $kernel->handle(Request::createFromGlobals())->send();
 
 // Display timer

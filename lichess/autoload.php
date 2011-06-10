@@ -1,13 +1,14 @@
 <?php
 
 $vendorDir = realpath(__DIR__.'/../vendor');
-$srcDir = realpath(__DIR__.'/../src');
+$srcDir    = realpath(__DIR__.'/../src');
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
+require $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/ApcUniversalClassLoader.php';
 
-$loader = new UniversalClassLoader();
+$loader = new Symfony\Component\ClassLoader\ApcUniversalClassLoader('lichess.cl.');
+
 $loader->registerNamespaces(array(
-    'Symfony'                        => $vendorDir.'/symfony/src',
+    'Symfony'                        => array($vendorDir.'/symfony/src', $srcDir),
     'Doctrine\\MongoDB'              => $vendorDir.'/doctrine-mongodb/lib',
     'Doctrine\\ODM\\MongoDB'         => $vendorDir.'/doctrine-mongodb-odm/lib',
     'Doctrine\\Common\\DataFixtures' => $vendorDir.'/doctrine-data-fixtures/lib',
@@ -19,7 +20,8 @@ $loader->registerNamespaces(array(
     'Lichess'                        => $srcDir,
     'Application'                    => $srcDir,
     'ZendPaginatorAdapter'           => $vendorDir.'/ZendPaginatorAdapter/src',
-    'Zend'                           => $vendorDir.'/zend/library'
+    'Zend'                           => $vendorDir.'/zend/library',
+    'Monolog'                           => $vendorDir.'/monolog/src',
 ));
 $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'
