@@ -47,8 +47,8 @@ forum:
             topic: Application\ForumBundle\Controller\TopicController
             post: Application\ForumBundle\Controller\PostController
         form:
-            post: Application\ForumBundle\Form\PostForm
-            first_post: Application\ForumBundle\Form\PostForm
+            post: Application\ForumBundle\Form\PostFormType
+            first_post: Application\ForumBundle\Form\PostFormType
         blamer:
             post: Application\ForumBundle\Blamer\PostBlamer
         twig:
@@ -82,6 +82,9 @@ fos_comment:
     class:
         model:
             comment: Application\CommentBundle\Document\Comment
+    form:
+        comment:
+            type: lichess_comment.comment
     service:
         blamer:
             comment: fos_comment.blamer.comment.security

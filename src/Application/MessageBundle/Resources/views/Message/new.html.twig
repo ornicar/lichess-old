@@ -7,7 +7,7 @@
         <form action="{{ path("ornicar_message_message_create") }}" method="post">
             <div class="field_to">
                 {{ form_label(form.to, 'To:') }}
-                {{ form_widget(form.to, {'class': 'autocomplete', 'data-provider': url('fos_user_autocomplete')}) }}
+                {{ form_widget(form.to, {"attr": {'class': 'autocomplete', 'data-provider': url('fos_user_autocomplete')}}) }}
                 {{ form_errors(form.to) }}
             </div>
             <div class="field_subject">

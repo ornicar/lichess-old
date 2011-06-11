@@ -34,7 +34,7 @@
                     <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
                 </a>
                 <div class="security">
-                    <a class="goto_nav goto_logout" href="{{ path("_security_logout") }}"><span class="s16">{{ "Log out"|trans }}</span></a>
+                    <a class="goto_nav goto_logout" href="{{ path("fos_user_security_logout") }}"><span class="s16">{{ "Log out"|trans }}</span></a>
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}<a class="goto_nav" href="{{ path("lichess_homepage", {"_impersonate": "_exit" }) }}">Stop Impersonating</a>{% endif %}
                 </div>
                 <a id="user_tag" data-online-url="{{ path("fos_user_online", {"username": app.user.username}) }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="blank_if_play goto_nav goto_profile"><span class="s16">{{ app.user.usernameWithElo}}</span></a>

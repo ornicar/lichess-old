@@ -1,0 +1,7 @@
+fos_user_registration_register:
+    pattern:    /signup
+    defaults:   { _controller: FOSUserBundle:Registration:register }
+
+fos_user_registration_confirmed:
+    pattern:    /signup-confirmed
+    defaults:   { _controller: FOSUserBundle:Registration:confirmed }

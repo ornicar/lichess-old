@@ -1,7 +1,7 @@
 <?php
 
 namespace Application\UserBundle\Controller;
-use FOS\UserBundle\Controller\UserController as BaseUserController;
+use FOS\UserBundle\Controller\ProfileController as BaseProfileController;
 use FOS\UserBundle\Model\UserInterface;
 use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
 use Zend\Paginator\Paginator;
@@ -10,13 +10,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Application\UserBundle\Document\User;
 
-class UserController extends BaseUserController
+class ProfileController extends BaseProfileController
 {
     public function closeAccountAction()
     {
         if ($this->container->get('request')->getMethod() == 'POST') {
             $response = new RedirectResponse($this->container->get('router')->generate('fos_user_user_show', array(
-                'username' => $this->getUser()->getUsername()
+                'username' => $this->getAuthenticatedUser()->getUsername()
             )));
             $this->container->get('lichess_user.account_closer')->closeAccount($response);
 
@@ -29,7 +29,7 @@ class UserController extends BaseUserController
     public function updateProfileAction()
     {
         $bio = $this->container->get('request')->request->get('bio');
-        $this->getUser()->setBio($bio);
+        $this->getAuthenticatedUser()->setBio($bio);
         $this->container->get('lichess.object_manager')->flush();
 
         $response = new Response(json_encode(array('bio' => $bio)));
@@ -39,7 +39,7 @@ class UserController extends BaseUserController
 
     public function profileBioAction()
     {
-        return new Response($this->getUser()->getBio());
+        return new Response($this->getAuthenticatedUser()->getBio());
     }
 
     public function autocompleteAction()
@@ -50,31 +50,6 @@ class UserController extends BaseUserController
         $response = new Response(json_encode($usernames));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
-    }
-
-    public function onlineAction($username)
-    {
-        $data = array();
-        $data['nbp'] = $this->container->get('lichess.memory')->getNbActivePlayers();
-        $data['nbm'] = $this->container->get('ornicar_message.messenger')->getUnreadCacheForUsername($username);
-        $this->container->get('lichess_user.online.cache')->setUsernameOnline($username);
-        $response = new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
-        return $response;
-    }
-
-    public function updateOnlineAction()
-    {
-        $this->container->get('lichess_user.online.updater')->update();
-
-        return new Response('done');
-    }
-
-    public function listOnlineAction()
-    {
-        $users = $this->container->get('fos_user.repository.user')->findOnlineUsersSortByElo();
-        $nbPlayers = $this->container->get('lichess.memory')->getNbActivePlayers();
-
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:listOnline.html.twig', compact('users', 'nbPlayers'));
     }
 
     /**
@@ -93,7 +68,7 @@ class UserController extends BaseUserController
         return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users', 'pagerUrl'));
     }
 
-    public function showAction($username)
+    public function viewAction($username)
     {
         $user = $this->container->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
         if (!$user) {
@@ -102,7 +77,7 @@ class UserController extends BaseUserController
 
             return $response;
         }
-        $authenticatedUser = $this->container->get('security.context')->getToken()->getUser();
+        $authenticatedUser = $this->getAuthenticatedUser();
 
         $critic = $this->container->get('lichess.critic.user');
         $critic->setUser($user);
@@ -124,16 +99,8 @@ class UserController extends BaseUserController
         return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'history', 'games', 'pagerUrl'));
     }
 
-    /**
-     * Tell the user his account is now confirmed
-     */
-    public function confirmedAction()
+    protected function getAuthenticatedUser()
     {
-        $user = $this->getUser();
-        if(!$user instanceof UserInterface) {
-            throw new NotFoundHttpException('No authenticated user - cannot confirm registration');
-        }
-
-        return new RedirectResponse($this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername())));
+        return $this->container->get('security.context')->getToken()->getUser();
     }
 }

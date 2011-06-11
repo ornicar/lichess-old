@@ -22,11 +22,10 @@ class TopicController extends BaseTopicController
         if ($category) {
             $topic->setCategory($category);
         }
-        $form = $this->get('forum.form.new_topic');
-        $form->setData($topic);
+        $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.new_topic'), 'forum_new_topic_form', $topic);
 
         return $this->get('templating')->renderResponse('ForumBundle:Topic:new.html.'.$this->getRenderer(), array(
-            'form'      => $form,
+            'form'      => $form->createView(),
             'category'  => $category
         ));
     }
@@ -34,8 +33,9 @@ class TopicController extends BaseTopicController
     public function createAction(Category $category = null)
     {
         $topic = $this->get('forum.repository.topic')->createNewTopic();
-        $form = $this->get('forum.form.new_topic');
-        $form->bind($this->get('request'), $topic);
+        $topic->setCategory($category);
+        $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.new_topic'), 'forum_new_topic_form', $topic);
+        $form->bindRequest($this->get('request'));
 
         if(!$form->isValid()) {
             return $this->invalidCreate($category, $form);
@@ -72,7 +72,7 @@ class TopicController extends BaseTopicController
     protected function invalidCreate(Category $category, $form)
     {
         return $this->render('ForumBundle:Topic:new.html.twig', array(
-            'form'      => $form,
+            'form'      => $form->createView(),
             'category'  => $category
         ));
     }

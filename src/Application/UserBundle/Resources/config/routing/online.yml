@@ -1,0 +1,12 @@
+fos_user_online:
+    pattern:    /ping/{username}
+    defaults:   { _controller: FOSUserBundle:Online:online }
+
+fos_user_online_users:
+    pattern:    /online-users
+    defaults:   { _controller: FOSUserBundle:Online:listOnline }
+
+fos_user_online_update:
+    pattern:    /update-online-users
+    defaults:   { _controller: FOSUserBundle:Online:updateOnline }
+    requirements: { _method: post }

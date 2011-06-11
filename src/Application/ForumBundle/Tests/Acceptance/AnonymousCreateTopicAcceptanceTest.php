@@ -8,6 +8,7 @@ class AnonymousCreateTopicAcceptanceTest extends AbstractCreateTopicAcceptanceTe
     {
         $client = $this->createClient();
         $crawler = $this->requestTopicCreationPage($client);
+        $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('#lichess_forum input.authorName')->count());
     }
 }

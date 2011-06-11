@@ -6,7 +6,6 @@
 
     <services>
         <service id="lichess_comment.creator.comment" class="Application\CommentBundle\Creator\CommentCreator" public="false" scope="request">
-            <argument type="service" id="request" />
             <argument type="service" id="fos_comment.manager.comment" />
             <argument type="service" id="fos_comment.blamer.comment" />
             <argument type="service" id="lichess_comment.timeline.pusher" />

@@ -26,7 +26,7 @@ abstract class AbstractCreatePostAcceptanceTest extends AbstractAcceptanceTest
     public function testSubmitValidForm()
     {
         $message = 'new reply message '.uniqid();
-        $client = $this->createClient();
+        $client = $this->createPersistentClient();
         $crawler = $this->requestPostCreationPage($client);
         $form = $crawler->selectButton('Reply')->form();
         $form['forum_post_form[message]'] = $message;

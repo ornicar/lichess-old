@@ -38,7 +38,7 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
     {
         $topicSubject = uniqid();
         $topicMessage = 'new topic message';
-        $client = $this->createClient();
+        $client = $this->createPersistentClient();
         $crawler = $this->requestTopicCreationPage($client);
         $form = $crawler->selectButton('Create the topic')->form();
         $form['forum_new_topic_form[category]'] = $crawler->filter('#forum_new_topic_form_category option')->first()->attr('value');

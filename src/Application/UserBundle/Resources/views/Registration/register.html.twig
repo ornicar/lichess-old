@@ -11,14 +11,13 @@
         It is <strong>not</strong> required to signup. You can play as <strong>anonymous</strong>.<br />
         Signup if you want to save your played games and have an ELO ranking.
     </p>
-    {% form_theme form form.getOption('theme') %}
-    <form action="{{ path('fos_user_user_create') }}" method="POST" class="signup">
+    <form action="{{ path('fos_user_registration_register') }}" method="POST" class="signup">
         <ul>
             <li class="username">
                 {{ form_label(form.username) }}
                 {{ form_widget(form.username) }}
                 {{ form_errors(form.username) }}
-                {% if form.hasErrors and not form.username.hasErrors and not form.plainPassword.hasErrors %}
+                {% if form.get("errors") and not form.username.get("errors") and not form.plainPassword.get("errors") %}
                     <ul><li>{{ "This username is not available"|trans }}</li></ul>
                 {% endif %}
             </li>

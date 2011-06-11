@@ -19,12 +19,12 @@ class CommentCreator extends DefaultCommentCreator
     protected $timelinePusher;
     protected $objectManager;
 
-    public function __construct(Request $request, CommentManagerInterface $commentManager, CommentBlamerInterface $commentBlamer, Pusher $timelinePusher, DocumentManager $objectManager, SpamDetectionInterface $spamDetection)
+    public function __construct(CommentManagerInterface $commentManager, CommentBlamerInterface $commentBlamer, Pusher $timelinePusher, DocumentManager $objectManager, SpamDetectionInterface $spamDetection)
     {
         $this->timelinePusher = $timelinePusher;
         $this->objectManager  = $objectManager;
 
-        parent::__construct($request, $commentManager, $commentBlamer, $spamDetection);
+        parent::__construct($commentManager, $commentBlamer, $spamDetection);
     }
 
     public function create(CommentInterface $comment)

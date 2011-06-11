@@ -22,7 +22,7 @@ monolog:
             level: info
         firephp:
             type:  firephp
-            level: info
+            level: error
 
 apc:
     host: lichess

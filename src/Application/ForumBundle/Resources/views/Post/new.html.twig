@@ -1,10 +1,9 @@
 <h2 class="postNewTitle" id="reply">Reply to this topic</h2>
 <form action="{{ path("forum_topic_post_create", {"categorySlug": topic.category.slug, "slug": topic.slug, "id": topic.id} ) }}#reply" method="post" novalidate>
-    <div class="forum_trap">Leave me empty: {{ form_widget(form.trap) }}</div>
     {{ form_errors(form.message) }}
     <label><span class="required">Message</span>{{ form_widget(form.message) }}</label>
     {% if form.authorName is defined %}
-        <label><span>Author</span>{{ form_widget(form.authorName, {"class": "authorName"}) }}</label>
+        <label><span>Author</span>{{ form_widget(form.authorName, {"attr": {"class": "authorName"}}) }}</label>
     {% endif %}
     <input type="submit" class="submit button" value="Reply" />
     <a href="{{ path("forum_category_show", {"slug": topic.category.slug}) }}" style="margin-left:20px">{{ "Cancel"|trans }}</a>

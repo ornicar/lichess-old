@@ -1,7 +1,13 @@
-security:
+user_security:
     resource: @FOSUserBundle/Resources/config/routing/security.xml
-user:
-    resource: @FOSUserBundle/Resources/config/routing.yml
+user_profile:
+    resource: @FOSUserBundle/Resources/config/routing/profile.yml
+user_registration:
+    resource: @FOSUserBundle/Resources/config/routing/registration.yml
+user_profile:
+    resource: @FOSUserBundle/Resources/config/routing/profile.yml
+user_online:
+    resource: @FOSUserBundle/Resources/config/routing/online.yml
 
 lichess:
     resource: @LichessBundle/Resources/config/routing.yml
