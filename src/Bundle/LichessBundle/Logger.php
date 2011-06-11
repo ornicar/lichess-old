@@ -43,7 +43,7 @@ class Logger
         return sprintf('player(%s,%s,%s,%s) %s',
             $player->getColor(),
             $player->getIsAi() ? 'AI' : $player->getUsernameWithElo(),
-            $player->getGame()->hasClock() ? $player->getGame()->getClock()->getRemainingTime($player->getColor()) : '-',
+            $player->getGame()->hasClock() ? $player->getGame()->getClock()->getRemainingTime($player->getColor()).'s.' : '-',
             $this->generator->generate('lichess_player', array('id' => $player->getFullId()), true),
             $this->expandGame($player->getGame())
         );
