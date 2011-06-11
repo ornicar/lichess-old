@@ -5,12 +5,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="lichess_comment.form_factory.comment" class="Application\CommentBundle\FormFactory\CommentFormFactory">
-            <!--<argument type="service" id="form.context" />-->
-            <argument type="service" id="fos_comment.value_transformer.thread" />
+        <service id="lichess_comment.form.type" class="Application\CommentBundle\Form\CommentFormType">
             <argument type="service" id="security.context" />
-            <argument>%fos_comment.form.comment.class%</argument>
-            <argument>%fos_comment.form.comment.name%</argument>
+            <tag name="form.type" alias="lichess_comment.comment" />
         </service>
     </services>
 

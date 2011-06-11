@@ -5,7 +5,6 @@ web_profiler:
     toolbar: false
 
 framework:
-    error_handler: false
     profiler: false
     test: true
 
@@ -22,8 +21,3 @@ lichess:
 
 lichess_forum:
     detect_spam: false
-
-doctrine_mongo_db:
-    document_managers:
-        default:
-            metadata_cache_driver: apc

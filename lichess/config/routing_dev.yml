@@ -2,9 +2,9 @@ _main:
     resource: routing.yml
 
 _wdt:
-    resource: @WebProfiler/Resources/config/routing/wdt.xml
+    resource: @WebProfilerBundle/Resources/config/routing/wdt.xml
     prefix:   /_wdt
 
 _profiler:
-    resource: @WebProfiler/Resources/config/routing/profiler.xml
+    resource: @WebProfilerBundle/Resources/config/routing/profiler.xml
     prefix:   /_profiler

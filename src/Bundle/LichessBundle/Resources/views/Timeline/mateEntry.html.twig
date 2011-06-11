@@ -1,8 +1,8 @@
-{% extends "Lichess:Timeline:entry.twig.html" %}
+{% extends "LichessBundle:Timeline:entry.twig.html" %}
 
 {% block author %}
     {% if game.winner.isAi %}
-        {% trans '%ai_name% level %ai_level%' with{'%ai_name%': 'Crafty A.I.', '%ai_level%': game.winner.aiLevel} %}
+        {{ '%ai_name% level %ai_level%'|trans({'%ai_name%': 'Crafty A.I.', '%ai_level%': game.winner.aiLevel}) }}
     {% else %}
         {{ lichess_link_player(game.winner) }}
     {% endif %}
@@ -10,7 +10,7 @@
 {% block verb %}checkmated{% endblock %}
 {% block subject_link %}
     {% if game.loser.isAi %}
-        {% trans '%ai_name% level %ai_level%' with{'%ai_name%': 'Crafty A.I.', '%ai_level%': game.loser.aiLevel} %}
+        {{ '%ai_name% level %ai_level%'|trans({'%ai_name%': 'Crafty A.I.', '%ai_level%': game.loser.aiLevel}) }}
     {% else %}
         {{ lichess_link_player(game.loser) }}
     {% endif %}

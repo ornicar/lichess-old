@@ -28,6 +28,6 @@ class SelectionController extends Controller
         unset($locales[$this->container->get('session')->getLocale()]);
         ksort($locales);
 
-        return $this->render('LichessTranslation:Selection:links.html.twig', array('locales' => $locales));
+        return $this->render('LichessTranslationBundle:Selection:links.html.twig', array('locales' => $locales));
     }
 }

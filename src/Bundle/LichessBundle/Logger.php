@@ -2,17 +2,17 @@
 
 namespace Bundle\LichessBundle;
 
-use Symfony\Bundle\ZendBundle\Logger\Logger as BaseLogger;
 use Symfony\Component\Routing\Router;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class Logger
 {
     protected $logger;
     protected $generator;
 
-    public function __construct(BaseLogger $logger, Router $router)
+    public function __construct(LoggerInterface $logger, Router $router)
     {
         $this->logger = $logger;
         $this->generator = $router->getGenerator();
@@ -20,12 +20,12 @@ class Logger
 
     protected function logPlayer(Player $player, $message, $priority)
     {
-        $this->logger->log($this->formatPlayer($player, $message), $priority);
+        $this->logger->addRecord($priority, $this->formatPlayer($player, $message));
     }
 
     protected function logGame(Game $game, $message, $priority)
     {
-        $this->logger->log($this->formatGame($game, $message), $priority);
+        $this->logger->addRecord($priority, $this->formatGame($game, $message));
     }
 
     public function formatPlayer(Player $player, $message)
@@ -74,41 +74,41 @@ class Logger
 
     public function emerg($object, $message)
     {
-        return $this->logObject($object, $message, 0);
+        return $this->alert($object, $message);
     }
 
     public function alert($object, $message)
     {
-        return $this->logObject($object, $message, 1);
+        return $this->logObject($object, $message, 550);
     }
 
     public function crit($object, $message)
     {
-        return $this->logObject($object, $message, 2);
+        return $this->logObject($object, $message, 500);
     }
 
     public function err($object, $message)
     {
-        return $this->logObject($object, $message, 3);
+        return $this->logObject($object, $message, 400);
     }
 
     public function warn($object, $message)
     {
-        return $this->logObject($object, $message, 4);
+        return $this->logObject($object, $message, 300);
     }
 
     public function notice($object, $message)
     {
-        return $this->logObject($object, $message, 5);
+        return $this->info($object, $message);
     }
 
     public function info($object, $message)
     {
-        return $this->logObject($object, $message, 6);
+        return $this->logObject($object, $message, 200);
     }
 
     public function debug($object, $message)
     {
-        return $this->logObject($object, $message, 7);
+        return $this->logObject($object, $message, 100);
     }
 }

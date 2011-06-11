@@ -19,7 +19,7 @@ class PostController extends BasePostController
         $form = $this->get('forum.form.post');
         $form->setData($post);
 
-        return $this->get('templating')->renderResponse('Forum:Post:new.html.'.$this->getRenderer(), array(
+        return $this->get('templating')->renderResponse('ForumBundle:Post:new.html.'.$this->getRenderer(), array(
             'form'  => $form,
             'topic' => $topic,
         ));
@@ -40,7 +40,7 @@ class PostController extends BasePostController
 
         if ($this->get('forum.akismet')->isPostSpam($post)) {
             $form['message']->addError(new Error('Sorry, but your post looks like spam. If you think it is an error, send me an email.'));
-            $this->get('logger')->notice('Forum:post spam block: '.$post->getAuthorName());
+            $this->get('logger')->notice('ForumBundle:post spam block: '.$post->getAuthorName());
             return $this->invalidCreate($topic);
         }
 
@@ -64,7 +64,7 @@ class PostController extends BasePostController
     {
         $lastPage = $this->get('forum.router.url_generator')->getTopicNumPages($topic);
 
-        return $this->forward('Forum:Topic:show', array(
+        return $this->forward('ForumBundle:Topic:show', array(
             'categorySlug' => $topic->getCategory()->getSlug(),
             'slug'         => $topic->getSlug(),
             'id'           => $topic->getId()

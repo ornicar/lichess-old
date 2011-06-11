@@ -15,7 +15,7 @@ class PgnController extends Controller
         $player = $game->getPlayer($color);
         $pgn = $this->get('lichess.pgn_dumper')->dumpGame($game);
 
-        return $this->render('Lichess:Pgn:analyse.html.twig', array(
+        return $this->render('LichessBundle:Pgn:analyse.html.twig', array(
             'game'         => $game,
             'player'       => $player,
             'reverseColor' => 'white' === $color ? 'black' : 'white',

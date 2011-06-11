@@ -1,27 +1,29 @@
 <?php
 
 namespace Application\ForumBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 use Bundle\ForumBundle\Document\Post as BasePost;
 use Application\UserBundle\Document\User;
 
 /**
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   repositoryClass="Bundle\ForumBundle\Document\PostRepository",
  *   collection="forum_post"
  * )
- * @mongodb:HasLifecycleCallbacks
  */
 class Post extends BasePost
 {
     /**
-     * @mongodb:ReferenceOne(targetDocument="Application\ForumBundle\Document\Topic")
+     * @MongoDB\ReferenceOne(targetDocument="Application\ForumBundle\Document\Topic")
      */
     protected $topic;
 
     /**
      * The author name
      *
-     * @mongodb:String
+     * @MongoDB\String
      * @var string
      */
     protected $authorName = '';
@@ -29,18 +31,18 @@ class Post extends BasePost
     /**
      * The author user if any
      *
-     * @mongodb:ReferenceOne(targetDocument="Application\UserBundle\Document\User")
+     * @MongoDB\ReferenceOne(targetDocument="Application\UserBundle\Document\User")
      * @var User
      */
     protected $author = null;
 
     /**
-     * @validation:MaxLength(10000)
+     * @Assert\MaxLength(10000)
      */
     protected $message;
 
     /**
-     * @validation:Blank
+     * @Assert\Blank
      */
     protected $trap;
 

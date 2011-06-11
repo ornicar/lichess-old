@@ -1,2 +1,2 @@
 lichess_sync:
-    resource: @Lichess/Resources/config/routing_sync.yml
+    resource: @LichessBundle/Resources/config/routing_sync.yml

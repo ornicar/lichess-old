@@ -15,7 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class CommentType extends AbstractType
+class CommentFormType extends AbstractType
 {
     protected $securityContext;
 

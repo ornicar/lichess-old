@@ -6,7 +6,7 @@
 
     <services>
         <service id="lichess.blamer.player" class="Bundle\LichessBundle\Blamer\PlayerBlamer" public="false">
-            <argument type="service" id="security.context" />
+            <argument type="service" id="security.context" on-invalid="null" />
         </service>
     </services>
 

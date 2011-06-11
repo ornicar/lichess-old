@@ -23,7 +23,7 @@ class UserController extends BaseUserController
             return $response;
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUser:User:closeAccount.html.twig');
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:closeAccount.html.twig');
     }
 
     public function updateProfileAction()
@@ -74,7 +74,7 @@ class UserController extends BaseUserController
         $users = $this->container->get('fos_user.repository.user')->findOnlineUsersSortByElo();
         $nbPlayers = $this->container->get('lichess.memory')->getNbActivePlayers();
 
-        return $this->container->get('templating')->renderResponse('FOSUser:User:listOnline.html.twig', compact('users', 'nbPlayers'));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:listOnline.html.twig', compact('users', 'nbPlayers'));
     }
 
     /**
@@ -90,14 +90,14 @@ class UserController extends BaseUserController
         $users->setPageRange(3);
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_list');
 
-        return $this->container->get('templating')->renderResponse('FOSUser:User:list.html.twig', compact('users', 'pagerUrl'));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users', 'pagerUrl'));
     }
 
     public function showAction($username)
     {
         $user = $this->container->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
         if (!$user) {
-            $response = $this->container->get('templating')->renderResponse('FOSUser:User:unknownUser.html.twig', array('username' => $username));
+            $response = $this->container->get('templating')->renderResponse('FOSUserBundle:User:unknownUser.html.twig', array('username' => $username));
             $response->setStatusCode(404);
 
             return $response;
@@ -117,9 +117,9 @@ class UserController extends BaseUserController
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
         if ($authenticatedUser instanceof User && $user->is($authenticatedUser)) {
-            $template = 'FOSUser:User:home.html.twig';
+            $template = 'FOSUserBundle:User:home.html.twig';
         } else {
-            $template = 'FOSUser:User:show.html.twig';
+            $template = 'FOSUserBundle:User:show.html.twig';
         }
         return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'history', 'games', 'pagerUrl'));
     }

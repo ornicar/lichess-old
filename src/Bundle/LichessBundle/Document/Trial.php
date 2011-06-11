@@ -4,10 +4,12 @@ namespace Bundle\LichessBundle\Document;
 
 use FOS\UserBundle\Model\User;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
  * Determine if a player is innocent or guilty
  *
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   collection="trial",
  *   repositoryClass="Bundle\LichessBundle\Document\TrialRepository"
  * )
@@ -18,14 +20,14 @@ class Trial
      * Unique ID
      *
      * @var string
-     * @mongodb:Id
+     * @MongoDB\Id
      */
     protected $id;
 
     /**
      * Game we are judging
      *
-     * @mongodb:ReferenceOne(targetDocument="Bundle\LichessBundle\Document\Game")
+     * @MongoDB\ReferenceOne(targetDocument="Bundle\LichessBundle\Document\Game")
      * @var Game
      */
     protected $game;
@@ -34,7 +36,7 @@ class Trial
      * User we are judging
      *
      * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\UserBundle\Document\User")
+     * @MongoDB\ReferenceOne(targetDocument="Application\UserBundle\Document\User")
      */
     protected $user;
 
@@ -42,8 +44,8 @@ class Trial
      * Suspicious level of this user
      *
      * @var int
-     * @mongodb:Field(type="int")
-     * @mongodb:Index(order="desc")
+     * @MongoDB\Field(type="int")
+     * @MongoDB\Index(order="desc")
      */
     protected $score;
 
@@ -54,8 +56,8 @@ class Trial
      * false= innocent
      *
      * @var bool
-     * @mongodb:Field(type="boolean")
-     * @mongodb:Index()
+     * @MongoDB\Field(type="boolean")
+     * @MongoDB\Index()
      */
     protected $verdict;
 

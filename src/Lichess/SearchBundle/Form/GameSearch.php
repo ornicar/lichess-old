@@ -3,40 +3,41 @@
 namespace Lichess\SearchBundle\Form;
 
 use DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class GameSearch
 {
     /**
      * @var DateTime
-     * @validation:Date()
+     * @Assert\Date()
      */
     public $fromDate;
     /**
      * @var DateTime
-     * @validation:Date()
+     * @Assert\Date()
      */
     public $toDate;
 
     /**
      * @var int
-     * @validation:Choice({"1", "2"})
+     * @Assert\Choice({"1", "2"})
      */
     public $variant;
 
     /**
      * @var string
-     * @validation:String()
+     * @Assert\String()
      */
     public $player;
     /**
      * @var string
-     * @validation:String()
+     * @Assert\String()
      */
     public $opponent;
 
     /**
      * @var int
-     * @validation:String()
+     * @Assert\String()
      */
     public $clockMinutes;
     public $clockIncrements;

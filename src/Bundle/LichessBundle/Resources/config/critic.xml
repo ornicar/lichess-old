@@ -7,7 +7,7 @@
     <services>
         <service id="lichess.critic.user" class="Bundle\LichessBundle\Critic\UserCritic">
             <argument type="service" id="lichess.repository.game" />
-            <argument type="service" id="fos_user.repository.user" />
+            <argument type="service" id="fos_user.repository.user" on-invalid="null" />
         </service>
     </services>
 

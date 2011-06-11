@@ -25,7 +25,7 @@ class TopicController extends BaseTopicController
         $form = $this->get('forum.form.new_topic');
         $form->setData($topic);
 
-        return $this->get('templating')->renderResponse('Forum:Topic:new.html.'.$this->getRenderer(), array(
+        return $this->get('templating')->renderResponse('ForumBundle:Topic:new.html.'.$this->getRenderer(), array(
             'form'      => $form,
             'category'  => $category
         ));
@@ -46,7 +46,7 @@ class TopicController extends BaseTopicController
 
         if ($this->get('forum.akismet')->isTopicSpam($topic)) {
             $form['firstPost']->addError(new Error('Sorry, but your topic looks like spam. If you think it is an error, send me an email.'));
-            $this->get('logger')->notice('Forum:topic spam block: '.$topic->getFirstPost()->getAuthorName().' - '.$topic->getSubject());
+            $this->get('logger')->notice('ForumBundle:topic spam block: '.$topic->getFirstPost()->getAuthorName().' - '.$topic->getSubject());
             return $this->invalidCreate($category, $form);
         }
 
@@ -71,7 +71,7 @@ class TopicController extends BaseTopicController
 
     protected function invalidCreate(Category $category, $form)
     {
-        return $this->render('Forum:Topic:new.html.twig', array(
+        return $this->render('ForumBundle:Topic:new.html.twig', array(
             'form'      => $form,
             'category'  => $category
         ));

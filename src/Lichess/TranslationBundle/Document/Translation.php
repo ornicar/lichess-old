@@ -1,10 +1,13 @@
 <?php
 
 namespace Lichess\TranslationBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   collection="translation",
  *   repositoryClass="Lichess\TranslationBundle\Document\TranslationRepository"
  * )
@@ -15,27 +18,27 @@ class Translation
      * Unique ID of the translation
      *
      * @var string
-     * @mongodb:Id(strategy="increment")
+     * @MongoDB\Id(strategy="increment")
      */
     protected $id;
 
     /**
      * 2 chars language code
      *
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      * @var string
      */
     protected $code = null;
 
     /**
-     * @validation:AssertNotNull
+     * @Assert\NotNull
      */
     protected $messages = array();
 
     /**
      * translated messages
-     * @mongodb:Field(type="string")
-     * @validation:AssertNotNull
+     * @MongoDB\Field(type="string")
+     * @Assert\NotNull
      * @var string
      */
     protected $yaml = null;
@@ -43,7 +46,7 @@ class Translation
     /**
      * author name
      *
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      * @var string
      */
     protected $author = null;
@@ -51,7 +54,7 @@ class Translation
     /**
      * comment
      *
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      * @var string
      */
     protected $comment = null;
@@ -59,7 +62,7 @@ class Translation
     /**
      * creation date
      *
-     * @mongodb:Field(type="date")
+     * @MongoDB\Field(type="date")
      * @var \DateTime
      */
     protected $createdAt = null;
@@ -100,7 +103,7 @@ class Translation
     }
 
     /**
-     * @validation:AssertFalse()
+     * @Assert\False()
      */
     public function getYamlError()
     {

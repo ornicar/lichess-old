@@ -7,7 +7,7 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'Symfony'                        => $vendorDir.'/symfony/src',
+    'Symfony'                        => array($vendorDir.'/symfony/src', $srcDir),
     'Doctrine\\MongoDB'              => $vendorDir.'/doctrine-mongodb/lib',
     'Doctrine\\ODM\\MongoDB'         => $vendorDir.'/doctrine-mongodb-odm/lib',
     'Doctrine\\Common'               => $vendorDir.'/doctrine-common/lib',

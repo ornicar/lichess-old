@@ -2,12 +2,13 @@
 
 namespace Application\CommentBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use FOS\CommentBundle\Document\Comment as BaseComment;
 use FOS\CommentBundle\Model\SignedCommentInterface;
-use Application\UserBundle\Document\User;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   collection="fos_comment_comment"
  * )
  */
@@ -16,7 +17,7 @@ class Comment extends BaseComment implements SignedCommentInterface
     /**
      * The author name
      *
-     * @mongodb:String
+     * @MongoDB\String
      * @var string
      */
     protected $authorName = 'Anonymous';
@@ -24,7 +25,7 @@ class Comment extends BaseComment implements SignedCommentInterface
     /**
      * The author user if any
      *
-     * @mongodb:ReferenceOne(targetDocument="Application\UserBundle\Document\User")
+     * @MongoDB\ReferenceOne(targetDocument="Application\UserBundle\Document\User")
      * @var User
      */
     protected $author;
@@ -38,10 +39,10 @@ class Comment extends BaseComment implements SignedCommentInterface
     }
 
     /**
-     * @param  FOSUser
+     * @param  UserInterface
      * @return null
      */
-    public function setAuthor($author)
+    public function setAuthor(UserInterface $author)
     {
         $this->author = $author;
         $this->authorName = $author->getUsername();
@@ -52,7 +53,7 @@ class Comment extends BaseComment implements SignedCommentInterface
      *
      * @return null
      **/
-    public function setUser(User $user)
+    public function setUser(UserInterface $user)
     {
         return $this->setAuthor($user);
     }

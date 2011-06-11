@@ -1,4 +1,5 @@
 framework:
+    secret: PYScZDvtESqkUud7
     charset:       UTF-8
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
     validation: { enable_annotations: true }
@@ -73,19 +74,17 @@ fos_user:
         iterations: 1
         encode_as_base64: false
         algorithm: sha1
+    service:
+        mailer: fos_user.mailer.noop
 
 fos_comment:
     db_driver: mongodb
     class:
         model:
             comment: Application\CommentBundle\Document\Comment
-        form:
-            comment: FOS\CommentBundle\Form\CommentForm
     service:
         blamer:
             comment: fos_comment.blamer.comment.security
-        form_factory:
-            comment: lichess_comment.form_factory.comment
         creator:
             comment: lichess_comment.creator.comment
         spam_detection:

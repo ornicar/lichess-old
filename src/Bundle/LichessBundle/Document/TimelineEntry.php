@@ -2,13 +2,14 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use FOS\UserBundle\Model\User;
 use DateTime;
 
 /**
  * Represents a single timeline entry, pre-rendered
  *
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   collection="timeline",
  *   repositoryClass="Bundle\LichessBundle\Document\TimelineEntryRepository"
  * )
@@ -19,7 +20,7 @@ class TimelineEntry
      * Unique ID of the game
      *
      * @var string
-     * @mongodb:Id()
+     * @MongoDB\Id()
      */
     protected $id;
 
@@ -27,7 +28,7 @@ class TimelineEntry
      * Type of the event
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      */
     protected $type;
 
@@ -35,7 +36,7 @@ class TimelineEntry
      * Rendered event
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      */
     protected $html;
 
@@ -43,7 +44,7 @@ class TimelineEntry
      * Author user if any
      *
      * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\UserBundle\Document\User")
+     * @MongoDB\ReferenceOne(targetDocument="Application\UserBundle\Document\User")
      */
     protected $author;
 
@@ -51,8 +52,8 @@ class TimelineEntry
      * Date of creation
      *
      * @var DateTime
-     * @mongodb:Field(type="date")
-     * @mongodb:Index(order="desc")
+     * @MongoDB\Field(type="date")
+     * @MongoDB\Index(order="desc")
      */
     protected $createdAt;
 

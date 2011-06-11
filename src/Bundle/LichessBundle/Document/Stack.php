@@ -2,8 +2,10 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
- * @mongodb:EmbeddedDocument
+ * @MongoDB\EmbeddedDocument
  */
 class Stack
 {
@@ -13,7 +15,7 @@ class Stack
      * Events in the stack
      *
      * @var array
-     * @mongodb:Field(type="hash")
+     * @MongoDB\Field(type="hash")
      */
     protected $events = array();
 

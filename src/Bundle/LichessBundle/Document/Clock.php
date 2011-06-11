@@ -2,8 +2,10 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
- * @mongodb:EmbeddedDocument
+ * @MongoDB\EmbeddedDocument
  */
 class Clock
 {
@@ -11,7 +13,7 @@ class Clock
      * Maximum time of the clock per player
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     private $limit = null;
 
@@ -19,7 +21,7 @@ class Clock
      * Current player color
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      */
     private $color = null;
 
@@ -27,7 +29,7 @@ class Clock
      * Times for white and black players
      *
      * @var array
-     * @mongodb:Field(type="hash")
+     * @MongoDB\Field(type="hash")
      */
     private $times = null;
 
@@ -35,7 +37,7 @@ class Clock
      * Internal timer
      *
      * @var float
-     * @mongodb:Field(type="float")
+     * @MongoDB\Field(type="float")
      */
     private $timer = null;
 
@@ -49,7 +51,7 @@ class Clock
      * Fisher clock bonus per move in seconds
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     protected $increment;
 

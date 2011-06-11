@@ -1,13 +1,13 @@
-{% extends "OrnicarMessage::container.html.twig" %}
+{% extends "OrnicarMessageBundle::container.html.twig" %}
 {% block content %}
 <div class="message_show">
     <div class="head">
         <h1>{{ message.subject|default("No subject") }}</h1>
     </div>
-    {% include "OrnicarMessage::sidebar.html.twig" %}
+    {% include "OrnicarMessageBundle::sidebar.html.twig" %}
     <div class="center show">
         <span class="actions">
-            <a class="delete" href="{{ path('ornicar_message_message_delete', {"id": message.id}) }}">{% trans "Delete" %}</a>
+            <a class="delete" href="{{ path('ornicar_message_message_delete', {"id": message.id}) }}">{{ "Delete"|trans }}</a>
         </span>
         <span class="infos">
             {% if message.from == app.user %}
@@ -20,17 +20,17 @@
         <div class="body">{{ lichess_user_text(message.body) }}</div>
         {% if form %}
             <div class="answer">
-                {% trans "Reply" %}
+                {{ "Reply"|trans }}
                 <form action="{{ path("ornicar_message_message_create") }}" method="post">
-                    {{ form_field(form.to) }}
-                    {{ form_field(form.subject) }}
+                    {{ form_widget(form.to) }}
+                    {{ form_widget(form.subject) }}
                     <div class="field_body">
-                        {{ form_field(form.body) }}
+                        {{ form_widget(form.body) }}
                         {{ form_errors(form.body) }}
                     </div>
                     <div class="actions">
-                        <input class="send button" type="submit" value="{% trans "Send" %}" />
-                        <a class="cancel" href="{{ path("ornicar_message_message_list") }}">{% trans "Cancel" %}</a>
+                        <input class="send button" type="submit" value="{{ "Send"|trans }}" />
+                        <a class="cancel" href="{{ path("ornicar_message_message_list") }}">{{ "Cancel"|trans }}</a>
                     </div>
                 </form>
             </div>

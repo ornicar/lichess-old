@@ -14,14 +14,14 @@
 <b>
 {{ lichess_date(game.updatedAt) }}
 </b>-
-{% trans game.statusMessage %}
-, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{% trans game.winner.color|capitalize ~ " is victorious" %}</span>
+{{ game.statusMessage|trans }}
+, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{{ game.winner.color|capitalize ~ " is victorious"|trans }}</span>
 <br /><br />
 {% block players %}
 <table class="game_players">
 {% for player in [firstPlayer.opponent, firstPlayer] %}
 <tr{% if player.user == trial.user %} class="trial_suspect"{% endif %}>
-<td>{% trans player.color|capitalize %}</td>
+<td>{{ player.color|capitalize|trans }}</td>
 <td>{{ lichess_link_player(player) }}</td>
 {% if player.user == trial.user %}
 <td class="trial_score">suspicion level = {{ trial.score }}%</td>
@@ -31,9 +31,9 @@
 </table>
 {% endblock %}
 <br />
-{% trans "Variant" %}: {{ game.variantName }}
+{{ "Variant"|trans }}: {{ game.variantName }}
 <br /><br />
-{% trans "Time control" %}: {{ game.clockName }}
+{{ "Time control"|trans }}: {{ game.clockName }}
 <br /><br />
 {% if is_granted('ROLE_SUPER_ADMIN') %}
 <a class="button" href="{{ path("lichess_trial_verdict", {"id": trial.id, "verdict": 0}) }}">Innocent</a>
@@ -41,7 +41,7 @@
 <br />
 <br />
 {% endif %}
-<a href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {% trans "Replay and analyse" %}</a>
+<a href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {{ "Replay and analyse"|trans }}</a>
 </div>
 </div>
 {% else %}

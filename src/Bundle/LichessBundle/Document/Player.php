@@ -2,6 +2,7 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Util\KeyGenerator;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +12,7 @@ use FOS\UserBundle\Model\User;
 /**
  * Represents a single Chess player for one game
  *
- * @mongodb:EmbeddedDocument
+ * @MongoDB\EmbeddedDocument
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
  */
 class Player
@@ -20,7 +21,7 @@ class Player
      * Unique ID of the player for this game
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      */
     protected $id;
 
@@ -28,7 +29,7 @@ class Player
      * User bound to the player - optional
      *
      * @var User
-     * @mongodb:ReferenceOne(targetDocument="Application\UserBundle\Document\User")
+     * @MongoDB\ReferenceOne(targetDocument="Application\UserBundle\Document\User")
      */
     protected $user = null;
 
@@ -36,7 +37,7 @@ class Player
      * Fixed ELO of the player user, if any
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     protected $elo = null;
 
@@ -44,7 +45,7 @@ class Player
      * Elo the players gains or loses during this game
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     protected $eloDiff = null;
 
@@ -52,7 +53,7 @@ class Player
      * the player color, white or black
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      */
     protected $color;
 
@@ -60,7 +61,7 @@ class Player
      * Whether the player won the game or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean")
+     * @MongoDB\Field(type="boolean")
      */
     protected $isWinner;
 
@@ -68,7 +69,7 @@ class Player
      * Whether this player is an Artificial intelligence or not
      *
      * @var boolean
-     * @mongodb:Field(type="boolean")
+     * @MongoDB\Field(type="boolean")
      */
     protected $isAi;
 
@@ -76,7 +77,7 @@ class Player
      * If the player is an AI, its level represents the AI intelligence
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     protected $aiLevel;
 
@@ -84,7 +85,7 @@ class Player
      * Event stack
      *
      * @var Stack
-     * @mongodb:EmbedOne(targetDocument="Stack")
+     * @MongoDB\EmbedOne(targetDocument="Stack")
      */
     protected $stack;
 
@@ -92,7 +93,7 @@ class Player
      * the player pieces
      *
      * @var Collection
-     * @mongodb:EmbedMany(
+     * @MongoDB\EmbedMany(
      *   discriminatorMap={
      *     "p"="Bundle\LichessBundle\Document\Piece\Pawn",
      *     "r"="Bundle\LichessBundle\Document\Piece\Rook",
@@ -110,7 +111,7 @@ class Player
      * Whether the player is offering draw or not
      *
      * @var bool
-     * @mongodb:Field(type="boolean")
+     * @MongoDB\Field(type="boolean")
      */
     protected $isOfferingDraw = null;
 
@@ -118,7 +119,7 @@ class Player
      * Whether the player is offering rematch or not
      *
      * @var bool
-     * @mongodb:Field(type="boolean")
+     * @MongoDB\Field(type="boolean")
      */
     protected $isOfferingRematch = null;
 
@@ -126,7 +127,7 @@ class Player
      * Number of turns when last offered a draw
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     protected $lastDrawOffer = null;
 

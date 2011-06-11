@@ -21,10 +21,10 @@ lichess_wait_friend:
     requirements:   { id: "[\w\-]{12}" }
 lichess_timeline:
     pattern:        /timeline
-    defaults:       { _controller: Lichess:Timeline:index }
+    defaults:       { _controller: LichessBundle:Timeline:index }
 lichess_timeline_inner:
     pattern:        /timeline/refresh
-    defaults:       { _controller: Lichess:Timeline:inner }
+    defaults:       { _controller: LichessBundle:Timeline:inner }
 lichess_game:
     pattern:        /{id}/{color}
     defaults:       { _controller: lichess.controller.game:showAction, color: white }
@@ -126,17 +126,17 @@ lichess_todolist:
     defaults:       { _controller: lichess.controller.main:todolistAction }
 lichess_trial_list_unresolved:
     pattern:        /trial/unresolved
-    defaults:       { _controller: Lichess:Trial:listUnresolved }
+    defaults:       { _controller: LichessBundle:Trial:listUnresolved }
 lichess_trial_list_guilty:
     pattern:        /trial/guilty
-    defaults:       { _controller: Lichess:Trial:listGuilty }
+    defaults:       { _controller: LichessBundle:Trial:listGuilty }
 lichess_trial_list_innocent:
     pattern:        /trial/innocent
-    defaults:       { _controller: Lichess:Trial:listInnocent }
+    defaults:       { _controller: LichessBundle:Trial:listInnocent }
 lichess_trial_verdict:
     pattern:        /trial/verdict/{id}/{verdict}
-    defaults:       { _controller: Lichess:Trial:verdict }
+    defaults:       { _controller: LichessBundle:Trial:verdict }
 lichess_api_new:
     pattern:        /api/game/new
-    defaults:       { _controller: Lichess:Api:new }
+    defaults:       { _controller: LichessBundle:Api:new }
     requirements:   { _method: POST }

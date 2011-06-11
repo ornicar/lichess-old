@@ -10,7 +10,7 @@ class Pusher extends AbstractPusher
     public function pushComment(Comment $comment)
     {
         if ($gameId = $comment->getGameId()) {
-            $entry = $this->templating->render('FOSComment:Comment:timelineEntry.html.twig', array(
+            $entry = $this->templating->render('FOSCommentBundle:Comment:timelineEntry.html.twig', array(
                 'comment' => $comment,
                 'game_id' => $gameId
             ));

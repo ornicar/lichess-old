@@ -10,7 +10,7 @@ class MainController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('Lichess:Main:index.html.twig');
+        return $this->render('LichessBundle:Main:index.html.twig');
     }
 
     public function todolistAction()
@@ -19,7 +19,7 @@ class MainController extends Controller
         $items = explode("\n", preg_replace('/^\*\s/m', '', $text));
         array_pop($items);
 
-        return $this->render('Lichess:Main:todolist.html.twig', array('items' => $items));
+        return $this->render('LichessBundle:Main:todolist.html.twig', array('items' => $items));
     }
 
     public function howManyPlayersNowAction()
@@ -41,6 +41,6 @@ class MainController extends Controller
     }
     public function aboutAction()
     {
-        return $this->render('Lichess:Main:about.html.twig');
+        return $this->render('LichessBundle:Main:about.html.twig');
     }
 }

@@ -1,4 +1,4 @@
-{% extends "LichessTranslation::layout.html.twig" %}
+{% extends "LichessTranslationBundle::layout.html.twig" %}
 {% block title %}Help translate Lichess{% endblock %}
 {% block content %}
 <div class="lichess_box">
@@ -14,13 +14,13 @@
         <form action="{{ path("lichess_translation_contribution_locale", {"locale": locale} ) }}" data-change-url="{{ path("lichess_translation_contribution_locale", {"locale": "__"} ) }}" method="post" novalidate>
             <div class="field">
                 {{ form_label(form.code, "Translate from english to") }}
-                {{ form_field(form.code) }}
+                {{ form_widget(form.code) }}
             </div>
             {% block translation %}{% endblock %}
         </form>
         <hr />
         Big thanks go to all translators!
-        {% include "LichessTranslation:Contribution:translators.html.twig" %}
+        {% include "LichessTranslationBundle:Contribution:translators.html.twig" %}
     </div>
 </div>
 {% endblock %}

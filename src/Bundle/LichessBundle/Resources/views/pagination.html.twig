@@ -1,14 +1,14 @@
 {% if pager.pageCount %}
     {% spaceless %}
     {% if pager.first is defined and pager.first != pager.current %}
-    <a class="first" href="{{ url }}?page={{ pager.first }}">{% trans "First" %}</a>
+    <a class="first" href="{{ url }}?page={{ pager.first }}">{{ "First"|trans }}</a>
     {% else %}
-    <span class="first">{% trans "First" %}</span>
+    <span class="first">{{ "First"|trans }}</span>
     {% endif %} |
     {% if pager.previous is defined %}
-    <a class="previous" href="{{ url }}?page={{ pager.previous }}">{% trans "Previous" %}</a>
+    <a class="previous" href="{{ url }}?page={{ pager.previous }}">{{ "Previous"|trans }}</a>
     {% else %}
-    <span class="previous">{% trans "Previous" %}</span>
+    <span class="previous">{{ "Previous"|trans }}</span>
     {% endif %} |
     {% for page in pager.pagesInRange %}
         {% if page == pager.current %}
@@ -18,9 +18,9 @@
         {% endif %} |
     {% endfor %}
     {% if pager.next is defined %}
-    <a class="next" href="{{ url }}?page={{ pager.next }}">{% trans "Next" %}</a>
+    <a class="next" href="{{ url }}?page={{ pager.next }}">{{ "Next"|trans }}</a>
     {% else %}
-    <span class="next">{% trans "Next" %}</span>
+    <span class="next">{{ "Next"|trans }}</span>
     {% endif %}
     {% endspaceless %}
 {% endif %}

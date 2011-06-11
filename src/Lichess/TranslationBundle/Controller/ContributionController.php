@@ -21,7 +21,7 @@ class ContributionController extends Controller
             return new Response('');
         }
 
-        return $this->render('LichessTranslation:Contribution:missing.html.twig', array(
+        return $this->render('LichessTranslationBundle:Contribution:missing.html.twig', array(
             'locale' => $locale,
             'name' => $status['name']
         ));
@@ -34,7 +34,7 @@ class ContributionController extends Controller
             return new Response('');
         }
 
-        return $this->render('LichessTranslation:Contribution:incomplete.html.twig', array(
+        return $this->render('LichessTranslationBundle:Contribution:incomplete.html.twig', array(
             'locale' => $locale,
             'status' => $status
         ));
@@ -44,7 +44,7 @@ class ContributionController extends Controller
     {
         $form = $this->get('lichess.form.translation');
 
-        return $this->render('LichessTranslation:Contribution:index.html.twig', array(
+        return $this->render('LichessTranslationBundle:Contribution:index.html.twig', array(
             'form' => $form,
             'locale' => '__'
         ));
@@ -76,7 +76,7 @@ class ContributionController extends Controller
             }
         }
 
-        return $this->render('LichessTranslation:Contribution:locale.html.twig', array(
+        return $this->render('LichessTranslationBundle:Contribution:locale.html.twig', array(
             'form' => $form,
             'locale' => $locale,
             'status' => $manager->getTranslationStatus($locale),

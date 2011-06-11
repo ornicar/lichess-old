@@ -8,6 +8,6 @@ class GameController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('LichessSearch:Game:index.html.twig');
+        return $this->render('LichessSearchBundle:Game:index.html.twig');
     }
 }

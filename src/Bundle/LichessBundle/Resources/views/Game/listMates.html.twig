@@ -1,7 +1,7 @@
-{% extends "Lichess:Game:list.html.twig" %}
-{% block title %}{% trans 'View %nb% checkmates' with {'%nb%': nbMates} %} - Page {{ games.currentPageNumber }}{% endblock %}
+{% extends "LichessBundle:Game:list.html.twig" %}
+{% block title %}{{ 'View %nb% checkmates'|trans({'%nb%': nbMates}) }} - Page {{ games.currentPageNumber }}{% endblock %}
 {% block list_type %}Checkmates{% endblock %}
 {% block list_menu %}
-<a class="game_list" href="{{ path("lichess_list_current") }}">{% trans 'Games being played right now' %}</a>
-<a class="game_list" href="{{ path("lichess_list_all") }}">{% trans 'View all %nb% games' with {'%nb%': nbGames} %}</a>
+<a class="game_list" href="{{ path("lichess_list_current") }}">{{ 'Games being played right now'|trans }}</a>
+<a class="game_list" href="{{ path("lichess_list_all") }}">{{ 'View all %nb% games'|trans({'%nb%': nbGames}) }}</a>
 {% endblock %}
