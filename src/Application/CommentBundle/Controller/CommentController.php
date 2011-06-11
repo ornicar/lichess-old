@@ -3,12 +3,11 @@
 namespace Application\CommentBundle\Controller;
 
 use FOS\CommentBundle\Controller\CommentController as BaseCommentController;
-
-use FOS\CommentBundle\Form\CommentForm;
+use Symfony\Component\Form\Form;
 
 class CommentController extends BaseCommentController
 {
-    protected function onCreateSuccess(CommentForm $form)
+    protected function onCreateSuccess(Form $form)
     {
         $this->container->get('lichess_comment.authorname_persistence')->persistCommentInSession($form->getData());
 

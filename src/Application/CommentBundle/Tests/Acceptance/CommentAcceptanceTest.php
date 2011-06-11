@@ -10,6 +10,7 @@ class CommentAcceptanceTest extends WebTestCase
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', $this->getUrlForGameWithComments($client));
+        $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertGreaterThanOrEqual(3, $crawler->filter('.fos_comment_comment_show')->count());
     }
 
@@ -19,8 +20,8 @@ class CommentAcceptanceTest extends WebTestCase
         $crawler = $client->request('GET', $this->getUrlForGameWithComments($client));
 
         $form = $crawler->selectButton('Post')->form();
-        $form['fos_comment[authorName]'] = $author = uniqid();
-        $form['fos_comment[body]'] = $text = uniqid();
+        $form['fos_comment_comment[authorName]'] = $author = uniqid();
+        $form['fos_comment_comment[body]'] = $text = uniqid();
         $crawler = $client->submit($form);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
