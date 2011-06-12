@@ -7,7 +7,7 @@
     <services>
         <service id="lichess.timeline.pusher" class="Bundle\LichessBundle\Timeline\Pusher">
             <argument type="service" id="lichess.repository.timeline_entry" />
-            <argument type="service" id="templating" />
+            <argument type="service" id="templating" on-invalid="null" />
         </service>
     </services>
 
