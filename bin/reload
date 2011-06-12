@@ -35,6 +35,3 @@ show_run "php lichess/console apc:clear"
 
 echo -e "\n--- Creating assets symlinks"
 show_run php lichess/console assets:install web --symlink
-
-# Show a cow saying something smart.
-curl --connect-timeout 1 -s "http://lichess.org/fortune.php?cowsay=1" 2>/dev/null

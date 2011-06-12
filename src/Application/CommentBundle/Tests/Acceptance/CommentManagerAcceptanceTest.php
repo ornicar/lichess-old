@@ -8,7 +8,6 @@ class CommentManagerAcceptanceTest extends WebTestCase
 {
     public function testFindCommentTreeByThreadIdentifier()
     {
-        $this->markTestSkipped();
         $container      = $this->createClient()->getContainer();
         $threadManager  = $container->get('fos_comment.manager.thread');
         $commentManager = $container->get('fos_comment.manager.comment');
