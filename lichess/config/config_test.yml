@@ -8,6 +8,11 @@ framework:
     profiler: false
     test: true
 
+doctrine_mongodb:
+    document_managers:
+        default:
+            metadata_cache_driver: apc
+
 lichess:
     test: true
     seek:

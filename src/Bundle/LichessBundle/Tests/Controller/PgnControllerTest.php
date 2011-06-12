@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Bundle\LichessBundle\Document\Game;
 
 class PgnControllerTest extends WebTestCase
 {
@@ -12,8 +13,12 @@ class PgnControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('GET', '/ai');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->filter('.submit.'.$color)->form();
-        $client->submit($form, array('config[color]' => $color));
+        $url = $crawler->filter('div.game_config_form form')->attr('action');
+        $client->request('POST', $url, array('config' => array(
+            'color' => $color,
+            'variant' => Game::VARIANT_STANDARD,
+            'level' => 1
+        )));
         $this->assertTrue($client->getResponse()->isRedirect());
         $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());

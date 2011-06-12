@@ -8,17 +8,41 @@ use Symfony\Component\Validator\Constraints;
 
 class AiGameConfig extends FriendGameConfig
 {
-    public $level = 1;
+    /**
+     * AI level
+     *
+     * @var int
+     */
+    protected $level = 1;
 
     protected static $levelChoices = array(1, 2, 3, 4, 5, 6, 7, 8);
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         parent::loadValidatorMetadata($metadata);
-        $metadata->addPropertyConstraint('level', new Constraints\Choice(array('choices' => self::$levelChoices)));
+
+        $metadata->addPropertyConstraint('level', new Constraints\Choice(array('choices' => array_keys(self::getLevelChoices()))));
+        $metadata->addPropertyConstraint('level', new Constraints\NotBlank());
     }
 
-    public function getLevelChoices()
+    /**
+     * @return int
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * @param  int
+     * @return null
+     */
+    public function setLevel($level)
+    {
+        $this->level = (int) $level;
+    }
+
+    public static function getLevelChoices()
     {
         return array_combine(self::$levelChoices, self::$levelChoices);
     }

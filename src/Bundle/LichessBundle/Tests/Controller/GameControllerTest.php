@@ -2,6 +2,8 @@
 
 namespace Bundle\LichessBundle\Tests\Controller;
 
+use Bundle\LichessBundle\Document\Game;
+
 class GameControllerTest extends AbstractControllerTest
 {
     public function testViewCurrentGames()
@@ -47,8 +49,12 @@ class GameControllerTest extends AbstractControllerTest
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->filter('.submit.'.$color)->form();
-        $client->submit($form, array('config[color]' => $color));
+        $url = $crawler->filter('div.game_config_form form')->attr('action');
+        $client->request('POST', $url, array('config' => array(
+            'color' => $color,
+            'variant' => Game::VARIANT_STANDARD,
+            'level' => 1
+        )));
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -183,7 +189,7 @@ class GameControllerTest extends AbstractControllerTest
         $id = $this->getAnyGameId($client);
         $crawler = $client->request('HEAD', '/'.$id);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals('Game #'.$id, $client->getResponse()->getContent());
+        $this->assertEquals('', $client->getResponse()->getContent());
     }
 
     public function testJoinHead()
@@ -192,7 +198,7 @@ class GameControllerTest extends AbstractControllerTest
         $id = $this->getAnyGameId($client);
         $crawler = $client->request('HEAD', '/join/'.$id);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals('Game #'.$id, $client->getResponse()->getContent());
+        $this->assertEquals('', $client->getResponse()->getContent());
     }
 
     protected function getAnyGameId($client)

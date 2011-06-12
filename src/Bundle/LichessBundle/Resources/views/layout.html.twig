@@ -69,16 +69,16 @@
                     {{ "%nb% connected players"|trans({"%nb%": lichess_nb_active_players()}) }}
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> | help <a href="{{ path("lichess_translation_contribution") }}">translate Lichess</a> | view <a href="{{ path("lichess_todolist") }}">TODO list</a><br />
-                {{ "Open Source software built with %php%, %symfony% and %jqueryui%"|trans({'%php%': 'PHP 5.3', '%symfony%': '<a href="http://symfony-reloaded.org" target="_blank">Symfony2</a>', '%jqueryui%': '<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>'}) }}<br />
+                {{ "Open Source software built with %php%, %symfony% and %jqueryui%"|trans({'%php%': 'PHP 5.3', '%symfony%': 'Symfony2', '%jqueryui%': 'jQuery UI'}) }}<br />
             </div>
         </div>
         <div class="lichess_server">
-            <a href="#top">{{ "Back to top"|trans }}</a> | [[time]] | {{ "Server load"|trans }}: <span class="value">{{ lichess_load_average() }}</span> |
+            <a href="#top">{{ "Back to top"|trans }}</a> | {{ "Server load"|trans }}: <span class="value">{{ lichess_load_average() }}</span> |
             <a class="blank_if_play" href="/monitor/index.html">Server monitoring</a>
         </div>
         {% block js_data %}{% endblock %}
         {% if not lichess_debug_assets() %}
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
             <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
         {% endif %}
 

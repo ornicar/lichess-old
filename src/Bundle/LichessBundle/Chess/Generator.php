@@ -30,7 +30,7 @@ class Generator
 
     protected function getVariantGenerator($variant)
     {
-        if($variant === Game::VARIANT_960) {
+        if($variant == Game::VARIANT_960) {
             $generator = new Chess960PositionGenerator();
         }
         else {
@@ -70,7 +70,7 @@ class Generator
         $game = $player->getGame();
         $variant = $game->getVariant();
         $nextGame = $this->createGame($variant);
-        if (Game::VARIANT_960 === $game->getVariant()) {
+        if (Game::VARIANT_960 == $game->getVariant()) {
             $forsyth = new Forsyth();
             $forsyth->import($nextGame, $game->getInitialFen());
             $nextGame->setInitialFen($game->getInitialFen());

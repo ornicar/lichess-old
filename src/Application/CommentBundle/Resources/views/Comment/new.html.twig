@@ -4,7 +4,7 @@
 
     {% block fos_comment_form_fields %}
         <textarea name="{{ form.body.vars.full_name }}"></textarea>
-        {% if form.authorName %}
+        {% if form.authorName is defined %}
             <label class="author_name">Post as:
                 <input type="text" name="{{ form.authorName.vars.full_name }}" value="{{ comment.authorName }}" />
             </label>

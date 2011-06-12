@@ -1,7 +1,9 @@
 <?php
 
 namespace Bundle\LichessBundle\Tests\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Bundle\LichessBundle\Document\Game;
 
 abstract class AbstractControllerTest extends WebTestCase
 {
@@ -11,8 +13,11 @@ abstract class AbstractControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with a friend')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $form = $crawler->filter('.submit.'.$color)->form();
-        $client->submit($form, array('config[color]' => $color));
+        $url = $crawler->filter('div.game_config_form form')->attr('action');
+        $client->request('POST', $url, array('config' => array(
+            'color' => $color,
+            'variant' => Game::VARIANT_STANDARD
+        )));
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertTrue($client->getResponse()->isSuccessful());

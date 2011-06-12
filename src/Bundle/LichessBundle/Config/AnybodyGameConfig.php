@@ -7,10 +7,78 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class AnybodyGameConfig extends GameConfig
 {
-    public $modes      = array(0, 1);
-    public $times      = array(5, 10, 20, 0);
-    public $increments = array(2, 5, 10);
-    public $variants   = array(Game::VARIANT_STANDARD);
+    protected $modes      = array(0, 1);
+    protected $times      = array(5, 10, 20, 0);
+    protected $increments = array(2, 5, 10);
+    protected $variants   = array(Game::VARIANT_STANDARD);
+
+    /**
+     * @return array
+     */
+    public function getTimes()
+    {
+        return $this->times;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setTimes(array $times)
+    {
+        $this->times = self::intKeys($times);
+    }
+
+    /**
+     * @return array
+     */
+    public function getIncrements()
+    {
+        return $this->increments;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setIncrements(array $increments)
+    {
+        $this->increments = self::intKeys($increments);
+    }
+
+    /**
+     * @return array
+     */
+    public function getVariants()
+    {
+        return $this->variants;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setVariants(array $variants)
+    {
+        $this->variants = self::intKeys($variants);
+    }
+
+    /**
+     * @return array
+     */
+    public function getModes()
+    {
+        return $this->modes;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setModes(array $modes)
+    {
+        $this->modes = self::intKeys($modes);
+    }
 
     public function getCountTimes()
     {
@@ -36,7 +104,7 @@ class AnybodyGameConfig extends GameConfig
     {
         $names = array();
         foreach($this->times as $time) {
-            $names[] = $this->renameTime($time);
+            $names[] = self::renameTime($time);
         }
 
         return $names;
@@ -62,7 +130,7 @@ class AnybodyGameConfig extends GameConfig
     {
         $names = array();
         foreach($this->modes as $mode) {
-            $names[] = $this->modeChoices[$mode];
+            $names[] = self::$modeChoices[$mode];
         }
 
         return $names;
@@ -74,6 +142,16 @@ class AnybodyGameConfig extends GameConfig
         $metadata->addGetterConstraint('countIncrements', new Constraints\Min(array('limit' => 1)));
         $metadata->addGetterConstraint('countVariants', new Constraints\Min(array('limit' => 1)));
         $metadata->addGetterConstraint('countModes', new Constraints\Min(array('limit' => 1)));
+    }
+
+    protected static function intKeys(array $array)
+    {
+        $newArray = array();
+        foreach ($array as $key => $value) {
+            $newArray[(string) $key] = $value;
+        }
+
+        return $newArray;
     }
 
     public function toArray()

@@ -5,7 +5,7 @@
 <div class="variants buttons">
     {% for choice, child in form.variant %}
         {{ form_widget(child) }}
-        <label for="{{ child.id }}">{{ form.variant.label(choice)|trans }}</label>
+        {{ form_label(child) }}
     {% endfor %}
 </div>
 <a class="show_advanced">{{ "Show advanced options"|trans }}</a>
@@ -14,14 +14,14 @@
     <div class="times buttons">
         {% for choice, child in form.time %}
             {{ form_widget(child) }}
-            <label for="{{ child.id }}">{{ form.time.label(choice)|trans }}</label>
+            {{ form_label(child) }}
         {% endfor %}
     </div>
     {{ "Increment in seconds"|trans }}
     <div class="increments buttons">
         {% for choice, child in form.increment %}
             {{ form_widget(child) }}
-            <label for="{{ child.id }}">{{ form.increment.label(choice) }}</label>
+            {{ form_label(child) }}
         {% endfor %}
     </div>
     {% if form.mode is defined %}
@@ -29,7 +29,7 @@
         <div class="modes buttons">
             {% for choice, child in form.mode %}
                 {{ form_widget(child) }}
-                <label for="{{ child.id }}">{{ form.mode.label(choice)|trans }}</label>
+                {{ form_label(child) }}
             {% endfor %}
         </div>
     {% endif %}

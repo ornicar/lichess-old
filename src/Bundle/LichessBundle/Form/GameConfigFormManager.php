@@ -7,24 +7,19 @@ use Bundle\LichessBundle\Config\AnybodyGameConfig;
 use Bundle\LichessBundle\Config\AiGameConfig;
 use Bundle\LichessBundle\Config\Persistence;
 use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\Form\FormContext;
-use Symfony\Bundle\ZendBundle\Logger\Logger;
+use Symfony\Component\Form\FormFactory;
 
 class GameConfigFormManager
 {
     protected $security;
     protected $configPersistence;
-    protected $formContext;
-    protected $logger;
-    protected $addColorHiddenField;
+    protected $formFactory;
 
-    public function __construct(SecurityContext $security, Persistence $configPersistence, FormContext $formContext, Logger $logger, $addColorHiddenField)
+    public function __construct(SecurityContext $security, Persistence $configPersistence, FormFactory $formFactory)
     {
         $this->security            = $security;
         $this->configPersistence   = $configPersistence;
-        $this->formContext         = $formContext;
-        $this->logger              = $logger;
-        $this->addColorHiddenField = $addColorHiddenField;
+        $this->formFactory         = $formFactory;
     }
 
     public function createFriendForm()
@@ -33,9 +28,9 @@ class GameConfigFormManager
         $config = new FriendGameConfig();
         $config->fromArray($this->configPersistence->loadConfigFor('friend'));
         if(!$isAuthenticated) {
-            $config->mode = 0;
+            $config->setMode(0);
         }
-        $formClass = 'Bundle\LichessBundle\Form\\'.($isAuthenticated ? 'FriendWithModeGameConfigForm' : 'FriendGameConfigForm');
+        $formClass = 'Bundle\LichessBundle\Form\\'.($isAuthenticated ? 'FriendWithModeGameConfigFormType' : 'FriendGameConfigFormType');
 
         return $this->createForm($formClass, $config);
     }
@@ -46,9 +41,9 @@ class GameConfigFormManager
         $config = new AnybodyGameConfig();
         $config->fromArray($this->configPersistence->loadConfigFor('anybody'));
         if(!$isAuthenticated) {
-            $config->modes = array(0);
+            $config->setModes(array(0));
         }
-        $formClass = 'Bundle\LichessBundle\Form\\'.($isAuthenticated ? 'AnybodyWithModesGameConfigForm' : 'AnybodyGameConfigForm');
+        $formClass = 'Bundle\LichessBundle\Form\\'.($isAuthenticated ? 'AnybodyWithModesGameConfigFormType' : 'AnybodyGameConfigFormType');
 
         return $this->createForm($formClass, $config);
     }
@@ -58,29 +53,13 @@ class GameConfigFormManager
         $config = new AiGameConfig();
         $config->fromArray($this->configPersistence->loadConfigFor('ai'));
 
-        return $this->createForm('Bundle\LichessBundle\Form\AiGameConfigForm', $config);
+        return $this->createForm('Bundle\LichessBundle\Form\AiGameConfigFormType', $config);
     }
 
     protected function createForm($class, $config)
     {
-        $form = call_user_func_array(array($class, 'create'), array($this->formContext, 'config'));
+        $formType = new $class($config);
 
-        $form->setLogger($this->logger);
-
-        $form->setVariantChoices($config->getVariantChoices());
-        $form->setTimeChoices($config->getTimeChoices());
-        $form->setIncrementChoices($config->getIncrementChoices());
-
-        if ($this->addColorHiddenField && $form instanceof GameConfigFormWithColor) {
-            $form->addColorHiddenField();
-        }
-
-        $form->setData($config);
-
-        if ($form instanceof GameConfigFormWithModeInterface) {
-            $form->addModeChoices($config->getModeChoices());
-        }
-
-        return $form;
+        return $this->formFactory->createNamed($formType, 'config', $config);
     }
 }

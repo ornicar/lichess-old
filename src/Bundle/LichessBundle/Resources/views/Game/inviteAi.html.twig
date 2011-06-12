@@ -5,7 +5,7 @@
 <div class="variants buttons">
     {% for choice, child in form.variant %}
         {{ form_widget(child) }}
-        <label for="{{ child.id }}">{{ form.variant.label(choice)|trans }}</label>
+        {{ form_label(child) }}
     {% endfor %}
 </div>
 <a class="show_advanced">{{ "Show advanced options"|trans }}</a>

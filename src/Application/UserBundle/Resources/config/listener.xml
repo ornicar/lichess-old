@@ -12,7 +12,7 @@
         <service id="lichess_user.core_request_listener" class="%lichess_user.core_request_listener.class%">
             <argument type="service" id="security.context" />
             <argument type="service" id="lichess_user.online.cache" />
-            <tag name="kernel.listener" event="onCoreRequest" priority="-513" />
+            <tag name="kernel.listener" event="core.request" method="onCoreRequest" priority="-513" />
         </service>
     </services>
 

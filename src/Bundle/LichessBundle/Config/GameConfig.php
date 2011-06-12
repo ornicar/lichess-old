@@ -5,20 +5,21 @@ use Bundle\LichessBundle\Document\Game;
 
 abstract class GameConfig
 {
-    protected $timeChoices      = array(2, 5, 10, 20, 0);
-    protected $incrementChoices = array(0, 2, 5, 10, 20);
-    protected $modeChoices      = array(0 => 'Casual', 1 => 'Rated');
+    protected static $timeChoices      = array(2, 5, 10, 20, 0);
+    protected static $incrementChoices = array(0, 2, 5, 10, 20);
+    protected static $modeChoices      = array(0 => 'Casual', 1 => 'Rated');
+    protected static $colorChoices     = array('white', 'black', 'random');
 
     abstract public function toArray();
 
     abstract public function fromArray(array $data);
 
-    public function getModeChoices()
+    public static function getModeChoices()
     {
-        return $this->modeChoices;
+        return self::$modeChoices;
     }
 
-    public function getVariantChoices()
+    public static function getVariantChoices()
     {
         $choices = array();
         foreach(Game::getVariantNames() as $code => $name) {
@@ -28,27 +29,27 @@ abstract class GameConfig
         return $choices;
     }
 
-    public function getTimeChoices()
+    public static function getTimeChoices()
     {
         $choices = array();
-        foreach($this->timeChoices as $time) {
-            $choices[$time] = $this->renameTime($time);
+        foreach(self::$timeChoices as $time) {
+            $choices[$time] = self::renameTime($time);
         }
 
         return $choices;
     }
 
-    public function getIncrementChoices()
+    public static function getIncrementChoices()
     {
-        $choices = array();
-        foreach($this->incrementChoices as $increment) {
-            $choices[$increment] = $increment;
-        }
-
-        return $choices;
+        return array_combine(self::$incrementChoices, self::$incrementChoices);
     }
 
-    protected function renameTime($time)
+    public static function getColorChoices()
+    {
+        return array_combine(self::$colorChoices, self::$colorChoices);
+    }
+
+    protected static function renameTime($time)
     {
         if($time) {
             return $time;

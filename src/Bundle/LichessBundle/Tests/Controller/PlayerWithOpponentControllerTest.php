@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Bundle\LichessBundle\Document\Game;
 
 class PlayerWithOpponentControllerTest extends WebTestCase
 {
@@ -10,8 +11,11 @@ class PlayerWithOpponentControllerTest extends WebTestCase
     {
         $p1 = $this->createClient();
         $crawler = $p1->request('GET', '/friend');
-        $form = $crawler->filter('.submit.'.$color)->form();
-        $p1->submit($form, array_merge(array('config[color]' => $color, 'config[variant]' => 1), $formConfig));
+        $url = $crawler->filter('div.game_config_form form')->attr('action');
+        $p1->request('POST', $url, array('config' => array_merge(array(
+            'color' => $color,
+            'variant' => Game::VARIANT_STANDARD
+        ), $formConfig)));
         $crawler = $p1->followRedirect();
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
@@ -34,16 +38,26 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $p1 = $this->createClient();
         $p1->getContainer()->get('lichess.repository.seek')->createQueryBuilder()->remove()->getQuery()->execute();
         $crawler = $p1->request('GET', '/anybody');
-        $form = $crawler->filter('.submit')->form();
-        $p1->submit($form, $formConfig);
+        $url = $crawler->filter('div.game_config_form form')->attr('action');
+        $p1->request('POST', $url, array('config' => array_merge(array(
+            'variants' => array(Game::VARIANT_STANDARD => true),
+            'times' => array(10 => true),
+            'increments' => array(10 => true)
+        ), $formConfig)));
         $crawler = $p1->followRedirect();
+        //var_dump($p1->getResponse()->getContent());die;
+        //$crawler = $p1->followRedirect();
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $h1 = preg_replace('#^.+([\w-]{12}+)$#', '$1', $p1->getRequest()->getUri());
 
         $p2 = $this->createClient();
         $crawler = $p2->request('GET', '/anybody');
-        $form = $crawler->filter('.submit')->form();
-        $p2->submit($form, $formConfig);
+        $url = $crawler->filter('div.game_config_form form')->attr('action');
+        $p2->request('POST', $url, array('config' => array_merge(array(
+            'variants' => array(Game::VARIANT_STANDARD => true),
+            'times' => array(10 => true),
+            'increments' => array(10 => true)
+        ), $formConfig)));
         $crawler = $p2->followRedirect();
         $this->assertTrue($p2->getResponse()->isSuccessful());
         $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
@@ -102,14 +116,14 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
     public function testRematch960KeepsInitialPositionFriend()
     {
-        list($p1, $h1, $p2, $h2) = $this->createGameWithFriend('white', array('config[variant]' => 2));
+        list($p1, $h1, $p2, $h2) = $this->createGameWithFriend('white', array('variant' => 2));
 
         $this->rematch960KeepsInitialPosition($p1, $h1, $p2, $h2);
     }
 
     public function testRematch960KeepsInitialPositionAnybody()
     {
-        list($p1, $h1, $p2, $h2) = $this->createGameWithAnybody('white', array('config[variants][2]' => true));
+        list($p1, $h1, $p2, $h2) = $this->createGameWithAnybody('white', array('variants' => array(2 => 2)));
 
         $this->rematch960KeepsInitialPosition($p1, $h1, $p2, $h2);
     }
@@ -314,7 +328,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
     public function testOutoftimeNoClock()
     {
-        list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', array('config[time]' => 0));
+        list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', array('time' => 0));
 
         $p1->request('POST', '/outoftime/'.$h1.'/1');
         $this->assertFalse($p1->getResponse()->isSuccessful());
@@ -322,7 +336,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
     public function testOutOfTimeTooEarly()
     {
-        list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', array('config[time]' => 10));
+        list($p1, $h1, $p2, $h2) = $data = $this->createGameWithFriend('white', array('time' => 10));
 
         $p1->request('POST', '/outoftime/'.$h1.'/1');
         $this->assertFalse($p1->getResponse()->isSuccessful());
