@@ -12,11 +12,11 @@
     <div class="lichess_current_player">
         <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
             <div class="lichess_piece king white"></div>
-            <p>{{ player.isWhite ? 'Your turn' : 'Waiting'|trans }}</p>
+            <p>{{ (player.isWhite ? 'Your turn' : 'Waiting')|trans }}</p>
         </div>
         <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
             <div class="lichess_piece king black"></div>
-            <p>{{ player.isBlack ? 'Your turn' : 'Waiting'|trans }}</p>
+            <p>{{ (player.isBlack ? 'Your turn' : 'Waiting')|trans }}</p>
         </div>
     </div>
     <div class="lichess_control clearfix">
