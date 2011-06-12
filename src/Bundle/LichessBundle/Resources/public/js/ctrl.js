@@ -115,7 +115,10 @@ $(function() {
         loadLanguageList();
     });
 
-    $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
+    $('.js_email').one('click', function() {
+        var email = ['thibault.', 'duplessis@', 'gmail.com'].join('');
+        $(this).replaceWith($('<a/>').text(email).attr('href', 'mailto:'+email));
+    });
 
     $.fn.tipsy && $('a, input, label, div.tipsyme').not('.notipsy').filter('[title]').tipsy({
         fade: true,

@@ -61,15 +61,13 @@
             <ul class="lichess_social"></ul>
             <div class="footer">
                 <div class="right">
-                    <a href="http://twitter.com/#!/ornicar">twitter.com/ornicar</a> | <a href="http://github.com/ornicar">github.com/ornicar</a><br />
-                    {{ "Contact"|trans }}: <span class="js_email"></span><br />
+                    <a href="http://twitter.com/#!/ornicar">twitter.com/ornicar</a> | <a href="http://github.com/ornicar">github.com/ornicar</a> | <a class="js_email">email</a><br />
                     <a href="{{ path("lichess_about") }}" class="blank_if_play">{{ "Learn more about Lichess"|trans }}</a>
                 </div>
                 <div id="nb_connected_players" class="nb_connected_players" data-url="{{ path("lichess_nb_players") }}">
                     {{ "%nb% connected players"|trans({"%nb%": lichess_nb_active_players()}) }}
                 </div>
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a> | help <a href="{{ path("lichess_translation_contribution") }}">translate Lichess</a> | view <a href="{{ path("lichess_todolist") }}">TODO list</a><br />
-                {{ "Open Source software built with %php%, %symfony% and %jqueryui%"|trans({'%php%': 'PHP 5.3', '%symfony%': 'Symfony2', '%jqueryui%': 'jQuery UI'}) }}<br />
             </div>
         </div>
         <div class="lichess_server">
