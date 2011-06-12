@@ -14,7 +14,7 @@ class Fetcher
     protected $logger;
     protected $gitDir;
 
-    public function __construct(Manager $manager, $domain, $gitDir)
+    public function __construct(TranslationManager $manager, $domain, $gitDir)
     {
         $this->manager = $manager;
         $this->domain = trim($domain, '/');

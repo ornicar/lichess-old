@@ -14,11 +14,10 @@ For example, <strong>View %nb% checkmates</strong> translated to french is <stro
     <a class="missing">View {{ status.missing }} missing sentences</a>
 </div>
 <div class="field messages">
-    {% set messagesKeys = form.data.messagesKeys %}
     {% for child in form.messagesValues %}
         <div class="message">
-            <span class="number">{{ loop.index }}/{{ messagesKeys|length }}</span>
-            <label for="{{ child.id }}">{{ messagesKeys[loop.index0] }}</label>
+            <span class="number">{{ loop.index }}/{{ messageKeys|length }}</span>
+            <label for="{{ child.vars.id }}">{{ messageKeys[loop.index0] }}</label>
             {{ form_errors(child) }}
             {{ form_widget(child) }}
         </div>

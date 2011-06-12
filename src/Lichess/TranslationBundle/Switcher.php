@@ -17,7 +17,7 @@ class Switcher
     /**
      * Instanciates a new language switcher
      **/
-    public function __construct(Manager $manager)
+    public function __construct(TranslationManager $manager)
     {
         $this->manager = $manager;
     }

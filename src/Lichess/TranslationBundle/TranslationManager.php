@@ -5,7 +5,7 @@ namespace Lichess\TranslationBundle;
 use Symfony\Component\Yaml\Yaml;
 use InvalidArgumentException;
 
-class Manager
+class TranslationManager
 {
     protected $languages;
     protected $availableLanguages;

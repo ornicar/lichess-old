@@ -63,7 +63,7 @@
 
     <services>
 
-        <service id="lichess_translation.manager" class="Lichess\TranslationBundle\Manager">
+        <service id="lichess_translation.manager" class="Lichess\TranslationBundle\TranslationManager">
             <argument>%lichess_translation.manager.reference_language%</argument>
             <argument>%lichess.locales%</argument>
             <argument>%lichess_translation.translation_dir%</argument>
@@ -88,12 +88,8 @@
             <argument type="string">Lichess\TranslationBundle\Document\Translation</argument>
         </service>
 
-        <service id="lichess.form.translation" class="Lichess\TranslationBundle\Form\TranslationForm" factory-class="Lichess\TranslationBundle\Form\TranslationForm" factory-method="create">
-            <!--<argument type="service" id="form.context" />-->
-            <argument>lichess_translation_form</argument>
-            <argument type="collection">
-                <argument key="translation_manager" type="service" id="lichess_translation.manager" />
-            </argument>
+        <service id="lichess_translation.form_type.translation" class="Lichess\TranslationBundle\Form\TranslationFormType">
+            <argument type="service" id="lichess_translation.manager" />
         </service>
     </services>
 </container>

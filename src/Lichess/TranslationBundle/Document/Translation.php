@@ -103,20 +103,6 @@ class Translation
     }
 
     /**
-     * @Assert\False()
-     */
-    public function getYamlError()
-    {
-        try {
-            Yaml::load($this->yaml);
-        }
-        catch(\InvalidArgumentException $e) {
-            return str_replace('Unable to parse string: Unable to parse', 'Error', $e->getMessage());
-        }
-        return false;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getCreatedAt()
