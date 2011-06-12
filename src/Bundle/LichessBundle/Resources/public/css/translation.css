@@ -30,17 +30,20 @@ div.locale_menu a {
     -moz-border-radius:4px 4px 4px 4px;
     -webkit-border-radius:4px 4px 4px 4px;
     color: #666;
+    background: #fafafa;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
 }
 div.locale_menu a:hover {
-    box-shadow: 0 0 9px #009ab0;
-    -moz-box-shadow: 0 0 9px #009ab0;
-    -webkit-box-shadow: 0 0 9px #009ab0;
+    box-shadow: 0 0 9px #d85000;
+    -moz-box-shadow: 0 0 9px #d85000;
+    -webkit-box-shadow: 0 0 9px #d85000;
 }
 div.locale_menu a.active {
-    border: 1px solid #50a0b0;
+    border: 1px solid #bc6000;
     background: #222266;
-    background: -moz-linear-gradient(center top , #f49c00, #008090) repeat scroll 0 0 #d85000;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#008090));
+    background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
     color: #fff;
 }
 .translation_title {
