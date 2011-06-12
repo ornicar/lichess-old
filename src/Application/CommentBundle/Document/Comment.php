@@ -15,6 +15,12 @@ use FOS\UserBundle\Model\UserInterface;
 class Comment extends BaseComment implements SignedCommentInterface
 {
     /**
+     * @var string
+     * @MongoDB\Id
+     */
+    protected $id;
+
+    /**
      * The author name
      *
      * @MongoDB\String
