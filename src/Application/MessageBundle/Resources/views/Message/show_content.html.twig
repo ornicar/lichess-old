@@ -1,4 +1,3 @@
-{% extends "OrnicarMessageBundle::container.html.twig" %}
 {% block content %}
 <div class="message_show">
     <div class="head">
@@ -22,8 +21,8 @@
             <div class="answer">
                 {{ "Reply"|trans }}
                 <form action="{{ path("ornicar_message_message_create") }}" method="post">
-                    {{ form_widget(form.to) }}
-                    {{ form_widget(form.subject) }}
+                    {{ form_widget(form.to, {"attr":{"class": "none"}}) }}
+                    {{ form_widget(form.subject, {"attr":{"class": "none"}}) }}
                     <div class="field_body">
                         {{ form_widget(form.body) }}
                         {{ form_errors(form.body) }}

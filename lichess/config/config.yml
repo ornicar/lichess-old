@@ -14,7 +14,6 @@ framework:
         assets_version: 32
         engines: ['twig']
     translator: { fallback: en }
-    exception_controller: LichessBundle:Exception:show
 
 twig:
     debug:            %kernel.debug%
@@ -102,11 +101,9 @@ ornicar_message:
     class:
         model:
             message: Application\MessageBundle\Document\Message
-        controller:
-            message: Application\MessageBundle\Controller\MessageController
 
-lichess_message:
-    detect_spam: true
+#lichess_message:
+    #detect_spam: true
 
 lichess:
     ai:

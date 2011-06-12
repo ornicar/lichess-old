@@ -2,9 +2,9 @@ imports:
     - { resource: config.yml }
 
 framework:
-    exception_controller: Lichess:Exception:show
+    exception_controller: LichessBundle:Exception:show
 
-doctrine_mongo_db:
+doctrine_mongodb:
     default_database: lichess
 
 lichess:

@@ -1,6 +1,3 @@
-#lichess_message {
-}
-
 #lichess_message h1 {
     font-size: 1.8em;
     color: #666;
@@ -86,7 +83,7 @@
 }
 #lichess_message div.form div.actions,
 #lichess_message div.answer div.actions {
-    padding: 1em 0;
+    padding: 0.5em 0;
     font-size: 1.1em;
 }
 #lichess_message div.form .actions a,
