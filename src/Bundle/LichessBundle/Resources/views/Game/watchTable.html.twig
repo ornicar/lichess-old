@@ -8,7 +8,7 @@
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
-        {% if game.isFinished %}
+        {% if game.isFinished or game.isAborted %}
             {% if game.winner %}
                 <div class="lichess_player {{ game.winner.color }}">
                     <div class="lichess_piece king {{ game.winner.color }}"></div>
