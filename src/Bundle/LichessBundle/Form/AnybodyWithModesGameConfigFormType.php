@@ -6,14 +6,12 @@ use Symfony\Component\Form\FormBuilder;
 
 class AnybodyWithModesGameConfigFormType extends AnybodyGameConfigFormType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    protected function getConfigChoices()
     {
-        parent::buildForm($builder, $options);
+        $config = $this->config;
+        $configChoices = parent::getConfigChoices();
+        $configChoices['modes'] = $config::getModeChoices();
 
-        $builder->add('modes', 'choice', array(
-            'choices' => $this->config->getModeChoices(),
-            'multiple' => true,
-            'expanded' => true
-        ));
+        return $configChoices;
     }
 }

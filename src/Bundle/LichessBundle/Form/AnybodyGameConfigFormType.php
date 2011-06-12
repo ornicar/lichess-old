@@ -8,20 +8,24 @@ class AnybodyGameConfigFormType extends GameConfigFormType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('variants', 'choice', array(
-            'choices' => $this->config->getVariantChoices(),
-            'multiple' => true,
-            'expanded' => true
-        ));
-        $builder->add('times', 'choice', array(
-            'choices' => $this->config->getTimeChoices(),
-            'multiple' => true,
-            'expanded' => true
-        ));
-        $builder->add('increments', 'choice', array(
-            'choices' => $this->config->getIncrementChoices(),
-            'multiple' => true,
-            'expanded' => true
-        ));
+        foreach ($this->getConfigChoices() as $property => $choices) {
+            $builder->add($property, 'choice', array(
+                'choices' => $choices,
+                'multiple' => true,
+                'expanded' => true
+            ));
+            $builder->appendNormTransformer(new AllIfEmptyTransformer($property, $choices));
+        }
+    }
+
+    protected function getConfigChoices()
+    {
+        $config = $this->config;
+
+        return array(
+            'variants' => $config::getVariantChoices(),
+            'times' => $config::getTimeChoices(),
+            'increments' => $config::getIncrementChoices()
+        );
     }
 }

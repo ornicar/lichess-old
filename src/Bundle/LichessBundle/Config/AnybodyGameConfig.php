@@ -12,6 +12,23 @@ class AnybodyGameConfig extends GameConfig
     protected $increments = array(2, 5, 10);
     protected $variants   = array(Game::VARIANT_STANDARD);
 
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $propertyChoices = array(
+            'times'      => array_keys(self::getTimeChoices()),
+            'modes'      => array_keys(self::getModeChoices()),
+            'increments' => array_keys(self::getIncrementChoices()),
+            'variants'   => array_keys(self::getVariantChoices())
+        );
+        foreach ($propertyChoices as $property => $choices) {
+            $metadata->addPropertyConstraint($property, new Constraints\Choice(array(
+                'choices'  => $choices,
+                'multiple' => true,
+                //'min' => 1
+            )));
+        }
+    }
+
     /**
      * @return array
      */
@@ -26,7 +43,7 @@ class AnybodyGameConfig extends GameConfig
      */
     public function setTimes(array $times)
     {
-        $this->times = self::intKeys($times);
+        $this->times = $times;
     }
 
     /**
@@ -43,7 +60,7 @@ class AnybodyGameConfig extends GameConfig
      */
     public function setIncrements(array $increments)
     {
-        $this->increments = self::intKeys($increments);
+        $this->increments = $increments;
     }
 
     /**
@@ -60,7 +77,7 @@ class AnybodyGameConfig extends GameConfig
      */
     public function setVariants(array $variants)
     {
-        $this->variants = self::intKeys($variants);
+        $this->variants = $variants;
     }
 
     /**
@@ -77,7 +94,7 @@ class AnybodyGameConfig extends GameConfig
      */
     public function setModes(array $modes)
     {
-        $this->modes = self::intKeys($modes);
+        $this->modes = $modes;
     }
 
     public function getCountTimes()
@@ -134,24 +151,6 @@ class AnybodyGameConfig extends GameConfig
         }
 
         return $names;
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addGetterConstraint('countTimes', new Constraints\Min(array('limit' => 1)));
-        $metadata->addGetterConstraint('countIncrements', new Constraints\Min(array('limit' => 1)));
-        $metadata->addGetterConstraint('countVariants', new Constraints\Min(array('limit' => 1)));
-        $metadata->addGetterConstraint('countModes', new Constraints\Min(array('limit' => 1)));
-    }
-
-    protected static function intKeys(array $array)
-    {
-        $newArray = array();
-        foreach ($array as $key => $value) {
-            $newArray[(string) $key] = $value;
-        }
-
-        return $newArray;
     }
 
     public function toArray()
