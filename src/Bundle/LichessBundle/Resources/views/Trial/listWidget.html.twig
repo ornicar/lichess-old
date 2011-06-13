@@ -15,7 +15,7 @@
 {{ lichess_date(game.updatedAt) }}
 </b>-
 {{ game.statusMessage|trans }}
-, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{{ game.winner.color|capitalize ~ " is victorious"|trans }}</span>
+, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{{ (game.winner.color|capitalize ~ " is victorious")|trans }}</span>
 <br /><br />
 {% block players %}
 <table class="game_players">

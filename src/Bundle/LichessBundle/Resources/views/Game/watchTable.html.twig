@@ -12,7 +12,7 @@
             {% if game.winner %}
                 <div class="lichess_player {{ game.winner.color }}">
                     <div class="lichess_piece king {{ game.winner.color }}"></div>
-                    <p>{{ game.statusMessage|trans }}<br />{{ game.winner.color|capitalize ~ " is victorious"|trans }}</p>
+                    <p>{{ game.statusMessage|trans }}<br />{{ (game.winner.color|capitalize ~ " is victorious")|trans }}</p>
                 </div>
             {% else %}
                 <div class="lichess_player">

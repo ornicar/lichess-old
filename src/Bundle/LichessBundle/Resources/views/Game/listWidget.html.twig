@@ -17,10 +17,10 @@
 {% if game.isFinishedOrAborted %}
 {{ game.statusMessage|trans }}
 {% if game.winner %}
-, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{{ game.winner.color|capitalize ~ " is victorious"|trans }}</span>
+, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{{ (game.winner.color|capitalize ~ " is victorious")|trans }}</span>
 {% endif %}
 {% else %}
-{{ game.turnColor|capitalize ~ " plays"|trans }}
+{{ (game.turnColor|capitalize ~ " plays")|trans }}
 {% endif %}
 <br /><br />
 {% block players %}
