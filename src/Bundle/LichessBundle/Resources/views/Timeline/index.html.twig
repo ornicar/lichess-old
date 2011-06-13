@@ -1,11 +1,19 @@
 {% extends "LichessBundle::layoutCommon.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="{{ asset("bundles/lichess/css/timeline.css") }}" type="text/css" rel="stylesheet" />
+{% stylesheets
+    '@LichessBundle/Resources/public/css/timeline.css'
+    filter="yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset("bundles/lichess/js/timeline.js") }}"></script>
+{% javascripts
+    '@LichessBundle/Resources/public/js/timeline.js'
+    filter="yui_js" %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}
 {% block title_suffix %} Timeline{% endblock %}
 {% block content %}

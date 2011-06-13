@@ -11,13 +11,22 @@ framework:
         lifetime: 72000
         auto_start:     true
     templating:
-        assets_version: 32
+        assets_version: 33
         engines: ['twig']
     translator: { fallback: en }
 
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    filters:
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
+        yui_js:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
 
 apc:
     host: lichess

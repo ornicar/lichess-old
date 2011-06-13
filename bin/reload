@@ -35,3 +35,6 @@ show_run "php lichess/console apc:clear"
 
 echo -e "\n--- Creating assets symlinks"
 show_run php lichess/console assets:install web --symlink
+
+echo -e "\n--- Dumping assets"
+show_run php lichess/console assetic:dump

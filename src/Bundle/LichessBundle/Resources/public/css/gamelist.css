@@ -109,44 +109,56 @@ div.lcmp {
     position: absolute;
     width: 24px;
     height: 24px;
-    background-image: url(../images/sprite_mini.png);
+    background-image: url(/bundles/lichess/images/sprite_mini.png);
 }
 
 div.lcmp.pawn.white{
-    background-position: +0px +0px;
+    background-position-x: +0px;
+    background-position-y: +0px;
 }
 div.lcmp.bishop.white{
-    background-position: -24px +0px;
+    background-position-x: -24px;
+    background-position-y: +0px;
 }
 div.lcmp.knight.white{
-    background-position: -48px +0px;
+    background-position-x: -48px;
+    background-position-y: +0px;
 }
 div.lcmp.rook.white{
-    background-position: -72px +0px;
+    background-position-x: -72px;
+    background-position-y: +0px;
 }
 div.lcmp.queen.white{
-    background-position: -96px +0px;
+    background-position-x: -96px;
+    background-position-y: +0px;
 }
 div.lcmp.king.white{
-    background-position: -120px +0px;
+    background-position-x: -120px;
+    background-position-y: +0px;
 }
 
 div.lcmp.pawn.black{
-    background-position: +0px +24px;
+    background-position-x: +0px;
+    background-position-y: +24px;
 }
 div.lcmp.bishop.black{
-    background-position: -24px +24px;
+    background-position-x: -24px;
+    background-position-y: +24px;
 }
 div.lcmp.knight.black{
-    background-position: -48px +24px;
+    background-position-x: -48px;
+    background-position-y: +24px;
 }
 div.lcmp.rook.black{
-    background-position: -72px +24px;
+    background-position-x: -72px;
+    background-position-y: +24px;
 }
 div.lcmp.queen.black{
-    background-position: -96px +24px;
+    background-position-x: -96px;
+    background-position-y: +24px;
 }
 div.lcmp.king.black{
-    background-position: -120px +24px;
+    background-position-x: -120px;
+    background-position-y: +24px;
 }
 

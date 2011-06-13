@@ -1,10 +1,5 @@
 {% extends 'LichessBundle::layoutCommon.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lichess/css/board.css') }}" />
-{% endblock %}
-
 {% block content %}
 <div class="lichess_game_not_started clearfix lichess_player_white lichess_homepage">
     <div class="lichess_board_wrap">

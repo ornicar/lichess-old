@@ -1,8 +1,4 @@
 {% extends "FOSUserBundle::layoutUser.html.twig" %}
-{% block stylesheets %}
-{{ parent() }}
-<link href="{{ asset("bundles/lichess/css/gamelist.css") }}" type="text/css" rel="stylesheet" />
-{% endblock %}
 {% block title %}{{ user.usernameWithElo }}{% if games.currentPageNumber > 1 %} - Page {{ games.currentPageNumber }}{% endif %}{% endblock %}
 {% block content %}
 <div class="content_box">

@@ -1,7 +1,11 @@
 {% extends "LichessBundle::layout.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="{{ asset("bundles/lichessmessage/css/message.css") }}" type="text/css" rel="stylesheet" />
+{% stylesheets
+    '@LichessMessageBundle/Resources/public/css/message.css'
+    filter="yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
 {% endblock %}
 {% block layout_content %}
 <div id="lichess_message" class="content_box">{% block content %}{% endblock %}</div>

@@ -26,7 +26,7 @@ div.game_share a.fos_comment_thread_feed {
     width: 16px;
     height: 16px;
     display: block;
-    background: url(../../lichess/images/feed-balloon.png) top left no-repeat;
+    background: url(/bundles/lichess/images/feed-balloon.png) top left no-repeat;
     float: right;
     margin-top: 3px;
 }

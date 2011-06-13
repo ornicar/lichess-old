@@ -30,6 +30,9 @@ if [ $refresh == "all" ]; then
     echo "Clear APC cache opcode and user"
     php lichess/console --env=prod apc:clear
 
+    echo "Dump assets"
+    php lichess/console --env=prod assetic:dump
+
     echo "Install crafty books"
     bin/install_crafty_books
 elif [ $refresh == "trans" ]; then

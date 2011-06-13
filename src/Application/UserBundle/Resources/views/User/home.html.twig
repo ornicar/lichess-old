@@ -2,13 +2,21 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link href="{{ asset("bundles/lichessuser/css/useredit.css") }}" type="text/css" rel="stylesheet" />
+{% stylesheets
+    '@LichessUserBundle/Resources/public/css/useredit.css'
+    filter="yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset("bundles/lichessuser/js/jquery.editable-set.js") }}"></script>
-<script src="{{ asset("bundles/lichessuser/js/useredit.js") }}"></script>
+{% javascripts
+    '@LichessUserBundle/Resources/public/js/jquery.editable-set.js'
+    '@LichessUserBundle/Resources/public/js/useredit.js'
+    filter="yui_js" %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}
 
 {% block user_bio %}

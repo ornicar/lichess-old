@@ -156,6 +156,10 @@ $(function() {
         $(this).parent().remove();
     });
 
+    $('a.delete').click(function() {
+        return confirm('Delete?');
+    });
+
     var elem = document.createElement('audio');
     var canPlayAudio = !! elem.canPlayType && elem.canPlayType('audio/ogg; codecs="vorbis"');
 

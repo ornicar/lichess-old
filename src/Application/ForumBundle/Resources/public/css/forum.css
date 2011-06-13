@@ -5,7 +5,7 @@ a.forum_feed_link {
     width: 16px;
     height: 16px;
     display: block;
-    background: url(../../lichess/images/feed-balloon.png) top left no-repeat;
+    background: url(/bundles/lichess/images/feed-balloon.png) top left no-repeat;
     float: right;
 }
 
@@ -65,7 +65,7 @@ ol.crumbs h1 {
     font-weight: bold;
     color: #0090B0;
     text-decoration: none;
-    background: transparent url(../../lichess/images/balloon.png) top left no-repeat;
+    background: transparent url(/bundles/lichess/images/balloon.png) top left no-repeat;
     padding-left: 20px;
 }
 

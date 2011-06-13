@@ -23,6 +23,7 @@ $loader->registerNamespaces(array(
     'ZendPaginatorAdapter'           => $vendorDir.'/ZendPaginatorAdapter/src',
     'Zend'                           => $vendorDir.'/zend/library',
     'Monolog'                        => $vendorDir.'/monolog/src',
+    'Assetic'                        => $vendorDir.'/assetic/src',
 ));
 $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'

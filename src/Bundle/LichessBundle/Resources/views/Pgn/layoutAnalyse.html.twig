@@ -2,15 +2,19 @@
 {% block stylesheets %}
 {{ parent() }}
 <link href="{{ asset("vendor/pgn4web/fonts/pgn4web-fonts.css") }}" type="text/css" rel="stylesheet" />
-<link href="{{ asset("bundles/lichess/css/analyse.css") }}" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="{{ asset('bundles/lichess/css/share.css') }}" />
-<link href="{{ asset("bundles/lichesscomment/css/comment.css") }}" type="text/css" rel="stylesheet" />
+{% stylesheets
+    '@LichessBundle/Resources/public/css/analyse.css'
+    filter="yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
 <script src="{{ asset("vendor/pgn4web/pgn4web.js") }}"></script>
-<script src="{{ asset("bundles/lichess/js/analyse.js") }}"></script>
-<script src="{{ asset("bundles/lichesscomment/js/jquery.form.js") }}"></script>
-<script src="{{ asset("bundles/lichesscomment/js/form.js") }}"></script>
+{% javascripts
+    '@LichessBundle/Resources/public/js/analyse.js'
+    filter="yui_js" %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}
 {% block menu_active %}game{% endblock %}

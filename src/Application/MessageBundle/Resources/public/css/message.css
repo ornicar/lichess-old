@@ -41,7 +41,7 @@
 }
 #lichess_message a.user {
     font-weight: bold;
-    background: url(../../lichess/images/user.png) top left no-repeat;
+    background: url(/bundles/lichess/images/user.png) top left no-repeat;
     padding-left: 20px;
 }
 #lichess_message div.list div.message a.subject {
@@ -50,7 +50,7 @@
     font-size: 1.1em;
     margin-top: 1em;
     margin-left: 3em;
-    background: url(../../lichessmessage/images/message.png) top left no-repeat;
+    background: url(/bundles/lichessmessage/images/message.png) top left no-repeat;
     padding-left: 20px;
 }
 

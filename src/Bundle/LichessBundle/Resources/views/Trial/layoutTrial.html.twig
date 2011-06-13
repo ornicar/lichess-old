@@ -1,7 +1,11 @@
 {% extends "LichessBundle::layoutCommon.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<link href="{{ asset("bundles/lichess/css/gamelist.css") }}" type="text/css" rel="stylesheet" />
-<link href="{{ asset("bundles/lichess/css/trial.css") }}" type="text/css" rel="stylesheet" />
+{% stylesheets
+    '@LichessBundle/Resources/public/css/gamelist.css'
+    '@LichessBundle/Resources/public/css/trial.css'
+    filter="yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
 {% endblock %}
 {% block menu_active %}game{% endblock %}
