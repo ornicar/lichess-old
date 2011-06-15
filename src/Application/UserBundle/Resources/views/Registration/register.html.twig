@@ -11,7 +11,7 @@
         It is <strong>not</strong> required to signup. You can play as <strong>anonymous</strong>.<br />
         Signup if you want to save your played games and have an ELO ranking.
     </p>
-    <form action="{{ path('fos_user_registration_register') }}" method="POST" class="signup">
+    <form action="{{ path('fos_user_registration_register') }}" method="POST" class="signup" novalidate>
         <ul>
             <li class="username">
                 {{ form_label(form.username) }}
