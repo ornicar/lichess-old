@@ -95,7 +95,7 @@ class Translation
     {
         $this->yaml = $yaml;
         try {
-            $this->messages = Yaml::load($yaml);
+            $this->messages = Yaml::parse($yaml);
         }
         catch(\InvalidArgumentException $e) {
             $this->messages = null;
@@ -156,7 +156,7 @@ class Translation
      */
     public function getMessages()
     {
-        return $this->messages ? $this->messages : Yaml::load($this->yaml);
+        return $this->messages ? $this->messages : Yaml::parse($this->yaml);
     }
 
     public function getMessagesValues()

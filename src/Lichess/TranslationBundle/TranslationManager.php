@@ -83,7 +83,7 @@ class TranslationManager
     {
         $file = $this->translationDir.'/messages.'.$code.'.yml';
         if(file_exists($file)) {
-            return Yaml::load($file);
+            return Yaml::parse($file);
         }
         throw new InvalidArgumentException(sprintf('No messages for language "%s"', $code));
     }
