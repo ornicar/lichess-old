@@ -21,6 +21,7 @@ twig:
 
 assetic:
     debug:          %kernel.debug%
+    debug:          false
     use_controller: false
     filters:
         yui_css:
