@@ -138,12 +138,12 @@ $.widget("lichess.game", {
 
         self.highlightLastMove(from + " " + to);
         var $from = $("div#" + from, self.$board),
-        $to = $("div#" + to, self.$board),
-        $killed = $to.find("div.lichess_piece"),
-        from_offset = $from.offset(),
-        to_offset = $to.offset(),
-        isMyPiece = $piece.hasClass(self.options.player.color),
-        castling = $killed.length && self.getPieceColor($piece) == self.getPieceColor($killed);
+            $to = $("div#" + to, self.$board),
+            $killed = $to.find("div.lichess_piece"),
+            from_offset = $from.offset(),
+            to_offset = $to.offset(),
+            isMyPiece = $piece.hasClass(self.options.player.color),
+            castling = $killed.length && self.getPieceColor($piece) == self.getPieceColor($killed);
 
         if (!isMyPiece || this.options.player.spectator) $.playSound();
 
@@ -166,7 +166,7 @@ $.widget("lichess.game", {
             }
             $to.append($piece.css({
                 top: 0,
-                left: 0
+            left: 0
             }));
             $.isFunction(callback || null) && callback();
         });
@@ -181,11 +181,11 @@ $.widget("lichess.game", {
     killPiece: function($piece) {
         if ($.data($piece, 'draggable')) $piece.draggable("destroy");
         var self = this,
-        $deads = self.element.find("div.lichess_cemetery." + self.getPieceColor($piece)),
-        $square = $piece.parent();
+            $deads = self.element.find("div.lichess_cemetery." + self.getPieceColor($piece)),
+                $square = $piece.parent();
         $deads.append($("<div>").addClass('lichess_tomb'));
         var $tomb = $("div.lichess_tomb:last", $deads),
-        tomb_offset = $tomb.offset();
+            tomb_offset = $tomb.offset();
         $('body').append($piece.css($square.offset()));
         $piece.css("opacity", 0).animate({
             top: tomb_offset.top,
@@ -195,8 +195,8 @@ $.widget("lichess.game", {
         self.options.animation_delay * 3, function() {
             $tomb.append($piece.css({
                 position: "relative",
-                top: 0,
-                left: 0
+            top: 0,
+            left: 0
             }));
         });
     },
@@ -254,29 +254,29 @@ $.widget("lichess.game", {
         for (var i in events) {
             var event = events[i];
             switch (event.type) {
-            case "castling":
-                $("div#" + event.rook[1], self.$board).append($("div#" + event.rook[0] + " div.lichess_piece.rook", self.$board));
-                $("div#" + event.king[1], self.$board).append($("div#" + event.king[0] + " div.lichess_piece.king", self.$board));
-                break;
-            case "enpassant":
-                self.killPiece($("div#" + event.killed + " div.lichess_piece", self.$board));
-                break;
-            case "redirect":
-                window.location.href = event.url;
-                break;
-            case "threefold_repetition":
-                self.reloadTable();
-                break;
-            case "end":
-                self.changeTitle(self.translate('Game over'));
-                self.element.removeClass("my_turn");
-                self.reloadTable();
-                break;
-            case "reload_table":
-                self.reloadTable();
-                break;
-            default:
-                break;
+                case "castling":
+                    $("div#" + event.rook[1], self.$board).append($("div#" + event.rook[0] + " div.lichess_piece.rook", self.$board));
+                    $("div#" + event.king[1], self.$board).append($("div#" + event.king[0] + " div.lichess_piece.king", self.$board));
+                    break;
+                case "enpassant":
+                    self.killPiece($("div#" + event.killed + " div.lichess_piece", self.$board));
+                    break;
+                case "redirect":
+                    window.location.href = event.url;
+                    break;
+                case "threefold_repetition":
+                    self.reloadTable();
+                    break;
+                case "end":
+                    self.changeTitle(self.translate('Game over'));
+                    self.element.removeClass("my_turn");
+                    self.reloadTable();
+                    break;
+                case "reload_table":
+                    self.reloadTable();
+                    break;
+                default:
+                    break;
             }
         }
     },
@@ -310,18 +310,18 @@ $.widget("lichess.game", {
         // promotion
         if ($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1))) {
             var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
-                                   <div rel="queen" class="lichess_piece queen ' + color + '"></div>\
-                                   <div rel="knight" class="lichess_piece knight ' + color + '"></div>\
-                                   <div rel="rook" class="lichess_piece rook ' + color + '"></div>\
-                                   <div rel="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
-                moveData.options = {
-                    promotion: $(this).attr('rel')
-                };
-                sendMoveRequest(moveData);
-                $choices.fadeOut(self.options.animation_delay, function() {
-                    $choices.remove();
-                });
-            }).end();
+                    <div rel="queen" class="lichess_piece queen ' + color + '"></div>\
+                    <div rel="knight" class="lichess_piece knight ' + color + '"></div>\
+                    <div rel="rook" class="lichess_piece rook ' + color + '"></div>\
+                    <div rel="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
+                        moveData.options = {
+                            promotion: $(this).attr('rel')
+                        };
+                        sendMoveRequest(moveData);
+                        $choices.fadeOut(self.options.animation_delay, function() {
+                            $choices.remove();
+                        });
+                    }).end();
         }
         else {
             sendMoveRequest(moveData);
@@ -366,8 +366,8 @@ $.widget("lichess.game", {
         });
 
         /*
-                                   * Code for touch screens like android or iphone
-                                   */
+         * Code for touch screens like android or iphone
+         */
 
         self.$board.find("div.lichess_piece." + self.options.player.color).each(function() {
             $(this).click(function() {
@@ -398,8 +398,8 @@ $.widget("lichess.game", {
         });
 
         /*
-                                   * End of code for touch screens
-                                   */
+         * End of code for touch screens
+         */
     },
     initChat: function() {
         var self = this;
@@ -522,8 +522,8 @@ $.widget("lichess.game", {
         var self = this;
         options = $.extend({
             type: 'GET',
-            timeout: 6000,
-            cache: false
+                timeout: 6000,
+                cache: false
         },
         options || {});
         $.ajax(url, options).complete(function(x, s) {
@@ -534,7 +534,7 @@ $.widget("lichess.game", {
         var self = this;
         options = $.extend({
             type: 'POST',
-            timeout: 6000
+                timeout: 6000
         },
         options || {});
         $.ajax(url, options).complete(function(x, s) {
