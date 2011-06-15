@@ -1,3 +1,4 @@
+* usernames with invalid chars
 * game search engine
 * search engine in forum
 * player chat on analyse mode (hard - adds a private url and leads to confusion)
@@ -16,7 +17,6 @@
 * "empty space" issue on /inbox/new when username suggestion box is active
 * put user icons to separate sprite
 * keyboard play
-* use assetic
 * when a player flags & the opponent has only K(N|B)? -> draw
 * Facebook share (http://lichess.org/forum/lichess-feedback/share-game-analyse-on-facebook/4cf4248430c3530873010000)
 * analysis anchor (http://lichess.org/forum/lichess-feedback/4cd1967630c3534159000000)

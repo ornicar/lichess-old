@@ -307,6 +307,6 @@ class Analyser
 
     protected function canCastleInDirection(Player $player, $dx)
     {
-        return (bool) $this->getCastleRookInDirection($player, $dx);
+        return null !== $this->getCastleRookInDirection($player, $dx);
     }
 }

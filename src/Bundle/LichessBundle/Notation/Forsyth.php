@@ -49,11 +49,11 @@ class Forsyth
         $hasCastle = false;
         $analyser = new Analyser($board);
         foreach($game->getPlayers() as $player) {
-            if ($analyser->canCastleKingside($player)) {
+            if ($analyser->canCastleKingSide($player)) {
                 $hasCastle = true;
                 $forsyth .= $player->isWhite() ? 'K' : 'k';
             }
-            if ($analyser->canCastleQueenside($player)) {
+            if ($analyser->canCastleQueenSide($player)) {
                 $hasCastle = true;
                 $forsyth .= $player->isWhite() ? 'Q' : 'q';
             }
