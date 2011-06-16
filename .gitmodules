@@ -61,3 +61,6 @@
 [submodule "src/Ornicar/MessageBundle"]
 	path = src/Ornicar/MessageBundle
 	url = git://github.com/ornicar/MessageBundle
+[submodule "src/Symfony/Bundle/AsseticBundle"]
+	path = src/Symfony/Bundle/AsseticBundle
+	url = git://github.com/symfony/AsseticBundle
