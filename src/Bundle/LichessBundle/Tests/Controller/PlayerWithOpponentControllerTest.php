@@ -9,7 +9,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 {
     protected function createGameWithFriend($color = 'white', array $formConfig = array())
     {
-        $p1 = $this->createClient();
+        $p1 = self::createClient();
         $crawler = $p1->request('GET', '/friend');
         $url = $crawler->filter('div.game_config_form form')->attr('action');
         $p1->request('POST', $url, array('config' => array_merge(array(
@@ -22,7 +22,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $inviteUrl = $crawler->filter($selector)->attr('value');
         $h1 = preg_replace('#^.+([\w-]{12}+)$#', '$1', $p1->getRequest()->getUri());
 
-        $p2 = $this->createClient();
+        $p2 = self::createClient();
         $crawler = $p2->request('GET', $inviteUrl);
         $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
         $p2->request('GET', $redirectUrl);
@@ -35,7 +35,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
     protected function createGameWithAnybody($color = 'white', array $formConfig = array())
     {
-        $p1 = $this->createClient();
+        $p1 = self::createClient();
         $p1->getContainer()->get('lichess.repository.seek')->createQueryBuilder()->remove()->getQuery()->execute();
         $crawler = $p1->request('GET', '/anybody');
         $url = $crawler->filter('div.game_config_form form')->attr('action');
@@ -50,7 +50,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
         $this->assertTrue($p1->getResponse()->isSuccessful());
         $h1 = preg_replace('#^.+([\w-]{12}+)$#', '$1', $p1->getRequest()->getUri());
 
-        $p2 = $this->createClient();
+        $p2 = self::createClient();
         $crawler = $p2->request('GET', '/anybody');
         $url = $crawler->filter('div.game_config_form form')->attr('action');
         $p2->request('POST', $url, array('config' => array_merge(array(
@@ -361,14 +361,14 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
     protected function getSyncUrl($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $client->request('GET', $id);
         return str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
     }
 
     protected function getMoveUrl($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $client->request('GET', $id);
         return str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"move":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
     }

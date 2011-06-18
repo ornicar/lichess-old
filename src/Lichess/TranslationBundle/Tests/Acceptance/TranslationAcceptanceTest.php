@@ -35,7 +35,7 @@ class TranslationControllerTest extends WebTestCase
      */
     public function testTranslation($language, array $messages)
     {
-        $translator = $this->createClient()->getContainer()->get('translator');
+        $translator = self::createClient()->getContainer()->get('translator');
         $translator->setLocale($language);
 
         foreach ($messages as $key => $value) {
@@ -45,7 +45,7 @@ class TranslationControllerTest extends WebTestCase
 
     public function translationProvider()
     {
-        $container = $this->createClient()->getContainer();
+        $container = self::createClient()->getContainer();
         $manager = $container->get('lichess_translation.manager');
 
         $languages = $manager->getAvailableLanguages();

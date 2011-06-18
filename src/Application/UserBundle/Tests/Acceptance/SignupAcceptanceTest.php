@@ -69,7 +69,7 @@ class SignupAcceptanceTest extends AbstractAcceptanceTest
 
     public function setUp()
     {
-        $manager = $this->createClient()->getContainer()->get('fos_user.user_manager');
+        $manager = self::createClient()->getContainer()->get('fos_user.user_manager');
         $user = $manager->findUserByUsername($this->username);
         if($user) {
             $manager->deleteUser($user);

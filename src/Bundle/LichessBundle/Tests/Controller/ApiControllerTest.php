@@ -6,8 +6,8 @@ class ApiControllerTest extends AbstractControllerTest
 {
     public function testNew()
     {
-        $client1 = $this->createClient();
-        $client2 = $this->createClient();
+        $client1 = self::createClient();
+        $client2 = self::createClient();
         $crawler = $client1->request('POST', '/api/game/new');
         $this->assertTrue($client1->getResponse()->isSuccessful());
         $response = json_decode($client1->getResponse()->getContent(), true);

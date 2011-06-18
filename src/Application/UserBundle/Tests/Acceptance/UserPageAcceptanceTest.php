@@ -32,7 +32,7 @@ class UserPageAcceptanceTest extends AbstractAcceptanceTest
 
     protected function requestUserPage($username)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => $username)));
 
         return array($client, $crawler);

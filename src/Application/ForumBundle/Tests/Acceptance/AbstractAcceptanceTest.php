@@ -8,7 +8,7 @@ use Symfony\Component\BrowserKit\Cookie;
 
 abstract class AbstractAcceptanceTest extends WebTestCase
 {
-    protected function createPersistentClient($cookieName = 'test')
+    protected static function createPersistentClient($cookieName = 'test')
     {
         $client = parent::createClient();
         $client->getContainer()->get('session.storage.file')->deleteFile();
@@ -22,7 +22,7 @@ abstract class AbstractAcceptanceTest extends WebTestCase
         return $client->getContainer()->get('router')->generate($route, $parameters);
     }
 
-    protected function authenticate(Client $client, $username = 'user1', $password = 'password1')
+    protected static function authenticate(Client $client, $username = 'user1', $password = 'password1')
     {
         $client->request('POST', '/login_check', array(
             '_username' => $username,

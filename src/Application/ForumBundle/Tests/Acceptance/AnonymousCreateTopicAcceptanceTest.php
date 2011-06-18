@@ -6,7 +6,7 @@ class AnonymousCreateTopicAcceptanceTest extends AbstractCreateTopicAcceptanceTe
 {
     public function testSeeAuthorNameField()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestTopicCreationPage($client);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('#lichess_forum input.authorName')->count());

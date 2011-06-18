@@ -8,7 +8,7 @@ class GameControllerTest extends AbstractControllerTest
 {
     public function testViewCurrentGames()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/games');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('Games being played right now', $crawler->filter('.title')->text());
@@ -17,7 +17,7 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testViewAllGames()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/games/all');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('#^All games.+$#', $crawler->filter('.title')->text());
@@ -26,7 +26,7 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testViewMateGames()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/games/checkmate');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $nbMates = min(10, $client->getContainer()->get('lichess.repository.game')->getNbMates());
@@ -45,7 +45,7 @@ class GameControllerTest extends AbstractControllerTest
 
     protected function inviteAiAs($color)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with the machine')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -86,7 +86,7 @@ class GameControllerTest extends AbstractControllerTest
 
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
 
-        $friend = $this->createClient();
+        $friend = self::createClient();
         $crawler = $friend->request('GET', $inviteUrl);
         $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
         $friend->request('GET', $redirectUrl);
@@ -118,7 +118,7 @@ class GameControllerTest extends AbstractControllerTest
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
         $this->assertRegexp('#^/sync/[\w-]{8}/'.$color.'/0/[\w-]{12}$#', $syncUrl);
 
-        $friend = $this->createClient();
+        $friend = self::createClient();
         $crawler = $friend->request('GET', $inviteUrl);
         $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
         $friend->request('GET', $redirectUrl);
@@ -170,13 +170,13 @@ class GameControllerTest extends AbstractControllerTest
         $selector = 'div.lichess_game_not_started.waiting_opponent div.lichess_overboard input';
         $inviteUrl = $crawler->filter($selector)->attr('value');
 
-        $friend = $this->createClient();
+        $friend = self::createClient();
         $crawler = $friend->request('GET', $inviteUrl);
         $redirectUrl = $crawler->filter('a.join_redirect_url')->attr('href');
         $friend->request('GET', $redirectUrl);
         $crawler = $friend->followRedirect();
 
-        $spectator = $this->createClient();
+        $spectator = self::createClient();
         $crawler = $spectator->request('GET', $inviteUrl);
         $this->assertTrue($spectator->getResponse()->isSuccessful());
         $this->assertRegexp('#You are viewing this game as a spectator.#', $spectator->getResponse()->getContent());
@@ -185,7 +185,7 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testShowHead()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $id = $this->getAnyGameId($client);
         $crawler = $client->request('HEAD', '/'.$id);
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -194,7 +194,7 @@ class GameControllerTest extends AbstractControllerTest
 
     public function testJoinHead()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $id = $this->getAnyGameId($client);
         $crawler = $client->request('HEAD', '/join/'.$id);
         $this->assertTrue($client->getResponse()->isSuccessful());

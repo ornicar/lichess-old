@@ -9,7 +9,7 @@ abstract class AbstractControllerTest extends WebTestCase
 {
     protected function inviteFriend($color = 'white')
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with a friend')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -27,7 +27,7 @@ abstract class AbstractControllerTest extends WebTestCase
 
     protected function inviteAnybody($join = false)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         !$join && $this->clearSeekQueue($client);
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->selectLink('Play with anybody')->link());

@@ -9,7 +9,7 @@ class PlayerWithAiControllerTest extends WebTestCase
 {
     public function testStartWithAi($color = 'white')
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/ai');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $url = $crawler->filter('div.game_config_form form')->attr('action');
@@ -31,7 +31,7 @@ class PlayerWithAiControllerTest extends WebTestCase
      */
     public function testSyncWithAi($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $syncUrl = $this->getSyncUrl($id);
 
         $client->request('POST', $syncUrl);
@@ -45,7 +45,7 @@ class PlayerWithAiControllerTest extends WebTestCase
      */
     public function testMoveWithAi($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $moveUrl = $this->getMoveUrl($id);
 
         $client->request('POST', $moveUrl, array('from' => 'b1', 'to' => 'c3'));
@@ -68,7 +68,7 @@ class PlayerWithAiControllerTest extends WebTestCase
      */
     public function testReSyncWithAi($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $syncUrl = $this->getSyncUrl($id);
 
         $client->request('POST', $syncUrl);
@@ -81,7 +81,7 @@ class PlayerWithAiControllerTest extends WebTestCase
      */
     public function testIllegalMoveWithAi($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $moveUrl = $this->getMoveUrl($id);
 
         $client->request('POST', $moveUrl, array('from' => 'a1', 'to' => 'a8'));
@@ -93,7 +93,7 @@ class PlayerWithAiControllerTest extends WebTestCase
      */
     public function testResign($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $id);
 
         $client->click($crawler->selectLink('Resign')->link());
@@ -108,7 +108,7 @@ class PlayerWithAiControllerTest extends WebTestCase
      */
     public function testReplay($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $id);
 
         $crawler = $client->click($crawler->selectLink('Replay and analyse')->link());
@@ -120,21 +120,21 @@ class PlayerWithAiControllerTest extends WebTestCase
 
     protected function getSyncUrl($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $client->request('GET', $id);
         return str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
     }
 
     protected function getMoveUrl($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $client->request('GET', $id);
         return str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"move":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
     }
 
     protected function getChangeLevelUrl($id)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $client->request('GET', $id);
         return str_replace('\\', '', preg_replace('#.+"ai_level":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
     }

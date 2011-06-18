@@ -6,15 +6,15 @@ class AuthenticatedCreatePostAcceptanceTest extends AbstractCreatePostAcceptance
 {
     public function testSeeNoAuthorNameField()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestPostCreationPage($client);
         $this->assertEquals(0, $crawler->filter('#lichess_forum input.authorName')->count());
     }
 
-    public function createClient(array $options = array(), array $server = array())
+    public static function createClient(array $options = array(), array $server = array())
     {
-        $client = $this->createPersistentClient();
-        $this->authenticate($client);
+        $client = static::createPersistentClient();
+        static::authenticate($client);
 
         return $client;
     }

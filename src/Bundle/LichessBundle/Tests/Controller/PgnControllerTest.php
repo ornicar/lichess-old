@@ -10,7 +10,7 @@ class PgnControllerTest extends WebTestCase
     public function testExportAction()
     {
         $color = 'white';
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/ai');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $url = $crawler->filter('div.game_config_form form')->attr('action');

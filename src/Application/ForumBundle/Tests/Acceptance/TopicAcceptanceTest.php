@@ -6,7 +6,7 @@ class TopicAcceptanceTest extends AbstractAcceptanceTest
 {
     public function testTopicPageShowsTitle()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestTopicPage($client);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('New forum category: Off-Topic Discussion', $crawler->filter('#lichess_forum h1')->text());
@@ -14,14 +14,14 @@ class TopicAcceptanceTest extends AbstractAcceptanceTest
 
     public function testTopicShowsListOfPosts()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestTopicPage($client);
         $this->assertEquals(2, $crawler->filter('.forum_posts_list .post')->count());
     }
 
     public function testTopicPostHasAuthor()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestTopicPage($client);
         $this->assertEquals('lichess.org staff', $crawler->filter('.forum_posts_list .authorName')->first()->text());
         $this->assertRegexp('/^user1/', $crawler->filter('.forum_posts_list .authorName')->last()->text());
@@ -29,7 +29,7 @@ class TopicAcceptanceTest extends AbstractAcceptanceTest
 
     public function testClickOnRegisteredAuthorGoToUserPage()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestTopicPage($client);
         $crawler = $client->click($crawler->selectLink('user1')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());

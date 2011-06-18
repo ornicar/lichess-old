@@ -8,7 +8,7 @@ class CommentAcceptanceTest extends WebTestCase
 {
     public function testViewComments()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->getUrlForGameWithComments($client));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertGreaterThanOrEqual(3, $crawler->filter('.fos_comment_comment_show')->count());
@@ -16,7 +16,7 @@ class CommentAcceptanceTest extends WebTestCase
 
     public function testAddComment()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->getUrlForGameWithComments($client));
 
         $form = $crawler->selectButton('Post')->form();
