@@ -125,9 +125,6 @@ $(function() {
         html: false,
         live: true
     });
-    $('body').mouseleave(function() {
-        console.log('out');
-    });
 
     if ($autocomplete = $('input.autocomplete').orNot()) {
         $autocomplete.autocomplete({

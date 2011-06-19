@@ -20,7 +20,7 @@ $(function()
             $searchForm.submit();
         });
         $searchForm.submit(function() {
-            location.href = $searchForm.attr('action')+$searchInput.val();
+            location.href = $searchForm.attr('action')+'/'+$searchInput.val();
             return false;
         });
     }

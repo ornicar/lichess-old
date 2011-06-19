@@ -556,7 +556,7 @@ $.widget("lichess.game", {
                 location.reload();
             }
         },
-        1000);
+        2000);
     }
 });
 
