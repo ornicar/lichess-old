@@ -1,9 +1,10 @@
 {% extends "LichessBundle::layoutCommon.html.twig" %}
 {% block stylesheets %}
-{{ parent() }}
-{% stylesheets
-    '@LichessBundle/Resources/public/css/gamelist.css'
-    filter="yui_css" %}
+    {{ parent() }}
+    {% stylesheets
+        '@LichessBundle/Resources/public/css/gamelist.css'
+        filter="yui_css"
+    %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}

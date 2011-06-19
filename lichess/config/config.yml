@@ -11,7 +11,7 @@ framework:
         lifetime: 72000
         auto_start:     true
     templating:
-        assets_version: 2
+        assets_version: 4
         engines: ['twig']
     translator: { fallback: en }
 
@@ -21,7 +21,7 @@ twig:
 
 assetic:
     debug:          %kernel.debug%
-    debug:          false
+    #debug:          false
     use_controller: false
     filters:
         yui_css:

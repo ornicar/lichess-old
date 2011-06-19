@@ -132,21 +132,21 @@ div.lcmp.king.white{
 }
 
 div.lcmp.pawn.black{
-    background-position: +0px +24px;
+    background-position: 0px bottom;
 }
 div.lcmp.bishop.black{
-    background-position: -24px +24px;
+    background-position: -24px bottom;
 }
 div.lcmp.knight.black{
-    background-position: -48px +24px;
+    background-position: -48px bottom;
 }
 div.lcmp.rook.black{
-    background-position: -72px +24px;
+    background-position: -72px bottom;
 }
 div.lcmp.queen.black{
-    background-position: -96px +24px;
+    background-position: -96px bottom;
 }
 div.lcmp.king.black{
-    background-position: -120px +24px;
+    background-position: -120px bottom;
 }
 

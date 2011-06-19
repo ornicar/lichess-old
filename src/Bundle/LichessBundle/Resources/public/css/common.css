@@ -14,7 +14,7 @@ body {
     font:12px 'Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
     color: #888;
     background: #F7F7F7 url(/bundles/lichess/images/head_bg.png) top left repeat-x;
-    background-position: 0 +25px;
+    background-position: left +25px;
 }
 
 a, a:visited {

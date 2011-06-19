@@ -16,6 +16,7 @@
                 '@LichessBundle/Resources/public/css/board.css'
                 '@LichessBundle/Resources/public/css/share.css'
                 '@LichessCommentBundle/Resources/public/css/comment.css'
+                filter="yui_css"
             %}
                 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
             {% endstylesheets %}
@@ -102,7 +103,7 @@
                 '@LichessBundle/Resources/public/js/game.js'
                 '@LichessCommentBundle/Resources/public/js/jquery.form.js'
                 '@LichessCommentBundle/Resources/public/js/form.js'
-                filter="yui_js" %}
+                filter="?yui_js" %}
                 <script src="{{ asset_url }}"></script>
                 <!--[if lte IE 7]>
                 <script>jQuery.ajax('/bundles/lichess/browser.html', { success: function(html) { jQuery('body').prepend(html); } });</script>
