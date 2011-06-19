@@ -17,12 +17,7 @@ lichess:
 monolog:
     handlers:
         main:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
             level: info
-        firephp:
-            type:  firephp
-            level: error
 
 apc:
     host: lichess

@@ -46,6 +46,13 @@ doctrine_mongodb:
             metadata_cache_driver: apc
             auto_mapping: true
 
+monolog:
+    handlers:
+        main:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: info
+
 forum:
     db_driver: odm
     class:
