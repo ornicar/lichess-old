@@ -58,6 +58,7 @@
             <parameter key="fa">فارسی</parameter>
             <parameter key="he">עִבְרִית</parameter>
             <parameter key="mr">मराठी</parameter>
+            <parameter key="mn">монго</parameter>
         </parameter>
 
     </parameters>
