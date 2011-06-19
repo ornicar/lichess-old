@@ -364,13 +364,14 @@ div.lichess_table_not_started {
     top: 100px;
 }
 div.lichess_table div.username {
-    background: url(/bundles/lichess/images/s16.png) no-repeat;
     padding-left: 16px;
 }
 div.lichess_table div.username.connected {
+    background: url(/bundles/lichess/images/s16.png) no-repeat;
     background-position: 0 -112px;
 }
 div.lichess_table div.username.offline {
+    background: url(/bundles/lichess/images/s16.png) no-repeat;
     background-position: 0 -128px;
 }
 div.clock {
