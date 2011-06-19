@@ -7,6 +7,9 @@ framework:
 doctrine_mongodb:
     default_database: lichess
 
+assetic:
+    debug: false
+
 lichess:
     ai:
         crafty:
