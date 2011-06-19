@@ -97,7 +97,7 @@ div.user_lists div.online_users ul {
 }
 div.user_lists ul.anonymous_users li {
     background: url(/bundles/lichess/images/s16.png) top left no-repeat;
-    background-position-y: -208px;
+    background-position: 0 -208px;
     width: 16px;
     height: 16px;
     display: block;

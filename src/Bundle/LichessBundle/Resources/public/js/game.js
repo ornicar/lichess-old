@@ -551,6 +551,10 @@ $.widget("lichess.game", {
     },
     onError: function() {
         var self = this;
+        if (lichess_data.debug) {
+            console.debug(error);
+            return;
+        }
         setTimeout(function() {
             if (!self.unloaded) {
                 location.reload();

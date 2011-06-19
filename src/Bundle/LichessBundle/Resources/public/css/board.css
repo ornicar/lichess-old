@@ -41,23 +41,23 @@ div.lcsi {
     width: 64px;
     height: 64px;
     background: url(/bundles/lichess/images/sover.png) top left no-repeat;
-    background-position-y: +64px;
+    background-position: 0 +64px;
 }
 div.lcs.moved div.lcsi {
-    background-position-y: -192px;
+    background-position: 0 -192px;
 }
 div.lcs.check div.lcsi {
-    background-position-y: -256px;
+    background-position: 0 -256px;
 }
 div.my_turn.not_spectator div.lcs:hover div.lcsi {
-    background-position-y: 0px;
+    background-position: 0 0px;
 }
 div.lcs.droppable-hover div.lcsi {
-    background-position-y: -128px;
+    background-position: 0 -128px;
 }
 div.lichess_board div.lcs.selected div.lcsi,
 div.lichess_board div.lcs.selectable div.lcsi {
-    background-position-y: -64px !important;
+    background-position: 0 -64px !important;
     cursor: pointer;
 }
 div.lichess_board div.lcs.selectable div.lichess_piece {
@@ -86,43 +86,38 @@ div.lichess_piece.moving {
 div.lichess_piece.pawn.white{
 }
 div.lichess_piece.bishop.white{
-    background-position-x: -64px;
+    background-position: -64px 0;
 }
 div.lichess_piece.knight.white{
-    background-position-x: -128px;
+    background-position: -128px 0;
 }
 div.lichess_piece.rook.white{
-    background-position-x: -192px;
+    background-position: -192px 0;
 }
 div.lichess_piece.queen.white{
-    background-position-x: -256px;
+    background-position: -256px 0;
 }
 div.lichess_piece.king.white{
-    background-position-x: -320px;
+    background-position: -320px 0;
 }
 
 div.lichess_piece.pawn.black{
-    background-position-y: +64px;
+    background-position: 0 +64px;
 }
 div.lichess_piece.bishop.black{
-    background-position-x: -64px;
-    background-position-y: +64px;
+    background-position: -64px +64px;
 }
 div.lichess_piece.knight.black{
-    background-position-x: -128px;
-    background-position-y: +64px;
+    background-position: -128px +64px;
 }
 div.lichess_piece.rook.black{
-    background-position-x: -192px;
-    background-position-y: +64px;
+    background-position: -192px +64px;
 }
 div.lichess_piece.queen.black{
-    background-position-x: -256px;
-    background-position-y: +64px;
+    background-position: -256px +64px;
 }
 div.lichess_piece.king.black{
-    background-position-x: -320px;
-    background-position-y: +64px;
+    background-position: -320px +64px;
 }
 
 div.lichess_game_not_started {
@@ -206,10 +201,10 @@ div.color_submits button.nocolor span {
     padding-top: 11px;
 }
 div.color_submits button.black span {
-    background-position-y: -51px;
+    background-position: 0 -51px;
 }
 div.color_submits button.random span {
-    background-position-y: -102px;
+    background-position: 0 -102px;
 }
 
 div.lichess_overboard.wait_anybody {
@@ -371,20 +366,20 @@ div.lichess_table_not_started {
 div.lichess_table div.username {
     background: url(/bundles/lichess/images/s16.png) no-repeat;
     padding-left: 16px;
-    background-position-y: +16px;
+    background-position: 0 +16px;
 }
 div.lichess_table div.username.connected {
-    background-position-y: -112px;
+    background-position: 0 -112px;
 }
 div.lichess_table div.username.offline {
-    background-position-y: -128px;
+    background-position: 0 -128px;
 }
 div.clock {
     width: 65px;
     border: 1px solid #ccc;
     padding: 5px 0 5px 10px;
     background-position-x: +5px;
-    background-position-y: +3px;
+    background-position: 0 +3px;
     font-size: 18px;
     font-family: monospace;
     font-weight: bold;
@@ -630,7 +625,7 @@ div.lichess_chat a.send {
     height: 16px;
     width: 16px;
     background: url(/bundles/lichess/images/s16.png) no-repeat;
-    background-position-y: -96px;
+    background-position: 0 -96px;
     text-decoration: none;
     z-index: 1;
     opacity: 0.5;
