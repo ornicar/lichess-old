@@ -51,7 +51,7 @@ monolog:
         main:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: info
+            level: warning
 
 forum:
     db_driver: odm
