@@ -10,7 +10,7 @@
 "Waiting for opponent": "Өрсөлдөгчийг хүлээж байна"
 "Waiting": "Хүлээж байна"
 "Your turn": "Таний ээлж"
-"%ai_name% level %ai_level%": "%аи_нэр% түвшин %аи_түвшин%"
+"%ai_name% level %ai_level%": "%ai_name% түвшин %ai_level%"
 "Level": "Зэрэг"
 "Toggle the chat": "Чатийг эргүүлэх"
 "Chat": "Чат"
