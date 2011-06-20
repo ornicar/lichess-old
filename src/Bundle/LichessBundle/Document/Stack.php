@@ -136,7 +136,7 @@ class Stack
             );
         } elseif('move' === $event['type']) {
             $event = array(
-                'm' => $event['from'].' '.$event['to']
+                'm' => $event['from'].' '.$event['to'].' '.$event['color']
             );
         }
 
@@ -159,11 +159,12 @@ class Stack
                 'possible_moves' => $possibleMoves
             );
         } elseif(isset($event['m'])) {
-            list($from, $to) = explode(' ', $event['m']);
+            list($from, $to, $color) = explode(' ', $event['m']);
             $event = array(
                 'type' => 'move',
                 'from' => $from,
-                'to' => $to
+                'to' => $to,
+                'color' => $color
             );
         }
 

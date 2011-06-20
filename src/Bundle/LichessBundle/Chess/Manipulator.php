@@ -183,9 +183,10 @@ class Manipulator
         }
 
         $this->stack->addEvent(array(
-            'type' => 'move',
-            'from' => $from->getKey(),
-            'to'   => $to->getKey()
+            'type'  => 'move',
+            'from'  => $from->getKey(),
+            'to'    => $to->getKey(),
+            'color' => $piece->getColor()
         ));
 
         if($isPromotion) {

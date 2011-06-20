@@ -128,46 +128,42 @@ $.widget("lichess.game", {
     },
     movePiece: function(from, to, callback) {
         var self = this,
-        $piece = self.$board.find("div#" + from + " div.lichess_piece");
+        $piece = self.$board.find("div#" + from + " div.lichess_piece"),
+        $from = $("div#" + from, self.$board),
+        $to = $("div#" + to, self.$board);
 
         // already moved
         if (!$piece.length) {
-            $.isFunction(callback || null) && callback();
+            self.onError(from + " " + to+' empty from square!!');
+            //$.isFunction(callback || null) && callback();
             return;
         }
 
         self.highlightLastMove(from + " " + to);
-        var $from = $("div#" + from, self.$board),
-            $to = $("div#" + to, self.$board),
-            $killed = $to.find("div.lichess_piece"),
-            from_offset = $from.offset(),
-            to_offset = $to.offset(),
-            isMyPiece = $piece.hasClass(self.options.player.color),
-            castling = $killed.length && self.getPieceColor($piece) == self.getPieceColor($killed);
-
-        if (!isMyPiece || this.options.player.spectator) $.playSound();
-
-        if (castling) {
-            $.isFunction(callback || null) && callback();
-            return;
+        if (self.isPlayerColor(self.getPieceColor($piece))) {
+            $.playSound();
         }
 
         $("body").append($piece.css({
-            top: from_offset.top,
-            left: from_offset.left
+            top: $from.offset().top,
+            left: $from.offset().left
         }));
         $piece.animate({
-            top: to_offset.top,
-            left: to_offset.left
+            top: $to.offset().top,
+            left: $to.offset().left
         },
         self.options.animation_delay, function() {
+            $piece.css({top: 0, left: 0});
+            var $killed = $to.find("div.lichess_piece");
             if ($killed.length) {
+                if (self.getPieceColor($piece) == self.getPieceColor($killed)) {
+                    // killed same color, may be variant castling
+                    $.isFunction(callback || null) && callback();
+                    return;
+                } 
                 self.killPiece($killed);
             }
-            $to.append($piece.css({
-                top: 0,
-                left: 0
-            }));
+            $to.append($piece);
             $.isFunction(callback || null) && callback();
         });
     },
@@ -217,9 +213,14 @@ $.widget("lichess.game", {
                         // if a draw was claimable, remove the zone
                         $('div.lichess_claim_draw_zone').remove();
                         self.$board.find("div.lcs.check").removeClass("check");
-                        self.movePiece(event.from, event.to, function() {
+                        // If I made the move, the piece is already moved on the board
+                        if (!self.options.player.spectator && event.color == self.options.player.color) {
                             self.element.dequeue();
-                        });
+                        } else {
+                            self.movePiece(event.from, event.to, function() {
+                                self.element.dequeue();
+                            });
+                        }
                     });
                     break;
                 case 'promotion':
@@ -519,6 +520,9 @@ $.widget("lichess.game", {
     getPieceColor: function($piece) {
         return $piece.hasClass('white') ? 'white': 'black';
     },
+    isPlayerColor: function(color) {
+        return !this.options.player.spectator && this.options.player.color == color;
+    },
     translate: function(message) {
         return this.options.i18n[message] || message;
     },
@@ -564,11 +568,11 @@ $.widget("lichess.game", {
             this.onError();
         }
     },
-    onError: function() {
+    onError: function(error) {
         var self = this;
         if (lichess_data.debug) {
-            //console.debug(error);
-            //return;
+            console.debug(error || 'error');
+            return;
         }
         setTimeout(function() {
             if (!self.unloaded) {
