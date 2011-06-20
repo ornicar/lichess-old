@@ -135,7 +135,6 @@ $.widget("lichess.game", {
         // already moved
         if (!$piece.length) {
             self.onError(from + " " + to+' empty from square!!');
-            //$.isFunction(callback || null) && callback();
             return;
         }
 
@@ -153,16 +152,11 @@ $.widget("lichess.game", {
             left: $to.offset().left
         },
         self.options.animation_delay, function() {
-            $piece.css({top: 0, left: 0});
             var $killed = $to.find("div.lichess_piece");
-            if ($killed.length) {
-                if (self.getPieceColor($piece) == self.getPieceColor($killed)) {
-                    // killed same color, may be variant castling
-                    $.isFunction(callback || null) && callback();
-                    return;
-                } 
+            if ($killed.length && self.getPieceColor($piece) != self.getPieceColor($killed)) {
                 self.killPiece($killed);
             }
+            $piece.css({top: 0, left: 0});
             $to.append($piece);
             $.isFunction(callback || null) && callback();
         });
@@ -251,7 +245,7 @@ $.widget("lichess.game", {
                 case "castling":
                     self.element.queue(function() {
                         $("div#" + event.rook[1], self.$board).append($("div#" + event.rook[0] + " div.lichess_piece.rook", self.$board));
-                        $("div#" + event.king[1], self.$board).append($("div#" + event.king[0] + " div.lichess_piece.king", self.$board));
+                        $("div#" + event.king[1], self.$board).append($("div.lichess_piece.king."+event.color, self.$board));
                         self.element.dequeue();
                     });
                     break;
