@@ -156,6 +156,28 @@ EOF;
         $this->assertMoves('b1', 'a2 b2 c2 c1');
     }
 
+    public function testPossibleWhiteTight()
+    {
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
+
+
+   PnP
+   N
+bPP   PP
+NR KQRBB
+EOF;
+        // the black bishop threatens the b rook,
+        // but castling is still possible
+        $this->createGame($data);
+        $this->assertCanCastleQueenSide(true);
+        $this->assertCanCastleKingSide(true);
+        $this->assertCastleRookQueenSide('b1');
+        $this->assertCastleRookKingSide('f1');
+        $this->assertMoves('d1', 'b1 c1 e2');
+    }
+
     public function testPossibleBlack960a()
     {
         $data = <<<EOF

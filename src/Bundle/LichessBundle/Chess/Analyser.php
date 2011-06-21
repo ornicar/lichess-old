@@ -70,41 +70,31 @@ class Analyser
             }
 
             $squares = $this->board->keysToSquares($piece->getBasicTargetKeys());
-            if('King' === $pieceClass && !$isKingAttacked && !$piece->hasMoved()) {
-                $squares = $this->addCastlingSquares($piece, $squares);
-            }
-            foreach($squares as $it => $square)
-            {
+            foreach($squares as $it => $square) {
                 // king move to its target so we update its position
-                if ('King' === $pieceClass)
-                {
+                if ('King' === $pieceClass) {
                     $kingSquareKey = $square->getKey();
                 }
 
                 // kill opponent piece
-                if ($killedPiece = $square->getPiece())
-                {
+                if ($killedPiece = $square->getPiece()) {
                     $killedPiece->setIsDead(true);
                 }
                 // kill with en passant
-                elseif('Pawn' === $pieceClass && $square->getX() !== $pieceOriginalX)
-                {
+                elseif('Pawn' === $pieceClass && $square->getX() !== $pieceOriginalX) {
                     $killedPiece = $square->getSquareByRelativePos(0, $player->isWhite() ? -1 : 1)->getPiece();
                     $killedPiece->setIsDead(true);
                 }
 
                 $this->board->move($piece, $square->getX(), $square->getY());
 
-                foreach($opponentPieces as $opponentPiece)
-                {
-                    if (null !== $killedPiece && $opponentPiece->getIsDead())
-                    {
+                foreach($opponentPieces as $opponentPiece) {
+                    if (null !== $killedPiece && $opponentPiece->getIsDead()) {
                         continue;
                     }
 
                     // if our king gets attacked
-                    if (in_array($kingSquareKey, $opponentPiece->getAttackTargetKeys()))
-                    {
+                    if (in_array($kingSquareKey, $opponentPiece->getAttackTargetKeys())) {
                         // can't go here
                         unset($squares[$it]);
                         break;
@@ -119,6 +109,9 @@ class Analyser
                     $killedPiece->setIsDead(false);
                     $this->board->add($killedPiece);
                 }
+            }
+            if('King' === $pieceClass && !$isKingAttacked && !$piece->hasMoved()) {
+                $squares = $this->addCastlingSquares($piece, $squares);
             }
             if(!empty($squares)) {
                 $possibleMoves[$piece->getSquareKey()] = $this->board->squaresToKeys($squares);
@@ -141,8 +134,7 @@ class Analyser
         }
         $opponentControlledKeys = $this->getPlayerControlledKeys($player->getOpponent(), true);
 
-        foreach($rooks as $rook)
-        {
+        foreach($rooks as $rook) {
             $kingX = $king->getX();
             $kingY = $king->getY();
             $rookX = $rook->getX();
