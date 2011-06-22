@@ -139,7 +139,7 @@ $.widget("lichess.game", {
         }
 
         self.highlightLastMove(from + " " + to);
-        if (self.isPlayerColor(self.getPieceColor($piece))) {
+        if (!self.isPlayerColor(self.getPieceColor($piece))) {
             $.playSound();
         }
 
