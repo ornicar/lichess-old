@@ -34,14 +34,14 @@ class GameFixCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repo = $this->container->get('lichess.repository.game');
+        $repo = $this->getContainer()->get('lichess.repository.game');
         $games = $repo->findCandidatesToFinish();
         $nb = $games->count();
 
         $output->writeLn(sprintf('Found %d unfinished games', $nb));
 
         if($input->getOption('execute') && $nb) {
-            $finisher = $this->container->get('lichess.finisher');
+            $finisher = $this->getContainer()->get('lichess.finisher');
             foreach ($games as $game) {
                 if (!$game->hasClock()) {
                     continue;
@@ -53,7 +53,7 @@ class GameFixCommand extends BaseCommand
                     $output->writeLn($e->getMessage());
                 }
             }
-            $dm = $this->container->get('lichess.object_manager');
+            $dm = $this->getContainer()->get('lichess.object_manager');
             $dm->flush();
         }
     }

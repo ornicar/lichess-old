@@ -33,16 +33,16 @@ class CheatAdjustCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
-        $user = $this->container->get('fos_user.repository.user')->findOneByUsername($username);
+        $user = $this->getContainer()->get('fos_user.repository.user')->findOneByUsername($username);
         if(!$user) {
             throw new \InvalidArgumentException(sprintf('The user "%s" does not exist', $username));
         }
-        $punisher = $this->container->get('lichess.cheat.punisher');
+        $punisher = $this->getContainer()->get('lichess.cheat.punisher');
         $punisher->setLogger(function($message) use ($output)
         {
             $output->writeLn($message);
         });
         $punisher->punish($user);
-        $this->container->get('lichess.object_manager')->flush();
+        $this->getContainer()->get('lichess.object_manager')->flush();
     }
 }

@@ -32,7 +32,7 @@ class GameCleanupCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repo = $this->container->get('lichess.repository.game');
+        $repo = $this->getContainer()->get('lichess.repository.game');
         $games = $repo->findCandidatesToCleanup();
         $nb = $games->count();
 
@@ -40,8 +40,8 @@ class GameCleanupCommand extends BaseCommand
 
         if($input->getOption('execute') && $nb) {
             $max = 2000;
-            $output->writeLn(sprintf('Removing %d games...', $max));
-            $om = $this->container->get('lichess.object_manager');
+            $output->writeLn(sprintf('Removing %d games...', min($max, $nb)));
+            $om = $this->getContainer()->get('lichess.object_manager');
             $it=0;
             foreach($games as $game) {
                 if(++$it > $max) break;
