@@ -61,7 +61,7 @@ $.widget("lichess.game", {
                 locale: self.options.locale
             },
             dataType: 'json',
-            timeout: self.options.sync_latency + 5000,
+            timeout: self.options.sync_latency + 10000,
             success: function(data) {
                 if (!data) return self.onError();
                 if (data.reload) {

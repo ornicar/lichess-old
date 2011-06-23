@@ -136,7 +136,7 @@ lichess:
         #api_key: see config_local.yml
     sync:
         path: /xhr.php
-        latency: 10
+        latency: 15
         delay: 0.25
 
 imports:

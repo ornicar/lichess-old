@@ -39,6 +39,7 @@ class MainController extends Controller
 
         return new Response($enableSound ? 'on' : 'off');
     }
+
     public function aboutAction()
     {
         return $this->render('LichessBundle:Main:about.html.twig');

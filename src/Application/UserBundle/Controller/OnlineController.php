@@ -14,6 +14,7 @@ class OnlineController extends ContainerAware
         $data['nbm'] = $this->container->get('ornicar_message.messenger')->getUnreadCacheForUsername($username);
         $this->container->get('lichess_user.online.cache')->setUsernameOnline($username);
         $response = new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
+
         return $response;
     }
 
