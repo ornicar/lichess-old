@@ -212,7 +212,7 @@ class GameRepository extends DocumentRepository
      */
     public function findCandidatesToCleanup()
     {
-        $date = new DateTime('-7 day');
+        $date = new DateTime('-10 day');
         return $this->createQueryBuilder()
             ->field('updatedAt')->lt(new MongoDate($date->getTimestamp()))
             ->field('status')->lt(Game::MATE)
