@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\Output;
 /**
  * Redistributes a cheater ELO to his victims
  */
-class CheatAdjustCommand extends BaseCommand
+class CheatAdjustCommand extends ContainerAwareCommand
 {
     /**
      * @see Command

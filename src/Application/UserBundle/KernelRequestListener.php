@@ -10,7 +10,7 @@ use Application\UserBundle\Document\User;
 use Application\UserBundle\Online\Cache as OnlineCache;
 use DateTime;
 
-class CoreRequestListener
+class KernelRequestListener
 {
     protected $securityContext;
     protected $onlineCache;
@@ -21,7 +21,7 @@ class CoreRequestListener
         $this->onlineCache     = $onlineCache;
     }
 
-    public function onCoreRequest(GetResponseEvent $event)
+    public function onKernelRequest(GetResponseEvent $event)
     {
         if(HttpKernelInterface::MASTER_REQUEST === $event->getRequestType()) {
             if(!$event->getRequest()->isXmlHttpRequest()) {

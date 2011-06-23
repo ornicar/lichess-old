@@ -9,7 +9,7 @@ use Bundle\LichessBundle\Util\KeyGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use DateTime;
 
-class CoreRequestListener
+class KernelRequestListener
 {
     protected $container;
 
@@ -18,7 +18,7 @@ class CoreRequestListener
         $this->container = $container;
     }
 
-    public function onCoreRequest(GetResponseEvent $event)
+    public function onKernelRequest(GetResponseEvent $event)
     {
         if(HttpKernelInterface::MASTER_REQUEST === $event->getRequestType()) {
             if ($session = $event->getRequest()->getSession()) {

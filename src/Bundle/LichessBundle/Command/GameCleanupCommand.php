@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;

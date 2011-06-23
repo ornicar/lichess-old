@@ -105,10 +105,10 @@
                 '@LichessCommentBundle/Resources/public/js/form.js'
                 filter="?yui_js" %}
                 <script src="{{ asset_url }}"></script>
-                <!--[if lte IE 7]>
-                <script>jQuery.ajax('/bundles/lichess/browser.html', { success: function(html) { jQuery('body').prepend(html); } });</script>
-                <![endif]-->
             {% endjavascripts %}
+            <!--[if lte IE 7]>
+            <script>jQuery.ajax('/bundles/lichess/browser.html', { success: function(html) { jQuery('body').prepend(html); } });</script>
+            <![endif]-->
         {% endblock %}
     </body>
 </html>

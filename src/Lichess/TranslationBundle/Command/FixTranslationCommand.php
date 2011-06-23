@@ -2,7 +2,7 @@
 
 namespace Lichess\TranslationBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,8 +31,8 @@ class FixTranslationCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dm = $this->container->get('lichess.object_manager');
-        $tm = $this->container->get('lichess_translation.manager');
+        $dm = $this->getContainer()->get('lichess.object_manager');
+        $tm = $this->getContainer()->get('lichess_translation.manager');
         foreach($tm->getAvailableLanguages() as $code => $name) {
             print($code.', ');
             if("en" === $code) {

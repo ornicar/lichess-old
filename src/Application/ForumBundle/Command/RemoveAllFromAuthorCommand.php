@@ -4,7 +4,7 @@ namespace Application\ForumBundle\Command;
 
 use Symfony\Component\Console\Input;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ use DoctrineExtensions\Sluggable\SlugGenerator;
 /**
  * Remove all posts and topics from an authorName
  */
-class RemoveAllFromAuthorCommand extends Command
+class RemoveAllFromAuthorCommand extends ContainerAwareCommand
 {
     /**
      * @see Command
@@ -38,12 +38,12 @@ class RemoveAllFromAuthorCommand extends Command
     {
         $authorNames = array_map('trim', (array) explode(',', $input->getArgument('authorName')));
 
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
-        $postRemover = $this->container->get('forum.remover.post');
-        $topicRemover = $this->container->get('forum.remover.topic');
+        $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
+        $postRemover = $this->getContainer()->get('forum.remover.post');
+        $topicRemover = $this->getContainer()->get('forum.remover.topic');
 
         if ($authorNames[0] === 'http') {
-            $posts = $this->container->get('forum.repository.post')->createQueryBuilder()
+            $posts = $this->getContainer()->get('forum.repository.post')->createQueryBuilder()
                 ->field('authorName')->equals(new \MongoRegex('/^http\:\//'))
                 ->getQuery()
                 ->execute();
@@ -66,7 +66,7 @@ class RemoveAllFromAuthorCommand extends Command
         }
 
         foreach ($authorNames as $authorName) {
-            $posts = $this->container->get('forum.repository.post')->findBy(array(
+            $posts = $this->getContainer()->get('forum.repository.post')->findBy(array(
                 'authorName' => $authorName
             ));
             $output->writeLn(sprintf('Will remove %d posts from %s', $posts->count(), $authorName));

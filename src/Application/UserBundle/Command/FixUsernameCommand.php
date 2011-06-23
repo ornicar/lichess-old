@@ -2,12 +2,12 @@
 
 namespace Application\UserBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class FixUsernameCommand extends Command
+class FixUsernameCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -20,8 +20,8 @@ class FixUsernameCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $objectManager = $this->container->get('doctrine.odm.mongodb.document_manager');
-        $userRepo = $this->container->get('fos_user.repository.user');
+        $objectManager = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
+        $userRepo = $this->getContainer()->get('fos_user.repository.user');
 
         $users = $userRepo->findAll();
 

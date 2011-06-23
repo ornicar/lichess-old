@@ -5,7 +5,7 @@ namespace Lichess\TranslationBundle\Tests\Acceptance;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 
-class TranslationControllerTest extends WebTestCase
+class TranslationAcceptanceTest extends WebTestCase
 {
     public function testRequestWithTranslatedLanguage()
     {
