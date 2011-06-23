@@ -14,7 +14,7 @@
             {{ "Games played"|trans }}: <strong>{{ critic.nbGames|default("0") }}</strong><br />
             {{ "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws"|trans({"%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws}) }}<br />
             {{ "Registered"|trans }} {{ lichess_date(user.createdAt) }}<br />
-            {{ "Best ELO"|trans }}: {{ history.maxElo }}, {{ lichess_date(history.maxEloDate) }}
+            {{ "Best Elo"|trans }}: {{ history.maxElo }}, {{ lichess_date(history.maxEloDate) }}
             {% if not user.isEnabled %}
                 <br /><span>This account is closed.</span>
             {% elseif user.isOnline %}
