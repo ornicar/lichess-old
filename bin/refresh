@@ -21,9 +21,9 @@ if [ $refresh == "all" ]; then
 
     for application in xhr lichess; do
         echo -e "\n------------------- $application -----------------"
-        echo "Warmup cache"
+        echo "Warmup $application cache"
         php $application/console -e=prod cache:clear
-        echo "Raise cache permissions"
+        echo "Raise $application cache permissions"
         chmod -R 777 $application/cache/prod
     done
 
@@ -38,6 +38,7 @@ if [ $refresh == "all" ]; then
 elif [ $refresh == "trans" ]; then
     echo "Warmup cache"
     php lichess/console -e=prod cache:clear
+    chmod -R 777 lichess/cache/prod
 
     echo "Clear APC cache opcode"
     php lichess/console --env=prod apc:clear --opcode

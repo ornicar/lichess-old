@@ -312,7 +312,7 @@ class Manipulator
      * @param  Stack
      * @return null
      */
-    public function setStack($stack)
+    public function setStack(Stack $stack)
     {
         $this->stack = $stack;
     }

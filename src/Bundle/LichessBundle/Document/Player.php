@@ -323,16 +323,6 @@ class Player
         return $this->stack;
     }
 
-    /**
-     * Set stack
-     * @param  Stack
-     * @return null
-     */
-    public function setStack($stack)
-    {
-        $this->stack = $stack;
-    }
-
     public function addEventsToStack(array $events)
     {
         if(!$this->getIsAi()) {

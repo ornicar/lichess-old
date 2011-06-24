@@ -208,7 +208,7 @@ class GameRepository extends DocumentRepository
     /**
      * Find old, unplayed games
      *
-     * @return void
+     * @return array
      */
     public function findCandidatesToCleanup()
     {
