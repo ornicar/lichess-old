@@ -39,6 +39,10 @@ class Chart
             $key = round($i*$factor);
             $reduced[$ts[$key]] = $es[$key];
         }
+        // prevents chart lag: add last data point to the end
+        if (end($reduced) != end($es)) {
+            $reduced[end($ts)] = end($es);
+        }
 
         return $reduced;
     }
