@@ -9,7 +9,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Stack
 {
-    const MAX_EVENTS = 30;
+    const MAX_EVENTS = 24;
 
     /**
      * Events in the stack
