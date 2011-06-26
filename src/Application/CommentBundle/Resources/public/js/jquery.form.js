@@ -1,6 +1,6 @@
 /*!
  * jQuery Form Plugin
- * version: 2.81 (04-JUN-2011)
+ * version: 2.82 (15-JUN-2011)
  * @requires jQuery v1.3.2 or later
  *
  * Examples and documentation at: http://malsup.com/jquery/form/
@@ -49,13 +49,16 @@ $.fn.ajaxSubmit = function(options) {
 		log('ajaxSubmit: skipping submit process - no element selected');
 		return this;
 	}
+	
+	var method, action, url, $form = this;;
 
 	if (typeof options == 'function') {
 		options = { success: options };
 	}
 
-	var action = this.attr('action');
-	var url = (typeof action === 'string') ? $.trim(action) : '';
+	method = this.attr('method');
+	action = this.attr('action');
+	url = (typeof action === 'string') ? $.trim(action) : '';
 	url = url || window.location.href || '';
 	if (url) {
 		// clean url (don't include hash vaue)
@@ -65,7 +68,7 @@ $.fn.ajaxSubmit = function(options) {
 	options = $.extend(true, {
 		url:  url,
 		success: $.ajaxSettings.success,
-		type: this[0].getAttribute('method') || 'GET', // IE7 massage (see issue 57)
+		type: method || 'GET',
 		iframeSrc: /^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank'
 	}, options);
 
@@ -124,7 +127,7 @@ $.fn.ajaxSubmit = function(options) {
 		options.data = q; // data is the query string for 'post'
 	}
 
-	var $form = this, callbacks = [];
+	var callbacks = [];
 	if (options.resetForm) {
 		callbacks.push(function() { $form.resetForm(); });
 	}
@@ -169,6 +172,12 @@ $.fn.ajaxSubmit = function(options) {
 		}
    }
    else {
+		// IE7 massage (see issue 57)
+		if ($.browser.msie && method == 'get') { 
+			var ieMeth = $form[0].getAttribute('method');
+			if (typeof ieMeth === 'string')
+				options.type = ieMeth;
+		}
 		$.ajax(options);
    }
 
@@ -282,15 +291,15 @@ $.fn.ajaxSubmit = function(options) {
 
 			// update form attrs in IE friendly way
 			form.setAttribute('target',id);
-			if (form.getAttribute('method') != 'POST') {
+			if (!method) {
 				form.setAttribute('method', 'POST');
 			}
-			if (form.getAttribute('action') != s.url) {
+			if (a != s.url) {
 				form.setAttribute('action', s.url);
 			}
 
 			// ie borks in some cases when setting encoding
-			if (! s.skipEncodingOverride) {
+			if (! s.skipEncodingOverride && (!method || /post/i.test(method))) {
 				$form.attr({
 					encoding: 'multipart/form-data',
 					enctype:  'multipart/form-data'
@@ -822,9 +831,10 @@ $.fn.clearForm = function() {
  * Clears the selected form elements.
  */
 $.fn.clearFields = $.fn.clearInputs = function() {
+	var re = /^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week)$/i; // 'hidden' is not in this list
 	return this.each(function() {
 		var t = this.type, tag = this.tagName.toLowerCase();
-		if (t == 'text' || t == 'password' || tag == 'textarea') {
+		if (re.test(t) || tag == 'textarea') {
 			this.value = '';
 		}
 		else if (t == 'checkbox' || t == 'radio') {

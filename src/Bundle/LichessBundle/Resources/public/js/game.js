@@ -45,15 +45,15 @@ $.widget("lichess.game", {
             if (!self.options.opponent.ai || self.options.player.spectator) {
                 if (!self.options.game.finished || ! self.options.player.spectator) {
                     setTimeout(function() {
-                        self.sync(syncLoop);
+                        self.sync(syncLoop, false);
                     },
-                    200);
+                    500);
                 }
             }
         }
         setTimeout(syncLoop, 1000);
     },
-    sync: function(callback) {
+    sync: function(callback, reloadIfFail) {
         var self = this;
         self.currentSync = $.ajax(self.options.url.sync.replace(/9999999/, self.options.player.version), {
             type: 'POST',
@@ -61,9 +61,9 @@ $.widget("lichess.game", {
                 locale: self.options.locale
             },
             dataType: 'json',
-            timeout: self.options.sync_latency + 10000,
+            timeout: self.options.sync_latency + 7000,
             success: function(data) {
-                if (!data) return self.onError();
+                if (!data) return self.onError('received empty data', reloadIfFail);
                 if (data.reload) {
                     location.reload();
                     return;
@@ -76,7 +76,7 @@ $.widget("lichess.game", {
                                 fade: true
                             });
                         }
-                    });
+                    }, false);
                 }
                 if (data.v && data.v != self.options.player.version) {
                     self.options.player.version = data.v;
@@ -94,7 +94,7 @@ $.widget("lichess.game", {
             },
             complete: function(xhr, status) {
                 if (status != 'success') {
-                    return self.onError();
+                    self.onError('status is not success: '+status, reloadIfFail);
                 }
                 $.isFunction(callback) && callback();
             }
@@ -134,7 +134,7 @@ $.widget("lichess.game", {
 
         // already moved
         if (!$piece.length) {
-            self.onError(from + " " + to+' empty from square!!');
+            self.onError(from + " " + to+' empty from square!!', true);
             return;
         }
 
@@ -312,7 +312,7 @@ $.widget("lichess.game", {
                     self.options.animation_delay);
                 }: null,
                 data: moveData,
-            });
+            }, true);
         }
 
         var color = self.options.player.color;
@@ -435,7 +435,7 @@ $.widget("lichess.game", {
                     data: {
                         message: text
                     }
-                });
+                }, true);
                 return false;
             });
 
@@ -461,7 +461,7 @@ $.widget("lichess.game", {
                 self.initClocks();
                 callback();
             }
-        });
+        }, false);
     },
     initTable: function() {
         var self = this;
@@ -473,7 +473,7 @@ $.widget("lichess.game", {
             $(this).parent().remove();
         });
         self.$table.find('a.lichess_rematch').click(function() {
-            self.post($(this).attr('href'));
+            self.post($(this).attr('href'), {}, true);
             return false;
         });
     },
@@ -485,7 +485,7 @@ $.widget("lichess.game", {
                 time: $(this).attr('data-time'),
                 buzzer: function() {
                     if (!self.options.game.finished && ! self.options.player.spectator) {
-                        self.post(self.options.url.outoftime);
+                        self.post(self.options.url.outoftime, {}, false);
                     }
                 }
             });
@@ -498,7 +498,7 @@ $.widget("lichess.game", {
     updateClocks: function(times) {
         var self = this;
         if (!self.canRunClock()) return;
-        if (times) {
+        if (times || false) {
             for (color in times) {
                 self.$table.find('div.clock_' + color).clock('setTime', times[color]);
             }
@@ -531,7 +531,7 @@ $.widget("lichess.game", {
     isPlayable: function() {
         return ! this.options.game.finished;
     },
-    get: function(url, options) {
+    get: function(url, options, reloadIfFail) {
         var self = this;
         options = $.extend({
             type: 'GET',
@@ -540,10 +540,10 @@ $.widget("lichess.game", {
         },
         options || {});
         $.ajax(url, options).complete(function(x, s) {
-            self.onXhrComplete(x, s);
+            self.onXhrComplete(x, s, null, reloadIfFail);
         });
     },
-    post: function(url, options) {
+    post: function(url, options, reloadIfFail) {
         var self = this;
         options = $.extend({
             type: 'POST',
@@ -551,92 +551,27 @@ $.widget("lichess.game", {
         },
         options || {});
         $.ajax(url, options).complete(function(x, s) {
-            self.onXhrComplete(x, s, 'ok');
+            self.onXhrComplete(x, s, 'ok', reloadIfFail);
         });
     },
-    onXhrComplete: function(xhr, status, expectation) {
+    onXhrComplete: function(xhr, status, expectation, reloadIfFail) {
         if (status != 'success') {
-            this.onError();
+            this.onError('status is not success: '+status, reloadIfFail);
         }
         if ((expectation || false) && expectation != xhr.responseText) {
-            this.onError();
+            this.onError('expectation failed: '+xhr.responseText, reloadIfFail);
         }
     },
-    onError: function(error) {
+    onError: function(error, reloadIfFail) {
         var self = this;
         if (lichess_data.debug) {
             console.debug(error || 'error');
-            return;
         }
-        setTimeout(function() {
-            if (!self.unloaded) {
-                location.reload();
+        if (reloadIfFail) {
+            if (lichess_data.debug) {
+                console.debug('-------- reload ---------');
             }
-        },
-        2000);
+            location.reload();
+        }
     }
 });
-
-$.widget("lichess.clock", {
-    _create: function() {
-        var self = this;
-        this.options.time = parseFloat(this.options.time) * 1000;
-        $.extend(this.options, {
-            duration: this.options.time,
-            state: 'ready'
-        });
-        this.element.addClass('clock_enabled');
-    },
-    destroy: function() {
-        this.stop();
-        $.Widget.prototype.destroy.apply(this);
-    },
-    start: function() {
-        var self = this;
-        self.options.state = 'running';
-        self.element.addClass('running');
-        var end_time = new Date().getTime() + self.options.time;
-        self.options.interval = setInterval(function() {
-            if (self.options.state == 'running') {
-                var current_time = Math.round(end_time - new Date().getTime());
-                if (current_time <= 0) {
-                    clearInterval(self.options.interval);
-                    current_time = 0;
-                }
-
-                self.options.time = current_time;
-                self._show();
-
-                //If the timer completed, fire the buzzer callback
-                current_time == 0 && $.isFunction(self.options.buzzer) && self.options.buzzer(self.element);
-            } else {
-                clearInterval(self.options.interval);
-            }
-        },
-        1000);
-    },
-
-    setTime: function(time) {
-        this.options.time = parseFloat(time) * 1000;
-        this._show();
-    },
-
-    stop: function() {
-        clearInterval(this.options.interval);
-        this.options.state = 'stop';
-        this.element.removeClass('running');
-    },
-
-    _show: function() {
-        this.element.text(this._formatDate(new Date(this.options.time)));
-    },
-
-    _formatDate: function(date) {
-        minutes = date.getMinutes();
-        if (minutes < 10) minutes = "0" + minutes;
-        seconds = date.getSeconds();
-        if (seconds < 10) seconds = "0" + seconds;
-        return minutes + ':' + seconds;
-    }
-});
-

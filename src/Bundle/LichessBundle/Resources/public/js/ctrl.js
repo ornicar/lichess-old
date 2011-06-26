@@ -24,8 +24,14 @@ $(function() {
         }).css('cursor', 'pointer');
     }
     var $nbConnectedPlayers = $('#nb_connected_players').orNot();
+    if ($nbConnectedPlayers) {
+        $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/(\d+)/, '<strong>$1</strong>'));
+    }
     var $userTag = $userTag = $('#user_tag').orNot();
     var $connectivity = $("#connectivity");
+    var showNbConnectedPlayers = function(nb) {
+        $nbConnectedPlayers && $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/\d+/, nb));
+    }
     if ($userTag) {
         pingConfig = {
             url: $userTag.attr('data-online-url'),
@@ -41,9 +47,7 @@ $(function() {
         pingConfig = {
             url: $nbConnectedPlayers.attr('data-url'),
             dataType: "text",
-            onResponse: function(data) {
-                $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, data));
-            }
+            onResponse: showNbConnectedPlayers
         };
     }
     pingConfig.delay = 7000;
@@ -69,12 +73,6 @@ $(function() {
         },
         config.delay);
     })(pingConfig);
-
-    function showNbConnectedPlayers(nb) {
-        if ($nbConnectedPlayers) {
-            $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
-        }
-    }
 
     if ($config = $('div.game_config_form').orNot()) {
         $('div.lichess_overboard').show();
