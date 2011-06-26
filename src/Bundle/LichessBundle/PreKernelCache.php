@@ -16,7 +16,7 @@ function _lichess_get_synchronizer()
 {
     require_once __DIR__.'/Sync/Memory.php';
     // params: lichess.synchronizer.soft_timeout, lichess.synchronizer.hard_timeout
-    return new Bundle\LichessBundle\Sync\Memory(15, 180);
+    return new Bundle\LichessBundle\Sync\Memory(15, 120);
 }
 
 // Handle number of active players requests
