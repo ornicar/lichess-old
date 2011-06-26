@@ -159,13 +159,19 @@ div.lichess_goodies div.box {
     -moz-box-shadow: 0 0 7px #d0d0d0;
     -webkit-box-shadow: 0 0 7px #d0d0d0;
 }
-a.goto_nav, #top a.toggle, a#sound_state {
+#nb_connected_players, a.goto_nav, #top a.toggle, a#sound_state {
     text-decoration: none;
     font-size: 13px;
     height: 24px;
     line-height: 24px;
     padding: 0 12px;
     text-decoration: none;
+}
+#nb_connected_players {
+    float: left;
+    color: #999;
+    font-style: italic;
+    border-left: 1px solid #ccc;
 }
 a.goto_nav {
     float: left;

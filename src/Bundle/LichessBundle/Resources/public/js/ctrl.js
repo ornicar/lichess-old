@@ -71,7 +71,9 @@ $(function() {
     })(pingConfig);
 
     function showNbConnectedPlayers(nb) {
-        if ($nbConnectedPlayers) $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
+        if ($nbConnectedPlayers) {
+            $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
+        }
     }
 
     if ($config = $('div.game_config_form').orNot()) {
