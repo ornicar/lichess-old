@@ -4,7 +4,7 @@
 {% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": games.pages, "url": pagerUrl} %}{% endset %}
 <h1 class="title">{% block list_type %}{% endblock %} {{ games.pages.firstItemNumber }} - {{ games.pages.lastItemNumber }} of {{ games.pages.totalItemCount }}</h1>
 {% block list_menu %}{% endblock %}
-<div class="all_games">
+<div class="all_games infinitescroll">
     <div class="pager pager_top">{{ pagination|raw }}</div>
     <div class="all_games_inner">
     {% block games_inner %}
@@ -14,4 +14,8 @@
     <div class="pager pager_bottom">{{ pagination|raw }}</div>
 </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('/bundles/lichess/vendor/jquery.infinitescroll.min.js') }}"></script>
 {% endblock %}

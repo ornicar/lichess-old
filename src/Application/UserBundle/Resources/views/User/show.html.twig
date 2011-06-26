@@ -32,11 +32,15 @@
         </div>
     </div>
     {% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": games.pages, "url": pagerUrl} %}{% endset %}
-    <div class="games all_games">
+    <div class="games infinitescroll all_games">
         <div class="pager pager_top">{{ pagination|raw }}</div>
         {% include "LichessBundle:Game:listWidget.html.twig" with {"games": games, "fromUser": user} %}
         <div class="pager pager_bottom">{{ pagination|raw }}</div>
     </div>
 </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('/bundles/lichess/vendor/jquery.infinitescroll.min.js') }}"></script>
 {% endblock %}

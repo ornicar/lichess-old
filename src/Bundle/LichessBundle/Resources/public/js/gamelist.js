@@ -13,5 +13,13 @@ $(function() {
 		};
 		reloadGameList();
 	}
-});
 
+    $('div.infinitescroll').each(function() {
+        $(this).infinitescroll({
+            navSelector: "div.pager",
+            nextSelector: "div.pager a.next",
+            itemSelector: "div.infinitescroll div.game_row",
+            loadingText: ""
+        }).find('div.pager').hide();
+    });
+});

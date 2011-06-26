@@ -87,8 +87,8 @@ class ProfileController extends BaseProfileController
         $query = $this->container->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
         $games->setCurrentPageNumber($this->container->get('request')->query->get('page', 1));
-        $games->setItemCountPerPage(3);
-        $games->setPageRange(10);
+        $games->setItemCountPerPage(10);
+        $games->setPageRange(3);
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
         if ($authenticatedUser instanceof User && $user->is($authenticatedUser)) {
