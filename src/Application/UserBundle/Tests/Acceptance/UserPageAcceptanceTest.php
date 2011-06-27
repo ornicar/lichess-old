@@ -21,7 +21,7 @@ class UserPageAcceptanceTest extends AbstractAcceptanceTest
     public function testSomeGamesPlayed()
     {
         list($client, $crawler) = $this->requestUserPage('user1');
-        $this->assertEquals(3, $crawler->filter('div.game_row')->count());
+        $this->assertGreaterThan(3, $crawler->filter('div.game_row')->count());
     }
 
     public function testNonExistingUserPage()
