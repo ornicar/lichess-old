@@ -1,3 +1,4 @@
+* alert when low on time
 * start game with any custom position - position builder
 * handle connection error without refreshing the page
 * continue game for fun after a player flags
