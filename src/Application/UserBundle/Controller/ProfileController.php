@@ -84,11 +84,15 @@ class ProfileController extends BaseProfileController
 
         $history = $this->container->get('lichess.repository.history')->findOneByUserOrCreate($user);
 
+        $page = $this->container->get('request')->query->get('page', 1);
         $query = $this->container->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($this->container->get('request')->query->get('page', 1));
+        $games->setCurrentPageNumber($page);
         $games->setItemCountPerPage(10);
         $games->setPageRange(3);
+        if ($page > 1 && $page > $games->count()) {
+            throw new NotFoundHttpException('No more items');
+        }
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
         if ($authenticatedUser instanceof User && $user->is($authenticatedUser)) {
@@ -96,6 +100,7 @@ class ProfileController extends BaseProfileController
         } else {
             $template = 'FOSUserBundle:User:show.html.twig';
         }
+
         return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'history', 'games', 'pagerUrl'));
     }
 

@@ -2,7 +2,7 @@
 {% for game in games %}
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
-<div class="game_row clearfix">
+<div class="game_row paginated_element clearfix">
 {{ lichess_game_mini(game, fromUser) }}
 <div class="infos">
 <b>

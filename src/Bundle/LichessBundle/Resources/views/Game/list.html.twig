@@ -15,7 +15,13 @@
 </div>
 </div>
 {% endblock %}
+
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('/bundles/lichess/vendor/jquery.infinitescroll.min.js') }}"></script>
+{% javascripts
+    '@LichessBundle/Resources/public/vendor/jquery.infinitescroll.min.js'
+    '@LichessBundle/Resources/public/js/infinitescroll.js'
+%}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}

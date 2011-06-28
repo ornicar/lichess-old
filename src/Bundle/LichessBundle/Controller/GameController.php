@@ -163,8 +163,9 @@ class GameController extends Controller
 
     protected function createPaginatorForQuery($query)
     {
+        $page = $this->get('request')->query->get('page', 1);
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
+        $games->setCurrentPageNumber($page);
         $games->setItemCountPerPage(10);
         $games->setPageRange(3);
 
