@@ -54,7 +54,8 @@ $(function() {
             }
 
             $(this).html(html);
-            html = '';
+            // attempt to free memory
+            html = pclasses = increment = pregex = fen = 0;
         });
     }
     parseFen();

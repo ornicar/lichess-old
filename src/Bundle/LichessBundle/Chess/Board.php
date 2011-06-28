@@ -155,14 +155,18 @@ RNBQK  R
         return $this->getPieceByKey(self::posToKey($x, $y));
     }
 
+    public function getPieceByPosNoCheck($x, $y)
+    {
+        return $this->getPieceByKey(self::posToKey($x, $y));
+    }
+
+
     protected function createSquares()
     {
         $this->squares = array();
 
-        for($x=1; $x<9; $x++)
-        {
-            for($y=1; $y<9; $y++)
-            {
+        for($x=1; $x<9; $x++) {
+            for($y=1; $y<9; $y++) {
                 $key = self::posToKey($x, $y);
                 $color = ($x+$y)%2 ? 'white' : 'black';
                 $this->squares[$key] = new Square($this, $key, $x, $y, $color);
@@ -183,8 +187,7 @@ RNBQK  R
     public function keysToSquares(array $keys)
     {
         $squares = array();
-        foreach ($keys as $key)
-        {
+        foreach ($keys as $key) {
             $squares[] = $this->squares[$key];
         }
 
