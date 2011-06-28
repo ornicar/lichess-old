@@ -12,7 +12,7 @@ class GameControllerTest extends AbstractControllerTest
         $crawler = $client->request('GET', '/games');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('Games being played right now', $crawler->filter('.title')->text());
-        $this->assertGreaterThan(4, $crawler->filter('div.game_mini')->count());
+        $this->assertGreaterThan(4, $crawler->filter('a.parse_fen')->count());
     }
 
     public function testViewAllGames()
