@@ -4,7 +4,7 @@ GUI is only HTML5 and JavaScript.
 - Allows to play with a friend, a random player or an artificial intelligence.
 - Supports castling, en passant, selective promotion, color selection, check and mate detection, threefold repetition, and move validation.
 - Chess clock, integrated chat, real time spectator mode and analysis interface available.
-- Chess variants abailable: Standard and Chess960
+- Chess variants available: Standard and Chess960
 - Translated to more than 48 languages thanks to contributors.
 - Uses only open source languages: PHP 5.3, HTML5, Javascript and CSS. Powered by Symfony2, jQuery 1.5 and jQuery UI 1.8.
   
