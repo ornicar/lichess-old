@@ -9,3 +9,12 @@
 {% endstylesheets %}
 {% endblock %}
 {% block menu_active %}game{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% javascripts
+    '@LichessBundle/Resources/public/js/gamelist.js'
+    filter="yui_js" %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}

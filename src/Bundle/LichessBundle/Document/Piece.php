@@ -268,8 +268,7 @@ abstract class Piece
     {
         $notation = $this->getPgn();
 
-        if('black' === $this->getColor())
-        {
+        if('black' === $this->getColor()) {
             $notation = strtolower($notation);
         }
 
@@ -280,12 +279,9 @@ abstract class Piece
     {
         $class = $this->getClass();
 
-        if ('Knight' === $class)
-        {
+        if ('Knight' === $class) {
             $notation = 'N';
-        }
-        else
-        {
+        } else {
             $notation = $class{0};
         }
 
@@ -295,6 +291,7 @@ abstract class Piece
     public function getContextualHash()
     {
         $class = $this->getClass();
+
         return $class{0}.$this->color{0}.$this->x.$this->y;
     }
 }

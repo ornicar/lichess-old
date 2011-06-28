@@ -13,7 +13,7 @@ class Forsyth
      * Transform a game to standard Forsyth Edwards Notation
      * http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
      */
-    public function export(Game $game)
+    public static function export(Game $game, $positionOnly = false)
     {
         $board = $game->getBoard();
         $emptySquare = 0;
@@ -26,7 +26,7 @@ class Forsyth
                         $forsyth .= $emptySquare;
                         $emptySquare = 0;
                     }
-                    $forsyth .= $this->pieceToForsyth($piece);
+                    $forsyth .= self::pieceToForsyth($piece);
                 } else {
                     ++$emptySquare;
                 }
@@ -39,6 +39,10 @@ class Forsyth
         }
 
         $forsyth = trim($forsyth, '/');
+
+        if ($positionOnly) {
+            return $forsyth;
+        }
 
         // b ou w to indicate turn
         $forsyth .= ' ';
@@ -93,7 +97,7 @@ class Forsyth
      * @param string $forsyth
      * @return Game $game
      */
-    public function import(Game $game, $forsyth)
+    public static function import(Game $game, $forsyth)
     {
         $x = 1;
         $y = 8;
@@ -104,7 +108,6 @@ class Forsyth
 
         for($itForsyth = 0, $forsythLen = strlen($forsyth); $itForsyth < $forsythLen; $itForsyth++) {
             $letter = $forsyth{$itForsyth};
-            $key = Board::posToKey($x, $y);
 
             if (is_numeric($letter)) {
                 $x += intval($letter);
@@ -118,7 +121,7 @@ class Forsyth
                     case 'q': $class = 'Queen'; break;
                     case 'k': $class = 'King'; break;
                 }
-                $pieces[$color][] = $this->createPiece($class, $x, $y);
+                $pieces[$color][] = self::createPiece($class, $x, $y);
                 ++$x;
             }
 
@@ -134,7 +137,7 @@ class Forsyth
         $game->ensureDependencies();
     }
 
-    public function diffToMove(Game $game, $forsyth)
+    public static function diffToMove(Game $game, $forsyth)
     {
         $moves = array(
             'from'  => array(),
@@ -233,7 +236,7 @@ class Forsyth
         return $from.' '.$to;
     }
 
-    protected function pieceToForsyth(Piece $piece)
+    protected static function pieceToForsyth(Piece $piece)
     {
         $class = $piece->getClass();
 
@@ -253,7 +256,7 @@ class Forsyth
     /**
      * @return Piece
      */
-    protected function createPiece($class, $x, $y)
+    protected static function createPiece($class, $x, $y)
     {
         $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
 

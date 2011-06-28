@@ -65,9 +65,17 @@ div.pager span.current {
     margin: 0 0.5em;
 }
 
-div.game_mini {
+div.game_list_inner > div {
     float: left;
     margin: 0 10px 10px 10px;
+}
+div.game_list_inner div.vstext {
+    margin-top: 5px;
+    font-size: 11px;
+    text-align: center;
+    width: 192px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 a.mini_board {
@@ -82,14 +90,6 @@ a.mini_board {
 div.all_games a.mini_board {
     float: left;
     margin: 0 20px 20px 10px;
-}
-div.game_mini div.vstext {
-    margin-top: 5px;
-    font-size: 11px;
-    text-align: center;
-    width: 192px;
-    overflow: hidden;
-    white-space: nowrap;
 }
 
 div.lmcs {

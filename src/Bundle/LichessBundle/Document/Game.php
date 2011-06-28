@@ -901,7 +901,8 @@ class Game
     public function getVsText()
     {
         $creator = $this->getCreator();
-        return sprintf('%s vs %s', $creator->getUsernameWithElo(), $creator->getOpponent()->getUsernameWithElo());
+
+        return sprintf('%s - %s', $creator->getUsernameWithElo(), $creator->getOpponent()->getUsernameWithElo());
     }
 
     /**

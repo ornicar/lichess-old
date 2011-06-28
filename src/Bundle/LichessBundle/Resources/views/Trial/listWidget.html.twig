@@ -4,7 +4,7 @@
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
 <div class="game_row paginated_element clearfix">
-{{ lichess_game_mini(game, fromUser)|raw }}
+{{ lichess_game_fen(game, fromUser)|raw }}
 <div class="infos">
 {% if trial.guilty %}
 <div class="trial_verdict trial_guilty">Guilty</div>

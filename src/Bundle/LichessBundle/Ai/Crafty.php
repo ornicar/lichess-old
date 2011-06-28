@@ -18,14 +18,13 @@ class Crafty implements AiInterface
 
     public function move(Game $game, $level)
     {
-        $forsyth    = new Forsyth();
-        $oldForsyth = $forsyth->export($game);
+        $oldForsyth = Forsyth::export($game);
         // hack to have chess960 working with Crafty
         if (!$game->isStandardVariant()) {
             $oldForsyth = $this->removeCastlingInfos($oldForsyth);
         }
         $newForsyth = $this->getNewForsyth($oldForsyth, $level);
-        $move       = $forsyth->diffToMove($game, $newForsyth);
+        $move       = Forsyth::diffToMove($game, $newForsyth);
 
         return $move;
     }

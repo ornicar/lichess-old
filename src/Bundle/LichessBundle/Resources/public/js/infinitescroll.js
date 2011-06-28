@@ -6,6 +6,8 @@ $(function() {
             itemSelector: "div.infinitescroll div.paginated_element",
             loadingText: "",
             donetext: "---"
+        }, function() {
+            $('body').trigger('lichess.content_loaded');
         }).find('div.pager').hide();
     });
 });

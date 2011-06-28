@@ -12,6 +12,7 @@ use Twig_Function_Method;
 use Twig_Filter_Method;
 use DateTime;
 use IntlDateFormatter;
+use Bundle\LichessBundle\Notation\Forsyth;
 
 class LichessExtension extends Twig_Extension
 {
@@ -43,7 +44,7 @@ class LichessExtension extends Twig_Extension
             'lichess_game_data'         => 'renderGameData',
             'lichess_game_watch_data'   => 'renderGameWatchData',
             'lichess_game_board'        => 'renderGameBoard',
-            'lichess_game_mini'         => 'renderGameMini',
+            'lichess_game_fen'          => 'renderGameFen',
             'lichess_session'           => 'getSession',
             'lichess_nb_active_players' => 'getNbActivePlayers',
             'lichess_load_average'      => 'getLoadAverage',
@@ -261,49 +262,24 @@ class LichessExtension extends Twig_Extension
         return $this->container->getParameter('lichess.debug_assets');
     }
 
-    public function renderGameMini(Game $game, User $user = null)
+    public function renderGameFen(Game $game, User $user = null)
     {
+        $fenString = Forsyth::export($game, true);
+
         $player     = $game->getPlayerByUserOrCreator($user);
-        $board      = $player->getGame()->getBoard();
-        $squares    = $board->getSquares();
-        $generator  = $this->getRouterGenerator();
-        $translator = $this->getTranslator();
         $authUser   = $this->container->get('security.context')->getToken()->getUser();
         if ($authUser instanceof User && ($authPlayer = $game->getPlayerByUser($authUser))) {
-            $gameUrl = $generator->generate('lichess_player', array('id' => $authPlayer->getFullId()));
+            $gameUrl = $this->getRouterGenerator()->generate('lichess_player', array('id' => $authPlayer->getFullId()));
         } else {
-            $gameUrl = $generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()));
+            $gameUrl = $this->getRouterGenerator()->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()));
         }
 
-        if ($player->isBlack()) {
-            $squares = array_reverse($squares, true);
-        }
-
-        $x = $y = 1;
-
-        $html = sprintf('<a href="%s" title="%s" class="mini_board notipsy">',
+        return sprintf('<a href="%s" title="%s" class="mini_board parse_fen" data-color="%s" data-fen="%s"></a>',
             $gameUrl,
-            $translator->trans('View in full size')
+            $this->getTranslator()->trans('View in full size'),
+            $player->getColor(),
+            $fenString
         );
-
-        foreach($squares as $squareKey => $square) {
-            $html .= sprintf('<div class="lmcs %s" style="top:%dpx;left:%dpx;">',
-                $square->getColor(), 24*(8-$x), 24*($y-1)
-            );
-            if($piece = $board->getPieceByKey($squareKey)) {
-                $html .= sprintf('<div class="lcmp %s %s"></div>',
-                    strtolower($piece->getClass()), $piece->getColor()
-                );
-            }
-            $html .= '</div>';
-            if (++$x === 9) {
-                $x = 1;
-                ++$y;
-            }
-        }
-        $html .= '</a>';
-
-        return $html;
     }
 
     public function renderGameBoard(Player $player, $checkSquareKey)
@@ -432,7 +408,7 @@ class LichessExtension extends Twig_Extension
 
     protected function getRouterGenerator()
     {
-        return $this->container->get('router')->getGenerator();
+        return $this->container->get('router');
     }
 
     protected function getTranslator()
