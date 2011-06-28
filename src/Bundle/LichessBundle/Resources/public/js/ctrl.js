@@ -120,7 +120,7 @@ $(function() {
         $(this).replaceWith($('<a/>').text(email).attr('href', 'mailto:'+email));
     });
 
-    $.fn.tipsy && $('a, input, label, div.tipsyme').not('.notipsy').filter('[title]').tipsy({
+    $.fn.tipsy && $('a:not(div.game_list_inner a):not(.notipsy), input, label, div.tipsyme').filter('[title]').tipsy({
         fade: true,
         html: false,
         live: true
