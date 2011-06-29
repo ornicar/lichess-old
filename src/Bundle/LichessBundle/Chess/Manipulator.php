@@ -88,6 +88,10 @@ class Manipulator
         $this->game->addPgnMove($pgn);
         $this->game->setLastMove($notation);
 
+        if ($this->game->getIsRated()) {
+            $player->saveMoveTime();
+        }
+
         return $opponentPossibleMoves;
     }
 

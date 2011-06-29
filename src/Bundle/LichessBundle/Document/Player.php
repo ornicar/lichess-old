@@ -132,6 +132,23 @@ class Player
     protected $lastDrawOffer = null;
 
     /**
+     * Array of move times relative to the opponent previous move
+     * Which really means: the time used to make the move
+     *
+     * @var array of int
+     * @MongoDB\Field(type="collection")
+     */
+    protected $moveTimes = array();
+
+    /**
+     * Previous move timestamp
+     *
+     * @var int
+     * @MongoDB\Field(type="int")
+     */
+    protected $previousMoveTs = null;
+
+    /**
      * the player current game
      *
      * @var Game
@@ -151,11 +168,43 @@ class Player
     }
 
     /**
+     * Adds a time to the move times list
+     */
+    public function saveMoveTime()
+    {
+        $ts = time();
+        if ($opmt = $this->getOpponent()->getPreviousMoveTs()) {
+            $this->moveTimes[] = $ts - $opmt;
+        }
+        $this->previousMoveTs = $ts;
+    }
+
+    /**
+     * Gets the moves times
+     *
+     * @return array of int
+     */
+    public function getMoveTimes()
+    {
+        return $this->moveTimes;
+    }
+
+    /**
+     * Gets the timestamp of the previous move played
+     *
+     * @return int
+     */
+    public function getPreviousMoveTs()
+    {
+        return $this->previousMoveTs;
+    }
+
+    /**
      * @return int
      */
     public function getEloDiff()
     {
-      return $this->eloDiff;
+        return $this->eloDiff;
     }
 
     /**
@@ -164,7 +213,7 @@ class Player
      */
     public function setEloDiff($eloDiff)
     {
-      $this->eloDiff = $eloDiff;
+        $this->eloDiff = $eloDiff;
     }
 
     /**
