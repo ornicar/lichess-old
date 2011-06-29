@@ -22,6 +22,7 @@ class SeekMatcher
         return true
             && false !== $this->getCommonVariant($a, $b)
             && false !== $this->getCommonTime($a, $b)
+            && false !== $this->getCommonIncrement($a, $b)
             && false !== $this->getCommonMode($a, $b);
     }
 
@@ -61,7 +62,8 @@ class SeekMatcher
         $matches = array_values(array_intersect($a->getIncrements(), $b->getIncrements()));
 
         if(empty($matches)) {
-            $matches = array_values(array_merge($a->getIncrements(), $b->getIncrements()));
+            return false;
+            //$matches = array_values(array_merge($a->getIncrements(), $b->getIncrements()));
         }
 
         if(1 === count($matches)) {
