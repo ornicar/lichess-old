@@ -35,22 +35,27 @@ $(function() {
                 scolor = (x+y)%2 ? 'white' : 'black';
                 return '<div class="lmcs '+scolor+'" style="top:'+(24*(8-x))+'px;left:'+(24*(y-1))+'px;">';
             }
+            function closeSquare() {
+                return '</div>';
+            }
 
             for(var fenIndex in fen) {
                 c = fen[fenIndex];
                 html += openSquare(x, y);
                 if (!isNaN(c)) { // it is numeric
-                    for (d=1; d<=c; d++) {
+                    html += closeSquare();
+                    increment();
+                    for (d=1; d<c; d++) {
+                        html += openSquare(x, y) + closeSquare();
                         increment();
-                        html += '</div>' + openSquare(x, y);
                     }
                 } else {
                     pcolor = pregex.test(c) ? 'black' : 'white';
                     pclass = pclasses[c.toLowerCase()];
                     html += '<div class="lcmp '+pclass+' '+pcolor+'"></div>';
+                    html += closeSquare();
                     increment();
                 }
-                html += '</div>';
             }
 
             $(this).html(html);
