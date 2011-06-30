@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="lichess_timeline.pusher" class="Lichess\TimelineBundle\Timeline\Pusher">
+            <argument type="service" id="lichess_timeline.entry_repository" />
+            <argument type="service" id="templating" />
+        </service>
+
+        <service id="lichess_timeline.entry_repository" class="Lichess\TimelineBundle\Document\TimelineEntryRepository" factory-service="lichess.object_manager" factory-method="getRepository">
+            <argument type="string">Lichess\TimelineBundle\Document\TimelineEntry</argument>
+        </service>
+    </services>
+
+</container>

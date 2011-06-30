@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Lichess\TimelineBundle\Document;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use FOS\UserBundle\Model\User;

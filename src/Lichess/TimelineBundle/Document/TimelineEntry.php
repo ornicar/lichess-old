@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\LichessBundle\Document;
+namespace Lichess\TimelineBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use FOS\UserBundle\Model\User;
@@ -11,7 +11,7 @@ use DateTime;
  *
  * @MongoDB\Document(
  *   collection="timeline",
- *   repositoryClass="Bundle\LichessBundle\Document\TimelineEntryRepository"
+ *   repositoryClass="Lichess\TimelineBundle\Document\TimelineEntryRepository"
  * )
  */
 class TimelineEntry

@@ -1,3 +1,7 @@
+LichessTimelineBundle:
+    resource: "@LichessTimelineBundle/Resources/config/routing.xml"
+    prefix:   /
+
 user_security:
     resource: @FOSUserBundle/Resources/config/routing/security.xml
 user_profile:
@@ -19,6 +23,9 @@ lichess_translation:
 lichess_search:
     resource: @LichessSearchBundle/Resources/config/routing.yml
     prefix: /search
+lichess_timeline:
+    resource: @LichessTimelineBundle/Resources/config/routing.yml
+    prefix: /timeline
 
 forum:
     resource: @ForumBundle/Resources/config/routing/forum.xml
