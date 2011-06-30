@@ -22,5 +22,5 @@ monolog:
 apc:
     host: lichess
 
-lichess_forum:
-    detect_spam: false
+ornicar_akismet:
+    service: ornicar_akismet.akismet_stub

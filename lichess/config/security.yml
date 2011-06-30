@@ -29,6 +29,6 @@ security:
             security: false
     access_control:
         - { path: "^/(inbox|profile)(/.*|$)", role: ROLE_USER }
-        - { path: "^/forum/(post|topic)/delete/.+", role: ROLE_SUPERADMIN }
-        - { path: "^/trial/verdict/.+", role: ROLE_SUPERADMIN }
+        - { path: "^/forum/(post|topic)/delete/.+", role: ROLE_SUPER_ADMIN }
+        - { path: "^/trial/verdict/.+", role: ROLE_SUPER_ADMIN }
 
