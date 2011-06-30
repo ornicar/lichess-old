@@ -191,15 +191,17 @@ $(function() {
     if (false || document.domain == 'lichess.org') {
         setTimeout(function() {
             if ($gameSharing = $('div.game_share_widgets').orNot()) {
+                $gameSharing.find('div.plusone_placeholder').replaceWith('<div class="lichess_plusone"><g:plusone size="medium" href="http://lichess.org"></g:plusone></div>');
                 $gameSharing.find('div.facebook_placeholder').replaceWith('<div class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=' + encodeURIComponent(document.location.href) + '&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></div>');
                 $.getScript('http://platform.twitter.com/widgets.js', function() {
                     $gameSharing.addClass('loaded')
                 });
             } else {
-                $('ul.lichess_social').html('<li class="lichess_stumbleupon"><iframe src="http://www.stumbleupon.com/badge/embed/2/?url=http://lichess.org/"></iframe></li><li class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></li>');
+                $('ul.lichess_social').prepend('<li class="lichess_stumbleupon"><iframe src="http://www.stumbleupon.com/badge/embed/2/?url=http://lichess.org/"></iframe></li><li class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></li><li><g:plusone size="medium" href="http://lichess.org"></g:plusone></li>');
             }
+            gapi.plusone.go();
         },
-        800);
+        1200);
     }
 });
 

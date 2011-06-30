@@ -18,8 +18,6 @@ $(function() {
     function parseFen() {
         $('a.parse_fen').each(function() {
             var fen = $(this).data('fen').replace(/\//g, '');
-            $(this).removeClass('parse_fen');
-
             var x, y = 1, html = '', scolor, pcolor, pclass, c, d, increment;
             var pclasses = {'p':'pawn', 'r':'rook', 'n':'knight', 'b':'bishop', 'q':'queen', 'k':'king'};
             var pregex = /(p|r|n|b|q|k)/;
@@ -58,7 +56,7 @@ $(function() {
                 }
             }
 
-            $(this).html(html);
+            $(this).html(html).removeClass('parse_fen');
             // attempt to free memory
             html = pclasses = increment = pregex = fen = 0;
         });
