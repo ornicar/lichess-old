@@ -67,3 +67,6 @@
 [submodule "src/Ornicar/AkismetBundle"]
 	path = src/Ornicar/AkismetBundle
 	url = git://github.com/ornicar/OrnicarAkismetBundle.git
+[submodule "src/Sensio/Bundle/GeneratorBundle"]
+	path = src/Sensio/Bundle/GeneratorBundle
+	url = git://github.com/sensio/SensioGeneratorBundle.git

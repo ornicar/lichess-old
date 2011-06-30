@@ -24,6 +24,7 @@ $loader->registerNamespaces(array(
     'Lichess'                        => $srcDir,
     'Application'                    => $srcDir,
     'Ornicar'                        => $srcDir,
+    'Sensio'                         => $srcDir,
 ));
 $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'
