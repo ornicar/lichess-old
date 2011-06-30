@@ -22,7 +22,7 @@ class LichessKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\CommentBundle\FOSCommentBundle(),
             new FOQ\TyperBundle\FOQTyperBundle(),
-            new Ornicar\MessageBundle\AkismetMessageBundle(),
+            new Ornicar\AkismetBundle\OrnicarAkismetBundle(),
             new Ornicar\MessageBundle\OrnicarMessageBundle(),
             new Bundle\ForumBundle\ForumBundle(),
             new Application\UserBundle\LichessUserBundle(),

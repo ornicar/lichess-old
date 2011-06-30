@@ -64,6 +64,6 @@
 [submodule "src/Symfony/Bundle/AsseticBundle"]
 	path = src/Symfony/Bundle/AsseticBundle
 	url = git://github.com/symfony/AsseticBundle
-[submodule "src/Ornicar/ArkismetBundle"]
-	path = src/Ornicar/ArkismetBundle
+[submodule "src/Ornicar/AkismetBundle"]
+	path = src/Ornicar/AkismetBundle
 	url = git://github.com/ornicar/AkismetBundle.git
