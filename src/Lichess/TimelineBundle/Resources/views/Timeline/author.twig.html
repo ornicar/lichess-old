@@ -1,5 +1,0 @@
-{% if author.username is defined %}
-    {{ lichess_link_user(author) }}
-{% else %}
-    <span class="anonymous_authorname">{{ author|default("Anonymous") }}</span>
-{% endif %}

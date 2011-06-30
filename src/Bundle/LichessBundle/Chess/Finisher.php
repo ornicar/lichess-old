@@ -7,7 +7,6 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Elo\Calculator;
 use Bundle\LichessBundle\Elo\Updater;
 use Bundle\LichessBundle\Logger;
-use Bundle\LichessBundle\Timeline\Pusher;
 use Bundle\LichessBundle\Cheat\Judge;
 use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
@@ -19,17 +18,15 @@ class Finisher
     protected $memory;
     protected $eloUpdater;
     protected $logger;
-    protected $timelinePusher;
     protected $judge;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Pusher $timelinePusher, Judge $judge)
+    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Judge $judge)
     {
         $this->calculator     = $calculator;
         $this->messenger      = $messenger;
         $this->memory   = $memory;
         $this->eloUpdater     = $eloUpdater;
         $this->logger         = $logger;
-        $this->timelinePusher = $timelinePusher;
         $this->judge          = $judge;
     }
 
@@ -37,10 +34,6 @@ class Finisher
     {
         $this->messenger->addSystemMessage($game, $game->getStatusMessage());
         $this->judge->study($game);
-
-        if (Game::MATE == $game->getStatus()) {
-            $this->timelinePusher->pushMate($game);
-        }
 
         $this->updateElo($game);
     }

@@ -1,6 +1,0 @@
-lichess_timeline:
-    pattern:        /
-    defaults:       { _controller: LichessTimelineBundle:Timeline:index }
-lichess_timeline_inner:
-    pattern:        /refresh
-    defaults:       { _controller: LichessTimelineBundle:Timeline:inner }
