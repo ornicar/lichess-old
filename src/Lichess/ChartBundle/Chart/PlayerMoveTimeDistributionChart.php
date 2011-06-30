@@ -46,7 +46,7 @@ class PlayerMoveTimeDistributionChart
             }
         }
         if (!empty($data)) {
-            $reduced['17+'] = array_sum($data);
+            $reduced['16+'] = array_sum($data);
         }
 
         return $reduced;

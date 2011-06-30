@@ -7,7 +7,7 @@
     {% if game.isRated %}
         <div class="move-time" data-title="Time per move evolution" data-columns="{{ moveTime.columns|json_encode }}" data-rows="{{ moveTime.rows|json_encode }}"></div>
         {% for player in game.players %}
-        <div class="move-time-distribution" data-title="{{ player.usernameWithElo }} - time per move distribution" data-columns="{{ moveTimeDistribution[player.color].columns|json_encode }}" data-rows="{{ moveTimeDistribution[player.color].rows|json_encode }}"></div>
+        <div class="move-time-distribution" data-title="{{ player.color|capitalize }} - {{ player.usernameWithElo }} - time per move distribution" data-columns="{{ moveTimeDistribution[player.color].columns|json_encode }}" data-rows="{{ moveTimeDistribution[player.color].rows|json_encode }}"></div>
         {% endfor %}
     {% endif %}
 </div>

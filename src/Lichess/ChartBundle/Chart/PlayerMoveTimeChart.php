@@ -17,8 +17,8 @@ class PlayerMoveTimeChart
     {
         return array(
             array('string', 'Move'),
-            array('number', 'White time'),
-            array('number', 'Black time')
+            array('number', sprintf('White time - %s', $this->players['white']->getUsername())),
+            array('number', sprintf('Black time - %s', $this->players['black']->getUsername()))
         );
     }
 
