@@ -180,6 +180,16 @@ class Player
     }
 
     /**
+     * Tells if this player saved his move times
+     *
+     * @return boolean
+     */
+    public function hasMoveTimes()
+    {
+        return count($this->moveTimes) > 5;
+    }
+
+    /**
      * Gets the moves times
      *
      * @return array of int

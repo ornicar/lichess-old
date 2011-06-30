@@ -47,7 +47,7 @@
     </div>
     <br /><br />
     <a class="lichess_replay_link" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": player.color} ) }}">{{ "Replay and analyse"|trans }}</a>
-    {% if game.isRated and game.turns > 5 %}
+    {% if game.isRated and game.hasMoveTimes %}
         <br /><br />
         <a href="{{ path("lichess_game_stats", {"id": game.id}) }}">View game stats</a>
     {% endif %}

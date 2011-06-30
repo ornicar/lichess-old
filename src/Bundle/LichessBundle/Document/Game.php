@@ -629,6 +629,16 @@ class Game
     }
 
     /**
+     * Tells if both players saved their move times
+     *
+     * @return boolean
+     */
+    public function hasMoveTimes()
+    {
+        return $this->getPlayer('white')->hasMoveTimes() && $this->getPlayer('black')->hasMoveTimes();
+    }
+
+    /**
      * Whether this game can be aborted or not
      *
      * @return bool
