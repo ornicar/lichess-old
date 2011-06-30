@@ -28,4 +28,22 @@ class Akismet
     {
         return $this->akismet->isSpam($this->getTopicData($post));
     }
+
+    protected function getPostData(Post $post)
+    {
+        return array(
+            'comment_type'    => 'comment',
+            'comment_author'  => $post->getAuthorName(),
+            'comment_content' => $post->getMessage()
+        );
+    }
+
+    protected function getTopicData(Topic $topic)
+    {
+        return array(
+            'comment_type'    => 'comment',
+            'comment_author'  => $topic->getFirstPost()->getAuthorName(),
+            'comment_content' => $topic->getSubject().' '.$topic->getFirstPost()->getMessage()
+        );
+    }
 }
