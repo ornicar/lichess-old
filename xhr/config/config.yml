@@ -2,7 +2,7 @@ framework:
     secret: PYScZDvtESqkUud7
     charset:       UTF-8
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
-    validation: { enable_annotations: true }
+    validation: { enabled: false }
     form: false
     esi: false
     csrf_protection: false
@@ -41,9 +41,6 @@ lichess:
         stupid:
             enabled: true
             priority: 1
-    akismet:
-        url: http://lichess.org
-        #api_key: see config_local.yml
 
 imports:
     - { resource: config_local.yml }

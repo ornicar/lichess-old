@@ -23,6 +23,3 @@ lichess:
         path: ""
         latency: 0
         delay: 0.25
-
-lichess_forum:
-    detect_spam: false

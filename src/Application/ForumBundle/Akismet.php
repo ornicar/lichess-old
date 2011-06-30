@@ -26,7 +26,7 @@ class Akismet
 
     public function isTopicSpam(Topic $topic)
     {
-        return $this->akismet->isSpam($this->getTopicData($post));
+        return $this->akismet->isSpam($this->getTopicData($topic));
     }
 
     protected function getPostData(Post $post)
