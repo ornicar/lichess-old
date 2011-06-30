@@ -29,6 +29,10 @@ lichess_game:
     pattern:        /{id}/{color}
     defaults:       { _controller: lichess.controller.game:showAction, color: white }
     requirements:   { id: "[\w\-]{8}", color: (white|black) }
+lichess_game_stats:
+    pattern:        /{id}/stats
+    defaults:       { _controller: lichess.controller.game:statsAction, color: white }
+    requirements:   { id: "[\w\-]{8}" }
 lichess_player:
     pattern:        /{id}
     defaults:       { _controller: lichess.controller.player:showAction }

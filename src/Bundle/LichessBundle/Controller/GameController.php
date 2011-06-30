@@ -10,6 +10,8 @@ use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Lichess\ChartBundle\Chart\PlayerMoveTimeDistributionChart;
+use Lichess\ChartBundle\Chart\PlayerMoveTimeChart;
 
 class GameController extends Controller
 {
@@ -88,6 +90,24 @@ class GameController extends Controller
             'game'  => $game,
             'color' => $game->getInvited()->getColor()
         ));
+    }
+
+    /**
+     * Shows some stats about the game
+     */
+    public function statsAction($id)
+    {
+        $game = $this->get('lichess.provider')->findGame($id);
+        $moveTime = new PlayerMoveTimeChart(array(
+            'white' => $game->getPlayer('white'),
+            'black' => $game->getPlayer('black')
+        ));
+        $moveTimeDistribution = array(
+            'white' => new PlayerMoveTimeDistributionChart($game->getPlayer('white')),
+            'black' => new PlayerMoveTimeDistributionChart($game->getPlayer('black'))
+        );
+
+        return $this->render('LichessBundle:Game:stats.html.twig', compact('game', 'moveTime', 'moveTimeDistribution'));
     }
 
     public function joinAction($id)

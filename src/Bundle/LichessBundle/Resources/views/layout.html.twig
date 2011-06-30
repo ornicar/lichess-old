@@ -23,6 +23,8 @@
         {% endblock %}
         {% block feed_link %}{% endblock %}
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
+        {% block layout_head %}
+        {% endblock %}
     </head>
     <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         <div id="top" class="clearfix">

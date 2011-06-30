@@ -32,6 +32,7 @@ class LichessKernel extends Kernel
             new Bundle\LichessBundle\LichessBundle(),
             new Lichess\SearchBundle\LichessSearchBundle(),
             new Lichess\TranslationBundle\LichessTranslationBundle(),
+            new Lichess\ChartBundle\LichessChartBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
