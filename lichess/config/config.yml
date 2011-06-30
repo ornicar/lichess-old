@@ -109,18 +109,12 @@ fos_comment:
             comment: lichess_comment.creator.comment
         spam_detection:
             comment: fos_comment.spam_detection.comment.noop
-    akismet:
-        url: http://lichess.org
-        #api_key: see config_local.yml
 
 ornicar_message:
     db_driver: odm
     class:
         model:
             message: Application\MessageBundle\Document\Message
-
-#lichess_message:
-    #detect_spam: true
 
 lichess:
     ai:
@@ -132,9 +126,6 @@ lichess:
         stupid:
             enabled: true
             priority: 1
-    akismet:
-        url: http://lichess.org
-        #api_key: see config_local.yml
 
 imports:
     - { resource: security.yml }

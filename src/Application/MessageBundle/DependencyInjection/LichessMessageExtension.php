@@ -16,14 +16,5 @@ class LichessMessageExtension extends Extension
         $loader->load('messenger.xml');
         $loader->load('listener.xml');
         $loader->load('akismet.xml');
-
-        $config = array();
-        foreach ($configs as $c) {
-            $config = array_merge($config, $c);
-        }
-
-        if (!empty($config['detect_spam'])) {
-            $container->setParameter('lichess_message.akismet.enabled', true);
-        }
     }
 }

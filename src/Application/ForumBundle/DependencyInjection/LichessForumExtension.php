@@ -17,14 +17,5 @@ class LichessForumExtension extends Extension
         $loader->load('akismet.xml');
         $loader->load('authorname_persistence.xml');
         $loader->load('timeline.xml');
-
-        $config = array();
-        foreach ($configs as $c) {
-            $config = array_merge($config, $c);
-        }
-
-        if (!empty($config['detect_spam'])) {
-            $container->setParameter('forum.akismet.enabled', true);
-        }
     }
 }

@@ -4,16 +4,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="lichess_message.akismet.enabled">false</parameter>
-    </parameters>
-
     <services>
 
         <service id="lichess_message.akismet" class="Application\MessageBundle\Akismet" scope="request">
-            <argument type="service" id="request" />
-            <argument type="service" id="lichess.akismet" />
-            <argument>%lichess_message.akismet.enabled%</argument>
+            <argument type="service" id="ornicar_akismet" />
         </service>
 
     </services>

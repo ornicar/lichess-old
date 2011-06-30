@@ -14,16 +14,16 @@ $loader->registerNamespaces(array(
     'Doctrine\\Common\\DataFixtures' => $vendorDir.'/doctrine-data-fixtures/lib',
     'Doctrine\\Common'               => $vendorDir.'/doctrine-common/lib',
     'DoctrineExtensions'             => $vendorDir.'/Doctrine2-Sluggable-Functional-Behavior/lib',
+    'ZendPaginatorAdapter'           => $vendorDir.'/ZendPaginatorAdapter/src',
+    'Zend'                           => $vendorDir.'/zend/library',
+    'Monolog'                        => $vendorDir.'/monolog/src',
+    'Assetic'                        => $vendorDir.'/assetic/src',
     'Bundle'                         => $srcDir,
     'FOS'                            => $srcDir,
     'FOQ'                            => $srcDir,
     'Lichess'                        => $srcDir,
     'Application'                    => $srcDir,
     'Ornicar'                        => $srcDir,
-    'ZendPaginatorAdapter'           => $vendorDir.'/ZendPaginatorAdapter/src',
-    'Zend'                           => $vendorDir.'/zend/library',
-    'Monolog'                        => $vendorDir.'/monolog/src',
-    'Assetic'                        => $vendorDir.'/assetic/src',
 ));
 $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'
