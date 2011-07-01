@@ -116,7 +116,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertRegexp('#^http://.*/[\w-]{8}$#', $inviteUrl);
 
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
-        $this->assertRegexp('#^/sync/[\w-]{8}/'.$color.'/0/[\w-]{12}$#', $syncUrl);
+        $this->assertRegexp('#^/sync/[\w-]{8}/'.$color.'/0/[\w-]{12}#', $syncUrl);
 
         $friend = self::createClient();
         $crawler = $friend->request('GET', $inviteUrl);
@@ -146,7 +146,7 @@ class GameControllerTest extends AbstractControllerTest
         $this->assertEquals(1, $crawler->filter($selector)->count());
 
         $syncUrl = str_replace(array('\\', '9999999'), array('', '0'), preg_replace('#.+"sync":"([^"]+)".+#s', '$1', $client->getResponse()->getContent()));
-        $this->assertRegexp('#^/sync/[\w-]{8}/white/0/[\w-]{12}$#i', $syncUrl);
+        $this->assertRegexp('#^/sync/[\w-]{8}/white/0/[\w-]{12}#i', $syncUrl);
 
         list($friend, $crawler) = $this->inviteAnybody(true);
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
