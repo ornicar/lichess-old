@@ -159,6 +159,7 @@ class LichessExtension extends Twig_Extension
         $playerFullId = $player->getFullId();
         $generator    = $this->getRouterGenerator();
         $translator   = $this->getTranslator();
+        $locale       = $this->container->get('session')->getLocale();
 
         $data = array(
             'game' => array(
@@ -181,7 +182,7 @@ class LichessExtension extends Twig_Extension
                 'active' => $isOpponentActive,
             ),
             'url' => array(
-                'sync'      => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
+                'sync'      => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'move'      => $generator->generate('lichess_move', array('id' => $playerFullId)),
@@ -193,11 +194,11 @@ class LichessExtension extends Twig_Extension
                 'Waiting for opponent' => $translator->trans('Waiting for opponent'),
                 'Your turn'            => $translator->trans('Your turn'),
             ),
-            'possible_moves'    => $possibleMoves,
-            'sync_latency' => $this->container->getParameter('lichess.sync.latency') * 1000,
-            'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000,
-            'locale' => $this->container->get('session')->getLocale(),
-            'debug'             => $this->container->getParameter('kernel.debug')
+            'possible_moves'  => $possibleMoves,
+            'sync_latency'    => $this->container->getParameter('lichess.sync.latency') * 1000,
+            'animation_delay' => $this->container->getParameter('lichess.animation.delay') * 1000,
+            'locale'          => $locale,
+            'debug'           => $this->container->getParameter('kernel.debug')
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
@@ -211,6 +212,7 @@ class LichessExtension extends Twig_Extension
         $opponent   = $player->getOpponent();
         $generator  = $this->getRouterGenerator();
         $translator = $this->getTranslator();
+        $locale       = $this->container->get('session')->getLocale();
 
         $data = array(
             'game' => array(
@@ -233,7 +235,7 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
+                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
                 'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
             ),
