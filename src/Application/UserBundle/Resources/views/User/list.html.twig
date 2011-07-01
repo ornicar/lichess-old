@@ -29,3 +29,9 @@
     </div>
 </div>
 {% endblock %}
+{% block goodies %}
+<div class="lichess_goodies">
+    <br />
+    <a href="{{ path("lichess_user_stats" ) }}">{{ "See players stats"|trans }}</a>
+</div>
+{% endblock %}

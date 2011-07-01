@@ -59,6 +59,18 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Gets the number of games with this status
+     *
+     * @return int
+     */
+    public function countByStatus($status)
+    {
+        return $this->createQueryBuilder()
+            ->field('status')->equals($status)
+            ->getQuery()->count();
+    }
+
+    /**
      * Find ids of more recent games
      *
      * @return array

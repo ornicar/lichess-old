@@ -1,0 +1,26 @@
+{% extends "FOSUserBundle::layoutUser.html.twig" %}
+{% block title %}Players statistics{% endblock %}
+{% block content %}
+<div class="content_box">
+    <h1 class="lichess_title">Players statistics</h1>
+    <div class="elo_distribution" title="Elo distribution" data-columns="{{ eloChart.columns|json_encode }}" data-rows="{{ eloChart.rows|json_encode }}"></div>
+    <div class="end_distribution" title="How games end" data-columns="{{ endChart.columns|json_encode }}" data-rows="{{ endChart.rows|json_encode }}"></div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% javascripts
+    '@LichessBundle/Resources/public/js/chart.js'
+    '@LichessUserBundle/Resources/public/js/charts.js'
+    filter="?yui_js" %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+
+{% block layout_head %}
+{{ parent() }}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="{{ asset('bundles/lichess/vendor/google.corechart.js') }}"></script>
+{% endblock %}
+

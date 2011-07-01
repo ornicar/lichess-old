@@ -20,6 +20,23 @@ class UserRepository extends DocumentRepository
         $this->dm->getDocumentCollection($this->documentName)->getMongoCollection()->update($query, $update);
     }
 
+    /**
+     * Gets the elo of each user
+     *
+     * @return array of int Elo
+     */
+    public function getElosArray()
+    {
+        $result = $this->createQueryBuilder()
+            ->select('elo')
+            ->hydrate(false)
+            ->getQuery()
+            ->execute()
+            ->toArray();
+
+        return array_values(array_map(function(array $data) { return (int)$data['elo']; }, $result));
+    }
+
     public function findOnlineUsersSortByElo()
     {
         return $this->createQueryBuilder()
