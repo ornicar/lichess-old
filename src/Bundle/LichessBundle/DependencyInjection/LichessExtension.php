@@ -15,13 +15,10 @@ class LichessExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('chess.xml');
         $loader->load('model.xml');
-        $loader->load('blamer.xml');
-        $loader->load('critic.xml');
+        $loader->load('config.xml');
         $loader->load('elo.xml');
         $loader->load('controller.xml');
-        $loader->load('twig.xml');
         $loader->load('form.xml');
-        $loader->load('logger.xml');
         $loader->load('cheat.xml');
         $loader->load('starter.xml');
         $loader->load('seek.xml');
@@ -30,7 +27,6 @@ class LichessExtension extends Extension
         $loader->load('game_config.xml');
         $loader->load('ai.xml');
         $loader->load('sync.xml');
-        $loader->load('renderer.xml');
 
         $processor = new Processor();
         $configuration = new Configuration();
