@@ -39,7 +39,6 @@ class LichessExtension extends Twig_Extension
         $mappings = array(
             'lichess_link_player'       => 'linkPlayer',
             'lichess_link_user'         => 'linkUser',
-            'lichess_elo_chart_url'     => 'eloChartUrl',
             'lichess_choices'           => 'choices',
             'lichess_game_data'         => 'renderGameData',
             'lichess_game_watch_data'   => 'renderGameWatchData',
@@ -139,11 +138,6 @@ class LichessExtension extends Twig_Extension
         $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
         return sprintf('<a class="user_link%s" href="%s"%s>%s</a>', $user->getIsOnline() ? ' online' : '', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
-    }
-
-    public function eloChartUrl(History $history, $size)
-    {
-        return $this->container->get('lichess.elo.chart')->getUrl($history, $size);
     }
 
     public function escape($string)

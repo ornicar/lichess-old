@@ -4,7 +4,7 @@
 <div class="content_box">
 <div class="user_show">
     <div class="user_top clearfix">
-        <img class="elo_history" src="{{ lichess_elo_chart_url(history, "400x200") }}" width="400" height="200" alt="ELO history" />
+        <div class="elo_history" title="Elo history" data-columns="{{ eloChart.columns|json_encode }}" data-rows="{{ eloChart.rows|json_encode }}"></div>
         <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
         {% block user_bio %}
             <span class="user_bio">{{ lichess_shorten(user.bio, 400) }}</span>
@@ -12,15 +12,13 @@
         <div class="stats">
             {{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}<br />
             {{ "Games played"|trans }}: <strong>{{ critic.nbGames|default("0") }}</strong><br />
-            {{ "%nb_wins% wins, %nb_losses% losses and %nb_draws% draws"|trans({"%nb_wins%": critic.nbWins, "%nb_losses%": critic.nbLosses, "%nb_draws%": critic.nbDraws}) }}<br />
-            {{ "Registered"|trans }} {{ lichess_date(user.createdAt) }}<br />
-            {{ "Best Elo"|trans }}: {{ history.maxElo }}, {{ lichess_date(history.maxEloDate) }}
             {% if not user.isEnabled %}
                 <br /><span>This account is closed.</span>
             {% elseif user.isOnline %}
                 <br /><span class="user_is_online">{{ "%user% is online"|trans({"%user%": user.username}) }}</span>
             {% endif %}
             {% block actions %}{% endblock %}
+            <div class="win_stats" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
             {% block user_message %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <div class="actions">
@@ -44,9 +42,15 @@
 {% block javascripts %}
 {{ parent() }}
 {% javascripts
-    '@LichessBundle/Resources/public/vendor/jquery.infinitescroll.min.js'
-    '@LichessBundle/Resources/public/js/infinitescroll.js'
-%}
+    '@LichessBundle/Resources/public/js/chart.js'
+    '@LichessUserBundle/Resources/public/js/show.js'
+    filter="?yui_js" %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
+{% endblock %}
+
+{% block layout_head %}
+{{ parent() }}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="{{ asset('bundles/lichess/vendor/google.corechart.js') }}"></script>
 {% endblock %}

@@ -12,8 +12,18 @@
     color: green;
 }
 
-#lichess_user img.elo_history {
+#lichess_user .elo_history {
     float:right;
+    display: block;
+    width: 400px;
+    height: 350px;
+}
+
+#lichess_user .win_stats {
+    float:left;
+    display: block;
+    width: 347px;
+    height: 200px;
 }
 
 div.signup_box p.explanation {

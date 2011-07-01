@@ -9,6 +9,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Application\UserBundle\Document\User;
+use Lichess\ChartBundle\Chart\UserEloChart;
+use Lichess\ChartBundle\Chart\UserWinChart;
 
 class ProfileController extends BaseProfileController
 {
@@ -61,7 +63,7 @@ class ProfileController extends BaseProfileController
             ->sort('elo', 'desc');
         $users = new Paginator(new DoctrineMongoDBAdapter($query));
         $users->setCurrentPageNumber($this->container->get('request')->query->get('page', 1));
-        $users->setItemCountPerPage(20);
+        $users->setItemCountPerPage(40);
         $users->setPageRange(3);
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_list');
 
@@ -82,13 +84,15 @@ class ProfileController extends BaseProfileController
         $critic = $this->container->get('lichess.critic.user');
         $critic->setUser($user);
 
+        $winChart = new UserWinChart($critic);
         $history = $this->container->get('lichess.repository.history')->findOneByUserOrCreate($user);
+        $eloChart = new UserEloChart($history);
 
         $page = $this->container->get('request')->query->get('page', 1);
         $query = $this->container->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
         $games->setCurrentPageNumber($page);
-        $games->setItemCountPerPage(10);
+        $games->setItemCountPerPage(6);
         $games->setPageRange(3);
         if ($page > 1 && $page > $games->count()) {
             throw new NotFoundHttpException('No more items');
@@ -101,7 +105,7 @@ class ProfileController extends BaseProfileController
             $template = 'FOSUserBundle:User:show.html.twig';
         }
 
-        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'history', 'games', 'pagerUrl'));
+        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'pagerUrl'));
     }
 
     protected function getAuthenticatedUser()
