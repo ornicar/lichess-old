@@ -23,7 +23,6 @@ class LichessExtension extends Extension
         $loader->load('starter.xml');
         $loader->load('seek.xml');
         $loader->load('provider.xml');
-        $loader->load('listener.xml');
         $loader->load('game_config.xml');
         $loader->load('ai.xml');
         $loader->load('sync.xml');
@@ -32,6 +31,9 @@ class LichessExtension extends Extension
         $configuration = new Configuration();
         $config = $processor->process($configuration->getConfigTree(), $configs);
 
+        if ($config['request_listener']) {
+            $loader->load('listener.xml');
+        }
         foreach (array('enabled', 'priority', 'executable_path', 'book_dir') as $option) {
             $container->setParameter('lichess.ai.crafty.'.$option, $config['ai']['crafty'][$option]);
         }

@@ -41,6 +41,7 @@ lichess:
         stupid:
             enabled: true
             priority: 1
+    request_listener: false
 
 imports:
     - { resource: config_local.yml }
