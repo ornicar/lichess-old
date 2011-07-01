@@ -5,7 +5,6 @@ google.elemToData = function(elem) {
     $.each($(elem).data('columns'), function() {
         data.addColumn(this[0], this[1]);
     });
-    //console.debug($(elem).data('rows'));
     data.addRows($(elem).data('rows'));
 
     return data;
