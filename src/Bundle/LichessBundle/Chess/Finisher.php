@@ -20,14 +20,15 @@ class Finisher
     protected $logger;
     protected $judge;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Judge $judge)
+    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Judge $judge, AutoDraw $autoDraw)
     {
-        $this->calculator     = $calculator;
-        $this->messenger      = $messenger;
-        $this->memory   = $memory;
-        $this->eloUpdater     = $eloUpdater;
-        $this->logger         = $logger;
-        $this->judge          = $judge;
+        $this->calculator = $calculator;
+        $this->messenger  = $messenger;
+        $this->memory     = $memory;
+        $this->eloUpdater = $eloUpdater;
+        $this->logger     = $logger;
+        $this->judge      = $judge;
+        $this->autoDraw   = $autoDraw;
     }
 
     public function finish(Game $game)
@@ -47,7 +48,11 @@ class Finisher
     public function outoftime(Player $player)
     {
         $game = $player->getGame();
-        if($game->checkOutOfTime()) {
+        if ($oftPlayer = $game->checkOutOfTime()) {
+            $game->setStatus(Game::OUTOFTIME);
+            if (!$this->autoDraw->hasTooFewMaterialToMate($oftPlayer->getOpponent())) {
+                $game->setWinner($oftPlayer->getOpponent());
+            }
             $this->finish($game);
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
             $game->addEventsToStacks($events);

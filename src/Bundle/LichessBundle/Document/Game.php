@@ -546,9 +546,7 @@ class Game
         }
         foreach($this->getPlayers() as $player) {
             if($this->getClock()->isOutOfTime($player->getColor())) {
-                $this->setStatus(static::OUTOFTIME);
-                $this->setWinner($player->getOpponent());
-                return true;
+                return $player;
             }
         }
     }

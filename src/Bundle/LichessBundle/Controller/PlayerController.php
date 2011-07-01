@@ -18,8 +18,7 @@ class PlayerController extends Controller
 {
     public function outoftimeAction($id)
     {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        $this->get('lichess.finisher')->outoftime($player);
+        $this->get('lichess.finisher')->outoftime($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new Response('ok');
@@ -27,8 +26,7 @@ class PlayerController extends Controller
 
     public function rematchAction($id)
     {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        $this->get('lichess.rematcher')->rematch($player);
+        $this->get('lichess.rematcher')->rematch($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new Response('ok');
