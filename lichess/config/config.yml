@@ -105,8 +105,6 @@ fos_comment:
     service:
         blamer:
             comment: fos_comment.blamer.comment.security
-        creator:
-            comment: lichess_comment.creator.comment
         spam_detection:
             comment: fos_comment.spam_detection.comment.noop
 
