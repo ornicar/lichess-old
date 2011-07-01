@@ -3,7 +3,7 @@ $(function() {
         $(this).infinitescroll({
             navSelector: "div.pager",
             nextSelector: "div.pager a.next",
-            itemSelector: "div.infinitescroll div.paginated_element",
+            itemSelector: "div.infinitescroll .paginated_element",
             loadingText: "",
             donetext: "---"
         }, function() {
