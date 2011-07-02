@@ -251,6 +251,11 @@ $.connectivity = function(element, options) {
         refreshDelay: 300
     },
     options);
+    var html = '';
+    for (var i = 1; i <= 5; i++) {
+        html += '<span style="height:'+(i*4)+'px;margin-top:'+(20-i*4)+'px;"></span>';
+    }
+    this.element.html(html);
     this.state = this.options.max;
     this.lastPingDate = new Date().getTime();
     this.$bars = this.element.find('span');

@@ -26,9 +26,7 @@
     </head>
     <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         <div id="top" class="clearfix">
-            <div id="connectivity" class="tipsyme" href="#" title="{{ "Network"|trans }}">
-                {% for i in 1..5 %}<span class="on" style="height:{{i*4}}px;margin-top:{{20-4*i}}px;"></span>{% endfor %}
-            </div>
+            <div id="connectivity" class="tipsyme" href="#" title="{{ "Network"|trans }}"></div>
             <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}"><span></span></a>
             <div class="lichess_language" data-path="{{ path("lichess_translation_selection_list") }}">
                 <a class="toggle_language toggle"><span class="s16">{{ app.session.get('locale_name') }}</span></a>
@@ -63,7 +61,6 @@
         <div class="content">
             <div class="header">
                 <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
-                {% block baseline %}{% endblock %}
                 {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
                 {% elseif app.session.getFlash("locale_change", "en") != "en" %}{% render "LichessTranslationBundle:Contribution:onChange" with{"locale": app.session.locale} %}
                 {% endif %}
