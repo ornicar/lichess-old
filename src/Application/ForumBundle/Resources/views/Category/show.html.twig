@@ -1,5 +1,5 @@
 {% extends "ForumBundle::layout.html.twig" %}
-{% block title %}{{ category.name|raw }}{% endblock %}
+{% block title %}{{ category.name }}{% endblock %}
 {% block description %}{{ category.description|raw }}{% endblock %}
 {% block feed_link %}
     <link href="{{ path("forum_category_show", {"slug": category.slug, "_format": "xml"} ) }}" type="application/atom+xml" rel="alternate" title="{{ category.name|raw }} - Lichess Forum" />

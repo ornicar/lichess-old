@@ -1,13 +1,14 @@
 {% extends "LichessBundle::layout.html.twig" %}
-{% block stylesheets %}
-{{ parent() }}
-{% stylesheets
-    '@LichessForumBundle/Resources/public/css/forum.css'
-    filter="yui_css" %}
-    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-{% endstylesheets %}
-{% endblock %}
+{% block title %}Forum{% endblock %}
 {% block layout_content %}
 <div id="lichess_forum" class="content_box">{% block content %}{% endblock %}</div>
 {% endblock %}
 {% block menu_active %}forum{% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+{% stylesheets
+    '@LichessForumBundle/Resources/public/css/forum.css'
+    filter="?yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
