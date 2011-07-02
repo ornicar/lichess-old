@@ -33,7 +33,7 @@ div.game_share a.fos_comment_thread_feed {
 div.game_share_widgets {
     float: right;
     opacity: 0.7;
-    width: 300px;
+    width: 270px;
 }
 div.game_share_widgets:hover {
     opacity: 1;
