@@ -10,7 +10,7 @@ class Cache
 
     public function __construct($timeout)
     {
-        $this->timeout = $timeout;
+        $this->timeout = (int) $timeout;
     }
 
     public function setOnline(User $user)

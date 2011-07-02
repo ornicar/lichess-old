@@ -67,8 +67,9 @@ $(function() {
                     ping(config);
                 },
                 dataType: config.dataType,
-                type: "POST",
-                timeout: 5000
+                type: "GET",
+                cache: false,
+                timeout: 15000
             });
         },
         config.delay);

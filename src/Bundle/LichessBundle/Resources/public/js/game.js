@@ -47,7 +47,7 @@ $.widget("lichess.game", {
                     setTimeout(function() {
                         self.sync(syncLoop, false);
                     },
-                    500);
+                    400);
                 }
             }
         }
@@ -61,7 +61,7 @@ $.widget("lichess.game", {
                 locale: self.options.locale
             },
             dataType: 'json',
-            timeout: self.options.sync_latency + 7000,
+            timeout: self.options.sync_latency + 8000,
             success: function(data) {
                 if (!data) return self.onError('received empty data', reloadIfFail);
                 if (data.reload) {
