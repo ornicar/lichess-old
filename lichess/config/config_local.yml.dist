@@ -1,6 +1,0 @@
-framework:
-    secret: someSecr3tp4ssphrase
-
-ornicar_akismet:
-    url: http://lichess.org
-    api_key: secret 

@@ -1,0 +1,3 @@
+apc:
+    host: lichess
+    web_dir: %kernel.root_dir%/../web

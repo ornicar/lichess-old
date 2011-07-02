@@ -1,0 +1,16 @@
+framework:
+    secret: # See config_local.yml.dist
+    charset:       UTF-8
+    router: { resource: "%kernel.root_dir%/config/routing.yml" }
+    validation: { enable_annotations: true }
+    form:            true
+    csrf_protection: false
+    session:
+        default_locale: en
+        name:     lichess2
+        lifetime: 72000
+        auto_start:     true
+    templating:
+        assets_version: 18
+        engines: ['twig']
+    translator: { fallback: en }

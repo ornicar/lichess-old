@@ -1,130 +1,14 @@
-framework:
-    secret: # See config_local.yml.dist
-    charset:       UTF-8
-    router: { resource: "%kernel.root_dir%/config/routing.yml" }
-    validation: { enable_annotations: true }
-    form:            true
-    csrf_protection: false
-    session:
-        default_locale: en
-        name:     lichess2
-        lifetime: 72000
-        auto_start:     true
-    templating:
-        assets_version: 18
-        engines: ['twig']
-    translator: { fallback: en }
-
-twig:
-    debug:            %kernel.debug%
-    strict_variables: %kernel.debug%
-
-assetic:
-    debug:          true
-    use_controller: false
-    filters:
-        yui_css:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
-        yui_js:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
-
-apc:
-    host: lichess
-    web_dir: %kernel.root_dir%/../web
-
-doctrine_mongodb:
-    connections:
-        default:
-            server: mongodb://localhost:27017
-            options:
-                connect: true
-                persist: lichess
-    default_database: lichess_%kernel.environment%
-    #default_database: lichess
-    document_managers:
-        default:
-            metadata_cache_driver: apc
-            auto_mapping: true
-
-monolog:
-    handlers:
-        main:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: warning
-
-forum:
-    db_driver: odm
-    class:
-        model:
-            category: Application\ForumBundle\Document\Category
-            topic: Application\ForumBundle\Document\Topic
-            post: Application\ForumBundle\Document\Post
-        controller:
-            topic: Application\ForumBundle\Controller\TopicController
-            post: Application\ForumBundle\Controller\PostController
-        form:
-            post: Application\ForumBundle\Form\PostFormType
-            first_post: Application\ForumBundle\Form\PostFormType
-        blamer:
-            post: Application\ForumBundle\Blamer\PostBlamer
-        twig:
-            extension: Application\ForumBundle\Twig\ForumExtension
-    paginator:
-        topics_per_page: 10
-        posts_per_page: 10
-        search_results_per_page: 10
-
-lichess_forum:
-    detect_spam: true
-
-fos_user:
-    firewall_name: main
-    db_driver: mongodb
-    user_class: Application\UserBundle\Document\User
-    registration:
-        confirmation:
-            enabled:    false
-        form:
-            type: Application\UserBundle\Form\RegistrationFormType
-    encoder:
-        iterations: 1
-        encode_as_base64: false
-        algorithm: sha1
-    service:
-        mailer: fos_user.mailer.noop
-
-fos_comment:
-    db_driver: mongodb
-    class:
-        model:
-            comment: Application\CommentBundle\Document\Comment
-    form:
-        comment:
-            type: lichess_comment.comment
-    service:
-        blamer:
-            comment: fos_comment.blamer.comment.security
-        spam_detection:
-            comment: fos_comment.spam_detection.comment.noop
-
-ornicar_message:
-    db_driver: odm
-    class:
-        model:
-            message: Application\MessageBundle\Document\Message
-
-lichess:
-    ai:
-        crafty:
-            enabled: true
-            priority: 2
-            executable_path: /usr/bin/crafty
-            book_dir: /usr/share/crafty
-        stupid:
-            enabled: true
-            priority: 1
-
 imports:
-    - { resource: security.yml }
-    - { resource: config_local.yml }
+    - { resource: ../../config/akismet.yml }
+    - { resource: ../../config/apc.yml }
+    - { resource: ../../config/assetic.yml }
+    - { resource: ../../config/comment.yml }
+    - { resource: ../../config/doctrine.yml }
+    - { resource: ../../config/forum.yml }
+    - { resource: ../../config/framework.yml }
+    - { resource: ../../config/lichess.yml }
+    - { resource: ../../config/message.yml }
+    - { resource: ../../config/monolog.yml }
+    - { resource: ../../config/security.yml }
+    - { resource: ../../config/twig.yml }
+    - { resource: ../../config/user.yml }

@@ -17,7 +17,7 @@ lichess:
 monolog:
     handlers:
         main:
-            level: info
+            level: warning
 
 apc:
     host: lichess

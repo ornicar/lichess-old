@@ -1,0 +1,24 @@
+forum:
+    db_driver: odm
+    class:
+        model:
+            category: Application\ForumBundle\Document\Category
+            topic: Application\ForumBundle\Document\Topic
+            post: Application\ForumBundle\Document\Post
+        controller:
+            topic: Application\ForumBundle\Controller\TopicController
+            post: Application\ForumBundle\Controller\PostController
+        form:
+            post: Application\ForumBundle\Form\PostFormType
+            first_post: Application\ForumBundle\Form\PostFormType
+        blamer:
+            post: Application\ForumBundle\Blamer\PostBlamer
+        twig:
+            extension: Application\ForumBundle\Twig\ForumExtension
+    paginator:
+        topics_per_page: 10
+        posts_per_page: 10
+        search_results_per_page: 10
+
+lichess_forum:
+    detect_spam: true

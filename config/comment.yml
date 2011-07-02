@@ -1,0 +1,13 @@
+fos_comment:
+    db_driver: mongodb
+    class:
+        model:
+            comment: Application\CommentBundle\Document\Comment
+    form:
+        comment:
+            type: lichess_comment.comment
+    service:
+        blamer:
+            comment: fos_comment.blamer.comment.security
+        spam_detection:
+            comment: fos_comment.spam_detection.comment.noop
