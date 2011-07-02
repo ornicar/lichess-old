@@ -25,7 +25,7 @@ class Configuration
         $treeBuilder->root('lichess', 'array')
             ->children()
                 ->booleanNode('test')->defaultValue(false)->end()
-                ->booleanNode('debug_assets')->defaultFalse()->end()
+                ->booleanNode('debug_assets')->defaultValue('%kernel.debug%')->end()
                 ->booleanNode('request_listener')->defaultTrue()->end()
                 ->arrayNode('ai')->addDefaultsIfNotSet()
                     ->children()

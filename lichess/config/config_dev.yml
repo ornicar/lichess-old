@@ -10,7 +10,6 @@ web_profiler:
     intercept_redirects: false
 
 lichess:
-    debug_assets: true
     sync:
         path: /xhr_dev.php
 

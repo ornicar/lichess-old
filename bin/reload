@@ -9,13 +9,6 @@ show_run()
 echo -e "\n--- Building bootstrap"
 show_run "bin/build_bootstrap.php"
 
-for application in xhr lichess; do
-    if [ ! -f lichess/config/config_local.yml ]; then
-        echo -e "\n--- Creating local configuration file for $application"
-        show_run cp $application/config/config_local.yml.dist $application/config/config_local.yml
-    fi
-done
-
 echo -e "\n--- warming up xhr cache"
 show_run "php xhr/console --env=dev cache:clear"
 
