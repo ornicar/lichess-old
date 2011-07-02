@@ -22,9 +22,13 @@ class SyncController implements ContainerAwareInterface
 
     public function syncAction($id, $color, $version, $playerFullId)
     {
-        $player   = $this->container->get('lichess.provider')->findPublicPlayer($id, $color);
-        $isSigned = $player->getFullId() === $playerFullId;
-        $data     = $this->container->get('lichess.synchronizer')->synchronize($player, $version, $isSigned);
+        $player = $this->container->get('lichess.provider')->findPublicPlayer($id, $color);
+        if (!$player) {
+            $data = array('reload' => true);
+        } else {
+            $isSigned = $player->getFullId() === $playerFullId;
+            $data     = $this->container->get('lichess.synchronizer')->synchronize($player, $version, $isSigned);
+        }
 
         return new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
     }
