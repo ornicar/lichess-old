@@ -30,19 +30,24 @@ class GameEndChart
     public function getRows()
     {
         $ends = array(
-            'mates' => $this->gameRepository->countByStatus(Game::MATE),
-            'resigns' => $this->gameRepository->countByStatus(Game::RESIGN),
-            'stalemates' => $this->gameRepository->countByStatus(Game::STALEMATE),
-            'timeouts' => $this->gameRepository->countByStatus(Game::TIMEOUT),
-            'disconnects' => $this->gameRepository->countByStatus(Game::OUTOFTIME),
-            'draws' => $this->gameRepository->countByStatus(Game::DRAW),
+            'mates' => $this->getNbGameByStatus(Game::MATE),
+            'resigns' => $this->getNbGameByStatus(Game::RESIGN),
+            'stalemates' => $this->getNbGameByStatus(Game::STALEMATE),
+            'timeouts' => $this->getNbGameByStatus(Game::TIMEOUT),
+            'disconnects' => $this->getNbGameByStatus(Game::OUTOFTIME),
+            'draws' => $this->getNbGameByStatus(Game::DRAW),
         );
 
         $data = array();
         foreach ($ends as $text => $nb) {
-            $data[] = array($nb.' '.$text, $nb);
+            $data[] = array(number_format($nb).' '.$text, $nb);
         }
 
         return $data;
+    }
+
+    public function getNbGameByStatus($status)
+    {
+        return $this->gameRepository->countByStatus($status);
     }
 }
