@@ -1,5 +1,5 @@
 framework:
-    secret: # See config_local.yml.dist
+    secret: OUtWsdDDigFl
     charset:       UTF-8
     router: { resource: "%kernel.root_dir%/config/routing.yml" }
     validation: { enable_annotations: true }

@@ -31,7 +31,7 @@ class FixTranslationCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dm = $this->getContainer()->get('lichess.object_manager');
+        $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
         $tm = $this->getContainer()->get('lichess_translation.manager');
         foreach($tm->getAvailableLanguages() as $code => $name) {
             print($code.', ');

@@ -17,7 +17,7 @@ class TrialController extends Controller
     {
         $trial = $this->container->get('lichess.repository.trial')->find($id);
         $this->container->get('lichess.cheat.judge')->setVerdict($trial, (bool) $verdict);
-        $this->container->get('lichess.object_manager')->flush();
+        $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
 
         return new RedirectResponse($this->container->get('router')->generate('lichess_trial_list_unresolved'));
     }
@@ -67,6 +67,6 @@ class TrialController extends Controller
 
     protected function flush($safe = true)
     {
-        return $this->get('lichess.object_manager')->flush(array('safe' => $safe));
+        return $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => $safe));
     }
 }

@@ -5,9 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="lichess.renderer.room_message" class="Bundle\LichessBundle\Renderer\RoomMessageRenderer">
-            <argument type="service" id="service_container" />
-        </service>
         <service id="lichess.blamer.player" class="Bundle\LichessBundle\Blamer\PlayerBlamer" public="false">
             <argument type="service" id="security.context" on-invalid="null" />
         </service>

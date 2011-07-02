@@ -12,37 +12,35 @@ class LichessExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('chess.xml');
-        $loader->load('model.xml');
-        $loader->load('config.xml');
-        $loader->load('elo.xml');
-        $loader->load('controller.xml');
-        $loader->load('form.xml');
-        $loader->load('cheat.xml');
-        $loader->load('starter.xml');
-        $loader->load('seek.xml');
-        $loader->load('provider.xml');
-        $loader->load('game_config.xml');
-        $loader->load('ai.xml');
-        $loader->load('sync.xml');
-
         $processor = new Processor();
         $configuration = new Configuration();
         $config = $processor->process($configuration->getConfigTree(), $configs);
 
-        if ($config['request_listener']) {
-            $loader->load('listener.xml');
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('model.xml');
+        $loader->load('provider.xml');
+        $loader->load('sync.xml');
+        $loader->load('messenger.xml');
+        foreach ($config['feature'] as $feature => $enabled) {
+            if ($enabled) $loader->load($feature.'.xml');
         }
-        foreach (array('enabled', 'priority', 'executable_path', 'book_dir') as $option) {
-            $container->setParameter('lichess.ai.crafty.'.$option, $config['ai']['crafty'][$option]);
-        }
-        foreach (array('enabled', 'priority') as $option) {
-            $container->setParameter('lichess.ai.stupid.'.$option, $config['ai']['stupid'][$option]);
+
+        if ($config['feature']['ai']) {
+            foreach (array('enabled', 'priority', 'executable_path', 'book_dir') as $option) {
+                $container->setParameter('lichess.ai.crafty.'.$option, $config['ai']['crafty'][$option]);
+            }
+            foreach (array('enabled', 'priority') as $option) {
+                $container->setParameter('lichess.ai.stupid.'.$option, $config['ai']['stupid'][$option]);
+            }
         }
         $container->setParameter('lichess.debug_assets', $config['debug_assets']);
-        $container->setParameter('lichess.seek_matcher.use_session', $config['seek']['use_session']);
-        $container->setParameter('lichess.starter.anybody.check_creator_is_active', $config['anybody_starter']['check_creator_is_active']);
+
+        if ($config['feature']['seek']) {
+            $container->setParameter('lichess.seek_matcher.use_session', $config['seek']['use_session']);
+        }
+        if ($config['feature']['starter']) {
+            $container->setParameter('lichess.starter.anybody.check_creator_is_active', $config['anybody_starter']['check_creator_is_active']);
+        }
 
         $container->setParameter('lichess.sync.path', $config['sync']['path']);
         $container->setParameter('lichess.sync.latency', $config['sync']['latency']);

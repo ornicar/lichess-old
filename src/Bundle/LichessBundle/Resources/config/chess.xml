@@ -29,7 +29,7 @@
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="router" />
-            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
         </service>
 
         <service id="lichess.generator" class="Bundle\LichessBundle\Chess\Generator" />

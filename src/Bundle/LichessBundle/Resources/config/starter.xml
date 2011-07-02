@@ -9,7 +9,7 @@
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
             <argument type="service" id="lichess.ai.chain" />
-            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.manipulator_factory" />
             <argument type="service" id="lichess.config.persistence" />
@@ -17,25 +17,25 @@
         <service id="lichess.starter.friend" class="Bundle\LichessBundle\Starter\FriendStarter">
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
-            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.config.persistence" />
         </service>
         <service id="lichess.starter.anybody" class="Bundle\LichessBundle\Starter\AnybodyStarter">
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
-            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.seek_queue" />
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.config.persistence" />
-            <argument type="service" id="session" on-invalid="null" />
+            <argument type="service" id="session" />
             <argument>%lichess.starter.anybody.check_creator_is_active%</argument>
         </service>
         <service id="lichess.starter.api" class="Bundle\LichessBundle\Starter\ApiStarter">
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
-            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.logger" />
         </service>

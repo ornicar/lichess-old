@@ -32,7 +32,7 @@ class ProfileController extends BaseProfileController
     {
         $bio = $this->container->get('request')->request->get('bio');
         $this->getAuthenticatedUser()->setBio($bio);
-        $this->container->get('lichess.object_manager')->flush();
+        $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
 
         $response = new Response(json_encode(array('bio' => $bio)));
         $response->headers->set('Content-Type', 'application/json');

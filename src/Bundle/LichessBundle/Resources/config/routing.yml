@@ -1,127 +1,127 @@
 lichess_homepage:
     pattern:        /
-    defaults:       { _controller: lichess.controller.main:indexAction }
+    defaults:       { _controller: LichessBundle:Main:index }
 lichess_move:
     pattern:        /move/{id}
-    defaults:       { _controller: lichess.controller.player:moveAction }
+    defaults:       { _controller: LichessBundle:Player:move }
     requirements:   { id: "[\w\-]{12}" }
 lichess_say:
     pattern:        /talk/{id}
-    defaults:       { _controller: lichess.controller.player:sayAction }
+    defaults:       { _controller: LichessBundle:Player:say }
     requirements:   { id: "[\w\-]{12}" }
 lichess_invite_friend:
     pattern:        /friend
-    defaults:       { _controller: lichess.controller.game:inviteFriendAction }
+    defaults:       { _controller: LichessBundle:Game:inviteFriend }
 lichess_toggle_sound:
     pattern:        /toggle-sound
-    defaults:       { _controller: lichess.controller.main:toggleSoundAction }
+    defaults:       { _controller: LichessBundle:Main:toggleSound }
 lichess_wait_friend:
     pattern:        /friend/{id}
-    defaults:       { _controller: lichess.controller.player:waitFriendAction }
+    defaults:       { _controller: LichessBundle:Player:waitFriend }
     requirements:   { id: "[\w\-]{12}" }
 lichess_game:
     pattern:        /{id}/{color}
-    defaults:       { _controller: lichess.controller.game:showAction, color: white }
+    defaults:       { _controller: LichessBundle:Game:show, color: white }
     requirements:   { id: "[\w\-]{8}", color: (white|black) }
 lichess_game_stats:
     pattern:        /{id}/stats
-    defaults:       { _controller: lichess.controller.game:statsAction, color: white }
+    defaults:       { _controller: LichessBundle:Game:stats, color: white }
     requirements:   { id: "[\w\-]{8}" }
 lichess_player:
     pattern:        /{id}
-    defaults:       { _controller: lichess.controller.player:showAction }
+    defaults:       { _controller: LichessBundle:Player:show }
     requirements:   { id: "[\w\-]{12}" }
 lichess_invite_ai:
     pattern:        /ai
-    defaults:       { _controller: lichess.controller.game:inviteAiAction }
+    defaults:       { _controller: LichessBundle:Game:inviteAi }
 lichess_join_game:
     pattern:        /join/{id}
-    defaults:       { _controller: lichess.controller.game:joinAction }
+    defaults:       { _controller: LichessBundle:Game:join }
     requirements:   { id: "[\w\-]{8}" }
 lichess_invite_anybody:
     pattern:        /anybody
-    defaults:       { _controller: lichess.controller.game:inviteAnybodyAction }
+    defaults:       { _controller: LichessBundle:Game:inviteAnybody }
 lichess_wait_anybody:
     pattern:        /anybody/{id}
-    defaults:       { _controller: lichess.controller.player:waitAnybodyAction }
+    defaults:       { _controller: LichessBundle:Player:waitAnybody }
     requirements:   { id: "[\w\-]{12}" }
 lichess_cancel_anybody:
     pattern:        /anybody/{id}/cancel
-    defaults:       { _controller: lichess.controller.player:cancelAnybodyAction }
+    defaults:       { _controller: LichessBundle:Player:cancelAnybody }
     requirements:   { id: "[\w\-]{12}" }
 lichess_resign:
     pattern:        /resign/{id}
-    defaults:       { _controller: lichess.controller.player:resignAction }
+    defaults:       { _controller: LichessBundle:Player:resign }
     requirements:   { id: "[\w\-]{12}" }
 lichess_abort:
     pattern:        /abort/{id}
-    defaults:       { _controller: lichess.controller.player:abortAction }
+    defaults:       { _controller: LichessBundle:Player:abort }
     requirements:   { id: "[\w\-]{12}" }
 lichess_outoftime:
     pattern:        /outoftime/{id}
-    defaults:       { _controller: lichess.controller.player:outoftimeAction }
+    defaults:       { _controller: LichessBundle:Player:outoftime }
     requirements:   { id: "[\w\-]{12}" }
 lichess_table:
     pattern:        /table/{id}/{color}/{playerFullId}
-    defaults:       { _controller: lichess.controller.player:tableAction, playerFullId "" }
+    defaults:       { _controller: LichessBundle:Player:table, playerFullId "" }
     requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)" }
 lichess_opponent:
     pattern:        /opponent/{id}/{color}/{playerFullId}
-    defaults:       { _controller: lichess.controller.player:opponentAction, playerFullId "" }
+    defaults:       { _controller: LichessBundle:Player:opponent, playerFullId "" }
     requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)" }
 lichess_list_current:
     pattern:        /games
-    defaults:       { _controller: lichess.controller.game:listCurrentAction }
+    defaults:       { _controller: LichessBundle:Game:listCurrent }
 lichess_list_current_inner:
     pattern:        /games-refresh/{ids}
-    defaults:       { _controller: lichess.controller.game:listCurrentInnerAction }
+    defaults:       { _controller: LichessBundle:Game:listCurrentInner }
 lichess_list_all:
     pattern:        /games/all
-    defaults:       { _controller: lichess.controller.game:listAllAction }
+    defaults:       { _controller: LichessBundle:Game:listAll }
 lichess_list_mates:
     pattern:        /games/checkmate
-    defaults:       { _controller: lichess.controller.game:listCheckmateAction }
+    defaults:       { _controller: LichessBundle:Game:listCheckmate }
 lichess_about:
     pattern:        /about
-    defaults:       { _controller: lichess.controller.main:aboutAction }
+    defaults:       { _controller: LichessBundle:Main:about }
 lichess_rematch:
     pattern:        /rematch/{id}
-    defaults:       { _controller: lichess.controller.player:rematchAction }
+    defaults:       { _controller: LichessBundle:Player:rematch }
     requirements:   { id: "[\w\-]{12}" }
 lichess_force_resignation:
     pattern:        /force-resign/{id}
-    defaults:       { _controller: lichess.controller.player:forceResignAction }
+    defaults:       { _controller: LichessBundle:Player:forceResign }
     requirements:   { id: "[\w\-]{12}" }
 lichess_claim_draw:
     pattern:        /claim-draw/{id}
-    defaults:       { _controller: lichess.controller.player:claimDrawAction }
+    defaults:       { _controller: LichessBundle:Player:claimDraw }
     requirements:   { id: "[\w\-]{12}" }
 lichess_offer_draw:
     pattern:        /offer-draw/{id}
-    defaults:       { _controller: lichess.controller.player:offerDrawAction }
+    defaults:       { _controller: LichessBundle:Player:offerDraw }
     requirements:   { id: "[\w\-]{12}" }
 lichess_cancel_draw_offer:
     pattern:        /cancel-draw-offer/{id}
-    defaults:       { _controller: lichess.controller.player:cancelDrawOfferAction }
+    defaults:       { _controller: LichessBundle:Player:cancelDrawOffer }
     requirements:   { id: "[\w\-]{12}" }
 lichess_accept_draw_offer:
     pattern:        /accept-draw-offer/{id}
-    defaults:       { _controller: lichess.controller.player:acceptDrawOfferAction }
+    defaults:       { _controller: LichessBundle:Player:acceptDrawOffer }
     requirements:   { id: "[\w\-]{12}" }
 lichess_decline_draw_offer:
     pattern:        /decline-draw-offer/{id}
-    defaults:       { _controller: lichess.controller.player:declineDrawOfferAction }
+    defaults:       { _controller: LichessBundle:Player:declineDrawOffer }
     requirements:   { id: "[\w\-]{12}" }
 lichess_pgn_viewer:
     pattern:        /analyse/{id}/{color}
-    defaults:       { _controller: lichess.controller.pgn:analyseAction, color: white }
+    defaults:       { _controller: LichessBundle:Pgn:analyse, color: white }
     requirements:   { id: "[\w\-]{8}", color: (white|black) }
 lichess_nb_players:
     pattern:        /how-many-players-now
-    defaults:       { _controller: lichess.controller.main:howManyPlayersNowAction }
+    defaults:       { _controller: LichessBundle:Main:howManyPlayersNow }
 lichess_todolist:
     pattern:        /todo-list
-    defaults:       { _controller: lichess.controller.main:todolistAction }
+    defaults:       { _controller: LichessBundle:Main:todolist }
 lichess_trial_list_unresolved:
     pattern:        /trial/unresolved
     defaults:       { _controller: LichessBundle:Trial:listUnresolved }

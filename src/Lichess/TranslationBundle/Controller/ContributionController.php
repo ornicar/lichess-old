@@ -62,8 +62,8 @@ class ContributionController extends Controller
         if ($this->get('request')->getMethod() == 'POST') {
             $form->bindRequest($this->get('request'));
             if($form->isValid()) {
-                $this->get('lichess.object_manager')->persist($translation);
-                $this->get('lichess.object_manager')->flush(array('safe' => true));
+                $this->get('doctrine.odm.mongodb.document_manager')->persist($translation);
+                $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
                 $this->get('session')->setFlash('notice', "Your translation has been submitted, thanks!\nI will review it and include it soon to the game.");
 
                 return new RedirectResponse($this->generateUrl('lichess_translation_contribution_locale', array('locale' => $locale)));

@@ -12,7 +12,7 @@ class ApiController extends Controller
     {
         $config = new ApiConfig();
         $game = $this->get('lichess.starter.api')->start($config)->getGame();
-        $this->get('lichess.object_manager')->flush();
+        $this->get('doctrine.odm.mongodb.document_manager')->flush();
 
         $data = array();
         foreach ($game->getPlayers() as $player) {

@@ -86,7 +86,7 @@
             <argument type="service" id="lichess_repository.translation" />
         </service>
 
-        <service id="lichess_repository.translation" class="Lichess\TranslationBundle\Document\TranslationRepository" factory-service="lichess.object_manager" factory-method="getRepository">
+        <service id="lichess_repository.translation" class="Lichess\TranslationBundle\Document\TranslationRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
             <argument type="string">Lichess\TranslationBundle\Document\Translation</argument>
         </service>
 

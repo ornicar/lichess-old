@@ -43,6 +43,6 @@ class CheatAdjustCommand extends ContainerAwareCommand
             $output->writeLn($message);
         });
         $punisher->punish($user);
-        $this->getContainer()->get('lichess.object_manager')->flush();
+        $this->getContainer()->get('doctrine.odm.mongodb.document_manager')->flush();
     }
 }

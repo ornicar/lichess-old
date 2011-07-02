@@ -256,6 +256,6 @@ class PlayerController extends Controller
 
     protected function flush($safe = true)
     {
-        return $this->get('lichess.object_manager')->flush(array('safe' => $safe));
+        return $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => $safe));
     }
 }

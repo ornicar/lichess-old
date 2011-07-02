@@ -41,7 +41,7 @@ class GameCleanupCommand extends BaseCommand
         if($input->getOption('execute') && $nb) {
             $max = 2000;
             $output->writeLn(sprintf('Removing %d games...', min($max, $nb)));
-            $om = $this->getContainer()->get('lichess.object_manager');
+            $om = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
             $it=0;
             foreach($games as $game) {
                 if(++$it > $max) break;

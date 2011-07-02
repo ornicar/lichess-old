@@ -53,7 +53,7 @@ class GameFixCommand extends BaseCommand
                     $output->writeLn($e->getMessage());
                 }
             }
-            $dm = $this->getContainer()->get('lichess.object_manager');
+            $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
             $dm->flush();
         }
     }

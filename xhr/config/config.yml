@@ -26,6 +26,16 @@ doctrine_mongodb:
                     dir: %kernel.root_dir%/../src/FOS/UserBundle/Resources/config/doctrine
                     prefix: FOS\UserBundle\Document
 
-# Disable request listener
+# Disable as many features as possible
 lichess:
-    request_listener: false
+    feature:
+        ai: false
+        cheat: false
+        listener: false
+        elo: false
+        starter: false
+        form: false
+        game_config: false
+        seek: false
+        chess: false
+        config: false
