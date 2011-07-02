@@ -23,6 +23,7 @@
 {% endstylesheets %}
 {% endblock %}
 
+{% block google_chart %}1{% endblock %}
 {% block javascripts %}
 {{ parent() }}
 {% javascripts
@@ -31,9 +32,4 @@
     filter="?yui_js" %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-{% endblock %}
-
-{% block layout_head %}
-{{ parent() }}
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 {% endblock %}

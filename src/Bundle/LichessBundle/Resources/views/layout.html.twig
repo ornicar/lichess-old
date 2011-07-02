@@ -3,10 +3,6 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <title>{% block title %}Lichess{% endblock %} | free online Chess game{% block title_suffix %}{% endblock %}</title>
-        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, MongoDB, Symfony2, HTML5 and JavaScript with jQuery" name="description">
-        <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript Chess, HTML5 Chess, artificial intelligence" name="keywords">
-        <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         {% block stylesheets %}
             {% stylesheets
                 '@LichessBundle/Resources/public/css/reset.css'
@@ -21,10 +17,12 @@
                 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
             {% endstylesheets %}
         {% endblock %}
+        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, MongoDB, Symfony2, HTML5 and JavaScript with jQuery" name="description">
+        <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript Chess, HTML5 Chess, artificial intelligence" name="keywords">
+        <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
         {% block feed_link %}{% endblock %}
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
-        {% block layout_head %}
-        {% endblock %}
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     </head>
     <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         <div id="top" class="clearfix">
@@ -93,15 +91,16 @@
         </div>
         {% block js_data %}{% endblock %}
         {% block javascripts %}
-            {% if not lichess_debug_assets() %}
+            {% if lichess_debug_assets() %}
+                <script src="{{ asset('bundles/lichess/vendor/jquery.min.js') }}"></script>
+                <script src="{{ asset('bundles/lichess/vendor/jquery-ui.min.js') }}"></script>
+            {% else %}
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
                 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-            {% else %}
-                {% javascripts
-                    '@LichessBundle/Resources/public/vendor/jquery.min.js'
-                    '@LichessBundle/Resources/public/vendor/jquery-ui.min.js' %}
-                    <script src="{{ asset_url }}"></script>
-                {% endjavascripts %}
+            {% endif %}
+            {% if block('google_chart') %}
+                <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                {% if lichess_debug_assets() %}<script src="{{ asset('bundles/lichess/vendor/google.corechart.js') }}"></script>{% endif %}
             {% endif %}
             {% javascripts
                 '@LichessBundle/Resources/public/js/tipsy.min.js'

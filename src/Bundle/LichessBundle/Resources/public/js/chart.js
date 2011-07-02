@@ -1,4 +1,6 @@
-//google.load("visualization", "1", {packages:["corechart"]});
+if (typeof google.visualization == "undefined" ) {
+    google.load("visualization", "1", {packages:["corechart"]});
+}
 
 google.elemToData = function(elem) {
     var data = new google.visualization.DataTable();
