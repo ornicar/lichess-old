@@ -74,6 +74,11 @@ class History
         return $this->entries;
     }
 
+    public function size()
+    {
+        return count($this->entries);
+    }
+
     public function setEntries(array $entries)
     {
         $this->entries = $entries;

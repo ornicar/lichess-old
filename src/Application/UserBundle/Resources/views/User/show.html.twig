@@ -3,7 +3,7 @@
 {% block content %}
 <div class="content_box no_padding user_show">
     <div class="content_box_top">
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not user.is(app.user) %}
             <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="send_message">{{ "Compose message"|trans }}</a>
         {% endif %}
         <div title="{{ "%user% is online"|trans({"%user%": user.username}) }}" class="status {{ user.isOnline ? "connected" : "" }}"></div>
@@ -11,7 +11,9 @@
         <span class="rank">{{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}</span>
     </div>
     <div class="content_box_content clearfix">
-        <div class="elo_history" title="Elo history" data-columns="{{ eloChart.columns|json_encode }}" data-rows="{{ eloChart.rows|json_encode }}"></div>
+        {% if eloChart.hasData %}
+            <div class="elo_history" title="Elo history" data-columns="{{ eloChart.columns|json_encode }}" data-rows="{{ eloChart.rows|json_encode }}"></div>
+        {% endif %}
         {% block user_bio %}
             {% if user.bio %}<span class="user_bio">{{ lichess_shorten(user.bio, 400) }}</span>{% endif %}
         {% endblock %}
@@ -28,24 +30,28 @@
                 <br /><span>This account is closed.</span>
             {% endif %}
             {% block actions %}{% endblock %}
-            <div class="win_stats" title="{{ "Games played"|trans }}: {{ critic.nbGames|default("0") }}" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
+            {% if winChart.hasData %}
+                <div class="win_stats" title="{{ "Games played"|trans }}: {{ critic.nbGames|default("0") }}" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
+            {% endif %}
             {% block user_message %}
             {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}<br /><a href="?_impersonate={{ user.username }}">Impersonate</a>{% endif %}
             {% endblock %}
         </div>
     </div>
-    <div class="content_box_inter clearfix">
-        {% block games_inter %}
-            <h2 class="lichess_title"><strong>{{ critic.nbGames|default("0") }}</strong> {{ "Games played"|trans }}</h2>
-            {% if critic.nbGamesWithMe > 0 %}
-                <a href="{{ path('lichess_user_show_with_me', {'username': user.username}) }}"><strong>{{ critic.nbGamesWithMe }}</strong> vs <strong>{{ app.user.username }}</strong></a>
-            {% endif %}
-        {% endblock %}
-    </div>
-    <div class="games infinitescroll all_games">
-        <div class="pager">{{ pagerfanta(games, 'default', {'proximity': 0}) }}</div>
-        {% include "LichessBundle:Game:listWidget.html.twig" with {"games": games, "fromUser": user} %}
-    </div>
+    {% if critic.nbGames %}
+        <div class="content_box_inter clearfix">
+            {% block games_inter %}
+                <h2 class="lichess_title"><strong>{{ critic.nbGames|default("0") }}</strong> {{ "Games played"|trans }}</h2>
+                {% if critic.nbGamesWithMe > 0 %}
+                    <a href="{{ path('lichess_user_show_with_me', {'username': user.username}) }}"><strong>{{ critic.nbGamesWithMe }}</strong> vs <strong>{{ app.user.username }}</strong></a>
+                {% endif %}
+            {% endblock %}
+        </div>
+        <div class="games infinitescroll all_games">
+            <div class="pager">{{ pagerfanta(games, 'default', {'proximity': 0}) }}</div>
+            {% include "LichessBundle:Game:listWidget.html.twig" with {"games": games, "fromUser": user} %}
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
 

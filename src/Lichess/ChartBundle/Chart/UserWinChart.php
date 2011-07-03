@@ -18,6 +18,11 @@ class UserWinChart
         $this->critic = $critic;
     }
 
+    public function hasData()
+    {
+        return $this->critic->getNbGames() > 0;
+    }
+
     public function getColumns()
     {
         return array(

@@ -25,6 +25,11 @@ class UserEloChart
         $this->history = $history;
     }
 
+    public function hasData()
+    {
+        return $this->history->size() > 1;
+    }
+
     public function getColumns()
     {
         return array(
