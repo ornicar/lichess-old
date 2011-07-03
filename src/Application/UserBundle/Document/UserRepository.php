@@ -79,4 +79,9 @@ class UserRepository extends DocumentRepository
             ->count()
             + 1;
     }
+
+    public function createSortedByEloQuery()
+    {
+        return $this->createQueryBuilder()->sort('elo', 'desc');
+    }
 }

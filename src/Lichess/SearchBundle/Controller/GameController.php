@@ -4,10 +4,10 @@ namespace Lichess\SearchBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class GameController extends Controller
+class SearchController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('LichessSearchBundle:Game:index.html.twig');
+        return $this->render('LichessSearchBundle:Search:index.html.twig');
     }
 }

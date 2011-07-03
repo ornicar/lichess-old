@@ -2,7 +2,7 @@ $(function() {
     $('div.infinitescroll').each(function() {
         $(this).infinitescroll({
             navSelector: "div.pager",
-            nextSelector: "div.pager a.next",
+            nextSelector: "div.pager a:last",
             itemSelector: "div.infinitescroll .paginated_element",
             loadingText: "",
             donetext: "---"

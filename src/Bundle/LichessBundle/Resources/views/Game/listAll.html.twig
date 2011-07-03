@@ -1,5 +1,5 @@
 {% extends "LichessBundle:Game:list.html.twig" %}
-{% block title %}{{ "View all %nb% games"|trans({"%nb%": nbGames}) }} - Page {{ games.currentPageNumber }}{% endblock %}
+{% block title %}{{ "View all %nb% games"|trans({"%nb%": nbGames}) }}{% if games.currentPage > 1 %} - Page {{ games.currentPage }}{% endif %}{% endblock %}
 {% block list_type %}All games{% endblock %}
 {% block list_menu %}
 <a class="game_list" href="{{ path("lichess_list_current") }}">{{ 'Games being played right now'|trans }}</a>

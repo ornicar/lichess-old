@@ -3,14 +3,14 @@
 namespace Application\UserBundle\Controller;
 use FOS\UserBundle\Controller\ProfileController as BaseProfileController;
 use FOS\UserBundle\Model\UserInterface;
-use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
-use Zend\Paginator\Paginator;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Application\UserBundle\Document\User;
 use Lichess\ChartBundle\Chart\UserEloChart;
 use Lichess\ChartBundle\Chart\UserWinChart;
+use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
 
 class ProfileController extends BaseProfileController
 {
@@ -59,15 +59,11 @@ class ProfileController extends BaseProfileController
      **/
     public function listAction()
     {
-        $query = $this->container->get('fos_user.repository.user')->createQueryBuilder()
-            ->sort('elo', 'desc');
-        $users = new Paginator(new DoctrineMongoDBAdapter($query));
-        $users->setCurrentPageNumber($this->container->get('request')->query->get('page', 1));
-        $users->setItemCountPerPage(40);
-        $users->setPageRange(3);
-        $pagerUrl = $this->container->get('router')->generate('fos_user_user_list');
+        $query = $this->container->get('fos_user.repository.user')->createSortedByEloQuery();
+        $users = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $users->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(40);
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users', 'pagerUrl'));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users'));
     }
 
     public function viewAction($username, $withMe = false)
@@ -90,20 +86,13 @@ class ProfileController extends BaseProfileController
         $eloChart = new UserEloChart($history);
 
         $gameRepository = $this->container->get('lichess.repository.game');
-        $page = $this->container->get('request')->query->get('page', 1);
         if ($withMe) {
             $query = $gameRepository->createByUsersQuery($user, $authenticatedUser);
         } else {
             $query = $gameRepository->createRecentStartedOrFinishedByUserQuery($user);
         }
-        $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($page);
-        $games->setItemCountPerPage(10);
-        $games->setPageRange(3);
-        if ($page > 1 && $page > $games->count()) {
-            throw new NotFoundHttpException('No more items');
-        }
-        $pagerUrl = $this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername()));
+        $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $games->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(10);
 
         if ($withMe) {
             $template = 'FOSUserBundle:User:showWithMe.html.twig';
@@ -113,7 +102,7 @@ class ProfileController extends BaseProfileController
             $template = 'FOSUserBundle:User:show.html.twig';
         }
 
-        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'pagerUrl', 'withMe'));
+        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'withMe'));
     }
 
     protected function getAuthenticatedUser()

@@ -5,11 +5,11 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Trial;
-use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
-use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
 
 class TrialController extends Controller
 {
@@ -57,10 +57,8 @@ class TrialController extends Controller
 
     protected function createPaginatorForQuery($query)
     {
-        $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
-        $games->setItemCountPerPage(10);
-        $games->setPageRange(10);
+        $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $games->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(10);
 
         return $games;
     }

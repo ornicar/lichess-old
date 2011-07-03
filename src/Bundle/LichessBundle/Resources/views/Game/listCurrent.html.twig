@@ -1,12 +1,14 @@
 {% extends "LichessBundle:Game:layoutGameList.html.twig" %}
 {% block title %}Currently playing games{% endblock %}
 {% block content %}
-<div class="content_box current_games_box">
-<h1 class="title">{{ 'Games being played right now'|trans }}</h1>
-<a class="all_games" href="{{ path("lichess_list_all") }}">{{ 'View all %nb% games'|trans({'%nb%': nbGames}) }}</a>
-<a class="all_games" href="{{ path("lichess_list_mates") }}">{{ 'View %nb% checkmates'|trans({'%nb%': nbMates}) }}</a>
-<div class="game_list" data-url="{{ path("lichess_list_current_inner", {"ids": ids|join(',') } ) }}">
-{% render "LichessBundle:Game:listCurrentInner" with {"ids": ids} %}
-</div>
+<div class="content_box no_padding current_games_box">
+    <div class="content_box_top">
+        <h1 class="title">{{ 'Games being played right now'|trans }}</h1>
+    </div>
+    <a class="all_games" href="{{ path("lichess_list_all") }}">{{ 'View all %nb% games'|trans({'%nb%': nbGames}) }}</a>
+    <a class="all_games" href="{{ path("lichess_list_mates") }}">{{ 'View %nb% checkmates'|trans({'%nb%': nbMates}) }}</a>
+    <div class="game_list" data-url="{{ path("lichess_list_current_inner", {"ids": ids|join(',') } ) }}">
+    {% render "LichessBundle:Game:listCurrentInner" with {"ids": ids} %}
+    </div>
 </div>
 {% endblock %}

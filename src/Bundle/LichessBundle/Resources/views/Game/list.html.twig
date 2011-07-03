@@ -1,19 +1,17 @@
 {% extends "LichessBundle:Game:layoutGameList.html.twig" %}
 {% block content %}
 <div class="content_box no_padding">
-{% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": games.pages, "url": pagerUrl} %}{% endset %}
 <div class="content_box_title">
-    <h1 class="title">{% block list_type %}{% endblock %} ({{ games.pages.totalItemCount }})</h1>
+    <h1 class="title">{% block list_type %}{% endblock %} ({{ games.nbResults }})</h1>
     {% block list_menu %}{% endblock %}
 </div>
 <div class="all_games infinitescroll">
-    <div class="pager pager_top">{{ pagination|raw }}</div>
+    <div class="pager">{{ pagerfanta(games, 'default', {'proximity': 0}) }}</div>
     <div class="all_games_inner">
     {% block games_inner %}
         {% include "LichessBundle:Game:listWidget.html.twig" with {"games": games} %}
     {% endblock %}
     </div>
-    <div class="pager pager_bottom">{{ pagination|raw }}</div>
 </div>
 </div>
 {% endblock %}

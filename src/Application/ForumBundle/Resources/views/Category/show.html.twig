@@ -14,6 +14,6 @@
 
     <p class="description">{{ category.description|raw }}</p>
 
-    {% render "ForumBundle:Topic:list" with {"category": category, "page": page} %}
+    {% render "ForumBundle:Topic:list" with {"category": category, "pagerOptions": {"page": page, "routeName": "forum_category_show", 'routeParams': {"slug":category.slug}}} %}
 </div>
 {% endblock %}

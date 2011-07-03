@@ -1,10 +1,10 @@
 <div class="message_sent">
     <div class="head">
-        {% include 'OrnicarMessageBundle::pagination.html.twig' with {'pager': messages.pages, 'url': pagerUrl} %}
         <h1>{{ "Sent messages"|trans }}</h1>
     </div>
     {% include 'OrnicarMessageBundle::sidebar.html.twig' %}
-    <div class="center list">
+    <div class="center list infinitescroll">
+        <div class="pager">{{ pagerfanta(messages, 'default', {'proximity': 0}) }}</div>
         {% for message in messages %}
             <div class="message">
                 <span class="infos">
@@ -16,8 +16,5 @@
         {% else %}
             <div class="no_messages">No messages yet</div>
         {% endfor %}
-    </div>
-    <div class="foot">
-        {% include "OrnicarMessageBundle::pagination.html.twig" with {"pager": messages.pages, "url": pagerUrl} %}
     </div>
 </div>

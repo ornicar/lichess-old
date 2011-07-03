@@ -7,7 +7,7 @@ google.setOnLoadCallback(function() {
             width: 747,
             height: 400,
             title: $(this).data('title'),
-            chartArea:{left:"3%",top:"5%",width:"80%",height:"90%"},
+            chartArea:{left:"5%",top:"5%",width:"78%",height:"90%"},
         });
     });
 

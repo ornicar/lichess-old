@@ -5,13 +5,13 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
-use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Lichess\ChartBundle\Chart\PlayerMoveTimeDistributionChart;
 use Lichess\ChartBundle\Chart\PlayerMoveTimeChart;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
 
 class GameController extends Controller
 {
@@ -36,8 +36,7 @@ class GameController extends Controller
         return $this->render('LichessBundle:Game:listAll.html.twig', array(
             'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentStartedOrFinishedQuery()),
             'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
-            'nbMates'  => $this->get('lichess.repository.game')->getNbMates(),
-            'pagerUrl' => $this->generateUrl('lichess_list_all')
+            'nbMates'  => $this->get('lichess.repository.game')->getNbMates()
         ));
     }
 
@@ -46,16 +45,14 @@ class GameController extends Controller
         return $this->render('LichessBundle:Game:listMates.html.twig', array(
             'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentMateQuery()),
             'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
-            'nbMates'  => $this->get('lichess.repository.game')->getNbMates(),
-            'pagerUrl' => $this->generateUrl('lichess_list_mates')
+            'nbMates'  => $this->get('lichess.repository.game')->getNbMates()
         ));
     }
 
     public function listSuspiciousAction()
     {
         return $this->render('LichessBundle:Game:listSuspicious.html.twig', array(
-            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createHighestBlurQuery()),
-            'pagerUrl' => $this->generateUrl('lichess_list_suspicious')
+            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createHighestBlurQuery())
         ));
     }
 
@@ -183,11 +180,8 @@ class GameController extends Controller
 
     protected function createPaginatorForQuery($query)
     {
-        $page = $this->get('request')->query->get('page', 1);
-        $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($page);
-        $games->setItemCountPerPage(10);
-        $games->setPageRange(3);
+        $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $games->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(10);
 
         return $games;
     }

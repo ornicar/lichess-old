@@ -43,7 +43,7 @@ div.user_lists .users li {
     line-height: 2em;
 }
 div.user_lists ol.users li {
-    list-style: decimal inside;
+    list-style: decimal-leading-zero inside;
 }
 div.user_lists .users a.send {
     font-size: 0.8em;

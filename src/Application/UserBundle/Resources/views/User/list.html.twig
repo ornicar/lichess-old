@@ -2,7 +2,6 @@
 {% block title %}{{ "Chess players"|trans }}{% endblock %}
 {% block content %}
 <div class="content_box">
-    {% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": users.pages, "url": pagerUrl} %}{% endset %}
     <div class="user_lists clearfix">
         <div class="all_users">
             <h1 class="lichess_title">{{ "Chess players"|trans }}</h1>
@@ -11,15 +10,10 @@
                 <input id="search_user_input" class="search_user autocomplete" data-provider="{{ url("fos_user_autocomplete") }}" />
             </form>
             <div class="infinitescroll">
-                <div class="pager pager_top">{{ pagination|raw }}</div>
-                <ol start="{{ users.pages.firstItemNumber }}" class="users paginated_element">
-                    {% for user in users %}
-                    <li>
-                        {{ lichess_link_user(user) }}
-                    </li>
-                    {% endfor %}
+                <div class="pager">{{ pagerfanta(users, 'default', {'proximity': 0}) }}</div>
+                <ol start="{{ 1+(users.currentPage-1)*users.maxPerPage }}" class="users paginated_element">
+                    {% for user in users %}<li>{{ lichess_link_user(user) }}</li>{% endfor %}
                 </ol>
-                <div class="pager pager_bottom">{{ pagination|raw }}</div>
             </div>
         </div>
         <div data-reload-url="{{ path("fos_user_online_users") }}" class="online_users">
