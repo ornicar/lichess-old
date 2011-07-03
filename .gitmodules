@@ -43,9 +43,6 @@
 [submodule "web/vendor/pgn4web"]
 	path = web/vendor/pgn4web
 	url = git://github.com/ornicar/pgn4web.git
-[submodule "src/FOQ/TyperBundle"]
-	path = src/FOQ/TyperBundle
-	url = git://github.com/ornicar/FOQTyperBundle
 [submodule "src/Symfony/Bundle/DoctrineMongoDBBundle"]
 	path = src/Symfony/Bundle/DoctrineMongoDBBundle
 	url = git://github.com/symfony/DoctrineMongoDBBundle
