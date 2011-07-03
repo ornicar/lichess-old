@@ -2,7 +2,7 @@
 {% for game in games %}
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
-<div class="game_row paginated_element clearfix">
+<div class="game_row paginated_element clearfix {{ loop.index % 2 ? "odd" : "even" }}">
 {{ lichess_game_fen(game, fromUser) }}
 <div class="infos">
 <b>
@@ -22,6 +22,10 @@
 {% else %}
 {{ (game.turnColor|capitalize ~ " plays")|trans }}
 {% endif %}
+{% if not game.isStandardVariant %}
+    <br /><br />
+    {{ "Variant"|trans }}: <strong>{{ game.variantName }}</strong>
+{% endif %}
 <br /><br />
 {% block players %}
 <table class="game_players">
@@ -34,15 +38,15 @@
 </table>
 {% endblock %}
 <br />
-{{ "Variant"|trans }}: {{ game.variantName }}
-<br /><br />
-{{ "Time control"|trans }}: {{ game.clockName }}
-<br /><br />
+{% if game.hasClock %}
+    <span class="s16 clock">{{ "Time control"|trans }}: {{ game.clockName }}</span>
+    <br /><br />
+{% endif %}
 {% if game.isRated %}
 {{ "This game is rated"|trans }}
 <br /><br />
 {% endif %}
-<a href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {{ "Replay and analyse"|trans }}</a>
+<a class="go_analyse" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {{ "Replay and analyse"|trans }}</a>
 </div>
 </div>
 {% else %}

@@ -34,4 +34,13 @@
     </form>
 </div>
 </div>
+
+{% block stylesheets %}
+{{ parent() }}
+{% stylesheets
+    '@LichessUserBundle/Resources/public/css/signup.css'
+    filter="?yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
 {% endblock %}

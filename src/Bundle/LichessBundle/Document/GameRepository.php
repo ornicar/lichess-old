@@ -249,4 +249,18 @@ class GameRepository extends DocumentRepository
             ->limit(500)
             ->getQuery()->execute();
     }
+
+    /**
+     * Find games played between these two players
+     *
+     * @return array of Game
+     */
+    public function createByUsersQuery(User $playerA, User $playerB)
+    {
+        $qb = $this->createQueryBuilder();
+
+        return $qb
+            ->addOr($qb->expr()->field('userIds')->equals(array($playerA->getId(), $playerB->getId())))
+            ->addOr($qb->expr()->field('userIds')->equals(array($playerB->getId(), $playerA->getId())));
+    }
 }

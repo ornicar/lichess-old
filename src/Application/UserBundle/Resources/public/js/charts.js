@@ -4,8 +4,8 @@ google.setOnLoadCallback(function() {
         var data = google.elemToData(this);
         var chart = new google.visualization.AreaChart(this);
         chart.draw(data, {
-            width: 400, 
-            height: 350, 
+            width: 460, 
+            height: 320, 
             axisTitlePosition: 'none',
             chartArea:{left:"10%",top:"3%",width:"90%",height:"80%"},
             title: $(this).attr('title'),
@@ -17,9 +17,9 @@ google.setOnLoadCallback(function() {
         var data = google.elemToData(this);
         var chart = new google.visualization.PieChart(this);
         chart.draw(data, {
-            width: 347, 
+            width: 312, 
             height: 200, 
-            chartArea:{left:"0%",top:"0%",width:"100%",height:"100%"},
+            chartArea:{left:"0%",width:"100%",height:"100%"},
             is3D: true,
         });
     });

@@ -70,7 +70,7 @@ class ProfileController extends BaseProfileController
         return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users', 'pagerUrl'));
     }
 
-    public function viewAction($username)
+    public function viewAction($username, $withMe = false)
     {
         $user = $this->container->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
         if (!$user) {
@@ -80,6 +80,7 @@ class ProfileController extends BaseProfileController
             return $response;
         }
         $authenticatedUser = $this->getAuthenticatedUser();
+        $withMe = $withMe && $authenticatedUser;
 
         $critic = $this->container->get('lichess.critic.user');
         $critic->setUser($user);
@@ -88,8 +89,13 @@ class ProfileController extends BaseProfileController
         $history = $this->container->get('lichess.repository.history')->findOneByUserOrCreate($user);
         $eloChart = new UserEloChart($history);
 
+        $gameRepository = $this->container->get('lichess.repository.game');
         $page = $this->container->get('request')->query->get('page', 1);
-        $query = $this->container->get('lichess.repository.game')->createRecentStartedOrFinishedByUserQuery($user);
+        if ($withMe) {
+            $query = $gameRepository->createByUsersQuery($user, $authenticatedUser);
+        } else {
+            $query = $gameRepository->createRecentStartedOrFinishedByUserQuery($user);
+        }
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
         $games->setCurrentPageNumber($page);
         $games->setItemCountPerPage(6);
@@ -99,17 +105,21 @@ class ProfileController extends BaseProfileController
         }
         $pagerUrl = $this->container->get('router')->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
-        if ($authenticatedUser instanceof User && $user->is($authenticatedUser)) {
+        if ($withMe) {
+            $template = 'FOSUserBundle:User:showWithMe.html.twig';
+        } elseif ($user && $user->is($authenticatedUser)) {
             $template = 'FOSUserBundle:User:home.html.twig';
         } else {
             $template = 'FOSUserBundle:User:show.html.twig';
         }
 
-        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'pagerUrl'));
+        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'pagerUrl', 'withMe'));
     }
 
     protected function getAuthenticatedUser()
     {
-        return $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        return $user instanceof User ? $user : null;
     }
 }

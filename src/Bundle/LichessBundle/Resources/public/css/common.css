@@ -141,6 +141,55 @@ div.content_box {
 div.content_box.small_box {
     width: 500px;
 }
+div.content_box.no_padding {
+    padding: 0;
+}
+div.content_box_title {
+    padding: 20px 25px 0 25px;
+}
+div.content_box_top {
+    padding-left: 25px;
+    line-height: 40px;
+    border-radius: 4px 4px 0 0;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
+    border-bottom: 1px solid #ccc;
+}
+div.content_box_top a {
+    float: right;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 40px;
+    padding: 0 12px;
+    border-left: 1px solid #ccc;
+}
+div.content_box_top .link:hover {
+    background: #fff;
+}
+div.content_box_content {
+    padding: 20px 25px 25px 25px;
+}
+div.content_box_inter {
+    padding-left: 25px;
+    line-height: 40px;
+    background: #f0f0f0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    display: block;
+}
+div.content_box_inter .lichess_title {
+    float: left;
+}
+div.content_box_inter a {
+    float: left;
+    font-size: 1.2em;
+    line-height: 40px;
+    margin-left: 2em;
+}
+div.content_box div.content_box_inter .lichess_title {
+    margin: 0;
+}
 
 div.content_box .lichess_title {
     font-size: 2em;

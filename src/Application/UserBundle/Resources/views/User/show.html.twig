@@ -1,33 +1,46 @@
 {% extends "FOSUserBundle::layoutUser.html.twig" %}
 {% block title %}{{ user.usernameWithElo }}{% if games.currentPageNumber > 1 %} - Page {{ games.currentPageNumber }}{% endif %}{% endblock %}
 {% block content %}
-<div class="content_box">
-<div class="user_show">
-    <div class="user_top clearfix">
-        <div class="elo_history" title="Elo history" data-columns="{{ eloChart.columns|json_encode }}" data-rows="{{ eloChart.rows|json_encode }}"></div>
+<div class="content_box no_padding user_show">
+    <div class="content_box_top">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="send_message">{{ "Compose message"|trans }}</a>
+        {% endif %}
+        <div title="{{ "%user% is online"|trans({"%user%": user.username}) }}" class="status {{ user.isOnline ? "connected" : "" }}"></div>
         <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
+        <span class="rank">{{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}</span>
+    </div>
+    <div class="content_box_content clearfix">
+        <div class="elo_history" title="Elo history" data-columns="{{ eloChart.columns|json_encode }}" data-rows="{{ eloChart.rows|json_encode }}"></div>
         {% block user_bio %}
-            <span class="user_bio">{{ lichess_shorten(user.bio, 400) }}</span>
+            {% if user.bio %}<span class="user_bio">{{ lichess_shorten(user.bio, 400) }}</span>{% endif %}
+        {% endblock %}
+        {% block elo_with_me %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not user.is(app.user) %}
+            <div class="elo_with_me">
+                Elo if you win:  <strong>{{ critic.eloIfWin }}</strong><br />
+                Elo if you draw: <strong>{{ critic.eloIfDraw }}</strong>
+            </div>
+            {% endif %}
         {% endblock %}
         <div class="stats">
-            {{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}<br />
-            {{ "Games played"|trans }}: <strong>{{ critic.nbGames|default("0") }}</strong><br />
             {% if not user.isEnabled %}
                 <br /><span>This account is closed.</span>
-            {% elseif user.isOnline %}
-                <br /><span class="user_is_online">{{ "%user% is online"|trans({"%user%": user.username}) }}</span>
             {% endif %}
             {% block actions %}{% endblock %}
-            <div class="win_stats" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
+            <div class="win_stats" title="{{ "Games played"|trans }}: {{ critic.nbGames|default("0") }}" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
             {% block user_message %}
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <div class="actions">
-                    <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="button send_message">{{ "Send a message"|trans }}</a>
-                </div>
-            {% endif %}
             {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}<br /><a href="?_impersonate={{ user.username }}">Impersonate</a>{% endif %}
             {% endblock %}
         </div>
+    </div>
+    <div class="content_box_inter clearfix">
+        {% block games_inter %}
+            <h2 class="lichess_title"><strong>{{ critic.nbGames|default("0") }}</strong> {{ "Games played"|trans }}</h2>
+            {% if critic.nbGamesWithMe > 0 %}
+                <a href="{{ path('lichess_user_show_with_me', {'username': user.username}) }}"><strong>{{ critic.nbGamesWithMe }}</strong> vs <strong>{{ app.user.username }}</strong></a>
+            {% endif %}
+        {% endblock %}
     </div>
     {% set pagination %}{% include "LichessBundle::pagination.html.twig" with {"pager": games.pages, "url": pagerUrl} %}{% endset %}
     <div class="games infinitescroll all_games">
@@ -35,7 +48,6 @@
         {% include "LichessBundle:Game:listWidget.html.twig" with {"games": games, "fromUser": user} %}
         <div class="pager pager_bottom">{{ pagination|raw }}</div>
     </div>
-</div>
 </div>
 {% endblock %}
 

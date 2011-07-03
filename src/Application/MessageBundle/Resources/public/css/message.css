@@ -100,7 +100,7 @@
 }
 #lichess_message .field_to input,
 #lichess_message .field_subject input {
-    width: 500px;
+    width: 450px;
     border: 1px solid #D4D4D4;
     padding: 3px 5px;
 }

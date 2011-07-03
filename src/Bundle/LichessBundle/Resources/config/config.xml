@@ -6,14 +6,16 @@
 
     <services>
         <service id="lichess.blamer.player" class="Bundle\LichessBundle\Blamer\PlayerBlamer" public="false">
-            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="security.context" />
         </service>
         <service id="lichess.critic.user" class="Bundle\LichessBundle\Critic\UserCritic">
             <argument type="service" id="lichess.repository.game" />
-            <argument type="service" id="fos_user.repository.user" on-invalid="null" />
+            <argument type="service" id="fos_user.repository.user" />
+            <argument type="service" id="lichess.elo.calculator" />
+            <argument type="service" id="security.context" />
         </service>
         <service id="lichess.logger" class="Bundle\LichessBundle\Logger">
-            <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="logger" />
             <argument type="service" id="router" />
         </service>
         <service id="lichess.twig.extension" class="Bundle\LichessBundle\Twig\LichessExtension" public="false">

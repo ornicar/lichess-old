@@ -1,0 +1,6 @@
+{% extends "FOSUserBundle:User:show.html.twig" %}
+
+{% block games_inter %}
+    <h2 class="lichess_title"><strong>{{ critic.nbGamesWithMe|default("0") }}</strong> vs {{ app.user.username }}</h2>
+    <a href="{{ path('fos_user_user_show', {'username': user.username}) }}"><strong>{{ critic.nbGames|default("0") }}</strong> {{ "Games played"|trans }}</a>
+{% endblock %}
