@@ -67,3 +67,15 @@
 [submodule "src/WhiteOctober/PagerfantaBundle"]
 	path = src/WhiteOctober/PagerfantaBundle
 	url = git://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git
+[submodule "vendor/zend-subtrees/Zend/Service"]
+	path = vendor/zend-subtrees/Zend/Service
+	url = git://github.com/knplabs/zend-service.git
+[submodule "vendor/zend-subtrees/Zend/Uri"]
+	path = vendor/zend-subtrees/Zend/Uri
+	url = git://github.com/knplabs/zend-uri.git
+[submodule "vendor/zend-subtrees/Zend/Validator"]
+	path = vendor/zend-subtrees/Zend/Validator
+	url = git://github.com/knplabs/zend-validator.git
+[submodule "vendor/zend-subtrees/Zend/Http"]
+	path = vendor/zend-subtrees/Zend/Http
+	url = git://github.com/knplabs/zend-http.git
