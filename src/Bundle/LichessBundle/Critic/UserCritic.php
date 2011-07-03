@@ -68,6 +68,9 @@ class UserCritic
 
     public function getNbGamesWithMe()
     {
+        if (!$this->getAuthenticatedUser()) {
+            return 0;
+        }
         $key = 'nbGamesWithMe';
         if (!isset($this->cache[$key])) {
             $this->cache[$key] = $this->gameRepository->createByUsersQuery($this->user, $this->getAuthenticatedUser())->getQuery()->count();
@@ -120,6 +123,8 @@ class UserCritic
 
     protected function getAuthenticatedUser()
     {
-        return $this->securityContext->getToken()->getUser();
+        $user = $this->securityContext->getToken()->getUser();
+
+        return $user instanceof User ? $user : null;
     }
 }
