@@ -13,9 +13,6 @@
 [submodule "vendor/doctrine-mongodb"]
 	path = vendor/doctrine-mongodb
 	url = git://github.com/doctrine/mongodb
-[submodule "vendor/zend"]
-	path = vendor/zend
-	url = git://github.com/zendframework/zf2.git
 [submodule "vendor/ZendPaginatorAdapter"]
 	path = vendor/ZendPaginatorAdapter
 	url = git://github.com/ornicar/ZendPaginatorAdapter.git
