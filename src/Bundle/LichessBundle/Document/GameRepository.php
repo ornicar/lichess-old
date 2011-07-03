@@ -222,15 +222,29 @@ class GameRepository extends DocumentRepository
      *
      * @return array
      */
-    public function findCandidatesToCleanup()
+    public function findCandidatesToCleanup($max)
     {
-        $date = new DateTime('-10 day');
-        return $this->createQueryBuilder()
-            ->field('updatedAt')->lt(new MongoDate($date->getTimestamp()))
-            ->field('status')->lt(Game::MATE)
+        $date = date_create('-10 day')->getTimestamp();
+
+        $games = $this->createQueryBuilder()
             ->field('turns')->lt(2)
-            ->limit(500)
+            ->sort('createdAt', 'asc')
+            ->limit($max)
+            ->hydrate(false)
+            ->select('createdAt')
             ->getQuery()->execute();
+
+        $ids = array();
+        foreach ($games as $game) {
+            $createdAt = isset($game['createdAt']) ? $game['createdAt']->sec : null;
+            if (!$createdAt || $createdAt < $date) {
+                $ids[] = $game['_id'];
+            } else {
+                break;
+            }
+        }
+
+        return $ids;
     }
 
     /**
@@ -257,10 +271,24 @@ class GameRepository extends DocumentRepository
      */
     public function createByUsersQuery(User $playerA, User $playerB)
     {
-        $qb = $this->createQueryBuilder();
+        $qb = $this->createRecentQuery();
 
         return $qb
             ->addOr($qb->expr()->field('userIds')->equals(array($playerA->getId(), $playerB->getId())))
             ->addOr($qb->expr()->field('userIds')->equals(array($playerB->getId(), $playerA->getId())));
+    }
+
+    /**
+     * Removes games for these ids
+     *
+     * @param array $ids
+     */
+    public function removeByIds(array $ids)
+    {
+        $this->createQueryBuilder()
+            ->field('id')->in($ids)
+            ->remove()
+            ->getQuery()
+            ->execute(array('safe' => true, 'fsync' => true));
     }
 }

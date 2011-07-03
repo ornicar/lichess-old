@@ -33,21 +33,28 @@ class GameCleanupCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $repo = $this->getContainer()->get('lichess.repository.game');
-        $games = $repo->findCandidatesToCleanup();
-        $nb = $games->count();
+        $batchSize = 1000;
+        $sleep = 5;
 
-        $output->writeLn(sprintf('Found %d games to remove', $nb));
+        do {
+            try {
+                $ids = $repo->findCandidatesToCleanup($batchSize);
+                $nb = count($ids);
 
-        if($input->getOption('execute') && $nb) {
-            $max = 2000;
-            $output->writeLn(sprintf('Removing %d games...', min($max, $nb)));
-            $om = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
-            $it=0;
-            foreach($games as $game) {
-                if(++$it > $max) break;
-                $om->remove($game);
+                $output->writeLn(sprintf('Found %d games of %d to remove', $nb, $repo->createQueryBuilder()->getQuery()->count()));
+
+                if ($nb == 0 || !$input->getOption('execute')) {
+                    return;
+                }
+
+                $output->writeLn(sprintf('Removing %d games...', $nb));
+                $repo->removeByIds($ids);
+
+                $output->writeLn('Sleep '.$sleep.' seconds');
+                sleep($sleep);
+            } catch (\MongoCursorTimeoutException $e) {
+                $output->writeLn('<error>Time out, sleeping 20 seconds</error>');
             }
-            $om->flush();
-        }
+        } while ($nb > 0);
     }
 }
