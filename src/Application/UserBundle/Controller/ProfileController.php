@@ -98,7 +98,7 @@ class ProfileController extends BaseProfileController
         }
         $games = new Paginator(new DoctrineMongoDBAdapter($query));
         $games->setCurrentPageNumber($page);
-        $games->setItemCountPerPage(6);
+        $games->setItemCountPerPage(10);
         $games->setPageRange(3);
         if ($page > 1 && $page > $games->count()) {
             throw new NotFoundHttpException('No more items');
