@@ -13,9 +13,6 @@
 [submodule "vendor/doctrine-mongodb"]
 	path = vendor/doctrine-mongodb
 	url = git://github.com/doctrine/mongodb
-[submodule "vendor/ZendPaginatorAdapter"]
-	path = vendor/ZendPaginatorAdapter
-	url = git://github.com/ornicar/ZendPaginatorAdapter.git
 [submodule "src/Bundle/ApcBundle"]
 	path = src/Bundle/ApcBundle
 	url = git://github.com/ornicar/ApcBundle.git
@@ -64,3 +61,9 @@
 [submodule "src/Sensio/Bundle/GeneratorBundle"]
 	path = src/Sensio/Bundle/GeneratorBundle
 	url = git://github.com/sensio/SensioGeneratorBundle.git
+[submodule "vendor/pagerfanta"]
+	path = vendor/pagerfanta
+	url = http://github.com/whiteoctober/Pagerfanta.git
+[submodule "src/WhiteOctober/PagerfantaBundle"]
+	path = src/WhiteOctober/PagerfantaBundle
+	url = git://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git

@@ -18,10 +18,8 @@ class LichessKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Bundle\ApcBundle\ApcBundle(),
             new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
-            new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\CommentBundle\FOSCommentBundle(),
-            new FOQ\TyperBundle\FOQTyperBundle(),
             new Ornicar\AkismetBundle\OrnicarAkismetBundle(),
             new Ornicar\MessageBundle\OrnicarMessageBundle(),
             new Bundle\ForumBundle\ForumBundle(),
@@ -33,11 +31,13 @@ class LichessKernel extends Kernel
             new Lichess\SearchBundle\LichessSearchBundle(),
             new Lichess\TranslationBundle\LichessTranslationBundle(),
             new Lichess\ChartBundle\LichessChartBundle(),
+            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;
