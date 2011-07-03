@@ -116,8 +116,9 @@ class Game
      *
      * @var integer
      * @MongoDB\Field(type="int")
+     * @MongoDB\Index()
      */
-    protected $turns;
+    protected $turns = 0;
 
     /**
      * PGN moves of the game
@@ -125,7 +126,7 @@ class Game
      * @var array
      * @MongoDB\Field(type="collection")
      */
-    protected $pgnMoves;
+    protected $pgnMoves = array();
 
     /**
      * Fen notation of the initial position
@@ -150,6 +151,7 @@ class Game
      *
      * @var \DateTime
      * @MongoDB\Field(type="date")
+     * @MongoDB\Index(order="desc")
      */
     protected $createdAt;
 
@@ -238,9 +240,7 @@ class Game
         $this->generateId();
         $this->setVariant($variant);
         $this->status   = self::CREATED;
-        $this->turns    = 0;
         $this->players  = new ArrayCollection();
-        $this->pgnMoves = array();
     }
 
     /**
