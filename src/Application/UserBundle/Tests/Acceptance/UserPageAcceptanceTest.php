@@ -15,7 +15,8 @@ class UserPageAcceptanceTest extends AbstractAcceptanceTest
     public function testNoGamePlayed()
     {
         list($client, $crawler) = $this->requestUserPage('user4');
-        $this->assertRegexp('/No recent game at the moment/', $client->getResponse()->getContent());
+
+        $this->assertEquals(0, $crawler->filter('div.game_row')->count());
     }
 
     public function testSomeGamesPlayed()
