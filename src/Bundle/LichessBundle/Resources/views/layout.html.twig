@@ -43,9 +43,8 @@
                     <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
                 </a>
             {% endif %}
-            {% set nb_connected_players = lichess_nb_active_players() %}
-            <div title="" id="nb_connected_players" class="nb_connected_players" data-url="{{ path("lichess_nb_players") }}">
-                {{ "%nb% connected players"|trans({"%nb%": nb_connected_players}) }}
+            <div id="nb_connected_players" class="nb_connected_players" data-url="{{ path("lichess_nb_players") }}">
+                {{ "%nb% connected players"|trans({"%nb%": lichess_nb_active_players()}) }}
             </div>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <div class="security">
