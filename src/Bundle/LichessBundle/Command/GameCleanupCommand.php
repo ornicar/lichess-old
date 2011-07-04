@@ -34,7 +34,15 @@ class GameCleanupCommand extends BaseCommand
     {
         $repo = $this->getContainer()->get('lichess.repository.game');
         $batchSize = 1000;
-        $sleep = 5;
+        $sleep = 15;
+
+        $ids = $repo->findCandidatesToCleanup(999999);
+        $nb = count($ids);
+        $output->writeLn(sprintf('Found %d games of %d to remove', $nb, $repo->createQueryBuilder()->getQuery()->count()));
+
+        if (!$input->getOption('execute')) {
+            return;
+        }
 
         do {
             try {
@@ -43,17 +51,20 @@ class GameCleanupCommand extends BaseCommand
 
                 $output->writeLn(sprintf('Found %d games of %d to remove', $nb, $repo->createQueryBuilder()->getQuery()->count()));
 
-                if ($nb == 0 || !$input->getOption('execute')) {
+                if ($nb == 0) {
                     return;
                 }
 
                 $output->writeLn(sprintf('Removing %d games...', $nb));
                 $repo->removeByIds($ids);
 
-                $output->writeLn('Sleep '.$sleep.' seconds');
-                sleep($sleep);
+                if ($nb == $batchSize) {
+                    $output->writeLn('Sleep '.$sleep.' seconds');
+                    sleep($sleep);
+                }
             } catch (\MongoCursorTimeoutException $e) {
-                $output->writeLn('<error>Time out, sleeping 20 seconds</error>');
+                $output->writeLn('<error>Time out, sleeping 60 seconds</error>');
+                sleep(60);
             }
         } while ($nb > 0);
     }
