@@ -3,10 +3,13 @@
 {% block content %}
 <div class="content_box no_padding user_show">
     <div class="content_box_top">
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not user.is(app.user) %}
-            <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="send_message">{{ "Compose message"|trans }}</a>
-        {% endif %}
-        <div title="{{ "%user% is online"|trans({"%user%": user.username}) }}" class="status {{ user.isOnline ? "connected" : "" }}"></div>
+        {% block user_message %}
+            {% if user.IsEnabled and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="send_message">{{ "Compose message"|trans }}</a>
+            {% endif %}
+            {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}<a href="?_impersonate={{ user.username }}">Impersonate</a>{% endif %}
+        {% endblock %}
+        <div class="status {{ user.isOnline ? "connected" : "" }}"></div>
         <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
         <span class="rank">{{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}</span>
     </div>
@@ -17,11 +20,13 @@
         {% block user_bio %}
             {% if user.bio %}<span class="user_bio">{{ lichess_shorten(user.bio, 400) }}</span>{% endif %}
         {% endblock %}
-        {% block elo_with_me %}
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not user.is(app.user) %}
+        {% block user_elo_with_me %}
+            {% if user.IsEnabled and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <div class="elo_with_me">
-                Elo if you win:  <strong>{{ critic.eloIfWin }}</strong><br />
-                Elo if you draw: <strong>{{ critic.eloIfDraw }}</strong>
+                Elo if you...<br />
+                {% for end, elo in {'win':critic.eloIfWin,'draw':critic.eloIfDraw,'lose':critic.eloIfLose} %}
+                {{ end|capitalize }}: <strong>{{ elo }}</strong>
+                {% endfor %}
             </div>
             {% endif %}
         {% endblock %}
@@ -33,9 +38,6 @@
             {% if winChart.hasData %}
                 <div class="win_stats" title="{{ "Games played"|trans }}: {{ critic.nbGames|default("0") }}" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
             {% endif %}
-            {% block user_message %}
-            {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}<br /><a href="?_impersonate={{ user.username }}">Impersonate</a>{% endif %}
-            {% endblock %}
         </div>
     </div>
     {% if critic.nbGames %}

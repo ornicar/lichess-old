@@ -18,7 +18,7 @@
     <div class="box">
         {% if game.isBeingPlayed %}
             <a class="link" href="{{ path("lichess_game", {"id": game.id} ) }}">
-                Playing right now at {{ url("lichess_game", {"id": game.id} ) }}
+                {{ 'Playing right now'|trans }} {{ url("lichess_game", {"id": game.id} ) }}
             </a>
         {% else %}
             {{ lichess_date(game.updatedAt) }}

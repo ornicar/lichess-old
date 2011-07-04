@@ -43,11 +43,15 @@ div.user_show .win_stats {
 }
 
 div.user_show .elo_with_me {
+    margin-bottom: 1.5em;
     padding: 5px 8px;
     border: 1px solid #eaeaea;
     background: #fafafa;
     width: 270px;
-    margin-bottom: 2em;
+    text-align: center;
+}
+div.user_show .elo_with_me strong {
+    padding-right: 1em;
 }
 
 div.user_show div.games {

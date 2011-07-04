@@ -43,6 +43,11 @@ class UserCritic
         return $diff;
     }
 
+    public function getEloIfLose()
+    {
+        return $this->calculator->calculateDiff($this->getAuthenticatedUser()->getElo(), $this->user->getElo(), +1);
+    }
+
     public function getRank()
     {
         return $this->cacheable('rank', function($games, $users, $user) {

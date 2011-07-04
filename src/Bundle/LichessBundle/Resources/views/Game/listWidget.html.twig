@@ -7,9 +7,7 @@
 <div class="infos">
 <b>
 {% if game.isBeingPlayed %}
-<a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">
-    {{ "Playing right now"|trans }}
-</a>,
+<a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">{{ "Playing right now"|trans }}</a>,
 {% else %}
 {{ lichess_date(game.updatedAt) }}
 {% endif %}

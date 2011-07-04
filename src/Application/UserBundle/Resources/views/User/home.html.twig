@@ -1,5 +1,19 @@
 {% extends "FOSUserBundle:User:show.html.twig" %}
 
+{% block user_bio %}
+    <div class="editable" data-url="/profile/update">
+    <span class="user_bio" data-name="bio" data-type="textarea" data-provider-url="{{ path("fos_user_profile_bio") }}">{{ lichess_shorten(user.bio|default("Click here to tell about yourself."), 400) }}</span>
+    </div>
+{% endblock %}
+
+{% block user_message %}{% endblock %}
+{% block user_elo_with_me %}{% endblock %}
+
+{% block actions %}
+    <br />
+    <a class="small" href="{{ path("fos_user_close_account") }}">Close your account</a>
+{% endblock %}
+
 {% block stylesheets %}
 {{ parent() }}
 {% stylesheets
@@ -17,19 +31,4 @@
     filter="yui_js" %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-{% endblock %}
-
-{% block user_bio %}
-    <div class="editable" data-url="/profile/update">
-    <span class="user_bio" data-name="bio" data-type="textarea" data-provider-url="{{ path("fos_user_profile_bio") }}">{{ lichess_shorten(user.bio|default("Click here to tell about yourself."), 400) }}</span>
-    </div>
-{% endblock %}
-
-{% block user_message %}
-<br /><br />
-{% endblock %}
-
-{% block actions %}
-    <br />
-    <a class="small" href="{{ path("fos_user_close_account") }}">Close your account</a>
 {% endblock %}
