@@ -31,3 +31,10 @@ $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'
 ));
 $loader->register();
+
+// doctrine annotations
+Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(function($class) use ($loader) {
+    $loader->loadClass($class);
+    return class_exists($class, false);
+});
+Doctrine\Common\Annotations\AnnotationRegistry::registerFile(__DIR__.'/../vendor/doctrine-mongodb-odm/lib/Doctrine/ODM/MongoDB/Mapping/Annotations/DoctrineAnnotations.php');

@@ -2,6 +2,7 @@
 /lichess/cache/*
 /lichess/logs/*
 /lichess/bootstrap*
+/app/bootstrap*
 /xhr/config/config_local.yml
 /xhr/cache/*
 /xhr/logs/*
@@ -11,3 +12,4 @@
 /web/.htaccess
 /web/google*
 /web/apcmonitor.php
+/vendors
