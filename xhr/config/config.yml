@@ -23,7 +23,7 @@ doctrine_mongodb:
                     prefix: Application\UserBundle\Document
                 FOSUser:
                     type: xml
-                    dir: %kernel.root_dir%/../src/FOS/UserBundle/Resources/config/doctrine
+                    dir: %kernel.root_dir%/../vendor/bundles/FOS/UserBundle/Resources/config/doctrine
                     prefix: FOS\UserBundle\Document
 
 # Disable as many features as possible

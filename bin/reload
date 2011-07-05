@@ -7,27 +7,28 @@ show_run()
 }
 
 echo -e "\n--- Building bootstrap"
-show_run "bin/build_bootstrap.php"
+show_run "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php"
+cp app/bootstrap.* xhr/
 
 echo -e "\n--- warming up xhr cache"
 show_run "php xhr/console --env=dev cache:clear"
 
 for environment in dev test; do
     echo -e "\n--- warming up $environment cache"
-    show_run "php lichess/console --env=$environment cache:clear"
+    show_run "php app/console --env=$environment cache:clear"
 
     echo -e "\n--- Loading $environment fixtures"
-    show_run "php lichess/console --env=$environment doctrine:mongodb:fixtures:load"
+    show_run "php app/console --env=$environment doctrine:mongodb:fixtures:load"
 
     echo -e "\n--- Creating $environment MongoDB indexes"
-    show_run "php lichess/console --env=$environment doctrine:mongodb:schema:create --index"
+    show_run "php app/console --env=$environment doctrine:mongodb:schema:create --index"
 done
 
 echo -e "\n--- Clearing APC cache"
-show_run "php lichess/console apc:clear"
+show_run "php app/console apc:clear"
 
 echo -e "\n--- Creating assets symlinks"
-show_run php lichess/console assets:install web --symlink
+show_run php app/console assets:install web --symlink
 
 echo -e "\n--- Dumping assets"
-show_run php lichess/console assetic:dump
+show_run php app/console assetic:dump

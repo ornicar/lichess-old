@@ -15,7 +15,11 @@
     git=git://github.com/doctrine/mongodb.git
 
 [doctrine-mongodb-odm]
-    git=git://github.com/doctrine/mongodb-odm.git
+    git=git://github.com/ornicar/mongodb-odm.git
+    version=annotations
+
+[doctrine-data-fixtures]
+	git=git://github.com/doctrine/data-fixtures.git
 
 [assetic]
     git=git://github.com/kriswallsmith/assetic.git
@@ -24,7 +28,10 @@
     git=git://github.com/schmittjoh/metadata.git
 
 [pagerfanta]
-    git=git://github.com/whiteoctober/pagerfanta.git
+    git=git://github.com/whiteoctober/Pagerfanta.git
+
+[doctrine-extensions]
+	git=git://github.com/l3pp4rd/DoctrineExtensions.git
 
 [zend-service]
 	git=git://github.com/knplabs/zend-service.git

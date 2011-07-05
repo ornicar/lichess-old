@@ -11,6 +11,13 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
+            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\MonologBundle\MonologBundle(),
+            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
+
             new Application\CommentBundle\LichessCommentBundle(),
             new Application\ForumBundle\LichessForumBundle(),
             new Application\MessageBundle\LichessMessageBundle(),
@@ -25,12 +32,6 @@ class AppKernel extends Kernel
             new Lichess\TranslationBundle\LichessTranslationBundle(),
             new Ornicar\AkismetBundle\OrnicarAkismetBundle(),
             new Ornicar\MessageBundle\OrnicarMessageBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new Symfony\Bundle\TwigBundle\TwigBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle ()
         );
 
