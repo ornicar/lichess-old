@@ -12,10 +12,10 @@
     git=git://github.com/doctrine/common.git
 
 [doctrine-mongodb]
-    git=git://github.com/doctrine/doctrine-mongodb.git
+    git=git://github.com/doctrine/mongodb.git
 
 [doctrine-mongodb-odm]
-    git=git://github.com/doctrine/doctrine-mongodb-odm.git
+    git=git://github.com/doctrine/mongodb-odm.git
 
 [assetic]
     git=git://github.com/kriswallsmith/assetic.git
@@ -77,16 +77,17 @@
     target=/bundles/Bundle/ApcBundle
 
 [FOSUserBundle]
-    git=git://github.com/FOS/FOSUserBundle.git
+    git=git://github.com/FriendsOfSymfony/FOSUserBundle.git
     target=/bundles/FOS/UserBundle
 
 [FOSCommentBundle]
-    git=git://github.com/FOS/FOSCommentBundle.git
+    git=git://github.com/FriendsOfSymfony/FOSCommentBundle.git
     target=/bundles/FOS/CommentBundle
 
 [MessageBundle]
     git=git://github.com/ornicar/OrnicarMessageBundle.git
     target=/bundles/Ornicar/MessageBundle
+    version=legacy
 
 [AkismetBundle]
     git=git://github.com/ornicar/OrnicarAkismetBundle.git

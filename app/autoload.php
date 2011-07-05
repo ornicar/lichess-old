@@ -1,34 +1,36 @@
 <?php
 
-$vendorDir = realpath(__DIR__.'/../vendor');
-$srcDir    = realpath(__DIR__.'/../src');
+$vendorDir = __DIR__.'/../vendor';
+$bundleDir = __DIR__.'/../vendor/bundles';
 
 require $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/ApcUniversalClassLoader.php';
 
 $loader = new Symfony\Component\ClassLoader\ApcUniversalClassLoader('lichess.cl.');
 
 $loader->registerNamespaces(array(
-    'Symfony'                        => array($vendorDir.'/symfony/src', $srcDir),
+    'Symfony'                        => array($vendorDir.'/symfony/src', $bundleDir),
     'Doctrine\\MongoDB'              => $vendorDir.'/doctrine-mongodb/lib',
     'Doctrine\\ODM\\MongoDB'         => $vendorDir.'/doctrine-mongodb-odm/lib',
     'Doctrine\\Common\\DataFixtures' => $vendorDir.'/doctrine-data-fixtures/lib',
     'Doctrine\\Common'               => $vendorDir.'/doctrine-common/lib',
-    'DoctrineExtensions'             => $vendorDir.'/Doctrine2-Sluggable-Functional-Behavior/lib',
     'Zend'                           => $vendorDir.'/zend-subtrees',
     'Monolog'                        => $vendorDir.'/monolog/src',
     'Assetic'                        => $vendorDir.'/assetic/src',
     'Pagerfanta'                     => $vendorDir.'/pagerfanta/src',
-    'WhiteOctober\PagerfantaBundle'  => $srcDir,
-    'Bundle'                         => $srcDir,
-    'FOS'                            => $srcDir,
-    'FOQ'                            => $srcDir,
-    'Lichess'                        => $srcDir,
-    'Application'                    => $srcDir,
-    'Ornicar'                        => $srcDir,
-    'Sensio'                         => $srcDir,
+    'Ornicar'                        => $bundleDir,
+    'Sensio'                         => $bundleDir,
+    'WhiteOctober'                   => $bundleDir,
+    'FOS'                            => $bundleDir,
+    'FOQ'                            => $bundleDir
 ));
 $loader->registerPrefixes(array(
     'Twig_'  => $vendorDir.'/twig/lib'
+));
+$loader->registerPrefixFallbacks(array(
+    __DIR__.'/../vendor/symfony/src/Symfony/Component/Locale/Resources/stubs',
+));
+$loader->registerNamespaceFallbacks(array(
+    __DIR__.'/../src',
 ));
 $loader->register();
 

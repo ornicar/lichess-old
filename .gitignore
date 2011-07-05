@@ -1,7 +1,6 @@
-/lichess/config/config_local.yml
-/lichess/cache/*
-/lichess/logs/*
-/lichess/bootstrap*
+/app/config/config_local.yml
+/app/cache/*
+/app/logs/*
 /app/bootstrap*
 /xhr/config/config_local.yml
 /xhr/cache/*

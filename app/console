@@ -2,7 +2,7 @@
 <?php
 
 require_once __DIR__.'/bootstrap.php.cache';
-require_once __DIR__.'/LichessKernel.php';
+require_once __DIR__.'/AppKernel.php';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -17,6 +17,6 @@ if (!$guardRail->isSafe($input, $env)) {
     die('It is not safe to run this command in this environment');
 }
 
-$kernel = new LichessKernel($env, $debug);
+$kernel = new AppKernel($env, $debug);
 $application = new Application($kernel);
 $application->run();

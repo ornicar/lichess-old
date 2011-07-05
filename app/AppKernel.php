@@ -6,32 +6,32 @@ use Symfony\Component\ClassLoader\DebugUniversalClassLoader;
 use Symfony\Component\HttpKernel\Debug\ErrorHandler;
 use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 
-class LichessKernel extends Kernel
+class AppKernel extends Kernel
 {
     public function registerBundles()
     {
         $bundles = array(
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new Symfony\Bundle\TwigBundle\TwigBundle(),
-            new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new Bundle\ApcBundle\ApcBundle(),
-            new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
-            new FOS\UserBundle\FOSUserBundle(),
-            new FOS\CommentBundle\FOSCommentBundle(),
-            new Ornicar\AkismetBundle\OrnicarAkismetBundle(),
-            new Ornicar\MessageBundle\OrnicarMessageBundle(),
-            new Bundle\ForumBundle\ForumBundle(),
-            new Application\UserBundle\LichessUserBundle(),
-            new Application\MessageBundle\LichessMessageBundle(),
-            new Application\ForumBundle\LichessForumBundle(),
             new Application\CommentBundle\LichessCommentBundle(),
+            new Application\ForumBundle\LichessForumBundle(),
+            new Application\MessageBundle\LichessMessageBundle(),
+            new Application\UserBundle\LichessUserBundle(),
+            new Bundle\ApcBundle\ApcBundle(),
+            new Bundle\ForumBundle\ForumBundle(),
             new Bundle\LichessBundle\LichessBundle(),
+            new FOS\CommentBundle\FOSCommentBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new Lichess\ChartBundle\LichessChartBundle(),
             new Lichess\SearchBundle\LichessSearchBundle(),
             new Lichess\TranslationBundle\LichessTranslationBundle(),
-            new Lichess\ChartBundle\LichessChartBundle(),
-            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
+            new Ornicar\AkismetBundle\OrnicarAkismetBundle(),
+            new Ornicar\MessageBundle\OrnicarMessageBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
+            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\MonologBundle\MonologBundle(),
+            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle ()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
