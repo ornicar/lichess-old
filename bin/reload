@@ -1,21 +1,28 @@
 #!/bin/sh
 
-show_run()
-{
+echo -e "  _ _      _                  \n | (_)    | |                 \n | |_  ___| |__   ___ ___ ___ \n | | |/ __| '_ \ / _ | __/ __|\n | | | (__| | | |  __|__ \__ \ \n |_|_|\___|_| |_|\___|___/___/"
+
+# Shows a command and executes it
+show_run() {
     echo "    $ $*"
-    $*
+    result=$($*)
+    if [ -z $? ]; then
+        echo "--- FAIL"
+        echo $result
+        exit 1
+    fi
 }
 
 echo -e "\n--- Building bootstrap"
 show_run "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php"
-cp app/bootstrap.* xhr/
+show_run "cp app/bootstrap.* xhr/"
 
 echo -e "\n--- warming up xhr cache"
 show_run "php xhr/console --env=dev cache:clear"
 
 for environment in dev test; do
     echo -e "\n--- warming up $environment cache"
-    show_run "php app/console --env=$environment cache:clear"
+    show_run "php app/console --env=$environment cache:clear --no-warmup"
 
     echo -e "\n--- Loading $environment fixtures"
     show_run "php app/console --env=$environment doctrine:mongodb:fixtures:load"
@@ -32,3 +39,5 @@ show_run php app/console assets:install web --symlink
 
 echo -e "\n--- Dumping assets"
 show_run php app/console assetic:dump
+
+echo "All set!"

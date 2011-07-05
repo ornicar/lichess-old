@@ -38,8 +38,7 @@ It uses [MongoDB](http://mongodb.org) for game storage.
 
     git clone git://github.com/ornicar/lichess.git
     cd lichess
-    git submodule init
-    git submodule update --init --recursive
+    ./bin/vendors install
 
 ### Check your server requirements
 
@@ -67,7 +66,7 @@ Open your browser at http://myhostname/index_dev.php
 
 ### Configure Artificial Intelligence
 
-The default AI is crafty, a opensource program written in C.
+The default AI is crafty, an opensource program written in C.
 
 #### Install crafty on Debian based distros:
 
@@ -104,7 +103,7 @@ You need [PHPUnit 3.5](http://github.com/sebastianbergmann/phpunit) installed.
 
 Run all unit and functional tests
 
-    phpunit -c lichess
+    phpunit -c app
 
 To get functional tests passing, you need to enable APC in CLI.
 
