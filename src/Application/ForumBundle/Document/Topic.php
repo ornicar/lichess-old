@@ -58,15 +58,4 @@ class Topic extends BaseTopic
     {
         $this->getFirstPost()->setAuthorName($authorName);
     }
-
-    /**
-     * Hack to fix temporary Form issue
-     *
-     * @param string $trap
-     * @return void
-     */
-    public function setTrap($trap)
-    {
-        $this->getFirstPost()->setTrap($trap);
-    }
 }

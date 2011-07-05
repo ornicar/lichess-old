@@ -192,10 +192,6 @@ div.category .description {
 #lichess_forum form .submit {
     margin-left: 110px;
 }
-#lichess_forum form .forum_trap {
-    margin-left: -10000px;
-    height: 0;
-}
 
 #lichess_forum form ul {
     margin-left: 110px;
