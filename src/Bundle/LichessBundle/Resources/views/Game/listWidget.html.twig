@@ -2,7 +2,7 @@
 {% for game in games %}
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
-<div class="game_row paginated_element clearfix {{ loop.index % 2 ? "odd" : "even" }}">
+<div class="game_row paginated_element clearfix {{ cycle(['odd', 'even'], loop.index0) }}">
 {{ lichess_game_fen(game, fromUser) }}
 <div class="infos">
 <b>

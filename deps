@@ -30,6 +30,9 @@
 [pagerfanta]
     git=git://github.com/whiteoctober/Pagerfanta.git
 
+[elastica]
+    git=git://github.com/ruflin/Elastica.git
+
 [doctrine-extensions]
 	git=git://github.com/l3pp4rd/DoctrineExtensions.git
 
@@ -90,6 +93,10 @@
 [FOSCommentBundle]
     git=git://github.com/FriendsOfSymfony/FOSCommentBundle.git
     target=/bundles/FOS/CommentBundle
+
+[FOQElasticaBundle]
+    git=git://github.com/Exercise/FOQElasticaBundle.git
+    target=/bundles/FOQ/ElasticaBundle
 
 [MessageBundle]
     git=git://github.com/ornicar/OrnicarMessageBundle.git

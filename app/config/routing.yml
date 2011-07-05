@@ -16,12 +16,12 @@ lichess_sync:
 lichess_translation:
     resource: @LichessTranslationBundle/Resources/config/routing.yml
     prefix: /translation
-lichess_search:
-    resource: @LichessSearchBundle/Resources/config/routing.yml
-    prefix: /search
+#lichess_search:
+    #resource: @LichessSearchBundle/Resources/config/routing.yml
+    #prefix: /search
 
 forum:
-    resource: @ForumBundle/Resources/config/routing/forum.xml
+    resource: @LichessForumBundle/Resources/config/routing.yml
     prefix: /forum
 forum_category:
     resource: @ForumBundle/Resources/config/routing/category.xml

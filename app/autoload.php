@@ -25,7 +25,8 @@ $loader->registerNamespaces(array(
     'FOQ'                            => $bundleDir
 ));
 $loader->registerPrefixes(array(
-    'Twig_'  => $vendorDir.'/twig/lib'
+    'Twig_'  => $vendorDir.'/twig/lib',
+    'Elastica_'  => $vendorDir.'/elastica/lib'
 ));
 $loader->registerPrefixFallbacks(array(
     __DIR__.'/../vendor/symfony/src/Symfony/Component/Locale/Resources/stubs',

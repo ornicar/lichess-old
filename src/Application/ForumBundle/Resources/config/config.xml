@@ -5,11 +5,23 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+
+        <service id="forum.akismet" class="Application\ForumBundle\Akismet" scope="request">
+            <argument type="service" id="ornicar_akismet" />
+        </service>
+        <service id="lichess_forum.search.model_to_elastica_transformer" class="Application\ForumBundle\Search\ModelToElasticaTransformer" public="false">
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="forum.authorname_persistence" class="Application\ForumBundle\AuthorNamePersistence" scope="request">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="request" />
+        </service>
         <service id="lichess_forum.form_type.post" class="Application\ForumBundle\Form\PostFormType">
             <argument type="service" id="security.context" />
             <tag name="form.type" alias="lichess_forum.post" />
         </service>
         <service id="lichess_forum.form_type.new_topic" class="Application\ForumBundle\Form\NewTopicFormType" />
+
     </services>
 
 </container>

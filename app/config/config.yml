@@ -12,3 +12,4 @@ imports:
     - { resource: ../../config/security.yml }
     - { resource: ../../config/twig.yml }
     - { resource: ../../config/user.yml }
+    - { resource: ../../config/elastica.yml }
