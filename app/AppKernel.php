@@ -18,10 +18,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
 
-            new Application\CommentBundle\LichessCommentBundle(),
-            new Application\ForumBundle\LichessForumBundle(),
-            new Application\MessageBundle\LichessMessageBundle(),
-            new Application\UserBundle\LichessUserBundle(),
             new Bundle\ApcBundle\ApcBundle(),
             new Bundle\ForumBundle\ForumBundle(),
             new Bundle\LichessBundle\LichessBundle(),
@@ -33,7 +29,12 @@ class AppKernel extends Kernel
             new Lichess\TranslationBundle\LichessTranslationBundle(),
             new Ornicar\AkismetBundle\OrnicarAkismetBundle(),
             new Ornicar\MessageBundle\OrnicarMessageBundle(),
-            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle ()
+            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
+
+            new Application\CommentBundle\LichessCommentBundle(),
+            new Application\ForumBundle\LichessForumBundle(),
+            new Application\MessageBundle\LichessMessageBundle(),
+            new Application\UserBundle\LichessUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
