@@ -27,6 +27,11 @@ class CommentFormType extends AbstractType
         $this->securityContext = $securityContext;
     }
 
+    public function getName()
+    {
+        return 'comment';
+    }
+
     /**
      * Configures a Comment form.
      *

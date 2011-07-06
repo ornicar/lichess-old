@@ -13,4 +13,9 @@ class GameConfigFormType extends AbstractType
     {
         $this->config = $config;
     }
+
+    public function getName()
+    {
+        return 'config';
+    }
 }

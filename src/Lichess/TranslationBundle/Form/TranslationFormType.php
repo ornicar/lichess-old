@@ -15,6 +15,11 @@ class TranslationFormType extends AbstractType
         $this->languages = $translationManager->getLanguages();
     }
 
+    public function getName()
+    {
+        return 'translation';
+    }
+
     public function buildForm(FormBuilder $builder, array $options)
     {
         $languages = $this->languages;
