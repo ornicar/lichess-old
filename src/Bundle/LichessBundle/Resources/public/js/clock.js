@@ -8,34 +8,34 @@ $.widget("lichess.clock", {
         });
         this.element.addClass('clock_enabled');
     },
-    destroy: function() {
-        this.stop();
-        $.Widget.prototype.destroy.apply(this);
-    },
-    start: function() {
-        var self = this;
-        self.options.state = 'running';
-        self.element.addClass('running');
-        var end_time = new Date().getTime() + self.options.time;
-        self.options.interval = setInterval(function() {
-            if (self.options.state == 'running') {
-                var current_time = Math.round(end_time - new Date().getTime());
-                if (current_time <= 0) {
-                    clearInterval(self.options.interval);
-                    current_time = 0;
-                }
-
-                self.options.time = current_time;
-                self._show();
-
-                //If the timer completed, fire the buzzer callback
-                current_time == 0 && $.isFunction(self.options.buzzer) && self.options.buzzer(self.element);
-            } else {
+destroy: function() {
+    this.stop();
+    $.Widget.prototype.destroy.apply(this);
+},
+start: function() {
+    var self = this;
+    self.options.state = 'running';
+    self.element.addClass('running');
+    var end_time = new Date().getTime() + self.options.time;
+    self.options.interval = setInterval(function() {
+        if (self.options.state == 'running') {
+            var current_time = Math.round(end_time - new Date().getTime());
+            if (current_time <= 0) {
                 clearInterval(self.options.interval);
+                current_time = 0;
             }
-        },
-        1000);
+
+            self.options.time = current_time;
+            self._show();
+
+            //If the timer completed, fire the buzzer callback
+            current_time == 0 && $.isFunction(self.options.buzzer) && self.options.buzzer(self.element);
+        } else {
+            clearInterval(self.options.interval);
+        }
     },
+    1000);
+},
 
     setTime: function(time) {
         this.options.time = parseFloat(time) * 1000;
@@ -53,10 +53,12 @@ $.widget("lichess.clock", {
     },
 
     _formatDate: function(date) {
-        minutes = date.getMinutes();
-        if (minutes < 10) minutes = "0" + minutes;
-        seconds = date.getSeconds();
-        if (seconds < 10) seconds = "0" + seconds;
+        minutes = this.prefixInteger(date.getMinutes(), 2);
+        seconds = this.prefixInteger(date.getSeconds());
         return minutes + ':' + seconds;
+    },
+
+    _prefixInteger: function (num, length) {
+        return (num / Math.pow(10, length)).toFixed(length).substr(2);
     }
 });
