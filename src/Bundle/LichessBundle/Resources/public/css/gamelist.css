@@ -24,9 +24,14 @@ div.all_games {
 
 div.game_row {
     display: block;
-    margin-top: 2em;
+    padding: 1.4em 20px;
     height: 190px;
-    line-height: 1.2em;
+    line-height: 1.6em;
+    border-bottom: 1px solid #eaeaea;
+    position: relative;
+}
+div.game_row.even {
+    background: #f4f4f4;
 }
 div.game_row div.infos span.win {
     color: #00AA00;
@@ -34,40 +39,32 @@ div.game_row div.infos span.win {
 div.game_row div.infos span.loss {
     color: #AA0000;
 }
+div.game_row a.go_analyse {
+    position: absolute;
+    bottom: 16px;
+    right: 25px;
+    text-decoration: none;
+}
+div.game_row span.clock {
+    background-position: 0 -224px;
+    padding-bottom: 1px;
+}
 
 table.game_players td {
     padding-right: 1em;
 }
 
-div.pager {
-    text-align:center;
-    margin-top: 2em;
-}
-div.pager .position {
-    margin-right: 2em;
-}
-div.pager a, div.pager span {
-    font-size: 1.1em;
-    padding: 0.1em 0.5em;
-    font-weight: bold;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    text-decoration: none;
-}
-div.pager span {
-    color: #ccc;
-}
-div.pager span.current {
-    background: -moz-linear-gradient(center top , #50C0D0, #0090A0) repeat scroll 0 0 #0090A0;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#50C0D0), to(#0090A0));
-    color: #FFF;
-    margin: 0 0.5em;
-}
-
-div.game_mini {
+div.game_list_inner > div {
     float: left;
     margin: 0 10px 10px 10px;
+}
+div.game_list_inner div.vstext {
+    margin-top: 5px;
+    font-size: 11px;
+    text-align: center;
+    width: 192px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 a.mini_board {
@@ -82,14 +79,6 @@ a.mini_board {
 div.all_games a.mini_board {
     float: left;
     margin: 0 20px 20px 10px;
-}
-div.game_mini div.vstext {
-    margin-top: 5px;
-    font-size: 11px;
-    text-align: center;
-    width: 192px;
-    overflow: hidden;
-    white-space: nowrap;
 }
 
 div.lmcs {
@@ -109,44 +98,44 @@ div.lcmp {
     position: absolute;
     width: 24px;
     height: 24px;
-    background-image: url(../images/sprite_mini.png);
+    background-image: url(/bundles/lichess/images/sprite_mini.png);
 }
 
 div.lcmp.pawn.white{
-    background-position: +0px +0px;
+    background-position: 0 0;
 }
 div.lcmp.bishop.white{
-    background-position: -24px +0px;
+    background-position: -24px 0;
 }
 div.lcmp.knight.white{
-    background-position: -48px +0px;
+    background-position: -48px 0;
 }
 div.lcmp.rook.white{
-    background-position: -72px +0px;
+    background-position: -72px 0;
 }
 div.lcmp.queen.white{
-    background-position: -96px +0px;
+    background-position: -96px 0;
 }
 div.lcmp.king.white{
-    background-position: -120px +0px;
+    background-position: -120px 0;
 }
 
 div.lcmp.pawn.black{
-    background-position: +0px +24px;
+    background-position: 0px bottom;
 }
 div.lcmp.bishop.black{
-    background-position: -24px +24px;
+    background-position: -24px bottom;
 }
 div.lcmp.knight.black{
-    background-position: -48px +24px;
+    background-position: -48px bottom;
 }
 div.lcmp.rook.black{
-    background-position: -72px +24px;
+    background-position: -72px bottom;
 }
 div.lcmp.queen.black{
-    background-position: -96px +24px;
+    background-position: -96px bottom;
 }
 div.lcmp.king.black{
-    background-position: -120px +24px;
+    background-position: -120px bottom;
 }
 

@@ -1,0 +1,15 @@
+fos_user:
+    firewall_name: main
+    db_driver: mongodb
+    user_class: Application\UserBundle\Document\User
+    registration:
+        confirmation:
+            enabled:    false
+        form:
+            type: Application\UserBundle\Form\RegistrationFormType
+    encoder:
+        iterations: 1
+        encode_as_base64: false
+        algorithm: sha1
+    service:
+        mailer: fos_user.mailer.noop

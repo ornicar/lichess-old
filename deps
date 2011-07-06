@@ -1,0 +1,112 @@
+[symfony]
+    git=git://github.com/symfony/symfony.git
+
+[twig]
+    git=git://github.com/fabpot/Twig.git
+    version=v1.1.0
+
+[monolog]
+    git=git://github.com/Seldaek/monolog.git
+
+[doctrine-common]
+    git=git://github.com/doctrine/common.git
+
+[doctrine-mongodb]
+    git=git://github.com/doctrine/mongodb.git
+
+[doctrine-mongodb-odm]
+    git=git://github.com/ornicar/mongodb-odm.git
+    version=annotations
+
+[doctrine-data-fixtures]
+	git=git://github.com/doctrine/data-fixtures.git
+
+[assetic]
+    git=git://github.com/kriswallsmith/assetic.git
+
+[metadata]
+    git=git://github.com/schmittjoh/metadata.git
+
+[pagerfanta]
+    git=git://github.com/whiteoctober/Pagerfanta.git
+
+[elastica]
+    git=git://github.com/ruflin/Elastica.git
+
+[doctrine-extensions]
+	git=git://github.com/l3pp4rd/DoctrineExtensions.git
+
+[zend-service]
+	git=git://github.com/knplabs/zend-service.git
+	target=zend-subtrees/Zend/Service
+
+[zend-uri]
+	git=git://github.com/knplabs/zend-uri.git
+	target=zend-subtrees/Zend/Uri
+
+[zend-validator]
+	git=git://github.com/knplabs/zend-validator.git
+	target=zend-subtrees/Zend/Validator
+
+[zend-http]
+	git=git://github.com/knplabs/zend-http.git
+	target=zend-subtrees/Zend/Http
+
+[php-git-repo]
+    git=git://github.com/ornicar/php-git-repo.git
+
+[pgn4web]
+    git=git://github.com/ornicar/pgn4web.git
+
+[SensioDistributionBundle]
+    git=git://github.com/sensio/SensioDistributionBundle.git
+    target=/bundles/Sensio/Bundle/DistributionBundle
+
+[SensioGeneratorBundle]
+    git=git://github.com/sensio/SensioGeneratorBundle.git
+    target=/bundles/Sensio/Bundle/GeneratorBundle
+
+[AsseticBundle]
+    git=git://github.com/symfony/AsseticBundle.git
+    target=/bundles/Symfony/Bundle/AsseticBundle
+
+[DoctrineMongoDBBundle]
+    git=git://github.com/symfony/DoctrineMongoDBBundle.git
+    target=/bundles/Symfony/Bundle/DoctrineMongoDBBundle
+
+[DoctrineFixturesBundle]
+    git=git://github.com/symfony/DoctrineFixturesBundle.git
+    target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
+
+[ForumBundle]
+	git=git://github.com/Herzult/ForumBundle.git
+    target=/bundles/Bundle/ForumBundle
+
+[ApcBundle]
+	git=git://github.com/ornicar/ApcBundle.git
+    target=/bundles/Bundle/ApcBundle
+
+[FOSUserBundle]
+    git=git://github.com/FriendsOfSymfony/FOSUserBundle.git
+    target=/bundles/FOS/UserBundle
+
+[FOSCommentBundle]
+    git=git://github.com/FriendsOfSymfony/FOSCommentBundle.git
+    target=/bundles/FOS/CommentBundle
+
+[FOQElasticaBundle]
+    git=git://github.com/Exercise/FOQElasticaBundle.git
+    target=/bundles/FOQ/ElasticaBundle
+
+[MessageBundle]
+    git=git://github.com/ornicar/OrnicarMessageBundle.git
+    target=/bundles/Ornicar/MessageBundle
+    version=legacy
+
+[AkismetBundle]
+    git=git://github.com/ornicar/OrnicarAkismetBundle.git
+    target=/bundles/Ornicar/AkismetBundle
+
+[PagerfantaBundle]
+    git=git://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git
+    target=/bundles/WhiteOctober/PagerfantaBundle

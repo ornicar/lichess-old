@@ -1,10 +1,13 @@
 <?php
 
 namespace Application\UserBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 use FOS\UserBundle\Document\User as BaseUser;
 
 /**
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   repositoryClass="Application\UserBundle\Document\UserRepository",
  *   collection="user"
  * )
@@ -20,25 +23,23 @@ class User extends BaseUser
      * Id
      *
      * @var \MongoId
-     * @mongodb:Id
+     * @MongoDB\Id
      */
     protected $id = null;
 
     /**
-     * @validation:Validation({
-     *      @validation:Regex(pattern="/^[\w\-]+$/", message="Invalid username. Please use only letters, numbers and dash", groups={"Registration","FacebookRegistration"}),
-     *      @validation:NotBlank(message="Please enter a username", groups="Registration"),
-     *      @validation:MinLength(limit=2, message="The username is too short", groups="Registration"),
-     *      @validation:MaxLength(limit=30, message="The username is too long (30 chars max)", groups="Registration")
-     * })
+     * @Assert\Regex(pattern="/^[\w\-]+$/", message="Invalid username. Please use only letters, numbers and dash", groups={"Registration","FacebookRegistration"}),
+     * @Assert\NotBlank(message="Please enter a username", groups="Registration"),
+     * @Assert\MinLength(limit=2, message="The username is too short", groups="Registration"),
+     * @Assert\MaxLength(limit=30, message="The username is too long (30 chars max)", groups="Registration")
      */
     protected $username;
 
     /**
      * ELO score of the user
      *
-     * @mongodb:Field(type="float")
-     * @mongodb:Index(order="desc")
+     * @MongoDB\Field(type="float")
+     * @MongoDB\Index(order="desc")
      * @var int
      */
     protected $elo = null;
@@ -46,8 +47,8 @@ class User extends BaseUser
     /**
      * Whether the user is online or not
      *
-     * @mongodb:Field(type="boolean")
-     * @mongodb:Index(order="desc")
+     * @MongoDB\Field(type="boolean")
+     * @MongoDB\Index(order="desc")
      * @var bool
      */
     protected $isOnline = false;
@@ -55,7 +56,7 @@ class User extends BaseUser
     /**
      * Small text description
      *
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      * @var string
      */
     protected $bio = null;
@@ -64,7 +65,7 @@ class User extends BaseUser
      * Preferred game config
      *
      * @var array
-     * @mongodb:Field(type="hash")
+     * @MongoDB\Field(type="hash")
      */
     protected $gameConfigs = array();
 

@@ -39,7 +39,7 @@ class StackTest extends \PHPUnit_Framework_TestCase
         $manipulator = new TestManipulator($this->game, $stack);
         $this->assertEquals(array(), $stack->getEvents());
         $manipulator->play('a2 a4');
-        $this->assertEquals(array(array('type' => 'move', 'from' => 'a2', 'to' => 'a4')), $stack->getEvents());
+        $this->assertEquals(array(array('type' => 'move', 'from' => 'a2', 'to' => 'a4', 'color' => 'white')), $stack->getEvents());
     }
 
     public function testKill()
@@ -48,7 +48,7 @@ class StackTest extends \PHPUnit_Framework_TestCase
         $stack = new Stack();
         $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('c3 e4');
-        $this->assertEquals(array(array('type' => 'move', 'from' => 'c3', 'to' => 'e4')), $stack->getEvents());
+        $this->assertEquals(array(array('type' => 'move', 'from' => 'c3', 'to' => 'e4', 'color' => 'white')), $stack->getEvents());
     }
 
     public function testEnPassant()
@@ -73,7 +73,7 @@ EOF;
         $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('e5 f6');
         $this->assertEquals(array(
-            array('type' => 'move', 'from' => 'e5', 'to' => 'f6'),
+            array('type' => 'move', 'from' => 'e5', 'to' => 'f6', 'color' => 'white'),
             array('type' => 'enpassant', 'killed' => 'f5')
         ), $stack->getEvents());
     }
@@ -95,8 +95,8 @@ EOF;
         $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('e1 c1');
         $this->assertEquals(array(
-            array('type' => 'castling', 'king' => array('e1', 'c1'), 'rook' => array('a1', 'd1')),
-            array('type' => 'move', 'from' => 'e1', 'to' => 'c1'),
+            array('type' => 'move', 'from' => 'e1', 'to' => 'c1', 'color' => 'white'),
+            array('type' => 'castling', 'king' => array('e1', 'c1'), 'rook' => array('a1', 'd1'), 'color' => 'white'),
         ), $stack->getEvents());
     }
 
@@ -118,7 +118,7 @@ EOF;
         $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('b7 b8', array('promotion' => 'Queen'));
         $this->assertEquals(array(
-            array('type' => 'move', 'from' => 'b7', 'to' => 'b8'),
+            array('type' => 'move', 'from' => 'b7', 'to' => 'b8', 'color' => 'white'),
             array('type' => 'promotion', 'pieceClass' => 'queen', 'key' => 'b8')
         ), $stack->getEvents());
     }
@@ -141,7 +141,7 @@ EOF;
         $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('b7 b8', array('promotion' => 'Knight'));
         $this->assertEquals(array(
-            array('type' => 'move', 'from' => 'b7', 'to' => 'b8'),
+            array('type' => 'move', 'from' => 'b7', 'to' => 'b8', 'color' => 'white'),
             array('type' => 'promotion', 'pieceClass' => 'knight', 'key' => 'b8')
         ), $stack->getEvents());
     }
@@ -164,7 +164,7 @@ EOF;
         $manipulator = new TestManipulator($this->game, $stack);
         $manipulator->play('b7 b6', array('promotion' => 'Knight'));
         $this->assertEquals(array(
-            array('type' => 'move', 'from' => 'b7', 'to' => 'b6'),
+            array('type' => 'move', 'from' => 'b7', 'to' => 'b6', 'color' => 'white'),
             array('type' => 'check', 'key' => 'd6')
         ), $stack->getEvents());
     }

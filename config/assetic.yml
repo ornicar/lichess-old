@@ -1,0 +1,8 @@
+assetic:
+    debug:          true
+    use_controller: false
+    filters:
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
+        yui_js:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"

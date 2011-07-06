@@ -1,0 +1,10 @@
+lichess:
+    ai:
+        crafty:
+            enabled: true
+            priority: 2
+            executable_path: /usr/bin/crafty
+            book_dir: /usr/share/crafty
+        stupid:
+            enabled: true
+            priority: 1

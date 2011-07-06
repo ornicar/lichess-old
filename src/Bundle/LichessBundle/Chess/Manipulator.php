@@ -86,6 +86,11 @@ class Manipulator
         }
 
         $this->game->addPgnMove($pgn);
+        $this->game->setLastMove($notation);
+
+        if ($this->game->getIsRated()) {
+            $player->saveMoveTime();
+        }
 
         return $opponentPossibleMoves;
     }
@@ -167,6 +172,13 @@ class Manipulator
         $pgnDumper = new PgnDumper();
         $pgn = $pgnDumper->dumpMove($this->game, $piece, $from, $to, $playerPossibleMoves, $killed, $isCastling, $isPromotion, $isEnPassant, $options);
 
+        $this->stack->addEvent(array(
+            'type'  => 'move',
+            'from'  => $from->getKey(),
+            'to'    => $to->getKey(),
+            'color' => $piece->getColor()
+        ));
+
         if($isCastling) {
             $this->castle($piece, $to);
         }
@@ -180,12 +192,6 @@ class Manipulator
                 $piece->setFirstMove($this->game->getTurns());
             }
         }
-
-        $this->stack->addEvent(array(
-            'type' => 'move',
-            'from' => $from->getKey(),
-            'to'   => $to->getKey()
-        ));
 
         if($isPromotion) {
             $this->promotion($piece, $options['promotion']);
@@ -292,6 +298,7 @@ class Manipulator
             'type' => 'castling',
             'king' => array($kingSquare->getKey(), $newKingSquare->getKey()),
             'rook' => array($rookSquare->getKey(), $newRookSquare->getKey()),
+            'color' => $king->getColor()
         ));
     }
 
@@ -309,7 +316,7 @@ class Manipulator
      * @param  Stack
      * @return null
      */
-    public function setStack($stack)
+    public function setStack(Stack $stack)
     {
         $this->stack = $stack;
     }

@@ -58,7 +58,7 @@ span.board_mark.horz {
 }
 #GameBoard td.highlightWhiteSquare a,
 #GameBoard td.highlightBlackSquare a {
-    background: url(../images/over5.png) top left no-repeat;
+    background: url(/bundles/lichess/images/over5.png) top left no-repeat;
 }
 #GameBoard td a {
     display: block;

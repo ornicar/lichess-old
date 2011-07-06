@@ -17,7 +17,7 @@ $.widget("lichess.game", {
             if (self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() {
                 $.playSound();
             });
-            if (!self.options.game.finished && !self.options.player.spectator) {
+            if (!self.options.game.finished && ! self.options.player.spectator) {
                 self.blur = 0;
                 $(window).blur(function() {
                     self.blur = 1;
@@ -27,9 +27,12 @@ $.widget("lichess.game", {
             $(window).unload(function() {
                 self.unloaded = true;
             });
+            if (self.options.game.last_move) {
+                self.highlightLastMove(self.options.game.last_move);
+            }
         }
 
-        if (!self.options.opponent.ai && !self.options.player.spectator) {
+        if (!self.options.opponent.ai && ! self.options.player.spectator) {
             // update document title to show playing state
             setTimeout(self.updateTitle = function() {
                 document.title = (self.isMyTurn() && ! self.options.game.finished) ? document.title = document.title.indexOf('/\\/') == 0 ? '\\/\\ ' + document.title.replace(/\/\\\/ /, '') : '/\\/ ' + document.title.replace(/\\\/\\ /, '') : document.title;
@@ -41,13 +44,16 @@ $.widget("lichess.game", {
         function syncLoop() {
             if (!self.options.opponent.ai || self.options.player.spectator) {
                 if (!self.options.game.finished || ! self.options.player.spectator) {
-                    self.sync(syncLoop);
+                    setTimeout(function() {
+                        self.sync(syncLoop, false);
+                    },
+                    400);
                 }
             }
         }
         setTimeout(syncLoop, 1000);
     },
-    sync: function(callback) {
+    sync: function(callback, reloadIfFail) {
         var self = this;
         self.currentSync = $.ajax(self.options.url.sync.replace(/9999999/, self.options.player.version), {
             type: 'POST',
@@ -55,9 +61,13 @@ $.widget("lichess.game", {
                 locale: self.options.locale
             },
             dataType: 'json',
-            timeout: self.options.sync_latency + 5000,
+            timeout: self.options.sync_latency + 8000,
             success: function(data) {
-                if (!data) return self.onError();
+                if (!data) return self.onError('received empty data', reloadIfFail);
+                if (data.reload) {
+                    location.reload();
+                    return;
+                }
                 if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
                     self.options.opponent.active = data.oa;
                     self.get(self.options.url.opponent, {
@@ -66,7 +76,7 @@ $.widget("lichess.game", {
                                 fade: true
                             });
                         }
-                    });
+                    }, false);
                 }
                 if (data.v && data.v != self.options.player.version) {
                     self.options.player.version = data.v;
@@ -84,8 +94,7 @@ $.widget("lichess.game", {
             },
             complete: function(xhr, status) {
                 if (status != 'success') {
-                    self.onError();
-                    return;
+                    self.onError('status is not success: '+status, reloadIfFail);
                 }
                 $.isFunction(callback) && callback();
             }
@@ -119,57 +128,54 @@ $.widget("lichess.game", {
     },
     movePiece: function(from, to, callback) {
         var self = this,
-        $piece = self.$board.find("div#" + from + " div.lichess_piece");
+        $piece = self.$board.find("div#" + from + " div.lichess_piece"),
+        $from = $("div#" + from, self.$board),
+        $to = $("div#" + to, self.$board);
 
         // already moved
         if (!$piece.length) {
-            $.isFunction(callback || null) && callback();
+            self.onError(from + " " + to+' empty from square!!', true);
             return;
         }
 
-        $("div.lcs.moved", self.$board).removeClass("moved");
-        var $from = $("div#" + from, self.$board).addClass("moved");
-        var $to = $("div#" + to, self.$board).addClass("moved");
-        var $killed = $to.find("div.lichess_piece");
-        from_offset = $from.offset();
-        to_offset = $to.offset();
-        isMyPiece = $piece.hasClass(self.options.player.color);
-        castling = $killed.length && self.getPieceColor($piece) == self.getPieceColor($killed);
-
-        if (!isMyPiece || this.options.player.spectator) $.playSound();
-
-        if (castling) {
-            $.isFunction(callback || null) && callback();
-            return;
+        self.highlightLastMove(from + " " + to);
+        if (!self.isPlayerColor(self.getPieceColor($piece))) {
+            $.playSound();
         }
 
         $("body").append($piece.css({
-            top: from_offset.top,
-            left: from_offset.left
+            top: $from.offset().top,
+            left: $from.offset().left
         }));
         $piece.animate({
-            top: to_offset.top,
-            left: to_offset.left
+            top: $to.offset().top,
+            left: $to.offset().left
         },
-        self.options.animation_delay * (isMyPiece ? 1: 2), function() {
-            if ($killed.length) {
+        self.options.animation_delay, function() {
+            var $killed = $to.find("div.lichess_piece");
+            if ($killed.length && self.getPieceColor($piece) != self.getPieceColor($killed)) {
                 self.killPiece($killed);
             }
-            $to.append($piece.css({
-                top: 0,
-                left: 0
-            }));
+            $piece.css({top: 0, left: 0});
+            $to.append($piece);
             $.isFunction(callback || null) && callback();
         });
+    },
+    highlightLastMove: function(notation) {
+        var self = this;
+        var squareIds = notation.split(" ");
+        $("div.lcs.moved", self.$board).removeClass("moved");
+        $("#" + squareIds[0] + ",#" + squareIds[1], self.$board).addClass("moved");
+
     },
     killPiece: function($piece) {
         if ($.data($piece, 'draggable')) $piece.draggable("destroy");
         var self = this,
-        $deads = self.element.find("div.lichess_cemetery." + self.getPieceColor($piece)),
-        $square = $piece.parent();
+            $deads = self.element.find("div.lichess_cemetery." + self.getPieceColor($piece)),
+                $square = $piece.parent();
         $deads.append($("<div>").addClass('lichess_tomb'));
         var $tomb = $("div.lichess_tomb:last", $deads),
-        tomb_offset = $tomb.offset();
+            tomb_offset = $tomb.offset();
         $('body').append($piece.css($square.offset()));
         $piece.css("opacity", 0).animate({
             top: tomb_offset.top,
@@ -179,89 +185,109 @@ $.widget("lichess.game", {
         self.options.animation_delay * 3, function() {
             $tomb.append($piece.css({
                 position: "relative",
-                top: 0,
-                left: 0
+            top: 0,
+            left: 0
             }));
         });
     },
+    queue: function(callback) {
+        this.queue.queue(callback);
+    },
+    dequeue: function() {
+        this.queue.dequeue();
+    },
     applyEvents: function(events) {
         var self = this;
-        var actionEvents = [];
 
-        // if a draw was claimable, remove the zone
-        $('div.lichess_claim_draw_zone').remove();
-
-        // Game end must be applied firt
-        for (var i in events) {
-            if (events[i].type == 'end') {
-                self.options.game.finished = true;
-                self.element.find("div.ui-draggable").draggable("destroy");
-            }
-        }
-
-        // apply and overwrite possible_moves and messages
-        for (var i in events) {
-            if (events[i].type == 'possible_moves') {
-                self.options.possible_moves = events[i].possible_moves;
-                self.indicateTurn();
-            }
-            else if (events[i].type == 'message' && self.$chat.length) {
-                self.$chat.find('ol.lichess_messages').append(events[i].html)[0].scrollTop = 9999999;
-            }
-            else {
-                actionEvents.push(events[i]);
-            }
-        }
-        events = actionEvents;
-
-        // move first
-        for (var i in events) {
-            if (events[i].type == 'move') {
-                self.$board.find("div.lcs.check").removeClass("check");
-                var from = events[i].from,
-                to = events[i].to;
-                events.splice(i, 1);
-                self.movePiece(from, to, function() {
-                    self.applyEvents(events);
-                });
-                return;
-            }
-        }
-
-        for (var i in events) {
-            var event = events[i];
+        // Queue all events
+        $.each(events, function(i, event) {
             switch (event.type) {
-            case "promotion":
-                $("div#" + event.key + " div.lichess_piece").addClass(event.pieceClass).removeClass("pawn");
-                break;
-            case "castling":
-                $("div#" + event.rook[1], self.$board).append($("div#" + event.rook[0] + " div.lichess_piece.rook", self.$board));
-                $("div#" + event.king[1], self.$board).append($("div#" + event.king[0] + " div.lichess_piece.king", self.$board));
-                break;
-            case "enpassant":
-                self.killPiece($("div#" + event.killed + " div.lichess_piece", self.$board));
-                break;
-            case "check":
-                $("div#" + event.key, self.$board).addClass("check");
-                break;
-            case "redirect":
-                window.location.href = event.url;
-                break;
-            case "threefold_repetition":
-                self.reloadTable();
-                break;
-            case "end":
-                self.changeTitle(self.translate('Game over'));
-                self.element.removeClass("my_turn");
-                self.reloadTable();
-                break;
-            case "reload_table":
-                self.reloadTable();
-                break;
-            default:
-                break;
+                case 'move':
+                    self.element.queue(function() {
+                        // if a draw was claimable, remove the zone
+                        $('div.lichess_claim_draw_zone').remove();
+                        self.$board.find("div.lcs.check").removeClass("check");
+                        // If I made the move, the piece is already moved on the board
+                        if (!self.options.player.spectator && event.color == self.options.player.color) {
+                            self.element.dequeue();
+                        } else {
+                            self.movePiece(event.from, event.to, function() {
+                                self.element.dequeue();
+                            });
+                        }
+                    });
+                    break;
+                case 'promotion':
+                    self.element.queue(function() {
+                        $("div#" + event.key + " div.lichess_piece").addClass(event.pieceClass).removeClass("pawn");
+                        self.element.dequeue();
+                    });
+                    break;
+                case 'check':
+                    self.element.queue(function() {
+                        $("div#" + event.key, self.$board).addClass("check");
+                        self.element.dequeue();
+                    });
+                    break;
+                case 'possible_moves':
+                    self.element.queue(function() {
+                        self.options.possible_moves = event.possible_moves;
+                        self.indicateTurn();
+                        self.element.dequeue();
+                    });
+                    break;
+                case 'message':
+                    self.element.queue(function() {
+                        self.$chat.find('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
+                        self.element.dequeue();
+                    });
+                    break;
+                case "castling":
+                    self.element.queue(function() {
+                        $("div#" + event.rook[1], self.$board).append($("div#" + event.rook[0] + " div.lichess_piece.rook", self.$board));
+                        $("div#" + event.king[1], self.$board).append($("div.lichess_piece.king."+event.color, self.$board));
+                        self.element.dequeue();
+                    });
+                    break;
+                case "enpassant":
+                    self.element.queue(function() {
+                        self.killPiece($("div#" + event.killed + " div.lichess_piece", self.$board));
+                        self.element.dequeue();
+                    });
+                    break;
+                case "redirect":
+                    // redirect immediatly: no queue
+                    window.location.href = event.url;
+                    break;
+                case "threefold_repetition":
+                    self.element.queue(function() {
+                        self.reloadTable(function() {
+                            self.element.dequeue();
+                        });
+                    });
+                    break;
+                case "end":
+                    // Game end must be applied firt: no queue
+                    self.options.game.finished = true;
+                    self.element.find("div.ui-draggable").draggable("destroy");
+                    // But enqueue the visible changes
+                    self.element.queue(function() {
+                        self.changeTitle(self.translate('Game over'));
+                        self.element.removeClass("my_turn");
+                        self.reloadTable(function() {
+                            self.element.dequeue();
+                        });
+                    });
+                    break;
+                case "reload_table":
+                    self.element.queue(function() {
+                        self.reloadTable(function() {
+                            self.element.dequeue();
+                        });
+                    });
+                    break;
             }
-        }
+        });
     },
     dropPiece: function($piece, $oldSquare, $newSquare) {
         var self = this,
@@ -282,28 +308,29 @@ $.widget("lichess.game", {
                 success: self.options.opponent.ai ? function() {
                     setTimeout(function() {
                         self.sync();
-                    }, self.options.animation_delay);
+                    },
+                    self.options.animation_delay);
                 }: null,
                 data: moveData,
-            });
+            }, true);
         }
 
         var color = self.options.player.color;
         // promotion
         if ($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1))) {
             var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
-                                   <div rel="queen" class="lichess_piece queen ' + color + '"></div>\
-                                   <div rel="knight" class="lichess_piece knight ' + color + '"></div>\
-                                   <div rel="rook" class="lichess_piece rook ' + color + '"></div>\
-                                   <div rel="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
-                moveData.options = {
-                    promotion: $(this).attr('rel')
-                };
-                sendMoveRequest(moveData);
-                $choices.fadeOut(self.options.animation_delay, function() {
-                    $choices.remove();
-                });
-            }).end();
+                    <div rel="queen" class="lichess_piece queen ' + color + '"></div>\
+                    <div rel="knight" class="lichess_piece knight ' + color + '"></div>\
+                    <div rel="rook" class="lichess_piece rook ' + color + '"></div>\
+                    <div rel="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
+                        moveData.options = {
+                            promotion: $(this).attr('rel')
+                        };
+                        sendMoveRequest(moveData);
+                        $choices.fadeOut(self.options.animation_delay, function() {
+                            $choices.remove();
+                        });
+                    }).end();
         }
         else {
             sendMoveRequest(moveData);
@@ -348,8 +375,8 @@ $.widget("lichess.game", {
         });
 
         /*
-                                   * Code for touch screens like android or iphone
-                                   */
+         * Code for touch screens like android or iphone
+         */
 
         self.$board.find("div.lichess_piece." + self.options.player.color).each(function() {
             $(this).click(function() {
@@ -380,8 +407,8 @@ $.widget("lichess.game", {
         });
 
         /*
-                                   * End of code for touch screens
-                                   */
+         * End of code for touch screens
+         */
     },
     initChat: function() {
         var self = this;
@@ -408,7 +435,7 @@ $.widget("lichess.game", {
                     data: {
                         message: text
                     }
-                });
+                }, true);
                 return false;
             });
 
@@ -423,7 +450,7 @@ $.widget("lichess.game", {
             }).trigger('change');
         }
     },
-    reloadTable: function() {
+    reloadTable: function(callback) {
         var self = this;
         self.get(self.options.url.table, {
             success: function(html) {
@@ -432,8 +459,9 @@ $.widget("lichess.game", {
                 self.$table.html(html);
                 self.initTable();
                 self.initClocks();
+                callback();
             }
-        });
+        }, false);
     },
     initTable: function() {
         var self = this;
@@ -445,7 +473,7 @@ $.widget("lichess.game", {
             $(this).parent().remove();
         });
         self.$table.find('a.lichess_rematch').click(function() {
-            self.post($(this).attr('href'));
+            self.post($(this).attr('href'), {}, true);
             return false;
         });
     },
@@ -457,7 +485,7 @@ $.widget("lichess.game", {
                 time: $(this).attr('data-time'),
                 buzzer: function() {
                     if (!self.options.game.finished && ! self.options.player.spectator) {
-                        self.post(self.options.url.outoftime);
+                        self.post(self.options.url.outoftime, {}, false);
                     }
                 }
             });
@@ -470,7 +498,7 @@ $.widget("lichess.game", {
     updateClocks: function(times) {
         var self = this;
         if (!self.canRunClock()) return;
-        if (times) {
+        if (times || false) {
             for (color in times) {
                 self.$table.find('div.clock_' + color).clock('setTime', times[color]);
             }
@@ -486,6 +514,9 @@ $.widget("lichess.game", {
     getPieceColor: function($piece) {
         return $piece.hasClass('white') ? 'white': 'black';
     },
+    isPlayerColor: function(color) {
+        return !this.options.player.spectator && this.options.player.color == color;
+    },
     translate: function(message) {
         return this.options.i18n[message] || message;
     },
@@ -500,105 +531,47 @@ $.widget("lichess.game", {
     isPlayable: function() {
         return ! this.options.game.finished;
     },
-    get: function(url, options) {
+    get: function(url, options, reloadIfFail) {
         var self = this;
         options = $.extend({
             type: 'GET',
-            timeout: 6000,
-            cache: false
-        }, options || {});
+                timeout: 6000,
+                cache: false
+        },
+        options || {});
         $.ajax(url, options).complete(function(x, s) {
-            self.onXhrComplete(x, s);
+            self.onXhrComplete(x, s, null, reloadIfFail);
         });
     },
-    post: function(url, options) {
+    post: function(url, options, reloadIfFail) {
         var self = this;
         options = $.extend({
             type: 'POST',
-            timeout: 6000
-        }, options || {});
+                timeout: 6000
+        },
+        options || {});
         $.ajax(url, options).complete(function(x, s) {
-            self.onXhrComplete(x, s, 'ok');
+            self.onXhrComplete(x, s, 'ok', reloadIfFail);
         });
     },
-    onXhrComplete: function(xhr, status, expectation) {
+    onXhrComplete: function(xhr, status, expectation, reloadIfFail) {
         if (status != 'success') {
-            this.onError();
+            this.onError('status is not success: '+status, reloadIfFail);
         }
         if ((expectation || false) && expectation != xhr.responseText) {
-            this.onError();
+            this.onError('expectation failed: '+xhr.responseText, reloadIfFail);
         }
     },
-    onError: function() {
+    onError: function(error, reloadIfFail) {
         var self = this;
-        setTimeout(function() {
-            if (!self.unloaded) {
-                location.reload();
+        if (lichess_data.debug) {
+            console.debug(error || 'error');
+        }
+        if (reloadIfFail) {
+            if (lichess_data.debug) {
+                console.debug('-------- reload ---------');
             }
-        }, 1000);
+            location.reload();
+        }
     }
 });
-
-$.widget("lichess.clock", {
-    _create: function() {
-        var self = this;
-        this.options.time = parseFloat(this.options.time) * 1000;
-        $.extend(this.options, {
-            duration: this.options.time,
-            state: 'ready'
-        });
-        this.element.addClass('clock_enabled');
-    },
-    destroy: function() {
-        this.stop();
-        $.Widget.prototype.destroy.apply(this);
-    },
-    start: function() {
-        var self = this;
-        self.options.state = 'running';
-        self.element.addClass('running');
-        var end_time = new Date().getTime() + self.options.time;
-        self.options.interval = setInterval(function() {
-            if (self.options.state == 'running') {
-                var current_time = Math.round(end_time - new Date().getTime());
-                if (current_time <= 0) {
-                    clearInterval(self.options.interval);
-                    current_time = 0;
-                }
-
-                self.options.time = current_time;
-                self._show();
-
-                //If the timer completed, fire the buzzer callback
-                current_time == 0 && $.isFunction(self.options.buzzer) && self.options.buzzer(self.element);
-            } else {
-                clearInterval(self.options.interval);
-            }
-        },
-        1000);
-    },
-
-    setTime: function(time) {
-        this.options.time = parseFloat(time) * 1000;
-        this._show();
-    },
-
-    stop: function() {
-        clearInterval(this.options.interval);
-        this.options.state = 'stop';
-        this.element.removeClass('running');
-    },
-
-    _show: function() {
-        this.element.text(this._formatDate(new Date(this.options.time)));
-    },
-
-    _formatDate: function(date) {
-        minutes = date.getMinutes();
-        if (minutes < 10) minutes = "0" + minutes;
-        seconds = date.getSeconds();
-        if (seconds < 10) seconds = "0" + seconds;
-        return minutes + ':' + seconds;
-    }
-});
-

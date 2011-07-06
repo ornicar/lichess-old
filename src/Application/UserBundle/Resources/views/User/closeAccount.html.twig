@@ -1,0 +1,19 @@
+{% extends "FOSUserBundle::layoutUser.html.twig" %}
+{% block content %}
+<div class="content_box small_box">
+<div class="signup_box">
+    <h1 class="lichess_title">{{ "Close your account"|trans }}</h1>
+    <p class="explanation">
+        {{ "Are you sure you want to close your account? You will no more be able to login!"|trans }}
+    </p>
+    <form action="{{ path('fos_user_close_account') }}" method="POST">
+        <br /><br />
+        <a href="{{ path("fos_user_user_show", {"username": app.user.username}) }}">
+            I changed my mind, don't close my account
+        </a>
+        <br /><br />
+        <input type="submit" class="submit" value="{{ "Close my account"|trans }}" />
+    </form>
+</div>
+</div>
+{% endblock %}

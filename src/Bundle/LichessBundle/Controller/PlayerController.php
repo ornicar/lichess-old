@@ -18,8 +18,7 @@ class PlayerController extends Controller
 {
     public function outoftimeAction($id)
     {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        $this->get('lichess.finisher')->outoftime($player);
+        $this->get('lichess.finisher')->outoftime($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new Response('ok');
@@ -27,8 +26,7 @@ class PlayerController extends Controller
 
     public function rematchAction($id)
     {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        $this->get('lichess.rematcher')->rematch($player);
+        $this->get('lichess.rematcher')->rematch($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new Response('ok');
@@ -103,8 +101,14 @@ class PlayerController extends Controller
         }
         $game = $player->getGame();
         $this->get('lichess.memory')->setAlive($player);
+
         if(!$game->getIsStarted()) {
-            throw new RuntimeException(sprintf('Player:show game:%s, Game not started', $game->getId()), 410);
+            if ($this->get('lichess.memory')->getActivity($player->getOpponent()) > 0) {
+                $this->get('lichess.joiner')->join($player);
+                $this->flush();
+            } else {
+                return $this->render('LichessBundle:Player:waitOpponent.html.twig', array('player' => $player));
+            }
         }
         $analyser = $this->get('lichess.analyser_factory')->create($game->getBoard());
         $checkSquareKey = $analyser->getCheckSquareKey($game->getTurnPlayer());
@@ -252,6 +256,6 @@ class PlayerController extends Controller
 
     protected function flush($safe = true)
     {
-        return $this->get('lichess.object_manager')->flush(array('safe' => $safe));
+        return $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => $safe));
     }
 }

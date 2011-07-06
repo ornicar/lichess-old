@@ -2,47 +2,49 @@
 {% for game in games %}
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
-<div class="game_row clearfix">
-{{ lichess_game_mini(game, fromUser) }}
+<div class="game_row paginated_element clearfix {{ cycle(['odd', 'even'], loop.index0) }}">
+{{ lichess_game_fen(game, fromUser) }}
 <div class="infos">
 <b>
 {% if game.isBeingPlayed %}
-<a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">
-    {% trans "Playing right now" %}
-</a>,
+<a class="link" href="{{ path("lichess_game", {"id": game.id, "color": firstPlayer.color} ) }}">{{ "Playing right now"|trans }}</a>,
 {% else %}
 {{ lichess_date(game.updatedAt) }}
 {% endif %}
 </b>-
 {% if game.isFinishedOrAborted %}
-{% trans game.statusMessage %}
+{{ game.statusMessage|trans }}
 {% if game.winner %}
-, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{% trans game.winner.color|capitalize ~ " is victorious" %}</span>
+, <span{% if fromPlayer %} class="{{ game.winner == fromPlayer ? "win" : "loss" }}"{% endif %}>{{ (game.winner.color|capitalize ~ " is victorious")|trans }}</span>
 {% endif %}
 {% else %}
-{% trans game.turnColor|capitalize ~ " plays" %}
+{{ (game.turnColor|capitalize ~ " plays")|trans }}
+{% endif %}
+{% if not game.isStandardVariant %}
+    <br /><br />
+    {{ "Variant"|trans }}: <strong>{{ game.variantName }}</strong>
 {% endif %}
 <br /><br />
 {% block players %}
 <table class="game_players">
 {% for player in [firstPlayer.opponent, firstPlayer] %}
 <tr>
-<td>{% trans player.color|capitalize %}</td>
+<td>{{ player.color|capitalize|trans }}</td>
 <td>{{ lichess_link_player(player) }}</td>
 </tr>
 {% endfor %}
 </table>
 {% endblock %}
 <br />
-{% trans "Variant" %}: {{ game.variantName }}
-<br /><br />
-{% trans "Time control" %}: {{ game.clockName }}
-<br /><br />
+{% if game.hasClock %}
+    <span class="s16 clock">{{ "Time control"|trans }}: {{ game.clockName }}</span>
+    <br /><br />
+{% endif %}
 {% if game.isRated %}
-{% trans "This game is rated" %}
+{{ "This game is rated"|trans }}
 <br /><br />
 {% endif %}
-<a href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {% trans "Replay and analyse" %}</a>
+<a class="go_analyse" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {{ "Replay and analyse"|trans }}</a>
 </div>
 </div>
 {% else %}

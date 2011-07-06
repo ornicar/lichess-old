@@ -8,7 +8,7 @@ class MainControllerTest extends WebTestCase
 {
     public function testIndexDefaultsToWhite()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_game_not_started.lichess_player_white')->count());
@@ -16,7 +16,7 @@ class MainControllerTest extends WebTestCase
 
     public function testAbout()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', '/about');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('h1:contains("About Lichess")')->count());
@@ -24,7 +24,7 @@ class MainControllerTest extends WebTestCase
 
     public function testHowManyPlayersNow()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $client->request('GET', '/how-many-players-now');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('/^\d+$/', (string)$client->getResponse()->getContent());

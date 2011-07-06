@@ -2,18 +2,20 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
- * @mongodb:EmbeddedDocument
+ * @MongoDB\EmbeddedDocument
  */
 class Stack
 {
-    const MAX_EVENTS = 8;
+    const MAX_EVENTS = 24;
 
     /**
      * Events in the stack
      *
      * @var array
-     * @mongodb:Field(type="hash")
+     * @MongoDB\Field(type="hash")
      */
     protected $events = array();
 
@@ -134,7 +136,7 @@ class Stack
             );
         } elseif('move' === $event['type']) {
             $event = array(
-                'm' => $event['from'].' '.$event['to']
+                'm' => $event['from'].' '.$event['to'].' '.$event['color']
             );
         }
 
@@ -157,11 +159,12 @@ class Stack
                 'possible_moves' => $possibleMoves
             );
         } elseif(isset($event['m'])) {
-            list($from, $to) = explode(' ', $event['m']);
+            list($from, $to, $color) = explode(' ', $event['m']);
             $event = array(
                 'type' => 'move',
                 'from' => $from,
-                'to' => $to
+                'to' => $to,
+                'color' => $color
             );
         }
 

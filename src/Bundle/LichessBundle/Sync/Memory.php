@@ -19,8 +19,8 @@ class Memory
 
     public function __construct($softTimeout, $hardTimeout)
     {
-        $this->softTimeout = $softTimeout;
-        $this->hardTimeout = $hardTimeout;
+        $this->softTimeout = (int) $softTimeout;
+        $this->hardTimeout = (int) $hardTimeout;
     }
 
     public function getNbActivePlayers()

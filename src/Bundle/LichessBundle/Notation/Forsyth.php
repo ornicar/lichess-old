@@ -13,20 +13,25 @@ class Forsyth
      * Transform a game to standard Forsyth Edwards Notation
      * http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
      */
-    public function export(Game $game)
+    public static function export(Game $game, $positionOnly = false)
     {
+        static $reverseClasses = array('Pawn' => 'p', 'Rook' => 'r', 'Knight' => 'n', 'Bishop' => 'b', 'Queen' => 'q', 'King' => 'k');
         $board = $game->getBoard();
         $emptySquare = 0;
         $forsyth = '';
 
-        for($y = 8; $y > 0; $y --) {
-            for($x = 1; $x < 9; $x ++) {
-                if ($piece = $board->getPieceByPos($x, $y)) {
+        for($y = 8; $y > 0; $y--) {
+            for($x = 1; $x < 9; $x++) {
+                if ($piece = $board->getPieceByPosNoCheck($x, $y)) {
                     if ($emptySquare) {
                         $forsyth .= $emptySquare;
                         $emptySquare = 0;
                     }
-                    $forsyth .= $this->pieceToForsyth($piece);
+                    $notation = $reverseClasses[$piece->getClass()];
+                    if('white' === $piece->getColor()) {
+                        $notation = strtoupper($notation);
+                    }
+                    $forsyth .= $notation;
                 } else {
                     ++$emptySquare;
                 }
@@ -40,6 +45,10 @@ class Forsyth
 
         $forsyth = trim($forsyth, '/');
 
+        if ($positionOnly) {
+            return $forsyth;
+        }
+
         // b ou w to indicate turn
         $forsyth .= ' ';
         $forsyth .= substr($game->getTurnColor(), 0, 1);
@@ -49,11 +58,11 @@ class Forsyth
         $hasCastle = false;
         $analyser = new Analyser($board);
         foreach($game->getPlayers() as $player) {
-            if ($analyser->canCastleKingside($player)) {
+            if ($analyser->canCastleKingSide($player)) {
                 $hasCastle = true;
                 $forsyth .= $player->isWhite() ? 'K' : 'k';
             }
-            if ($analyser->canCastleQueenside($player)) {
+            if ($analyser->canCastleQueenSide($player)) {
                 $hasCastle = true;
                 $forsyth .= $player->isWhite() ? 'Q' : 'q';
             }
@@ -93,32 +102,23 @@ class Forsyth
      * @param string $forsyth
      * @return Game $game
      */
-    public function import(Game $game, $forsyth)
+    public static function import(Game $game, $forsyth)
     {
+        static $classes = array('p' => 'Pawn', 'r' => 'Rook', 'n' => 'Knight', 'b' => 'Bishop', 'q' => 'Queen', 'k' => 'King');
         $x = 1;
         $y = 8;
-
         $board = $game->getBoard();
         $forsyth = str_replace('/', '', preg_replace('#\s*([\w\d/]+)\s.+#i', '$1', $forsyth));
-        $pieces = array('white', 'black');
+        $pieces = array('white' => array(), 'black' => array());
 
         for($itForsyth = 0, $forsythLen = strlen($forsyth); $itForsyth < $forsythLen; $itForsyth++) {
             $letter = $forsyth{$itForsyth};
-            $key = Board::posToKey($x, $y);
 
             if (is_numeric($letter)) {
                 $x += intval($letter);
             } else {
                 $color = ctype_lower($letter) ? 'black' : 'white';
-                switch(strtolower($letter)) {
-                    case 'p': $class = 'Pawn'; break;
-                    case 'r': $class = 'Rook'; break;
-                    case 'n': $class = 'Knight'; break;
-                    case 'b': $class = 'Bishop'; break;
-                    case 'q': $class = 'Queen'; break;
-                    case 'k': $class = 'King'; break;
-                }
-                $pieces[$color][] = $this->createPiece($class, $x, $y);
+                $pieces[$color][] = self::createPiece($classes[strtolower($letter)], $x, $y);
                 ++$x;
             }
 
@@ -134,7 +134,7 @@ class Forsyth
         $game->ensureDependencies();
     }
 
-    public function diffToMove(Game $game, $forsyth)
+    public static function diffToMove(Game $game, $forsyth)
     {
         $moves = array(
             'from'  => array(),
@@ -233,18 +233,14 @@ class Forsyth
         return $from.' '.$to;
     }
 
-    protected function pieceToForsyth(Piece $piece)
+    protected static function pieceToForsyth(Piece $piece)
     {
-        $class = $piece->getClass();
+        static $reverseClasses = array('Pawn' => 'p', 'Rook' => 'r', 'Knight' => 'n', 'Bishop' => 'b', 'Queen' => 'q', 'King' => 'k');
 
-        if ('Knight' === $class) {
-            $notation = 'N';
-        } else {
-            $notation = $class{0};
-        }
+        $notation = $reverseClasses[$piece->getClass()];
 
-        if('black' === $piece->getColor()) {
-            $notation = strtolower($notation);
+        if('white' === $piece->getColor()) {
+            $notation = strtoupper($notation);
         }
 
         return $notation;
@@ -253,7 +249,7 @@ class Forsyth
     /**
      * @return Piece
      */
-    protected function createPiece($class, $x, $y)
+    protected static function createPiece($class, $x, $y)
     {
         $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
 

@@ -1,0 +1,46 @@
+{% extends "FOSUserBundle::layoutUser.html.twig" %}
+{% block content %}
+<div class="content_box small_box">
+<div class="signup_box">
+    <span class="box_right_text">{{ "Have an account?"|trans }} <a class="toggle_signin">{{ "Sign in"|trans }}</a></span>
+    <h1 class="lichess_title">{{ "Sign up"|trans }}</h1>
+    <p class="explanation">
+        {{ "All you need is a username and a password."|trans }}
+    </p>
+    <p class="explanation">
+        It is <strong>not</strong> required to signup. You can play as <strong>anonymous</strong>.<br />
+        Signup if you want to save your played games and have an Elo ranking.
+    </p>
+    <form action="{{ path('fos_user_registration_register') }}" method="POST" class="signup" novalidate>
+        <ul>
+            <li class="username">
+                {{ form_label(form.username) }}
+                {{ form_widget(form.username) }}
+                {{ form_errors(form.username) }}
+                {% if form.get("errors") and not form.username.get("errors") and not form.plainPassword.get("errors") %}
+                    <ul><li>{{ "This username is not available"|trans }}</li></ul>
+                {% endif %}
+            </li>
+            <li class="password">
+                {{ form_label(form.plainPassword, "Password") }}
+                {{ form_widget(form.plainPassword) }}
+                {{ form_errors(form.plainPassword) }}
+            </li>
+            <li>
+                <input type="submit" class="submit" value="{{ "Sign up"|trans }}" />
+            </li>
+        </ul>
+        {{ form_rest(form) }}
+    </form>
+</div>
+</div>
+
+{% block stylesheets %}
+{{ parent() }}
+{% stylesheets
+    '@LichessUserBundle/Resources/public/css/signup.css'
+    filter="?yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
+{% endblock %}

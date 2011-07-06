@@ -7,10 +7,95 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class AnybodyGameConfig extends GameConfig
 {
-    public $modes      = array(0, 1);
-    public $times      = array(5, 10, 20, 0);
-    public $increments = array(2, 5, 10);
-    public $variants   = array(Game::VARIANT_STANDARD);
+    protected $modes      = array(0, 1);
+    protected $times      = array(5, 10, 20, 0);
+    protected $increments = array(2, 5, 10);
+    protected $variants   = array(Game::VARIANT_STANDARD);
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $propertyChoices = array(
+            'times'      => array_keys(self::getTimeChoices()),
+            'modes'      => array_keys(self::getModeChoices()),
+            'increments' => array_keys(self::getIncrementChoices()),
+            'variants'   => array_keys(self::getVariantChoices())
+        );
+        foreach ($propertyChoices as $property => $choices) {
+            $metadata->addPropertyConstraint($property, new Constraints\Choice(array(
+                'choices'  => $choices,
+                'multiple' => true,
+                //'min' => 1
+            )));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getTimes()
+    {
+        return $this->times;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setTimes(array $times)
+    {
+        $this->times = $times;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIncrements()
+    {
+        return $this->increments;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setIncrements(array $increments)
+    {
+        $this->increments = $increments;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVariants()
+    {
+        return $this->variants;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setVariants(array $variants)
+    {
+        $this->variants = $variants;
+    }
+
+    /**
+     * @return array
+     */
+    public function getModes()
+    {
+        return $this->modes;
+    }
+
+    /**
+     * @param  array
+     * @return null
+     */
+    public function setModes(array $modes)
+    {
+        $this->modes = $modes;
+    }
 
     public function getCountTimes()
     {
@@ -36,7 +121,7 @@ class AnybodyGameConfig extends GameConfig
     {
         $names = array();
         foreach($this->times as $time) {
-            $names[] = $this->renameTime($time);
+            $names[] = self::renameTime($time);
         }
 
         return $names;
@@ -62,18 +147,10 @@ class AnybodyGameConfig extends GameConfig
     {
         $names = array();
         foreach($this->modes as $mode) {
-            $names[] = $this->modeChoices[$mode];
+            $names[] = self::$modeChoices[$mode];
         }
 
         return $names;
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addGetterConstraint('countTimes', new Constraints\Min(array('limit' => 1)));
-        $metadata->addGetterConstraint('countIncrements', new Constraints\Min(array('limit' => 1)));
-        $metadata->addGetterConstraint('countVariants', new Constraints\Min(array('limit' => 1)));
-        $metadata->addGetterConstraint('countModes', new Constraints\Min(array('limit' => 1)));
     }
 
     public function toArray()

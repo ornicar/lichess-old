@@ -1,9 +1,14 @@
+* replace MessageBundle
+* alert when low on time
+* start game with any custom position - position builder
+* continue game for fun after a player flags
+* game search engine
+* player chat on analyse mode (hard - adds a private url and leads to confusion)
+* propose to spectate or join when reaching a unstarted game
 * language on 2 cols
-* improve /games: reduce req. size and increase frequency
-* favorite games
+* favorite games http://lichess.org/forum/lichess-feedback/folder-in-profile
 * more player stats (including running score)
 * timeline post entry author is wrong
-* last move highlight is lost on page refresh
 * show capture count
 * game list order choice and search engine
 * allow to edit previous forum post
@@ -13,8 +18,6 @@
 * "empty space" issue on /inbox/new when username suggestion box is active
 * put user icons to separate sprite
 * keyboard play
-* use assetic
-* when a player flags & the opponent has only K(N|B)? -> draw
 * Facebook share (http://lichess.org/forum/lichess-feedback/share-game-analyse-on-facebook/4cf4248430c3530873010000)
 * analysis anchor (http://lichess.org/forum/lichess-feedback/4cd1967630c3534159000000)
 * propose to cancel a move

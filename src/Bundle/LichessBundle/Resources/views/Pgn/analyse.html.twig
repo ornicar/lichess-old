@@ -1,6 +1,5 @@
 {% extends "LichessBundle:Pgn:layoutAnalyse.html.twig" %}
-{% block title %}Lichess - {% trans "Replay and analyse" %}{% endblock %}
-{% block title_suffix %} #{{ game.id }}{% endblock %}
+{% block title %}{{ "Replay and analyse"|trans }} {{ game.id }}{% endblock %}
 {% block content %}
 <div class="analyse clearfix">
     <div class="board_wrap">
@@ -8,7 +7,7 @@
         <div id="GameButtons"></div>
     </div>
     <div class="moves_wrap">
-        <h1>{% trans "Replay and analyse" %}</h1>
+        <h1>{{ "Replay and analyse"|trans }}</h1>
         <div id="GameText"></div>
     </div>
 </div>
@@ -19,13 +18,13 @@
     <div class="box">
         {% if game.isBeingPlayed %}
             <a class="link" href="{{ path("lichess_game", {"id": game.id} ) }}">
-                Playing right now at {{ url("lichess_game", {"id": game.id} ) }}
+                {{ 'Playing right now'|trans }} {{ url("lichess_game", {"id": game.id} ) }}
             </a>
         {% else %}
             {{ lichess_date(game.updatedAt) }}
         {% endif %}
         {% if game.isFinishedOrAborted %}
-            <br />{% trans game.statusMessage %}
+            <br />{{ game.statusMessage|trans }}
         {% endif %}
         <br />
         <br />
@@ -33,7 +32,7 @@
         {% for p in [player.opponent, player] %}
             <div>
                 {% if p.isAi %}
-                    {% trans "%ai_name% level %ai_level%" with {'%ai_name%': 'Crafty A.I.', '%ai_level%': p.aiLevel} %}
+                    {{ "%ai_name% level %ai_level%"|trans({'%ai_name%': 'Crafty A.I.', '%ai_level%': p.aiLevel}) }}
                 {% else %}
                     {{ lichess_link_player(p)|raw }}
                 {% endif %}
@@ -41,16 +40,16 @@
         {% endfor %}
         </div>
         <br />
-        {% trans "Variant" %} - {{ game.variantName|capitalize }}<br />
-        {% trans "Time control" %} - {{ game.clockName }}<br />
+        {{ "Variant"|trans }} - {{ game.variantName|capitalize }}<br />
+        {{ "Time control"|trans }} - {{ game.clockName }}<br />
         {% if game.isRated %}
-            {% trans "This game is rated" %}<br />
+            {{ "This game is rated"|trans }}<br />
         {% endif %}
     </div>
     <br />
-    <a class="rotate_board" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": reverseColor} ) }}">{% trans "Flip board" %}</a><br />
+    <a class="rotate_board" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": reverseColor} ) }}">{{ "Flip board"|trans }}</a><br />
     <br />
-    {% trans "Export PGN" %}:
+    {{ "Export PGN"|trans }}:
     <textarea id="pgnText" readonly="readonly">{{ pgn }}</textarea>
 </div>
 {% endblock %}

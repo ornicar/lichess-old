@@ -13,10 +13,25 @@ $(function() {
                 }
             });
         }
+    } else if ($homeBoard = $('div.lichess_homepage div.lichess_board').orNot()) {
+        $homeBoard.find('div.lichess_piece').draggable({
+            containment: $homeBoard,
+            helper: function() {
+                return $('<div>').attr("class", $(this).attr("class")).appendTo($homeBoard);
+            },
+            revert: true,
+            revertDuration: 2000
+        }).css('cursor', 'pointer');
     }
     var $nbConnectedPlayers = $('#nb_connected_players').orNot();
+    if ($nbConnectedPlayers) {
+        $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/(\d+)/, '<strong>$1</strong>'));
+    }
     var $userTag = $userTag = $('#user_tag').orNot();
     var $connectivity = $("#connectivity");
+    var showNbConnectedPlayers = function(nb) {
+        $nbConnectedPlayers && $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/\d+/, nb));
+    }
     if ($userTag) {
         pingConfig = {
             url: $userTag.attr('data-online-url'),
@@ -32,9 +47,7 @@ $(function() {
         pingConfig = {
             url: $nbConnectedPlayers.attr('data-url'),
             dataType: "text",
-            onResponse: function(data) {
-                $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, data));
-            }
+            onResponse: showNbConnectedPlayers
         };
     }
     pingConfig.delay = 7000;
@@ -54,16 +67,13 @@ $(function() {
                     ping(config);
                 },
                 dataType: config.dataType,
-                type: "POST",
-                timeout: 5000
+                type: "GET",
+                cache: false,
+                timeout: 15000
             });
         },
         config.delay);
     })(pingConfig);
-
-    function showNbConnectedPlayers(nb) {
-        if ($nbConnectedPlayers) $nbConnectedPlayers.text($nbConnectedPlayers.text().replace(/\d+/, nb));
-    }
 
     if ($config = $('div.game_config_form').orNot()) {
         $('div.lichess_overboard').show();
@@ -106,15 +116,15 @@ $(function() {
         loadLanguageList();
     });
 
-    $('.js_email').text(['thibault.', 'duplessis@', 'gmail.com'].join(''));
+    $('.js_email').one('click', function() {
+        var email = ['thibault.', 'duplessis@', 'gmail.com'].join('');
+        $(this).replaceWith($('<a/>').text(email).attr('href', 'mailto:'+email));
+    });
 
-    $.fn.tipsy && $('a, input, label, div.tipsyme').not('.notipsy').filter('[title]').tipsy({
+    $('a:not(div.game_list_inner a):not(.notipsy):not(#boardTable a), input, label, div.tipsyme').filter('[title]').tipsy({
         fade: true,
         html: false,
         live: true
-    });
-    $('body').mouseleave(function() {
-        console.log('out');
     });
 
     if ($autocomplete = $('input.autocomplete').orNot()) {
@@ -143,6 +153,12 @@ $(function() {
     $('#incomplete_translation a.close').one('click', function() {
         $(this).parent().remove();
     });
+
+    $('a.delete').click(function() {
+        return confirm('Delete?');
+    });
+
+    $.fn.hints && $('input.hint_me').hints();
 
     var elem = document.createElement('audio');
     var canPlayAudio = !! elem.canPlayType && elem.canPlayType('audio/ogg; codecs="vorbis"');
@@ -178,16 +194,17 @@ $(function() {
     if (false || document.domain == 'lichess.org') {
         setTimeout(function() {
             if ($gameSharing = $('div.game_share_widgets').orNot()) {
+                $gameSharing.find('div.plusone_placeholder').replaceWith('<div class="lichess_plusone"><g:plusone size="medium" href="http://lichess.org"></g:plusone></div>');
                 $gameSharing.find('div.facebook_placeholder').replaceWith('<div class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=' + encodeURIComponent(document.location.href) + '&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></div>');
-                $.getScript('http://widgets.digg.com/buttons.js');
                 $.getScript('http://platform.twitter.com/widgets.js', function() {
                     $gameSharing.addClass('loaded')
                 });
             } else {
-                $('ul.lichess_social').html('<li class="lichess_stumbleupon"><iframe src="http://www.stumbleupon.com/badge/embed/2/?url=http://lichess.org/"></iframe></li><li class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></li>');
+                $('ul.lichess_social').prepend('<li class="lichess_stumbleupon"><iframe src="http://www.stumbleupon.com/badge/embed/2/?url=http://lichess.org/"></iframe></li><li class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></li><li><g:plusone size="medium" href="http://lichess.org"></g:plusone></li>');
             }
+            $.getScript('https://apis.google.com/js/plusone.js');
         },
-        800);
+        2000);
     }
 });
 
@@ -237,6 +254,11 @@ $.connectivity = function(element, options) {
         refreshDelay: 300
     },
     options);
+    var html = '';
+    for (var i = 1; i <= 5; i++) {
+        html += '<span style="height:'+(i*4)+'px;margin-top:'+(20-i*4)+'px;"></span>';
+    }
+    this.element.html(html);
     this.state = this.options.max;
     this.lastPingDate = new Date().getTime();
     this.$bars = this.element.find('span');

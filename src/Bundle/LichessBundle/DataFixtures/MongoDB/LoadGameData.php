@@ -68,7 +68,7 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
     protected function loadAiGame($color, $username)
     {
         $config = new AiGameConfig();
-        $config->color = $color;
+        $config->setColor($color);
         $player = $this->aiStarter->start($config);
         $game = $player->getGame();
         if ($username) {
@@ -86,7 +86,7 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
     {
         $config = new FriendGameConfig();
         $config->fromArray($configArray);
-        $config->color = $color;
+        $config->setColor($color);
         $player = $this->friendStarter->start($config);
         $game = $player->getGame();
         if ($username1) {

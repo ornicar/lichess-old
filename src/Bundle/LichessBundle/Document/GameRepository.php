@@ -59,6 +59,18 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Gets the number of games with this status
+     *
+     * @return int
+     */
+    public function countByStatus($status)
+    {
+        return $this->createQueryBuilder()
+            ->field('status')->equals($status)
+            ->getQuery()->count();
+    }
+
+    /**
      * Find ids of more recent games
      *
      * @return array
@@ -208,17 +220,31 @@ class GameRepository extends DocumentRepository
     /**
      * Find old, unplayed games
      *
-     * @return void
+     * @return array
      */
-    public function findCandidatesToCleanup()
+    public function findCandidatesToCleanup($max)
     {
-        $date = new DateTime('-7 day');
-        return $this->createQueryBuilder()
-            ->field('updatedAt')->lt(new MongoDate($date->getTimestamp()))
-            ->field('status')->lt(Game::MATE)
+        $date = date_create('-10 day')->getTimestamp();
+
+        $games = $this->createQueryBuilder()
             ->field('turns')->lt(2)
-            ->limit(500)
+            ->sort('createdAt', 'asc')
+            ->limit($max)
+            ->hydrate(false)
+            ->select('createdAt')
             ->getQuery()->execute();
+
+        $ids = array();
+        foreach ($games as $game) {
+            $createdAt = isset($game['createdAt']) ? $game['createdAt']->sec : null;
+            if (!$createdAt || $createdAt < $date) {
+                $ids[] = $game['_id'];
+            } else {
+                break;
+            }
+        }
+
+        return $ids;
     }
 
     /**
@@ -236,5 +262,33 @@ class GameRepository extends DocumentRepository
             ->field('updatedAt')->lt(new MongoDate($date->getTimestamp()))
             ->limit(500)
             ->getQuery()->execute();
+    }
+
+    /**
+     * Find games played between these two players
+     *
+     * @return array of Game
+     */
+    public function createByUsersQuery(User $playerA, User $playerB)
+    {
+        $qb = $this->createRecentQuery();
+
+        return $qb
+            ->addOr($qb->expr()->field('userIds')->equals(array($playerA->getId(), $playerB->getId())))
+            ->addOr($qb->expr()->field('userIds')->equals(array($playerB->getId(), $playerA->getId())));
+    }
+
+    /**
+     * Removes games for these ids
+     *
+     * @param array $ids
+     */
+    public function removeByIds(array $ids)
+    {
+        $this->createQueryBuilder()
+            ->field('id')->in($ids)
+            ->remove()
+            ->getQuery()
+            ->execute(array('safe' => true, 'fsync' => true));
     }
 }

@@ -2,24 +2,23 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Util\KeyGenerator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User;
 use LogicException;
-use DateTime;
 
 /**
  * Represents a single Chess game
  *
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
  *
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   collection="game2",
  *   repositoryClass="Bundle\LichessBundle\Document\GameRepository"
  * )
- * @mongodb:HasLifecycleCallbacks
  */
 class Game
 {
@@ -41,7 +40,7 @@ class Game
      * Unique ID of the game
      *
      * @var string
-     * @mongodb:Id(strategy="none")
+     * @MongoDB\Id(strategy="none")
      */
     protected $id;
 
@@ -49,7 +48,7 @@ class Game
      * Game variant (like standard or chess960)
      *
      * @var int
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     protected $variant;
 
@@ -57,8 +56,8 @@ class Game
      * The current state of the game, like CREATED, STARTED or MATE.
      *
      * @var int
-     * @mongodb:Field(type="int")
-     * @mongodb:Index()
+     * @MongoDB\Field(type="int")
+     * @MongoDB\Index()
      */
     protected $status;
 
@@ -66,7 +65,7 @@ class Game
      * The two players
      *
      * @var array
-     * @mongodb:EmbedMany(targetDocument="Player")
+     * @MongoDB\EmbedMany(targetDocument="Player")
      */
     protected $players;
 
@@ -74,8 +73,8 @@ class Game
      * Ids of the users bound to players
      *
      * @var array
-     * @mongodb:Field(type="collection")
-     * @mongodb:Index()
+     * @MongoDB\Field(type="collection")
+     * @MongoDB\Index()
      */
     protected $userIds = array();
 
@@ -87,20 +86,20 @@ class Game
      * - null if there is no winner
      *
      * @var string
-     * @mongodb:Field(type="string")
-     * @mongodb:Index()
+     * @MongoDB\Field(type="string")
+     * @MongoDB\Index()
      */
     protected $winnerUserId = null;
 
     /**
      * @var integer
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     protected $whiteBlurs;
 
     /**
      * @var integer
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
      */
     protected $blackBlurs;
 
@@ -108,7 +107,7 @@ class Game
      * Color of the player who created the game
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      */
     protected $creatorColor;
 
@@ -116,41 +115,43 @@ class Game
      * Number of turns passed
      *
      * @var integer
-     * @mongodb:Field(type="int")
+     * @MongoDB\Field(type="int")
+     * @MongoDB\Index()
      */
-    protected $turns;
+    protected $turns = 0;
 
     /**
      * PGN moves of the game
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @MongoDB\Field(type="collection")
      */
-    protected $pgnMoves;
+    protected $pgnMoves = array();
 
     /**
      * Fen notation of the initial position
      * Can be null if equals to standard position
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      */
     protected $initialFen;
 
     /**
      * Last update time
      *
-     * @var DateTime
-     * @mongodb:Field(type="date")
-     * @mongodb:Index(order="desc")
+     * @var \DateTime
+     * @MongoDB\Field(type="date")
+     * @MongoDB\Index(order="desc")
      */
     protected $updatedAt;
 
     /**
      * Creation date
      *
-     * @var DateTime
-     * @mongodb:Field(type="date")
+     * @var \DateTime
+     * @MongoDB\Field(type="date")
+     * @MongoDB\Index(order="desc")
      */
     protected $createdAt;
 
@@ -158,15 +159,23 @@ class Game
      * Array of position hashes, used to detect threefold repetition
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @MongoDB\Field(type="collection")
      */
     protected $positionHashes = array();
+
+    /**
+     * Internal notation of the last move played
+     *
+     * @var string
+     * @MongoDB\Field(type="string")
+     */
+    protected $lastMove;
 
     /**
      * The game clock
      *
      * @var Clock
-     * @mongodb:EmbedOne(targetDocument="Clock", nullable=true)
+     * @MongoDB\EmbedOne(targetDocument="Clock", nullable=true)
      */
     protected $clock;
 
@@ -174,7 +183,7 @@ class Game
      * The chat room
      *
      * @var Room
-     * @mongodb:EmbedOne(targetDocument="Room", nullable=true)
+     * @MongoDB\EmbedOne(targetDocument="Room", nullable=true)
      */
     protected $room;
 
@@ -182,8 +191,8 @@ class Game
      * Whether this game is rated or not
      *
      * @var bool
-     * @mongodb:Field(type="boolean")
-     * @mongodb:Index()
+     * @MongoDB\Field(type="boolean")
+     * @MongoDB\Index()
      */
     protected $isRated;
 
@@ -191,7 +200,7 @@ class Game
      * If true, the elo points exchanged during this game have been canceled
      *
      * @var bool
-     * @mongodb:Field(type="boolean")
+     * @MongoDB\Field(type="boolean")
      */
     protected $isEloCanceled;
 
@@ -199,7 +208,7 @@ class Game
      * The previous game. This game is then a rematch of the previous game
      *
      * @var Game
-     * @mongodb:ReferenceOne(targetDocument="Game")
+     * @MongoDB\ReferenceOne(targetDocument="Game")
      */
     protected $previous;
 
@@ -207,7 +216,7 @@ class Game
      * The next game, if this game has been rematched
      *
      * @var Game
-     * @mongodb:ReferenceOne(targetDocument="Game")
+     * @MongoDB\ReferenceOne(targetDocument="Game")
      */
     protected $next;
 
@@ -215,7 +224,7 @@ class Game
      * Config values used to create the game. Cleared when game starts.
      *
      * @var array
-     * @mongodb:Field(type="hash")
+     * @MongoDB\Field(type="hash")
      */
     protected $configArray;
 
@@ -231,9 +240,7 @@ class Game
         $this->generateId();
         $this->setVariant($variant);
         $this->status   = self::CREATED;
-        $this->turns    = 0;
         $this->players  = new ArrayCollection();
-        $this->pgnMoves = array();
     }
 
     /**
@@ -272,6 +279,23 @@ class Game
     public function setConfigArray(array $configArray = null)
     {
         $this->configArray = $configArray;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastMove()
+    {
+        return $this->lastMove;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setLastMove($lastMove)
+    {
+        $this->lastMove = $lastMove;
     }
 
     /**
@@ -522,9 +546,7 @@ class Game
         }
         foreach($this->getPlayers() as $player) {
             if($this->getClock()->isOutOfTime($player->getColor())) {
-                $this->setStatus(static::OUTOFTIME);
-                $this->setWinner($player->getOpponent());
-                return true;
+                return $player;
             }
         }
     }
@@ -574,7 +596,8 @@ class Game
      **/
     public function isFiftyMoves()
     {
-        return 50 <= count($this->positionHashes);
+        // position hashes are half moves
+        return 100 <= count($this->positionHashes);
     }
 
     /**
@@ -601,6 +624,16 @@ class Game
     public function getHasEnoughMovesToDraw()
     {
         return $this->getTurns() >= 2;
+    }
+
+    /**
+     * Tells if both players saved their move times
+     *
+     * @return boolean
+     */
+    public function hasMoveTimes()
+    {
+        return $this->getPlayer('white')->hasMoveTimes() && $this->getPlayer('black')->hasMoveTimes();
     }
 
     /**
@@ -876,7 +909,8 @@ class Game
     public function getVsText()
     {
         $creator = $this->getCreator();
-        return sprintf('%s vs %s', $creator->getUsernameWithElo(), $creator->getOpponent()->getUsernameWithElo());
+
+        return sprintf('%s - %s', $creator->getUsernameWithElo(), $creator->getOpponent()->getUsernameWithElo());
     }
 
     /**
@@ -1067,7 +1101,7 @@ class Game
     }
 
     /**
-     * @mongodb:PrePersist
+     * @MongoDB\PrePersist
      */
     public function setCreatedNow()
     {
@@ -1080,7 +1114,7 @@ class Game
     }
 
     /**
-     * @mongodb:PostLoad
+     * @MongoDB\PostLoad
      */
     public function ensureDependencies()
     {
@@ -1096,8 +1130,8 @@ class Game
     }
 
     /**
-     * @mongodb:PreUpdate
-     * @mongodb:PrePersist
+     * @MongoDB\PreUpdate
+     * @MongoDB\PrePersist
      */
     public function cachePlayerVersions()
     {

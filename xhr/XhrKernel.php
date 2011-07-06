@@ -6,11 +6,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class XhrKernel extends Kernel
 {
-    public function registerRootDir()
-    {
-        return __DIR__;
-    }
-
     public function registerBundles()
     {
         $bundles = array(

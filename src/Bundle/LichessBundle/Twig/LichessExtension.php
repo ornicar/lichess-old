@@ -12,6 +12,7 @@ use Twig_Function_Method;
 use Twig_Filter_Method;
 use DateTime;
 use IntlDateFormatter;
+use Bundle\LichessBundle\Notation\Forsyth;
 
 class LichessExtension extends Twig_Extension
 {
@@ -38,12 +39,11 @@ class LichessExtension extends Twig_Extension
         $mappings = array(
             'lichess_link_player'       => 'linkPlayer',
             'lichess_link_user'         => 'linkUser',
-            'lichess_elo_chart_url'     => 'eloChartUrl',
             'lichess_choices'           => 'choices',
             'lichess_game_data'         => 'renderGameData',
             'lichess_game_watch_data'   => 'renderGameWatchData',
             'lichess_game_board'        => 'renderGameBoard',
-            'lichess_game_mini'         => 'renderGameMini',
+            'lichess_game_fen'          => 'renderGameFen',
             'lichess_session'           => 'getSession',
             'lichess_nb_active_players' => 'getNbActivePlayers',
             'lichess_load_average'      => 'getLoadAverage',
@@ -53,7 +53,8 @@ class LichessExtension extends Twig_Extension
             'lichess_room_message'      => 'roomMessage',
             'lichess_room_messages'     => 'roomMessages',
             'lichess_debug_assets'      => 'debugAssets',
-            'lichess_date'              => 'formatDate'
+            'lichess_date'              => 'formatDate',
+            'lichess_game_trials'       => 'getGameTrials'
         );
 
         $functions = array();
@@ -77,6 +78,11 @@ class LichessExtension extends Twig_Extension
         );
 
         return $filters;
+    }
+
+    public function getGameTrials(Game $game)
+    {
+        return $this->container->get('lichess.repository.trial')->findByGame($game);
     }
 
     public function formatDate($date, $format = null)
@@ -134,11 +140,6 @@ class LichessExtension extends Twig_Extension
         return sprintf('<a class="user_link%s" href="%s"%s>%s</a>', $user->getIsOnline() ? ' online' : '', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
     }
 
-    public function eloChartUrl(History $history, $size)
-    {
-        return $this->container->get('lichess.elo.chart')->getUrl($history, $size);
-    }
-
     public function escape($string)
     {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
@@ -158,15 +159,17 @@ class LichessExtension extends Twig_Extension
         $playerFullId = $player->getFullId();
         $generator    = $this->getRouterGenerator();
         $translator   = $this->getTranslator();
+        $locale       = $this->container->get('session')->getLocale();
 
         $data = array(
             'game' => array(
-                'id'       => $game->getId(),
-                'started'  => $game->getIsStarted(),
-                'finished' => $game->getIsFinishedOrAborted(),
-                'clock'    => $game->hasClock(),
-                'player'   => $game->getTurnPlayer()->getColor(),
-                'turns'    => $game->getTurns()
+                'id'        => $game->getId(),
+                'started'   => $game->getIsStarted(),
+                'finished'  => $game->getIsFinishedOrAborted(),
+                'clock'     => $game->hasClock(),
+                'player'    => $game->getTurnPlayer()->getColor(),
+                'turns'     => $game->getTurns(),
+                'last_move' => $game->getLastMove()
             ),
             'player' => array(
                 'color'     => $player->getColor(),
@@ -179,7 +182,7 @@ class LichessExtension extends Twig_Extension
                 'active' => $isOpponentActive,
             ),
             'url' => array(
-                'sync'      => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
+                'sync'      => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'move'      => $generator->generate('lichess_move', array('id' => $playerFullId)),
@@ -191,11 +194,11 @@ class LichessExtension extends Twig_Extension
                 'Waiting for opponent' => $translator->trans('Waiting for opponent'),
                 'Your turn'            => $translator->trans('Your turn'),
             ),
-            'possible_moves'    => $possibleMoves,
-            'sync_latency' => $this->container->getParameter('lichess.sync.latency') * 1000,
-            'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000,
-            'locale' => $this->container->get('session')->getLocale(),
-            'debug'             => $this->container->getParameter('kernel.debug')
+            'possible_moves'  => $possibleMoves,
+            'sync_latency'    => $this->container->getParameter('lichess.sync.latency') * 1000,
+            'animation_delay' => $this->container->getParameter('lichess.animation.delay') * 1000,
+            'locale'          => $locale,
+            'debug'           => $this->container->getParameter('kernel.debug')
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
@@ -209,15 +212,17 @@ class LichessExtension extends Twig_Extension
         $opponent   = $player->getOpponent();
         $generator  = $this->getRouterGenerator();
         $translator = $this->getTranslator();
+        $locale       = $this->container->get('session')->getLocale();
 
         $data = array(
             'game' => array(
-                'id'       => $game->getId(),
-                'started'  => $game->getIsStarted(),
-                'finished' => $game->getIsFinishedOrAborted(),
-                'clock'    => $game->hasClock(),
-                'player'   => $game->getTurnPlayer()->getColor(),
-                'turns'    => $game->getTurns()
+                'id'        => $game->getId(),
+                'started'   => $game->getIsStarted(),
+                'finished'  => $game->getIsFinishedOrAborted(),
+                'clock'     => $game->hasClock(),
+                'player'    => $game->getTurnPlayer()->getColor(),
+                'turns'     => $game->getTurns(),
+                'last_move' => $game->getLastMove()
             ),
             'player' => array(
                 'color'     => $player->getColor(),
@@ -230,7 +235,7 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
+                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
                 'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
             ),
@@ -253,49 +258,24 @@ class LichessExtension extends Twig_Extension
         return $this->container->getParameter('lichess.debug_assets');
     }
 
-    public function renderGameMini(Game $game, User $user = null)
+    public function renderGameFen(Game $game, User $user = null)
     {
+        $fenString = Forsyth::export($game, true);
+
         $player     = $game->getPlayerByUserOrCreator($user);
-        $board      = $player->getGame()->getBoard();
-        $squares    = $board->getSquares();
-        $generator  = $this->getRouterGenerator();
-        $translator = $this->getTranslator();
         $authUser   = $this->container->get('security.context')->getToken()->getUser();
         if ($authUser instanceof User && ($authPlayer = $game->getPlayerByUser($authUser))) {
-            $gameUrl = $generator->generate('lichess_player', array('id' => $player->getFullId()));
+            $gameUrl = $this->getRouterGenerator()->generate('lichess_player', array('id' => $authPlayer->getFullId()));
         } else {
-            $gameUrl = $generator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()));
+            $gameUrl = $this->getRouterGenerator()->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()));
         }
 
-        if ($player->isBlack()) {
-            $squares = array_reverse($squares, true);
-        }
-
-        $x = $y = 1;
-
-        $html = sprintf('<a href="%s" title="%s" class="mini_board notipsy">',
+        return sprintf('<a href="%s" title="%s" class="mini_board parse_fen" data-color="%s" data-fen="%s"></a>',
             $gameUrl,
-            $translator->trans('View in full size')
+            $this->getTranslator()->trans('View in full size'),
+            $player->getColor(),
+            $fenString
         );
-
-        foreach($squares as $squareKey => $square) {
-            $html .= sprintf('<div class="lmcs %s" style="top:%dpx;left:%dpx;">',
-                $square->getColor(), 24*(8-$x), 24*($y-1)
-            );
-            if($piece = $board->getPieceByKey($squareKey)) {
-                $html .= sprintf('<div class="lcmp %s %s"></div>',
-                    strtolower($piece->getClass()), $piece->getColor()
-                );
-            }
-            $html .= '</div>';
-            if (++$x === 9) {
-                $x = 1;
-                ++$y;
-            }
-        }
-        $html .= '</a>';
-
-        return $html;
     }
 
     public function renderGameBoard(Player $player, $checkSquareKey)
@@ -424,7 +404,7 @@ class LichessExtension extends Twig_Extension
 
     protected function getRouterGenerator()
     {
-        return $this->container->get('router')->getGenerator();
+        return $this->container->get('router');
     }
 
     protected function getTranslator()

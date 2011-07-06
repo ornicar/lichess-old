@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +32,7 @@ class GameDebugCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repo = $this->container->get('lichess.repository.game');
+        $repo = $this->getContainer()->get('lichess.repository.game');
         $game = $repo->findOneById($input->getArgument('id'));
         if (!$game) {
             throw new \InvalidArgumentException('No game found.');

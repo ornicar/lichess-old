@@ -1,0 +1,34 @@
+security:
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_VIEW_TRIALS_IN_GAME]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+    providers:
+        fos_user_provider:
+            id: fos_user.user_manager
+    firewalls:
+        main:
+            form_login:
+                provider:    fos_user_provider
+                login_path:  /login
+                check_path:  /login_check
+                use_referer: true
+            remember_me:
+                key:  kRopAjYEwDza74
+                name: lichess_remember_me
+                lifetime: 31536000
+                always_remember_me: true
+                remember_me_parameter: _remember_me
+            logout: true
+            anonymous: true
+            switch_user: { parameter: _impersonate }
+        profiler:
+            pattern:  ^/_profiler
+            security: false
+        wdt:
+            pattern:  ^/_wdt
+            security: false
+    access_control:
+        - { path: "^/(inbox|profile)(/.*|$)", role: ROLE_USER }
+        - { path: "^/forum/(post|topic)/delete/.+", role: ROLE_SUPER_ADMIN }
+        - { path: "^/trial/verdict/.+", role: ROLE_SUPER_ADMIN }
+

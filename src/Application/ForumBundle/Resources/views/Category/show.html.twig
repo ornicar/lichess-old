@@ -1,12 +1,12 @@
 {% extends "ForumBundle::layout.html.twig" %}
-{% block title %}{{ category.name|raw }}{% endblock %}
+{% block title %}{{ category.name }}{% endblock %}
 {% block description %}{{ category.description|raw }}{% endblock %}
 {% block feed_link %}
     <link href="{{ path("forum_category_show", {"slug": category.slug, "_format": "xml"} ) }}" type="application/atom+xml" rel="alternate" title="{{ category.name|raw }} - Lichess Forum" />
 {% endblock %}
 {% block content %}
 <div class="category">
-    <a href="{{ path("forum_category_show", {"slug": category.slug, "_format": "xml"} ) }}" title="{% trans "Follow this category" %}" class="forum_feed_link"></a>
+    <a href="{{ path("forum_category_show", {"slug": category.slug, "_format": "xml"} ) }}" title="{{ "Follow this category"|trans }}" class="forum_feed_link"></a>
     <ol class="crumbs">
         <li><a href="{{ path("forum_index") }}">Forum</a></li>
         <li><h1>{{ category.name|raw }}</h1></li>
@@ -14,6 +14,6 @@
 
     <p class="description">{{ category.description|raw }}</p>
 
-    {% render "ForumBundle:Topic:list" with {"category": category, "page": page} %}
+    {% render "ForumBundle:Topic:list" with {"category": category, "pagerOptions": {"page": page, "routeName": "forum_category_show", 'routeParams': {"slug":category.slug}}} %}
 </div>
 {% endblock %}

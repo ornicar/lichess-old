@@ -15,13 +15,14 @@ class UserPageAcceptanceTest extends AbstractAcceptanceTest
     public function testNoGamePlayed()
     {
         list($client, $crawler) = $this->requestUserPage('user4');
-        $this->assertRegexp('/No recent game at the moment/', $client->getResponse()->getContent());
+
+        $this->assertEquals(0, $crawler->filter('div.game_row')->count());
     }
 
     public function testSomeGamesPlayed()
     {
         list($client, $crawler) = $this->requestUserPage('user1');
-        $this->assertEquals(3, $crawler->filter('div.game_row')->count());
+        $this->assertGreaterThan(3, $crawler->filter('div.game_row')->count());
     }
 
     public function testNonExistingUserPage()
@@ -32,7 +33,7 @@ class UserPageAcceptanceTest extends AbstractAcceptanceTest
 
     protected function requestUserPage($username)
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_show', array('username' => $username)));
 
         return array($client, $crawler);

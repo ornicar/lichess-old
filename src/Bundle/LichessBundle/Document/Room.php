@@ -2,8 +2,10 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
- * @mongodb:EmbeddedDocument
+ * @MongoDB\EmbeddedDocument
  */
 class Room
 {
@@ -11,7 +13,7 @@ class Room
      * List of room messages
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @MongoDB\Field(type="collection")
      */
     protected $messages = array();
 

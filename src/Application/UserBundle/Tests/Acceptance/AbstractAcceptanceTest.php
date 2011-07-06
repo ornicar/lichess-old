@@ -10,7 +10,7 @@ abstract class AbstractAcceptanceTest extends WebTestCase
 {
     protected function createPersistentClient($cookieName = 'test')
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $client->getContainer()->get('session.storage.file')->deleteFile();
         $client->getCookieJar()->set(new Cookie(session_name(), $cookieName));
 

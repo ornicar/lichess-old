@@ -26,13 +26,14 @@ div.game_share a.fos_comment_thread_feed {
     width: 16px;
     height: 16px;
     display: block;
-    background: url(../../lichess/images/feed-balloon.png) top left no-repeat;
+    background: url(/bundles/lichess/images/feed-balloon.png) top left no-repeat;
     float: right;
     margin-top: 3px;
 }
 div.game_share_widgets {
     float: right;
     opacity: 0.7;
+    width: 270px;
 }
 div.game_share_widgets:hover {
     opacity: 1;
@@ -42,8 +43,8 @@ div.game_share_widgets > div {
     display: none;
     margin-left: 10px;
 }
-div.game_share_widgets iframe {
-    max-width: 94px;
+div.game_share_widgets iframe, div.game_share_widgets div.lichess_plusone > div {
+    max-width: 70px;
 }
 div.game_share_widgets.loaded > div {
     display: block;

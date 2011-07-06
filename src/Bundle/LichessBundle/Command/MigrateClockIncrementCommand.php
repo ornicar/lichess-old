@@ -4,7 +4,7 @@ namespace Bundle\LichessBundle\Command;
 
 use Symfony\Component\Console\Input;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\Output;
 /**
  * Rename Game.Clock.movebonus to Game.Clock.increment
  */
-class MigrateClockIncrementCommand extends Command
+class MigrateClockIncrementCommand extends ContainerAwareCommand
 {
     /**
      * @see Command
@@ -32,8 +32,8 @@ class MigrateClockIncrementCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repo = $this->container->get('lichess.repository.game');
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $repo = $this->getContainer()->get('lichess.repository.game');
+        $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
 
         $collection = $dm->getDocumentCollection($repo->getDocumentName())->getMongoCollection();
         $games = $collection->find(array(

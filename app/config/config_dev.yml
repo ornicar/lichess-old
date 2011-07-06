@@ -1,0 +1,25 @@
+imports:
+    - { resource: config.yml }
+
+framework:
+    router: { resource: "%kernel.root_dir%/config/routing_dev.yml" }
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+lichess:
+    sync:
+        path: /xhr_dev.php
+
+monolog:
+    handlers:
+        main:
+            level: warning
+
+apc:
+    host: lichess
+
+ornicar_akismet:
+    service: ornicar_akismet.akismet_stub

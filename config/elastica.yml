@@ -1,0 +1,24 @@
+foq_elastica:
+    clients:
+        default:
+            host: localhost
+            port: 9200
+    default_client: default
+    indexes:
+        default:
+            client: default
+            types:
+                forum:
+                    doctrine:
+                        driver: mongodb
+                        model: Application\ForumBundle\Document\Topic
+                        provider:
+                        finder:
+                        listener:
+                        model_to_elastica_transformer:
+                            service: lichess_forum.search.model_to_elastica_transformer
+                    mappings:
+                        subject: { boost: 5 }
+                        messages:
+                        authors:
+    default_index: default

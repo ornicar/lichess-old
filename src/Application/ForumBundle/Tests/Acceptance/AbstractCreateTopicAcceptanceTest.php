@@ -6,7 +6,7 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
 {
     public function testClickOnCreateTopicLinkGoesToTheFormPage()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestCategoryPage($client);
         $link = $crawler->selectLink('Create a new topic');
         $this->assertEquals(2, $link->count());
@@ -17,7 +17,7 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
 
     public function testTopicCreationPageShowsAForm()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestTopicCreationPage($client);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('#lichess_forum form')->count());
@@ -26,7 +26,7 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
 
     public function testSubmitEmptyForm()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestTopicCreationPage($client);
         $form = $crawler->selectButton('Create the topic')->form();
         $client->submit($form);
@@ -38,7 +38,7 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
     {
         $topicSubject = uniqid();
         $topicMessage = 'new topic message';
-        $client = $this->createClient();
+        $client = $this->createPersistentClient();
         $crawler = $this->requestTopicCreationPage($client);
         $form = $crawler->selectButton('Create the topic')->form();
         $form['forum_new_topic_form[category]'] = $crawler->filter('#forum_new_topic_form_category option')->first()->attr('value');

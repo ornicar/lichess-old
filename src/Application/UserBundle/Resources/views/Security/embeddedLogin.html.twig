@@ -1,12 +1,12 @@
 <div class="security">
-    <a class="toggle_signin toggle"><span class="s16">{% trans "Sign in" %}</span></a>
-    <form class="signin_form" action="{{ path("_security_check") }}" method="post">
-        <input title="{% trans "Username" %}" type="text" class="username" name="_username" value="{{ last_username|default("") }}" />
-        <input title="{% trans "Password" %}" type="password" class="password" name="_password" />
+    <a class="toggle_signin toggle"><span class="s16">{{ "Sign in"|trans }}</span></a>
+    <form class="signin_form" action="{{ path("fos_user_security_check") }}" method="post">
+        <input title="{{ "Username"|trans }}" type="text" class="username" name="_username" value="{{ last_username|default("") }}" />
+        <input title="{{ "Password"|trans }}" type="password" class="password" name="_password" />
         <input type="hidden" class="referrer" name="_referrer" value="{{ lichess_current_url() }}" />
         <div class="button_wrap">
-            <input type="submit" name="login" class="login" value="{% trans "Sign in" %}" />
+            <input type="submit" name="login" class="login" value="{{ "Sign in"|trans }}" />
         </div>
-        <a href="{{ path("fos_user_user_new") }}">{% trans "Sign up" %}</a>
+        <a href="{{ path("fos_user_registration_register") }}">{{ "Sign up"|trans }}</a>
     </form>
 </div>

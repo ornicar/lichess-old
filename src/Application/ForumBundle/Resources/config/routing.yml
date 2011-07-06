@@ -1,0 +1,7 @@
+forum_index:
+    pattern: /
+    defaults: { _controller: ForumBundle:Forum:index }
+
+lichess_forum_search:
+    pattern: /search
+    defaults: { _controller: LichessForumBundle:Search:search }

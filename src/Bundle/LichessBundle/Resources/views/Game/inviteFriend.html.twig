@@ -1,35 +1,35 @@
 {% extends "LichessBundle:Game:invite.html.twig" %}
 {% block invite_type %}friend{% endblock %}
-{% block invite_title %}{% trans "Play with a friend" %}{% endblock %}
+{% block invite_title %}{{ "Play with a friend"|trans }}{% endblock %}
 {% block invite_form_fields %}
 <div class="variants buttons">
     {% for choice, child in form.variant %}
-        {{ form_field(child) }}
-        <label for="{{ child.id }}">{% trans form.variant.label(choice) %}</label>
+        {{ form_widget(child) }}
+        {{ form_label(child) }}
     {% endfor %}
 </div>
-<a class="show_advanced">{% trans "Show advanced options" %}</a>
+<a class="show_advanced">{{ "Show advanced options"|trans }}</a>
 <div class="advanced">
-    {% trans "Minutes per side" %}
+    {{ "Minutes per side"|trans }}
     <div class="times buttons">
         {% for choice, child in form.time %}
-            {{ form_field(child) }}
-            <label for="{{ child.id }}">{% trans form.time.label(choice) %}</label>
+            {{ form_widget(child) }}
+            {{ form_label(child) }}
         {% endfor %}
     </div>
-    {% trans "Increment in seconds" %}
+    {{ "Increment in seconds"|trans }}
     <div class="increments buttons">
         {% for choice, child in form.increment %}
-            {{ form_field(child) }}
-            <label for="{{ child.id }}">{{ form.increment.label(choice) }}</label>
+            {{ form_widget(child) }}
+            {{ form_label(child) }}
         {% endfor %}
     </div>
     {% if form.mode is defined %}
-        {% trans "Mode" %}
+        {{ "Mode"|trans }}
         <div class="modes buttons">
             {% for choice, child in form.mode %}
-                {{ form_field(child) }}
-                <label for="{{ child.id }}">{% trans form.mode.label(choice) %}</label>
+                {{ form_widget(child) }}
+                {{ form_label(child) }}
             {% endfor %}
         </div>
     {% endif %}

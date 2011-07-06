@@ -39,12 +39,12 @@ class AiStarter implements StarterInterface
     {
         $this->configPersistence->saveConfigFor('ai', $config->toArray());
         $color = $config->resolveColor();
-        $player = $this->generator->createGameForPlayer($color, $config->variant);
+        $player = $this->generator->createGameForPlayer($color, $config->getVariant());
         $this->playerBlamer->blame($player);
         $game = $player->getGame();
         $opponent = $player->getOpponent();
         $opponent->setIsAi(true);
-        $opponent->setAiLevel($config->level);
+        $opponent->setAiLevel($config->getLevel());
         $game->start();
 
         if($player->isBlack()) {

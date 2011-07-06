@@ -6,7 +6,7 @@ abstract class AbstractCreatePostAcceptanceTest extends AbstractAcceptanceTest
 {
     public function testPostCreationPageShowsAForm()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestPostCreationPage($client);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('#lichess_forum form')->count());
@@ -15,7 +15,7 @@ abstract class AbstractCreatePostAcceptanceTest extends AbstractAcceptanceTest
 
     public function testSubmitEmptyForm()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $this->requestPostCreationPage($client);
         $form = $crawler->selectButton('Reply')->form();
         $client->submit($form);
@@ -26,7 +26,7 @@ abstract class AbstractCreatePostAcceptanceTest extends AbstractAcceptanceTest
     public function testSubmitValidForm()
     {
         $message = 'new reply message '.uniqid();
-        $client = $this->createClient();
+        $client = $this->createPersistentClient();
         $crawler = $this->requestPostCreationPage($client);
         $form = $crawler->selectButton('Reply')->form();
         $form['forum_post_form[message]'] = $message;

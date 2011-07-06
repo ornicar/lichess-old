@@ -24,8 +24,11 @@ class ClientUpdater
         $opponentActivity    = $this->memory->getActivity($player->getOpponent());
         $currentPlayerColor  = $game->getTurnColor();
 
-        // Throws OutOfBoundsException
-        $events = $version != $clientVersion ? $this->getDiffEvents($player, $clientVersion) : array();
+        try {
+            $events = $version != $clientVersion ? $this->getDiffEvents($player, $clientVersion) : array();
+        } catch (OutOfBoundsException $e) {
+            return array('reload' => true);
+        }
 
         // remove private events if user is spectator
         if (!$withPrivateEvents) {
@@ -60,7 +63,7 @@ class ClientUpdater
             return array();
         }
         if(!$playerStack->hasVersion($clientVersion)) {
-            throw new OutOfBoundsException('The requested version is not in the client stack');
+            throw new OutOfBoundsException(sprintf('ClientUpdater:OutOfBound player=%d requested=%s', $stackVersion, $clientVersion));
         }
         $events = array();
         for($version = $clientVersion+1; $version <= $stackVersion; $version++) {

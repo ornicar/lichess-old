@@ -9,13 +9,13 @@
 <br />
 <h1>New topic</h1>
 <form action="{{ path("forum_category_topic_create", {"slug": category.slug} ) }}" method="post" novalidate>
-    <label><span class="required">Category</span> {{ form_field(form.category) }}</label>
+    <label><span class="required">Category</span> {{ form_widget(form.category) }}</label>
     {{ form_errors(form.subject) }}
-    <label><span class="required">Subject</span> {{ form_field(form.subject, {"class": "subject"}) }}</label>
+    <label><span class="required">Subject</span> {{ form_widget(form.subject, {"attr": {"class": "subject"}}) }}</label>
     {{ form_errors(form.firstPost) }}
-    <label><span class="required">Message</span> {{ form_field(form.firstPost.message) }}</label>
+    <label><span class="required">Message</span> {{ form_widget(form.firstPost.message) }}</label>
     {% if form.firstPost.authorName is defined %}
-        <label><span>Author</span> {{ form_field(form.firstPost.authorName, {"class": "authorName"}) }}</label>
+    <label><span>Author</span> {{ form_widget(form.firstPost.authorName, {"attr": {"class": "authorName"}}) }}</label>
     {% endif %}
     <button class="submit button" type="submit">Create the topic</button>
 </form>

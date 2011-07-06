@@ -1,40 +1,40 @@
 #!/bin/sh
 
-show_run()
-{
+echo -e "  _ _      _                  \n | (_)    | |                 \n | |_  ___| |__   ___ ___ ___ \n | | |/ __| '_ \ / _ | __/ __|\n | | | (__| | | |  __|__ \__ \ \n |_|_|\___|_| |_|\___|___/___/"
+
+# Shows a command and executes it
+show_run() {
     echo "    $ $*"
-    $*
+    result=$($*)
+    if [ -z $? ]; then
+        echo "--- FAIL"
+        echo $result
+        exit 1
+    fi
 }
 
 echo -e "\n--- Building bootstrap"
-show_run "bin/build_bootstrap.php"
-
-for application in xhr lichess; do
-    if [ ! -f lichess/config/config_local.yml ]; then
-        echo -e "\n--- Creating local configuration file for $application"
-        show_run cp $application/config/config_local.yml.dist $application/config/config_local.yml
-    fi
-done
+show_run "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php"
+show_run "cp app/bootstrap.* xhr/"
 
 echo -e "\n--- warming up xhr cache"
 show_run "php xhr/console --env=dev cache:clear"
 
 for environment in dev test; do
     echo -e "\n--- warming up $environment cache"
-    show_run "php lichess/console --env=$environment cache:clear"
+    show_run "php app/console --env=$environment cache:clear"
 
     echo -e "\n--- Loading $environment fixtures"
-    show_run "php lichess/console --env=$environment doctrine:mongodb:data:load"
+    show_run "php app/console --env=$environment doctrine:mongodb:fixtures:load"
 
     echo -e "\n--- Creating $environment MongoDB indexes"
-    show_run "php lichess/console --env=$environment doctrine:mongodb:schema:create --index"
+    show_run "php app/console --env=$environment doctrine:mongodb:schema:create --index"
 done
 
 echo -e "\n--- Clearing APC cache"
-show_run "php lichess/console apc:clear"
+show_run "php app/console apc:clear"
 
-echo -e "\n--- Creating assets symlinks"
-show_run php lichess/console assets:install web --symlink
+echo -e "\n--- Dumping assets"
+show_run php app/console assetic:dump
 
-# Show a cow saying something smart.
-curl --connect-timeout 1 -s "http://lichess.org/fortune.php?cowsay=1" 2>/dev/null
+echo "All set!"

@@ -8,25 +8,25 @@
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
-        {% if game.isFinished %}
+        {% if game.isFinished or game.isAborted %}
             {% if game.winner %}
                 <div class="lichess_player {{ game.winner.color }}">
                     <div class="lichess_piece king {{ game.winner.color }}"></div>
-                    <p>{% trans game.statusMessage %}<br />{% trans game.winner.color|capitalize ~ " is victorious" %}</p>
+                    <p>{{ game.statusMessage|trans }}<br />{{ (game.winner.color|capitalize ~ " is victorious")|trans }}</p>
                 </div>
             {% else %}
                 <div class="lichess_player">
-                    <p>{% trans game.statusMessage %}</p>
+                    <p>{{ game.statusMessage|trans }}</p>
                 </div>
             {% endif %}
         {% else %}
             <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
                 <div class="lichess_piece king white"></div>
-                <p>{% trans "White plays" %}</p>
+                <p>{{ "White plays"|trans }}</p>
             </div>
             <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
                 <div class="lichess_piece king black"></div>
-                <p>{% trans 'Black plays' %}</p>
+                <p>{{ 'Black plays'|trans }}</p>
             </div>
         {% endif %}
     </div>
@@ -36,3 +36,9 @@
 {% if player.game.hasClock %}
     {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
 {% endif %}
+{% if is_granted('ROLE_VIEW_TRIALS_IN_GAME') %}
+    {% for trial in lichess_game_trials(game) %}
+    <br />{{ trial.user.username }}: {{ trial.score }}% suspicion
+    {% endfor %}
+{% endif %}
+        

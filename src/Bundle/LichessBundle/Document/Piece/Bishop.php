@@ -1,10 +1,12 @@
 <?php
 
 namespace Bundle\LichessBundle\Document\Piece;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Document\Piece;
 
 /**
- * @mongodb:EmbeddedDocument
+ * @MongoDB\EmbeddedDocument
  */
 class Bishop extends Piece
 {

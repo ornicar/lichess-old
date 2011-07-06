@@ -1,11 +1,12 @@
 <?php
 
 namespace Application\UserBundle\Controller;
+
 use FOS\UserBundle\Controller\SecurityController as BaseSecurityController;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class SecurityController extends  BaseSecurityController
+class SecurityController extends BaseSecurityController
 {
     public function loginAction()
     {
@@ -18,9 +19,15 @@ class SecurityController extends  BaseSecurityController
         }
 
         if ($error) {
-            $this->container->get('logger')->log($error->getMessage(), 4);
+            // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
+            $error = $error->getMessage();
         }
 
-        return new RedirectResponse($this->container->get('request')->server->get('HTTP_REFERER', $this->container->get('router')->generate('lichess_homepage')));
+        $url = $this->container->get('request')->headers->get('Referer');
+        if (empty($url)) {
+            $url = $this->container->get('router')->generate('lichess_homepage');
+        }
+
+        return new RedirectResponse($url);
     }
 }

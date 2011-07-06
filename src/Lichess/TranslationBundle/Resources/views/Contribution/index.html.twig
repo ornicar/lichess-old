@@ -14,7 +14,7 @@
         <form action="{{ path("lichess_translation_contribution_locale", {"locale": locale} ) }}" data-change-url="{{ path("lichess_translation_contribution_locale", {"locale": "__"} ) }}" method="post" novalidate>
             <div class="field">
                 {{ form_label(form.code, "Translate from english to") }}
-                {{ form_field(form.code) }}
+                {{ form_widget(form.code) }}
             </div>
             {% block translation %}{% endblock %}
         </form>

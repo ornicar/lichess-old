@@ -62,16 +62,16 @@ class Mover
         // perform move and increase game turn
         $opponentPossibleMoves = $manipulator->play($move, $options);
 
-        $player->addEventsToStack($stack->getEvents());
         $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => null));
+        $player->addEventsToStack($stack->getEvents());
 
         if($opponent->getIsAi()) {
             if(!empty($opponentPossibleMoves)) {
                 $this->performAiAnswer($player);
             }
         } else {
-            $opponent->addEventsToStack($stack->getEvents());
             $opponent->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $opponentPossibleMoves));
+            $opponent->addEventsToStack($stack->getEvents());
             $this->detectCheat($game);
         }
         if($game->getIsFinished()) {
@@ -98,8 +98,8 @@ class Mover
 
         $possibleMoves = $manipulator->play($this->ai->move($game, $opponent->getAiLevel()));
 
-        $player->addEventsToStack($stack->getEvents());
         $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $possibleMoves));
+        $player->addEventsToStack($stack->getEvents());
     }
 
     /**

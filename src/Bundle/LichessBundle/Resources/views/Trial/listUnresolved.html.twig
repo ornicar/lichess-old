@@ -1,5 +1,5 @@
 {% extends "LichessBundle:Trial:list.html.twig" %}
-{% block title %}{% trans "View %nb% unresolved trials" with {"%nb%": nbUnresolved} %} - Page {{ trials.currentPageNumber }}{% endblock %}
+{% block title %}{{ "View %nb% unresolved trials"|trans({"%nb%": nbUnresolved}) }} - Page {{ trials.currentPage }}{% endblock %}
 {% block list_type %}Unresolved trials{% endblock %}
 {% block list_menu %}
 <a class="game_list" href="{{ path("lichess_trial_list_guilty") }}">Resolved as guilty ({{ nbGuilty }})</a>

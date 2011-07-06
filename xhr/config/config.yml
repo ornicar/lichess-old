@@ -1,50 +1,41 @@
-framework:
-    charset:       UTF-8
-    error_handler: null
-    router: { resource: "%kernel.root_dir%/config/routing.yml" }
-    validation: { enabled: true, annotations: true }
-    csrf_protection:
-        enabled: false
-    session: false
-    templating:
-        engines: ['php']
-    translator: { fallback: en }
+imports:
+    - { resource: ../../config/doctrine.yml }
+    - { resource: ../../config/framework.yml }
+    - { resource: ../../config/lichess.yml }
 
-doctrine_mongo_db:
-    connections:
-        default:
-            server: mongodb://localhost:27017
-            options:
-                connect: true
-                persist: lichess
-    default_database: lichess_%kernel.environment%
+# Disable as many features as possible
+framework:
+    validation: { enabled: false }
+    form: false
+    session: false
+    templating: false
+
+# Define mappings manually
+doctrine_mongodb:
     document_managers:
         default:
+            auto_mapping: false
             mappings:
                 LichessBundle: ~
-                LichessUserBundle:
+                LichessUser:
                     type: annotation
                     dir: %kernel.root_dir%/../src/Application/UserBundle/Document
                     prefix: Application\UserBundle\Document
-                FOSUserBundle:
+                FOSUser:
                     type: xml
-                    dir: %kernel.root_dir%/../src/FOS/UserBundle/Resources/config/doctrine/metadata/mongodb
+                    dir: %kernel.root_dir%/../vendor/bundles/FOS/UserBundle/Resources/config/doctrine
                     prefix: FOS\UserBundle\Document
-            metadata_cache_driver: apc
 
+# Disable as many features as possible
 lichess:
-    ai:
-        crafty:
-            enabled: true
-            priority: 2
-            executable_path: /usr/bin/crafty
-            book_dir: /usr/share/crafty
-        stupid:
-            enabled: true
-            priority: 1
-    akismet:
-        url: http://lichess.org
-        #api_key: see config_local.yml
-
-imports:
-    - { resource: config_local.yml }
+    feature:
+        ai: false
+        cheat: false
+        listener: false
+        elo: false
+        starter: false
+        form: false
+        game_config: false
+        seek: false
+        chess: false
+        config: false

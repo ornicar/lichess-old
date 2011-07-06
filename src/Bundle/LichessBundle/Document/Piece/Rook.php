@@ -1,10 +1,12 @@
 <?php
 
 namespace Bundle\LichessBundle\Document\Piece;
+
 use Bundle\LichessBundle\Document\Piece;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @mongodb:EmbeddedDocument
+ * @MongoDB\EmbeddedDocument
  */
 class Rook extends Piece
 {

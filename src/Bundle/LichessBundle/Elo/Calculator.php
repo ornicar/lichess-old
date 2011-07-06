@@ -61,6 +61,16 @@ class Calculator
     }
 
     /**
+     * Only returns the elo diff
+     */
+    public function calculateDiff($playerOneElo, $playerTwopponentElo, $win)
+    {
+        $playerOneNewElo = $this->calculatePlayerElo($playerOneElo, $playerTwopponentElo, -$win);
+
+        return $playerOneNewElo - $playerOneElo;
+    }
+
+    /**
      * Calculate a single player new elo
      *
      * @param int $playerElo

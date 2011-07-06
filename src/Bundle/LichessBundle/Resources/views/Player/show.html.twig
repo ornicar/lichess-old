@@ -1,7 +1,7 @@
 {% extends "LichessBundle:Player:layoutPlayer.html.twig" %}
 {% set game = player.game %}
 {% block robots %}noindex, nofollow{% endblock %}
-{% block title_suffix %} #{{ player.fullId }}{% endblock %}
+{% block title %}Play {{ player.id }} - {{ player.color }}{% endblock %}
 {% block content %}
 <div class="lichess_game clearfix lichess_player_{{ player.color }} not_spectator">
     <div class="lichess_board_wrap">
@@ -19,7 +19,11 @@
 {% block goodies %}
     <div class="lichess_goodies">
         <br />
-        <a class="lichess_replay_link blank_if_play" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": player.color} ) }}">{% trans "Replay and analyse" %}</a>
+        <a class="lichess_replay_link blank_if_play" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": player.color} ) }}">{{ "Replay and analyse"|trans }}</a>
+        {% if game.isRated and game.hasMoveTimes %}
+            <br /><br />
+            <a href="{{ path("lichess_game_stats", {"id": game.id}) }}">View game stats</a>
+        {% endif %}
     </div>
 {% endblock %}
 {% block js_data %}

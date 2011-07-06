@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Starter;
 
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
-use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Logger;
 use Symfony\Component\Routing\Router;
 use InvalidArgumentException;
@@ -21,19 +21,21 @@ class Joiner
         $this->logger       = $logger;
     }
 
-    public function join(Game $game)
+    public function join(Player $player)
     {
+        $game = $player->getGame();
+
         if($game->getIsStarted()) {
-            $this->logger->warn($game, 'Game:join started');
+            $this->logger->warn($player, 'Game:join started');
             throw new InvalidArgumentException('Cannot join started game');
         }
 
-        $this->playerBlamer->blame($game->getInvited());
+        $this->playerBlamer->blame($player);
         $game->start();
-        $game->getCreator()->addEventToStack(array(
+        $player->getOpponent()->addEventToStack(array(
             'type' => 'redirect',
-            'url'  => $this->urlGenerator->generate('lichess_player', array('id' => $game->getCreator()->getFullId()))
+            'url'  => $this->urlGenerator->generate('lichess_player', array('id' => $player->getOpponent()->getFullId()))
         ));
-        $this->logger->notice($game, 'Game:join');
+        $this->logger->notice($player, 'Game:join');
     }
 }

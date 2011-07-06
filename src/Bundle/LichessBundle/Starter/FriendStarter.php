@@ -2,7 +2,6 @@
 
 namespace Bundle\LichessBundle\Starter;
 
-use Bundle\LichessBundle\Ai\AiInterface;
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
@@ -19,7 +18,6 @@ class FriendStarter implements StarterInterface
 {
     protected $generator;
     protected $playerBlamer;
-    protected $ai;
     protected $objectManager;
     protected $logger;
     protected $configPersistence;
@@ -37,14 +35,14 @@ class FriendStarter implements StarterInterface
     {
         $this->configPersistence->saveConfigFor('friend', $config->toArray());
         $color = $config->resolveColor();
-        $player = $this->generator->createGameForPlayer($color, $config->variant);
+        $player = $this->generator->createGameForPlayer($color, $config->getVariant());
         $this->playerBlamer->blame($player);
         $game = $player->getGame();
-        if($config->time) {
-            $clock = new Clock($config->time * 60, $config->increment);
+        if($config->getTime()) {
+            $clock = new Clock($config->getTime() * 60, $config->getIncrement());
             $game->setClock($clock);
         }
-        $game->setIsRated($config->mode);
+        $game->setIsRated($config->getMode());
         $this->objectManager->persist($game);
         $this->logger->notice($game, 'Game:inviteFriend create');
 

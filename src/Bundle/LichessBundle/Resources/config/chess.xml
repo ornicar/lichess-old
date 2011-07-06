@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.animation.delay">0.3</parameter>
+        <parameter key="lichess.animation.delay">0.5</parameter>
     </parameters>
 
     <services>
@@ -29,7 +29,7 @@
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="router" />
-            <argument type="service" id="lichess.object_manager" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
         </service>
 
         <service id="lichess.generator" class="Bundle\LichessBundle\Chess\Generator" />
@@ -40,8 +40,8 @@
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.elo.updater" />
             <argument type="service" id="lichess.logger" />
-            <argument type="service" id="lichess.timeline.pusher" />
             <argument type="service" id="lichess.cheat.judge" />
+            <argument type="service" id="lichess.autodraw" />
         </service>
 
         <service id="lichess.drawer" class="Bundle\LichessBundle\Chess\Drawer">

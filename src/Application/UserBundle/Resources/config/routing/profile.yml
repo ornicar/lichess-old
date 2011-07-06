@@ -1,0 +1,28 @@
+fos_user_user_list:
+    pattern:    /people
+    defaults:   { _controller: FOSUserBundle:Profile:list }
+
+fos_user_user_show:
+    pattern:    /@/{username}
+    defaults:   { _controller: FOSUserBundle:Profile:view, withMe: false }
+
+lichess_user_show_with_me:
+    pattern:    /@/{username}/me
+    defaults:   { _controller: FOSUserBundle:Profile:view, withMe: true }
+
+fos_user_autocomplete:
+    pattern:    /autocomplete-user
+    defaults:    { _controller: FOSUserBundle:Profile:autocomplete }
+
+fos_user_profile_update:
+    pattern:    /profile/update.json
+    defaults:   { _controller: FOSUserBundle:Profile:updateProfile }
+    requirements: { _method: post }
+
+fos_user_close_account:
+    pattern:    /profile/close
+    defaults:   { _controller: FOSUserBundle:Profile:closeAccount }
+
+fos_user_profile_bio:
+    pattern:    /profile/bio
+    defaults:   { _controller: FOSUserBundle:Profile:profileBio }

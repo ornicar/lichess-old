@@ -1,7 +1,0 @@
-lichess:
-    akismet:
-        api_key: secret
-
-fos_comment:
-    akismet:
-        api_key: secret 

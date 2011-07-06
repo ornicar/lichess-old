@@ -2,7 +2,7 @@
 
 namespace Lichess\TranslationBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,7 +33,7 @@ class FetchTranslationsCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $fetcher = $this->container->get('lichess_translation.fetcher');
+        $fetcher = $this->getContainer()->get('lichess_translation.fetcher');
         $fetcher->setLogger(function($message) use ($output)
         {
             $output->writeLn(sprintf('<info>%s</info>', $message));

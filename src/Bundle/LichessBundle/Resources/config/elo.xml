@@ -18,8 +18,6 @@
             <argument type="service" id="lichess.repository.history" />
         </service>
 
-        <service id="lichess.elo.chart" class="Bundle\LichessBundle\Elo\Chart" />
-
     </services>
 
 </container>

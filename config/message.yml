@@ -1,0 +1,5 @@
+ornicar_message:
+    db_driver: odm
+    class:
+        model:
+            message: Application\MessageBundle\Document\Message

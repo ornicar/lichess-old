@@ -16,7 +16,7 @@ function _lichess_get_synchronizer()
 {
     require_once __DIR__.'/Sync/Memory.php';
     // params: lichess.synchronizer.soft_timeout, lichess.synchronizer.hard_timeout
-    return new Bundle\LichessBundle\Sync\Memory(15, 180);
+    return new Bundle\LichessBundle\Sync\Memory(20, 120);
 }
 
 // Handle number of active players requests
@@ -27,11 +27,10 @@ if(0 === strpos($url, '/how-many-players-now')) {
 }
 
 // Handle authenticated user ping
-if (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)$#x', $url, $matches)) {
-    $username = $matches['username'];
+if (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)(\?.+|$)#x', $url, $matches)) {
     $synchronizer = _lichess_get_synchronizer();
-    $synchronizer->setUsernameOnline($username);
+    $synchronizer->setUsernameOnline($matches['username']);
     header('HTTP/1.0 200 OK');
     header('content-type: application/json');
-    die(sprintf('{"nbp":%d,"nbm":%d}', $synchronizer->getNbActivePlayers(), apc_fetch('nbm.'.$username)));
+    die(sprintf('{"nbp":%d,"nbm":%d}', $synchronizer->getNbActivePlayers(), apc_fetch('nbm.'.$matches['username'])));
 }

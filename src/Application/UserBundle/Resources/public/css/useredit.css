@@ -1,5 +1,5 @@
 div.editable span {
-    width: 330px;
+    width: 290px;
     padding: 5px;
     border: 1px solid #88aaff;
     cursor: pointer;
@@ -14,7 +14,7 @@ div.editable form {
     margin-bottom: 1em;
 }
 div.editable textarea {
-    width: 330px;
+    width: 290px;
     padding: 5px;
     height: 7em;
 }

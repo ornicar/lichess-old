@@ -3,10 +3,6 @@
 namespace Lichess\TranslationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\ChoiceField;
-use Symfony\Component\Form\TextareaField;
-use Symfony\Component\Form\TextField;
 use Lichess\TranslationBundle\Document\Translation;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,10 +38,10 @@ class ContributionController extends Controller
 
     public function indexAction()
     {
-        $form = $this->get('lichess.form.translation');
+        $form = $this->get('form.factory')->createNamed($this->get('lichess_translation.form_type.translation'), 'lichess_translation_form');
 
         return $this->render('LichessTranslationBundle:Contribution:index.html.twig', array(
-            'form' => $form,
+            'form' => $form->createView(),
             'locale' => '__'
         ));
     }
@@ -60,27 +56,26 @@ class ContributionController extends Controller
         } catch(\InvalidArgumentException $e) {
             $translation->setMessages($manager->getEmptyMessages());
         }
-        $form = $this->get('lichess.form.translation');
+        $form = $this->get('form.factory')->createNamed($this->get('lichess_translation.form_type.translation'), 'lichess_translation_form');
         $form->setData($translation);
 
         if ($this->get('request')->getMethod() == 'POST') {
-            $form->bind($this->get('request'));
+            $form->bindRequest($this->get('request'));
             if($form->isValid()) {
-                $this->get('lichess.object_manager')->persist($translation);
-                $this->get('lichess.object_manager')->flush(array('safe' => true));
+                $this->get('doctrine.odm.mongodb.document_manager')->persist($translation);
+                $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
                 $this->get('session')->setFlash('notice', "Your translation has been submitted, thanks!\nI will review it and include it soon to the game.");
 
                 return new RedirectResponse($this->generateUrl('lichess_translation_contribution_locale', array('locale' => $locale)));
-            } else {
-                $error = $translation->getYamlError();
             }
         }
 
         return $this->render('LichessTranslationBundle:Contribution:locale.html.twig', array(
-            'form' => $form,
+            'form' => $form->createView(),
+            'object' => $translation,
+            'messageKeys' => $manager->getMessageKeys(),
             'locale' => $locale,
-            'status' => $manager->getTranslationStatus($locale),
-            'error' => isset($error) ? $error : false
+            'status' => $manager->getTranslationStatus($locale)
         ));
     }
 

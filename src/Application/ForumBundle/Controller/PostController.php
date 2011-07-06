@@ -8,7 +8,7 @@ use Bundle\ForumBundle\Model\Post;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\Form\Error;
+use Symfony\Component\Form\FormError;
 
 class PostController extends BasePostController
 {
@@ -16,11 +16,10 @@ class PostController extends BasePostController
     {
         $post = $this->get('forum.repository.post')->createNewPost();
         $this->get('forum.authorname_persistence')->loadPost($post);
-        $form = $this->get('forum.form.post');
-        $form->setData($post);
+        $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.post'), 'forum_post_form', $post);
 
         return $this->get('templating')->renderResponse('ForumBundle:Post:new.html.'.$this->getRenderer(), array(
-            'form'  => $form,
+            'form'  => $form->createView(),
             'topic' => $topic,
         ));
     }
@@ -29,8 +28,8 @@ class PostController extends BasePostController
     {
         $post = $this->get('forum.repository.post')->createNewPost();
         $post->setTopic($topic);
-        $form = $this->get('forum.form.post');
-        $form->bind($this->get('request'), $post);
+        $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.post'), 'forum_post_form', $post);
+        $form->bindRequest($this->get('request'));
 
         if(!$form->isValid()) {
             return $this->invalidCreate($topic);
@@ -39,8 +38,8 @@ class PostController extends BasePostController
         $this->get('forum.blamer.post')->blame($post);
 
         if ($this->get('forum.akismet')->isPostSpam($post)) {
-            $form['message']->addError(new Error('Sorry, but your post looks like spam. If you think it is an error, send me an email.'));
-            $this->get('logger')->notice('Forum:post spam block: '.$post->getAuthorName());
+            $form['message']->addError(new FormError('Sorry, but your post looks like spam. If you think it is an error, send me an email.'));
+            $this->get('logger')->warn('ForumBundle:post spam block: '.$post->getAuthorName());
             return $this->invalidCreate($topic);
         }
 
@@ -50,7 +49,6 @@ class PostController extends BasePostController
         $objectManager->persist($post);
         $objectManager->flush();
 
-        $this->get('lichess_forum.timeline.pusher')->pushPost($topic->getFirstPost());
         $objectManager->flush();
 
         $url = $this->get('forum.router.url_generator')->urlForPost($post);

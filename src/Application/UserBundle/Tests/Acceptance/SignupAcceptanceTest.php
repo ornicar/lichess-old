@@ -10,12 +10,12 @@ class SignupAcceptanceTest extends AbstractAcceptanceTest
     public function testSignup()
     {
         $client = $this->createPersistentClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_create'));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_registration_register'));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertRegexp('/Sign up/', $crawler->filter('.lichess_title')->text());
         $form = $crawler->selectButton('Sign up')->form();
-        $form['fos_user_user_form[username]'] = $this->username;
-        $form['fos_user_user_form[plainPassword]'] = $this->password;
+        $form['fos_user_registration_form[username]'] = $this->username;
+        $form['fos_user_registration_form[plainPassword]'] = $this->password;
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
@@ -30,10 +30,10 @@ class SignupAcceptanceTest extends AbstractAcceptanceTest
     public function testSignupWithBadUsername()
     {
         $client = $this->createPersistentClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_registration_register'));
         $form = $crawler->selectButton('Sign up')->form();
-        $form['fos_user_user_form[username]'] = 'x';
-        $form['fos_user_user_form[plainPassword]'] = $this->password;
+        $form['fos_user_registration_form[username]'] = 'x';
+        $form['fos_user_registration_form[plainPassword]'] = $this->password;
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -43,10 +43,10 @@ class SignupAcceptanceTest extends AbstractAcceptanceTest
     public function testSignupWithBadPassword()
     {
         $client = $this->createPersistentClient();
-        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_registration_register'));
         $form = $crawler->selectButton('Sign up')->form();
-        $form['fos_user_user_form[username]'] = $this->username;
-        $form['fos_user_user_form[plainPassword]'] = '';
+        $form['fos_user_registration_form[username]'] = $this->username;
+        $form['fos_user_registration_form[plainPassword]'] = '';
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -57,10 +57,10 @@ class SignupAcceptanceTest extends AbstractAcceptanceTest
     {
         $client = $this->createPersistentClient();
 
-        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_new'));
+        $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_registration_register'));
         $form = $crawler->selectButton('Sign up')->form();
-        $form['fos_user_user_form[username]'] = 'user1';
-        $form['fos_user_user_form[plainPassword]'] = $this->password;
+        $form['fos_user_registration_form[username]'] = 'user1';
+        $form['fos_user_registration_form[plainPassword]'] = $this->password;
         $client->submit($form);
         $this->assertFalse($client->getResponse()->isRedirect());
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -69,7 +69,7 @@ class SignupAcceptanceTest extends AbstractAcceptanceTest
 
     public function setUp()
     {
-        $manager = $this->createClient()->getContainer()->get('fos_user.user_manager');
+        $manager = self::createClient()->getContainer()->get('fos_user.user_manager');
         $user = $manager->findUserByUsername($this->username);
         if($user) {
             $manager->deleteUser($user);

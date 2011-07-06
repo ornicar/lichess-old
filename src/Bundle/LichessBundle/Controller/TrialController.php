@@ -5,11 +5,11 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Trial;
-use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
-use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
 
 class TrialController extends Controller
 {
@@ -17,7 +17,7 @@ class TrialController extends Controller
     {
         $trial = $this->container->get('lichess.repository.trial')->find($id);
         $this->container->get('lichess.cheat.judge')->setVerdict($trial, (bool) $verdict);
-        $this->container->get('lichess.object_manager')->flush();
+        $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
 
         return new RedirectResponse($this->container->get('router')->generate('lichess_trial_list_unresolved'));
     }
@@ -57,16 +57,14 @@ class TrialController extends Controller
 
     protected function createPaginatorForQuery($query)
     {
-        $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
-        $games->setItemCountPerPage(10);
-        $games->setPageRange(10);
+        $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $games->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(10);
 
         return $games;
     }
 
     protected function flush($safe = true)
     {
-        return $this->get('lichess.object_manager')->flush(array('safe' => $safe));
+        return $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => $safe));
     }
 }

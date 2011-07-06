@@ -15,7 +15,7 @@ class UserListAcceptanceTest extends AbstractAcceptanceTest
 
     protected function requestUserList()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'fos_user_user_list'));
 
         return array($client, $crawler);

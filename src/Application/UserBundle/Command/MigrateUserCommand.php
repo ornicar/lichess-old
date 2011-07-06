@@ -3,7 +3,7 @@
 namespace Application\UserBundle\Command;
 use Symfony\Component\Console\Input;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +15,7 @@ use FOS\UserBundle\Util\Canonicalizer;
 /**
  * Migrate user db to latest johanness changes
  */
-class MigrateUserCommand extends Command
+class MigrateUserCommand extends ContainerAwareCommand
 {
     /**
      * @see Command
@@ -33,8 +33,8 @@ class MigrateUserCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repo = $this->container->get('fos_user.repository.user');
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $repo = $this->getContainer()->get('fos_user.repository.user');
+        $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
 
         $collection = $dm->getDocumentCollection($repo->getDocumentName())->getMongoCollection();
         $users = $collection->find();
@@ -67,7 +67,7 @@ class MigrateUserCommand extends Command
         }
         if(isset($user['isSuperAdmin'])) {
             unset($user['isSuperAdmin']);
-            $user['roles'] = array(User::ROLE_SUPERADMIN);
+            $user['roles'] = array(User::ROLE_SUPER_ADMIN);
         }
     }
 }

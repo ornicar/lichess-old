@@ -7,7 +7,6 @@ use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Elo\Calculator;
 use Bundle\LichessBundle\Elo\Updater;
 use Bundle\LichessBundle\Logger;
-use Bundle\LichessBundle\Timeline\Pusher;
 use Bundle\LichessBundle\Cheat\Judge;
 use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
@@ -19,28 +18,23 @@ class Finisher
     protected $memory;
     protected $eloUpdater;
     protected $logger;
-    protected $timelinePusher;
     protected $judge;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Pusher $timelinePusher, Judge $judge)
+    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Judge $judge, AutoDraw $autoDraw)
     {
-        $this->calculator     = $calculator;
-        $this->messenger      = $messenger;
-        $this->memory   = $memory;
-        $this->eloUpdater     = $eloUpdater;
-        $this->logger         = $logger;
-        $this->timelinePusher = $timelinePusher;
-        $this->judge          = $judge;
+        $this->calculator = $calculator;
+        $this->messenger  = $messenger;
+        $this->memory     = $memory;
+        $this->eloUpdater = $eloUpdater;
+        $this->logger     = $logger;
+        $this->judge      = $judge;
+        $this->autoDraw   = $autoDraw;
     }
 
     public function finish(Game $game)
     {
         $this->messenger->addSystemMessage($game, $game->getStatusMessage());
         $this->judge->study($game);
-
-        if (Game::MATE == $game->getStatus()) {
-            $this->timelinePusher->pushMate($game);
-        }
 
         $this->updateElo($game);
     }
@@ -54,7 +48,11 @@ class Finisher
     public function outoftime(Player $player)
     {
         $game = $player->getGame();
-        if($game->checkOutOfTime()) {
+        if ($oftPlayer = $game->checkOutOfTime()) {
+            $game->setStatus(Game::OUTOFTIME);
+            if (!$this->autoDraw->hasTooFewMaterialToMate($oftPlayer->getOpponent())) {
+                $game->setWinner($oftPlayer->getOpponent());
+            }
             $this->finish($game);
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
             $game->addEventsToStacks($events);

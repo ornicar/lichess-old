@@ -1,35 +1,35 @@
 {% extends "LichessBundle:Game:invite.html.twig" %}
 {% block invite_type %}anybody{% endblock %}
-{% block invite_title %}{% trans "Play with anybody" %}{% endblock %}
+{% block invite_title %}{{ "Play with anybody"|trans }}{% endblock %}
 {% block invite_form_fields %}
 <div class="variants buttons">
     {% for choice, child in form.variants %}
-        {{ form_field(child) }}
-        <label for="{{ child.id }}">{% trans form.variants.label(choice) %}</label>
+        {{ form_widget(child) }}
+        {{ form_label(child) }}
     {% endfor %}
 </div>
-<a class="show_advanced">{% trans "Show advanced options" %}</a>
+<a class="show_advanced">{{ "Show advanced options"|trans }}</a>
 <div class="advanced">
-    {% trans "Minutes per side" %}
+    {{ "Minutes per side"|trans }}
     <div class="times buttons">
         {% for choice, child in form.times %}
-            {{ form_field(child) }}
-            <label for="{{ child.id }}">{% trans form.times.label(choice) %}</label>
+            {{ form_widget(child) }}
+            {{ form_label(child) }}
         {% endfor %}
     </div>
-    {% trans "Increment in seconds" %}
+    {{ "Increment in seconds"|trans }}
     <div class="increments buttons">
         {% for choice, child in form.increments %}
-            {{ form_field(child) }}
-            <label for="{{ child.id }}">{{ form.increments.label(choice) }}</label>
+            {{ form_widget(child) }}
+            {{ form_label(child) }}
         {% endfor %}
     </div>
     {% if form.modes is defined %}
-        {% trans "Mode" %}
+        {{ "Mode"|trans }}
         <div class="modes buttons">
             {% for choice, child in form.modes %}
-                {{ form_field(child) }}
-                <label for="{{ child.id }}">{% trans form.modes.label(choice) %}</label>
+                {{ form_widget(child) }}
+                {{ form_label(child) }}
             {% endfor %}
         </div>
     {% endif %}
@@ -37,7 +37,7 @@
 {% endblock %}
 {% block invite_extra %}
 <p class="explanations">
-    {% trans "Tip: The more options you check, the faster you find a game" %}
+    {{ "Tip: The more options you check, the faster you find a game"|trans }}
 </p>
 {% endblock %}
 {% block random_only %}true{% endblock %}

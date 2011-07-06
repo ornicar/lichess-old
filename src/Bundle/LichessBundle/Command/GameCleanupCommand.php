@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,22 +32,40 @@ class GameCleanupCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repo = $this->container->get('lichess.repository.game');
-        $games = $repo->findCandidatesToCleanup();
-        $nb = $games->count();
+        $repo = $this->getContainer()->get('lichess.repository.game');
+        $batchSize = 1000;
+        $sleep = 15;
 
-        $output->writeLn(sprintf('Found %d games to remove', $nb));
+        $ids = $repo->findCandidatesToCleanup(999999);
+        $nb = count($ids);
+        $output->writeLn(sprintf('Found %d games of %d to remove', $nb, $repo->createQueryBuilder()->getQuery()->count()));
 
-        if($input->getOption('execute') && $nb) {
-            $max = 2000;
-            $output->writeLn(sprintf('Removing %d games...', $max));
-            $om = $this->container->get('lichess.object_manager');
-            $it=0;
-            foreach($games as $game) {
-                if(++$it > $max) break;
-                $om->remove($game);
-            }
-            $om->flush();
+        if (!$input->getOption('execute')) {
+            return;
         }
+
+        do {
+            try {
+                $ids = $repo->findCandidatesToCleanup($batchSize);
+                $nb = count($ids);
+
+                $output->writeLn(sprintf('Found %d games of %d to remove', $nb, $repo->createQueryBuilder()->getQuery()->count()));
+
+                if ($nb == 0) {
+                    return;
+                }
+
+                $output->writeLn(sprintf('Removing %d games...', $nb));
+                $repo->removeByIds($ids);
+
+                if ($nb == $batchSize) {
+                    $output->writeLn('Sleep '.$sleep.' seconds');
+                    sleep($sleep);
+                }
+            } catch (\MongoCursorTimeoutException $e) {
+                $output->writeLn('<error>Time out, sleeping 60 seconds</error>');
+                sleep(60);
+            }
+        } while ($nb > 0);
     }
 }

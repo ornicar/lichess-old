@@ -2,13 +2,14 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Application\UserBundle\Document\User;
 use MongoId;
 
 /**
  * Represents a user ELO history
  *
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   collection="user_history",
  *   repositoryClass="Bundle\LichessBundle\Document\HistoryRepository"
  * )
@@ -24,7 +25,7 @@ class History
      * It is also the history unique mongo ID
      *
      * @var string
-     * @mongodb:Id(strategy="none")
+     * @MongoDB\Id(strategy="none")
      */
     protected $id;
 
@@ -36,7 +37,7 @@ class History
      *     e (ELO)
      *     g (Game ID)
      * )
-     * @mongodb:Field(type="hash")
+     * @MongoDB\Field(type="hash")
      */
     protected $entries = array();
 
@@ -71,6 +72,11 @@ class History
     public function getEntries()
     {
         return $this->entries;
+    }
+
+    public function size()
+    {
+        return count($this->entries);
     }
 
     public function setEntries(array $entries)

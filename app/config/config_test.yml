@@ -1,0 +1,25 @@
+imports:
+    - { resource: config_dev.yml }
+
+web_profiler:
+    toolbar: false
+
+framework:
+    profiler: false
+    test: true
+
+doctrine_mongodb:
+    document_managers:
+        default:
+            metadata_cache_driver: apc
+
+lichess:
+    test: true
+    seek:
+        use_session: false
+    anybody_starter:
+        check_creator_is_active: false
+    sync:
+        path: ""
+        latency: 0
+        delay: 0.25

@@ -4,8 +4,8 @@ GUI is only HTML5 and JavaScript.
 - Allows to play with a friend, a random player or an artificial intelligence.
 - Supports castling, en passant, selective promotion, color selection, check and mate detection, threefold repetition, and move validation.
 - Chess clock, integrated chat, real time spectator mode and analysis interface available.
-- Chess variants abailable: Standard and Chess960
-- Translated to more than 45 languages thanks to contributors.
+- Chess variants available: Standard and Chess960
+- Translated to more than 48 languages thanks to contributors.
 - Uses only open source languages: PHP 5.3, HTML5, Javascript and CSS. Powered by Symfony2, jQuery 1.5 and jQuery UI 1.8.
   
 PLAY
@@ -38,8 +38,7 @@ It uses [MongoDB](http://mongodb.org) for game storage.
 
     git clone git://github.com/ornicar/lichess.git
     cd lichess
-    git submodule init
-    git submodule update --init --recursive
+    ./bin/vendors install
 
 ### Check your server requirements
 
@@ -67,7 +66,7 @@ Open your browser at http://myhostname/index_dev.php
 
 ### Configure Artificial Intelligence
 
-The default AI is crafty, a opensource program written in C.
+The default AI is crafty, an opensource program written in C.
 
 #### Install crafty on Debian based distros:
 
@@ -104,7 +103,7 @@ You need [PHPUnit 3.5](http://github.com/sebastianbergmann/phpunit) installed.
 
 Run all unit and functional tests
 
-    phpunit -c lichess
+    phpunit -c app
 
 To get functional tests passing, you need to enable APC in CLI.
 

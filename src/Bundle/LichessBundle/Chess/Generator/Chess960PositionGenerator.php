@@ -41,8 +41,8 @@ class Chess960PositionGenerator extends PositionGenerator
         $player->setPieces($pieces);
         $player->getOpponent()->setPieces($this->mirrorPieces($pieces));
 
-        $forsyth = new Forsyth();
-        $game->setInitialFen($forsyth->export($game));
+        $game->ensureDependencies();
+        $game->setInitialFen(Forsyth::export($game));
     }
 
     protected function getEmptyFile($pieces, $num)

@@ -2,7 +2,7 @@
 
 namespace Bundle\LichessBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,7 +31,7 @@ class RemoveDupsFromHistoryCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $histories = $this->container->get('lichess.repository.history')->findAll();
+        $histories = $this->getContainer()->get('lichess.repository.history')->findAll();
 
         foreach ($histories as $history) {
             $entries = $history->getEntries();
@@ -55,6 +55,6 @@ class RemoveDupsFromHistoryCommand extends BaseCommand
                 $history->setEntries($newEntries);
         }
 
-        $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
+        $this->getContainer()->get('doctrine.odm.mongodb.document_manager')->flush();
     }
 }

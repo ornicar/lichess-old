@@ -1,12 +1,14 @@
 <?php
 
 namespace Bundle\LichessBundle\Document\Piece;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Document\Piece;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\Square;
 
 /**
- * @mongodb:EmbeddedDocument
+ * @MongoDB\EmbeddedDocument
  */
 class Pawn extends Piece
 {
@@ -27,10 +29,9 @@ class Pawn extends Piece
             $keys[] = $key;
         }
 
-        if (!$this->hasMoved() && !empty($keys))
-        {
+        if (!$this->hasMoved() && !empty($keys)) {
             $key = Board::posToKey($x, $y+(2*$dy));
-            if(!$this->board->hasPieceByKey($key)) {
+            if($this->board->hasSquareByKey($key) && !$this->board->hasPieceByKey($key)) {
                 $keys[] = $key;
             }
         }
@@ -46,24 +47,19 @@ class Pawn extends Piece
             }
             // capture
             $key = Board::posToKey($_x, $_y);
-            if ($piece = $this->board->getPieceByKey($key))
-            {
-                if ($piece->getColor() !== $this->color)
-                {
+            if ($piece = $this->board->getPieceByKey($key)) {
+                if ($piece->getColor() !== $this->color) {
                     $keys[] = $key;
                 }
             }
             // en passant
             if(5 === $y || 4 === $y) {
                 $opponentKey = Board::posToKey($_x, $y);
-                if (
-                    ($piece = $this->board->getPieceByKey($opponentKey)) &&
+                if (($piece = $this->board->getPieceByKey($opponentKey)) &&
                     $piece instanceof Pawn &&
                     $piece->getColor() !== $this->color &&
                     ($piece->getFirstMove() === ($this->getPlayer()->getGame()->getTurns() -1)) &&
-                    !$this->board->hasPieceByKey($key)
-                )
-                {
+                    !$this->board->hasPieceByKey($key)) {
                     $keys[] = $key;
                 }
             }
@@ -78,16 +74,14 @@ class Pawn extends Piece
         $dy = 'white' === $this->color ? 1 : -1;
 
         $_y = $this->y+$dy;
-        foreach(array(-1, 1) as $dx)
-        {
+        foreach(array(-1, 1) as $dx) {
             $_x = $this->x+$dx;
             if($_x<1 || $_x>8) {
                 continue;
             }
             $key = Board::posToKey($_x, $_y);
             $piece = $this->board->getPieceByKey($key);
-            if (!$piece || $piece->getColor() !== $this->color)
-            {
+            if (!$piece || $piece->getColor() !== $this->color) {
                 $keys[] = $key;
             }
         }

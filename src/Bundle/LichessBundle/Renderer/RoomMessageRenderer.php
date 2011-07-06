@@ -2,15 +2,21 @@
 
 namespace Bundle\LichessBundle\Renderer;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Uses the container to lazy load the translator,
+ * as it is quite heavy in memory
+ *
+ * @author Thibault Duplessis <thibault.duplessis@gmail.com>
+ */
 class RoomMessageRenderer
 {
-    protected $translator;
+    protected $container;
 
-    public function __construct(Translator $translator)
+    public function __construct(ContainerInterface $container)
     {
-        $this->translator = $translator;
+        $this->container = $container;
     }
 
     /**
@@ -23,11 +29,22 @@ class RoomMessageRenderer
         list($author, $text) = $message;
 
         if('system' === $author) {
-            $text = $this->translator->trans($text);
+            $text = $this->getTranslator()->trans($text);
         }
 
         $text = nl2br(htmlspecialchars($text, ENT_QUOTES, 'UTF-8'));
 
         return sprintf('<li class="%s">%s</li>', $author, $text);
+    }
+
+    protected function getTranslator()
+    {
+        $translator = $this->container->get('translator');
+
+        if (!$translator->getLocale() && ($locale = $this->container->get('request')->query->get('l'))) {
+            $translator->setLocale($locale);
+        }
+
+        return $translator;
     }
 }

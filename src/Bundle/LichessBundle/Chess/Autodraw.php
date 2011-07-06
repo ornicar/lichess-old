@@ -25,6 +25,22 @@ class Autodraw
         return false;
     }
 
+    /**
+     * Tells if this player has too few material to mate
+     * if true, he cannot mate.
+     *
+     * @return boolean
+     */
+    public function hasTooFewMaterialToMate(Player $player)
+    {
+        $nbPieces = $player->getNbAlivePieces();
+        if (2 < $nbPieces) {
+            return false;
+        }
+
+        return $this->canNotMate($player);
+    }
+
     protected function fiftyMoves(Game $game)
     {
         return $game->isFiftyMoves();
@@ -39,10 +55,6 @@ class Autodraw
 
         if (2 < $whiteNbPieces || 2 < $blackNbPieces) {
             return false;
-        }
-
-        if(1 === $whiteNbPieces && 1 === $blackNbPieces) {
-            return true;
         }
 
         $whitePiece = $this->getLastPiece($white);

@@ -1,13 +1,33 @@
 {% extends "LichessBundle::layout.html.twig" %}
+
+{% block title %}Forum{% endblock %}
+
+{% block layout_content %}
+<div id="lichess_forum" class="content_box">
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block goodies %}
+    {% include "LichessForumBundle:Search:form.html.twig" %}
+{% endblock %}
+
+{% block menu_active %}forum{% endblock %}
+
 {% block stylesheets %}
 {{ parent() }}
-<link href="{{ asset("bundles/lichessforum/css/forum.css") }}" type="text/css" rel="stylesheet" />
+{% stylesheets
+    '@LichessForumBundle/Resources/public/css/forum.css'
+    filter="?yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
 {% endblock %}
+
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset("bundles/lichessforum/js/forum.js") }}"></script>
+{% javascripts
+    '@LichessBundle/Resources/public/vendor/jquery.hint.js'
+    filter="?yui_js" %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}
-{% block layout_content %}
-<div id="lichess_forum" class="content_box">{% block content %}{% endblock %}</div>
-{% endblock %}
-{% block menu_active %}forum{% endblock %}

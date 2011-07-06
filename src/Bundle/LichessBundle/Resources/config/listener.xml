@@ -5,9 +5,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="lichess.core_request_listener" class="Bundle\LichessBundle\CoreRequestListener">
+        <service id="lichess.kernel_request_listener" class="Bundle\LichessBundle\KernelRequestListener">
             <argument type="service" id="service_container" />
-            <tag name="kernel.listener" event="onCoreRequest" priority="0" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
         </service>
     </services>
 

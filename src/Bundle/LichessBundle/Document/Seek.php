@@ -2,8 +2,10 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
- * @mongodb:Document(
+ * @MongoDB\Document(
  *   collection="seek",
  *   repositoryClass="Bundle\LichessBundle\Document\SeekRepository"
  * )
@@ -14,7 +16,7 @@ class Seek
      * Id
      *
      * @var \MongoId
-     * @mongodb:Id
+     * @MongoDB\Id
      */
     protected $id = null;
 
@@ -22,7 +24,7 @@ class Seek
      * Variants accepted
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @MongoDB\Field(type="collection")
      */
     protected $variants;
 
@@ -30,7 +32,7 @@ class Seek
      * Times accepted
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @MongoDB\Field(type="collection")
      */
     protected $times;
 
@@ -38,7 +40,7 @@ class Seek
      * Increments accepted
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @MongoDB\Field(type="collection")
      */
     protected $increments;
 
@@ -46,7 +48,7 @@ class Seek
      * Modes accepted
      *
      * @var array
-     * @mongodb:Field(type="collection")
+     * @MongoDB\Field(type="collection")
      */
     protected $modes;
 
@@ -54,7 +56,7 @@ class Seek
      * Game
      *
      * @var Game
-     * @mongodb:ReferenceOne(targetDocument="Game")
+     * @MongoDB\ReferenceOne(targetDocument="Game")
      */
     protected $game;
 
@@ -62,7 +64,7 @@ class Seek
      * Creator session id
      *
      * @var string
-     * @mongodb:Field(type="string")
+     * @MongoDB\Field(type="string")
      */
     protected $sessionId = null;
 
@@ -70,8 +72,8 @@ class Seek
      * Creation date
      *
      * @var \DateTime
-     * @mongodb:Field(type="date")
-     * @mongodb:Index(order="desc")
+     * @MongoDB\Field(type="date")
+     * @MongoDB\Index(order="desc")
      */
     protected $createdAt = null;
 

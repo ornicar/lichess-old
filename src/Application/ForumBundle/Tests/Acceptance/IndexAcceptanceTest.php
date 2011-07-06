@@ -6,7 +6,7 @@ class IndexAcceptanceTest extends AbstractAcceptanceTest
 {
     public function testIndexShowsListOfCategories()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'forum_index'));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(5, $crawler->filter('.categories .subject a')->count());
@@ -14,7 +14,7 @@ class IndexAcceptanceTest extends AbstractAcceptanceTest
 
     public function testIndexCategoryHasTitleAndDescription()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'forum_index'));
         $this->assertEquals('General Chess Discussion', $crawler->filter('.categories .subject a')->first()->text());
         $this->assertEquals('The place to discuss general Chess topics', $crawler->filter('.categories .description')->first()->text());
@@ -22,7 +22,7 @@ class IndexAcceptanceTest extends AbstractAcceptanceTest
 
     public function testIndexCategoriesShowLastPostName()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'forum_index'));
         $this->assertRegexp('/by lichess.org staff/', $crawler->filter('.categories td.last_post')->first()->text());
         $this->assertRegexp('/by (user1|lichess.org staff)/', $crawler->filter('.categories td.last_post')->last()->text());
@@ -30,7 +30,7 @@ class IndexAcceptanceTest extends AbstractAcceptanceTest
 
     public function testClickOnCategoryTitleGoesToCategory()
     {
-        $client = $this->createClient();
+        $client = self::createClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'forum_index'));
         $crawler = $client->click($crawler->selectLink('General Chess Discussion')->link());
         $this->assertTrue($client->getResponse()->isSuccessful());

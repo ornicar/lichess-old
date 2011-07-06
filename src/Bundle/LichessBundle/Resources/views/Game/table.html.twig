@@ -12,38 +12,38 @@
     <div class="lichess_current_player">
         <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
             <div class="lichess_piece king white"></div>
-            <p>{% trans player.isWhite ? 'Your turn' : 'Waiting' %}</p>
+            <p>{{ (player.isWhite ? 'Your turn' : 'Waiting')|trans }}</p>
         </div>
         <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
             <div class="lichess_piece king black"></div>
-            <p>{% trans player.isBlack ? 'Your turn' : 'Waiting' %}</p>
+            <p>{{ (player.isBlack ? 'Your turn' : 'Waiting')|trans }}</p>
         </div>
     </div>
     <div class="lichess_control clearfix">
         {% if game.isAbortable %}
-            <a href="{{ path("lichess_abort", {'id': player.fullId} ) }}" class="lichess_abort">{% trans "Abort game" %}</a>
+            <a href="{{ path("lichess_abort", {'id': player.fullId} ) }}" class="lichess_abort">{{ "Abort game"|trans }}</a>
         {% else %}
-            <a href="{{ path("lichess_resign", {'id': player.fullId} ) }}" class="lichess_resign" title="{% trans "Give up" %}">{% trans "Resign" %}</a>
+        <a href="{{ path("lichess_resign", {'id': player.fullId} ) }}" class="lichess_resign" title="{{ "Give up"|trans }}">{{ "Resign"|trans }}</a>
             {% if player.canOfferDraw %}
-                <a class="offer_draw" href="{{ path("lichess_offer_draw", {"id": player.fullId} ) }}">{% trans "Offer draw" %}</a>
+                <a class="offer_draw" href="{{ path("lichess_offer_draw", {"id": player.fullId} ) }}">{{ "Offer draw"|trans }}</a>
             {% endif %}
         {% endif %}
     </div>
     {% if player.isMyTurn and game.isThreefoldRepetition %}
     <div class="lichess_claim_draw_zone">
-        {% trans "Threefold repetition" %}.&nbsp;
-        <a class="lichess_claim_draw" href="{{ path("lichess_claim_draw", {"id": player.fullId} ) }}">{% trans "Claim a draw" %}</a>
+        {{ "Threefold repetition"|trans }}.&nbsp;
+        <a class="lichess_claim_draw" href="{{ path("lichess_claim_draw", {"id": player.fullId} ) }}">{{ "Claim a draw"|trans }}</a>
     </div>
     {% elseif player.isOfferingDraw %}
     <div class="offered_draw">
-        {% trans "Draw offer sent" %}.&nbsp;
-        <a href="{{ path("lichess_cancel_draw_offer", {"id": player.fullId} ) }}">{% trans "Cancel" %}</a>
+        {{ "Draw offer sent"|trans }}.&nbsp;
+        <a href="{{ path("lichess_cancel_draw_offer", {"id": player.fullId} ) }}">{{ "Cancel"|trans }}</a>
     </div>
     {% elseif player.opponent.isOfferingDraw %}
     <div class="offered_draw">
-        {% trans "Your opponent offers a draw" %}.<br />
-        <a href="{{ path("lichess_accept_draw_offer", {"id": player.fullId} ) }}">{% trans "Accept" %}</a>&nbsp;
-        <a href="{{ path("lichess_decline_draw_offer", {"id": player.fullId} ) }}">{% trans "Decline" %}</a>
+        {{ "Your opponent offers a draw"|trans }}.<br />
+        <a href="{{ path("lichess_accept_draw_offer", {"id": player.fullId} ) }}">{{ "Accept"|trans }}</a>&nbsp;
+        <a href="{{ path("lichess_decline_draw_offer", {"id": player.fullId} ) }}">{{ "Decline"|trans }}</a>
     </div>
     {% endif %}
 </div>

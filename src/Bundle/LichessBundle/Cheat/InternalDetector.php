@@ -1,8 +1,10 @@
 <?php
 
 namespace Bundle\LichessBundle\Cheat;
+
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\GameRepository;
+use DateTime;
 
 class InternalDetector
 {
@@ -25,7 +27,7 @@ class InternalDetector
         }
 
         // Detect client using internal AI
-        $similarGames = $this->gameRepository->findSimilar($game, new \DateTime('-10 minutes'));
+        $similarGames = $this->gameRepository->findSimilar($game, new DateTime('-5 minutes'));
         foreach($similarGames as $similarGame) {
             if($similarGame->getInvited()->getIsAi()) {
                 return $game->getPlayer($similarGame->getInvited()->getColor());

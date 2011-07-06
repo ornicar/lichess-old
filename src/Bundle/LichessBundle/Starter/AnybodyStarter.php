@@ -44,7 +44,7 @@ class AnybodyStarter implements StarterInterface
     {
         $this->configPersistence->saveConfigFor('anybody', $config->toArray());
         $queue = $this->seekQueue;
-        $result = $queue->add($config->variants, $config->times, $config->increments, $config->modes, $this->getSessionId());
+        $result = $queue->add($config->getVariants(), $config->getTimes(), $config->getIncrements(), $config->getModes(), $this->getSessionId());
         $game = $result['game'];
         if(!$game) {
             return null;

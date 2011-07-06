@@ -5,11 +5,13 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use ZendPaginatorAdapter\DoctrineMongoDBAdapter;
-use Zend\Paginator\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Lichess\ChartBundle\Chart\PlayerMoveTimeDistributionChart;
+use Lichess\ChartBundle\Chart\PlayerMoveTimeChart;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
 
 class GameController extends Controller
 {
@@ -34,8 +36,7 @@ class GameController extends Controller
         return $this->render('LichessBundle:Game:listAll.html.twig', array(
             'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentStartedOrFinishedQuery()),
             'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
-            'nbMates'  => $this->get('lichess.repository.game')->getNbMates(),
-            'pagerUrl' => $this->generateUrl('lichess_list_all')
+            'nbMates'  => $this->get('lichess.repository.game')->getNbMates()
         ));
     }
 
@@ -44,16 +45,14 @@ class GameController extends Controller
         return $this->render('LichessBundle:Game:listMates.html.twig', array(
             'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentMateQuery()),
             'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
-            'nbMates'  => $this->get('lichess.repository.game')->getNbMates(),
-            'pagerUrl' => $this->generateUrl('lichess_list_mates')
+            'nbMates'  => $this->get('lichess.repository.game')->getNbMates()
         ));
     }
 
     public function listSuspiciousAction()
     {
         return $this->render('LichessBundle:Game:listSuspicious.html.twig', array(
-            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createHighestBlurQuery()),
-            'pagerUrl' => $this->generateUrl('lichess_list_suspicious')
+            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createHighestBlurQuery())
         ));
     }
 
@@ -90,6 +89,24 @@ class GameController extends Controller
         ));
     }
 
+    /**
+     * Shows some stats about the game
+     */
+    public function statsAction($id)
+    {
+        $game = $this->get('lichess.provider')->findGame($id);
+        $moveTime = new PlayerMoveTimeChart(array(
+            'white' => $game->getPlayer('white'),
+            'black' => $game->getPlayer('black')
+        ));
+        $moveTimeDistribution = array(
+            'white' => new PlayerMoveTimeDistributionChart($game->getPlayer('white')),
+            'black' => new PlayerMoveTimeDistributionChart($game->getPlayer('black'))
+        );
+
+        return $this->render('LichessBundle:Game:stats.html.twig', compact('game', 'moveTime', 'moveTimeDistribution'));
+    }
+
     public function joinAction($id)
     {
         $game = $this->get('lichess.provider')->findGame($id);
@@ -98,74 +115,79 @@ class GameController extends Controller
             return new Response(sprintf('Game #%s', $id));
         }
 
+        $player = $game->getInvited();
         try {
-            $this->get('lichess.joiner')->join($game);
+            $this->get('lichess.joiner')->join($player);
         } catch (InvalidArgumentException $e) {
             return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
         }
         $this->flush();
 
-        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $game->getInvited()->getFullId())));
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }
 
     public function inviteFriendAction()
     {
         $form = $this->get('lichess.form.manager')->createFriendForm();
-        $form->bind($this->get('request'), $form->getData());
 
-        if($form->isValid()) {
-            $player = $this->get('lichess.starter.friend')->start($form->getData());
-            $this->flush();
-            return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
+        if ($this->get('request')->getMethod() === 'POST') {
+            $form->bindRequest($this->get('request'));
+            if($form->isValid()) {
+                $player = $this->get('lichess.starter.friend')->start($form->getData());
+                $this->flush();
+                return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
+            }
         }
 
-        return $this->render('LichessBundle:Game:inviteFriend.html.twig', array('form' => $form));
+        return $this->render('LichessBundle:Game:inviteFriend.html.twig', array('form' => $form->createView()));
     }
 
     public function inviteAiAction()
     {
         $form = $this->get('lichess.form.manager')->createAiForm();
-        $form->bind($this->get('request'), $form->getData());
 
-        if($form->isValid()) {
-            $player = $this->get('lichess.starter.ai')->start($form->getData());
-            $this->flush();
-            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
+        if ($this->get('request')->getMethod() === 'POST') {
+            $form->bindRequest($this->get('request'));
+            if($form->isValid()) {
+                $player = $this->get('lichess.starter.ai')->start($form->getData());
+                $this->flush();
+                return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
+            }
         }
 
-        return $this->render('LichessBundle:Game:inviteAi.html.twig', array('form' => $form));
+        return $this->render('LichessBundle:Game:inviteAi.html.twig', array('form' => $form->createView()));
     }
 
     public function inviteAnybodyAction()
     {
         $form = $this->get('lichess.form.manager')->createAnybodyForm();
-        $form->bind($this->get('request'), $form->getData());
 
-        if($form->isValid()) {
-            $return = $this->get('lichess.starter.anybody')->start($form->getData());
-            $this->flush();
-            if ($return instanceof Game) {
-                return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $return->getId())));
-            } elseif ($return instanceof Player) {
-                return new RedirectResponse($this->generateUrl('lichess_wait_anybody', array('id' => $return->getFullId())));
+        if ($this->get('request')->getMethod() === 'POST') {
+            $form->bindRequest($this->get('request'));
+            if($form->isValid()) {
+                $return = $this->get('lichess.starter.anybody')->start($form->getData());
+                $this->flush();
+                if ($return instanceof Game) {
+                    return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $return->getId())));
+                } elseif ($return instanceof Player) {
+                    return new RedirectResponse($this->generateUrl('lichess_wait_anybody', array('id' => $return->getFullId())));
+                }
             }
         }
 
-        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array('form' => $form));
+        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array('form' => $form->createView()));
     }
 
     protected function createPaginatorForQuery($query)
     {
-        $games = new Paginator(new DoctrineMongoDBAdapter($query));
-        $games->setCurrentPageNumber($this->get('request')->query->get('page', 1));
-        $games->setItemCountPerPage(10);
-        $games->setPageRange(10);
+        $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $games->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(10);
 
         return $games;
     }
 
     protected function flush($safe = true)
     {
-        return $this->get('lichess.object_manager')->flush(array('safe' => $safe));
+        return $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => $safe));
     }
 }

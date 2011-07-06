@@ -1,11 +1,11 @@
 {% extends "LichessBundle:Game:layoutGame.html.twig" %}
-{% block title %}Lichess - {% trans "Play with a friend" %} - {{ color }}{% endblock %}
+{% block title %}{{ "Play with a friend"|trans }} - {{ color }}{% endblock %}
 {% block content %}
 <div class="lichess_game_not_started waiting_opponent clearfix lichess_player_{{ color }}">
     <div class="lichess_board_wrap">
         {% include "LichessBundle:Main:staticBoard_" ~ color ~ ".html.twig" %}
         <div class="lichess_overboard wait_anybody">
-            <h2>{% trans "Join the game" %}</h2>
+            <h2>{{ "Join the game"|trans }}</h2>
             <a class="join_redirect_url" href="{{ path("lichess_join_game", {"id": game.id} ) }}">
                 <img src="{{ asset('bundles/lichess/images/hloader.gif') }}" />
             </a>

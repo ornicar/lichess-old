@@ -56,13 +56,16 @@
             <parameter key="bg">български език</parameter>
             <parameter key="th">ไทย</parameter>
             <parameter key="fa">فارسی</parameter>
+            <parameter key="he">עִבְרִית</parameter>
+            <parameter key="mr">मराठी</parameter>
+            <parameter key="mn">монго</parameter>
         </parameter>
 
     </parameters>
 
     <services>
 
-        <service id="lichess_translation.manager" class="Lichess\TranslationBundle\Manager">
+        <service id="lichess_translation.manager" class="Lichess\TranslationBundle\TranslationManager">
             <argument>%lichess_translation.manager.reference_language%</argument>
             <argument>%lichess.locales%</argument>
             <argument>%lichess_translation.translation_dir%</argument>
@@ -83,16 +86,12 @@
             <argument type="service" id="lichess_repository.translation" />
         </service>
 
-        <service id="lichess_repository.translation" class="Lichess\TranslationBundle\Document\TranslationRepository" factory-service="lichess.object_manager" factory-method="getRepository">
+        <service id="lichess_repository.translation" class="Lichess\TranslationBundle\Document\TranslationRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
             <argument type="string">Lichess\TranslationBundle\Document\Translation</argument>
         </service>
 
-        <service id="lichess.form.translation" class="Lichess\TranslationBundle\Form\TranslationForm" factory-class="Lichess\TranslationBundle\Form\TranslationForm" factory-method="create">
-            <argument type="service" id="form.context" />
-            <argument>lichess_translation_form</argument>
-            <argument type="collection">
-                <argument key="translation_manager" type="service" id="lichess_translation.manager" />
-            </argument>
+        <service id="lichess_translation.form_type.translation" class="Lichess\TranslationBundle\Form\TranslationFormType">
+            <argument type="service" id="lichess_translation.manager" />
         </service>
     </services>
 </container>
