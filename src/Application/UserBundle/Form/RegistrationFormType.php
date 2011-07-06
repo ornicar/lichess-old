@@ -13,4 +13,9 @@ class RegistrationFormType extends AbstractType
             ->add('username')
             ->add('plainPassword', 'password');
     }
+
+    public function getName()
+    {
+        return 'registration';
+    }
 }

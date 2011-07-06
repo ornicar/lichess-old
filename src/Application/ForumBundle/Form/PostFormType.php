@@ -48,4 +48,9 @@ class PostFormType extends AbstractType
 			'data_class' => 'Application\ForumBundle\Document\Post',
 		);
 	}
+
+    public function getName()
+    {
+        return 'forum_post';
+    }
 }
