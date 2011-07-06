@@ -1,0 +1,6 @@
+lichess_hook_poll:
+    pattern: /poll
+    defaults: { _controller: LichessHookBundle:Hook:poll }
+lichess_hook_new:
+    pattern: /new
+    defaults: { _controller: LichessHookBundle:Hook:new }

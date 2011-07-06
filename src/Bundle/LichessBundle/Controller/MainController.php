@@ -8,11 +8,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MainController extends Controller
 {
-    public function indexAction()
-    {
-        return $this->render('LichessBundle:Main:index.html.twig');
-    }
-
     public function todolistAction()
     {
         $text = file_get_contents($this->container->getParameter('kernel.root_dir').'/../TODO');

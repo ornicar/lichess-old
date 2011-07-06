@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="lichess.form.manager" class="Lichess\OpeningBundle\Form\GameConfigFormManager">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="lichess.config.persistence" />
+            <argument type="service" id="form.factory" />
+        </service>
+
+        <service id="lichess.config.persistence" class="Lichess\OpeningBundle\Config\Persistence">
+            <argument type="service" id="session" />
+            <argument type="service" id="security.context" />
+        </service>
+
+        <service id="lichess.form_type.integer_choice" class="Lichess\OpeningBundle\Form\IntegerChoiceType">
+            <tag name="form.type" alias="integer_choice" />
+        </service>
+    </services>
+
+</container>

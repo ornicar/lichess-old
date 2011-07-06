@@ -1,0 +1,99 @@
+div.hooks_wrap {
+    position: absolute;
+    width: 512px;
+    height: 512px;
+    top: 0px;
+    left: 0px;
+    display:none;
+    background: rgba(245,245,245,0.8);
+}
+div.new_hook {
+    display: none;
+}
+
+div.actions {
+    margin-top: 1em;
+    text-align: center;
+}
+
+/* buttons */
+a.abutton {
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 20px 0 0;
+    line-height: 30px;
+    height: 33px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    font-weight: normal;
+}
+a.abutton span {
+    display: block;
+    padding: 0 0 1px 20px;
+    height: 32px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+}
+a.abutton:active span,
+a.abutton:focus span {
+    padding-top: 1px;
+    padding-bottom: 0px;
+}
+
+/* blue button */
+a.abutton.blue {
+    background: url("/bundles/lichess/images/buttons.png") right 0px no-repeat;
+}
+a.abutton.blue span {
+    color: #ffffff;
+    text-shadow: 0px -1px 0px #2f79a3;
+    background: url("/bundles/lichess/images/buttons.png") left 0px no-repeat;
+}
+
+/* hover */
+a.abutton.blue:hover {
+    background: url("/bundles/lichess/images/buttons.png") right -34px no-repeat;
+}
+a.abutton.blue:hover span {
+    background: url("/bundles/lichess/images/buttons.png") left -34px no-repeat;
+}
+
+/* active */
+a.abutton.blue:active,
+a.abutton.blue:focus {
+    background: url("/bundles/lichess/images/buttons.png") right -68px no-repeat;
+}
+a.abutton.blue:active span,
+a.abutton.blue:focus span {
+    background: url("/bundles/lichess/images/buttons.png") left -68px no-repeat;
+}
+
+/* white button */
+a.abutton.white {
+    background: url("/bundles/lichess/images/buttons.png") right -103px no-repeat;
+}
+a.abutton.white span {
+    color: #5e5e5e;
+    text-shadow: 0px -1px 0px #ffffff;
+    background: url("/bundles/lichess/images/buttons.png") left -103px no-repeat;
+}
+
+/* hover */
+a.abutton.white:hover {
+    background: url("/bundles/lichess/images/buttons.png") right -137px no-repeat;
+}
+a.abutton.white:hover span {
+    background: url("/bundles/lichess/images/buttons.png") left -137px no-repeat;
+}
+
+/* active */
+a.abutton.white:active,
+a.abutton.white:focus {
+    background: url("/bundles/lichess/images/buttons.png") right -171px no-repeat;
+}
+a.abutton.white:active span,
+a.abutton.white:focus span {
+    background: url("/bundles/lichess/images/buttons.png") left -171px no-repeat;
+}

@@ -1,0 +1,39 @@
+<h2>{{ "Create a game"|trans }}</h2>
+<div class="game_config_form">
+    <form action="{{ path("lichess_hook_new") }}" method="post" novalidate>
+        <div class="variant buttons">
+            {% for choice, child in form.variant %}
+                {{ form_widget(child) }}
+                {{ form_label(child) }}
+            {% endfor %}
+        </div>
+        {{ "Minutes per side"|trans }}
+        <div class="time buttons">
+            {% for choice, child in form.time %}
+                {{ form_widget(child) }}
+                {{ form_label(child) }}
+            {% endfor %}
+        </div>
+        {{ "Increment in seconds"|trans }}
+        <div class="increment buttons">
+            {% for choice, child in form.increment %}
+                {{ form_widget(child) }}
+                {{ form_label(child) }}
+            {% endfor %}
+        </div>
+        {% if form.mode is defined %}
+            {{ "Mode"|trans }}
+            <div class="mode buttons">
+                {% for choice, child in form.mode %}
+                    {{ form_widget(child) }}
+                    {{ form_label(child) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="color_submits clearfix">
+            <button type="submit" class="submit white" name="{{ form.vars.full_name }}[color]" value="white" title="{{ "White"|trans }}"></button>
+            <button type="submit" class="submit black" name="{{ form.vars.full_name }}[color]" value="black" title="{{ "Black"|trans }}"></button>
+            <button type="submit" class="submit random" name="{{ form.vars.full_name }}[color]" value="random" title="{{ "Random"|trans }}"></button>
+        </div>
+    </form>
+</div>

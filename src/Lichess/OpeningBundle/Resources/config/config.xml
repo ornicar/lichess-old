@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="lichess_hook.hook_repository" class="Lichess\HookBundle\Document\HookRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
+            <argument type="string">Lichess\HookBundle\Document\Hook</argument>
+        </service>
+        <service id="lichess.config.persistence" class="Lichess\OpeningBundle\Config\Persistence" public="false">
+            <argument type="service" id="session" />
+            <argument type="service" id="security.context" />
+        </service>
+
+    </services>
+
+</container>

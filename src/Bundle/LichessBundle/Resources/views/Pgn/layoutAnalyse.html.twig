@@ -1,20 +1,23 @@
 {% extends "LichessBundle::layoutCommon.html.twig" %}
+
+{% block menu_active %}game{% endblock %}
+
 {% block stylesheets %}
 {{ parent() }}
 <link href="{{ asset("vendor/pgn4web/fonts/pgn4web-fonts.css") }}" type="text/css" rel="stylesheet" />
 {% stylesheets
     '@LichessBundle/Resources/public/css/analyse.css'
-    filter="yui_css" %}
+    filter="?yui_css" %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}
+
 {% block javascripts %}
 {{ parent() }}
 <script src="{{ asset("vendor/pgn4web/pgn4web.js") }}"></script>
 {% javascripts
     '@LichessBundle/Resources/public/js/analyse.js'
-    filter="yui_js" %}
+    filter="?yui_js" %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
-{% block menu_active %}game{% endblock %}

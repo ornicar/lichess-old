@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="lichess.starter.ai" class="Lichess\OpeningBundle\Starter\AiStarter">
+            <argument type="service" id="lichess.generator" />
+            <argument type="service" id="lichess.blamer.player" />
+            <argument type="service" id="lichess.ai.chain" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <argument type="service" id="lichess.logger" />
+            <argument type="service" id="lichess.manipulator_factory" />
+            <argument type="service" id="lichess.config.persistence" />
+        </service>
+        <service id="lichess.starter.friend" class="Lichess\OpeningBundle\Starter\FriendStarter">
+            <argument type="service" id="lichess.generator" />
+            <argument type="service" id="lichess.blamer.player" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <argument type="service" id="lichess.logger" />
+            <argument type="service" id="lichess.config.persistence" />
+        </service>
+        <service id="lichess.starter.anybody" class="Lichess\OpeningBundle\Starter\AnybodyStarter">
+            <argument type="service" id="lichess.generator" />
+            <argument type="service" id="lichess.blamer.player" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <argument type="service" id="lichess.logger" />
+            <argument type="service" id="lichess.seek_queue" />
+            <argument type="service" id="lichess.memory" />
+            <argument type="service" id="lichess.config.persistence" />
+            <argument type="service" id="session" />
+            <argument>%lichess.starter.anybody.check_creator_is_active%</argument>
+        </service>
+        <service id="lichess.starter.api" class="Lichess\OpeningBundle\Starter\ApiStarter">
+            <argument type="service" id="lichess.generator" />
+            <argument type="service" id="lichess.blamer.player" />
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <argument type="service" id="lichess.memory" />
+            <argument type="service" id="lichess.logger" />
+        </service>
+        <service id="lichess.joiner" class="Lichess\OpeningBundle\Starter\Joiner">
+            <argument type="service" id="lichess.blamer.player" />
+            <argument type="service" id="router" />
+            <argument type="service" id="lichess.logger" />
+        </service>
+    </services>
+</container>

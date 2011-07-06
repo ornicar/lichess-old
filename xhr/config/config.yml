@@ -33,9 +33,5 @@ lichess:
         cheat: false
         listener: false
         elo: false
-        starter: false
-        form: false
-        game_config: false
-        seek: false
         chess: false
         config: false
