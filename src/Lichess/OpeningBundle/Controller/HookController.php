@@ -1,16 +1,16 @@
 <?php
 
-namespace Lichess\HookBundle\Controller;
+namespace Lichess\OpeningBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Lichess\HookBundle\Form\HookFormType;
-use Lichess\HookBundle\Document\Hook;
+use Lichess\OpeningBundle\Form\HookFormType;
+use Lichess\OpeningBundle\Document\Hook;
 
 class HookController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('LichessHookBundle::index.html.twig');
+        return $this->render('LichessOpeningBundle::index.html.twig');
     }
 
     public function newAction()
@@ -23,13 +23,13 @@ class HookController extends Controller
             }
         }
 
-        return $this->render('LichessHookBundle::new.html.twig', array('form' => $form->createView()));
+        return $this->render('LichessOpeningBundle:Config:hook.html.twig', array('form' => $form->createView(), 'config' => $form->getData()));
     }
 
     public function pollAction()
     {
         $hooks = $this->get('lichess_hook.hook_repository')->findAll();
 
-        return $this->render('LichessHookBundle::hooks.html.twig', array('hooks' => $hooks));
+        return $this->render('LichessOpeningBundle::hooks.html.twig', array('hooks' => $hooks));
     }
 }

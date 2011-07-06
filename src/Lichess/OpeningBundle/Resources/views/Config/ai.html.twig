@@ -1,4 +1,4 @@
-{% extends "LichessBundle:Game:invite.html.twig" %}
+{% extends "LichessOpeningBundle:Config:invite.html.twig" %}
 {% block invite_type %}ai{% endblock %}
 {% block invite_title %}{{ "Play with the machine"|trans }}{% endblock %}
 {% block invite_form_fields %}
@@ -8,11 +8,8 @@
         {{ form_label(child) }}
     {% endfor %}
 </div>
-<a class="show_advanced">{{ "Show advanced options"|trans }}</a>
-<div class="advanced">
-    {{ "Level"|trans }}
-    <div class="level buttons">
-        {{ form_widget(form.level) }}
-    </div>
+{{ "Level"|trans }}
+<div class="level buttons">
+    {{ form_widget(form.level) }}
 </div>
 {% endblock %}

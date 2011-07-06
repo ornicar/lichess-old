@@ -75,30 +75,19 @@ $(function() {
         config.delay);
     })(pingConfig);
 
-    if ($config = $('div.game_config_form').orNot()) {
-        $('div.lichess_overboard').show();
-        $config.find('div.buttons').buttonset().disableSelection();
-        $config.find('button.submit').button().disableSelection();
-        $config.find('a.show_advanced').one('click', function() {
-            $(this).hide();
-            $config.find('div.advanced, p.explanations').show();
-            centerOverboard();
-        });
-    }
-
-    if ($overboard = $('div.lichess_overboard').orNot()) {
-        var centerOverboard = function() {
-            $overboard.css('top', (238 - $overboard.height() / 2) + 'px').show();
-        };
-        centerOverboard();
-    }
-
     $('input.lichess_id_input').select();
 
     // Append marks 1-8 && a-h
     if ($bw = $('div.lichess_board_wrap').orNot()) {
         $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
     }
+
+    $.centerOverboard = function() {
+        if ($overboard = $('div.lichess_overboard').orNot()) {
+            $overboard.css('top', (238 - $overboard.height() / 2) + 'px').show();
+        }
+    };
+    $.centerOverboard();
 
     function loadLanguageList() {
         $div = $('div.lichess_language');
@@ -121,11 +110,14 @@ $(function() {
         $(this).replaceWith($('<a/>').text(email).attr('href', 'mailto:'+email));
     });
 
-    $('a:not(div.game_list_inner a):not(.notipsy):not(#boardTable a), input, label, div.tipsyme').filter('[title]').tipsy({
-        fade: true,
-        html: false,
-        live: true
-    });
+    $.tipsyfy = function($elem) {
+        $elem.find('a:not(div.game_list_inner a):not(.notipsy):not(#boardTable a), input, label, div.tipsyme, button').filter('[title]').tipsy({
+            fade: true,
+            html: false,
+            live: true
+        });
+    };
+    $.tipsyfy($('body'));
 
     if ($autocomplete = $('input.autocomplete').orNot()) {
         $autocomplete.autocomplete({

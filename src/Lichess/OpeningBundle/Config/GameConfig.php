@@ -1,60 +1,187 @@
 <?php
 
 namespace Lichess\OpeningBundle\Config;
-use Bundle\LichessBundle\Document\Game;
 
-abstract class GameConfig
+use Symfony\Component\Validator\Constraints as Assert;
+
+class GameConfig
 {
-    protected static $timeChoices      = array(2, 5, 10, 20, 0);
-    protected static $incrementChoices = array(0, 2, 5, 10, 20);
-    protected static $modeChoices      = array(0 => 'Casual', 1 => 'Rated');
-    protected static $colorChoices     = array('white', 'black', 'random');
+    /**
+     * Whether or not to use a clock
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type("boolean")
+     * @var boolean
+     */
+    protected $clock = false;
 
-    abstract public function toArray();
+    /**
+     * Clock time in minutes
+     *
+     * @Assert\NotBlank()
+     * @Assert\Min(0)
+     * @Assert\Max(30)
+     * @var int
+     */
+    protected $time = 5;
 
-    abstract public function fromArray(array $data);
+    /**
+     * Clock increment in seconds
+     *
+     * @Assert\NotBlank()
+     * @Assert\Min(0)
+     * @Assert\Max(30)
+     * @var int
+     */
+    protected $increment = 8;
 
-    public static function getModeChoices()
+    /**
+     * Game variant code
+     *
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^(1|2)$/")
+     * @var string
+     */
+    protected $variant = 1;
+
+    /**
+     * casual or rated
+     *
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^(0|1)$/")
+     * @var string
+     */
+    protected $mode = 0;
+
+    /**
+     * Creator player color
+     *
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^(white|black|random)$/")
+     * @var string
+     */
+    protected $color = 'random';
+
+    public function resolveColor()
     {
-        return self::$modeChoices;
-    }
-
-    public static function getVariantChoices()
-    {
-        $choices = array();
-        foreach(Game::getVariantNames() as $code => $name) {
-            $choices[$code] = ucfirst($name);
+        if ('random' == $this->color) {
+            return mt_rand(0, 1) ? 'white' : 'black';
         }
 
-        return $choices;
+        return $this->color;
     }
 
-    public static function getTimeChoices()
+    public function toArray()
     {
-        $choices = array();
-        foreach(self::$timeChoices as $time) {
-            $choices[$time] = self::renameTime($time);
-        }
-
-        return $choices;
+        return array('clock' => $this->clock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode);
     }
 
-    public static function getIncrementChoices()
+    public function fromArray(array $data)
     {
-        return array_combine(self::$incrementChoices, self::$incrementChoices);
+        if(isset($data['clock'])) $this->clock = (boolean) $data['clock'];
+        if(isset($data['time'])) $this->time = $data['time'];
+        if(isset($data['increment'])) $this->increment = $data['increment'];
+        if(isset($data['variant'])) $this->variant = $data['variant'];
+        if(isset($data['mode'])) $this->mode = $data['mode'];
     }
 
-    public static function getColorChoices()
+    public function createView()
     {
-        return array_combine(self::$colorChoices, self::$colorChoices);
+        return new GameConfigView($this);
     }
 
-    protected static function renameTime($time)
+    /**
+     * @return int
+     */
+    public function getTime()
     {
-        if($time) {
-            return $time;
-        }
+        return $this->time;
+    }
 
-        return 'Unlimited';
+    /**
+     * @param  int
+     * @return null
+     */
+    public function setTime($time)
+    {
+        $this->time = (int) $time;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIncrement()
+    {
+        return $this->increment;
+    }
+
+    /**
+     * @param  int
+     * @return null
+     */
+    public function setIncrement($increment)
+    {
+        $this->increment = (int) $increment;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVariant()
+    {
+        return $this->variant;
+    }
+
+    /**
+     * @param  int
+     * @return null
+     */
+    public function setVariant($variant)
+    {
+        $this->variant = (int) $variant;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    /**
+     * @param  int
+     * @return null
+     */
+    public function setMode($mode)
+    {
+        $this->mode = (int) $mode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+    }
+
+    public function getClock()
+    {
+        return $this->clock;
+    }
+
+    public function setClock($clock)
+    {
+        $this->clock = (boolean) $clock;
     }
 }

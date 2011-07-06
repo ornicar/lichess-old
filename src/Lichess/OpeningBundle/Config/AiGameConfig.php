@@ -2,28 +2,19 @@
 
 namespace Lichess\OpeningBundle\Config;
 
-use Bundle\LichessBundle\Document\Game;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class AiGameConfig extends FriendGameConfig
+class AiGameConfig extends GameConfig
 {
     /**
      * AI level
      *
+     * @Assert\NotBlank()
+     * @Assert\Min(1)
+     * @Assert\Max(8)
      * @var int
      */
     protected $level = 1;
-
-    protected static $levelChoices = array(1, 2, 3, 4, 5, 6, 7, 8);
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        parent::loadValidatorMetadata($metadata);
-
-        $metadata->addPropertyConstraint('level', new Constraints\Choice(array('choices' => array_keys(self::getLevelChoices()))));
-        $metadata->addPropertyConstraint('level', new Constraints\NotBlank());
-    }
 
     /**
      * @return int
@@ -40,11 +31,6 @@ class AiGameConfig extends FriendGameConfig
     public function setLevel($level)
     {
         $this->level = (int) $level;
-    }
-
-    public static function getLevelChoices()
-    {
-        return array_combine(self::$levelChoices, self::$levelChoices);
     }
 
     public function toArray()

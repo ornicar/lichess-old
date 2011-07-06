@@ -53,8 +53,8 @@ start: function() {
     },
 
     _formatDate: function(date) {
-        minutes = this.prefixInteger(date.getMinutes(), 2);
-        seconds = this.prefixInteger(date.getSeconds());
+        minutes = this._prefixInteger(date.getMinutes(), 2);
+        seconds = this._prefixInteger(date.getSeconds(), 2);
         return minutes + ':' + seconds;
     },
 

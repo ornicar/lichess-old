@@ -7,24 +7,20 @@
     <div class="lichess_board_wrap">
         {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
         <div class="hooks_wrap">
-            <div class="actions">
-                <a class="abutton white" href="{{ path('lichess_invite_friend') }}" title="{{ "Invite a friend to play with you"|trans }}"><span>{{ "Play with a friend"|trans }}</span></a>
-                <a class="abutton white" href="{{ path('lichess_invite_ai') }}" title="{{ "Challenge the artificial intelligence"|trans }}"><span>{{ "Play with the machine"|trans }}</span></a>
-                <a class="new_hook abutton blue" href="{{ path('lichess_hook_new') }}"><span>{{ "Create a game"|trans }}</span></a>
-            </div>
             <div class="hooks" data-url="{{ path('lichess_hook_poll') }}">
                 Loading...
             </div>
-            <div class="lichess_overboard game_config new_hook"></div>
         </div>
     </div>
+    {% include "LichessOpeningBundle::startButtons.html.twig" %}
 </div>
 {% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
 {% stylesheets
-    '@LichessHookBundle/Resources/public/css/hook.css'
+    '@LichessOpeningBundle/Resources/public/css/opening.css'
+    '@LichessOpeningBundle/Resources/public/css/hook.css'
     filter="?yui_css" %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
@@ -33,7 +29,8 @@
 {% block javascripts %}
 {{ parent() }}
 {% javascripts
-    '@LichessHookBundle/Resources/public/js/hook.js'
+    '@LichessOpeningBundle/Resources/public/js/opening.js'
+    '@LichessOpeningBundle/Resources/public/js/hook.js'
     filter="?yui_js" %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}

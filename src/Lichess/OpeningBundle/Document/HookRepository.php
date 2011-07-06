@@ -1,6 +1,6 @@
 <?php
 
-namespace Lichess\HookBundle\Document;
+namespace Lichess\OpeningBundle\Document;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
 

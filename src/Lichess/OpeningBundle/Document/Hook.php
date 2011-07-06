@@ -1,6 +1,6 @@
 <?php
 
-namespace Lichess\HookBundle\Document;
+namespace Lichess\OpeningBundle\Document;
 
 use Application\UserBundle\Document\User;
 use Bundle\LichessBundle\Document\Game;
@@ -14,7 +14,7 @@ use Bundle\LichessBundle\Util\KeyGenerator;
  *
  * @MongoDB\Document(
  *   collection="hook",
- *   repositoryClass="Lichess\HookBundle\Document\HookRepository"
+ *   repositoryClass="Lichess\OpeningBundle\Document\HookRepository"
  * )
  */
 class Hook

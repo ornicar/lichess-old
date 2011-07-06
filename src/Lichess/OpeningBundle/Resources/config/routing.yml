@@ -1,6 +1,18 @@
+lichess_homepage:
+    pattern:  /
+    defaults: { _controller: LichessOpeningBundle:Hook:index }
+
 lichess_hook_poll:
-    pattern: /poll
-    defaults: { _controller: LichessHookBundle:Hook:poll }
+    pattern: /hook/poll
+    defaults: { _controller: LichessOpeningBundle:Hook:poll }
 lichess_hook_new:
-    pattern: /new
-    defaults: { _controller: LichessHookBundle:Hook:new }
+    pattern: /hook/new
+    defaults: { _controller: LichessOpeningBundle:Hook:new }
+
+lichess_config_friend:
+    pattern:        /friend
+    defaults:       { _controller: LichessOpeningBundle:Config:friend }
+
+lichess_config_ai:
+    pattern:        /ai
+    defaults:       { _controller: LichessOpeningBundle:Config:ai }

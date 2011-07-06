@@ -126,58 +126,6 @@ class GameController extends Controller
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }
 
-    public function inviteFriendAction()
-    {
-        $form = $this->get('lichess.form.manager')->createFriendForm();
-
-        if ($this->get('request')->getMethod() === 'POST') {
-            $form->bindRequest($this->get('request'));
-            if($form->isValid()) {
-                $player = $this->get('lichess.starter.friend')->start($form->getData());
-                $this->flush();
-                return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
-            }
-        }
-
-        return $this->render('LichessBundle:Game:inviteFriend.html.twig', array('form' => $form->createView()));
-    }
-
-    public function inviteAiAction()
-    {
-        $form = $this->get('lichess.form.manager')->createAiForm();
-
-        if ($this->get('request')->getMethod() === 'POST') {
-            $form->bindRequest($this->get('request'));
-            if($form->isValid()) {
-                $player = $this->get('lichess.starter.ai')->start($form->getData());
-                $this->flush();
-                return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
-            }
-        }
-
-        return $this->render('LichessBundle:Game:inviteAi.html.twig', array('form' => $form->createView()));
-    }
-
-    public function inviteAnybodyAction()
-    {
-        $form = $this->get('lichess.form.manager')->createAnybodyForm();
-
-        if ($this->get('request')->getMethod() === 'POST') {
-            $form->bindRequest($this->get('request'));
-            if($form->isValid()) {
-                $return = $this->get('lichess.starter.anybody')->start($form->getData());
-                $this->flush();
-                if ($return instanceof Game) {
-                    return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $return->getId())));
-                } elseif ($return instanceof Player) {
-                    return new RedirectResponse($this->generateUrl('lichess_wait_anybody', array('id' => $return->getFullId())));
-                }
-            }
-        }
-
-        return $this->render('LichessBundle:Game:inviteAnybody.html.twig', array('form' => $form->createView()));
-    }
-
     protected function createPaginatorForQuery($query)
     {
         $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));

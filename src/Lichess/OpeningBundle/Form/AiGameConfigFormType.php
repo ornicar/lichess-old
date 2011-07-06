@@ -6,16 +6,17 @@ use Symfony\Component\Form\FormBuilder;
 
 class AiGameConfigFormType extends GameConfigFormType
 {
+    public function __construct()
+    {
+        parent::__construct(false, false);
+    }
+
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('color', 'text');
+        parent::buildForm($builder, $options);
+
         $builder->add('level', 'choice', array(
-            'choices' => $this->config->getLevelChoices(),
-            'multiple' => false,
-            'expanded' => true
-        ));
-        $builder->add('variant', 'choice', array(
-            'choices' => $this->config->getVariantChoices(),
+            'choices' => array(1, 2, 3, 4, 5, 6, 7, 8),
             'multiple' => false,
             'expanded' => true
         ));

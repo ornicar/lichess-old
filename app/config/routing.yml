@@ -12,8 +12,7 @@ user_stats:
 lichess:
     resource: @LichessBundle/Resources/config/routing.yml
 lichess_hook:
-    resource: @LichessHookBundle/Resources/config/routing.yml
-    prefix: /_
+    resource: @LichessOpeningBundle/Resources/config/routing.yml
 lichess:
     resource: @LichessBundle/Resources/config/routing.yml
 lichess_sync:
