@@ -75,6 +75,9 @@ class ProfileController extends BaseProfileController
 
             return $response;
         }
+        if (!$user->isEnabled()) {
+            return $this->container->get('templating')->renderResponse('LichessUserBundle:User:disabled.html.twig', array('user' => $user));
+        }
         $authenticatedUser = $this->getAuthenticatedUser();
         $withMe = $withMe && $authenticatedUser;
 

@@ -2,6 +2,9 @@
     margin-bottom: 0;
     float: left;
 }
+#lichess_user div.user_show h1.lichess_title.title_block {
+    float: none;
+}
 div.user_show div.content_box_top .status {
     display: block;
     width: 16px;

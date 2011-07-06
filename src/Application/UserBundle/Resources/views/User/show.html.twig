@@ -4,7 +4,7 @@
 <div class="content_box no_padding user_show">
     <div class="content_box_top">
         {% block user_message %}
-            {% if user.IsEnabled and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="send_message">{{ "Compose message"|trans }}</a>
             {% endif %}
             {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}<a href="?_impersonate={{ user.username }}">Impersonate</a>{% endif %}
@@ -21,7 +21,7 @@
             {% if user.bio %}<span class="user_bio">{{ lichess_shorten(user.bio, 400) }}</span>{% endif %}
         {% endblock %}
         {% block user_elo_with_me %}
-            {% if user.IsEnabled and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <div class="elo_with_me">
                 Elo if you...<br />
                 {% for end, elo in {'win':critic.eloIfWin,'draw':critic.eloIfDraw,'lose':critic.eloIfLose} %}
@@ -31,9 +31,6 @@
             {% endif %}
         {% endblock %}
         <div class="stats">
-            {% if not user.isEnabled %}
-                <br /><span>This account is closed.</span>
-            {% endif %}
             {% block actions %}{% endblock %}
             {% if winChart.hasData %}
                 <div class="win_stats" title="{{ "Games played"|trans }}: {{ critic.nbGames|default("0") }}" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
