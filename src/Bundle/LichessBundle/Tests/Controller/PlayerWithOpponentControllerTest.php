@@ -10,7 +10,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
     protected function createGameWithFriend($color = 'white', array $formConfig = array())
     {
         $p1 = self::createClient();
-        $crawler = $p1->request('GET', '/friend');
+        $crawler = $p1->request('GET', '/start/friend');
         $url = $crawler->filter('div.game_config_form form')->attr('action');
         $p1->request('POST', $url, array('config' => array_merge(array(
             'color' => $color,

@@ -11,7 +11,6 @@ class MainControllerTest extends WebTestCase
         $client = self::createClient();
         $crawler = $client->request('GET', '/');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('div.lichess_game_not_started.lichess_player_white')->count());
     }
 
     public function testAbout()

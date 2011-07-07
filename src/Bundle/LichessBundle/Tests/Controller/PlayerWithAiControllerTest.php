@@ -10,7 +10,7 @@ class PlayerWithAiControllerTest extends WebTestCase
     public function testStartWithAi($color = 'white')
     {
         $client = self::createClient();
-        $crawler = $client->request('GET', '/ai');
+        $crawler = $client->request('GET', '/start/ai');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $url = $crawler->filter('div.game_config_form form')->attr('action');
         $client->request('POST', $url, array('config' => array(

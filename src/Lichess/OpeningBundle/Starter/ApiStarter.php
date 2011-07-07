@@ -4,12 +4,12 @@ namespace Lichess\OpeningBundle\Starter;
 
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
 use Bundle\LichessBundle\Logger;
-use Bundle\LichessBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Document\Clock;
 use Bundle\LichessBundle\Sync\Memory;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Lichess\OpeningBundle\Config\GameConfig;
 
 class ApiStarter implements StarterInterface
 {
