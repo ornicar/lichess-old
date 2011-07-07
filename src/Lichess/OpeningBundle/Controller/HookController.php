@@ -15,7 +15,9 @@ class HookController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('LichessOpeningBundle::index.html.twig');
+        return $this->render('LichessOpeningBundle::index.html.twig', array(
+            'auth' => $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0'
+        ));
     }
 
     public function newAction()
@@ -60,7 +62,12 @@ class HookController extends Controller
         $config = new GameConfigView($hook->toArray());
         $hooks = $this->get('lichess_opening.hook_repository')->findAllOpen();
 
-        return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array('hook' => $hook, 'config' => $config, 'hooks' => $hooks));
+        return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array(
+            'auth' => $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0',
+            'hook' => $hook,
+            'config' => $config,
+            'hooks' => $hooks
+        ));
     }
 
     public function cancelAction($id)
@@ -109,7 +116,7 @@ class HookController extends Controller
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }
 
-    public function pollAction($id)
+    public function pollAction($auth, $id)
     {
         if ($id) {
             $myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
@@ -126,7 +133,11 @@ class HookController extends Controller
         } else {
             $myHook = null;
         }
-        $hooks = $this->get('lichess_opening.hook_repository')->findAllOpen();
+        if ($auth == 1) {
+            $hooks = $this->get('lichess_opening.hook_repository')->findAllOpen();
+        } else {
+            $hooks = $this->get('lichess_opening.hook_repository')->findAllOpenCasual();
+        }
 
         return $this->render('LichessOpeningBundle:Hook:list.html.twig', array('hooks' => $hooks, 'myHook' => $myHook));
     }

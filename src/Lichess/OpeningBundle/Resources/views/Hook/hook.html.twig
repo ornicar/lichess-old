@@ -5,7 +5,7 @@
     <div class="lichess_board_wrap">
         {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
         <div class="hooks_wrap">
-            <div class="hooks" data-url="{{ path('lichess_hook_poll', {'id': hook.ownerId}) }}">
+            <div class="hooks" data-url="{{ path('lichess_hook_poll', {'auth': auth, 'id': hook.ownerId}) }}">
                 {% include "LichessOpeningBundle:Hook:list.html.twig" with {"hooks": hooks, "myHook": hook} %}
             </div>
         </div>

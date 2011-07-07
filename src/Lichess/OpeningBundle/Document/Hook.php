@@ -48,10 +48,10 @@ class Hook
     /**
      * Whether or not a clock is used
      *
-     * @MongoDB\Field(type="boolean")
      * @var boolean
+     * @MongoDB\Field(type="boolean")
      */
-    protected $hasClock;
+    protected $hasClock = false;
 
     /**
      * Maximum time of the clock per player, in minutes
@@ -74,6 +74,7 @@ class Hook
      *
      * @var int
      * @MongoDB\Field(type="int")
+     * @MongoDB\Index()
      */
     protected $mode = null;
 
@@ -99,7 +100,7 @@ class Hook
      * @var string
      * @MongoDB\Field(type="string")
      */
-    protected $username;
+    protected $username = 'Anonymous';
 
     /**
      * Denormalization of the user elo
@@ -131,7 +132,7 @@ class Hook
      *
      * @var boolean
      * @MongoDB\Field(type="boolean")
-     * @MongoDB\Index(order="desc")
+     * @MongoDB\Index()
      */
     protected $match = false;
 
@@ -312,20 +313,6 @@ class Hook
     public function getElo()
     {
         return $this->elo;
-    }
-
-    /**
-     * Get the username and ELO of the player, or "Anonymous" if the player is not authenticated
-     *
-     * @return string
-     **/
-    public function getUsernameWithElo($default = 'Anonymous')
-    {
-        if(!$this->username) {
-            return $default;
-        }
-
-        return sprintf('%s (%d)', $this->username, $this->elo);
     }
 
     /**

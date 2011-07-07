@@ -32,6 +32,16 @@ class HookRepository extends DocumentRepository
             ->execute();
     }
 
+    public function findAllOpenCasual()
+    {
+        return $this->createQueryBuilder()
+            ->field('match')->equals(false)
+            ->field('mode')->equals(0)
+            ->sort('createdAt', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
     public function removeOldHooks()
     {
         $old = new \DateTime('-1 hour');

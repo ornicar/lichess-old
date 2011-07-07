@@ -14,10 +14,10 @@ div.hooks_wrap.hidden {
     display: none;
 }
 div.hooks {
-    border: 1px solid #d4d4d4;
+    border: 1px solid #cacaca;
     max-height: 424px;
     width: 424px;
-    background: #f7f7f7;
+    background: #f0f0f0;
     overflow: auto;
 }
 .hooks table {
@@ -31,7 +31,7 @@ div.hooks {
     color: #999;
 }
 .hooks th, td {
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: 1px solid #cacaca;
     padding: 12px 8px 12px 12px;
     margin: 0;
     white-space:nowrap;
@@ -45,15 +45,16 @@ div.hooks {
 .hooks tr.empty td {
     padding: 30px 0;
 }
-.hooks tr.even {
-    background: #fff;
+.hooks tbody tr {
+    background: #fafafa;
+    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
 }
 .hooks tr.joinable {
     cursor: pointer;
 }
 .hooks td.action {
     padding: 0 8px 0 0;
-    opacity: 0.5;
 }
 .hooks a.cancel {
     height: 32px;
@@ -65,16 +66,13 @@ div.hooks {
     height: 32px;
     width: 32px;
     display: block;
-    background: url(/bundles/lichess/images/play24.png) -0px no-repeat;
+    background: url(/bundles/lichess/images/play32.png) -0px no-repeat;
 }
 .hooks tr.joinable:hover {
     color: #fff;
     background: #d85000;
     background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
-}
-.hooks tr:hover td.action {
-    opacity: 1;
 }
 .hooks tr.my_hook {
     color: #405090;

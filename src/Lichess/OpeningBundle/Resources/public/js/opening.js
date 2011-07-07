@@ -28,6 +28,7 @@ $(function() {
         }).trigger('change');
         $form.prepend($('<a class="close"></a>').click(function() {
             $form.remove();
+            $('#start_buttons a.active').removeClass('active');
         }));
     }
 

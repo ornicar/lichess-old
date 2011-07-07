@@ -23,10 +23,10 @@ $(function() {
                 dataType: 'html',
                 type: "GET",
                 cache: false,
-                timeout: 5000
+                timeout: 9000
             });
         },
-        500);
+        900);
     })();
 
     $wrap.delegate('tr.joinable', 'click', function() {

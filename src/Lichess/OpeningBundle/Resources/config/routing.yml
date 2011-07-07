@@ -3,8 +3,8 @@ lichess_homepage:
     defaults: { _controller: LichessOpeningBundle:Hook:index }
 
 lichess_hook_poll:
-    pattern: /new/poll/{id}
-    defaults: { _controller: LichessOpeningBundle:Hook:poll, id: '' }
+    pattern: /new/poll/{auth}/{id}
+    defaults: { _controller: LichessOpeningBundle:Hook:poll, auth: '0', id: '' }
 
 lichess_hook:
     pattern: /new/{id}

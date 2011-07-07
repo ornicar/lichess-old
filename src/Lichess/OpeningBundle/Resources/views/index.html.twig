@@ -5,7 +5,7 @@
     <div class="lichess_board_wrap">
         {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
         <div class="hooks_wrap hidden">
-            <div class="hooks" data-url="{{ path('lichess_hook_poll') }}"></div>
+            <div class="hooks" data-url="{{ path('lichess_hook_poll', {'auth': auth}) }}"></div>
         </div>
     </div>
     {% include "LichessOpeningBundle::startButtons.html.twig" %}
