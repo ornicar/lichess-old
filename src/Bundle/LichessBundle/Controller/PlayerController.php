@@ -149,6 +149,15 @@ class PlayerController extends Controller
         ));
     }
 
+    public function cancelFriendAction($id)
+    {
+        $player = $this->get('lichess.provider')->findPlayer($id);
+        $this->get('doctrine.odm.mongodb.document_manager')->remove($player->getGame());
+        $this->flush();
+
+        return new RedirectResponse($this->generateUrl('lichess_homepage'));
+    }
+
     public function resignAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);

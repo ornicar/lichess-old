@@ -7,7 +7,10 @@
         <div class="lichess_overboard">
             {{ "To invite someone to play, give this url"|trans }}:
             <input class="lichess_id_input" readonly="readonly" value="{{ url("lichess_game", {"id": player.game.id} ) }}" />
-            <p class="explanations">{{ "The first person to come on this url will play with you."|trans }}<p>
+            <p class="explanations">
+                {{ "The first person to come on this url will play with you."|trans }}
+                <a href="{{ path('lichess_cancel_friend', {'id': player.fullId}) }}">{{ "Cancel"|trans }}</a>
+            <p>
             <p class="explanations">
                 {{ "Variant"|trans }}: {{ config.variant|trans }}<br />
                 {{ "Minutes per side"|trans }}: {{ config.time|trans }}<br />

@@ -13,6 +13,10 @@ lichess_wait_friend:
     pattern:        /friend/{id}
     defaults:       { _controller: LichessBundle:Player:waitFriend }
     requirements:   { id: "[\w\-]{12}" }
+lichess_cancel_friend:
+    pattern:        /friend/{id}/cancel
+    defaults:       { _controller: LichessBundle:Player:cancelFriend }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_game:
     pattern:        /{id}/{color}
     defaults:       { _controller: LichessBundle:Game:show, color: white }
