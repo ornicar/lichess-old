@@ -5,6 +5,8 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\FlattenException;
+use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
 class SyncController implements ContainerAwareInterface
 {
@@ -31,5 +33,16 @@ class SyncController implements ContainerAwareInterface
         }
 
         return new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
+    }
+
+    public function errorAction(FlattenException $exception, DebugLoggerInterface $logger = null, $format = 'html')
+    {
+        $this->container->get('request')->setRequestFormat($format);
+        $response = new Response('Something is wrong');
+        $code = $exception->getStatusCode();
+        $response->setStatusCode($code);
+        $response->headers->replace($exception->getHeaders());
+
+        return $response;
     }
 }

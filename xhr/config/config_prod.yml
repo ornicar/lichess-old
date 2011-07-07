@@ -1,5 +1,8 @@
 imports:
     - { resource: config.yml }
 
+framework:
+    exception_controller: LichessBundle:Sync:error
+
 doctrine_mongodb:
     default_database: lichess

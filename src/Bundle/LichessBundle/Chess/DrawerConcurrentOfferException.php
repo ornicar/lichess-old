@@ -2,6 +2,6 @@
 
 namespace Bundle\LichessBundle\Chess;
 
-class DrawerConcurrentOfferException extends Exception
+class DrawerConcurrentOfferException extends \Exception
 {
 }
