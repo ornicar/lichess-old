@@ -177,12 +177,11 @@ $.widget("lichess.game", {
         var $tomb = $("div.lichess_tomb:last", $deads),
             tomb_offset = $tomb.offset();
         $('body').append($piece.css($square.offset()));
-        $piece.css("opacity", 0).animate({
+        $piece.css("opacity", 0.5).animate({
             top: tomb_offset.top,
-            left: tomb_offset.left,
-            opacity: 0.5
+            left: tomb_offset.left
         },
-        self.options.animation_delay * 3, function() {
+        self.options.animation_delay * 3, 'easeInOutCubic', function() {
             $tomb.append($piece.css({
                 position: "relative",
             top: 0,

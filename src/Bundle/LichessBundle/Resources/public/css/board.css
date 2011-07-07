@@ -327,10 +327,10 @@ div.lichess_table div.username.offline {
     background-position: 0 -128px;
 }
 div.clock {
-    width: 65px;
+    width: 70px;
     border: 1px solid #ccc;
-    padding: 5px 0 5px 10px;
-    font-size: 18px;
+    padding: 4px 0 4px 10px;
+    font-size: 20px;
     font-family: monospace;
     font-weight: bold;
     box-shadow: 0 0 7px #d0d0d0;

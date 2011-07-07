@@ -32,13 +32,7 @@ $(function() {
     $wrap.delegate('tr.joinable', 'click', function() {
         location.href = $(this).find('a.join').attr('href');
     });
-    $wrap.delegate('a.new_hook', 'click', function() {
-        $new.load($(this).attr('href'), function() {
-            var $config = $(this).show();
-            $config.find('div.buttons').buttonset().disableSelection();
-            $config.find('button.submit').button().disableSelection();
-            $overboard.css('top', (238 - $overboard.height() / 2) + 'px').show();
-        });
-        return false;
+    $wrap.delegate('tr.empty', 'click', function() {
+        $('#start_buttons a.config_hook').click();
     });
 });
