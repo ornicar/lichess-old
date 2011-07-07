@@ -2,8 +2,6 @@ $(function() {
 
     var $wrap = $('div.hooks_wrap');
     var $hooks = $wrap.find('div.hooks');
-    var $new = $wrap.find('div.new_hook');
-    var $overboard = $('div.lichess_overboard');
     var url = $hooks.data('url');
 
     (function reload() {
@@ -26,7 +24,7 @@ $(function() {
                 timeout: 9000
             });
         },
-        900);
+        600);
     })();
 
     $wrap.delegate('tr.joinable', 'click', function() {
