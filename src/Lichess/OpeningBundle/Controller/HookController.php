@@ -84,7 +84,7 @@ class HookController extends Controller
     public function joinAction($id)
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneById($id);
-        if (!$hook) {
+        if (!$hook || $hook->isMatch()) {
             return new RedirectResponse($this->generateUrl('lichess_homepage'));
         }
         // if I also have a hook, cancel it

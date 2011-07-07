@@ -365,4 +365,9 @@ class Hook
         $this->game = $game;
         $this->match = true;
     }
+
+    public function isMatch()
+    {
+        return $this->match;
+    }
 }
