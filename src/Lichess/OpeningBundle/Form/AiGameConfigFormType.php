@@ -16,7 +16,7 @@ class AiGameConfigFormType extends GameConfigFormType
         parent::buildForm($builder, $options);
 
         $builder->add('level', 'choice', array(
-            'choices' => array(1, 2, 3, 4, 5, 6, 7, 8),
+            'choices' => array_combine(range(1, 8), range(1, 8)),
             'multiple' => false,
             'expanded' => true
         ));
