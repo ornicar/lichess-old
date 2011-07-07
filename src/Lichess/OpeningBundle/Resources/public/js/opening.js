@@ -13,7 +13,13 @@ $(function() {
                 range: 'min',
                 step: 1,
                 animate: true,
-                slide: function( event, ui ) { $value.text(ui.value); }
+                slide: function( event, ui ) {
+                    $value.text(ui.value);
+                    $input.attr('value', ui.value);
+                    $form.find('.color_submits button').toggle(
+                        $form.find('.time_choice input').val() > 0 || $form.find('.increment_choice input').val() > 0
+                    );
+                }
             }));
         });
         $form.find('.clock_choice input').bind('change', function() {

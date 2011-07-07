@@ -36,6 +36,8 @@ class HookController extends Controller
                 $this->get('lichess_opening.sync_memory')->setAlive($hook);
 
                 return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $hook->getOwnerId())));
+            } else {
+                return new RedirectResponse($this->generateUrl('lichess_homepage'));
             }
         }
 

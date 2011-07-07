@@ -62,6 +62,16 @@ class GameConfig
      */
     protected $color = 'random';
 
+    /**
+     * There is no clock, or ther is some time in it
+     *
+     * @Assert\True()
+     */
+    public function isClockValid()
+    {
+        return !$this->getClock() || $this->getTime() || $this->getIncrement();
+    }
+
     public function resolveColor()
     {
         if ('random' == $this->color) {

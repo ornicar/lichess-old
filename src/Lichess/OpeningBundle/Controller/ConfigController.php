@@ -21,6 +21,8 @@ class ConfigController extends Controller
                 $player = $this->get('lichess.starter.friend')->start($form->getData());
                 $this->flush();
                 return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
+            } else {
+                return new RedirectResponse($this->generateUrl('lichess_homepage'));
             }
         }
 
@@ -37,6 +39,8 @@ class ConfigController extends Controller
                 $player = $this->get('lichess.starter.ai')->start($form->getData());
                 $this->flush();
                 return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
+            } else {
+                return new RedirectResponse($this->generateUrl('lichess_homepage'));
             }
         }
 
