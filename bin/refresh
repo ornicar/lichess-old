@@ -17,9 +17,10 @@ done
 
 if [ $refresh == "all" ]; then
     echo "Build bootstrap"
-    bin/build_bootstrap.php
+    show_run "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php"
+    show_run "cp app/bootstrap.* xhr/"
 
-    for application in xhr lichess; do
+    for application in xhr app; do
         echo -e "\n------------------- $application -----------------"
         echo "Warmup $application cache"
         php $application/console -e=prod cache:clear
@@ -28,20 +29,20 @@ if [ $refresh == "all" ]; then
     done
 
     echo "Clear APC cache opcode and user"
-    php lichess/console --env=prod apc:clear
+    php app/console --env=prod apc:clear
 
     echo "Dump assets"
-    php lichess/console --env=prod assetic:dump
+    php app/console --env=prod assetic:dump
 
     echo "Install crafty books"
     bin/install_crafty_books
 elif [ $refresh == "trans" ]; then
     echo "Warmup cache"
-    php lichess/console -e=prod cache:clear
-    chmod -R 777 lichess/cache/prod
+    php app/console -e=prod cache:clear
+    chmod -R 777 app/cache/prod
 
     echo "Clear APC cache opcode"
-    php lichess/console --env=prod apc:clear --opcode
+    php app/console --env=prod apc:clear --opcode
 fi
 
-chmod -R 777 lichess/cache/prod lichess/logs
+chmod -R 777 app/cache/prod app/logs
