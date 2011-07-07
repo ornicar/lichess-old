@@ -73,7 +73,7 @@ class GameConfig
 
     public function toArray()
     {
-        return array('clock' => $this->clock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode);
+        return array('clock' => $this->clock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color);
     }
 
     public function fromArray(array $data)
@@ -83,11 +83,12 @@ class GameConfig
         if(isset($data['increment'])) $this->increment = $data['increment'];
         if(isset($data['variant'])) $this->variant = $data['variant'];
         if(isset($data['mode'])) $this->mode = $data['mode'];
+        if(isset($data['color'])) $this->color = $data['color'];
     }
 
     public function createView()
     {
-        return new GameConfigView($this);
+        return new GameConfigView($this->toArray());
     }
 
     /**

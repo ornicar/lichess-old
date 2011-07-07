@@ -9,43 +9,48 @@ class GameConfigView
     /**
      * The config
      *
-     * @var GameConfig
+     * @var array
      */
     protected $config;
 
-    public function __construct(GameConfig $config)
+    public function __construct(array $config)
     {
         $this->config = $config;
     }
 
     public function getClock()
     {
-        return $this->config->getClock();
+        return (bool) $this->config['clock'];
     }
 
     public function getTime()
     {
-        return $this->config->getClock() ? $this->config->getTime() : 'Unlimited';
+        return $this->getClock() ? $this->config['time'] : 'Unlimited';
     }
 
     public function getIncrement()
     {
-        return $this->config->getIncrement();
+        return $this->config['increment'];
     }
 
     public function getVariant()
     {
         $variantNames = Game::getVariantNames();
 
-        return ucfirst($variantNames[$this->config->getVariant()]);
+        return ucfirst($variantNames[$this->config['variant']]);
     }
 
     public function getMode()
     {
-        if ($this->config->getMode() == 1) {
+        if ($this->config['mode'] == 1) {
             return 'Rated';
         }
 
         return 'Casual';
+    }
+
+    public function getColor()
+    {
+        return ucfirst($this->config['color']);
     }
 }

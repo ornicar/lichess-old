@@ -1,6 +1,6 @@
-$(function() { setTimeout(function() {
+$(function() { 
 
-    var $wrap = $('div.hooks_wrap').fadeIn(100);
+    var $wrap = $('div.hooks_wrap');
     var $hooks = $wrap.find('div.hooks');
     var $new = $wrap.find('div.new_hook');
     var $overboard = $('div.lichess_overboard');
@@ -10,6 +10,11 @@ $(function() { setTimeout(function() {
         setTimeout(function() {
             $.ajax(url, {
                 success: function(html) {
+                    if (/^\//.test(html)) {
+                        location.href = html;
+                        return;
+                    }
+                    $wrap.removeClass('hidden');
                     $hooks.html(html);
                 },
                 complete: function() {
@@ -21,9 +26,12 @@ $(function() { setTimeout(function() {
                 timeout: 5000
             });
         },
-        900);
+        500);
     })();
 
+    $wrap.delegate('tr.joinable', 'click', function() {
+        location.href = $(this).find('a.join').attr('href');
+    });
     $wrap.delegate('a.new_hook', 'click', function() {
         $new.load($(this).attr('href'), function() {
             var $config = $(this).show();
@@ -33,6 +41,4 @@ $(function() { setTimeout(function() {
         });
         return false;
     });
-    //$('a.new_hook').click();
-
-}, 100); });
+});

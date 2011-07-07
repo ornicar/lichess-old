@@ -6,6 +6,7 @@ use Application\UserBundle\Document\User;
 use Bundle\LichessBundle\Document\Game;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Util\KeyGenerator;
+use Lichess\OpeningBundle\Config\GameConfigView;
 
 /**
  * Invitation to play. Contains game configuration.
@@ -45,6 +46,14 @@ class Hook
     protected $variant = null;
 
     /**
+     * Whether or not a clock is used
+     *
+     * @MongoDB\Field(type="boolean")
+     * @var boolean
+     */
+    protected $hasClock;
+
+    /**
      * Maximum time of the clock per player, in minutes
      *
      * @var int
@@ -69,12 +78,36 @@ class Hook
     protected $mode = null;
 
     /**
+     * Creator player color
+     *
+     * @var string
+     * @MongoDB\Field(type="string")
+     */
+    protected $color = null;
+
+    /**
      * Optional registered user who owns the hook
      *
      * @var User
      * @MongoDB\ReferenceOne(targetDocument="Application\UserBundle\Document\User")
      */
     protected $user = null;
+
+    /**
+     * Denormalization of the user name
+     *
+     * @var string
+     * @MongoDB\Field(type="string")
+     */
+    protected $username;
+
+    /**
+     * Denormalization of the user elo
+     *
+     * @var int
+     * @MongoDB\Field(type="int")
+     */
+    protected $elo;
 
     /**
      * When the hook was created
@@ -86,15 +119,6 @@ class Hook
     protected $createdAt = null;
 
     /**
-     * When the hook was deleted
-     *
-     * @var DateTime
-     * @MongoDB\Field(type="date")
-     * @MongoDB\Index(order="desc")
-     */
-    protected $deletedAt = null;
-
-    /**
      * Game created when a fish bites the hook
      *
      * @var Game
@@ -102,10 +126,40 @@ class Hook
      */
     protected $game = null;
 
+    /**
+     * True when someone bite to the hook
+     *
+     * @var boolean
+     * @MongoDB\Field(type="boolean")
+     * @MongoDB\Index(order="desc")
+     */
+    protected $match = false;
+
     public function __construct()
     {
         $this->id      = KeyGenerator::generate(8);
         $this->ownerId = $this->id.KeyGenerator::generate(4);
+        $this->createdAt = new \DateTime();
+    }
+
+    public function fromArray(array $data)
+    {
+        if(isset($data['clock'])) $this->hasClock = (boolean) $data['clock'];
+        if(isset($data['time'])) $this->time = $data['time'];
+        if(isset($data['increment'])) $this->increment = $data['increment'];
+        if(isset($data['variant'])) $this->variant = $data['variant'];
+        if(isset($data['mode'])) $this->mode = $data['mode'];
+        if(isset($data['color'])) $this->color = $data['color'];
+    }
+
+    public function createConfigView()
+    {
+        return new GameConfigView($this->toArray());
+    }
+
+    public function toArray()
+    {
+        return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color);
     }
 
     /**
@@ -126,6 +180,23 @@ class Hook
     public function setVariant($variant)
     {
         $this->variant = $variant;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getHasClock()
+    {
+        return $this->hasClock;
+    }
+
+    /**
+     * @param  boolean
+     * @return null
+     */
+    public function setHasClock($hasClock)
+    {
+        $this->hasClock = $hasClock;
     }
 
     /**
@@ -189,6 +260,23 @@ class Hook
     }
 
     /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+    }
+
+    /**
      * Gets: Optional registered user who owns the hook
      *
      * @return User user
@@ -206,6 +294,38 @@ class Hook
     public function setUser(User $user)
     {
         $this->user = $user;
+        $this->username = $user->getUsername();
+        $this->elo = $user->getElo();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return int
+     */
+    public function getElo()
+    {
+        return $this->elo;
+    }
+
+    /**
+     * Get the username and ELO of the player, or "Anonymous" if the player is not authenticated
+     *
+     * @return string
+     **/
+    public function getUsernameWithElo($default = 'Anonymous')
+    {
+        if(!$this->username) {
+            return $default;
+        }
+
+        return sprintf('%s (%d)', $this->username, $this->elo);
     }
 
     /**
@@ -216,16 +336,6 @@ class Hook
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Gets: When the hook was deleted
-     *
-     * @return DateTime deletedAt
-     */
-    public function getDeletedAt()
-    {
-        return $this->deletedAt;
     }
 
     /**
@@ -266,5 +376,6 @@ class Hook
     public function setGame(Game $game)
     {
         $this->game = $game;
+        $this->match = true;
     }
 }

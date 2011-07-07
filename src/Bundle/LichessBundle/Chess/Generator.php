@@ -96,6 +96,7 @@ class Generator
         }
         $game = $this->createGame($variant);
         $game->setCreatorColor($color);
+
         return $game->getCreator();
     }
 

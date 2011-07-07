@@ -38,7 +38,7 @@ class FriendStarter implements StarterInterface
         $player = $this->generator->createGameForPlayer($color, $config->getVariant());
         $this->playerBlamer->blame($player);
         $game = $player->getGame();
-        if($config->getTime()) {
+        if($config->getClock()) {
             $clock = new Clock($config->getTime() * 60, $config->getIncrement());
             $game->setClock($clock);
         }

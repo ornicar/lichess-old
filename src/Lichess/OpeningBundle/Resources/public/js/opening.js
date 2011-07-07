@@ -20,6 +20,9 @@ $(function() {
             $form.find('.time_choice, .increment_choice').toggle($(this).is(':checked'));
             $.centerOverboard();
         }).trigger('change');
+        $form.prepend($('<a class="close"></a>').click(function() {
+            $form.remove();
+        }));
     }
 
     $('#start_buttons a').click(function() {

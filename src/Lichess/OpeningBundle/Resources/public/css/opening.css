@@ -1,13 +1,3 @@
-div.hooks_wrap {
-    position: absolute;
-    width: 512px;
-    height: 512px;
-    top: 0px;
-    left: 0px;
-    display:none;
-    background: rgba(245,245,245,0.8);
-}
-
 div.game_config h2, div.game_config button {
     font-size: 1.4em;
     padding: 0 2em;

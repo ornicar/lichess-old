@@ -1,0 +1,29 @@
+<table>
+    <thead>
+        <tr><th>{{ "Player"|trans }}</th><th>{{ "Variant"|trans }}</th><th>{{ "Mode"|trans }}</th><th>{{ "Time control"|trans }}</th><th></th></tr>
+    </thead>
+    <tbody>
+    {% for hook in hooks %}
+        {% set config = hook.createConfigView() %}   
+        <tr class="{{ hook == myHook ? 'my_hook' : 'joinable' }} {{ cycle(['odd', 'even'], loop.index) }}">
+<td>{{ hook.username }}{% if hook.elo %}<br />({{ hook.elo }}){% endif %}</td>
+<td>{{ config.variant|trans }}</td>
+<td>{{ config.mode|trans }}</td>
+{% if config.clock %}
+<td>{{ config.time }} + {{ config.increment }}</td>
+{% else %}
+<td>{{ config.time|trans }}</td>
+{% endif %}
+{% if hook == myHook %}
+<td class="action"><a title="{{ "Cancel"|trans }}" href="{{ path('lichess_hook_cancel', {'id': myHook.ownerId}) }}" class="cancel notipsy"></a></td>
+{% else %}
+<td class="action"><a href="{{ path('lichess_hook_join', myHook ? {'id': hook.id, 'cancel': myHook.ownerId} : {"id": hook.id}) }}" class="join"></a></td>
+{% endif %}
+        </tr>
+    {% else %}
+        <tr class="empty">
+            <td colspan="5">{{ "No game available right now, create one!"|trans }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
