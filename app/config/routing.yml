@@ -11,6 +11,10 @@ user_stats:
 
 lichess:
     resource: @LichessBundle/Resources/config/routing.yml
+lichess_hook:
+    resource: @LichessOpeningBundle/Resources/config/routing.yml
+lichess:
+    resource: @LichessBundle/Resources/config/routing.yml
 lichess_sync:
     resource: @LichessBundle/Resources/config/routing_sync.yml
 lichess_translation:

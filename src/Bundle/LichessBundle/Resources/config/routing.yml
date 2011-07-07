@@ -1,6 +1,3 @@
-lichess_homepage:
-    pattern:        /
-    defaults:       { _controller: LichessBundle:Main:index }
 lichess_move:
     pattern:        /move/{id}
     defaults:       { _controller: LichessBundle:Player:move }
@@ -9,15 +6,16 @@ lichess_say:
     pattern:        /talk/{id}
     defaults:       { _controller: LichessBundle:Player:say }
     requirements:   { id: "[\w\-]{12}" }
-lichess_invite_friend:
-    pattern:        /friend
-    defaults:       { _controller: LichessBundle:Game:inviteFriend }
 lichess_toggle_sound:
     pattern:        /toggle-sound
     defaults:       { _controller: LichessBundle:Main:toggleSound }
 lichess_wait_friend:
     pattern:        /friend/{id}
     defaults:       { _controller: LichessBundle:Player:waitFriend }
+    requirements:   { id: "[\w\-]{12}" }
+lichess_cancel_friend:
+    pattern:        /friend/{id}/cancel
+    defaults:       { _controller: LichessBundle:Player:cancelFriend }
     requirements:   { id: "[\w\-]{12}" }
 lichess_game:
     pattern:        /{id}/{color}
@@ -31,24 +29,10 @@ lichess_player:
     pattern:        /{id}
     defaults:       { _controller: LichessBundle:Player:show }
     requirements:   { id: "[\w\-]{12}" }
-lichess_invite_ai:
-    pattern:        /ai
-    defaults:       { _controller: LichessBundle:Game:inviteAi }
 lichess_join_game:
     pattern:        /join/{id}
     defaults:       { _controller: LichessBundle:Game:join }
     requirements:   { id: "[\w\-]{8}" }
-lichess_invite_anybody:
-    pattern:        /anybody
-    defaults:       { _controller: LichessBundle:Game:inviteAnybody }
-lichess_wait_anybody:
-    pattern:        /anybody/{id}
-    defaults:       { _controller: LichessBundle:Player:waitAnybody }
-    requirements:   { id: "[\w\-]{12}" }
-lichess_cancel_anybody:
-    pattern:        /anybody/{id}/cancel
-    defaults:       { _controller: LichessBundle:Player:cancelAnybody }
-    requirements:   { id: "[\w\-]{12}" }
 lichess_resign:
     pattern:        /resign/{id}
     defaults:       { _controller: LichessBundle:Player:resign }

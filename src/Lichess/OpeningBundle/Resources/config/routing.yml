@@ -1,0 +1,32 @@
+lichess_homepage:
+    pattern:  /
+    defaults: { _controller: LichessOpeningBundle:Hook:index }
+
+lichess_hook_poll:
+    pattern: /new/poll/{auth}/{id}
+    defaults: { _controller: LichessOpeningBundle:Hook:poll, auth: '0', id: '' }
+
+lichess_hook:
+    pattern: /new/{id}
+    defaults: { _controller: LichessOpeningBundle:Hook:hook }
+    requirements:   { id: "[\w\-]{12}" }
+
+lichess_hook_join:
+    pattern: /new/{id}/join
+    defaults: { _controller: LichessOpeningBundle:Hook:join }
+    requirements:   { id: "[\w\-]{8}" }
+
+lichess_hook_cancel:
+    pattern: /new/{id}/cancel
+    defaults: { _controller: LichessOpeningBundle:Hook:cancel }
+    requirements:   { id: "[\w\-]{12}" }
+
+lichess_config_friend:
+    pattern:        /start/friend
+    defaults:       { _controller: LichessOpeningBundle:Config:friend }
+lichess_config_ai:
+    pattern:        /start/ai
+    defaults:       { _controller: LichessOpeningBundle:Config:ai }
+lichess_config_hook:
+    pattern:        /start/new
+    defaults:       { _controller: LichessOpeningBundle:Hook:new }

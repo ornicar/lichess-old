@@ -1,0 +1,15 @@
+{% extends "LichessOpeningBundle:Config:config.html.twig" %}
+{% block invite_type %}ai{% endblock %}
+{% block invite_title %}{{ "Play with the machine"|trans }}{% endblock %}
+{% block invite_form_fields %}
+<div class="variants buttons">
+    {% for choice, child in form.variant %}
+        {{ form_widget(child) }}
+        {{ form_label(child) }}
+    {% endfor %}
+</div>
+{{ "Level"|trans }}
+<div class="level buttons">
+    {{ form_widget(form.level) }}
+</div>
+{% endblock %}

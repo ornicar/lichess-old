@@ -3,14 +3,14 @@
 namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Bundle\LichessBundle\Config\ApiConfig;
 use Symfony\Component\HttpFoundation\Response;
+use Lichess\OpeningBundle\Config\GameConfig;
 
 class ApiController extends Controller
 {
     public function newAction()
     {
-        $config = new ApiConfig();
+        $config = new GameConfig();
         $game = $this->get('lichess.starter.api')->start($config)->getGame();
         $this->get('doctrine.odm.mongodb.document_manager')->flush();
 

@@ -22,6 +22,7 @@ $loader->registerNamespaces(array(
     'Sensio'                         => $bundleDir,
     'WhiteOctober'                   => $bundleDir,
     'FOS'                            => $bundleDir,
+    'Bundle'                         => $bundleDir,
     'FOQ'                            => $bundleDir
 ));
 $loader->registerPrefixes(array(

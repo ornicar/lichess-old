@@ -45,7 +45,7 @@ class Game
     protected $id;
 
     /**
-     * Game variant (like standard or 960)
+     * Game variant (like standard or chess960)
      *
      * @var int
      * @MongoDB\Field(type="int")

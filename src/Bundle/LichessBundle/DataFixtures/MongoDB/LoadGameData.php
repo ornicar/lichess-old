@@ -8,11 +8,11 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-use Bundle\LichessBundle\Config\AiGameConfig;
-use Bundle\LichessBundle\Config\FriendGameConfig;
 use Bundle\LichessBundle\Chess\Manipulator;
 use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Document\Game;
+use Lichess\OpeningBundle\Config\AiGameConfig;
+use Lichess\OpeningBundle\Config\GameConfig;
 
 class LoadGameData implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
@@ -84,7 +84,7 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
 
     protected function loadFriendGame($color, $username1, $username2, array $configArray = array())
     {
-        $config = new FriendGameConfig();
+        $config = new GameConfig();
         $config->fromArray($configArray);
         $config->setColor($color);
         $player = $this->friendStarter->start($config);

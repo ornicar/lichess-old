@@ -1,0 +1,73 @@
+div.hooks_wrap {
+    position: absolute;
+    width: 424px;
+    height: 424px;
+    top: 32px;
+    left: 32px;
+    padding: 12px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 0 20px #444;
+    -moz-box-shadow: 0 0 20px #444;
+    -webkit-box-shadow: 0 0 20px #444;
+    background: rgba(245,245,245,0.7);
+    background: -moz-linear-gradient(top, rgba(212,212,212,0.8) 0%, rgba(240,240,240,0.5) 100%);
+    background: -webkit-linear-gradient(top, rgba(212,212,212,0.8) 0%,rgba(240,240,240,0.5) 100%);
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(212,212,212,0.8)), to(rgba(240,240,240,0.5)));
+    background: -ms-linear-gradient(top, rgba(212,212,212,0.8) 0%,rgba(240,240,240,0.5) 100%);
+}
+div.hooks_wrap.hidden {
+    display: none;
+}
+div.hooks {
+    border: 1px solid #bababa;
+    max-height: 424px;
+    width: 424px;
+    background: #f0f0f0;
+    overflow: auto;
+}
+.hooks table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    color: #666;
+}
+.hooks td {
+    border-bottom: 1px solid #bababa;
+    padding: 12px 8px 12px 12px;
+    margin: 0;
+    white-space:nowrap;
+}
+.hooks tr:last-child td {
+    border-bottom: none;
+}
+.hooks tr.empty {
+    text-align: center;
+    cursor: pointer;
+}
+.hooks tr.empty td {
+    padding: 30px 0;
+}
+.hooks tr.joinable {
+    cursor: pointer;
+}
+.hooks td.action {
+    padding: 0 8px 0 0;
+}
+.hooks a.cancel {
+    height: 32px;
+    width: 32px;
+    display: block;
+    background: url(/bundles/lichess/images/close24.png) -0px no-repeat;
+}
+.hooks a.join {
+    height: 32px;
+    width: 32px;
+    display: block;
+    background: url(/bundles/lichess/images/play32.png) -0px no-repeat;
+}
+.hooks tr.my_hook {
+    color: #405090;
+    background: #c9dbee;
+}

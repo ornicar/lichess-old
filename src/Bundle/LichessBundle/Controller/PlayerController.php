@@ -5,14 +5,13 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Config\AnybodyGameConfig;
-use Bundle\LichessBundle\Config\FriendGameConfig;
 use Bundle\LichessBundle\Chess\DrawerConcurrentOfferException;
 use Bundle\LichessBundle\Chess\FinisherException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use RuntimeException;
+use Lichess\OpeningBundle\Config\GameConfig;
 
 class PlayerController extends Controller
 {
@@ -134,39 +133,6 @@ class PlayerController extends Controller
         return new Response('ok');
     }
 
-    public function waitAnybodyAction($id)
-    {
-        try {
-            $player = $this->get('lichess.provider')->findPlayer($id);
-        } catch(NotFoundHttpException $e) {
-            return new RedirectResponse($this->generateUrl('lichess_invite_anybody'));
-        }
-        if($player->getGame()->getIsStarted()) {
-            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
-        }
-        $this->get('lichess.memory')->setAlive($player);
-
-        $config = new AnybodyGameConfig();
-        $config->fromArray($player->getGame()->getConfigArray());
-        return $this->render('LichessBundle:Player:waitAnybody.html.twig', array(
-            'player' => $player,
-            'config' => $config
-        ));
-    }
-
-    public function cancelAnybodyAction($id)
-    {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        $game   = $player->getGame();
-        if($game->getIsStarted()) {
-            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
-        }
-        $this->get('lichess.starter.anybody')->cancel($player);
-        $this->flush();
-
-        return new RedirectResponse($this->generateUrl('lichess_homepage'));
-    }
-
     public function waitFriendAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
@@ -175,12 +141,21 @@ class PlayerController extends Controller
         }
         $this->get('lichess.memory')->setAlive($player);
 
-        $config = new FriendGameConfig();
+        $config = new GameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
         return $this->render('LichessBundle:Player:waitFriend.html.twig', array(
             'player' => $player,
-            'config' => $config
+            'config' => $config->createView()
         ));
+    }
+
+    public function cancelFriendAction($id)
+    {
+        $player = $this->get('lichess.provider')->findPlayer($id);
+        $this->get('doctrine.odm.mongodb.document_manager')->remove($player->getGame());
+        $this->flush();
+
+        return new RedirectResponse($this->generateUrl('lichess_homepage'));
     }
 
     public function resignAction($id)

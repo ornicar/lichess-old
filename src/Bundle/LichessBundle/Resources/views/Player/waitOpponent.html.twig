@@ -4,7 +4,7 @@
 <div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_{{ player.color }}">
     <div class="lichess_board_wrap">
         {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".html.twig" %}
-        <div class="lichess_overboard wait_anybody">
+        <div class="lichess_overboard">
             {{ "Waiting for opponent"|trans }}
             <img src="{{ asset('bundles/lichess/images/hloader.gif') }}" width="220" height="33" /><br />
         </div>

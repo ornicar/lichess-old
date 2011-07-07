@@ -1,0 +1,33 @@
+{% extends "LichessOpeningBundle:Config:config.html.twig" %}
+{% block invite_type %}friend{% endblock %}
+{% block invite_title %}{{ "Play with a friend"|trans }}{% endblock %}
+{% block invite_form_fields %}
+<div class="variants buttons">
+    {% for choice, child in form.variant %}
+        {{ form_widget(child) }}
+        {{ form_label(child) }}
+    {% endfor %}
+</div>
+<div class="clock_config ">
+    <div class="clock_choice">
+        {{ form_label(form.clock, "Time control"|trans) }}
+        {{ form_widget(form.clock) }}
+    </div>
+    <div class="time_choice">
+        {{ "Minutes per side"|trans }}: <span>{{ config.time }}</span>
+        {{ form_widget(form.time, {"attr":{"data-min":0,"data-max":30}}) }}
+    </div>
+    <div class="increment_choice">
+        {{ "Increment in seconds"|trans }}: <span>{{ config.increment }}</span>
+        {{ form_widget(form.increment, {"attr":{"data-min":0,"data-max":30}}) }}
+    </div>
+</div>
+{% if form.mode is defined %}
+    <div class="buttons mode_choice">
+        {% for choice, child in form.mode %}
+            {{ form_widget(child) }}
+            {{ form_label(child) }}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

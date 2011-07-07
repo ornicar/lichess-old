@@ -1,0 +1,14 @@
+{% extends 'LichessOpeningBundle::layoutOpening.html.twig' %}
+
+{% block content %}
+<div class="clearfix lichess_homepage">
+    <div class="lichess_board_wrap">
+        {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
+        <div class="hooks_wrap">
+            <div class="hooks" data-url="{{ path('lichess_hook_poll', {'auth': auth, 'id': hook.ownerId}) }}">
+                {% include "LichessOpeningBundle:Hook:list.html.twig" with {"hooks": hooks, "myHook": hook} %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% set links = {
+    "hook": [
+        "Create a game",
+        "Create a game"
+    ],
+    'friend': [
+        "Play with a friend",
+        "Invite a friend to play with you"
+    ],
+    "ai": [
+        "Play with the machine",
+        "Challenge the artificial intelligence"
+    ]
+} %}
+<div class="lichess_ground">
+    <div class="lichess_table lichess_table_not_started" id="start_buttons">
+        {% for name, link in links %}
+		<a class="lichess_button config_{{ name }}" href="{{ path('lichess_config_'~name) }}" title="{{ link[1]|trans }}">{{ link[0]|trans }}</a>
+        {% endfor %}
+    </div>
+</div>

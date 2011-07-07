@@ -9,4 +9,4 @@ fos_user_online_users:
 fos_user_online_update:
     pattern:    /update-online-users
     defaults:   { _controller: FOSUserBundle:Online:updateOnline }
-    requirements: { _method: post }
+    #requirements: { _method: post }

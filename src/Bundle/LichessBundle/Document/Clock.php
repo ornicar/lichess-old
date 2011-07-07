@@ -60,6 +60,10 @@ class Clock
         $this->limit = (int) $limit;
         $this->increment = (int) $increment;
 
+        if (0 === $this->limit) {
+            $this->limit = $this->increment;
+        }
+
         $this->reset();
     }
 
