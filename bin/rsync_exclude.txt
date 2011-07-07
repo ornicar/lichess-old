@@ -1,6 +1,6 @@
-/lichess/cache
-/lichess/logs
-/lichess/bootstrap*
+/app/cache
+/app/logs
+/app/bootstrap*
 /xhr/cache
 /xhr/logs
 /xhr/bootstrap*
