@@ -14,7 +14,7 @@ div.hooks_wrap.hidden {
     display: none;
 }
 div.hooks {
-    border: 1px solid #cacaca;
+    border: 1px solid #bababa;
     max-height: 424px;
     width: 424px;
     background: #f0f0f0;
@@ -26,12 +26,8 @@ div.hooks {
     border-collapse: collapse;
     color: #666;
 }
-.hooks th {
-    font-weight: bold;
-    color: #999;
-}
-.hooks th, td {
-    border-bottom: 1px solid #cacaca;
+.hooks td {
+    border-bottom: 1px solid #bababa;
     padding: 12px 8px 12px 12px;
     margin: 0;
     white-space:nowrap;
@@ -45,7 +41,7 @@ div.hooks {
 .hooks tr.empty td {
     padding: 30px 0;
 }
-.hooks tbody tr {
+.hooks tr {
     background: #fafafa;
     background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));

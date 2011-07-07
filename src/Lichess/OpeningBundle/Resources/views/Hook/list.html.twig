@@ -1,6 +1,4 @@
-<table>
-<tbody>
-{% for hook in hooks %}{% set config = hook.createConfigView() %}   
+<table>{% for hook in hooks %}{% set config = hook.createConfigView() %}   
 <tr class="{{ hook == myHook ? 'my_hook' : 'joinable' }} {{ cycle(['odd', 'even'], loop.index) }}">
 <td>{{ hook.username }}{% if hook.elo %}<br />({{ hook.elo }}){% endif %}</td>
 <td>{{ config.variant|trans }}</td>
@@ -20,6 +18,4 @@
 <tr class="empty">
 <td colspan="5">{{ "No game available right now, create one!"|trans }}</td>
 </tr>
-{% endfor %}
-</tbody>
-</table>
+{% endfor %}</table>
