@@ -11,11 +11,11 @@ div.hooks_wrap {
     box-shadow: 0 0 20px #444;
     -moz-box-shadow: 0 0 20px #444;
     -webkit-box-shadow: 0 0 20px #444;
-    background: rgba(245,245,245,0.7);
-    background: -moz-linear-gradient(top, rgba(212,212,212,0.8) 0%, rgba(240,240,240,0.5) 100%);
-    background: -webkit-linear-gradient(top, rgba(212,212,212,0.8) 0%,rgba(240,240,240,0.5) 100%);
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(212,212,212,0.8)), to(rgba(240,240,240,0.5)));
-    background: -ms-linear-gradient(top, rgba(212,212,212,0.8) 0%,rgba(240,240,240,0.5) 100%);
+    background: rgba(245,245,245,0.8);
+    background: -moz-linear-gradient(top, rgba(212,212,212,0.9) 0%, rgba(240,240,240,0.5) 100%);
+    background: -webkit-linear-gradient(top, rgba(212,212,212,0.9) 0%,rgba(240,240,240,0.5) 100%);
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(212,212,212,0.9)), to(rgba(240,240,240,0.5)));
+    background: -ms-linear-gradient(top, rgba(212,212,212,0.9) 0%,rgba(240,240,240,0.5) 100%);
 }
 div.hooks_wrap.hidden {
     display: none;
@@ -25,7 +25,7 @@ div.hooks {
     max-height: 424px;
     width: 424px;
     background: #f0f0f0;
-    overflow: auto;
+    overflow: hidden;
 }
 .hooks table {
     width: 100%;
@@ -35,7 +35,7 @@ div.hooks {
 }
 .hooks td {
     border-bottom: 1px solid #bababa;
-    padding: 12px 8px 12px 12px;
+    padding: 14px 8px 14px 12px;
     margin: 0;
     white-space:nowrap;
 }

@@ -17,8 +17,8 @@ done
 
 if [ $refresh == "all" ]; then
     echo "Build bootstrap"
-    show_run "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php"
-    show_run "cp app/bootstrap.* xhr/"
+    php vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php
+    cp app/bootstrap.* xhr/
 
     for application in xhr app; do
         echo -e "\n------------------- $application -----------------"
