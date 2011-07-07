@@ -1,8 +1,8 @@
 div.hooks_wrap {
     position: absolute;
     width: 424px;
-    height: 424px;
-    top: 32px;
+    height: 296px;
+    top: 96px;
     left: 32px;
     padding: 12px;
     border-radius: 3px;
@@ -22,16 +22,19 @@ div.hooks_wrap.hidden {
 }
 div.hooks {
     border: 1px solid #bababa;
-    max-height: 424px;
     width: 424px;
-    background: #f0f0f0;
-    overflow: hidden;
 }
 .hooks table {
+    max-height: 424px;
     width: 100%;
+    overflow: hidden;
     text-align: left;
     border-collapse: collapse;
+    background: #f0f0f0;
     color: #666;
+}
+.hooks table.empty_table {
+    margin-top: 107px;
 }
 .hooks td {
     border-bottom: 1px solid #bababa;
@@ -47,7 +50,8 @@ div.hooks {
     cursor: pointer;
 }
 .hooks tr.empty td {
-    padding: 30px 0;
+    padding: 0;
+    height: 80px;
 }
 .hooks tr.joinable {
     cursor: pointer;

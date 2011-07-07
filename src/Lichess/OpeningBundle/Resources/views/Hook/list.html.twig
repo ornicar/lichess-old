@@ -1,5 +1,5 @@
-<table>{% for hook in hooks %}{% set config = hook.createConfigView() %}   
-<tr class="{{ hook == myHook ? 'my_hook' : 'joinable' }} {{ cycle(['odd', 'even'], loop.index) }}">
+<table{% if hooks is empty %} class="empty_table"{% endif %}>{% for hook in hooks %}{% set config = hook.createConfigView() %}   
+<tr class="{{ hook == myHook ? 'my_hook' : 'joinable' }}">
 <td>{{ hook.username }}{% if hook.elo %}<br />({{ hook.elo }}){% endif %}</td>
 <td>{{ config.variant|trans }}</td>
 <td>{{ config.mode|trans }}</td>
@@ -15,7 +15,5 @@
 {% endif %}
 </tr>
 {% else %}
-<tr class="empty">
-<td colspan="5">{{ "No game available right now, create one!"|trans }}</td>
-</tr>
+<tr class="empty"><td colspan="5">{{ "No game available right now, create one!"|trans }}</td></tr>
 {% endfor %}</table>

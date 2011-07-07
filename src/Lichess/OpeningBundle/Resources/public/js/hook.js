@@ -24,7 +24,7 @@ $(function() {
                 timeout: 9000
             });
         },
-        600);
+        700);
     })();
 
     $wrap.delegate('tr.joinable', 'click', function() {

@@ -444,7 +444,7 @@ div.lichess_table .lichess_button {
     -webkit-box-shadow: 0 0 3px #ccc;
     text-align: center;
 }
-div.lichess_table a.lichess_button:hover {
+div.lichess_table a.lichess_button:hover, div.lichess_table a.lichess_button.active {
     box-shadow: 0 0 9px #d85000;
     -moz-box-shadow: 0 0 9px #d85000;
     -webkit-box-shadow: 0 0 9px #d85000;

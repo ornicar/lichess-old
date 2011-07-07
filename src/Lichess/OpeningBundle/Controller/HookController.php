@@ -60,7 +60,7 @@ class HookController extends Controller
         }
         $this->get('lichess_opening.sync_memory')->setAlive($hook);
         $config = new GameConfigView($hook->toArray());
-        $hooks = $this->get('lichess_opening.hook_repository')->findAllOpen();
+        $hooks = $this->get('lichess_opening.hook_repository')->findAllOpen()->toArray();
 
         return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array(
             'auth' => $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0',
@@ -134,9 +134,9 @@ class HookController extends Controller
             $myHook = null;
         }
         if ($auth == 1) {
-            $hooks = $this->get('lichess_opening.hook_repository')->findAllOpen();
+            $hooks = $this->get('lichess_opening.hook_repository')->findAllOpen()->toArray();
         } else {
-            $hooks = $this->get('lichess_opening.hook_repository')->findAllOpenCasual();
+            $hooks = $this->get('lichess_opening.hook_repository')->findAllOpenCasual()->toArray();
         }
 
         return $this->render('LichessOpeningBundle:Hook:list.html.twig', array('hooks' => $hooks, 'myHook' => $myHook));
