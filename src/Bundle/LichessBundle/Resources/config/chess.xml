@@ -19,8 +19,6 @@
             <argument>Bundle\LichessBundle\Chess\Manipulator</argument>
         </service>
 
-        <service id="lichess.hardware" class="Bundle\LichessBundle\Chess\Hardware" />
-
         <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger" />
 
         <service id="lichess.rematcher" class="Bundle\LichessBundle\Chess\Rematcher">

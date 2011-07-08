@@ -45,7 +45,6 @@ class LichessExtension extends Twig_Extension
             'lichess_game_board'        => 'renderGameBoard',
             'lichess_game_fen'          => 'renderGameFen',
             'lichess_nb_active_players' => 'getNbActivePlayers',
-            'lichess_load_average'      => 'getLoadAverage',
             'lichess_user_text'         => 'userText',
             'lichess_shorten'           => 'shorten',
             'lichess_current_url'       => 'getCurrentUrl',
@@ -313,11 +312,6 @@ class LichessExtension extends Twig_Extension
     public function getNbActivePlayers()
     {
         return $this->container->get('lichess.memory')->getNbActivePlayers();
-    }
-
-    public function getLoadAverage()
-    {
-        return round($this->container->get('lichess.hardware')->getLoadAverage()).'%';
     }
 
     protected function autoLink($text)

@@ -57,6 +57,10 @@ div.content {
     background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
 }
+#site_description {
+    position: absolute;
+    top: -100px;
+}
 
 #lichess {
     margin-left: 211px;

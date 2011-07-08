@@ -17,7 +17,7 @@
                 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
             {% endstylesheets %}
         {% endblock %}
-        <meta content="Free online Chess game. Easy and fast: no registration, no ads, no flash. Play Chess with computer, friends or random opponent. OpenSource software, uses PHP 5.3, MongoDB, Symfony2, HTML5 and JavaScript with jQuery" name="description">
+        <meta content="{{ "Free online Chess game. Play Chess now in a clean interface. No registration, no ads, no plugin required. Play Chess with computer, friends or random opponents."|trans }}" name="description">
         <meta content="Chess, Chess game, play Chess, online Chess, free Chess, quick Chess, anonymous Chess, opensource, PHP, JavaScript Chess, HTML5 Chess, artificial intelligence" name="keywords">
         <meta content="{% block robots %}index, follow{% endblock %}" name="robots">
         {% block feed_link %}{% endblock %}
@@ -25,6 +25,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     </head>
     <body data-sound-enabled="{{ app.session.get('lichess.sound.enabled', true) ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
+        <div id="site_description">{{ "Free online Chess game. Play Chess now in a clean interface. No registration, no ads, no plugin required. Play Chess with computer, friends or random opponents."|trans }}</div>
         <div id="top" class="clearfix">
             <div id="connectivity" class="tipsyme" href="#" title="{{ "Network"|trans }}"></div>
             <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ app.session.get('lichess.sound.enabled', true) ? 'on' : 'off' }}"><span></span></a>
@@ -91,10 +92,6 @@
                 Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | Give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a><br />
                 Help <a href="{{ path("lichess_translation_contribution") }}">translate Lichess</a> | View <a href="{{ path("lichess_todolist") }}">TODO list</a><br />
             </div>
-        </div>
-        <div class="lichess_server">
-            <a href="#top">{{ "Back to top"|trans }}</a> | {{ "Server load"|trans }}: <span class="value">{{ lichess_load_average() }}</span> |
-            <a class="blank_if_play" href="/monitor/index.html">Server monitoring</a>
         </div>
         {% block js_data %}{% endblock %}
         {% block javascripts %}
