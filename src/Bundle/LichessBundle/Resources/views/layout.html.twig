@@ -2,7 +2,7 @@
 <html lang="{{ app.session.locale }}">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <title>Lichess {% block title %}&#9816;{% endblock %} | free online Chess game</title>
+        <title>lichess {% block title %}{% endblock %} | {{ "Free Online Chess"|trans }}</title>
         {% block stylesheets %}
             {% stylesheets
                 '@LichessBundle/Resources/public/css/reset.css'
@@ -59,7 +59,10 @@
         </div>
         <div class="content">
             <div class="header">
-                <h1><a class="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a></h1>
+                <h1>
+                    <a id="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
+                    <span id="site_baseline">{{ "Free Online Chess"|trans }}</span>
+                </h1>
                 {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
                 {% elseif app.session.getFlash("locale_change", "en") != "en" %}{% render "LichessTranslationBundle:Contribution:onChange" with{"locale": app.session.locale} %}
                 {% endif %}

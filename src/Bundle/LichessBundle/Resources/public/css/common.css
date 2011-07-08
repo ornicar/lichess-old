@@ -62,24 +62,30 @@ div.content {
     margin-left: 211px;
 }
 
-a.site_title {
+#site_title {
     width: 130px;
     color: #666;
     padding-top: 15px;
     font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;
     font-size: 30px;
-    color: #aaa;
+    color: #afafaf;
     text-decoration: none;
+    display: block;
+    margin-bottom: 3px;
 }
-a.site_title span.extension {
-    color: #c0c0c0;
+#site_title span.extension {
+    color: #c8c8c8;
     font-weight: normal;
 }
-a.site_title:hover {
+#site_title:hover {
     color: #8899aa;
 }
-a.site_title:hover span.extension {
+#site_title:hover span.extension {
     color: #99aabb;
+}
+#site_baseline {
+    font-style: italic;
+    color: #afafaf;
 }
 
 div.footer_wrap {
