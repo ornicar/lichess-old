@@ -19,3 +19,5 @@ lichess:
         path: ""
         latency: 0
         delay: 0.25
+    feature:
+        listener: false
