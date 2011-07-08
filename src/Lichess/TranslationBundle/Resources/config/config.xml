@@ -64,7 +64,6 @@
     </parameters>
 
     <services>
-
         <service id="lichess_translation.manager" class="Lichess\TranslationBundle\TranslationManager">
             <argument>%lichess_translation.manager.reference_language%</argument>
             <argument>%lichess.locales%</argument>
@@ -73,6 +72,7 @@
 
         <service id="lichess_translation.switcher" class="Lichess\TranslationBundle\Switcher">
             <argument type="service" id="lichess_translation.manager" />
+            <argument type="service" id="translator" />
         </service>
 
         <service id="lichess_translation.fetcher" class="Lichess\TranslationBundle\Fetcher">
@@ -92,6 +92,11 @@
 
         <service id="lichess_translation.form_type.translation" class="Lichess\TranslationBundle\Form\TranslationFormType">
             <argument type="service" id="lichess_translation.manager" />
+        </service>
+
+        <service id="lichess_translation.twig.extension" class="Lichess\TranslationBundle\Twig\TranslationExtension" public="false">
+            <argument type="service" id="lichess_translation.manager" />
+            <tag name="twig.extension" />
         </service>
     </services>
 </container>

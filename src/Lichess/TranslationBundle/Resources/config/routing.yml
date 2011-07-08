@@ -1,11 +1,3 @@
-lichess_translation_selection_list:
-    pattern:        /switch/list
-    defaults:       { _controller: LichessTranslationBundle:Selection:list }
-lichess_translation_selection_switch:
-    pattern:        /switch/{locale}
-    defaults:       { _controller: LichessTranslationBundle:Selection:switch }
-    requirements:   { locale: "\w{2,3}" }
-
 lichess_translation_contribution:
     pattern:        /contribute
     defaults:       { _controller: LichessTranslationBundle:Contribution:index}

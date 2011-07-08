@@ -21,14 +21,11 @@ class KernelRequestListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         if(HttpKernelInterface::MASTER_REQUEST === $event->getRequestType()) {
-            if ($session = $event->getRequest()->getSession()) {
-                if(!$session->has('lichess.sound.enabled')) {
-                    $session->set('lichess.sound.enabled', true);
-                }
-                if(!$session->has('lichess.session_id')) {
-                    $session->set('lichess.session_id', KeyGenerator::generate(10));
-                    $this->container->get('lichess_translation.switcher')->switchLocaleForRequest($event->getRequest());
-                }
+            if(!$event->getRequest()->getSession()->has('lichess.sound.enabled')) {
+                $event->getRequest()->getSession()->set('lichess.sound.enabled', true);
+            }
+            if ($response = $this->container->get('lichess_translation.switcher')->switchLocaleForRequest($event->getRequest())) {
+                $event->setResponse($response);
             }
         }
     }

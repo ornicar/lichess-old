@@ -28,8 +28,14 @@
         <div id="top" class="clearfix">
             <div id="connectivity" class="tipsyme" href="#" title="{{ "Network"|trans }}"></div>
             <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}"><span></span></a>
-            <div class="lichess_language" data-path="{{ path("lichess_translation_selection_list") }}">
-                <a class="toggle_language toggle"><span class="s16">{{ app.session.get('locale_name') }}</span></a>
+            <div class="lichess_language">
+                <a class="toggle_language toggle"><span class="s16">{{ app.request.server.get('LICHESS_LOCALE_NAME') }}</span></a>
+                <ul class="lichess_language_links">
+                {% for url, name in lichess_locales(app.request) %}
+                <li><a href="{{ url }}">{{ name }}</a></li>
+                {% endfor %}
+                <li><a href="{{ path("lichess_translation_contribution") }}">Help translate Lichess!</a></li>
+                </ul>
             </div>
             {% set active = block("menu_active") %}
             <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " active" : "" }}" href="{{ path("lichess_homepage") }}">{{ "Play"|trans }}</a>

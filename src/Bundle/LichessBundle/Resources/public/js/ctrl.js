@@ -89,20 +89,8 @@ $(function() {
     };
     $.centerOverboard();
 
-    function loadLanguageList() {
-        $div = $('div.lichess_language');
-        if (!$div.hasClass('loaded')) {
-            $.get($div.attr('data-path'), function(html) {
-                $div.append(html);
-            });
-            $div.addClass('loaded');
-        }
-    }
     $('div.lichess_language').click(function() {
         $(this).toggleClass('toggled');
-        loadLanguageList();
-    }).mouseenter(function() {
-        loadLanguageList();
     });
 
     $('.js_email').one('click', function() {
