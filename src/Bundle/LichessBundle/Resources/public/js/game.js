@@ -569,6 +569,7 @@ $.widget("lichess.game", {
         if (reloadIfFail) {
             if (lichess_data.debug) {
                 console.debug('-------- reload ---------');
+                return;
             }
             location.reload();
         }
