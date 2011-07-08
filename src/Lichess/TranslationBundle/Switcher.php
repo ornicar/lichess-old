@@ -4,7 +4,6 @@ namespace Lichess\TranslationBundle;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -15,15 +14,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class Switcher
 {
     protected $manager;
-    protected $translator;
 
     /**
      * Instanciates a new language switcher
      **/
-    public function __construct(TranslationManager $manager, TranslatorInterface $translator)
+    public function __construct(TranslationManager $manager)
     {
         $this->manager = $manager;
-        $this->translator = $translator;
     }
 
     /**
@@ -33,18 +30,28 @@ class Switcher
      **/
     public function switchLocaleForRequest(Request $request)
     {
-        $host = $request->getHost();
-        if ($dotPos = strrpos($host, '.')) {
-            $locale = substr($host, 0, $dotPos);
-            if ($this->manager->isAvailable($locale)) {
-                $request->server->set('LICHESS_LOCALE', $locale);
-                $request->server->set('LICHESS_LOCALE_NAME', $this->manager->getAvailableLanguageName($locale));
-                $this->translator->setLocale($locale);
+        $session = $request->getSession();
+        $parts = explode('.', $request->getHost());
+        if (count($parts) === 3) {
+            $locale = $parts[0];
+            if ($locale == $session->getLocale()) {
                 return;
             }
-            // remove bad locale from the host name
-            $host = substr($host, $dotPos+1);
+            if ($this->manager->isAvailable($locale)) {
+                $session->setLocale($locale);
+                $preferred = $request->getPreferredLanguage($this->manager->getAvailableLanguageCodes());
+                if ($preferred != $locale) {
+                    $session->setFlash('locale_change_adjust', $preferred);
+                } else {
+                    $session->setFlash('locale_change_contribute', $locale);
+                }
+                return;
+            }
+            $host = $parts[1].'.'.$parts[2];
+        } else {
+            $host = $parts[0].'.'.$parts[1];
         }
+
         $locale = $request->getPreferredLanguage($this->manager->getAvailableLanguageCodes());
         $url = sprintf('http://%s.%s%s', $locale, $host, $request->getRequestUri());
         $response = new RedirectResponse($url);
@@ -53,7 +60,7 @@ class Switcher
         if ($preferredLanguage && $locale != $preferredLanguage) {
             $allLanguageCodes = array_keys($this->manager->getLanguages());
             if (in_array($preferredLanguage, $allLanguageCodes)) {
-                $request->getSession()->setFlash('locale_missing', $preferredLanguage);
+                $session->setFlash('locale_missing', $preferredLanguage);
             }
         }
 

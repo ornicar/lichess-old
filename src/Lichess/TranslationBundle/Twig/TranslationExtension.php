@@ -27,21 +27,17 @@ class TranslationExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'lichess_locales' => new \Twig_Function_Method($this, 'getLocales', array('is_safe' => array('html')))
+            'lichess_locales' => new \Twig_Function_Method($this, 'getLocales', array('is_safe' => array('html'))),
+            'lichess_locale_name' => new \Twig_Function_Method($this, 'getLocaleName', array('is_safe' => array('html'))),
+            'lichess_locale_url' => new \Twig_Function_Method($this, 'getLocaleUrl', array('is_safe' => array('html')))
         );
     }
 
     public function getLocales(Request $request)
     {
-        $host = $request->getHost();
-        if ($dotPos = strrpos($host, '.')) {
-            // remove locale from the host name
-            $host = substr($host, $dotPos+1);
-        }
-
-        $url = sprintf('http://%s.%s%s', '{{locale}}', $host, $request->getRequestUri());
+        $url = $this->getLocaleUrl('{{locale}}', $request);
         $availableLocales = $this->manager->getAvailableLanguages();
-        unset($availableLocales[$request->server->get('LICHESS_LOCALE')]);
+        unset($availableLocales[$request->getSession()->getLocale()]);
         ksort($availableLocales);
         $locales = array();
         foreach ($availableLocales as $code => $name) {
@@ -49,6 +45,20 @@ class TranslationExtension extends \Twig_Extension
         }
 
         return $locales;
+    }
+
+    public function getLocaleUrl($locale, Request $request)
+    {
+        $host = $request->getHost();
+        // remove locale from the host name
+        $host = substr($host, strpos($host, '.')+1);
+
+        return sprintf('http://%s.%s%s', $locale, $host, $request->getRequestUri());
+    }
+
+    public function getLocaleName($locale)
+    {
+        return $this->manager->getAvailableLanguageName($locale);
     }
 
     /**

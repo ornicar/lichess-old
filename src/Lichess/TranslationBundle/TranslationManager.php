@@ -31,11 +31,14 @@ class TranslationManager
         $reference = $this->getMessageKeys();
         $diff = array_diff($reference, $keys);
         $missing = count($diff);
-        $percent = 100 * (count($keys) / count($reference));
+        $percent = floor(100 * (count($keys) / count($reference)));
+        if ($missing && $percent == 100) {
+            $percent = 99;
+        }
         return array(
             'name' => $name,
             'missing' => $missing,
-            'percent' => floor($percent),
+            'percent' => $percent,
             'available' => $available
         );
     }

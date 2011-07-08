@@ -6,7 +6,7 @@
 
     <services>
         <service id="lichess.kernel_request_listener" class="Bundle\LichessBundle\KernelRequestListener">
-            <argument type="service" id="service_container" />
+            <argument type="service" id="lichess_translation.switcher" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
         </service>
     </services>

@@ -70,9 +70,8 @@
             <argument>%lichess_translation.translation_dir%</argument>
         </service>
 
-        <service id="lichess_translation.switcher" class="Lichess\TranslationBundle\Switcher">
+        <service id="lichess_translation.switcher" class="Lichess\TranslationBundle\Switcher" public="false">
             <argument type="service" id="lichess_translation.manager" />
-            <argument type="service" id="translator" />
         </service>
 
         <service id="lichess_translation.fetcher" class="Lichess\TranslationBundle\Fetcher">

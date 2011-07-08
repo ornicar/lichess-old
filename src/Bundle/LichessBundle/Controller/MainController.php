@@ -29,7 +29,7 @@ class MainController extends Controller
     {
         $session = $this->get('session');
         $attributeName = 'lichess.sound.enabled';
-        $enableSound = !$session->get($attributeName);
+        $enableSound = !$session->get($attributeName, true);
         $session->set($attributeName, $enableSound);
 
         return new Response($enableSound ? 'on' : 'off');

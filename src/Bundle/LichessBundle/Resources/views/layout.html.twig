@@ -24,12 +24,12 @@
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     </head>
-    <body data-sound-enabled="{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
+    <body data-sound-enabled="{{ app.session.get('lichess.sound.enabled', true) ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         <div id="top" class="clearfix">
             <div id="connectivity" class="tipsyme" href="#" title="{{ "Network"|trans }}"></div>
-            <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ lichess_session('lichess.sound.enabled') ? 'on' : 'off' }}"><span></span></a>
+            <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ app.session.get('lichess.sound.enabled', true) ? 'on' : 'off' }}"><span></span></a>
             <div class="lichess_language">
-                <a class="toggle_language toggle"><span class="s16">{{ app.request.server.get('LICHESS_LOCALE_NAME') }}</span></a>
+                <a class="toggle_language toggle"><span class="s16">{{ lichess_locale_name(app.session.locale) }}</span></a>
                 <ul class="lichess_language_links">
                 {% for url, name in lichess_locales(app.request) %}
                 <li><a href="{{ url }}">{{ name }}</a></li>
@@ -69,8 +69,10 @@
                     <a id="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
                     <span id="site_baseline">{{ "Free Online Chess"|trans }}</span>
                 </h1>
-                {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
-                {% elseif app.session.getFlash("locale_change", "en") != "en" %}{% render "LichessTranslationBundle:Contribution:onChange" with{"locale": app.session.locale} %}
+                {% if app.session.hasFlash("locale_missing") %}iearnstoyarensoytranyusth{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
+                {% elseif app.session.getFlash("locale_change_contribute", "en") != "en" %}{% render "LichessTranslationBundle:Contribution:onChange" with{"locale": app.session.locale} %}
+                {% elseif app.session.getFlash("locale_change_adjust") %}
+                <div class="locale_adjust"><a class="button" href="{{ lichess_locale_url(app.session.getFlash('locale_change_adjust'), app.request) }}">{{ lichess_locale_name(app.session.getFlash('locale_change_adjust')) }}</a></div>
                 {% endif %}
                 <div class="lichess_goodies_wrap">{% block goodies %}{% endblock %}</div>
                 <div class="lichess_chat_wrap">{% block chat %}{% endblock %}</div>

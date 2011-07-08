@@ -44,7 +44,6 @@ class LichessExtension extends Twig_Extension
             'lichess_game_watch_data'   => 'renderGameWatchData',
             'lichess_game_board'        => 'renderGameBoard',
             'lichess_game_fen'          => 'renderGameFen',
-            'lichess_session'           => 'getSession',
             'lichess_nb_active_players' => 'getNbActivePlayers',
             'lichess_load_average'      => 'getLoadAverage',
             'lichess_user_text'         => 'userText',
@@ -386,10 +385,6 @@ class LichessExtension extends Twig_Extension
         }
 
         return $html;
-    }
-    public function getSession($key, $default = null)
-    {
-        return $this->container->get('session')->get($key, $default);
     }
 
     /**

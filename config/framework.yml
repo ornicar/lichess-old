@@ -7,9 +7,10 @@ framework:
     csrf_protection: false
     session:
         default_locale: en
-        name:     lichess2
+        name:     lichess3
         lifetime: 72000
         auto_start:     true
+        domain: .lichess.org
     templating:
         assets_version: 31
         engines: ['twig']

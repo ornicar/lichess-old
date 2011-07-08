@@ -4,6 +4,8 @@ imports:
 framework:
     router: { resource: "%kernel.root_dir%/config/routing_dev.yml" }
     profiler: { only_exceptions: false }
+    session:
+        domain: .l.org
 
 web_profiler:
     toolbar: true
