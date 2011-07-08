@@ -27,6 +27,11 @@ class ExceptionController extends ContainerAware
             'status_code'    => $code,
             'status_text'    => Response::$statusTexts[$code],
         );
+		try {
+			$params['auth'] = $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED');
+		} catch (\Exception $e) {
+			$params['auth'] = false;
+		}
         $templating = $this->container->get('templating');
 
         if(404 == $code) {
