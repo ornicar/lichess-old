@@ -37,9 +37,8 @@ if [ $refresh == "all" ]; then
     echo "Install crafty books"
     bin/install_crafty_books
 elif [ $refresh == "trans" ]; then
-    echo "Warmup cache"
-    php app/console -e=prod cache:clear
-    chmod -R 777 app/cache/prod
+    echo "Delete translation cache"
+    rm app/cache/prod/translations/*
 
     echo "Clear APC cache opcode"
     php app/console --env=prod apc:clear --opcode
