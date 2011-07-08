@@ -50,12 +50,14 @@ div.content {
 }
 
 #top {
-    background: #eaeaea;
+    width: 100%;
     height: 24px;
     border-bottom: 1px solid #bbb;
-    width: 100%;
     background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
+    background: -webkit-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -ms-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
 }
 #site_description {
     position: absolute;
@@ -473,6 +475,7 @@ div.lichess_server {
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
     background: -webkit-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
     background: -ms-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
 }
 div.lichess_table .lichess_button, .ui-state-default {
     border: 1px solid #d3d3d3;
@@ -485,6 +488,7 @@ div.lichess_table .lichess_button, .ui-state-default {
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
     background: -webkit-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
     background: -ms-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
 }
 div.lichess_table .lichess_button.active, .ui-state-active {
     border: 1px solid #bc6000;
