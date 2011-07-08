@@ -32,9 +32,7 @@
             <div class="lichess_language">
                 <a class="toggle_language toggle"><span class="s16">{{ lichess_locale_name(app.session.locale) }}</span></a>
                 <ul class="lichess_language_links">
-                {% for url, name in lichess_locales(app.request) %}
-                <li><a href="{{ url }}">{{ name }}</a></li>
-                {% endfor %}
+{% for url, name in lichess_locales(app.request) %}<li><a href="{{ url }}">{{ name }}</a></li>{% endfor %}
                 <li><a href="{{ path("lichess_translation_contribution") }}">Help translate Lichess!</a></li>
                 </ul>
             </div>
