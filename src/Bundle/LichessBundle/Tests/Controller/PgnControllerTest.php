@@ -36,7 +36,6 @@ class PgnControllerTest extends WebTestCase
 [Black "Crafty level 1"]
 [Result "*"]
 [Variant "Standard"]
-[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"]
 
 *
 EOF;
