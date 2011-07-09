@@ -1,9 +1,7 @@
 #lichess h1 {
-    font-size: 1.5em;
+    font-size: 1.8em;
     color: #666;
     font-weight: normal;
-    margin-bottom: 0.5em;
-    display: inline;
 }
 
 div.current_games_box {

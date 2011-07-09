@@ -24,7 +24,7 @@ div.hooks {
     border: 1px solid #bababa;
     border-top: 0
 }
-.hooks table {
+div.hooks table {
     width: 100%;
     max-height: 424px;
     overflow: hidden;
@@ -34,45 +34,45 @@ div.hooks {
     color: #666;
     border-top: 1px solid #bababa;
 }
-.hooks table.empty_table {
+div.hooks table.empty_table {
     margin-top: 106px;
 }
-.hooks td {
+div.hooks td {
     border-bottom: 1px solid #bababa;
     padding: 14px 8px 14px 12px;
     margin: 0;
     white-space:nowrap;
 }
-.hooks tr:last-child td {
+div.hooks tr:last-child td {
     border-bottom: none;
 }
-.hooks tr.empty {
+div.hooks tr.empty {
     text-align: center;
     cursor: pointer;
 }
-.hooks tr.empty td {
+div.hooks tr.empty td {
     padding: 0;
     height: 80px;
 }
-.hooks tr.joinable {
+div.hooks tr.joinable {
     cursor: pointer;
 }
-.hooks td.action {
+div.hooks td.action {
     padding: 0 8px 0 0;
 }
-.hooks a.cancel {
+div.hooks a.cancel {
     height: 32px;
     width: 32px;
     display: block;
     background: url(/bundles/lichess/images/close24.png) -0px no-repeat;
 }
-.hooks a.join {
+div.hooks a.join {
     height: 32px;
     width: 32px;
     display: block;
     background: url(/bundles/lichess/images/play32.png) -0px no-repeat;
 }
-.hooks tr.my_hook {
+div.hooks tr.my_hook {
     color: #405090;
     background: #c9dbee;
 }
