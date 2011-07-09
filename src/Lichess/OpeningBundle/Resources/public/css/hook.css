@@ -41,7 +41,6 @@ div.hooks td {
     border-bottom: 1px solid #bababa;
     padding: 14px 8px 14px 12px;
     margin: 0;
-    white-space:nowrap;
 }
 div.hooks tr:last-child td {
     border-bottom: none;
