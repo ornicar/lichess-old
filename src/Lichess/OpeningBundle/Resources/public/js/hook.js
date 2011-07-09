@@ -1,9 +1,12 @@
 $(function() { 
 
     var $wrap = $('div.hooks_wrap');
+    if (!$wrap.length) {
+        return;
+    }
     var $hooks = $wrap.find('div.hooks');
     var url = $hooks.data('url');
-    var slowDelay = 3000, fastDelay = delay = 800;
+    var slowDelay = 3000, fastDelay = delay = 500;
     var timeout;
 
     function reload() {

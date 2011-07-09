@@ -1,5 +1,10 @@
 $(function() {
 
+    var $startButtons = $('#start_buttons');
+    if (!$startButtons.length) {
+        return;
+    }
+
     function prepareForm() {
         var $form = $('div.lichess_overboard');
         $form.find('div.buttons').buttonset().disableSelection();
@@ -28,12 +33,12 @@ $(function() {
         }).trigger('change');
         $form.prepend($('<a class="close"></a>').click(function() {
             $form.remove();
-            $('#start_buttons a.active').removeClass('active');
+            $startButtons.find('a.active').removeClass('active');
         }));
     }
 
-    $('#start_buttons a').click(function() {
-        $('#start_buttons a.active').removeClass('active');
+    $startButtons.find('a').click(function() {
+        $startButtons.find('a.active').removeClass('active');
         $(this).addClass('active');
         $('div.lichess_overboard').remove();
         $.centerOverboard();
@@ -47,7 +52,7 @@ $(function() {
         });
         return false;
     });
-    if ($button = $('#start_buttons a.config_'+window.location.hash.replace(/#/, '')).orNot()) {
-        $button.click();
+    if (window.location.hash) {
+        $startButtons.find('a.config_'+window.location.hash.replace(/#/, '')).click();
     }
 });

@@ -23,7 +23,7 @@ function _lichess_get_synchronizer()
 if(0 === strpos($url, '/how-many-players-now')) {
     header('HTTP/1.0 200 OK');
     header('content-type: text/plain');
-    die((string)_lichess_get_synchronizer()->getNbActivePlayers());
+    exit((string)_lichess_get_synchronizer()->getNbActivePlayers());
 }
 
 // Handle authenticated user ping
@@ -32,5 +32,5 @@ if (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)(\?.+|$
     $synchronizer->setUsernameOnline($matches['username']);
     header('HTTP/1.0 200 OK');
     header('content-type: application/json');
-    die(sprintf('{"nbp":%d,"nbm":%d}', $synchronizer->getNbActivePlayers(), apc_fetch('nbm.'.$matches['username'])));
+    exit(sprintf('{"nbp":%d,"nbm":%d}', $synchronizer->getNbActivePlayers(), apc_fetch('nbm.'.$matches['username'])));
 }

@@ -15,14 +15,14 @@ class Cache
 
     public function getNbGames()
     {
-        return $this->cache('lichess.nb_games', 60, function($container) {
+        return $this->cache('lichess.nb_games', 600, function($container) {
             return $container->get('lichess.repository.game')->getNbGames();
         });
     }
 
     public function getNbMates()
     {
-        return $this->cache('lichess.nb_mates', 60, function($container) {
+        return $this->cache('lichess.nb_mates', 600, function($container) {
             return $container->get('lichess.repository.game')->getNbMates();
         });
     }
