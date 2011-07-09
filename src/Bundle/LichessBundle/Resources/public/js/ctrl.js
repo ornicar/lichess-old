@@ -171,7 +171,7 @@ $(function() {
         $('#sound_state').addClass('unavailable');
     }
 
-    if (false || document.domain == 'lichess.org') {
+    if (false || /.+\.lichess\.org/.test(document.domain)) {
         setTimeout(function() {
             if ($gameSharing = $('div.game_share_widgets').orNot()) {
                 $gameSharing.find('div.plusone_placeholder').replaceWith('<div class="lichess_plusone"><g:plusone size="medium" href="http://lichess.org"></g:plusone></div>');
@@ -210,7 +210,7 @@ $.displayBoardMarks = function($board, isWhite) {
     $board.append(marks);
 };
 
-if (document.domain == 'lichess.org') {
+if (/.+\.lichess\.org/.test(document.domain)) {
     //analytics
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-7935029-3']);
