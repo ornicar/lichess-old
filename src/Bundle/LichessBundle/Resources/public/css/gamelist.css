@@ -2,6 +2,7 @@
     font-size: 1.8em;
     color: #666;
     font-weight: normal;
+    display: inline;
 }
 
 div.current_games_box {
