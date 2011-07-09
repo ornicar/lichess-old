@@ -1,40 +1,21 @@
-#!/bin/sh
+#!/usr/bin/env php
+<?php
 
-echo -e "  _ _      _                  \n | (_)    | |                 \n | |_  ___| |__   ___ ___ ___ \n | | |/ __| '_ \ / _ | __/ __|\n | | | (__| | | |  __|__ \__ \ \n |_|_|\___|_| |_|\___|___/___/"
+require_once __DIR__.'/base_script.php';
 
-# Shows a command and executes it
-show_run() {
-    echo "    $ $*"
-    result=$($*)
-    if [ -z $? ]; then
-        echo "--- FAIL"
-        echo $result
-        exit 1
-    fi
+show_action("Reload dev");
+
+show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
+show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
+show_run("Warming up xhr cache", "php xhr/console --env=dev cache:clear");
+
+foreach (array('dev', 'test') as $environment) {
+    show_run("Warming up app $environment cache", "php app/console --env=$environment cache:clear");
+    show_run("Loading app $environment fixtures", "php app/console --env=$environment doctrine:mongodb:fixtures:load");
+    show_run("Creating app $environment MongoDB indexes", "php app/console --env=$environment doctrine:mongodb:schema:create --index");
 }
 
-echo -e "\n--- Building bootstrap"
-show_run "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php"
-show_run "cp app/bootstrap.* xhr/"
+show_run("Clearing APC cache", "php app/console apc:clear");
+show_run("Dumping assets", "php app/console assetic:dump");
 
-echo -e "\n--- warming up xhr cache"
-show_run "php xhr/console --env=dev cache:clear"
-
-for environment in dev test; do
-    echo -e "\n--- warming up app $environment cache"
-    show_run "php app/console --env=$environment cache:clear"
-
-    echo -e "\n--- Loading $environment fixtures"
-    show_run "php app/console --env=$environment doctrine:mongodb:fixtures:load"
-
-    echo -e "\n--- Creating $environment MongoDB indexes"
-    show_run "php app/console --env=$environment doctrine:mongodb:schema:create --index"
-done
-
-echo -e "\n--- Clearing APC cache"
-show_run "php app/console apc:clear"
-
-echo -e "\n--- Dumping assets"
-show_run php app/console assetic:dump
-
-echo "All set!"
+echo "\nAll set!";

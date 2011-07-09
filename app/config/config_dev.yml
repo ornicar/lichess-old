@@ -21,7 +21,7 @@ monolog:
             level: warning
 
 apc:
-    host: lichess
+    host: l.org
 
 ornicar_akismet:
     service: ornicar_akismet.akismet_stub

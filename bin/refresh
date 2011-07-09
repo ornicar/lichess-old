@@ -1,47 +1,32 @@
-#!/bin/sh
+#!/usr/bin/env php
+<?php
 
-if [ $# -lt 1 ]
-then
-    echo "usage: refresh [-at]"
-    echo "   -a Refresh all"
-    echo "   -t Refresh only translations"
-    exit 1
-fi
+require_once __DIR__.'/base_script.php';
 
-while getopts ":at" Option; do
-    case $Option in
-        a   ) refresh="all";;
-        t   ) refresh="trans";;
-    esac
-done
+$mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
 
-if [ $refresh == "all" ]; then
-    echo "Build bootstrap"
-    php vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php
-    cp app/bootstrap.* xhr/
+if (!in_array($mode, array('all', 'trans'))) {
+    echo "\nusage: refresh [all|trans]";
+    echo "\n   all   Refresh all";
+    echo "\n   trans Refresh only translations";
+    exit(1);
+}
 
-    for application in xhr app; do
-        echo -e "\n------------------- $application -----------------"
-        echo "Warmup $application cache"
-        php $application/console -e=prod cache:clear
-        echo "Raise $application cache permissions"
-        chmod -R 777 $application/cache/prod
-    done
+show_action("Refresh prod ($mode)");
 
-    echo "Clear APC cache opcode and user"
-    php app/console --env=prod apc:clear
+if ($mode == 'all') {
+    show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
+    show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
+    foreach (array('app', 'xhr') as $app) {
+        show_run("Warming up $app cache", "php $app/console --env=prod cache:clear");
+        show_run("Raising $app permissions", "chmod -R 777 $app/cache/prod");
+    }
+    show_run("Clearing APC cache", "php app/console --env=prod apc:clear");
+    show_run("Dumping assets", "php app/console --env=prod assetic:dump");
+    show_run("Install crafty books", "bin/install_crafty_books");
+} elseif ($mode == 'trans') {
+    show_run("Clearing translation cache", "rm app/cache/prod/translations/*");
+    show_run("Clearing APC opcode cache", "php app/console --env=prod apc:clear --opcode");
+}
 
-    echo "Dump assets"
-    php app/console --env=prod assetic:dump
-
-    echo "Install crafty books"
-    bin/install_crafty_books
-elif [ $refresh == "trans" ]; then
-    echo "Delete translation cache"
-    rm app/cache/prod/translations/*
-
-    echo "Clear APC cache opcode"
-    php app/console --env=prod apc:clear --opcode
-fi
-
-chmod -R 777 app/cache/prod app/logs
+show_run("Raising app permissions", "chmod -R 777 app/cache/prod");

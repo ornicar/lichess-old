@@ -1,3 +1,3 @@
 apc:
-    host: l.org
+    host: lichess.org
     web_dir: %kernel.root_dir%/../web
