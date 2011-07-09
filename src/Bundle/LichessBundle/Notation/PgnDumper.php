@@ -163,16 +163,21 @@ class PgnDumper
 
     protected function getPgnHeader(Game $game)
     {
-        return sprintf('[Event "%s"]%s[Site "%s"]%s[Date "%s"]%s[White "%s"]%s[Black "%s"]%s[Result "%s"]%s[Variant "%s"]%s[FEN "%s"]',
+        $header = sprintf('[Event "%s"]%s[Site "%s"]%s[Date "%s"]%s[White "%s"]%s[Black "%s"]%s[Result "%s"]%s[Variant "%s"]',
             $this->getEventName($game), "\n",
             $this->getGameUrl($game), "\n",
             $this->getGameDate($game), "\n",
             $this->getPgnPlayer($game->getPlayer('white')), "\n",
             $this->getPgnPlayer($game->getPlayer('black')), "\n",
             $this->getPgnResult($game), "\n",
-            ucfirst($game->getVariantName()), "\n",
-            $game->getInitialFen()
+            ucfirst($game->getVariantName())
         );
+
+        if (!$game->isStandardVariant()) {
+            $header .= sprintf('%s[FEN "%s"]', "\n", $game->getInitialFen());
+        }
+
+        return $header;
     }
 
     protected function getEventName($game)
