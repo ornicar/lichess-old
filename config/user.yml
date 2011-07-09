@@ -6,7 +6,7 @@ fos_user:
         confirmation:
             enabled:    false
         form:
-            type: Application\UserBundle\Form\RegistrationFormType
+            type: lichess_user_registration
     encoder:
         iterations: 1
         encode_as_base64: false
