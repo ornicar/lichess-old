@@ -19,18 +19,24 @@ function _lichess_get_synchronizer()
     return new Bundle\LichessBundle\Sync\Memory(20, 120);
 }
 
-// Handle number of active players requests
-if(0 === strpos($url, '/how-many-players-now')) {
+// sends an http response
+function _lichess_send_response($content, $type)
+{
+    $content = (string)$content;
     header('HTTP/1.0 200 OK');
-    header('content-type: text/plain');
-    exit((string)_lichess_get_synchronizer()->getNbActivePlayers());
+    header('content-type: '.$type);
+    header('content-length: '.strlen($content)); // short content length prevents gzip
+    exit((string)$content);
 }
 
+// Handle number of active players requests
+if(0 === strpos($url, '/how-many-players-now')) {
+    _lichess_send_response(_lichess_get_synchronizer()->getNbActivePlayers(), 'text/plain');
+}
 // Handle authenticated user ping
-if (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)(\?.+|$)#x', $url, $matches)) {
+elseif (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)(\?.+|$)#x', $url, $matches)) {
     $synchronizer = _lichess_get_synchronizer();
     $synchronizer->setUsernameOnline($matches['username']);
-    header('HTTP/1.0 200 OK');
-    header('content-type: application/json');
-    exit(sprintf('{"nbp":%d,"nbm":%d}', $synchronizer->getNbActivePlayers(), apc_fetch('nbm.'.$matches['username'])));
+    $content = sprintf('{"nbp":%d,"nbm":%d}', $synchronizer->getNbActivePlayers(), apc_fetch('nbm.'.$matches['username']));
+    _lichess_send_response($content, 'application/json');
 }
