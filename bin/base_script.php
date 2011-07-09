@@ -2,10 +2,10 @@
 
 function show_run($text, $command)
 {
-    echo "\n\n* $text\n$command";
-    exec($command, $output, $return);
+    echo "\n\n* $text\n$command\n";
+    passthru($command, $return);
     if (0 !== $return) {
-        echo implode("\n", $output);
+        echo "\n/!\\ The command returned $return\n";
         exit(1);
     }
 }

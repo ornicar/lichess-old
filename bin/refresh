@@ -23,7 +23,7 @@ if ($mode == 'all') {
     }
     show_run("Clearing APC cache", "php app/console --env=prod apc:clear");
     show_run("Dumping assets", "php app/console --env=prod assetic:dump");
-    show_run("Install crafty books", "bin/install_crafty_books");
+    //show_run("Install crafty books", "bin/install_crafty_books");
 } elseif ($mode == 'trans') {
     show_run("Clearing translation cache", "rm app/cache/prod/translations/*");
     show_run("Clearing APC opcode cache", "php app/console --env=prod apc:clear --opcode");
