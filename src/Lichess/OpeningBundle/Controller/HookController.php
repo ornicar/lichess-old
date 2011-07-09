@@ -84,11 +84,16 @@ class HookController extends Controller
     public function joinAction($id)
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneById($id);
+        $myHookId = $this->get('request')->query->get('cancel');
+        // hook is not available anymore
         if (!$hook || $hook->isMatch()) {
+            if ($myHookId) {
+                return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $myHookId)));
+            }
             return new RedirectResponse($this->generateUrl('lichess_homepage'));
         }
         // if I also have a hook, cancel it
-        if ($myHookId = $this->get('request')->query->get('cancel')) {
+        if ($myHookId) {
             if ($myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($myHookId)) {
                 $this->get('doctrine.odm.mongodb.document_manager')->remove($myHook);
             }

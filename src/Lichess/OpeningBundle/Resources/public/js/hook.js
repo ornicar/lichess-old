@@ -3,7 +3,7 @@ $(function() {
     var $wrap = $('div.hooks_wrap');
     var $hooks = $wrap.find('div.hooks');
     var url = $hooks.data('url');
-    var slowDelay = 3000, fastDelay = delay = 500;
+    var slowDelay = 3000, fastDelay = delay = 800;
     var timeout;
 
     function reload() {
