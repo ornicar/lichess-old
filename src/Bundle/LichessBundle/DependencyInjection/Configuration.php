@@ -59,6 +59,7 @@ class Configuration
                         ->booleanNode('elo')->defaultTrue()->end()
                         ->booleanNode('chess')->defaultTrue()->end()
                         ->booleanNode('config')->defaultTrue()->end()
+                        ->booleanNode('cache')->defaultTrue()->end()
                     ->end()
                 ->end()
             ->end()

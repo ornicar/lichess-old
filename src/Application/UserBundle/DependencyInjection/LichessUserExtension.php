@@ -16,5 +16,6 @@ class LichessUserExtension extends Extension
         $loader->load('online.xml');
         $loader->load('listener.xml');
         $loader->load('config.xml');
+        $loader->load('form.xml');
     }
 }

@@ -19,8 +19,8 @@ class GameController extends Controller
     {
         return $this->render('LichessBundle:Game:listCurrent.html.twig', array(
             'ids'         => $this->get('lichess.repository.game')->findRecentStartedGameIds(9),
-            'nbGames'     => $this->get('lichess.repository.game')->getNbGames(),
-            'nbMates'     => $this->get('lichess.repository.game')->getNbMates()
+            'nbGames'     => $this->get('lichess_cache')->getNbGames(),
+            'nbMates'     => $this->get('lichess_cache')->getNbMates()
         ));
     }
 
@@ -35,8 +35,8 @@ class GameController extends Controller
     {
         return $this->render('LichessBundle:Game:listAll.html.twig', array(
             'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentStartedOrFinishedQuery()),
-            'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
-            'nbMates'  => $this->get('lichess.repository.game')->getNbMates()
+            'nbGames'  => $this->get('lichess_cache')->getNbGames(),
+            'nbMates'  => $this->get('lichess_cache')->getNbMates()
         ));
     }
 
@@ -44,8 +44,8 @@ class GameController extends Controller
     {
         return $this->render('LichessBundle:Game:listMates.html.twig', array(
             'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentMateQuery()),
-            'nbGames'  => $this->get('lichess.repository.game')->getNbGames(),
-            'nbMates'  => $this->get('lichess.repository.game')->getNbMates()
+            'nbGames'  => $this->get('lichess_cache')->getNbGames(),
+            'nbMates'  => $this->get('lichess_cache')->getNbMates()
         ));
     }
 

@@ -35,3 +35,4 @@ lichess:
         elo: false
         chess: false
         config: false
+        cache: false
