@@ -7,6 +7,7 @@ $.widget("lichess.game", {
         self.$table = self.element.find("div.lichess_table_wrap");
         self.$chat = $("div.lichess_chat");
         self.initialTitle = document.title;
+        self.hasMovedOnce = false;
 
         if (self.options.game.started) {
             self.indicateTurn();
@@ -209,7 +210,7 @@ $.widget("lichess.game", {
                         $('div.lichess_claim_draw_zone').remove();
                         self.$board.find("div.lcs.check").removeClass("check");
                         // If I made the move, the piece is already moved on the board
-                        if (!self.options.player.spectator && event.color == self.options.player.color) {
+                        if (self.hasMovedOnce && event.color == self.options.player.color) {
                             self.element.dequeue();
                         } else {
                             self.movePiece(event.from, event.to, function() {
@@ -299,6 +300,7 @@ $.widget("lichess.game", {
             b: self.blur
         };
 
+        self.hasMovedOnce = true;
         self.blur = 0;
         self.$board.find('div.lcs.selected').removeClass('selected');
         self.options.possible_moves = null;
