@@ -45,6 +45,7 @@ $(function() {
         }).css('cursor', 'pointer');
     }
 
+    $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/(\d+)/, '<strong>$1</strong>'));
     if ($('#user_tag').length) {
         ping.setData('username', $('#user_tag').data('username'));
     }

@@ -69,7 +69,7 @@ class ProfileController extends BaseProfileController
 
     public function viewAction($username, $withMe = false)
     {
-        $user = $this->container->get('fos_user.repository.user')->findOneByUsernameCanonical($username);
+        $user = $this->container->get('fos_user.user_manager')->findUserByUsername($username);
         if (!$user) {
             $response = $this->container->get('templating')->renderResponse('FOSUserBundle:User:unknownUser.html.twig', array('username' => $username));
             $response->setStatusCode(404);
