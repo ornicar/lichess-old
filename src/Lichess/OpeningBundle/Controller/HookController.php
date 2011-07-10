@@ -43,7 +43,7 @@ class HookController extends Controller
             } else {
                 return new RedirectResponse($this->generateUrl('lichess_homepage'));
             }
-        } elseif (!$request->isXmlHttpRequest()) {
+        } elseif (!$request->isXmlHttpRequest() && $this->container->getParameter('kernel.environment') !== 'test') {
             return new RedirectResponse($this->generateUrl('lichess_homepage').'#hook');
         }
 
