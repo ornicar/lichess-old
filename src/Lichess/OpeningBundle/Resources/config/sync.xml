@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="lichess_opening.timeout">10</parameter>
+        <parameter key="lichess_opening.latency">5</parameter>
+        <parameter key="lichess_opening.delay">0.25</parameter>
+    </parameters>
+
+    <services>
+        <service id="lichess_opening.memory" class="Lichess\OpeningBundle\Sync\Memory">
+            <argument>%lichess_opening.timeout%</argument>
+        </service>
+        <service id="lichess_opening.http_push" class="Lichess\OpeningBundle\Sync\HttpPush" public="true">
+            <argument type="service" id="lichess_opening.memory" />
+            <argument>%lichess_opening.timeout%</argument>
+            <argument>%lichess_opening.delay%</argument>
+        </service>
+        <service id="lichess_opening.hooks_renderer" class="Lichess\OpeningBundle\Sync\HooksRenderer" scope="request">
+            <argument type="service" id="lichess_opening.hook_repository" />
+            <argument type="service" id="lichess_opening.memory" />
+            <argument type="service" id="translator" />
+            <argument type="service" id="router" />
+            <argument type="service" id="request" />
+        </service>
+    </services>
+</container>

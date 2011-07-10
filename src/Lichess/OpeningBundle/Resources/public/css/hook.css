@@ -45,11 +45,11 @@ div.hooks td {
 div.hooks tr:last-child td {
     border-bottom: none;
 }
-div.hooks tr.empty {
+div.hooks table.empty_table tr {
     text-align: center;
     cursor: pointer;
 }
-div.hooks tr.empty td {
+div.hooks table.empty_table td {
     padding: 0;
     height: 80px;
 }

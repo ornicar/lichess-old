@@ -153,11 +153,6 @@ class Hook
         if(isset($data['color'])) $this->color = $data['color'];
     }
 
-    public function createConfigView()
-    {
-        return new GameConfigView($this->toArray());
-    }
-
     public function toArray()
     {
         return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color);

@@ -52,7 +52,8 @@ class LichessExtension extends Twig_Extension
             'lichess_room_messages'     => 'roomMessages',
             'lichess_debug_assets'      => 'debugAssets',
             'lichess_date'              => 'formatDate',
-            'lichess_game_trials'       => 'getGameTrials'
+            'lichess_game_trials'       => 'getGameTrials',
+            'lichess_xhr_url_prefix'    => 'getXhrUrlPrefix'
         );
 
         $functions = array();
@@ -143,7 +144,7 @@ class LichessExtension extends Twig_Extension
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 
-    protected function getXhrUrlPrefix()
+    public function getXhrUrlPrefix()
     {
         return $this->container->getParameter('lichess.sync.path');
     }

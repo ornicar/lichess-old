@@ -1,0 +1,14 @@
+lichess_hook_poll:
+    pattern: /new/poll/{myHookId}
+    defaults: { _controller: LichessOpeningBundle:Hook:poll, myHookId '' }
+    requirements: { myHookId: "([\w\-]{12}|)" }
+
+lichess_hook_join:
+    pattern: /new/{id}/join
+    defaults: { _controller: LichessOpeningBundle:Hook:join }
+    requirements:   { id: "[\w\-]{8}" }
+
+lichess_hook_cancel:
+    pattern: /new/{id}/cancel
+    defaults: { _controller: LichessOpeningBundle:Hook:cancel }
+    requirements:   { id: "[\w\-]{12}" }

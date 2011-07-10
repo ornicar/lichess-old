@@ -18,13 +18,16 @@ class LichessOpeningExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        //$processor = new Processor();
-        //$configuration = new Configuration();
-        //$config = $processor->process($configuration->getConfigTree(), $configs);
+        $processor = new Processor();
+        $configuration = new Configuration();
+        $config = $processor->process($configuration->getConfigTree(), $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('config.xml');
-        $loader->load('starter.xml');
-        $loader->load('form.xml');
+        $loader->load('model.xml');
+        $loader->load('sync.xml');
+
+        foreach ($config['feature'] as $feature => $enabled) {
+            if ($enabled) $loader->load($feature.'.xml');
+        }
     }
 }

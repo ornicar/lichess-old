@@ -17,6 +17,7 @@ doctrine_mongodb:
             auto_mapping: false
             mappings:
                 LichessBundle: ~
+                LichessOpeningBundle: ~
                 LichessUser:
                     type: annotation
                     dir: %kernel.root_dir%/../src/Application/UserBundle/Document
@@ -36,3 +37,10 @@ lichess:
         chess: false
         config: false
         cache: false
+# Disable as many features as possible
+lichess_opening:
+    feature:
+        config_persistence: false
+        form: false
+        starter: false
+        cleaner: false

@@ -13,10 +13,29 @@ class Memory
      * @var int
      */
     protected $timeout;
+    protected $stateKey = 'lichess.hook_state';
 
     public function __construct($timeout)
     {
         $this->timeout = (int) $timeout;
+    }
+
+    public function incrementState()
+    {
+        if (!apc_inc($this->stateKey)) {
+            apc_store($this->stateKey, 1);
+        }
+    }
+
+    public function getState()
+    {
+        $state = apc_fetch($this->stateKey);
+        if (!$state) {
+            $state = 1;
+            apc_store($this->stateKey, 1);
+        }
+
+        return $state;
     }
 
     public function setAlive(Hook $hook)

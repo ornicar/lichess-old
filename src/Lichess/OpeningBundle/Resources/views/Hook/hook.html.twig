@@ -5,8 +5,7 @@
     <div class="lichess_board_wrap lichess_player_white">
         {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
         <div class="hooks_wrap">
-            <div class="hooks" data-url="{{ path('lichess_hook_poll', {'auth': auth, 'id': hook.ownerId}) }}">
-                {% include "LichessOpeningBundle:Hook:list.html.twig" with {"hooks": hooks, "myHook": hook} %}
+            <div class="hooks" data-auth="{{ auth }}" data-hooks="{{ data|json_encode }}" data-url="{{ lichess_xhr_url_prefix()~path('lichess_hook_poll', {'myHookId': myHookId, 'l': app.session.locale}) }}">
             </div>
         </div>
     </div>

@@ -6,47 +6,82 @@ $(function() {
     }
     var $hooks = $wrap.find('div.hooks');
     var url = $hooks.data('url');
-    var slowDelay = 3000, fastDelay = delay = 500;
+    var slowDelay = 5000, fastDelay = delay = 100;
     var timeout;
+    var state = 0;
+    var auth = $hooks.data('auth');
 
     function reload() {
         timeout = setTimeout(function() {
             timeout = false;
             $.ajax(url, {
-                success: function(html) {
-                    // redirections
-                    if (/^\//.test(html)) {
-                        location.href = html;
-                        return;
+                success: function(data) {
+                    if (data.redirect) {
+                        redirect(data.redirect);
+                    } else {
+                        renderHooks(data);
                     }
-                    $wrap.removeClass('hidden');
-                    $hooks.html(html);
                 },
                 complete: function() {
                     reload();
                 },
-                dataType: 'html',
+                dataType: 'json',
                 type: "GET",
                 cache: false,
-                timeout: 9000
+                data: {
+                    'state': state,
+                    'auth': auth
+                },
+                timeout: 10000
             });
         },
-        delay);
+        500);
     };
     reload();
 
-    $wrap.delegate('tr.joinable', 'click', function() {
+    function renderHooks(data) {
+        state = data.state;
+        $wrap.removeClass('hidden');
+        if (data.hooks) {
+            var hook, html = '<table>';
+            for (id in data.hooks) {
+                hook = data.hooks[id];
+                html += '<tr'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
+                html += '<td>'+hook.username;
+                if (hook.elo) html += '<br />('+hook.elo+')';
+                html += '</td>';
+                html += '<td>'+hook.variant+'</td>';
+                html += '<td>'+hook.mode+'</td>';
+                html += '<td>'+hook.clock+'</td>';
+                html += '<td class="action">';
+                html += '<a href="'+hook.url+'" class="'+hook.action+'"></a>';
+                html += '</td></tr>';
+            }
+        } else {
+            var html = '<table class="empty_table"><tr><td colspan="5">'+data.message+'</td></tr></table>';
+        }
+        $hooks.html(html);
+    }
+
+    function redirect(url) {
+        $wrap.addClass('hidden');
+        clearTimeout(timeout);
+        location.href = url;
+    }
+
+    $hooks.delegate('tr.joinable', 'click', function() {
         $(this).find('a.join').trigger('click');
     });
-    $wrap.delegate('tr.joinable a.join', 'click', function() {
-        clearTimeout(timeout);
-        $wrap.addClass('hidden');
-        location.href = $(this).attr('href');
+    $hooks.delegate('tr.joinable a.join', 'click', function() {
+        redirect($(this).attr('href'));
     });
-        
-    $wrap.delegate('tr.empty', 'click', function() {
+    $hooks.delegate('table.empty_table tr', 'click', function() {
         $('#start_buttons a.config_hook').click();
     });
+
+    if (data = $hooks.data('hooks')) {
+        renderHooks(data);
+    }
 
     $(window).bind('blur', function() {
         delay = slowDelay;

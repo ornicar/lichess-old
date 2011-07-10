@@ -480,7 +480,7 @@ div.lichess_table .lichess_button, .ui-state-default {
     border: 1px solid #d3d3d3;
 }
 
-#top a.goto_nav.active, div.lichess_table .lichess_button.active, .ui-state-active, .ui-widget-header, .hooks tr.joinable:hover, .hooks tr.empty:hover {
+#top a.goto_nav.active, div.lichess_table .lichess_button.active, .ui-state-active, .ui-widget-header, div.hooks tr.joinable:hover, div.hooks table.empty_table tr:hover {
     color: #fff;
     background: #d85000;
     background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;

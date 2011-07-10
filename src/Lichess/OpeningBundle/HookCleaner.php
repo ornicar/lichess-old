@@ -1,6 +1,6 @@
 <?php
 
-namespace Lichess\OpeningBundle\Sync;
+namespace Lichess\OpeningBundle;
 
 use Lichess\OpeningBundle\Sync\Memory;
 use Lichess\OpeningBundle\Document\HookRepository;
@@ -33,10 +33,15 @@ class HookCleaner
             $this->hookRepository->removeOldHooks();
         }
         $hooks = $this->hookRepository->findAllOpen();
+        $removed = false;
         foreach ($hooks as $hook) {
             if (!$this->memory->isAlive($hook)) {
                 $this->hookRepository->getDocumentManager()->remove($hook);
+                $removed = true;
             }
+        }
+        if ($removed) {
+            $this->memory->incrementState();
         }
     }
 }
