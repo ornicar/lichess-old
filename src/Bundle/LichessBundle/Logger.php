@@ -46,9 +46,7 @@ class Logger
 
     public function formatHook(Hook $hook, $message)
     {
-        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '?';
-
-        return sprintf('%s %s %s', $ip, $message, $this->expandHook($hook));
+        return sprintf('%s %s', $message, $this->expandHook($hook));
     }
 
     public function expandPlayer(Player $player)
