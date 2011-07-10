@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# Usage: update_online_users <sleep> <url>
-# update_online_users 3 http://lichess.org/update-online-users
+delay=1
+url="http://en.lichess.org/update-online-users"
 
 while true; do
-    curl -s -d "a=b" $2 > /dev/null
-    sleep $1
+    curl -s -d "" $url > /dev/null
+    sleep $delay
 done;

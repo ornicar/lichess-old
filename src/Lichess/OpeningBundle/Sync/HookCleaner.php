@@ -29,14 +29,14 @@ class HookCleaner
 
     public function removeDeadHooks()
     {
-        $manager = $this->hookRepository->getDocumentManager();
+        if (0 == time()%10) {
+            $this->hookRepository->removeOldHooks();
+        }
         $hooks = $this->hookRepository->findAllOpen();
         foreach ($hooks as $hook) {
             if (!$this->memory->isAlive($hook)) {
-                $manager->remove($hook);
+                $this->hookRepository->getDocumentManager()->remove($hook);
             }
         }
-        $manager->flush();
-        $this->hookRepository->removeOldHooks();
     }
 }

@@ -34,6 +34,5 @@ class Updater
                 $user->setIsOnline(true);
             }
         }
-        $this->objectManager->flush();
     }
 }
