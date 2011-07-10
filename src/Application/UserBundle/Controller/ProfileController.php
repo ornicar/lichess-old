@@ -11,6 +11,7 @@ use Application\UserBundle\Document\User;
 use Lichess\ChartBundle\Chart\UserEloChart;
 use Lichess\ChartBundle\Chart\UserWinChart;
 use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 
 class ProfileController extends BaseProfileController
 {
@@ -94,8 +95,13 @@ class ProfileController extends BaseProfileController
         } else {
             $query = $gameRepository->createRecentStartedOrFinishedByUserQuery($user);
         }
-        $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
-        $games->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(10);
+        try {
+            $page = $this->container->get('request')->query->get('page', 1);
+            $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+            $games->setCurrentPage($page)->setMaxPerPage(10);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException(sprintf('Invalid user game page requested %s (page %s)', $user->getUsername(), $page));
+        }
 
         if ($withMe) {
             $template = 'FOSUserBundle:User:showWithMe.html.twig';

@@ -92,7 +92,7 @@ class HookController extends Controller
         // hook is not available anymore
         if (!$hook || $hook->isMatch()) {
             if ($myHookId) {
-                $this->get('lichess.logger')->warn($hook, 'Hook::join not available anymore, redirect to my own hook');
+                $this->get('lichess.logger')->warn(new Hook(), 'Hook::join not available anymore, redirect to my own hook');
                 return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $myHookId)));
             }
             $this->get('lichess.logger')->warn(new Hook(), 'Hook::join not available anymore, redirect to homepage');
@@ -135,7 +135,7 @@ class HookController extends Controller
         if ($id) {
             $myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
             if (!$myHook) {
-                $this->get('lichess.logger')->warn($myHook, 'Hook::poll hook has disappeared, redirect to homepage');
+                $this->get('lichess.logger')->warn(new Hook(), 'Hook::poll hook has disappeared, redirect to homepage');
                 return new Response($this->generateUrl('lichess_homepage'));
             }
             if ($game = $myHook->getGame()) {
