@@ -15,8 +15,15 @@ $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST
 function _lichess_get_synchronizer()
 {
     require_once __DIR__.'/Sync/Memory.php';
-    // params: lichess.synchronizer.soft_timeout, lichess.synchronizer.hard_timeout
-    return new Bundle\LichessBundle\Sync\Memory(20, 120);
+    // params: lichess.memory.soft_timeout, lichess.memory.hard_timeout
+    return new Bundle\LichessBundle\Sync\Memory(7, 120);
+}
+// instanciate a hook synchronizer
+function _lichess_get_hook_synchronizer()
+{
+    require_once __DIR__.'/../../Lichess/OpeningBundle/Sync/Memory.php';
+    // params: lichess.memory.soft_timeout
+    return new Lichess\OpeningBundle\Sync\Memory(7);
 }
 
 // sends an http response
@@ -29,14 +36,23 @@ function _lichess_send_response($content, $type)
     exit((string)$content);
 }
 
-// Handle number of active players requests
-if(0 === strpos($url, '/how-many-players-now')) {
-    _lichess_send_response(_lichess_get_synchronizer()->getNbActivePlayers(), 'text/plain');
-}
-// Handle authenticated user ping
-elseif (0 === strpos($url, '/ping/') && preg_match('#^/ping/(?P<username>\w+)(\?.+|$)#x', $url, $matches)) {
+// Handle user ping
+if (0 === strpos($url, '/ping')) {
     $synchronizer = _lichess_get_synchronizer();
-    $synchronizer->setUsernameOnline($matches['username']);
-    $content = sprintf('{"nbp":%d,"nbm":%d}', $synchronizer->getNbActivePlayers(), apc_fetch('nbm.'.$matches['username']));
-    _lichess_send_response($content, 'application/json');
+    $data = array('nbp' => $synchronizer->getNbActivePlayers());
+    if (isset($_GET['username'])) {
+        $synchronizer->setUsernameOnline($_GET['username']);
+        $data['nbm'] = apc_fetch('nbm.'.$_GET['username']);
+    }
+    if (isset($_GET['player_key'])) {
+        $synchronizer->setPlayerKeyAlive($_GET['player_key']);
+    }
+    if (isset($_GET['hook_id'])) {
+        _lichess_get_hook_synchronizer()->setHookIdAlive($_GET['hook_id']);
+    }
+    _lichess_send_response(json_encode($data), 'application/json');
+}
+// Handle number of active players requests
+elseif(0 === strpos($url, '/how-many-players-now')) {
+    _lichess_send_response(_lichess_get_synchronizer()->getNbActivePlayers(), 'text/plain');
 }

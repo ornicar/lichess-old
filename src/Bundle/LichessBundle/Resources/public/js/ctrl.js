@@ -3,7 +3,28 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
 };
 
 $(function() {
-    var $game = $game = $('div.lichess_game').orNot();
+
+    // Start ping
+    var pingDelay = 3000;
+    var $nbConnectedPlayers = $('#nb_connected_players');
+    var connectivity = new $.connectivity($('#connectivity'), {
+        delay: pingDelay,
+        tolerance: 300
+    });
+    var ping = new $.ping('/ping', {
+        delay: pingDelay,
+        callback: function(data) {
+            connectivity.ping();
+            $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/\d+/, data.nbp));
+            if (typeof data.nbm != 'undefined') {
+                $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0);
+            }
+        }
+    });
+    $.data(document.body, 'lichess_ping', ping);
+
+    // Start game
+    var $game = $('div.lichess_game').orNot();
     if ($game) {
         $game.game(lichess_data);
         if (!lichess_data.player.spectator) {
@@ -23,57 +44,10 @@ $(function() {
             revertDuration: 2000
         }).css('cursor', 'pointer');
     }
-    var $nbConnectedPlayers = $('#nb_connected_players').orNot();
-    if ($nbConnectedPlayers) {
-        $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/(\d+)/, '<strong>$1</strong>'));
-    }
-    var $userTag = $userTag = $('#user_tag').orNot();
-    var $connectivity = $("#connectivity");
-    var showNbConnectedPlayers = function(nb) {
-        $nbConnectedPlayers && $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/\d+/, nb));
-    }
-    if ($userTag) {
-        pingConfig = {
-            url: $userTag.attr('data-online-url'),
-            dataType: "json",
-            onResponse: function(data) {
-                showNbConnectedPlayers(data.nbp);
-                if (typeof data.nbm != 'undefined') {
-                    $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0);
-                }
-            }
-        };
-    } else if ($nbConnectedPlayers) {
-        pingConfig = {
-            url: $nbConnectedPlayers.attr('data-url'),
-            dataType: "text",
-            onResponse: showNbConnectedPlayers
-        };
-    }
-    pingConfig.delay = 7000;
-    var connectivity = new $.connectivity($connectivity, {
-        delay: pingConfig.delay,
-        tolerance: 300
-    });
 
-    (function ping(config) {
-        setTimeout(function() {
-            $.ajax(config.url, {
-                success: function(data) {
-                    config.onResponse(data);
-                    connectivity.ping();
-                },
-                complete: function() {
-                    ping(config);
-                },
-                dataType: config.dataType,
-                type: "GET",
-                cache: false,
-                timeout: 15000
-            });
-        },
-        config.delay);
-    })(pingConfig);
+    if ($('#user_tag').length) {
+        ping.setData('username', $('#user_tag').data('username'));
+    }
 
     $('input.lichess_id_input').select();
 
@@ -122,7 +96,7 @@ $(function() {
         $('#top').find('div.security').removeClass('show_signin_form');
     });
 
-    $('#lichess_message input[value=""]:first, #fos_user_user_form_username').focus();
+    $('#lichess_message input[value=""]:first, #fos_user_registration_form_username').focus();
 
     $('#lichess_translation_form_code').change(function() {
         if ("0" != $(this).val()) {
@@ -224,74 +198,3 @@ if (/.+\.lichess\.org/.test(document.domain)) {
         s.parentNode.insertBefore(ga, s);
     })();
 }
-
-/* connectivity indicator */
-$.connectivity = function(element, options) {
-    this.element = element;
-    this.options = $.extend({
-        tolerance: 300,
-        max: 5,
-        refreshDelay: 300
-    },
-    options);
-    var html = '';
-    for (var i = 1; i <= 5; i++) {
-        html += '<span style="height:'+(i*4)+'px;margin-top:'+(20-i*4)+'px;"></span>';
-    }
-    this.element.html(html);
-    this.state = this.options.max;
-    this.lastPingDate = new Date().getTime();
-    this.$bars = this.element.find('span');
-    this.start();
-};
-$.connectivity.prototype = {
-    start: function() {
-        var self = this;
-        setInterval(function() {
-            self.refresh()
-        },
-        self.options.refreshDelay);
-    },
-    ping: function() {
-        var self = this;
-        // ping is not disconnected, show at least one bar
-        self.state = Math.max(1, self.getStateForCurrentLatency());
-        self.show();
-        self.lastPingDate = new Date().getTime();
-    },
-    refresh: function() {
-        var self = this;
-        state = self.getStateForCurrentLatency();
-        if (state < self.state) {
-            self.state = state;
-            self.show();
-        }
-    },
-    getStateForCurrentLatency: function() {
-        self = this;
-        latency = new Date().getTime() - self.lastPingDate - self.options.delay;
-        if (latency <= 0) {
-            return self.options.max;
-        }
-        waitFactor = self.getLatencyFactor(latency);
-        state = Math.max(0, self.options.max - waitFactor);
-        return state;
-    },
-    getLatencyFactor: function(latency) {
-        threshold = 0;
-        for (factor = 1; factor <= self.options.max; factor++) {
-            threshold = factor + threshold;
-            limit = threshold * self.options.tolerance;
-            if (latency < limit) {
-                return factor - 1;
-            }
-        }
-        return self.options.max;
-    },
-    show: function() {
-        this.$bars.removeClass('on').toggleClass('alert', 0 == this.state);
-        for (i = 0; i < this.state; i++) {
-            $(this.$bars[i]).addClass('on');
-        }
-    }
-};

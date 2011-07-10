@@ -5,9 +5,18 @@
     <div class="lichess_board_wrap lichess_player_white">
         {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
         <div class="hooks_wrap hidden">
-            <div class="hooks" data-auth="{{ auth }}" data-url="{{ lichess_xhr_url_prefix()~path('lichess_hook_poll', {'l': app.session.locale}) }}"></div>
+            <div class="hooks"
+                data-my-hook="{% block opening_my_hook %}{% endblock %}"
+                data-hooks="{% block opening_hooks %}{% endblock %}"
+                data-poll-url="{% block opening_hook_poll_url %}{{ lichess_xhr_url_prefix()~path('lichess_hook_poll', {'l': app.session.locale}) }}{% endblock %}"
+                data-auth="{{ auth }}"
+                data-cancel-url="{{ path('lichess_hook_cancel', {'id': '000000000000'}) }}"
+                data-join-url="{{ path('lichess_hook_join', {'id': '00000000'}) }}"
+            ></div>
         </div>
     </div>
-    {% include "LichessOpeningBundle::startButtons.html.twig" %}
+    {% block opening_buttons %}
+        {% include "LichessOpeningBundle::startButtons.html.twig" %}
+    {% endblock %}
 </div>
 {% endblock %}

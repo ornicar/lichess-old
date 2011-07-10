@@ -1,0 +1,9 @@
+#!/bin/sh
+
+delay=1
+url="http://en.l.org/update-online-users"
+
+while true; do
+    curl -s -d "" $url 
+    sleep $delay
+done;

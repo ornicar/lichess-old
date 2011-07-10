@@ -173,7 +173,8 @@ class LichessExtension extends Twig_Extension
             'player' => array(
                 'color'     => $player->getColor(),
                 'version'   => $player->getStack()->getVersion(),
-                'spectator' => false
+                'spectator' => false,
+                'alive_key' => $this->container->get('lichess.memory')->getPlayerKey($player)
             ),
             'opponent' => array(
                 'color'  => $opponent->getColor(),

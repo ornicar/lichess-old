@@ -19,9 +19,6 @@ class Synchronizer
 
     public function synchronize(Player $player, $version, $isSigned)
     {
-        if($isSigned) {
-            $this->memory->setAlive($player);
-        }
         $player->getGame()->cachePlayerVersions();
 
         $this->httpPush->poll($player, $version);

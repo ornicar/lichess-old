@@ -32,13 +32,15 @@ $.widget("lichess.game", {
             }
         }
 
-        if (!self.options.opponent.ai && ! self.options.player.spectator) {
+        if (!self.options.opponent.ai && !self.options.player.spectator) {
             // update document title to show playing state
             setTimeout(self.updateTitle = function() {
                 document.title = (self.isMyTurn() && ! self.options.game.finished) ? document.title = document.title.indexOf('/\\/') == 0 ? '\\/\\ ' + document.title.replace(/\/\\\/ /, '') : '/\\/ ' + document.title.replace(/\\\/\\ /, '') : document.title;
                 setTimeout(self.updateTitle, 400);
             },
             400);
+            // add player to ping data
+            $.data(document.body, 'lichess_ping').setData('player_key', lichess_data.player.alive_key);
         }
 
         function syncLoop() {

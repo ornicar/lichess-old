@@ -55,10 +55,10 @@ class HooksRenderer
                 );
                 if ($myHookId === $hook->getOwnerId()) {
                     $array['action'] = 'cancel';
-                    $array['url'] = $router->generate('lichess_hook_cancel', array('id' => $hook->getOwnerId()));
+                    $array['id'] = $hook->getOwnerId();
                 } else {
                     $array['action'] = 'join';
-                    $array['url'] = $router->generate('lichess_hook_join', array('id' => $hook->getId()));
+                    $array['id'] = $hook->getId();
                 }
                 return $array;
             }, $hooks);

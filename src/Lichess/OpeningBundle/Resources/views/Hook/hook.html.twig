@@ -1,13 +1,7 @@
-{% extends 'LichessOpeningBundle::layoutOpening.html.twig' %}
+{% extends 'LichessOpeningBundle::index.html.twig' %}
 
-{% block content %}
-<div class="clearfix lichess_homepage">
-    <div class="lichess_board_wrap lichess_player_white">
-        {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
-        <div class="hooks_wrap">
-            <div class="hooks" data-auth="{{ auth }}" data-hooks="{{ data|json_encode }}" data-url="{{ lichess_xhr_url_prefix()~path('lichess_hook_poll', {'myHookId': myHookId, 'l': app.session.locale}) }}">
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+{% block opening_buttons %}{% endblock %}
+
+{% block opening_my_hook %}{{ myHookId }}{% endblock %}
+{% block opening_hooks %}{{ data|json_encode }}{% endblock %}
+{% block opening_hook_poll_url %}{{ lichess_xhr_url_prefix()~path('lichess_hook_poll', {'myHookId': myHookId, 'l': app.session.locale}) }}{% endblock %}

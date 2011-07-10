@@ -42,7 +42,12 @@ class Memory
 
     public function setAlive(Player $player)
     {
-        apc_store($this->getAliveKey($player), time(), $this->hardTimeout);
+        $this->setPlayerKeyAlive($this->getPlayerKey($player));
+    }
+
+    public function setPlayerKeyAlive($playerKey)
+    {
+        apc_store($playerKey, time(), $this->hardTimeout);
     }
 
     /**
@@ -82,14 +87,14 @@ class Memory
 
     protected function getLatency(Player $player)
     {
-        $lastPlayerPing = apc_fetch($this->getAliveKey($player));
+        $lastPlayerPing = apc_fetch($this->getPlayerKey($player));
         if (!$lastPlayerPing) {
             return 999999;
         }
         return time() - $lastPlayerPing;
     }
 
-    protected function getAliveKey(Player $player)
+    public function getPlayerKey(Player $player)
     {
         return $player->getGame()->getId().'.'.$player->getColor().'.alive';
     }

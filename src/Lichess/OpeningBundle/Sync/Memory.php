@@ -40,16 +40,21 @@ class Memory
 
     public function setAlive(Hook $hook)
     {
-        apc_store($this->getAliveKey($hook), time(), $this->timeout);
+        $this->setHookIdAlive($hook->getOwnerId());
+    }
+
+    public function setHookIdAlive($hookId)
+    {
+        apc_store($this->getHookKey($hookId), true, $this->timeout);
     }
 
     public function isAlive(Hook $hook)
     {
-        return (boolean) apc_fetch($this->getAliveKey($hook));
+        return (boolean) apc_fetch($this->getHookKey($hook->getOwnerId()));
     }
 
-    protected function getAliveKey(Hook $hook)
+    public function getHookKey($hookId)
     {
-        return 'hook.'.$hook->getId().'.alive';
+        return 'hook.'.$hookId.'.alive';
     }
 }
