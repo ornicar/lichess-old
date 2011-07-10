@@ -15,7 +15,7 @@ class Cache
 
     public function setOnline(User $user)
     {
-        return $this->setUsernameOnline($user->getUsername());
+        return $this->setUsernameOnline($user->getUsernameCanonical());
     }
 
     public function setUsernameOnline($username)
@@ -25,7 +25,7 @@ class Cache
 
     public function isOnline(User $user)
     {
-        return $this->isUsernameOnline($user->getUsername());
+        return $this->isUsernameOnline($user->getUsernameCanonical());
     }
 
     public function isUsernameOnline($username)

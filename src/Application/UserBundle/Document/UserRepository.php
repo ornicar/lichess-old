@@ -10,7 +10,7 @@ class UserRepository extends DocumentRepository
 {
     public function findOneByUsernameCanonical($username)
     {
-        return $this->findOneBy(array('usernameCanonical' => mb_strtolower($username)));
+        return $this->findOneBy(array('usernameCanonical' => $username));
     }
 
     public function setOnline(User $user)

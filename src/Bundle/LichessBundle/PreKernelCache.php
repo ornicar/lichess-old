@@ -8,22 +8,25 @@
  * If this script returns, the normal Symfony application is run.
  **/
 
-// Get url
 $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+//
+// param: lichess.memory.soft_timeout
+$softTimeout = 7;
 
-// instanciate a synchronizer
-function _lichess_get_synchronizer()
+function _lichess_get_synchronizer($softTimeout)
 {
     require_once __DIR__.'/Sync/Memory.php';
-    // params: lichess.memory.soft_timeout, lichess.memory.hard_timeout
-    return new Bundle\LichessBundle\Sync\Memory(7, 120);
+    return new Bundle\LichessBundle\Sync\Memory($softTimeout, 120);
 }
-// instanciate a hook synchronizer
-function _lichess_get_hook_synchronizer()
+function _lichess_get_hook_synchronizer($softTimeout)
 {
     require_once __DIR__.'/../../Lichess/OpeningBundle/Sync/Memory.php';
-    // params: lichess.memory.soft_timeout
-    return new Lichess\OpeningBundle\Sync\Memory(7);
+    return new Lichess\OpeningBundle\Sync\Memory($softTimeout);
+}
+function _lichess_get_user_synchronizer($softTimeout)
+{
+    require_once __DIR__.'/../../Application/UserBundle/Online/Cache.php';
+    return new Application\UserBundle\Online\Cache($softTimeout);
 }
 
 // sends an http response
@@ -38,17 +41,17 @@ function _lichess_send_response($content, $type)
 
 // Handle user ping
 if (0 === strpos($url, '/ping')) {
-    $synchronizer = _lichess_get_synchronizer();
+    $synchronizer = _lichess_get_synchronizer($softTimeout);
     $data = array('nbp' => $synchronizer->getNbActivePlayers());
-    if (isset($_GET['username'])) {
-        $synchronizer->setUsernameOnline($_GET['username']);
-        $data['nbm'] = (int) apc_fetch('nbm.'.$_GET['username']);
-    }
     if (isset($_GET['player_key'])) {
         $synchronizer->setPlayerKeyAlive($_GET['player_key']);
     }
     if (isset($_GET['hook_id'])) {
-        _lichess_get_hook_synchronizer()->setHookIdAlive($_GET['hook_id']);
+        _lichess_get_hook_synchronizer($softTimeout)->setHookIdAlive($_GET['hook_id']);
+    }
+    if (isset($_GET['username'])) {
+        _lichess_get_user_synchronizer($softTimeout)->setUsernameOnline($_GET['username']);
+        $data['nbm'] = (int) apc_fetch('nbm.'.$_GET['username']);
     }
     _lichess_send_response(json_encode($data), 'application/json');
 }

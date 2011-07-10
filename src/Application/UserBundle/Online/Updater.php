@@ -23,14 +23,14 @@ class Updater
         $repoUsernames = array();
         foreach($this->userRepository->findOnlineUsers() as $user) {
             if(in_array($user->getUsername(), $onlineUsernames)) {
-                $repoUsernames[] = $user->getUsername();
+                $repoUsernames[] = $user->getUsernameCanonical();
             } else {
                 $user->setIsOnline(false);
             }
         }
         foreach($onlineUsernames as $username) {
             if(!in_array($username, $repoUsernames)) {
-                $user = $this->userRepository->findOneByUsername($username);
+                $user = $this->userRepository->findOneByUsernameCanonical($username);
                 $user->setIsOnline(true);
             }
         }

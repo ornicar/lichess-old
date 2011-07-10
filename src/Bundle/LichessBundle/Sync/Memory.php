@@ -80,11 +80,6 @@ class Memory
         return apc_fetch($player->getGame()->getId().'.'.$player->getColor().'.data');
     }
 
-    public function setUsernameOnline($username)
-    {
-        apc_store('online.'.$username, true, $this->softTimeout);
-    }
-
     protected function getLatency(Player $player)
     {
         $lastPlayerPing = apc_fetch($this->getPlayerKey($player));
