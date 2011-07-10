@@ -6,7 +6,6 @@
 /xhr/cache/*
 /xhr/logs/*
 /xhr/bootstrap*
-/bin/deploy*
 /bin/.translate_version
 /web/.htaccess
 /web/google*
