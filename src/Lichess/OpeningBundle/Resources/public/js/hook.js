@@ -10,18 +10,20 @@ $(function() {
         'cancel': $hooks.data('cancel-url'),
         'join': $hooks.data('join-url')
     };
-    var slowDelay = 5000, fastDelay = delay = 100;
-    var timeout;
+    var slowDelay = 3000, fastDelay = delay = 100;
     var state = 0;
     var auth = $hooks.data('auth');
+    var frozen = false;
 
     function reload() {
-        timeout = setTimeout(function() {
-            timeout = false;
+        setTimeout(function() {
+            if (frozen) return;
             $.ajax(pollUrl, {
                 success: function(data) {
+                    if (frozen) return;
                     if (data.redirect) {
-                        redirect('http://'+location.hostname+'/'+data.redirect);
+                        freeze();
+                        location.href = 'http://'+location.hostname+'/'+data.redirect;
                     } else {
                         renderHooks(data);
                     }
@@ -36,7 +38,7 @@ $(function() {
                     'state': state,
                     'auth': auth
                 },
-                timeout: 10000
+                timeout: 15000
             });
         },
         500);
@@ -50,8 +52,11 @@ $(function() {
             for (id in data.hooks) {
                 hook = data.hooks[id];
                 html += '<tr'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
-                html += '<td>'+hook.username;
-                if (hook.elo) html += '<br />('+hook.elo+')';
+                if (hook.elo) {
+                    html += '<td><a href="/@/'+hook.username+'">'+hook.username+'<br />('+hook.elo+')</a></td>';
+                } else {
+                    html += '<td>'+hook.username+'</td>';
+                }
                 html += '</td>';
                 html += '<td>'+hook.variant+'</td>';
                 html += '<td>'+hook.mode+'</td>';
@@ -63,22 +68,15 @@ $(function() {
         } else {
             var html = '<table class="empty_table"><tr><td colspan="5">'+data.message+'</td></tr></table>';
         }
-        $hooks.html(html);
+        $hooks.html(html).find('a.join').click(freeze);
         $wrap.removeClass('hidden');
     }
 
-    function redirect(url) {
+    function freeze() {
         $.lichessOpeningPreventClicks();
-        clearTimeout(timeout);
-        location.href = url;
+        frozen = true;
     }
 
-    $hooks.delegate('tr.joinable', 'click', function() {
-        $(this).find('a.join').trigger('click');
-    });
-    $hooks.delegate('tr.joinable a.join', 'click', function() {
-        redirect($(this).attr('href'));
-    });
     $hooks.delegate('table.empty_table tr', 'click', function() {
         $('#start_buttons a.config_hook').click();
     });
@@ -94,9 +92,5 @@ $(function() {
         delay = slowDelay;
     }).bind('focus', function() {
         delay = fastDelay;
-        if (timeout) {
-            clearTimeout(timeout);
-            reload();
-        }
     });
 });
