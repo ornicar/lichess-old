@@ -3,7 +3,7 @@
 {{ parent() }}
 {% stylesheets
     '@LichessBundle/Resources/public/css/translation.css'
-    filter="yui_css" %}
+    filter="?yui_css" %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}
@@ -11,7 +11,7 @@
 {{ parent() }}
 {% javascripts
     '@LichessBundle/Resources/public/js/translation.js'
-    filter="yui_js" %}
+    filter="?yui_js" %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}

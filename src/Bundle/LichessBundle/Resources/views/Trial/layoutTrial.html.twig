@@ -4,7 +4,7 @@
 {% stylesheets
     '@LichessBundle/Resources/public/css/gamelist.css'
     '@LichessBundle/Resources/public/css/trial.css'
-    filter="yui_css" %}
+    filter="?yui_css" %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}
@@ -14,7 +14,7 @@
 {{ parent() }}
 {% javascripts
     '@LichessBundle/Resources/public/js/gamelist.js'
-    filter="yui_js" %}
+    filter="?yui_js" %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}

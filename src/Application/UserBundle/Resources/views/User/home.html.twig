@@ -18,7 +18,7 @@
 {{ parent() }}
 {% stylesheets
     '@LichessUserBundle/Resources/public/css/useredit.css'
-    filter="yui_css" %}
+    filter="?yui_css" %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}
@@ -28,7 +28,7 @@
 {% javascripts
     '@LichessUserBundle/Resources/public/js/jquery.editable-set.js'
     '@LichessUserBundle/Resources/public/js/useredit.js'
-    filter="yui_js" %}
+    filter="?yui_js" %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}

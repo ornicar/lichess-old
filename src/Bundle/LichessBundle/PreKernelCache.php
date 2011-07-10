@@ -42,7 +42,7 @@ if (0 === strpos($url, '/ping')) {
     $data = array('nbp' => $synchronizer->getNbActivePlayers());
     if (isset($_GET['username'])) {
         $synchronizer->setUsernameOnline($_GET['username']);
-        $data['nbm'] = apc_fetch('nbm.'.$_GET['username']);
+        $data['nbm'] = (int) apc_fetch('nbm.'.$_GET['username']);
     }
     if (isset($_GET['player_key'])) {
         $synchronizer->setPlayerKeyAlive($_GET['player_key']);
