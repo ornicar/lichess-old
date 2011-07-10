@@ -68,7 +68,7 @@ $(function() {
     }
 
     function redirect(url) {
-        $wrap.addClass('hidden');
+        $.lichessOpeningPreventClicks();
         clearTimeout(timeout);
         location.href = url;
     }

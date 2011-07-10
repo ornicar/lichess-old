@@ -23,7 +23,7 @@ $(function() {
                     $input.attr('value', ui.value);
                     $form.find('.color_submits button').toggle(
                         $form.find('.time_choice input').val() > 0 || $form.find('.increment_choice input').val() > 0
-                    );
+                        );
                 }
             }));
         });
@@ -41,10 +41,10 @@ $(function() {
         $startButtons.find('a.active').removeClass('active');
         $(this).addClass('active');
         $('div.lichess_overboard').remove();
-        $.centerOverboard();
         $.ajax({
             url: $(this).attr('href'), 
             success: function(html) {
+                $('div.lichess_overboard').remove();
                 $('div.lichess_board_wrap').prepend(html);
                 prepareForm();
                 $.centerOverboard();
@@ -52,7 +52,13 @@ $(function() {
         });
         return false;
     });
+    $('#lichess').delegate('form', 'submit', $.lichessOpeningPreventClicks);
+
     if (window.location.hash) {
         $startButtons.find('a.config_'+window.location.hash.replace(/#/, '')).click();
     }
 });
+
+$.lichessOpeningPreventClicks = function() {
+    $('div.lichess_overboard, div.hooks_wrap').hide();
+};
