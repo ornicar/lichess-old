@@ -13,10 +13,14 @@ class ConfigController extends Controller
 {
     public function friendAction()
     {
+        $request = $this->get('request');
+        if (!$request->isXmlHttpRequest()) {
+            return new RedirectResponse($this->generateUrl('lichess_homepage').'#friend');
+        }
         $form = $this->get('lichess.form.manager')->createFriendForm();
 
-        if ($this->get('request')->getMethod() === 'POST') {
-            $form->bindRequest($this->get('request'));
+        if ($request->getMethod() === 'POST') {
+            $form->bindRequest($request);
             if($form->isValid()) {
                 $player = $this->get('lichess.starter.friend')->start($form->getData());
                 $this->flush();
@@ -31,10 +35,14 @@ class ConfigController extends Controller
 
     public function aiAction()
     {
+        $request = $this->get('request');
+        if (!$request->isXmlHttpRequest()) {
+            return new RedirectResponse($this->generateUrl('lichess_homepage').'#ai');
+        }
         $form = $this->get('lichess.form.manager')->createAiForm();
 
-        if ($this->get('request')->getMethod() === 'POST') {
-            $form->bindRequest($this->get('request'));
+        if ($request->getMethod() === 'POST') {
+            $form->bindRequest($request);
             if($form->isValid()) {
                 $player = $this->get('lichess.starter.ai')->start($form->getData());
                 $this->flush();

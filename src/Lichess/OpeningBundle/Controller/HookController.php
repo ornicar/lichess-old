@@ -22,9 +22,13 @@ class HookController extends Controller
 
     public function newAction()
     {
+        $request = $this->get('request');
+        if (!$request->isXmlHttpRequest()) {
+            return new RedirectResponse($this->generateUrl('lichess_homepage').'#hook');
+        }
         $form = $this->get('lichess.form.manager')->createHookForm();
-        if ($this->get('request')->getMethod() === 'POST') {
-            $form->bindRequest($this->get('request'));
+        if ($request->getMethod() === 'POST') {
+            $form->bindRequest($request);
             if ($form->isValid()) {
                 $config = $form->getData();
                 $hook = new Hook();
