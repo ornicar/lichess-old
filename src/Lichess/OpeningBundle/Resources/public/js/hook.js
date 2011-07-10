@@ -36,8 +36,14 @@ $(function() {
     reload();
 
     $wrap.delegate('tr.joinable', 'click', function() {
-        location.href = $(this).find('a.join').attr('href');
+        $(this).find('a.join').trigger('click');
     });
+    $wrap.delegate('tr.joinable a.join', 'click', function() {
+        clearTimeout(timeout);
+        $wrap.addClass('hidden');
+        location.href = $(this).attr('href');
+    });
+        
     $wrap.delegate('tr.empty', 'click', function() {
         $('#start_buttons a.config_hook').click();
     });

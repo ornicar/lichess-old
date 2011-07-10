@@ -36,6 +36,7 @@ class HookController extends Controller
                 $this->get('doctrine.odm.mongodb.document_manager')->persist($hook);
                 $this->get('doctrine.odm.mongodb.document_manager')->flush();
                 $this->get('lichess_opening.sync_memory')->setAlive($hook);
+                $this->get('lichess.logger')->warn($hook, 'Hook::new hook created');
 
                 return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $hook->getOwnerId())));
             } else {
@@ -50,9 +51,11 @@ class HookController extends Controller
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
         if (!$hook) {
+            $this->get('lichess.logger')->warn($hook, 'Hook::hook hook has disappeared, redirect to homepage');
             return new RedirectResponse($this->generateUrl('lichess_homepage'));
         }
         if ($game = $hook->getGame()) {
+            $this->get('lichess.logger')->warn($hook, 'Hook::poll hook biten! redirect to game '.$game->getCreator()->getFullId());
             $this->get('doctrine.odm.mongodb.document_manager')->remove($hook);
             $this->get('doctrine.odm.mongodb.document_manager')->flush();
 
@@ -74,6 +77,7 @@ class HookController extends Controller
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
         if ($hook) {
+            $this->get('lichess.logger')->warn($hook, 'Hook::cancel');
             $this->get('doctrine.odm.mongodb.document_manager')->remove($hook);
             $this->get('doctrine.odm.mongodb.document_manager')->flush();
         }
@@ -88,13 +92,17 @@ class HookController extends Controller
         // hook is not available anymore
         if (!$hook || $hook->isMatch()) {
             if ($myHookId) {
+                $this->get('lichess.logger')->warn($hook, 'Hook::join not available anymore, redirect to my own hook');
                 return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $myHookId)));
             }
+            $this->get('lichess.logger')->warn(new Hook(), 'Hook::join not available anymore, redirect to homepage');
             return new RedirectResponse($this->generateUrl('lichess_homepage'));
         }
+        $this->get('lichess.logger')->warn($hook, 'Hook::join');
         // if I also have a hook, cancel it
         if ($myHookId) {
             if ($myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($myHookId)) {
+                $this->get('lichess.logger')->warn($hook, 'Hook::join remove my own hook');
                 $this->get('doctrine.odm.mongodb.document_manager')->remove($myHook);
             }
         }
@@ -117,6 +125,7 @@ class HookController extends Controller
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
         $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
+        $this->get('lichess.logger')->warn($hook, 'Hook::join redirect to game '.$player->getFullId());
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }
@@ -126,9 +135,11 @@ class HookController extends Controller
         if ($id) {
             $myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
             if (!$myHook) {
+                $this->get('lichess.logger')->warn($myHook, 'Hook::poll hook has disappeared, redirect to homepage');
                 return new Response($this->generateUrl('lichess_homepage'));
             }
             if ($game = $myHook->getGame()) {
+                $this->get('lichess.logger')->warn($myHook, 'Hook::poll hook biten! redirect to game '.$game->getCreator()->getFullId());
                 $this->get('doctrine.odm.mongodb.document_manager')->remove($myHook);
                 $this->get('doctrine.odm.mongodb.document_manager')->flush();
 

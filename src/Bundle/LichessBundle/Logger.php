@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Router;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Lichess\OpeningBundle\Document\Hook;
 
 class Logger
 {
@@ -28,6 +29,11 @@ class Logger
         $this->logger->addRecord($priority, $this->formatGame($game, $message));
     }
 
+    protected function logHook(Hook $hook, $message, $priority)
+    {
+        $this->logger->addRecord($priority, $this->formatHook($hook, $message));
+    }
+
     public function formatPlayer(Player $player, $message)
     {
         return sprintf('%s %s', $message, $this->expandPlayer($player));
@@ -36,6 +42,13 @@ class Logger
     public function formatGame(Game $game, $message)
     {
         return sprintf('%s %s', $message, $this->expandGame($game));
+    }
+
+    public function formatHook(Hook $hook, $message)
+    {
+        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '?';
+
+        return sprintf('%s %s %s', $ip, $message, $this->expandHook($hook));
     }
 
     public function expandPlayer(Player $player)
@@ -61,12 +74,24 @@ class Logger
         );
     }
 
+    public function expandHook(Hook $hook)
+    {
+        return sprintf('hook(%s,%s,%s,%s)',
+            $hook->getOwnerId(),
+            $hook->getUsername(),
+            $hook->getVariant(),
+            $hook->getMode() ? 'rated' : 'casual'
+        );
+    }
+
     public function logObject($object, $message, $priority)
     {
         if($object instanceof Player) {
             return $this->logPlayer($object, $message, $priority);
         } elseif ($object instanceof Game) {
             return $this->logGame($object, $message, $priority);
+        } elseif ($object instanceof Hook) {
+            return $this->logHook($object, $message, $priority);
         }
 
         throw new \InvalidArgumentException(sprintf('%s is nor a Game nor a Player', $object));
