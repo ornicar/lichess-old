@@ -14,9 +14,6 @@ class ConfigController extends Controller
     public function friendAction()
     {
         $request = $this->get('request');
-        if (!$request->isXmlHttpRequest()) {
-            return new RedirectResponse($this->generateUrl('lichess_homepage').'#friend');
-        }
         $form = $this->get('lichess.form.manager')->createFriendForm();
 
         if ($request->getMethod() === 'POST') {
@@ -28,7 +25,10 @@ class ConfigController extends Controller
             } else {
                 return new RedirectResponse($this->generateUrl('lichess_homepage'));
             }
+        } elseif (!$request->isXmlHttpRequest()) {
+            return new RedirectResponse($this->generateUrl('lichess_homepage').'#friend');
         }
+
 
         return $this->render('LichessOpeningBundle:Config:friend.html.twig', array('form' => $form->createView(), 'config' => $form->getData()));
     }
@@ -36,9 +36,6 @@ class ConfigController extends Controller
     public function aiAction()
     {
         $request = $this->get('request');
-        if (!$request->isXmlHttpRequest()) {
-            return new RedirectResponse($this->generateUrl('lichess_homepage').'#ai');
-        }
         $form = $this->get('lichess.form.manager')->createAiForm();
 
         if ($request->getMethod() === 'POST') {
@@ -50,6 +47,8 @@ class ConfigController extends Controller
             } else {
                 return new RedirectResponse($this->generateUrl('lichess_homepage'));
             }
+        } elseif (!$request->isXmlHttpRequest()) {
+            return new RedirectResponse($this->generateUrl('lichess_homepage').'#ai');
         }
 
         return $this->render('LichessOpeningBundle:Config:ai.html.twig', array('form' => $form->createView(), 'config' => $form->getData()));

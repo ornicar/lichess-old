@@ -23,9 +23,6 @@ class HookController extends Controller
     public function newAction()
     {
         $request = $this->get('request');
-        if (!$request->isXmlHttpRequest()) {
-            return new RedirectResponse($this->generateUrl('lichess_homepage').'#hook');
-        }
         $form = $this->get('lichess.form.manager')->createHookForm();
         if ($request->getMethod() === 'POST') {
             $form->bindRequest($request);
@@ -46,6 +43,8 @@ class HookController extends Controller
             } else {
                 return new RedirectResponse($this->generateUrl('lichess_homepage'));
             }
+        } elseif (!$request->isXmlHttpRequest()) {
+            return new RedirectResponse($this->generateUrl('lichess_homepage').'#hook');
         }
 
         return $this->render('LichessOpeningBundle:Config:hook.html.twig', array('form' => $form->createView(), 'config' => $form->getData()));
@@ -55,7 +54,7 @@ class HookController extends Controller
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
         if (!$hook) {
-            $this->get('lichess.logger')->warn($hook, 'Hook::hook hook has disappeared, redirect to homepage');
+            $this->get('lichess.logger')->warn(new Hook(), 'Hook::hook hook has disappeared, redirect to homepage');
             return new RedirectResponse($this->generateUrl('lichess_homepage'));
         }
         if ($game = $hook->getGame()) {
