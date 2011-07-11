@@ -21,6 +21,8 @@
 <div class="lichess_goodies">
     <br />
     {{ "You are viewing this game as a spectator"|trans }}.
+    <br /><br />
+    <span class="nb_viewers">{{ "Spectators:"|trans }} -</span>
     <br /><br /><br />
     <div class="box">
         {% if game.isBeingPlayed %}
@@ -40,9 +42,9 @@
         {% endfor %}
         <br />
         {{ "Variant"|trans }}: {{ game.variantName|capitalize }}<br /><br />
-        {{ "Time control"|trans }}: {{ game.clockName }}<br /><br />
+        {{ "Time control"|trans }}: {{ game.clockName }}<br />
         {% if game.isRated %}
-            {{ "This game is rated"|trans }}<br />
+            <br />{{ "This game is rated"|trans }}<br />
         {% endif %}
     </div>
     <br /><br />

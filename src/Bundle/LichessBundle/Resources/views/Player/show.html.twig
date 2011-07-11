@@ -24,6 +24,8 @@
             <br /><br />
             <a href="{{ path("lichess_game_stats", {"id": game.id}) }}">View game stats</a>
         {% endif %}
+        <br /><br />
+        <span class="nb_viewers">{{ "Spectators:"|trans }} -</span>
     </div>
 {% endblock %}
 {% block js_data %}

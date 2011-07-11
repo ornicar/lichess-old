@@ -5,7 +5,7 @@ $.ping = function(url, options) {
         dataType: 'json',
         timeout: 10000,
         data: {},
-        callback: function() {}
+        callbacks: [],
     }, options);
     this.queue();
 };
@@ -18,7 +18,9 @@ $.ping.prototype = {
     send: function() { var self = this;
         $.ajax(self.url, {
             success: function(data) {
-                self.options.callback(data);
+                for (var i in self.options.callbacks) {
+                    self.options.callbacks[i](data);
+                }
             },
             complete: function() {
                 self.queue();
@@ -30,7 +32,10 @@ $.ping.prototype = {
             timeout: self.options.timeout
         });
     },
-    setData: function(key, value) { var self = this;
-        self.options.data[key] = value;
+    setData: function(key, value) { 
+        this.options.data[key] = value;
+    },
+    pushCallback: function(callback) {
+        this.options.callbacks.push(callback);
     }
 };

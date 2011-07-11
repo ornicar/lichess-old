@@ -227,7 +227,8 @@ class LichessExtension extends Twig_Extension
             'player' => array(
                 'color'     => $player->getColor(),
                 'version'   => $player->getStack()->getVersion(),
-                'spectator' => true
+                'spectator' => true,
+                'unique_id' => uniqid()
             ),
             'opponent' => array(
                 'color'  => $opponent->getColor(),

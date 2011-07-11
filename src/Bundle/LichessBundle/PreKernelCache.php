@@ -46,6 +46,12 @@ if (0 === strpos($url, '/ping')) {
     if (isset($_GET['player_key'])) {
         $synchronizer->setPlayerKeyAlive($_GET['player_key']);
     }
+    if (isset($_GET['watcher'])) {
+        $synchronizer->registerWatcher($_GET['watcher']);
+    }
+    if (isset($_GET['get_nb_watchers'])) {
+        $data['nbw'] = $synchronizer->getNbWatchers($_GET['get_nb_watchers']);
+    }
     if (isset($_GET['hook_id'])) {
         _lichess_get_hook_synchronizer($softTimeout)->setHookIdAlive($_GET['hook_id']);
     }

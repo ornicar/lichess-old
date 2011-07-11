@@ -93,4 +93,22 @@ class Memory
     {
         return $player->getGame()->getId().'.'.$player->getColor().'.alive';
     }
+
+    public function registerWatcher($watcher)
+    {
+        apc_store('watcher.'.$watcher, true, $this->softTimeout);
+    }
+
+    public function getNbWatchers($id)
+    {
+        $it = new APCIterator('user', '/^watcher\.'.$id.'/', APC_ITER_MTIME | APC_ITER_KEY, 10, APC_LIST_ACTIVE);
+        $nb = 0;
+        $limit = time() - $this->softTimeout;
+        foreach($it as $i) {
+            apc_fetch($i['key']); // clear invalidated entries
+            if($i['mtime'] >= $limit) ++$nb;
+        }
+
+        return $nb;
+    }
 }

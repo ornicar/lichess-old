@@ -504,6 +504,10 @@ div.lichess_cemetery div.lichess_piece {
 div.lichess_goodies {
     margin-top: 1em;
 }
+.nb_viewers {
+    margin-top: 1em;
+    display: none;
+}
 
 div.lichess_chat {
     font-size: 11px;

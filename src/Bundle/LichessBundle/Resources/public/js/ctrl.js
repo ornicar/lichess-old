@@ -5,22 +5,15 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
 $(function() {
 
     // Start ping
-    var pingDelay = 3000;
-    var $nbConnectedPlayers = $('#nb_connected_players');
+    var pingDelay = 2500;
     var connectivity = new $.connectivity($('#connectivity'), {
         delay: pingDelay,
         tolerance: 300
     });
     var ping = new $.ping('/ping', {
         delay: pingDelay,
-        callback: function(data) {
-            connectivity.ping();
-            $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/\d+/, data.nbp));
-            if (typeof data.nbm != 'undefined') {
-                $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0);
-            }
-        }
     });
+    ping.pushCallback(function() { connectivity.ping(); });
     $.data(document.body, 'lichess_ping', ping);
 
     // Start game
@@ -45,9 +38,20 @@ $(function() {
         }).css('cursor', 'pointer');
     }
 
+    var $nbConnectedPlayers = $('#nb_connected_players');
     $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/(\d+)/, '<strong>$1</strong>'));
+    ping.pushCallback(function(data) { $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/\d+/, data.nbp)); });
+
+    var $nbViewers = $('.nb_viewers');
+    if ($nbViewers.length) {
+        ping.pushCallback(function(data) {
+            $nbViewers.html($nbViewers.html().replace(/(\d+|-)/, data.nbw)).toggle(data.nbw > 0);
+        });
+    }
+
     if ($('#user_tag').length) {
         ping.setData('username', $('#user_tag').data('username'));
+        ping.pushCallback(function(data) { $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0); });
     }
 
     $('input.lichess_id_input').select();

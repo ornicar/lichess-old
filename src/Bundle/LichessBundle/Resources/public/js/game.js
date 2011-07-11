@@ -40,9 +40,15 @@ $.widget("lichess.game", {
                 setTimeout(self.updateTitle, 400);
             },
             400);
-            // add player to ping data
-            $.data(document.body, 'lichess_ping').setData('player_key', lichess_data.player.alive_key);
         }
+
+        var ping = $.data(document.body, 'lichess_ping');
+        if (self.options.player.spectator) {
+            ping.setData('watcher', self.options.game.id+'.'+self.options.player.unique_id);
+        } else {
+            ping.setData('player_key', lichess_data.player.alive_key);
+        }
+        ping.setData('get_nb_watchers', self.options.game.id);
 
         function syncLoop() {
             if (!self.options.opponent.ai || self.options.player.spectator) {
@@ -538,7 +544,7 @@ $.widget("lichess.game", {
         var self = this;
         options = $.extend({
             type: 'GET',
-                timeout: 6000,
+                timeout: 8000,
                 cache: false
         },
         options || {});
@@ -550,7 +556,7 @@ $.widget("lichess.game", {
         var self = this;
         options = $.extend({
             type: 'POST',
-                timeout: 6000
+                timeout: 8000
         },
         options || {});
         $.ajax(url, options).complete(function(x, s) {
@@ -567,14 +573,7 @@ $.widget("lichess.game", {
     },
     onError: function(error, reloadIfFail) {
         var self = this;
-        if (lichess_data.debug) {
-            console.debug(error || 'error');
-        }
         if (reloadIfFail) {
-            if (lichess_data.debug) {
-                console.debug('-------- reload ---------');
-                return;
-            }
             location.reload();
         }
     }

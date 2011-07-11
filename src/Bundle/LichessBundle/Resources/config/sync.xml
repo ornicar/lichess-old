@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lichess.memory.soft_timeout">7</parameter>
+        <parameter key="lichess.memory.soft_timeout">6</parameter>
         <parameter key="lichess.memory.hard_timeout">120</parameter>
         <parameter key="lichess.sync.latency">10</parameter>
         <parameter key="lichess.sync.delay">0.25</parameter>
