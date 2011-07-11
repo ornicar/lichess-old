@@ -63,5 +63,5 @@ if (0 === strpos($url, '/ping')) {
 }
 // Handle number of active players requests
 elseif(0 === strpos($url, '/how-many-players-now')) {
-    _lichess_send_response(_lichess_get_synchronizer()->getNbActivePlayers(), 'text/plain');
+    _lichess_send_response(_lichess_get_synchronizer($softTimeout)->getNbActivePlayers(), 'text/plain');
 }
