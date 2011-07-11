@@ -16,7 +16,7 @@
 
 [doctrine-mongodb-odm]
     git=git://github.com/ornicar/mongodb-odm.git
-    version=annotations
+    version=noSubmodulesAndUniqueClassNames
 
 [doctrine-data-fixtures]
 	git=git://github.com/doctrine/data-fixtures.git
