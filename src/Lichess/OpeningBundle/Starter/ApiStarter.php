@@ -33,7 +33,7 @@ class ApiStarter implements StarterInterface
         $color = $config->resolveColor();
         $player = $this->generator->createGameForPlayer($color, $config->getVariant());
         $game = $player->getGame();
-        if($config->getTime()) {
+        if($config->getClock()) {
             $clock = new Clock($config->getTime() * 60, $config->getIncrement());
             $game->setClock($clock);
         }
