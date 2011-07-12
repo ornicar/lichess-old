@@ -42,7 +42,7 @@ $.connectivity.prototype = {
         }
     },
     getStateForCurrentLatency: function() {
-        self = this;
+        var self = this;
         latency = new Date().getTime() - self.lastPingDate - self.options.delay;
         if (latency <= 0) {
             return self.options.max;
@@ -52,6 +52,7 @@ $.connectivity.prototype = {
         return state;
     },
     getLatencyFactor: function(latency) {
+        var self = this;
         threshold = 0;
         for (factor = 1; factor <= self.options.max; factor++) {
             threshold = factor + threshold;

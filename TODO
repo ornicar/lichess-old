@@ -1,3 +1,5 @@
+* check opera style
+* bind clocked games (or any hook game) to session to avoid wild private url sharing
 * white first move time bonus
 * change password
 * translate minutes/side (clock.name)
