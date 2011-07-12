@@ -18,6 +18,7 @@
 "Stalemate": "Patt"
 "White": "Hvit"
 "Black": "Svart"
+"Create a game": "Lag en invitasjon til et parti"
 "Random": "Tilfeldig"
 "No game available right now, create one!": "Ingen spill er tilgjengelig nå, opprett ett!"
 "White is victorious": "Hvit har vunnet"
@@ -123,3 +124,4 @@
 "Sent messages": "Sendte meldinger"
 "Increment in seconds": "Økning i sekund"
 "Free Online Chess": "Gratis online sjakk"
+"Spectators:": "Tilskuere:"
