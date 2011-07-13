@@ -78,7 +78,7 @@ class UserCritic
         }
         $key = 'nbGamesWithMe';
         if (!isset($this->cache[$key])) {
-            $this->cache[$key] = $this->gameRepository->createByUsersQuery($this->user, $this->getAuthenticatedUser())->getQuery()->count();
+            $this->cache[$key] = $this->gameRepository->createRecentByUsersQuery($this->user, $this->getAuthenticatedUser())->getQuery()->count();
         }
 
         return $this->cache[$key];

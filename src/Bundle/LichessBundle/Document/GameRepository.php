@@ -303,7 +303,7 @@ class GameRepository extends DocumentRepository
      *
      * @return array of Game
      */
-    public function createByUsersQuery(User $playerA, User $playerB)
+    public function createRecentByUsersQuery(User $playerA, User $playerB)
     {
         $qb = $this->createRecentQuery();
 
