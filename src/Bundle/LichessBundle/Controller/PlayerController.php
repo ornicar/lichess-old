@@ -95,10 +95,14 @@ class PlayerController extends Controller
     public function showAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
+        $game = $player->getGame();
+
         if ($player->getIsAi()) {
             throw new NotFoundHttpException('Can not show AI player');
+        } elseif ($player->getUser() && $player->getUser() != $this->getAuthenticatedUser()) {
+            // protect game against private url sharing
+            return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor())));
         }
-        $game = $player->getGame();
         $this->get('lichess.memory')->setAlive($player);
 
         if(!$game->getIsStarted()) {
@@ -232,5 +236,10 @@ class PlayerController extends Controller
     protected function flush($safe = true)
     {
         return $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => $safe));
+    }
+
+    protected function getAuthenticatedUser()
+    {
+        return $this->get('security.context')->getToken()->getUser();
     }
 }
