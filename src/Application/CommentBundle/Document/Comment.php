@@ -5,7 +5,7 @@ namespace Application\CommentBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use FOS\CommentBundle\Document\Comment as BaseComment;
 use FOS\CommentBundle\Model\SignedCommentInterface;
-use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @MongoDB\Document(
