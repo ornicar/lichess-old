@@ -113,11 +113,13 @@ class Clock
 
     /**
      * Start the clock now
+     * This gives white the time bonus if any.
      *
      * @return null
      **/
     public function start()
     {
+        $this->addTime('white', - $this->increment);
         $this->timer = microtime(true);
     }
 
