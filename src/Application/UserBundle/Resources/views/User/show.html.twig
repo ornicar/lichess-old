@@ -25,7 +25,6 @@
         {% block user_elo_with_me %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <div class="elo_with_me">
-                Elo if you...<br />
                 {% for end, elo in {'win':critic.eloIfWin,'draw':critic.eloIfDraw,'lose':critic.eloIfLose} %}
                 {{ end|capitalize }}: <strong>{{ elo }}</strong>
                 {% endfor %}
