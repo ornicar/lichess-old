@@ -32,6 +32,11 @@
     </div>
     <div class="lichess_separator"></div>
     {% render "LichessBundle:Player:opponentPlayer" with {"opponent": player, "playerFullId": ""} %}
+    {% if game.next %}
+        <div class="lichess_control buttons">
+            <a class="button" href="{{ path('lichess_game', {'id': game.next.id, 'color': player.opponent.color}) }}">View rematch</a>
+        </div>
+    {% endif %}
 </div>
 {% if player.game.hasClock %}
     {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
