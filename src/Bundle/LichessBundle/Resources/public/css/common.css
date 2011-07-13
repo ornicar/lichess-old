@@ -115,8 +115,6 @@ div.footer div.right {
     border: 1px solid #DADADA;
     padding: 0.4em 1em;
     text-decoration: none;
-    color: #888;
-    font-weight: bold;
     cursor: pointer;
     font-size: 1.1em;
 }
@@ -453,7 +451,7 @@ div.lichess_server {
 }
 
 /* soft inactive gradient */
-#top, div.lichess_chat_top, .button, .ui-state-default, div.content_box_top, div.hooks tr {
+#top, div.lichess_chat_top, .button, .button:visited, .ui-state-default, div.content_box_top, div.hooks tr {
     color: #666;
     background: #fafafa;
     background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
