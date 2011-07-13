@@ -74,11 +74,12 @@ class Rematcher
                 $this->memory->setAlive($nextOpponent);
             }
         }
+        // tell spectators to reload the table
+        $game->addEventToStacks(array('type' => 'reload_table'));
+        // tell players to move to next game
         foreach(array(array($player, $nextPlayer), array($opponent, $nextOpponent)) as $pair) {
             $pair[0]->addEventToStack(array('type' => 'redirect', 'url' => $this->urlGenerator->generate('lichess_player', array('id' => $pair[1]->getFullId()))));
         }
-        // tell spectators to reload the table
-        $game->addEventToStacks(array('type' => 'reload_table'));
         $this->objectManager->persist($nextGame);
     }
 }

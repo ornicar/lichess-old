@@ -2,7 +2,7 @@
 
 function show_run($text, $command)
 {
-    echo "\n\n* $text\n$command\n";
+    echo "\n* $text\n$command\n";
     passthru($command, $return);
     if (0 !== $return) {
         echo "\n/!\\ The command returned $return\n";
