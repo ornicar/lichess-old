@@ -38,9 +38,9 @@ class UserWinChart
     public function getRows()
     {
         return array (
-            array($this->translator->trans('%nb% wins', array('%nb' => $this->critic->getNbWins())), $this->critic->getNbWins()),
-            array($this->translator->trans('%nb% losses', array('%nb' => $this->critic->getNbLosses())), $this->critic->getNbLosses()),
-            array($this->translator->trans('%nb% draws', array('%nb' => $this->critic->getNbDraws())), $this->critic->getNbDraws())
+            array($this->translator->trans('%nb% wins', array('%nb%' => $this->critic->getNbWins())), $this->critic->getNbWins()),
+            array($this->translator->trans('%nb% losses', array('%nb%' => $this->critic->getNbLosses())), $this->critic->getNbLosses()),
+            array($this->translator->trans('%nb% draws', array('%nb%' => $this->critic->getNbDraws())), $this->critic->getNbDraws())
         );
     }
 }
