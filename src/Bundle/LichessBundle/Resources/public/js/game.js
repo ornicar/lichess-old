@@ -52,12 +52,9 @@ $.widget("lichess.game", {
 
         function syncLoop() {
             if (!self.options.opponent.ai || self.options.player.spectator) {
-                if (!self.options.game.finished || ! self.options.player.spectator) {
-                    setTimeout(function() {
-                        self.sync(syncLoop, false);
-                    },
-                    400);
-                }
+                setTimeout(function() {
+                    self.sync(syncLoop, false);
+                }, 100);
             }
         }
         setTimeout(syncLoop, 1000);
