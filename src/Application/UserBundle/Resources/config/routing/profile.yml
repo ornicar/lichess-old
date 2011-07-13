@@ -3,12 +3,8 @@ fos_user_user_list:
     defaults:   { _controller: FOSUserBundle:Profile:list }
 
 fos_user_user_show:
-    pattern:    /@/{username}
-    defaults:   { _controller: FOSUserBundle:Profile:view, withMe: false }
-
-lichess_user_show_with_me:
-    pattern:    /@/{username}/me
-    defaults:   { _controller: FOSUserBundle:Profile:view, withMe: true }
+    pattern:    /@/{username}/{mode}
+    defaults:   { _controller: FOSUserBundle:Profile:view, mode: all }
 
 fos_user_autocomplete:
     pattern:    /autocomplete-user

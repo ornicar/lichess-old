@@ -1,0 +1,23 @@
+<a {{ active == 'all' ? 'class="active" ' : '' }}href="{{ path('fos_user_user_show', {'username': user.username}) }}">
+    {{ critic.nbGames|default("0") }} {{ "Games played"|trans }}
+</a>
+{% if critic.nbGamesWithMe > 0 %}
+<a {{ active == 'me' ? 'class="active" ' : '' }}href="{{ path('fos_user_user_show', {'username': user.username, 'mode': 'me'}) }}">
+    {{ critic.nbGamesWithMe }} vs <strong>{{ app.user.username }}</strong>
+</a>
+{% endif %}
+{% if critic.nbWins > 0 %}
+<a {{ active == 'wins' ? 'class="active" ' : '' }}href="{{ path('fos_user_user_show', {'username': user.username, 'mode': 'wins'}) }}">
+    {{ "%nb% wins"|trans({'%nb%': critic.nbWins}) }} 
+</a>
+{% endif %}
+{% if critic.nbLosses > 0 %}
+<a {{ active == 'losses' ? 'class="active" ' : '' }}href="{{ path('fos_user_user_show', {'username': user.username, 'mode': 'losses'}) }}">
+    {{ "%nb% losses"|trans({'%nb%': critic.nbLosses}) }} 
+</a>
+{% endif %}
+{% if critic.nbDraws > 0 %}
+<a {{ active == 'draws' ? 'class="active" ' : '' }}href="{{ path('fos_user_user_show', {'username': user.username, 'mode': 'draws'}) }}">
+    {{ "%nb% draws"|trans({'%nb%': critic.nbDraws}) }} 
+</a>
+{% endif %}

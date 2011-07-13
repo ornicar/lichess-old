@@ -1,5 +1,7 @@
 {% extends "FOSUserBundle::layoutUser.html.twig" %}
+
 {% block title %}{{ user.usernameWithElo }}{% if games.currentPage > 1 %} - Page {{ games.currentPage }}{% endif %}{% endblock %}
+
 {% block content %}
 <div class="content_box no_padding user_show">
     <div class="content_box_top">
@@ -39,12 +41,7 @@
     </div>
     {% if critic.nbGames %}
         <div class="content_box_inter clearfix">
-            {% block games_inter %}
-                <h2 class="lichess_title"><strong>{{ critic.nbGames|default("0") }}</strong> {{ "Games played"|trans }}</h2>
-                {% if critic.nbGamesWithMe > 0 %}
-                    <a href="{{ path('lichess_user_show_with_me', {'username': user.username}) }}"><strong>{{ critic.nbGamesWithMe }}</strong> vs <strong>{{ app.user.username }}</strong></a>
-                {% endif %}
-            {% endblock %}
+            {% include "FOSUserBundle:User:showMenu.html.twig" with {'active': mode} %}
         </div>
         <div class="games infinitescroll all_games">
             <div class="pager">{{ pagerfanta(games, 'default', {'proximity': 0}) }}</div>

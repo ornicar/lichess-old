@@ -195,6 +195,40 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Gets the games won by the user
+     *
+     * @return Builder
+     */
+    public function createRecentByWinnerQuery(User $user)
+    {
+        return $this->createRecentQuery()
+            ->field('winnerUserId')->equals($user->getId());
+    }
+
+    /**
+     * Gets the games lost by the user
+     *
+     * @return Builder
+     */
+    public function createRecentByLoserQuery(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->field('winnerUserId')->exists(true)
+            ->field('winnerUserId')->notEqual($user->getId());
+    }
+
+    /**
+     * Gets the games drawn by the user
+     *
+     * @return Builder
+     */
+    public function createRecentByDrawerQuery(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->field('status')->equals(Game::DRAW);
+    }
+
+    /**
      * Query of at least mate games
      *
      * @return Doctrine\ODM\Mongodb\Query

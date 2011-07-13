@@ -67,7 +67,7 @@ class ProfileController extends BaseProfileController
         return $this->container->get('templating')->renderResponse('FOSUserBundle:User:list.html.twig', compact('users'));
     }
 
-    public function viewAction($username, $withMe = false)
+    public function viewAction($username, $mode = 'all')
     {
         $user = $this->container->get('fos_user.user_manager')->findUserByUsername($username);
         if (!$user) {
@@ -80,18 +80,23 @@ class ProfileController extends BaseProfileController
             return $this->container->get('templating')->renderResponse('LichessUserBundle:User:disabled.html.twig', array('user' => $user));
         }
         $authenticatedUser = $this->getAuthenticatedUser();
-        $withMe = $withMe && $authenticatedUser;
 
         $critic = $this->container->get('lichess.critic.user');
         $critic->setUser($user);
 
-        $winChart = new UserWinChart($critic);
+        $winChart = new UserWinChart($critic, $this->container->get('translator'));
         $history = $this->container->get('lichess.repository.history')->findOneByUserOrCreate($user);
         $eloChart = new UserEloChart($history);
 
         $gameRepository = $this->container->get('lichess.repository.game');
-        if ($withMe) {
-            $query = $gameRepository->createByUsersQuery($user, $authenticatedUser);
+        if ($mode === 'me' && $authenticatedUser && $authenticatedUser != $user) {
+            $query = $gameRepository->createRecentByUsersQuery($user, $authenticatedUser);
+        } elseif ($mode === 'wins') {
+            $query = $gameRepository->createRecentByWinnerQuery($user);
+        } elseif ($mode === 'losses') {
+            $query = $gameRepository->createRecentByLoserQuery($user);
+        } elseif ($mode === 'draws') {
+            $query = $gameRepository->createRecentByDrawerQuery($user);
         } else {
             $query = $gameRepository->createRecentStartedOrFinishedByUserQuery($user);
         }
@@ -103,15 +108,13 @@ class ProfileController extends BaseProfileController
             throw new NotFoundHttpException(sprintf('Invalid user game page requested %s (page %s)', $user->getUsername(), $page));
         }
 
-        if ($withMe) {
-            $template = 'FOSUserBundle:User:showWithMe.html.twig';
-        } elseif ($user && $user->is($authenticatedUser)) {
+        if ($user === $authenticatedUser) {
             $template = 'FOSUserBundle:User:home.html.twig';
         } else {
             $template = 'FOSUserBundle:User:show.html.twig';
         }
 
-        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'withMe'));
+        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'mode'));
     }
 
     protected function getAuthenticatedUser()
