@@ -122,3 +122,9 @@ lichess_api_new:
     pattern:        /api/game/new
     defaults:       { _controller: LichessBundle:Api:new }
     requirements:   { _method: POST }
+lichess_how_many_players_now:
+    pattern:        /how-many-players-now
+    defaults:       { _controller: LichessBundle:Boost:howManyPlayersNow }
+lichess_ping:
+    pattern:        /ping
+    defaults:       { _controller: LichessBundle:Boost:ping }
