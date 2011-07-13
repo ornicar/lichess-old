@@ -53,11 +53,6 @@ div.content {
     width: 100%;
     height: 24px;
     border-bottom: 1px solid #bbb;
-    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
-    background: -webkit-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
-    background: -ms-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
-    background: linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
 }
 #site_description {
     position: absolute;
@@ -113,12 +108,10 @@ div.footer div.right {
     text-align: right;
 }
 
-.button, a.easy_button {
+.button {
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    background: -moz-linear-gradient(center top , #FAFAFA, #dfdfdf) repeat scroll 0 0 #EFEFEF;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#dfdfdf));
     border: 1px solid #DADADA;
     padding: 0.4em 1em;
     text-decoration: none;
@@ -129,8 +122,6 @@ div.footer div.right {
 }
 .button:hover {
     color: #fff;
-    background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
 }
 
 a.easy_button {
@@ -162,8 +153,6 @@ div.content_box_top {
     padding-left: 25px;
     line-height: 40px;
     border-radius: 4px 4px 0 0;
-    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
     border-bottom: 1px solid #ccc;
 }
 div.content_box_top a {
@@ -256,9 +245,6 @@ a.goto_message span.new_messages {
     font-size: 0.9em;
 }
 a.goto_message span.new_messages.unread {
-    background: #703000;
-    background: -moz-linear-gradient(center top , #f09070, #703000) repeat scroll 0 0 #703000;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f09070), to(#703000));
     font-size: 1em;
 }
 a.goto_logout span.s16 {
@@ -466,37 +452,37 @@ div.lichess_server {
     margin-top: 16px!important;
 }
 
-/* gradient */
-#top, div.lichess_table .lichess_button, .ui-state-default, div.hooks tr {
+/* soft inactive gradient */
+#top, div.lichess_chat_top, .button, .ui-state-default, div.content_box_top, div.hooks tr {
     color: #666;
     background: #fafafa;
     background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
     background: -webkit-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
     background: -ms-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
+    background: -o-linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
     background: linear-gradient(top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
 }
-div.lichess_table .lichess_button, .ui-state-default {
-    border: 1px solid #d3d3d3;
-}
 
-#top a.goto_nav.active, div.lichess_table .lichess_button.active, .ui-state-active, .ui-widget-header, div.hooks td.action:hover, div.hooks table.empty_table tr:hover {
+/* active gradient */
+#top a.goto_nav.active, .button.active, .button:hover, .ui-state-active, .ui-widget-header, div.pagination span.current, a.goto_message span.new_messages.unread, div.hooks td.action:hover, div.hooks table.empty_table tr:hover {
     color: #fff;
     background: #d85000;
     background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
     background: -webkit-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
     background: -ms-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: -o-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
     background: linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
 }
-div.lichess_table .lichess_button.active, .ui-state-active {
-    border: 1px solid #bc6000;
-}
+
+/* strong inactive gradient */
 div.hooks td.action {
     background: #ffffff;
     background: -moz-linear-gradient(center top , #ffffff, #c0c0c0) repeat scroll 0 0 #ffffff;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#c0c0c0));
     background: -webkit-linear-gradient(top , #ffffff, #c0c0c0) repeat scroll 0 0 #ffffff;
     background: -ms-linear-gradient(top , #ffffff, #c0c0c0) repeat scroll 0 0 #ffffff;
+    background: -o-linear-gradient(top , #ffffff, #c0c0c0) repeat scroll 0 0 #ffffff;
     background: linear-gradient(top , #ffffff, #c0c0c0) repeat scroll 0 0 #ffffff;
 }

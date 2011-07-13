@@ -237,9 +237,6 @@ div.pagination span {
     color: #aaa;
 }
 div.pagination span.current {
-    background: -moz-linear-gradient(center top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
-    color: #FFF;
     margin: 0 0.5em;
 }
 

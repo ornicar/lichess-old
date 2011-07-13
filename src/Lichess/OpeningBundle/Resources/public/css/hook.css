@@ -16,6 +16,7 @@ div.hooks_wrap {
     background: -webkit-linear-gradient(top, rgba(212,212,212,0.9) 0%,rgba(240,240,240,0.5) 100%);
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(212,212,212,0.9)), to(rgba(240,240,240,0.5)));
     background: -ms-linear-gradient(top, rgba(212,212,212,0.9) 0%,rgba(240,240,240,0.5) 100%);
+    background: -o-linear-gradient(top, rgba(212,212,212,0.9) 0%,rgba(240,240,240,0.5) 100%);
 }
 div.hooks_wrap.hidden {
     display: none;

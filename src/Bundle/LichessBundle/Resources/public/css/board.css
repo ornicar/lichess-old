@@ -443,11 +443,14 @@ div.lichess_table .lichess_button {
     -moz-box-shadow: 0 0 3px #ccc;
     -webkit-box-shadow: 0 0 3px #ccc;
     text-align: center;
+    border: 1px solid #d3d3d3;
+    font-weight: normal;
 }
 div.lichess_table a.lichess_button:hover, div.lichess_table a.lichess_button.active {
     box-shadow: 0 0 9px #d85000;
     -moz-box-shadow: 0 0 9px #d85000;
     -webkit-box-shadow: 0 0 9px #d85000;
+    border: 1px solid #d85000;
 }
 
 div.lichess_current_player {
@@ -524,10 +527,6 @@ div.lichess_chat_top {
     -webkit-border-radius: 4px 4px 0 0;
     border: 1px solid #ccc;
     padding: 3px 5px;
-    background: #eaeaea;
-    background: #fafafa;
-    background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#dadada));
 }
 div.lichess_chat_top span.title {
     font-weight: bold;
