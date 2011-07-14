@@ -40,27 +40,55 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         $this->loadAiGame('white', null);
         $this->loadAiGame('black', null);
 
-        $this->loadAiGame('white', 'user1');
-        $this->loadAiGame('black', 'user1');
+        $game = $this->loadAiGame('white', 'user1');
+        $this->win($game);
 
-        $this->loadFriendGame('white', null, null, array('time' => 10));
+        $game = $this->loadAiGame('black', 'user1');
+        $this->win($game);
 
-        $this->loadFriendGame('white', 'user1', null, array('time' => 5, 'increment' => 10));
-        $this->loadFriendGame('white', null, 'user1', array('time' => 2, 'increment' => 20));
+        $game = $this->loadFriendGame('white', null, null, array('mode' => 1, 'time' => 10));
+        $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
 
-        $game = $this->loadFriendGame('black', 'user1', 'user2', array('time' => 20, 'increment' => 5, 'mode' => 1));
+        $game = $this->loadFriendGame('white', 'user1', null, array('mode' => 1, 'time' => 5, 'increment' => 10));
+        $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
+        $this->win($game);
+
+        $game = $this->loadFriendGame('white', null, 'user1', array('mode' => 1, 'time' => 2, 'increment' => 20));
+        $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
+        $this->win($game);
+
+        $game = $this->loadFriendGame('black', 'user1', 'user2', array('mode' => 1, 'time' => 20, 'increment' => 5, 'mode' => 1));
         $game->incrementBlurs('white');
         $game->incrementBlurs('white');
         $game->incrementBlurs('black');
-        $game->setStatus(Game::MATE);
-        $game->setWinner($game->getPlayer('white'));
-        $this->finisher->finish($game);
+        $this->win($game, 'black');
 
         $game = $this->loadFriendGame('black', 'user2', 'user1', array('mode' => 1));
         $game->incrementBlurs('black');
-        $game->setStatus(Game::MATE);
-        $game->setWinner($game->getPlayer('black'));
-        $this->finisher->finish($game);
+        $this->win($game);
+
+        $game = $this->loadFriendGame('white', 'user1', 'user2', array('mode' => 1));
+        $this->applyMoves($game, array('e2 e4', 'c7 c5', 'c2 c3', 'd7 d5', 'e4 d5', 'd8 d5', 'd2 d4', 'g8 f6', 'g1 f3', 'c8 g4', 'f1 e2', 'e7 e6', 'h2 h3', 'g4 h5', 'e1 g1'));
+
+        $game = $this->loadFriendGame('white', 'user1', 'user2', array('mode' => 1));
+        $this->applyMoves($game, array('e2 e4', 'c7 c5', 'c2 c3', 'd7 d5', 'e4 d5', 'd8 d5', 'd2 d4', 'g8 f6', 'g1 f3', 'c8 g4', 'f1 e2', 'e7 e6', 'h2 h3', 'g4 h5', 'e1 g1'));
+        $this->win($game);
+
+        $game = $this->loadFriendGame('white', 'user1', 'user2', array('mode' => 1));
+        $this->applyMoves($game, array( 'e2 e4', 'd7 d5', 'e4 d5', 'd8 d5', 'b1 c3', 'd5 a5', 'd2 d4', 'c7 c6', 'g1 f3', 'c8 g4', 'c1 f4', 'e7 e6', 'h2 h3', 'g4 f3', 'd1 f3', 'f8 b4', 'f1 e2', 'b8 d7', 'a2 a3', 'e8 c8'));
+        $this->win($game);
+
+        $game = $this->loadFriendGame('white', 'user1', 'user2', array('mode' => 1));
+        $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
+        $this->win($game);
+
+        $game = $this->loadFriendGame('white', 'user1', 'user3', array('mode' => 1));
+        $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
+        $this->win($game);
+
+        $game = $this->loadFriendGame('white', 'user4', 'user1', array('mode' => 1));
+        $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
+        $this->win($game);
 
         $manager->flush();
     }
@@ -80,6 +108,8 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         } else {
             $manipulator->play('g8 h6');
         }
+
+        return $game;
     }
 
     protected function loadFriendGame($color, $username1, $username2, array $configArray = array())
@@ -96,10 +126,6 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
             $this->blamePlayerWithUsername($player->getOpponent(), $username2);
         }
         $game->start();
-        $manipulator = $this->manipulatorFactory->create($game);
-        $manipulator->play('d2 d4');
-        $manipulator->play('e7 e5');
-        $manipulator->play('b1 c3');
 
         return $game;
     }
@@ -108,5 +134,20 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
     {
         $user = $this->userManager->findUserByUsername($username);
         $player->setUser($user);
+    }
+
+    protected function applyMoves(Game $game, array $moves)
+    {
+        $manipulator = $this->manipulatorFactory->create($game);
+        foreach ($moves as $move) {
+            $manipulator->play($move);
+        }
+    }
+
+    protected function win(Game $game, $color = 'white')
+    {
+        $game->setStatus(Game::MATE);
+        $game->setWinner($game->getPlayer($color));
+        $this->finisher->finish($game);
     }
 }
