@@ -10,7 +10,7 @@ $(function() {
         delay: pingDelay,
         tolerance: 300
     });
-    var ping = new $.ping('/ping', {
+    var ping = new $.ping($('#connectivity').data('ping-url'), {
         delay: pingDelay,
     });
     ping.pushCallback(function() { connectivity.ping(); });
