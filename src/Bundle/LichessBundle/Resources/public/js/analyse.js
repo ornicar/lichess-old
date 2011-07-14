@@ -9,11 +9,18 @@ jQuery(function() {
 });
 
 function customFunctionOnPgnGameLoad() {
-	var it = 0;
-	$('#GameText span.move').each(function() {
-		it++;
-		if (0 == it % 3) $(this).addClass('break');
-	});
+    var $text = $('#ShowPgnText');
+    var html = '<table><tbody><tr>';
+	$text.find('span.move').remove();
+    $text.find('>span').each(function(it) {
+        if (0 == it%2) {
+            html += '</tr><tr><th>' + (it/2+1) + '.</th>';
+        }
+        html += '<td>' + this.innerHTML + '</td>';
+    });
+    html += '</tr></tbody></table>';
+    $text.html(html).find('tr:empty').remove();
+
 	$('div.lichess_goodies a.rotate_board').click(function() {
 		$('#GameBoard').toggleClass('flip');
         $('#player_links div:first').appendTo($('#player_links'));

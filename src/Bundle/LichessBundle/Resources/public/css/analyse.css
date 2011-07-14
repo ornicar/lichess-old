@@ -83,13 +83,17 @@ span.board_mark.horz {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
-#GameText span.break {
-    display: block;
+#GameText table {
+    margin: auto;
+}
+#GameText tr {
+    border-bottom: 1px solid #eaeaea;
 }
 #GameText a.move {
     font-family: 'pgn4web ChessSansMerida', 'pgn4web Liberation Sans', sans-serif;
     text-decoration: none;
-    padding: 2px 5px;
+    padding: 3px 12px;
+    display: block;
     color: #444;
 }
 #GameText a:hover {
