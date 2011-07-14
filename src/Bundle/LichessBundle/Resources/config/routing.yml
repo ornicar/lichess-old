@@ -104,9 +104,6 @@ lichess_pgn_export:
     pattern:        /analyse/{id}/{color}/export
     defaults:       { _controller: LichessBundle:Pgn:analyse, color: white }
     requirements:   { id: "[\w\-]{8}", color: (white|black) }
-lichess_nb_players:
-    pattern:        /how-many-players-now
-    defaults:       { _controller: LichessBundle:Main:howManyPlayersNow }
 lichess_todolist:
     pattern:        /todo-list
     defaults:       { _controller: LichessBundle:Main:todolist }
