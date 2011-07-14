@@ -2,6 +2,10 @@ fos_user_user_list:
     pattern:    /people
     defaults:   { _controller: FOSUserBundle:Profile:list }
 
+lichess_user_export:
+    pattern:    /@/{username}/export
+    defaults:   { _controller: FOSUserBundle:Export:export }
+
 fos_user_user_show:
     pattern:    /@/{username}/{mode}
     defaults:   { _controller: FOSUserBundle:Profile:view, mode: all }

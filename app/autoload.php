@@ -18,6 +18,7 @@ $loader->registerNamespaces(array(
     'Assetic'                        => $vendorDir.'/assetic/src',
     'Pagerfanta'                     => $vendorDir.'/pagerfanta/src',
     'Gedmo'                          => $vendorDir.'/doctrine-extensions/lib',
+    'EasyCSV'                        => $vendorDir.'/easy-csv/lib',
     'Ornicar'                        => $bundleDir,
     'Sensio'                         => $bundleDir,
     'WhiteOctober'                   => $bundleDir,

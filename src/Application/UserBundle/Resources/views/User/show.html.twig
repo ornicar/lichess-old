@@ -11,6 +11,7 @@
             {% endif %}
             {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}<a href="?_impersonate={{ user.username }}">Impersonate</a>{% endif %}
         {% endblock %}
+        <a href="{{ path("lichess_user_export", {"username": user.username}) }}">{{ "Export games"|trans }}</a>
         <div class="status {{ user.isOnline ? "connected" : "" }}"></div>
         <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
         <span class="rank">{{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}</span>

@@ -46,18 +46,18 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         $game = $this->loadAiGame('black', 'user1');
         $this->win($game);
 
-        $game = $this->loadFriendGame('white', null, null, array('mode' => 1, 'time' => 10));
+        $game = $this->loadFriendGame('white', null, null, array('mode' => 1, 'clock' => true, 'time' => 10));
         $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
 
-        $game = $this->loadFriendGame('white', 'user1', null, array('mode' => 1, 'time' => 5, 'increment' => 10));
-        $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
-        $this->win($game);
-
-        $game = $this->loadFriendGame('white', null, 'user1', array('mode' => 1, 'time' => 2, 'increment' => 20));
+        $game = $this->loadFriendGame('white', 'user1', null, array('mode' => 1, 'clock' => true, 'time' => 5, 'increment' => 10));
         $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
         $this->win($game);
 
-        $game = $this->loadFriendGame('black', 'user1', 'user2', array('mode' => 1, 'time' => 20, 'increment' => 5, 'mode' => 1));
+        $game = $this->loadFriendGame('white', null, 'user1', array('mode' => 1, 'clock' => true, 'time' => 2, 'increment' => 20));
+        $this->applyMoves($game, array('d2 d4', 'e7 e5', 'b1 c3'));
+        $this->win($game);
+
+        $game = $this->loadFriendGame('black', 'user1', 'user2', array('mode' => 1, 'clock' => true, 'time' => 20, 'increment' => 5, 'mode' => 1));
         $game->incrementBlurs('white');
         $game->incrementBlurs('white');
         $game->incrementBlurs('black');

@@ -5,7 +5,7 @@ use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Piece;
 use Bundle\LichessBundle\Chess\Square;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * http://www.chessclub.com/help/PGN-spec
@@ -14,16 +14,9 @@ class PgnDumper
 {
     protected $urlGenerator;
 
-    /**
-     * Constructor.
-     *
-     * @param Router $router A Router instance
-     */
-    public function __construct(Router $router = null)
+    public function __construct(UrlGeneratorInterface $urlGenerator = null)
     {
-        if($router) {
-            $this->urlGenerator = $router->getGenerator();
-        }
+        $this->urlGenerator = $urlGenerator;
     }
 
     protected function isCastleKingSide(Piece $king, Square $to)
@@ -199,7 +192,7 @@ class PgnDumper
         return $this->urlGenerator->generate('lichess_pgn_viewer', array('id' => $game->getId()), true);
     }
 
-    protected function getPgnResult(Game $game)
+    public function getPgnResult(Game $game)
     {
         if($game->getIsFinished()) {
             if($game->getPlayer('white')->getIsWinner()) {

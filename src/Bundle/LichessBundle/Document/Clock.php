@@ -74,7 +74,7 @@ class Clock
      **/
     public function getName()
     {
-        return sprintf('%d minutes/side + %d seconds/move', round($this->limit / 60, 1), $this->increment);
+        return sprintf('%d minutes/side + %d seconds/move', $this->getLimitInMinutes(), $this->getIncrement());
     }
 
     /**
