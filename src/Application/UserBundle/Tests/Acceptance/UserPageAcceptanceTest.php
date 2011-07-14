@@ -12,13 +12,6 @@ class UserPageAcceptanceTest extends AbstractAcceptanceTest
         $this->assertRegexp('/Games played/', $client->getResponse()->getContent());
     }
 
-    public function testNoGamePlayed()
-    {
-        list($client, $crawler) = $this->requestUserPage('user4');
-
-        $this->assertEquals(0, $crawler->filter('div.game_row')->count());
-    }
-
     public function testSomeGamesPlayed()
     {
         list($client, $crawler) = $this->requestUserPage('user1');
