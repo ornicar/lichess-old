@@ -73,12 +73,15 @@ class UserCritic
 
     public function getNbGamesWithMe()
     {
-        if (!$this->getAuthenticatedUser()) {
+        if (!$authenticatedUser = $this->getAuthenticatedUser()) {
+            return 0;
+        }
+        if ($this->user === $authenticatedUser) {
             return 0;
         }
         $key = 'nbGamesWithMe';
         if (!isset($this->cache[$key])) {
-            $this->cache[$key] = $this->gameRepository->createRecentByUsersQuery($this->user, $this->getAuthenticatedUser())->getQuery()->count();
+            $this->cache[$key] = $this->gameRepository->createRecentByUsersQuery($this->user, $authenticatedUser)->getQuery()->count();
         }
 
         return $this->cache[$key];

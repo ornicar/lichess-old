@@ -41,7 +41,7 @@ class GameExporter
     public function getData(User $user)
     {
         $games = $this->gameRepository->findRecentByUser($user);
-        $data = array(array('#', 'Date', 'Color', 'Opponent', 'Result', 'Status', 'Plies', 'Variant', 'Mode', 'Time control', 'Your Elo', 'Your Elo change', 'Opponent Elo', 'Opponent Elo Change', 'Game url', 'Analysis url', 'PGN url'));
+        $data = array(array('#', 'Date (RFC 2822)', 'Color', 'Opponent', 'Result', 'Status', 'Plies', 'Variant', 'Mode', 'Time control', 'Your Elo', 'Your Elo change', 'Opponent Elo', 'Opponent Elo Change', 'Game url', 'Analysis url', 'PGN url'));
         $it = 0;
         foreach ($games as $game) {
             $player = $game->getPlayerByUser($user);
