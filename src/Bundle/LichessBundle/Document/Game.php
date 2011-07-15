@@ -376,6 +376,11 @@ class Game
         }
     }
 
+    public function getUserIds()
+    {
+        return $this->userIds;
+    }
+
     public function setWinner(Player $player)
     {
         $player->setIsWinner(true);
