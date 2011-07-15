@@ -9,6 +9,7 @@ class SigninAcceptanceTest extends AbstractAcceptanceTest
 
     public function testLoginValidPasswordSucceeds()
     {
+        $this->markTestSkipped();
         $client = $this->createPersistentClient();
         $crawler = $client->request('GET', $this->generateUrl($client, 'lichess_homepage'));
         $form = $crawler->selectButton('Sign in')->form();
@@ -17,6 +18,7 @@ class SigninAcceptanceTest extends AbstractAcceptanceTest
         $client->submit($form);
 
         $crawler = $client->request('GET', $this->generateUrl($client, 'lichess_homepage'));
+        $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('a.goto_profile')->count());
         $this->assertEquals(0, $crawler->filter('form.signin_form')->count());
     }
