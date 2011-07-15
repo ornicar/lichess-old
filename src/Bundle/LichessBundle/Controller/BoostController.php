@@ -13,7 +13,7 @@ class BoostController extends ContainerAware
 {
     public function howManyPlayersNowAction()
     {
-        return new Response((string) Handler::howManyPlayersNowAction(), 200, array('content-type' => 'text/plain'));
+        return new Response((string) Handler::howManyPlayersNow(), 200, array('content-type' => 'text/plain'));
     }
 
     public function pingAction()
