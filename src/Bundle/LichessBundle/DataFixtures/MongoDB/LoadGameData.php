@@ -33,6 +33,9 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         $this->friendStarter      = $container->get('lichess.starter.friend');
         $this->manipulatorFactory = $container->get('lichess.manipulator_factory');
         $this->finisher           = $container->get('lichess.finisher');
+        if ($container->get('lichess.repository.game') > 1000) {
+            throw new \Exception('Refuse to erase prod data');
+        }
     }
 
     public function load($manager)
