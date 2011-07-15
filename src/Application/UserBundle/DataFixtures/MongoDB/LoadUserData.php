@@ -23,7 +23,7 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface, Contain
     public function setContainer(ContainerInterface $container = null)
     {
         $this->userManager = $container->get('fos_user.user_manager');
-        if ($container->get('fos_user.repository.user') > 1000) {
+        if ($container->get('fos_user.repository.user')->getNbUsers() > 1000) {
             throw new \Exception('Refuse to erase prod data');
         }
     }

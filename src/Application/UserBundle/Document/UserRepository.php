@@ -83,6 +83,16 @@ class UserRepository extends DocumentRepository
             + 1;
     }
 
+    /**
+     * Return the number of users
+     *
+     * @return int
+     **/
+    public function getNbUsers()
+    {
+        return $this->createQueryBuilder()->getQuery()->count();
+    }
+
     public function createSortedByEloQuery()
     {
         return $this->createQueryBuilder()->sort('elo', 'desc');
