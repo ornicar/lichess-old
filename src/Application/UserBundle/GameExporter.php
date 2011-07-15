@@ -41,7 +41,7 @@ class GameExporter
     public function getData(User $user)
     {
         $games = $this->gameRepository->findRecentByUser($user);
-        $data = array(array('#', 'Date', 'Color', 'Opponent', 'Result', 'Status', 'Plies', 'Variant', 'Mode', 'Time control', 'Your Elo', 'Your Elo change', 'Opponent Elo', 'Opponent Elo Change', 'Game private url', 'Game public url', 'Analysis url', 'PGN url'));
+        $data = array(array('#', 'Date', 'Color', 'Opponent', 'Result', 'Status', 'Plies', 'Variant', 'Mode', 'Time control', 'Your Elo', 'Your Elo change', 'Opponent Elo', 'Opponent Elo Change', 'Game url', 'Analysis url', 'PGN url'));
         $it = 0;
         foreach ($games as $game) {
             $player = $game->getPlayerByUser($user);
@@ -62,7 +62,6 @@ class GameExporter
                 (int) $player->getEloDiff(),
                 (int) $opponent->getElo(),
                 (int) $opponent->getEloDiff(),
-                $this->urlGenerator->generate('lichess_player', array('id' => $player->getFullId()), true),
                 $this->urlGenerator->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()), true),
                 $this->urlGenerator->generate('lichess_pgn_viewer', array('id' => $game->getId(), 'color' => $player->getColor()), true),
                 $this->urlGenerator->generate('lichess_pgn_export', array('id' => $game->getId(), 'color' => $player->getColor()), true),
