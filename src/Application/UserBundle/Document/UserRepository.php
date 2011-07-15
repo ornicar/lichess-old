@@ -58,12 +58,15 @@ class UserRepository extends DocumentRepository
     {
         $query = array('usernameCanonical' => new MongoRegex(sprintf('/^%s/', strtolower($term))));
         $users = $this->dm->getDocumentCollection($this->documentName)->getMongoCollection()->find($query, array('username' => true));
-        $usernames = array();
-        foreach($users as $user) {
-            $usernames[] = $user['username'];
-        }
 
-        return $usernames;
+        return array_values(array_map(function(array $user) { return $user['username']; }, iterator_to_array($users)));
+    }
+
+    public function getUsernamesIndexedById()
+    {
+        $users = $this->dm->getDocumentCollection($this->documentName)->getMongoCollection()->find(array(), array('username' => true));
+
+        return array_map(function(array $user) { return $user['username']; }, iterator_to_array($users));
     }
 
     /**
