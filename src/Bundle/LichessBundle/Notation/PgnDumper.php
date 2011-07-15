@@ -192,13 +192,12 @@ class PgnDumper
         return $this->urlGenerator->generate('lichess_pgn_viewer', array('id' => $game->getId()), true);
     }
 
-    public function getPgnResult(Game $game)
+    protected function getPgnResult(Game $game)
     {
         if($game->getIsFinished()) {
             if($game->getPlayer('white')->getIsWinner()) {
                 return '1-0';
-            }
-            elseif($game->getPlayer('black')->getIsWinner()) {
+            } elseif($game->getPlayer('black')->getIsWinner()) {
                 return '0-1';
             }
             return '1/2-1/2';
