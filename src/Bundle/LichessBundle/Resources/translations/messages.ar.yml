@@ -17,6 +17,8 @@
 "Stalemate": "الملك مخنوق"
 "White": "أبيض"
 "Black": "أسود"
+"Random": "عشوائي"
+"No game available right now, create one!": "لا توجد لعبة متاحة الان , إنشاء لعبة !"
 "White is victorious": "الأبيض هو الفائز"
 "Black is victorious": "الأسود هو الفائز"
 "Play a new game": "هل تريد أن تلعب لعبة جديدة"
@@ -109,3 +111,4 @@
 "Compose message": "أكتب رسالة"
 "Sent messages": "الرسائل المرسلة"
 "Increment in seconds": "الزيادة بالثواني"
+"Spectators:": "المتفرجون"
