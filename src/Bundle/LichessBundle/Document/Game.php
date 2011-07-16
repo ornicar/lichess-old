@@ -217,6 +217,7 @@ class Game
      *
      * @var Game
      * @MongoDB\ReferenceOne(targetDocument="Game")
+     * @MongoDB\Index()
      */
     protected $next;
 
