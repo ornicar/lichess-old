@@ -14,6 +14,7 @@ $loader->registerNamespaces(array(
     'Doctrine\\ODM\\MongoDB' => $vendorDir.'/doctrine-mongodb-odm/lib',
     'Doctrine\\Common'       => $vendorDir.'/doctrine-common/lib',
     'FOS'                    => $bundleDir,
+    'Ornicar'                => $bundleDir,
 ));
 $loader->registerNamespaceFallbacks(array(
     __DIR__.'/../src',

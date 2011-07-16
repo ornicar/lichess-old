@@ -2,7 +2,6 @@
 * change password
 * translate minutes/side (clock.name)
 * warn when opponent hides chat room
-* replace MessageBundle
 * alert when low on time
 * start game with any custom position - position builder
 * continue game for fun after a player flags
