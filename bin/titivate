@@ -1,10 +1,24 @@
 #!/bin/sh
 
+SLEEP=10
+
 echo "Ensure indexes"
-php lichess/console --env=prod doctrine:mongodb:schema:create --index
+php app/console --env=prod doctrine:mongodb:schema:create --index
+
+echo "Sleep $SLEEP"
+sleep $SLEEP
 
 echo "Delete old unplayed games"
-php lichess/console --env=prod --execute lichess:game:cleanup
+php app/console --env=prod --execute lichess:game:cleanup
+
+echo "Sleep $SLEEP"
+sleep $SLEEP
 
 echo "Finish games"
-php lichess/console --env=prod --execute lichess:game:fix
+php app/console --env=prod --execute lichess:game:fix
+
+echo "Sleep $SLEEP"
+sleep $SLEEP
+
+echo "Cleanup rematches"
+php app/console --env=prod lichess:game:cleanup-next

@@ -282,7 +282,7 @@ class GameRepository extends DocumentRepository
     }
 
     /**
-     * Find unfinished games where a opponent flagged
+     * Find unfinished games where an opponent flagged
      *
      * @return array
      */
@@ -323,6 +323,6 @@ class GameRepository extends DocumentRepository
             ->field('id')->in($ids)
             ->remove()
             ->getQuery()
-            ->execute(array('safe' => true, 'fsync' => true));
+            ->execute(array('safe' => true));
     }
 }
