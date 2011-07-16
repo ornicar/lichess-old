@@ -3,3 +3,6 @@ ornicar_message:
     thread_class:       Lichess\MessageBundle\Document\Thread
     message_class:      Lichess\MessageBundle\Document\Message
     spam_detector:      ornicar_message.akismet_spam_detector
+    twig_extension:     lichess_message.twig_extension
+    new_thread_form:
+        factory:        lichess_message.new_thread_form.factory

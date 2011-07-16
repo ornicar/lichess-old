@@ -1,12 +1,15 @@
+{% extends 'OrnicarMessageBundle::layout.html.twig' %}
+
+{% block content %}
+
 <div class="message_new">
     <h1>{{ "Compose message"|trans }}</h1>
-    {% include "OrnicarMessageBundle::sidebar.html.twig" %}
     <div class="center form">
-        <form action="{{ path("ornicar_message_message_create") }}" method="post">
+        <form action="{{ path('ornicar_message_thread_new') }}" method="post">
             <div class="field_to">
-                {{ form_label(form.to, 'To:') }}
-                {{ form_widget(form.to, {"attr": {'class': 'autocomplete', 'data-provider': url('fos_user_autocomplete')}}) }}
-                {{ form_errors(form.to) }}
+                {{ form_label(form.recipient, 'To:') }}
+                {{ form_widget(form.recipient, {"attr": {'class': 'autocomplete', 'data-provider': url('fos_user_autocomplete')}}) }}
+                {{ form_errors(form.recipient) }}
             </div>
             <div class="field_subject">
                 {{ form_label(form.subject, 'Subject:') }}
@@ -19,8 +22,10 @@
             </div>
             <div class="actions">
                 <input class="send button" type="submit" value="{{ "Send"|trans }}" />
-                <a class="cancel" href="{{ path("ornicar_message_message_list") }}">{{ "Cancel"|trans }}</a>
+                <a class="cancel" href="{{ path("ornicar_message_inbox") }}">{{ "Cancel"|trans }}</a>
             </div>
         </form>
     </div>
 </div>
+
+{% endblock %}

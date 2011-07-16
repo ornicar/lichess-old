@@ -7,7 +7,7 @@
     <div class="content_box_top">
         {% block user_message %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <a href="{{ path("ornicar_message_message_new", {"to": user.username}) }}" class="send_message">{{ "Compose message"|trans }}</a>
+                <a href="{{ path("ornicar_message_thread_new", {"to": user.username}) }}" class="send_message">{{ "Compose message"|trans }}</a>
             {% endif %}
             {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}<a href="?_impersonate={{ user.username }}">Impersonate</a>{% endif %}
         {% endblock %}

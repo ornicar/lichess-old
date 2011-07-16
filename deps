@@ -104,7 +104,6 @@
 [MessageBundle]
     git=git://github.com/ornicar/OrnicarMessageBundle.git
     target=/bundles/Ornicar/MessageBundle
-    version=legacy
 
 [AkismetBundle]
     git=git://github.com/ornicar/OrnicarAkismetBundle.git

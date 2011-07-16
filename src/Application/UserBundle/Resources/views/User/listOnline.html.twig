@@ -9,7 +9,7 @@
     <li>
         {{ lichess_link_user(user) }}
         {% if isAuthenticated and app.user != user %}
-            <a class="send" href="{{ path("ornicar_message_message_new", {"to": user.username}) }}">{{ "Send a message"|trans }}</a>
+            <a class="send" href="{{ path("ornicar_message_thread_new", {"to": user.username}) }}">{{ "Send a message"|trans }}</a>
         {% endif %}
     </li>
     {% endfor %}

@@ -1,8 +1,18 @@
 {% extends "LichessBundle::layout.html.twig" %}
+
+{% block menu_active %}message{% endblock %}
+
 {% block layout_content %}
 <div id="lichess_message" class="content_box">{% block content %}{% endblock %}</div>
 {% endblock %}
-{% block menu_active %}message{% endblock %}
+
+{% block goodies %}
+    <div class="sidebar">
+        <a href="{{ path("ornicar_message_inbox") }}" class="goto_inbox">{{ "Inbox"|trans }}</a>
+        <a href="{{ path("ornicar_message_sent") }}" class="goto_sent">{{ "Sent messages"|trans }}</a>
+        <a href="{{ path("ornicar_message_thread_new") }}" class="goto_compose">{{ "Compose message"|trans }}</a>
+    </div>
+{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}

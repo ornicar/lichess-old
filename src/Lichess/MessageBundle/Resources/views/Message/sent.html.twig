@@ -1,0 +1,13 @@
+{% extends 'OrnicarMessageBundle::layout.html.twig' %}
+
+{% block content %}
+
+<div class="message_sent">
+    <div class="head">
+        <h1>{{ "Sent messages"|trans }}</h1>
+    </div>
+
+    {% include 'OrnicarMessageBundle:Message:threads_list.html.twig' with {'threads': threads} %}
+</div>
+
+{% endblock %}

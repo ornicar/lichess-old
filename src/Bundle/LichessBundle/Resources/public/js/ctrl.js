@@ -113,7 +113,7 @@ $(function() {
         $(this).parent().remove();
     });
 
-    $('a.delete').click(function() {
+    $('a.delete, input.delete').click(function() {
         return confirm('Delete?');
     });
 

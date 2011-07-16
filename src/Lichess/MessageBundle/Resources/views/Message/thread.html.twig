@@ -1,0 +1,38 @@
+{% extends 'OrnicarMessageBundle::layout.html.twig' %}
+
+{% block content %}
+
+    <div class="thread_actions">
+        <form action="{{ url('ornicar_message_thread_delete', {'threadId': thread.id}) }}" method="post">
+            <input type="submit" class="delete" value="{{ "Delete"|trans }}" />
+        </form>
+    </div>
+
+    <div class="head">
+        <h1>{{ thread.subject|default("No subject") }}</h1>
+    </div>
+
+    {% for message in thread.messages %}
+        <div class="thread_message" id="message_{{ message.id }}">
+            <span class="infos">
+                {{ lichess_link_user(message.sender) }} &rarr; {{ lichess_link_user(thread.otherParticipant(message.sender)) }} -  {{ lichess_date(message.createdAt) }}
+            </span>
+
+            <div class="thread_message_body">{{ lichess_user_text(message.body) }}</div>
+        </div>
+    {% endfor %}
+
+    <div class="answer">
+        <form action="{{ url('ornicar_message_thread_view', {'threadId': thread.id}) }}" method="post">
+            <div class="field_body">
+                {{ form_widget(form.body) }}
+                {{ form_errors(form.body) }}
+            </div>
+            <div class="actions">
+                <input class="send button" type="submit" value="{{ "Send"|trans }}" />
+                <a class="cancel" href="{{ path("ornicar_message_inbox") }}">{{ "Cancel"|trans }}</a>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

@@ -3,83 +3,67 @@
     color: #666;
     font-weight: normal;
     margin-bottom: 0.5em;
-    margin-left: 180px;
+}
+#lichess_message {
+    min-height: 300px;
 }
 
-#lichess_message div.sidebar {
-    float: left;
-    width: 170px;
+div.sidebar {
+    margin-top: 30px;
 }
-#lichess_message div.sidebar a {
+div.sidebar a {
     display: block;
     font-size: 1.2em;
-    margin-bottom: 2em;
-}
-#lichess_message div.center {
-    margin-left: 180px;
-    min-height: 100px;
+    padding: 1em 0 1em 1em;
 }
 
-#lichess_message div.list {
-    font-size: 1.1em;
-    border-top: 1px solid #DADADA;
+#lichess_message table {
+    width: 100%;
 }
-#lichess_message div.no_messages {
+#lichess_message tr {
+    border-top: 1px solid #e4e4e4;
+}
+#lichess_message tr.odd {
+    background: #f4f4f4;
+}
+
+#lichess_message td.subject a {
+    display: block;
+    padding: 1em;
+    font-size: 120%;
+}
+#lichess_message tr.new td.subject a {
+    color: #0090b0;
+    font-weight: bold;
+}
+#lichess_message td.author, #lichess_message td.date {
+    white-space: nowrap;
+    padding-right: 1em;
+}
+
+#lichess_message div.thread_actions {
+    margin-top: 0.4em;
+    float: right;
+}
+
+#lichess_message div.thread_message {
+    font-size: 1.2em;
+    margin-top: 2em;
+    border-top: 1px solid #d4d4d4;
+    padding-top: 2em;
+}
+#lichess_message div.thread_message span.infos {
+    margin-bottom: 1em;
+    display: block;
+}
+#lichess_message div.answer {
     margin-top: 3em;
 }
 
-#lichess_message div.list div.message {
-    padding: 2em;
-    border-bottom: 1px solid #DADADA;
-}
-#lichess_message div.list div.message.unread {
-    background: #E1F6F8;
-}
-#lichess_message div.list div.message span.actions {
-    float: right;
-    font-size: 0.8em;
-}
-#lichess_message a.user {
-    font-weight: bold;
-    background: url(/bundles/lichess/images/user.png) top left no-repeat;
-    padding-left: 20px;
-}
-#lichess_message div.list div.message a.subject {
-    display: block;
-    font-weight: bold;
-    font-size: 1.1em;
-    margin-top: 1em;
-    margin-left: 3em;
-    background: url(/bundles/lichessmessage/images/message.png) top left no-repeat;
-    padding-left: 20px;
-}
-
-#lichess_message div.foot {
-    margin: 2em;
-}
-
-#lichess_message div.show {
-    font-size: 1.2em;
-    margin-top: 2em;
-}
-#lichess_message div.show span.actions {
-    float: right;
-    font-size: 0.8em;
-}
-#lichess_message div.show span.infos {
-    margin-bottom: 2em;
-    display: block;
-}
-#lichess_message div.show div.answer {
-    margin-top: 2em;
-}
-#lichess_message div.show div.body {
-    color: #666;
-}
-
 #lichess_message div.form {
-    margin-top: 1em;
     font-size: 1.1em;
+    border-top: 1px solid #d4d4d4;
+    padding-top: 2em;
 }
 #lichess_message div.form div.actions,
 #lichess_message div.answer div.actions {
@@ -92,7 +76,7 @@
 }
 #lichess_message label {
     float: left;
-    width: 47px;
+    width: 60px;
     text-align: right;
     margin-right: 10px;
     vertical-align: middle;
@@ -117,23 +101,4 @@
 #lichess_message ul {
     color: red;
     margin-left: 60px;
-}
-
-div.pagination {
-    float: right;
-}
-div.pagination a, div.pagination span {
-    font-size: 1.1em;
-    padding: 0.1em 0.5em;
-    font-weight: bold;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    text-decoration: none;
-}
-div.pagination span {
-    color: #aaa;
-}
-div.pagination span.current {
-    margin: 0 0.5em;
 }

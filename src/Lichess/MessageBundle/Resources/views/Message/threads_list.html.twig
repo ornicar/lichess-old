@@ -1,0 +1,29 @@
+<table>
+    <tbody>
+
+    {% if threads|length %}
+        {% for thread in threads %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index0) }}{% if not ornicar_message_is_read(thread) %} new{% endif %}">
+                <td class="subject">
+                    <a href="{{ url('ornicar_message_thread_view', {'threadId': thread.id}) }}#message_{{ thread.lastMessage.id }}">{{ thread.subject }} </a>
+                </td>
+                <td class="author">
+                    {{ lichess_link_user(thread.otherParticipant(app.user)) }}
+                </td>
+                <td class="date">
+                    {{ lichess_date(thread.lastMessage.createdAt) }}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">
+                <br />
+                No message!
+            </td>
+        </tr>
+    {% endif %}
+
+    </tbody>
+
+</table>

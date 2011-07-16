@@ -45,7 +45,7 @@
             <a class="goto_forum goto_nav blank_if_play{{ active == "forum" ? " active" : "" }}" title="{{ "Talk about chess and discuss lichess features in the forum"|trans }}" href="{{ path("forum_index") }}">{{ "Forum"|trans }}</a>
             {% block top_security %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <a class="goto_nav goto_message blank_if_play{{ active == "message" ? " active" : "" }}" href="{{ path("ornicar_message_message_list") }}">
+                <a class="goto_nav goto_message blank_if_play{{ active == "message" ? " active" : "" }}" href="{{ path("ornicar_message_inbox") }}">
                     {{ "Inbox"|trans }}
                     <span id="nb_messages" class="new_messages{{ ornicar_message_nb_unread() > 0 ? " unread" : "" }}">{{ ornicar_message_nb_unread() }}</span>
                 </a>

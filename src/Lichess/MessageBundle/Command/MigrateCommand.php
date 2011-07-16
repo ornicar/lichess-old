@@ -48,6 +48,7 @@ class MigrateCommand extends ContainerAwareCommand
             $sender = $userRepository->find($data['from']['$id']->__toString());
             $recipient = $userRepository->find($data['to']['$id']->__toString());
             if (!$sender || !$recipient) continue;
+            if ($sender == $recipient) continue;
             $message = $composer->newThread()
                 ->setSender($sender)
                 ->addRecipient($recipient)
@@ -62,10 +63,11 @@ class MigrateCommand extends ContainerAwareCommand
                 $thread->setIsReadByParticipant($recipient, true);
             }
             $threadManager->saveThread($thread, false);
-            $messageManager->saveMessage($message);
+            $messageManager->saveMessage($message, false);
             print '.';
             if (!(++$it%50)) {
                 print "$it/$count\n";
+                $manager->flush();
                 $manager->clear();
             }
         }

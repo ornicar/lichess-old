@@ -20,7 +20,7 @@ class InteractiveLoginListener
     {
         if ($user = $event->getAuthenticationToken()->getUser()) {
             if ($user instanceof User) {
-                $this->cache->updateUnreadCache($user);
+                $this->cache->updateNbUnread($user);
             }
         }
     }

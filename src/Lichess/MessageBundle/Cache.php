@@ -1,24 +1,60 @@
 <?php
 
-namespace Application\MessageBundle;
+namespace Lichess\MessageBundle;
 
 use Ornicar\MessageBundle\Model\MessageInterface;
 use Ornicar\MessageBundle\Model\ParticipantInterface;
+use Ornicar\MessageBundle\ModelManager\MessageManagerInterface;
+use FOS\UserBundle\Model\UserManagerInterface;
 
 class Cache
 {
-    public function updateUnreadCache(ParticipantInterface $participant, $modifier = 0)
+    /**
+     * The message manager
+     *
+     * @var MessageManagerInterface
+     */
+    protected $messageManager;
+
+    /**
+     * The user manager
+     *
+     * @var UserManagerInterface
+     */
+    protected $userManager;
+
+    public function __construct(MessageManagerInterface $messageManager, UserManagerInterface $userManager)
     {
-        apc_store('nbm.'.$participant->getUsername(), $this->messageRepository->countUnreadByUser($participant) + $modifier);
+        $this->messageManager = $messageManager;
+        $this->userManager = $userManager;
     }
 
-    public function getUnreadCacheForUsername($username)
+    public function updateNbUnread(ParticipantInterface $participant)
     {
-        return apc_fetch('nbm.'.$username) ?: 0;
+        $nbUnread = $this->messageManager->getNbUnreadMessageByParticipant($participant);
+        apc_store('nbm.'.$participant->getUsernameCanonical(), $nbUnread);
+
+        return $nbUnread;
     }
 
-    public function countUnreadByParticipant(ParticipantInterface $participant)
+    public function getNbUnread(ParticipantInterface $participant)
     {
-        return $this->getUnreadCacheForUsername($participant->getUsername());
+        $nb = apc_fetch('nbm.'.$participant->getUsernameCanonical());
+        if (false === $nb) {
+            $nb = $this->updateNbUnread($participant);
+        }
+
+        return $nb;
+    }
+
+    public function getNbUnreadByUsername($username)
+    {
+        $nb = apc_fetch('nbm.'.$username);
+        if (false === $nb) {
+            $user = $this->userManager->findUserByUsername($username);
+            $nb = $this->updateNbUnread($participant);
+        }
+
+        return $nb;
     }
 }
