@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\MessageBundle\DependencyInjection;
+namespace Lichess\MessageBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -13,8 +13,7 @@ class LichessMessageExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('messenger.xml');
-        $loader->load('listener.xml');
-        $loader->load('akismet.xml');
+
+        $loader->load('config.xml');
     }
 }

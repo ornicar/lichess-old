@@ -34,7 +34,7 @@ class AppKernel extends Kernel
 
             new Application\CommentBundle\LichessCommentBundle(),
             new Application\ForumBundle\LichessForumBundle(),
-            new Application\MessageBundle\LichessMessageBundle(),
+            new Lichess\MessageBundle\LichessMessageBundle(),
             new Application\UserBundle\LichessUserBundle(),
         );
 

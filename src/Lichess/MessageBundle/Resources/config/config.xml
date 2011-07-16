@@ -4,15 +4,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="lichess_message.security.interactive_login_listener.class">Application\MessageBundle\Security\InteractiveLoginListener</parameter>
-    </parameters>
-
     <services>
-        <service id="lichess_message.security.interactive_login_listener" class="%lichess_message.security.interactive_login_listener.class%">
-            <argument type="service" id="ornicar_message.messenger" />
+        <service id="lichess_message.security.interactive_login_listener" class="Application\MessageBundle\Security\InteractiveLoginListener">
+            <argument type="service" id="lichess_message.cache" />
             <tag name="kernel.event_listener" event="security.interactive_login" method="listenToInteractiveLogin" priority="0" />
         </service>
+        <service id="lichess_message.cache" class="Lichess\MessageBundle\Cache" />
     </services>
 
 </container>

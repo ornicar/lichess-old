@@ -1,26 +1,26 @@
 <?php
 
-namespace Application\MessageBundle\Security;
+namespace Lichess\MessageBundle\Security;
 
-use Application\MessageBundle\Messenger;
+use Lichess\MessageBundle\Cache;
 use FOS\UserBundle\Model\User;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class InteractiveLoginListener
 {
-    protected $messenger;
+    protected $cache;
 
-    public function __construct(Messenger $messenger)
+    public function __construct(Cache $cache)
     {
-        $this->messenger = $messenger;
+        $this->cache = $cache;
     }
 
     public function listenToInteractiveLogin(InteractiveLoginEvent $event)
     {
         if ($user = $event->getAuthenticationToken()->getUser()) {
             if ($user instanceof User) {
-                $this->messenger->updateUnreadCache($user);
+                $this->cache->updateUnreadCache($user);
             }
         }
     }

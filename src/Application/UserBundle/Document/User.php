@@ -5,6 +5,7 @@ namespace Application\UserBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 use FOS\UserBundle\Document\User as BaseUser;
+use Ornicar\MessageBundle\Model\ParticipantInterface;
 
 /**
  * @MongoDB\Document(
@@ -12,7 +13,7 @@ use FOS\UserBundle\Document\User as BaseUser;
  *   collection="user"
  * )
  */
-class User extends BaseUser
+class User extends BaseUser implements ParticipantInterface
 {
     /**
      * Default ELO score a user receives on registration

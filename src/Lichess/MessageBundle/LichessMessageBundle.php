@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\MessageBundle;
+namespace Lichess\MessageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

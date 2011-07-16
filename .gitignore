@@ -1,10 +1,10 @@
 /app/config/config_local.yml
-/app/cache/*
-/app/logs/*
+/app/cache
+/app/logs
 /app/bootstrap*
 /xhr/config/config_local.yml
-/xhr/cache/*
-/xhr/logs/*
+/xhr/cache
+/xhr/logs
 /xhr/bootstrap*
 /bin/.translate_version
 /web/.htaccess

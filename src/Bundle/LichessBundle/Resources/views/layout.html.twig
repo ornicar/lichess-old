@@ -47,7 +47,7 @@
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <a class="goto_nav goto_message blank_if_play{{ active == "message" ? " active" : "" }}" href="{{ path("ornicar_message_message_list") }}">
                     {{ "Inbox"|trans }}
-                    <span id="nb_messages" class="new_messages{{ new_messages() > 0 ? " unread" : "" }}">{{ new_messages() }}</span>
+                    <span id="nb_messages" class="new_messages{{ ornicar_message_nb_unread() > 0 ? " unread" : "" }}">{{ ornicar_message_nb_unread() }}</span>
                 </a>
             {% endif %}
             <div id="nb_connected_players" class="nb_connected_players">

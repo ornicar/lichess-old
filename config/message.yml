@@ -1,5 +1,5 @@
 ornicar_message:
-    db_driver: odm
-    class:
-        model:
-            message: Application\MessageBundle\Document\Message
+    db_driver:          mongodb
+    thread_class:       Lichess\MessageBundle\Document\Thread
+    message_class:      Lichess\MessageBundle\Document\Message
+    spam_detector:      ornicar_message.akismet_spam_detector
