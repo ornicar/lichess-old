@@ -59,7 +59,11 @@ $(function() {
                     html += '<td>'+hook.username+'</td>';
                 }
                 html += '</td>';
-                html += '<td>'+hook.variant+'</td>';
+                if (hook.variant == 'Chess960') {
+                    html += '<td><a href="http://en.wikipedia.org/wiki/Chess960"><strong>960</strong></a></td>';
+                } else {
+                    html += '<td></td>';
+                }
                 html += '<td>'+hook.mode+'</td>';
                 html += '<td>'+hook.clock+'</td>';
                 html += '<td class="action">';
