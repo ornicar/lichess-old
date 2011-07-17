@@ -10,10 +10,6 @@ use FOS\UserBundle\Model\UserInterface;
  * @MongoDB\Document(
  *   collection="message_message"
  * )
- * @MongoDB\Indexes({
- *   @MongoDB\Index(keys={"sender.$id"="asc"}),
- *   @MongoDB\Index(keys={"recipient.$id"="asc"})
- * })
  */
 class Message extends BaseMessage
 {
