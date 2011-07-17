@@ -1,6 +1,14 @@
 $(function() {
     $('#lichess div.game_share').delegate('form.fos_comment_comment_form', 'submit', function() {
-        var $form = $(this).addClass('processing').ajaxSubmit({
+        var $form = $(this).addClass('processing');
+        var $body = $form.find('textarea.comment_body');
+        var $author = $form.find('input.comment_author');
+        var data = {};
+        data[$body.attr('name')] = $body.val();
+        data[$author.attr('name')] = $author.val();
+        $.ajax($form.attr('action'), {
+            type: 'POST',
+            data: data,
             success: function(html) {
                 $form.closest('div.fos_comment_thread_show').replaceWith(html);
             },

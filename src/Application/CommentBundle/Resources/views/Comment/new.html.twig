@@ -3,10 +3,10 @@
     {% block fos_comment_form_title %}{% endblock %}
 
     {% block fos_comment_form_fields %}
-        <textarea name="{{ form.body.vars.full_name }}"></textarea>
+        <textarea class="comment_body" name="{{ form.body.vars.full_name }}"></textarea>
         {% if form.authorName is defined %}
             <label class="author_name">Post as:
-                <input type="text" name="{{ form.authorName.vars.full_name }}" value="{{ form.authorName.vars.value }}" />
+                <input type="text" class="comment_author" name="{{ form.authorName.vars.full_name }}" value="{{ form.authorName.vars.value }}" />
             </label>
         {% endif %}
     {% endblock %}
