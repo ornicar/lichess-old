@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of the Symfony Standard Edition.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$rootDir = dirname(__DIR__);
+$vendorDir = $rootDir.'/vendor';
+
+$deps = parse_ini_file($rootDir.'/deps', true, INI_SCANNER_RAW);
+
+foreach ($deps as $name => $dep) {
+    $dep = array_map('trim', $dep);
+
+    // install dir
+    $installDir = isset($dep['target']) ? $vendorDir.'/'.$dep['target'] : $vendorDir.'/'.$name;
+
+    echo "> Checking $name\n";
+
+    system(sprintf('cd %s && git diff', escapeshellarg($installDir)));
+}
