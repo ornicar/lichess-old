@@ -11,19 +11,18 @@ GUI is only HTML5 and JavaScript.
 PLAY
 ----
 
-- [Homepage](http://lichess.org)
-- [Play Chess with a friend](http://lichess.org/friend)
-- [Play Chess with a random player](http://lichess.org/anybody)
-- [Play Chess with the computer](http://lichess.org/ai)
-- [Real time list of games beeing played](http://lichess.org/games)
-- [List of all games](http://lichess.org/games/all)
-- [List of all players](http://lichess.org/people)
-- [Game analysis](http://lichess.org/analyse/0Zcvl5)
+- [Play Chess with a random player](http://en.lichess.org)
+- [Play Chess with a friend](http://en.lichess.org/#friend)
+- [Play Chess with the computer](http://en.lichess.org/#ai)
+- [Real time list of games beeing played](http://en.lichess.org/games)
+- [List of all games](http://en.lichess.org/games/all)
+- [List of all players](http://en.lichess.org/people)
+- [Game analysis](http://en.lichess.org/analyse/0Zcvl5)
 
 FEEDBACK
 --------
 
-I'm eagerly waiting for bug reports and feature requests in [Lichess Forum](http://lichess.org/forum/lichess-feedback)
+I'm eagerly waiting for bug reports and feature requests in [Lichess Forum](http://en.lichess.org/forum/lichess-feedback)
 
 INSTALL
 -------
