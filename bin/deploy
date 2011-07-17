@@ -29,6 +29,7 @@ if ($mode == 'all') {
     $remoteTarget = "$remote:$remoteDir";
     show_run("Deploy all codebase to $remoteTarget", "rsync $rsyncoptions ./ $remoteTarget");
     show_run("Run refresh all", "ssh $remote \"cd $remoteDir && bin/refresh all\"");
+    show_run("Testing $testurl", "curl -sILw \"%{http_code}\" -o /dev/null $testurl");
 } elseif ($mode == 'code') {
     $remoteTarget = "$remote:$remoteDir";
     show_run("Deploy all codebase to $remoteTarget", "rsync $rsyncoptions ./ $remoteTarget");
@@ -38,4 +39,3 @@ if ($mode == 'all') {
     show_run("Deploy translations to $remoteTarget", "rsync $rsyncoptions $translationDir $remoteTarget");
     show_run("Run refresh trans", "ssh $remote \"cd $remoteDir && bin/refresh trans\"");
 }
-show_run("Testing $testurl", "curl -sILw \"%{http_code}\" -o /dev/null $testurl");
