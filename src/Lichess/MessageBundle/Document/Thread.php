@@ -54,4 +54,12 @@ class Thread extends BaseThread
 
         return reset($participants);
     }
+
+    /**
+     * Adds all messages contents to the keywords property
+     */
+    protected function doKeywords()
+    {
+        return;
+    }
 }

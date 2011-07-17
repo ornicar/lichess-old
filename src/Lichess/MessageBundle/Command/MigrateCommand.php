@@ -59,6 +59,7 @@ class MigrateCommand extends ContainerAwareCommand
             $date = new \DateTime();
             $date->setTimestamp($data['createdAt']->sec);
             $message->setCreatedAt($date);
+            $thread->setCreatedAt($date);
             if ($data['isRead']) {
                 $thread->setIsReadByParticipant($recipient, true);
             }

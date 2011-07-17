@@ -42,6 +42,6 @@ class Message extends BaseMessage
      */
     public function setCreatedAt(\DateTime $date)
     {
-        return $this->date = $date;
+        return $this->createdAt = $date;
     }
 }
