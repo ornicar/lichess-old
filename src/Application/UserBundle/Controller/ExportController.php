@@ -17,7 +17,6 @@ class ExportController extends ContainerAware
             throw new NotFoundHttpException('No user with username '.$username);
         }
         $data = $this->container->get('lichess_user.game_exporter')->getData($user);
-        var_dump($data);die;
         $file = tempnam('/tmp', 'lichess_export_');
         $writer = new \EasyCSV\Writer($file);
         $writer->writeFromArray($data);

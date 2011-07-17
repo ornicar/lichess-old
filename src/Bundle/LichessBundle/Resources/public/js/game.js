@@ -15,9 +15,11 @@ $.widget("lichess.game", {
             self.initChat();
             self.initTable();
             self.initClocks();
-            if (self.isMyTurn() && self.options.player.version == 1) self.element.one('lichess.audio_ready', function() {
-                $.playSound();
-            });
+            if (self.isMyTurn() && self.options.game.turns == 0) {
+                self.element.one('lichess.audio_ready', function() {
+                    $.playSound();
+                });
+            }
             if (!self.options.game.finished && ! self.options.player.spectator) {
                 self.blur = 0;
                 $(window).blur(function() {
