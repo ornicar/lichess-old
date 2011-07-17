@@ -29,7 +29,7 @@ $(function() {
                     }
                 },
                 complete: function() {
-                    reload();
+                    //reload();
                 },
                 dataType: 'json',
                 type: "GET",
@@ -52,6 +52,7 @@ $(function() {
             for (id in data.hooks) {
                 hook = data.hooks[id];
                 html += '<tr'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
+                html += '<td class="color"><span class="'+hook.color+'"></span></td>';
                 if (hook.elo) {
                     html += '<td><a href="/@/'+hook.username+'">'+hook.username+'<br />('+hook.elo+')</a></td>';
                 } else {

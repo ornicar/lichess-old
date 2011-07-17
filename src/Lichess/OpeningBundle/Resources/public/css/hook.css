@@ -57,6 +57,22 @@ div.hooks table.empty_table td {
     padding: 0;
     height: 80px;
 }
+div.hooks td.color {
+    width: 24px;
+    padding-right: 0;
+}
+div.hooks td.color span {
+    height: 24px;
+    width: 24px;
+    display: block;
+    background: url(/bundles/lichess/images/sprite_color_24.png) no-repeat;
+}
+div.hooks td.color span.black {
+    background-position: 0 -24px;
+}
+div.hooks td.color span.random {
+    background-position: 0 -49px;
+}
 div.hooks td.action {
     cursor: pointer;
     border-left: 1px solid #cacaca;

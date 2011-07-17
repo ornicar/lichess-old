@@ -50,7 +50,8 @@ class HooksRenderer
                     'username' => $hook->getUsername(),
                     'elo' => $hook->getElo(),
                     'variant' => $translator->trans($config->getVariant()),
-                    'mode' => $translator->trans($config->getMode()),
+                    'mode' => $config->getMode(),
+                    'color' => lcfirst($config->getColor()),
                     'clock' => $config->getClock() ? sprintf('%d + %d', $config->getTime(), $config->getIncrement()) : $translator->trans($config->getTime())
                 );
                 if ($myHookId === $hook->getOwnerId()) {
