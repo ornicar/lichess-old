@@ -36,7 +36,7 @@ if (!in_array($command = array_shift($argv), array('install', 'update'))) {
  * Check wether this project is based on the Standard Edition that was
  * shipped with vendors or not.
  */
-if (!is_dir($vendorDir.'/symfony/.git') && !in_array('--reinstall', $argv)) {
+if (is_dir($vendorDir.'/symfony') && !is_dir($vendorDir.'/symfony/.git') && !in_array('--reinstall', $argv)) {
     exit(<<<EOF
 Your project seems to be based on a Standard Edition that includes vendors.
 
@@ -65,7 +65,12 @@ if ('install' === $command && file_exists($rootDir.'/deps.lock')) {
 
 $newversions = array();
 $deps = parse_ini_file($rootDir.'/deps', true, INI_SCANNER_RAW);
+if (false === $deps) {
+    exit("The deps file is not valid ini syntax. Perhaps missing a trailing newline?\n");
+}
 foreach ($deps as $name => $dep) {
+    $dep = array_map('trim', $dep);
+
     // revision
     if (isset($versions[$name])) {
         $rev = $versions[$name];
@@ -116,7 +121,7 @@ $interpreter = PHP_OS == 'WINNT' ? 'php.exe' : '';
 system(sprintf('%s %s', $interpreter, escapeshellarg($rootDir.'/vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php')));
 
 // Update assets
-system(sprintf('%s %s assets:install %s --symlink', $interpreter, escapeshellarg($rootDir.'/app/console'), escapeshellarg($rootDir.'/web/')));
+system(sprintf('%s %s assets:install %s', $interpreter, escapeshellarg($rootDir.'/app/console'), escapeshellarg($rootDir.'/web/')));
 
 // Remove the cache
 system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($rootDir.'/app/console')));
