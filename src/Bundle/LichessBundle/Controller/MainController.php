@@ -8,6 +8,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MainController extends Controller
 {
+    public function statusAction()
+    {
+        $load = sys_getloadavg();
+
+        return new Response(implode(' ', array(
+            $this->container->get('lichess.memory')->getNbActivePlayers(),
+            $this->container->get('lichess.repository.game')->getNbGames(),
+            $this->container->get('lichess.repository.game')->countPlaying(),
+            $this->container->get('lichess.repository.game')->countRecentlyCreated(),
+            sprintf('%.01f', $load[0])
+        )), 200, array('content-type' => 'text/plain'));
+    }
+
     public function todolistAction()
     {
         $text = file_get_contents($this->container->getParameter('kernel.root_dir').'/../TODO');
@@ -15,14 +28,6 @@ class MainController extends Controller
         array_pop($items);
 
         return $this->render('LichessBundle:Main:todolist.html.twig', array('items' => $items));
-    }
-
-    public function howManyPlayersNowAction()
-    {
-        $nbActivePlayers = $this->get('lichess.memory')->getNbActivePlayers();
-        $response = new Response($nbActivePlayers ?: "0");
-        $response->headers->set('Content-Type', 'text/plain');
-        return $response;
     }
 
     public function toggleSoundAction()

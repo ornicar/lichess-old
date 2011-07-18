@@ -126,6 +126,32 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Returns the number of games being played now
+     *
+     * @return int
+     */
+    public function countPlaying()
+    {
+        return $this->createQueryBuilder()
+            ->field('updatedAt')->gt(new \DateTime('-15 seconds'))
+            ->getQuery()
+            ->count();
+    }
+
+    /**
+     * Returns the number of games created recently
+     *
+     * @return int
+     */
+    public function countRecentlyCreated()
+    {
+        return $this->createQueryBuilder()
+            ->field('createdAt')->gt(new \DateTime('-1 minute'))
+            ->getQuery()
+            ->count();
+    }
+
+    /**
      * Return the number of mates
      *
      * @return int
