@@ -29,7 +29,7 @@ $(function() {
                     }
                 },
                 complete: function() {
-                    //reload();
+                    reload();
                 },
                 dataType: 'json',
                 type: "GET",
