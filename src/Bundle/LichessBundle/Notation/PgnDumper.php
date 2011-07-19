@@ -176,7 +176,7 @@ class PgnDumper
             $this->getPgnPlayerElo($game->getPlayer('white')), "\n",
             $this->getPgnPlayerElo($game->getPlayer('black')), "\n",
             $this->getPgnResult($game), "\n",
-            $game->getTurns() - 1, "\n",
+            $game->getTurns(), "\n",
             ucfirst($game->getVariantName())
         );
 
