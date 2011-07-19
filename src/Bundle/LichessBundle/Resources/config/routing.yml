@@ -101,9 +101,9 @@ lichess_pgn_viewer:
     defaults:       { _controller: LichessBundle:Pgn:analyse, color: white }
     requirements:   { id: "[\w\-]{8}", color: (white|black) }
 lichess_pgn_export:
-    pattern:        /analyse/{id}/{color}/export
+    pattern:        /analyse/{id}/export
     defaults:       { _controller: LichessBundle:Pgn:export, color: white }
-    requirements:   { id: "[\w\-]{8}", color: (white|black) }
+    requirements:   { id: "[\w\-]{8}" }
 lichess_todolist:
     pattern:        /todo-list
     defaults:       { _controller: LichessBundle:Main:todolist }
