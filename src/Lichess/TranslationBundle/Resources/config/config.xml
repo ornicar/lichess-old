@@ -77,7 +77,7 @@
         <service id="lichess_translation.fetcher" class="Lichess\TranslationBundle\Fetcher">
             <file>%kernel.root_dir%/../vendor/php-git-repo/lib/phpGitRepo.php</file>
             <argument type="service" id="lichess_translation.manager" />
-            <argument>lichess.org</argument>
+            <argument>en.lichess.org</argument>
             <argument>%kernel.root_dir%/..</argument>
         </service>
 
