@@ -284,7 +284,7 @@ class GameRepository extends DocumentRepository
      */
     public function findCandidatesToCleanup($max)
     {
-        $date = date_create('-10 day')->getTimestamp();
+        $date = date_create('-2 day')->getTimestamp();
 
         $games = $this->createQueryBuilder()
             ->field('turns')->lt(2)
