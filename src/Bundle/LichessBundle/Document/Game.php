@@ -643,6 +643,25 @@ class Game
     }
 
     /**
+     * Gets both player move times, by merging them sequentially
+     *
+     * @return array of int
+     */
+    public function getMoveTimes()
+    {
+        $times = array(0, 0);
+        $playerTimes = array($this->getPlayer('white')->getMoveTimes(), $this->getPlayer('black')->getMoveTimes());
+        foreach ($playerTimes[0] as $index => $whiteTime) {
+            $times[] = $whiteTime;
+            if (isset($playerTimes[1][$index])) {
+                $times[] = $playerTimes[1][$index];
+            }
+        }
+
+        return $times;
+    }
+
+    /**
      * Whether this game can be aborted or not
      *
      * @return bool

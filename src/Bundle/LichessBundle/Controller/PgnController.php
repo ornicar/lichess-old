@@ -25,8 +25,9 @@ class PgnController extends Controller
 
     public function exportAction($id)
     {
+        $withTime = (bool) $this->get('request')->query->get('time');
         $game = $this->findGame($id);
-        $pgn = $this->get('lichess.pgn_dumper')->dumpGame($game);
+        $pgn = $this->get('lichess.pgn_dumper')->dumpGame($game, $withTime);
 
         $response = new Response($pgn);
         $response->headers->set('Content-Type', 'text/plain');
