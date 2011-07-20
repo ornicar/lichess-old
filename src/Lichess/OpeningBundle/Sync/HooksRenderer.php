@@ -50,7 +50,7 @@ class HooksRenderer
                     'username' => $hook->getUsername(),
                     'elo' => $hook->getElo(),
                     'variant' => $translator->trans($config->getVariant()),
-                    'mode' => $config->getMode(),
+                    'mode' => $translator->trans($config->getMode()),
                     'color' => lcfirst($config->getColor()),
                     'clock' => $config->getClock() ? sprintf('%d + %d', $config->getTime(), $config->getIncrement()) : $translator->trans($config->getTime())
                 );
