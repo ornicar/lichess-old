@@ -70,6 +70,13 @@ class User extends BaseUser implements ParticipantInterface
      */
     protected $gameConfigs = array();
 
+    /**
+     * Index the enabled fiel
+     *
+     * @MongoDB\Index
+     */
+    protected $enabled;
+
     public function __construct()
     {
         parent::__construct();

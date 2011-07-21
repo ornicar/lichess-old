@@ -60,7 +60,7 @@ class ProfileController extends BaseProfileController
      **/
     public function listAction()
     {
-        $query = $this->container->get('fos_user.repository.user')->createSortedByEloQuery();
+        $query = $this->container->get('fos_user.repository.user')->createEnabledSortedByEloQuery();
         $users = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
         $users->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(40);
 
