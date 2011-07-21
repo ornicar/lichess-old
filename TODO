@@ -1,3 +1,5 @@
+* don't use AI games in win/loss ratios
+* chess960 castling visual bug http://en.lichess.org/forum/lichess-feedback/bug-with-960?page=1#8
 * show table of games per opponent (http://en.lichess.org/forum/lichess-feedback/suggestions-for-improving?page=1#2)
 * change password
 * translate minutes/side (clock.name)
