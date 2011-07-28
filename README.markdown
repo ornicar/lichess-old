@@ -47,6 +47,12 @@ You can also run checks from command line, but the results may differ:
 
     php web/check.php
 
+### Configure lichess host
+
+You have to tell lichess the host it will be accessed through.
+
+Open app/config/config_dev.yml and replace occurences of `l.org` with your own localhost.
+
 ### Initialize things
 
 By running this script:

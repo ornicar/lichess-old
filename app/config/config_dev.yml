@@ -7,6 +7,9 @@ framework:
     session:
         domain: .l.org
 
+apc:
+    host: l.org
+
 web_profiler:
     toolbar: false
     intercept_redirects: false
@@ -19,9 +22,6 @@ monolog:
     handlers:
         main:
             level: warning
-
-apc:
-    host: l.org
 
 ornicar_akismet:
     service: ornicar_akismet.akismet_stub
