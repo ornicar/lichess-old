@@ -26,7 +26,7 @@ class ExportController extends ContainerAware
             'content-type' => 'text/csv',
             'content-description' => 'File Transfert',
             'content-disposition' => sprintf('attachment; filename="%s";', $filename),
-            'content-transfert-endoding' => 'binary'
+            'content-transfert-encoding' => 'binary'
         ));
     }
 }
