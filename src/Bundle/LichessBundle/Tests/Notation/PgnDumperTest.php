@@ -22,7 +22,10 @@ class PgnDumperTest extends \PHPUnit_Framework_TestCase
 [Date "?"]
 [White "Anonymous"]
 [Black "Anonymous"]
+[WhiteElo "?"]
+[BlackElo "?"]
 [Result "*"]
+[PlyCount "10"]
 [Variant "Standard"]
 
 *';
@@ -36,7 +39,7 @@ class PgnDumperTest extends \PHPUnit_Framework_TestCase
         $this->game->setPgnMoves(explode(' ', 'e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O Be7 Re1 b5 Bb3 d6 c3 O-O h3 Nb8 d4 Nbd7'));
         $dumper = new PgnDumper();
         $moves = $dumper->getPgnMoves($this->game);
-        $expected = '1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 d6 8.c3 O-O 9.h3 Nb8 10.d4 Nbd7';
+        $expected = '1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7';
         $this->assertEquals($expected, $moves);
     }
 
@@ -173,10 +176,13 @@ EOF;
 [Date "?"]
 [White "Anonymous"]
 [Black "Anonymous"]
+[WhiteElo "?"]
+[BlackElo "?"]
 [Result "1-0"]
+[PlyCount "21"]
 [Variant "Standard"]
 
-1.d4 d5 2.c4 dxc4 3.e3 b5 4.a4 c6 5.axb5 cxb5 6.Qf3 1-0
+1. d4 d5 2. c4 dxc4 3. e3 b5 4. a4 c6 5. axb5 cxb5 6. Qf3 1-0
 EOF;
 
         $this->assertGamePgn($pgn);
@@ -222,10 +228,13 @@ EOF;
 [Date "?"]
 [White "Anonymous"]
 [Black "Anonymous"]
+[WhiteElo "?"]
+[BlackElo "?"]
 [Result "1-0"]
+[PlyCount "37"]
 [Variant "Standard"]
 
-1.e4 d5 2.exd5 Qxd5 3.Nc3 Qa5 4.d4 c6 5.Nf3 Bg4 6.Bf4 e6 7.h3 Bxf3 8.Qxf3 Bb4 9.Be2 Nd7 10.a3 O-O-O 11.axb4 Qxa1+ 12.Kd2 Qxh1 13.Qxc6+ bxc6 14.Ba6# 1-0
+1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 4. d4 c6 5. Nf3 Bg4 6. Bf4 e6 7. h3 Bxf3 8. Qxf3 Bb4 9. Be2 Nd7 10. a3 O-O-O 11. axb4 Qxa1+ 12. Kd2 Qxh1 13. Qxc6+ bxc6 14. Ba6# 1-0
 EOF;
 
         $this->assertGamePgn($pgn);
