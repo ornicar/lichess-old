@@ -39,6 +39,10 @@
 [easy-csv]
     git=git://github.com/jwage/EasyCSV.git
 
+[buzz]
+    git=git://github.com/ornicar/Buzz.git
+    version=withPost
+
 [zend-service]
 	git=git://github.com/knplabs/zend-service.git
 	target=zend-subtrees/Zend/Service
