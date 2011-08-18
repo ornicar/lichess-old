@@ -37,7 +37,7 @@ class LoadCommentData implements FixtureInterface, OrderedFixtureInterface, Cont
         $gameId = $this->gameManager->findOneBy(array())->getId();
 
         $gameThread = $this->threadManager->createThread();
-        $gameThread->setIdentifier('game:'.$gameId);
+        $gameThread->setId('game:'.$gameId);
         $this->objectManager->persist($gameThread);
 
         $comment1 = $this->commentManager->createComment($gameThread);
@@ -61,7 +61,7 @@ class LoadCommentData implements FixtureInterface, OrderedFixtureInterface, Cont
         // home comments
 
         $homepageThread = $this->threadManager->createThread();
-        $homepageThread->setIdentifier('homepage');
+        $homepageThread->setId('homepage');
         $this->objectManager->persist($homepageThread);
 
         /**
@@ -111,7 +111,7 @@ class LoadCommentData implements FixtureInterface, OrderedFixtureInterface, Cont
         // Empty thread
 
         $articleThread = $this->threadManager->createThread();
-        $articleThread->setIdentifier('article:23');
+        $articleThread->setId('article:23');
         $this->objectManager->persist($articleThread);
 
         $this->objectManager->flush();

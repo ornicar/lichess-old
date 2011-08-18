@@ -34,7 +34,10 @@ class PgnControllerTest extends WebTestCase
 [Date "$date"]
 [White "Anonymous"]
 [Black "Crafty level 1"]
+[WhiteElo "?"]
+[BlackElo "?"]
 [Result "*"]
+[PlyCount "0"]
 [Variant "Standard"]
 
 *

@@ -3,6 +3,7 @@ fos_comment:
     class:
         model:
             comment: Application\CommentBundle\Document\Comment
+            thread: Application\CommentBundle\Document\Thread
     form:
         comment:
             type: lichess_comment.comment

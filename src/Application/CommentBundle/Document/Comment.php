@@ -37,6 +37,29 @@ class Comment extends BaseComment implements SignedCommentInterface
     protected $author;
 
     /**
+     * The thread
+     *
+     * @MongoDB\ReferenceOne(targetDocument="Application\CommentBundle\Document\Thread")
+     * @var Thread
+     */
+    protected $thread;
+
+    /**
+     * @return Thread
+     */
+    public function getThread()
+    {
+        return $this->thread;
+    }
+
+    /**
+     * @param Thread
+     */
+    public function setThread($thread)
+    {
+        $this->thread = $thread;
+    }
+    /**
      * @return User
      */
     public function getAuthor()
@@ -84,6 +107,6 @@ class Comment extends BaseComment implements SignedCommentInterface
 
     public function getGameId()
     {
-        return preg_replace('/^game\:(.+)$/', '$1', $this->getThread()->getIdentifier());
+        return preg_replace('/^game\:(.+)$/', '$1', $this->getThread()->getId());
     }
 }
