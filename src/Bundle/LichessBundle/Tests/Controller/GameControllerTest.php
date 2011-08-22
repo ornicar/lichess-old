@@ -20,7 +20,7 @@ class GameControllerTest extends AbstractControllerTest
         $client = self::createClient();
         $crawler = $client->request('GET', '/games/all');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertRegexp('#^All games.+$#', $crawler->filter('.title')->text());
+        $this->assertRegexp('#^Games.+$#', $crawler->filter('.title')->text());
         $this->assertGreaterThan(4, $crawler->filter('div.game_row')->count());
     }
 
