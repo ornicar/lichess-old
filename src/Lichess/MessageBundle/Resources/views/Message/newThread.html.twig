@@ -5,6 +5,7 @@
 <div class="message_new">
     <h1>{{ "Compose message"|trans }}</h1>
     <div class="center form">
+        {{ form_errors(form) }}
         <form action="{{ path('ornicar_message_thread_new') }}" method="post">
             <div class="field_to">
                 {{ form_label(form.recipient, 'To:') }}
