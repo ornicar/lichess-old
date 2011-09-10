@@ -252,6 +252,8 @@ $.widget("lichess.game", {
                 case "castling":
                     self.element.queue(function() {
                         $("div#" + event.rook[1], self.$board).append($("div#" + event.rook[0] + " div.lichess_piece.rook", self.$board));
+                        // if the king is beeing animated, stop it now
+                        if ($king = $('body > div.king').orNot()) $king.stop(true, true);
                         $("div#" + event.king[1], self.$board).append($("div.lichess_piece.king."+event.color, self.$board));
                         self.element.dequeue();
                     });
