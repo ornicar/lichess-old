@@ -3,7 +3,6 @@
 
 [twig]
     git=git://github.com/fabpot/Twig.git
-    version=v1.1.0
 
 [monolog]
     git=git://github.com/Seldaek/monolog.git
@@ -16,7 +15,6 @@
 
 [doctrine-mongodb-odm]
     git=git://github.com/ornicar/mongodb-odm.git
-    version=fixXmlAndUniqueClassesHack
 
 [doctrine-data-fixtures]
 	git=git://github.com/doctrine/data-fixtures.git
@@ -41,7 +39,6 @@
 
 [buzz]
     git=git://github.com/ornicar/Buzz.git
-    version=withPost
 
 [zend-service]
 	git=git://github.com/knplabs/zend-service.git
