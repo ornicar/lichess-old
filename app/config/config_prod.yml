@@ -1,7 +1,7 @@
 imports:
     - { resource: config.yml }
 
-framework:
+twig:
     exception_controller: LichessBundle:Exception:show
 
 doctrine_mongodb:
