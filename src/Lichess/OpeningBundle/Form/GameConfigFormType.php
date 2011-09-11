@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilder;
 class GameConfigFormType extends AbstractType
 {
     protected $ratable;
+    protected $timeable;
 
     public function __construct($ratable, $timeable = true)
     {

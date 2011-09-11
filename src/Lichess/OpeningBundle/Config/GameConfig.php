@@ -9,7 +9,6 @@ class GameConfig
     /**
      * Whether or not to use a clock
      *
-     * @Assert\NotBlank()
      * @Assert\Type("boolean")
      * @var boolean
      */
