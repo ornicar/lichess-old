@@ -49,6 +49,11 @@ class Post extends BasePost
         return $this->author;
     }
 
+    public function hasAuthor()
+    {
+        return null !== $this->author;
+    }
+
     /**
      * @param  User
      * @return null

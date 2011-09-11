@@ -21,12 +21,17 @@ class Akismet
 
     public function isPostSpam(Post $post)
     {
-        return $this->akismet->isSpam($this->getPostData($post));
+        return $this->isSpamLike($post) || $this->akismet->isSpam($this->getPostData($post));
     }
 
     public function isTopicSpam(Topic $topic)
     {
-        return $this->akismet->isSpam($this->getTopicData($topic));
+        return $this->isSpamLike($topic->getFirstPost()) || $this->akismet->isSpam($this->getTopicData($topic));
+    }
+
+    protected function isSpamLike(Post $post)
+    {
+        return strpos($post->getMessage(), '<br') !== false && !$post->hasAuthor();
     }
 
     protected function getPostData(Post $post)
