@@ -9,7 +9,7 @@ use Bundle\ForumBundle\Model\Topic;
 use Bundle\ForumBundle\Model\Category;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\Form\Error;
+use Symfony\Component\Form\FormError;
 
 class TopicController extends BaseTopicController
 {
@@ -45,7 +45,7 @@ class TopicController extends BaseTopicController
         $this->get('forum.blamer.post')->blame($topic->getFirstPost());
 
         if ($this->get('forum.akismet')->isTopicSpam($topic)) {
-            $form['firstPost']->addError(new Error('Sorry, but your topic looks like spam. If you think it is an error, send me an email.'));
+            $form['firstPost']->addError(new FormError('Sorry, but your topic looks like spam. If you think it is an error, send me an email.'));
             $this->get('logger')->warn('ForumBundle:topic spam block: '.$topic->getFirstPost()->getAuthorName().' - '.$topic->getSubject());
             return $this->invalidCreate($category, $form);
         }
