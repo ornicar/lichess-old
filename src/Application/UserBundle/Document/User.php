@@ -71,17 +71,34 @@ class User extends BaseUser implements ParticipantInterface
     protected $gameConfigs = array();
 
     /**
-     * Index the enabled fiel
+     * Index the enabled field
      *
      * @MongoDB\Index
      */
     protected $enabled;
 
+    /**
+     * Account creation date
+     *
+     * @var DateTime
+     * @MongoDB\Field(type="date")
+     */
+    protected $createdAt;
+
     public function __construct()
     {
         parent::__construct();
 
+        $this->createdAt = new \DateTime();
         $this->setElo(self::STARTING_ELO);
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     /**
