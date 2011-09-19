@@ -7,6 +7,12 @@ $translationDir="src/Bundle/LichessBundle/Resources/translations/";
 $rsyncoptions="--archive --force --delete --progress --compress --checksum --exclude-from=bin/rsync_exclude";
 $testurl="http://en.lichess.org";
 
+//$remote="phobos";
+//$remoteDir="/home/lichess";
+//$translationDir="src/Bundle/LichessBundle/Resources/translations/";
+//$rsyncoptions="--archive --force --delete --progress --compress --checksum --exclude-from=bin/rsync_exclude";
+//$testurl="root@ks212150.kimsufi.com";
+
 require_once __DIR__.'/base_script.php';
 
 if (!file_exists('bin/rsync_exclude')) {
