@@ -8,7 +8,7 @@
         <parameter key="lichess.memory.soft_timeout">6</parameter>
         <parameter key="lichess.memory.hard_timeout">120</parameter>
         <parameter key="lichess.sync.latency">10</parameter>
-        <parameter key="lichess.sync.delay">0.25</parameter>
+        <parameter key="lichess.sync.delay">0.15</parameter>
     </parameters>
 
     <services>
