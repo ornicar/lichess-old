@@ -12,6 +12,7 @@ use Lichess\ChartBundle\Chart\PlayerMoveTimeDistributionChart;
 use Lichess\ChartBundle\Chart\PlayerMoveTimeChart;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
+use Bundle\LichessBundle\CachePagerAdapter;
 
 class GameController extends Controller
 {
@@ -33,8 +34,11 @@ class GameController extends Controller
 
     public function listAllAction()
     {
+        $adapter = new CachePagerAdapter($this->get('lichess.repository.game')->createRecentStartedOrFinishedQuery());
+        $adapter->setNbResults($this->get('lichess_cache')->getNbGames());
+
         return $this->render('LichessBundle:Game:listAll.html.twig', array(
-            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentStartedOrFinishedQuery()),
+            'games'    => $this->createPaginatorForAdapter($adapter),
             'nbGames'  => $this->get('lichess_cache')->getNbGames(),
             'nbMates'  => $this->get('lichess_cache')->getNbMates()
         ));
@@ -42,8 +46,11 @@ class GameController extends Controller
 
     public function listCheckmateAction()
     {
+        $adapter = new CachePagerAdapter($this->get('lichess.repository.game')->createRecentMateQuery());
+        $adapter->setNbResults($this->get('lichess_cache')->getNbMates());
+
         return $this->render('LichessBundle:Game:listMates.html.twig', array(
-            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createRecentMateQuery()),
+            'games'    => $this->createPaginatorForAdapter($adapter),
             'nbGames'  => $this->get('lichess_cache')->getNbGames(),
             'nbMates'  => $this->get('lichess_cache')->getNbMates()
         ));
@@ -128,7 +135,12 @@ class GameController extends Controller
 
     protected function createPaginatorForQuery($query)
     {
-        $games = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        return $this->createPaginatorForAdapter(new DoctrineODMMongoDBAdapter($query));
+    }
+
+    protected function createPaginatorForAdapter($adapter)
+    {
+        $games = new Pagerfanta($adapter);
         $games->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(10);
 
         return $games;
