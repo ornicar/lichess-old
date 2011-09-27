@@ -140,8 +140,12 @@ class GameController extends Controller
 
     protected function createPaginatorForAdapter($adapter)
     {
+        $page = $this->container->get('request')->query->get('page', 1);
+        if ($page > 100) {
+            throw new NotFoundHttpException(sprintf('Older games are not available (%s)', $this->get('request')->getUri()));
+        }
         $games = new Pagerfanta($adapter);
-        $games->setCurrentPage($this->container->get('request')->query->get('page', 1))->setMaxPerPage(10);
+        $games->setCurrentPage($page)->setMaxPerPage(10);
 
         return $games;
     }
