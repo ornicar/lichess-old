@@ -1,17 +1,17 @@
 #!/usr/bin/env php
 <?php
 
-$remote="root@lichess.org";
-$remoteDir="/home/lichess";
-$translationDir="src/Bundle/LichessBundle/Resources/translations/";
-$rsyncoptions="--archive --force --delete --progress --compress --checksum --exclude-from=bin/rsync_exclude";
-$testurl="http://en.lichess.org";
-
-//$remote="phobos";
+//$remote="root@lichess.org";
 //$remoteDir="/home/lichess";
 //$translationDir="src/Bundle/LichessBundle/Resources/translations/";
 //$rsyncoptions="--archive --force --delete --progress --compress --checksum --exclude-from=bin/rsync_exclude";
-//$testurl="root@ks212150.kimsufi.com";
+//$testurl="http://en.lichess.org";
+
+$remote="phobos";
+$remoteDir="/home/lichess";
+$translationDir="src/Bundle/LichessBundle/Resources/translations/";
+$rsyncoptions="--archive --force --delete --progress --compress --checksum --exclude-from=bin/rsync_exclude";
+$testurl="http://en.lichess2.org";
 
 require_once __DIR__.'/base_script.php';
 
