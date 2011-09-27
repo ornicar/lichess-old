@@ -90,13 +90,8 @@ EOF",
             /*
             * st is the time in seconds crafty can think about the situation
             */
-            'st='.$this->getTimeForLevel($level),
+            'st='.$this->getTimeForLevel($level)
         );
-
-        //if($level < 4) {
-            //$config[] = 'book=off';
-        //}
-        $config[] = 'book=on';
 
         return implode(' ', $config);
     }
