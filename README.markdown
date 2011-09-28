@@ -27,7 +27,7 @@ I'm eagerly waiting for bug reports and feature requests in [Lichess Forum](http
 INSTALL
 -------
 
-Lichess is built on Symfony2, which is under heavy development at the moment.
+Lichess is built on Symfony2.
 
 It requires [APC](http://www.php.net/manual/en/book.apc.php). It's a free and open opcode cache for PHP.
 
@@ -52,6 +52,44 @@ You can also run checks from command line, but the results may differ:
 You have to tell lichess the host it will be accessed through.
 
 Open app/config/config_dev.yml and replace occurences of `l.org` with your own localhost.
+
+### Configure subdomains
+
+lichess uses one subdomain per language. You don't to configure all of them. Here is how to configure then english and french ones:
+Just replace `l.org` with your domain name.
+
+/etc/hosts
+
+    127.0.0.1	l.org
+    127.0.0.1	en.l.org
+    127.0.0.1	fr.l.org
+    
+Here is a nginx configuration example:
+
+    server {
+        listen 80;
+        server_name l.org *.l.org;
+        root /home/thib/data/workspace/lichess/web;
+
+        location / {
+            root   /home/thib/data/workspace/lichess/web/;
+            index  index_dev.php;
+            # serve static files directly
+            if (-f $request_filename) {
+                access_log        off;
+                expires           1s;
+                break;
+            }
+            rewrite ^(.*) /index_dev.php last;
+        }
+
+        location ~ \.php {
+            fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
+            fastcgi_index  index_dev.php; 
+            fastcgi_param  SCRIPT_FILENAME  /home/thib/data/workspace/lichess/web/$fastcgi_script_name;
+            include        fastcgi_params;
+        }
+    }
 
 ### Initialize things
 
