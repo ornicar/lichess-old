@@ -5,7 +5,7 @@ namespace Bundle\LichessBundle\Boost;
 class Handler
 {
     // param: lichess.memory.soft_timeout
-    protected static $softTimeout = 7;
+    protected static $softTimeout = 6;
 
     /**
      * Handles the client ping requests
@@ -44,7 +44,7 @@ class Handler
     {
         require_once __DIR__.'/../Sync/Memory.php';
 
-        return new \Bundle\LichessBundle\Sync\Memory(self::$softTimeout, 120);
+        return new \Bundle\LichessBundle\Sync\Memory(self::$softTimeout, 100);
     }
 
     protected static function getHookSynchronizer()
