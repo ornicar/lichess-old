@@ -11,6 +11,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @MongoDB\Document(
  *   collection="fos_comment_comment"
  * )
+ * @MongoDB\Indexes({
+ *   @MongoDB\Index(keys={"thread.$id"="asc"}),
+ *   @MongoDB\Index(keys={"ancestors"="asc"})
+ * })
  */
 class Comment extends BaseComment implements SignedCommentInterface
 {
