@@ -21,8 +21,10 @@ class ExportController extends ContainerAware
         $writer = new \EasyCSV\Writer($file);
         $writer->writeFromArray($data);
         $filename = sprintf('%s_lichess_games_%s.csv', $user->getUsername(), date_create()->format('Y-m-d'));
+        $data = file_get_contents($file);
+        unlink($file);
 
-        return new Response(file_get_contents($file), 200, array(
+        return new Response($data, 200, array(
             'content-type' => 'text/csv',
             'content-description' => 'File Transfer',
             'content-disposition' => sprintf('attachment; filename="%s";', $filename),
