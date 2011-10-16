@@ -62,6 +62,7 @@
             <parameter key="cy">Cymrae</parameter>
             <parameter key="gd">Gàidhlig</parameter>
             <parameter key="ga">Gaeilge</parameter>
+            <parameter key="sq">Shqip</parameter>
         </parameter>
 
     </parameters>
