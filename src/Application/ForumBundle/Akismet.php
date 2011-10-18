@@ -31,9 +31,10 @@ class Akismet
 
     protected function isSpamLike(Post $post)
     {
-        $hasBr = strpos($post->getMessage(), '<br') !== false;
-        //if ($hasBr && !$post->hasAuthor()) return true;
-        if ($hasBr) return true;
+        $hasBr = strpos(strtolower($post->getMessage()), '<br') !== false;
+        $hasHref = strpos(strtolower($post->getMessage()), '<a href') !== false;
+
+        return $hasBr || $hasHref;
     }
 
     protected function getPostData(Post $post)
