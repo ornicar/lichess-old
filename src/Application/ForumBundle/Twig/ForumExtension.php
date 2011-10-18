@@ -1,8 +1,8 @@
 <?php
 
 namespace Application\ForumBundle\Twig;
-use Bundle\ForumBundle\Twig\ForumExtension as BaseForumExtension;
-use Bundle\ForumBundle\Model\Topic;
+use Herzult\Bundle\ForumBundle\Twig\ForumExtension as BaseForumExtension;
+use Herzult\Bundle\ForumBundle\Model\Topic;
 
 class ForumExtension extends BaseForumExtension
 {

@@ -3,11 +3,11 @@
 namespace Application\ForumBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Bundle\ForumBundle\Document\Category as BaseCategory;
+use Herzult\Bundle\ForumBundle\Document\Category as BaseCategory;
 
 /**
  * @MongoDB\Document(
- *   repositoryClass="Bundle\ForumBundle\Document\CategoryRepository",
+ *   repositoryClass="Herzult\Bundle\ForumBundle\Document\CategoryRepository",
  *   collection="forum_category"
  * )
  */

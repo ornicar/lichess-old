@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
 
             new Bundle\ApcBundle\ApcBundle(),
-            new Bundle\ForumBundle\ForumBundle(),
+            new Herzult\Bundle\ForumBundle\HerzultForumBundle(),
             new Bundle\LichessBundle\LichessBundle(),
             new FOS\CommentBundle\FOSCommentBundle(),
             new FOS\UserBundle\FOSUserBundle(),

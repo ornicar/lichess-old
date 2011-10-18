@@ -1,4 +1,4 @@
-forum:
+herzult_forum:
     db_driver: odm
     class:
         model:

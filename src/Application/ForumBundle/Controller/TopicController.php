@@ -2,11 +2,11 @@
 
 namespace Application\ForumBundle\Controller;
 
-use Bundle\ForumBundle\Controller\TopicController as BaseTopicController;
-use Bundle\ForumBundle\Form\TopicForm;
+use Herzult\Bundle\ForumBundle\Controller\TopicController as BaseTopicController;
+use Herzult\Bundle\ForumBundle\Form\TopicForm;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Bundle\ForumBundle\Model\Topic;
-use Bundle\ForumBundle\Model\Category;
+use Herzult\Bundle\ForumBundle\Model\Topic;
+use Herzult\Bundle\ForumBundle\Model\Category;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Form\FormError;
@@ -15,9 +15,9 @@ class TopicController extends BaseTopicController
 {
     public function newAction(Category $category = null)
     {
-        $post = $this->get('forum.repository.post')->createNewPost();
-        $this->get('forum.authorname_persistence')->loadPost($post);
-        $topic = $this->get('forum.repository.topic')->createNewTopic();
+        $post = $this->get('herzult_forum.repository.post')->createNewPost();
+        $this->get('herzult_forum.authorname_persistence')->loadPost($post);
+        $topic = $this->get('herzult_forum.repository.topic')->createNewTopic();
         $topic->setFirstPost($post);
         if ($category) {
             $topic->setCategory($category);
@@ -32,7 +32,7 @@ class TopicController extends BaseTopicController
 
     public function createAction(Category $category = null)
     {
-        $topic = $this->get('forum.repository.topic')->createNewTopic();
+        $topic = $this->get('herzult_forum.repository.topic')->createNewTopic();
         $topic->setCategory($category);
         $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.new_topic'), 'forum_new_topic_form', $topic);
         $form->bindRequest($this->get('request'));
@@ -41,8 +41,8 @@ class TopicController extends BaseTopicController
             return $this->invalidCreate($category, $form);
         }
 
-        $this->get('forum.blamer.topic')->blame($topic);
-        $this->get('forum.blamer.post')->blame($topic->getFirstPost());
+        $this->get('herzult_forum.blamer.topic')->blame($topic);
+        $this->get('herzult_forum.blamer.post')->blame($topic->getFirstPost());
 
         if ($this->get('forum.akismet')->isTopicSpam($topic)) {
             $form['firstPost']->addError(new FormError('Sorry, but your topic looks like spam. If you think it is an error, send me an email.'));
@@ -50,10 +50,10 @@ class TopicController extends BaseTopicController
             return $this->invalidCreate($category, $form);
         }
 
-        $this->get('forum.creator.topic')->create($topic);
-        $this->get('forum.creator.post')->create($topic->getFirstPost());
+        $this->get('herzult_forum.creator.topic')->create($topic);
+        $this->get('herzult_forum.creator.post')->create($topic->getFirstPost());
 
-        $objectManager = $this->get('forum.object_manager');
+        $objectManager = $this->get('herzult_forum.object_manager');
         $objectManager->persist($topic);
         $objectManager->persist($topic->getFirstPost());
         $objectManager->flush();
@@ -61,9 +61,9 @@ class TopicController extends BaseTopicController
         $objectManager->flush();
 
         $this->get('session')->setFlash('forum_topic_create/success', true);
-        $url = $this->get('forum.router.url_generator')->urlForTopic($topic);
+        $url = $this->get('herzult_forum.router.url_generator')->urlForTopic($topic);
         $response = new RedirectResponse($url);
-        $this->get('forum.authorname_persistence')->persistTopic($topic, $response);
+        $this->get('herzult_forum.authorname_persistence')->persistTopic($topic, $response);
 
         return $response;
     }
@@ -81,7 +81,7 @@ class TopicController extends BaseTopicController
      */
     public function showCompatAction($categorySlug, $slug, $id)
     {
-        $topic = $this->get('forum.repository.topic')->findOneById($id);
+        $topic = $this->get('herzult_forum.repository.topic')->findOneById($id);
         if(!$topic) {
             throw new NotFoundHttpException(sprintf('The topic with id "%s" does not exist', $id));
         }

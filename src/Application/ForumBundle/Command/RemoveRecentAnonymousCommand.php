@@ -36,10 +36,10 @@ class RemoveRecentAnonymousCommand extends ContainerAwareCommand
         $date = new \DateTime('-2 hours');
 
         $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
-        $postRemover = $this->getContainer()->get('forum.remover.post');
-        $topicRemover = $this->getContainer()->get('forum.remover.topic');
+        $postRemover = $this->getContainer()->get('herzult_forum.remover.post');
+        $topicRemover = $this->getContainer()->get('herzult_forum.remover.topic');
 
-		$posts = $this->getContainer()->get('forum.repository.post')->createQueryBuilder()
+		$posts = $this->getContainer()->get('herzult_forum.repository.post')->createQueryBuilder()
 			->field('createdAt')->gt($date)
 			->getQuery()
 			->execute()

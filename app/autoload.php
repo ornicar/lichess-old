@@ -24,6 +24,7 @@ $loader->registerNamespaces(array(
     'Sensio'                         => $bundleDir,
     'WhiteOctober'                   => $bundleDir,
     'FOS'                            => $bundleDir,
+    'Herzult'                        => $bundleDir,
     'Bundle'                         => $bundleDir,
     'FOQ'                            => $bundleDir
 ));

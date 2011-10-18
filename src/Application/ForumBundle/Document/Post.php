@@ -4,12 +4,12 @@ namespace Application\ForumBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
-use Bundle\ForumBundle\Document\Post as BasePost;
+use Herzult\Bundle\ForumBundle\Document\Post as BasePost;
 use Application\UserBundle\Document\User;
 
 /**
  * @MongoDB\Document(
- *   repositoryClass="Bundle\ForumBundle\Document\PostRepository",
+ *   repositoryClass="Herzult\Bundle\ForumBundle\Document\PostRepository",
  *   collection="forum_post"
  * )
  */

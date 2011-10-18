@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Application\ForumBundle\Document\Category;
 use Application\ForumBundle\Document\Topic;
 use Application\ForumBundle\Document\Post;
-use Bundle\ForumBundle\Creator\TopicCreator;
-use Bundle\ForumBundle\Creator\PostCreator;
+use Herzult\Bundle\ForumBundle\Creator\TopicCreator;
+use Herzult\Bundle\ForumBundle\Creator\PostCreator;
 
 class LoadForumData implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
@@ -40,7 +40,7 @@ class LoadForumData implements FixtureInterface, OrderedFixtureInterface, Contai
         $post->setMessage('Test user message');
         $post->setAuthor($user1);
         $post->setTopic($topic);
-        $this->container->get('forum.creator.post')->create($post);
+        $this->container->get('herzult_forum.creator.post')->create($post);
         $manager->persist($post);
 
         $this->addBigTopic($manager, $topic->getCategory());
@@ -53,7 +53,7 @@ class LoadForumData implements FixtureInterface, OrderedFixtureInterface, Contai
         $topic = new Topic();
         $topic->setSubject('Big topic');
         $topic->setCategory($category);
-        $this->container->get('forum.creator.topic')->create($topic);
+        $this->container->get('herzult_forum.creator.topic')->create($topic);
         $manager->persist($topic);
 
         for ($it=1; $it<=25; $it++) {
@@ -61,7 +61,7 @@ class LoadForumData implements FixtureInterface, OrderedFixtureInterface, Contai
             $post->setMessage('big topic post '.$it);
             $post->setAuthorName('lichess.org staff');
             $post->setTopic($topic);
-            $this->container->get('forum.creator.post')->create($post);
+            $this->container->get('herzult_forum.creator.post')->create($post);
             $manager->persist($post);
         }
     }
@@ -75,13 +75,13 @@ class LoadForumData implements FixtureInterface, OrderedFixtureInterface, Contai
         $topic = new Topic();
         $topic->setSubject('New forum category: '.$name);
         $topic->setCategory($categ);
-        $this->container->get('forum.creator.topic')->create($topic);
+        $this->container->get('herzult_forum.creator.topic')->create($topic);
 
         $post = new Post();
         $post->setMessage($description);
         $post->setAuthorName('lichess.org staff');
         $post->setTopic($topic);
-        $this->container->get('forum.creator.post')->create($post);
+        $this->container->get('herzult_forum.creator.post')->create($post);
 
         $manager->persist($categ);
         $manager->persist($topic);

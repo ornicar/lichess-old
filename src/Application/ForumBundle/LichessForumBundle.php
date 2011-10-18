@@ -8,6 +8,6 @@ class LichessForumBundle extends Bundle
 {
     public function getParent()
     {
-        return 'ForumBundle';
+        return 'HerzultForumBundle';
     }
 }

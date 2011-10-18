@@ -28,13 +28,13 @@ forum:
     resource: @LichessForumBundle/Resources/config/routing.yml
     prefix: /forum
 forum_category:
-    resource: @ForumBundle/Resources/config/routing/category.xml
+    resource: @HerzultForumBundle/Resources/config/routing/category.xml
     prefix: /forum
 forum_topic:
-    resource: @ForumBundle/Resources/config/routing/topic.xml
+    resource: @HerzultForumBundle/Resources/config/routing/topic.xml
     prefix: /forum
 forum_post:
-    resource: @ForumBundle/Resources/config/routing/post.xml
+    resource: @HerzultForumBundle/Resources/config/routing/post.xml
     prefix: /forum
 forum_topic_show_compat:
     pattern:        /forum/{categorySlug}/{slug}/{id}.{_format}

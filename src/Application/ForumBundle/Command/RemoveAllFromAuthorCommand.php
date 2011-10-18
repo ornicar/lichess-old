@@ -39,11 +39,11 @@ class RemoveAllFromAuthorCommand extends ContainerAwareCommand
         $authorNames = array_map('trim', (array) explode(',', $input->getArgument('authorName')));
 
         $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
-        $postRemover = $this->getContainer()->get('forum.remover.post');
-        $topicRemover = $this->getContainer()->get('forum.remover.topic');
+        $postRemover = $this->getContainer()->get('herzult_forum.remover.post');
+        $topicRemover = $this->getContainer()->get('herzult_forum.remover.topic');
 
         if ($authorNames[0] === 'http') {
-            $posts = $this->getContainer()->get('forum.repository.post')->createQueryBuilder()
+            $posts = $this->getContainer()->get('herzult_forum.repository.post')->createQueryBuilder()
                 ->field('authorName')->equals(new \MongoRegex('/^http\:\//'))
                 ->getQuery()
                 ->execute();
@@ -66,7 +66,7 @@ class RemoveAllFromAuthorCommand extends ContainerAwareCommand
         }
 
         foreach ($authorNames as $authorName) {
-            $posts = $this->getContainer()->get('forum.repository.post')->findBy(array(
+            $posts = $this->getContainer()->get('herzult_forum.repository.post')->findBy(array(
                 'authorName' => $authorName
             ));
             $output->writeLn(sprintf('Will remove %d posts from %s', $posts->count(), $authorName));

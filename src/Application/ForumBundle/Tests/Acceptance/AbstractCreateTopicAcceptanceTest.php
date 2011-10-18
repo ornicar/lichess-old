@@ -52,8 +52,8 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
         $this->assertRegexp('/'.$topicMessage.'/', $client->getResponse()->getContent());
 
         $client->getContainer()->get('doctrine.odm.mongodb.document_manager')->clear();
-        $topic = $client->getContainer()->get('forum.repository.topic')->findOneBySlug($topicSubject);
-        $client->getContainer()->get('forum.remover.topic')->remove($topic);
+        $topic = $client->getContainer()->get('herzult_forum.repository.topic')->findOneBySlug($topicSubject);
+        $client->getContainer()->get('herzult_forum.remover.topic')->remove($topic);
         $client->getContainer()->get('doctrine.odm.mongodb.document_manager')->flush();
     }
 

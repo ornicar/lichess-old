@@ -1,8 +1,8 @@
 <?php
 
 namespace Application\ForumBundle\Blamer;
-use Bundle\ForumBundle\Blamer\AbstractSecurityBlamer;
-use Bundle\ForumBundle\Blamer\BlamerInterface;
+use Herzult\Bundle\ForumBundle\Blamer\AbstractSecurityBlamer;
+use Herzult\Bundle\ForumBundle\Blamer\BlamerInterface;
 use FOS\UserBundle\Model\User;
 
 class PostBlamer extends AbstractSecurityBlamer implements BlamerInterface

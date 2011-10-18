@@ -37,8 +37,8 @@ abstract class AbstractCreatePostAcceptanceTest extends AbstractAcceptanceTest
         $this->assertRegexp('/'.$message.'/', $client->getResponse()->getContent());
 
         $client->getContainer()->get('doctrine.odm.mongodb.document_manager')->clear();
-        $post = $client->getContainer()->get('forum.repository.post')->findOneByMessage($message);
-        $client->getContainer()->get('forum.remover.post')->remove($post);
+        $post = $client->getContainer()->get('herzult_forum.repository.post')->findOneByMessage($message);
+        $client->getContainer()->get('herzult_forum.remover.post')->remove($post);
         $client->getContainer()->get('doctrine.odm.mongodb.document_manager')->flush();
     }
 
