@@ -44,7 +44,7 @@ abstract class AbstractCreatePostAcceptanceTest extends AbstractAcceptanceTest
 
     protected function requestPostCreationPage($client)
     {
-        $url = $this->generateUrl($client, 'forum_topic_show', array(
+        $url = $this->generateUrl($client, 'herzult_forum_topic_show', array(
             'categorySlug' => 'off-topic-discussion',
             'slug' => 'new-forum-category-off-topic-discussion'
         ));

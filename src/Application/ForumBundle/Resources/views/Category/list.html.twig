@@ -17,7 +17,7 @@
             <td class="right">{{ category.numTopics|raw }}</td>
             <td class="right">{{ category.numPosts|raw }}</td>
             <td class="last_post"><a href="{{ forum_urlForPost(category.lastPost)|raw }}">{{ lichess_date(category.lastPost.createdAt) }}</a><br />by {{ category.lastPost.authorName|default("Anonymous") }}</td>
-            <td class="feed"><a href="{{ path("forum_category_show", {"slug": category.slug, "_format": "xml"} ) }}" title="{{ "Follow this category"|trans }}" class="forum_feed_link"></a>
+            <td class="feed"><a href="{{ path("herzult_forum_category_show", {"slug": category.slug, "_format": "xml"} ) }}" title="{{ "Follow this category"|trans }}" class="forum_feed_link"></a>
             </td>
         </tr>
     {% endfor %}

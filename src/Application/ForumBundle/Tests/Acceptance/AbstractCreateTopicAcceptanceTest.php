@@ -59,14 +59,14 @@ abstract class AbstractCreateTopicAcceptanceTest extends AbstractAcceptanceTest
 
     protected function requestCategoryPage($client)
     {
-        $url = $this->generateUrl($client, 'forum_category_show', array('slug' => 'general-chess-discussion'));
+        $url = $this->generateUrl($client, 'herzult_forum_category_show', array('slug' => 'general-chess-discussion'));
 
         return $client->request('GET', $url);
     }
 
     protected function requestTopicCreationPage($client)
     {
-        $url = $this->generateUrl($client, 'forum_category_topic_new', array('slug' => 'general-chess-discussion'));
+        $url = $this->generateUrl($client, 'herzult_forum_category_topic_new', array('slug' => 'general-chess-discussion'));
 
         return $client->request('GET', $url);
     }

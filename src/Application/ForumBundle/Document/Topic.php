@@ -7,7 +7,7 @@ use Herzult\Bundle\ForumBundle\Document\Topic as BaseTopic;
 
 /**
  * @MongoDB\Document(
- *   repositoryClass="Herzult\Herzult\Bundle\ForumBundle\Document\TopicRepository",
+ *   repositoryClass="Herzult\Bundle\ForumBundle\Document\TopicRepository",
  *   collection="forum_topic"
  * )
  */

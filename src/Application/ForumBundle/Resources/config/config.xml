@@ -12,7 +12,7 @@
         <service id="lichess_forum.search.model_to_elastica_transformer" class="Application\ForumBundle\Search\ModelToElasticaTransformer" public="false">
             <argument type="service" id="service_container" />
         </service>
-        <service id="forum.authorname_persistence" class="Application\ForumBundle\AuthorNamePersistence" scope="request">
+        <service id="lichess_forum.authorname_persistence" class="Application\ForumBundle\AuthorNamePersistence" scope="request">
             <argument type="service" id="security.context" />
             <argument type="service" id="request" />
         </service>

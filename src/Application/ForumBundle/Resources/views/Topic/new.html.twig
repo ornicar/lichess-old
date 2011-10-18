@@ -1,14 +1,14 @@
-{% extends "ForumBundle::layout.html.twig" %}
+{% extends "HerzultForumBundle::layout.html.twig" %}
 {% block title %}{{ category.name }} - New topic{% endblock %}
 {% block content %}
 <ol class="crumbs">
-    <li><a href="{{ path("forum_index") }}">Forum</a></li>
+    <li><a href="{{ path("herzult_forum_index") }}">Forum</a></li>
     <li><a href="{{ forum_urlForCategory(category) }}">{{ category.name }}</a></li>
     <li><h1>New topic</h1></li>
 </ol>
 <br />
 <h1>New topic</h1>
-<form action="{{ path("forum_category_topic_create", {"slug": category.slug} ) }}" method="post" novalidate>
+<form action="{{ path("herzult_forum_category_topic_create", {"slug": category.slug} ) }}" method="post" novalidate>
     <label><span class="required">Category</span> {{ form_widget(form.category) }}</label>
     {{ form_errors(form.subject) }}
     <label><span class="required">Subject</span> {{ form_widget(form.subject, {"attr": {"class": "subject"}}) }}</label>

@@ -3,7 +3,7 @@
     <subtitle>{{ category.description|raw }}</subtitle>
     <id>{{ forum_urlForCategory(category, true) }}</id>
     <link href="{{ forum_urlForCategory(category, true) }}" rel="alternate" />
-    <link href="{{ url("forum_index") }}" />
+    <link href="{{ url("herzult_forum_index") }}" />
     <updated>{{ category.lastPost.createdAt|date("c") }}</updated>
-    {% render "ForumBundle:Topic:list" with {"category": category } %}
+    {% render "HerzultForumBundle:Topic:list" with {"category": category } %}
 </feed>

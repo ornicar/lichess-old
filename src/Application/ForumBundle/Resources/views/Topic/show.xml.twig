@@ -3,10 +3,10 @@
     <title>{{ topic.subject }} - Lichess Forum</title>
     <id>{{ forum_urlForTopic(topic, true) }}</id>
     <link href="{{ forum_urlForTopic(topic, true) }}" rel="alternate" />
-    <link href="{{ url("forum_index") }}" />
+    <link href="{{ url("herzult_forum_index") }}" />
     <updated>{{ topic.pulledAt|date("c")|raw }}</updated>
     <author>
         <name>{{ topic.firstPost.authorName|default("Anonymous") }}</name>
     </author>
-    {% include "ForumBundle:Post:list.xml.twig" with {"posts": posts} %}
+    {% include "HerzultForumBundle:Post:list.xml.twig" with {"posts": posts} %}
 </feed>

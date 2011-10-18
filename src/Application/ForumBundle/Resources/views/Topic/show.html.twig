@@ -1,11 +1,11 @@
-{% extends "ForumBundle::layout.html.twig" %}
+{% extends "HerzultForumBundle::layout.html.twig" %}
 {% block title %}{{ topic.subject }}{% if posts.currentPage > 1 %} - Page {{ posts.currentPage }}{% endif %}{% endblock %}
 {% block description %}{{ topic.subject }} - {{ topic.category.description|raw }}{% endblock %}
 {% block feed_link %}
 <link href="{{ forum_urlForTopicAtomFeed(topic) }}" type="application/atom+xml" rel="alternate" title="{{ topic.subject }} - Lichess Forum" />
 {% endblock %}
 {% block content %}
-{% set pagination %}{{ pagerfanta(posts, 'default', {'proximity': 3, 'routeName': 'forum_topic_show', 'routeParams': {'categorySlug': topic.category.slug, 'slug': topic.slug}}) }}{% endset %}
+{% set pagination %}{{ pagerfanta(posts, 'default', {'proximity': 3, 'routeName': 'herzult_forum_topic_show', 'routeParams': {'categorySlug': topic.category.slug, 'slug': topic.slug}}) }}{% endset %}
 {% set replyUrl = forum_urlForTopicReply(topic) %}
 {% set isLastPage = forum_topicNumPages(topic) == posts.currentPage %}
 
@@ -13,7 +13,7 @@
 
     <a href="{{ forum_urlForTopicAtomFeed(topic) }}" title="{{ "Follow this topic"|trans }}" class="forum_feed_link"></a>
     <ol class="crumbs">
-        <li><a href="{{ path("forum_index") }}">Forum</a></li>
+        <li><a href="{{ path("herzult_forum_index") }}">Forum</a></li>
         <li><a href="{{ forum_urlForCategory(topic.category) }}">{{ topic.category.name }}</a></li>
         <li><h1>{{ topic.subject }}</h1></li>
     </ol>
@@ -23,11 +23,11 @@
         <a href="{{ replyUrl }}" class="action button">Reply to this topic</a>
     </div>
 
-    {% include "ForumBundle:Post:list.html.twig" with {"posts": posts} %}
+    {% include "HerzultForumBundle:Post:list.html.twig" with {"posts": posts} %}
 
     {% if isLastPage %}
         <div class="topicReply">
-            {% render "ForumBundle:Post:new" with {"topic": topic} %}
+            {% render "HerzultForumBundle:Post:new" with {"topic": topic} %}
         </div>
     {% endif %}
 

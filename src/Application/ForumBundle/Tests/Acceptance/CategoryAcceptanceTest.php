@@ -45,7 +45,7 @@ class CategoryAcceptanceTest extends AbstractAcceptanceTest
 
     protected function requestCategoryPage($client)
     {
-        $url = $this->generateUrl($client, 'forum_category_show', array('slug' => 'general-chess-discussion'));
+        $url = $this->generateUrl($client, 'herzult_forum_category_show', array('slug' => 'general-chess-discussion'));
 
         return $client->request('GET', $url);
     }

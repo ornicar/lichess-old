@@ -38,7 +38,7 @@ class TopicAcceptanceTest extends AbstractAcceptanceTest
 
     protected function requestTopicPage($client)
     {
-        $url = $this->generateUrl($client, 'forum_topic_show', array(
+        $url = $this->generateUrl($client, 'herzult_forum_topic_show', array(
             'categorySlug' => 'off-topic-discussion',
             'slug' => 'new-forum-category-off-topic-discussion'
         ));

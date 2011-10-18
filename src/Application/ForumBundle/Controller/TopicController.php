@@ -16,7 +16,7 @@ class TopicController extends BaseTopicController
     public function newAction(Category $category = null)
     {
         $post = $this->get('herzult_forum.repository.post')->createNewPost();
-        $this->get('herzult_forum.authorname_persistence')->loadPost($post);
+        $this->get('lichess_forum.authorname_persistence')->loadPost($post);
         $topic = $this->get('herzult_forum.repository.topic')->createNewTopic();
         $topic->setFirstPost($post);
         if ($category) {
@@ -24,7 +24,7 @@ class TopicController extends BaseTopicController
         }
         $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.new_topic'), 'forum_new_topic_form', $topic);
 
-        return $this->get('templating')->renderResponse('ForumBundle:Topic:new.html.'.$this->getRenderer(), array(
+        return $this->get('templating')->renderResponse('HerzultForumBundle:Topic:new.html.'.$this->getRenderer(), array(
             'form'      => $form->createView(),
             'category'  => $category
         ));
@@ -46,7 +46,7 @@ class TopicController extends BaseTopicController
 
         if ($this->get('forum.akismet')->isTopicSpam($topic)) {
             $form['firstPost']->addError(new FormError('Sorry, but your topic looks like spam. If you think it is an error, send me an email.'));
-            $this->get('logger')->warn('ForumBundle:topic spam block: '.$topic->getFirstPost()->getAuthorName().' - '.$topic->getSubject());
+            $this->get('logger')->warn('HerzultForumBundle:topic spam block: '.$topic->getFirstPost()->getAuthorName().' - '.$topic->getSubject());
             return $this->invalidCreate($category, $form);
         }
 
@@ -63,14 +63,14 @@ class TopicController extends BaseTopicController
         $this->get('session')->setFlash('forum_topic_create/success', true);
         $url = $this->get('herzult_forum.router.url_generator')->urlForTopic($topic);
         $response = new RedirectResponse($url);
-        $this->get('herzult_forum.authorname_persistence')->persistTopic($topic, $response);
+        $this->get('lichess_forum.authorname_persistence')->persistTopic($topic, $response);
 
         return $response;
     }
 
     protected function invalidCreate(Category $category, $form)
     {
-        return $this->render('ForumBundle:Topic:new.html.twig', array(
+        return $this->render('HerzultForumBundle:Topic:new.html.twig', array(
             'form'      => $form->createView(),
             'category'  => $category
         ));
@@ -85,6 +85,6 @@ class TopicController extends BaseTopicController
         if(!$topic) {
             throw new NotFoundHttpException(sprintf('The topic with id "%s" does not exist', $id));
         }
-        return new RedirectResponse($this->generateUrl('forum_topic_show', array('categorySlug' => $categorySlug, 'slug' => $topic->getSlug())));
+        return new RedirectResponse($this->generateUrl('herzult_forum_topic_show', array('categorySlug' => $categorySlug, 'slug' => $topic->getSlug())));
     }
 }

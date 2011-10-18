@@ -1,6 +1,6 @@
-forum_index:
+herzult_forum_index:
     pattern: /
-    defaults: { _controller: ForumBundle:Forum:index }
+    defaults: { _controller: HerzultForumBundle:Forum:index }
 
 lichess_forum_search:
     pattern: /search

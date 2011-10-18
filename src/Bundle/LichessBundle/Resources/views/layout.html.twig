@@ -42,7 +42,7 @@
             <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " active" : "" }}" href="{{ path("lichess_homepage") }}">{{ "Play"|trans }}</a>
             <a class="goto_gamelist goto_nav blank_if_play{{ active == "game" ? " active" : "" }}" title="{{ "See the games being played in real time"|trans }}" href="{{ path("lichess_list_current") }}">{{ "Games"|trans }}</a>
             <a class="goto_userlist goto_nav blank_if_play{{ active == "user" ? " active" : "" }}" title="{{ "Chess players"|trans }}" href="{{ path("fos_user_user_list") }}">{{ "People"|trans }}</a>
-            <a class="goto_forum goto_nav blank_if_play{{ active == "forum" ? " active" : "" }}" title="{{ "Talk about chess and discuss lichess features in the forum"|trans }}" href="{{ path("forum_index") }}">{{ "Forum"|trans }}</a>
+            <a class="goto_forum goto_nav blank_if_play{{ active == "forum" ? " active" : "" }}" title="{{ "Talk about chess and discuss lichess features in the forum"|trans }}" href="{{ path("herzult_forum_index") }}">{{ "Forum"|trans }}</a>
             {% block top_security %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <a class="goto_nav goto_message blank_if_play{{ active == "message" ? " active" : "" }}" href="{{ path("ornicar_message_inbox") }}">
@@ -89,7 +89,7 @@
                     <a href="http://twitter.com/#!/ornicar">twitter.com/ornicar</a> | <a href="http://github.com/ornicar">github.com/ornicar</a> | <a class="js_email">email me</a><br />
                     <a href="{{ path("lichess_about") }}" class="blank_if_play">{{ "Learn more about Lichess"|trans }}</a>
                 </div>
-                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | Give <a href="{{ path("forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a><br />
+                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | Give <a href="{{ path("herzult_forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a><br />
                 Help <a href="{{ path("lichess_translation_contribution") }}">translate Lichess</a> | View <a href="{{ path("lichess_todolist") }}">TODO list</a><br />
             </div>
         </div>
