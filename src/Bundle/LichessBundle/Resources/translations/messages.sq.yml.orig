@@ -48,6 +48,7 @@
 "Share this url to let spectators see the game": "Ndani këtë url që shikuesit të shohin lojën"
 "Replay and analyse": "Riluaje dhe analizoje"
 "Flip board": "Kthe fushën"
+<<<<<<< HEAD
 "Claim a draw": "Pretendo për barazim"
 "Offer draw": "Ofro barazim"
 "Draw": "Barazim"
@@ -78,7 +79,10 @@
 "{0} Comment this game|{1} One Comment|]1,Inf] %count% Comments": "{0} Komentoni këtë lojë|{1} Një koment|]1,Inf] %count% Komente"
 "Chat room": "Dhomë fjalosjeje"
 "Compose message": "Shkruaj mesazh"
+"Sent messages": "Dërgo mesazhe"
+=======
 "Sent messages": "Mesazhe të dërguara"
+>>>>>>> dec3912... Update "sq - Shqip" translation. Author: Indrit Bleta. Messages: 57. Id: 1260.
 "Free Online Chess": "Shah i lirë në-linjë"
 "Spectators:": "Shikues"
 "%nb% wins": "%nb% fitore"
