@@ -17,6 +17,7 @@
         <span class="rank">{{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}</span>
     </div>
     <div class="content_box_content clearfix">
+        {% if user.hasRole("ROLE_ADMIN") %}<div class="staff">STAFF</div>{% endif %}
         {% if eloChart.hasData %}
             <div class="elo_history" title="Elo history" data-columns="{{ eloChart.columns|json_encode }}" data-rows="{{ eloChart.rows|json_encode }}"></div>
         {% endif %}

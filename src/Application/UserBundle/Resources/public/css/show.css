@@ -17,6 +17,11 @@ div.user_show div.content_box_top .status {
 div.user_show div.content_box_top .status.connected {
     background-position: 0 -208px;
 }
+div.user_show .staff {
+  color: #aa3333;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
 div.user_show div.content_box_top .rank {
     margin-left: 1em;
 }
