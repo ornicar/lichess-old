@@ -6,6 +6,11 @@ lichess_user_export:
     pattern:    /@/{username}/export
     defaults:   { _controller: FOSUserBundle:Export:export }
 
+fos_user_user_adjust:
+    pattern:    /@/{username}/adjust
+    requirements: { _method: post }
+    defaults:   { _controller: FOSUserBundle:Cheat:adjust }
+
 fos_user_user_show:
     pattern:    /@/{username}/{mode}
     defaults:   { _controller: FOSUserBundle:Profile:view, mode: all }

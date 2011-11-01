@@ -116,6 +116,9 @@ $(function() {
     $('a.delete, input.delete').click(function() {
         return confirm('Delete?');
     });
+    $('input.confirm').click(function() {
+        return confirm('Confirm this action?');
+    });
 
     $.fn.hints && $('input.hint_me').hints();
 

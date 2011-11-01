@@ -6,6 +6,13 @@ a.forum_feed_link {
     float: right;
 }
 
+.metas .delete {
+  margin-left: 1em;
+}
+.forum_topics_list .delete {
+  margin-right: 1em;
+}
+
 ol.crumbs li {
     display: inline;
     margin-left: 1em;

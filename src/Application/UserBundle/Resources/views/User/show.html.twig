@@ -33,7 +33,14 @@
             {% endif %}
         {% endblock %}
         <div class="stats">
-            {% block actions %}{% endblock %}
+            {% block actions %}
+              {% if is_granted("ROLE_ADJUST_CHEATER") %}
+                <br />
+                <form method="post" action="{{ path("fos_user_user_adjust", {"username": user.username}) }}">
+                  <input class="confirm" type="submit" value="Adjust cheater" />
+                </form>
+              {% endif %}
+            {% endblock %}
             {% if winChart.hasData %}
                 <div class="win_stats" title="{{ "Games played"|trans }}: {{ critic.nbGames|default("0") }}" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
             {% endif %}

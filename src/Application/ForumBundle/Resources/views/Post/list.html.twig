@@ -9,7 +9,7 @@
             {% endif %}
             <span class="createdAt">{{ lichess_date(post.createdAt) }}</span>
             <a class="anchor" href="{{ forum_urlForPost(post) }}">#{{ post.number|raw }}</a>
-            {% if is_granted('ROLE_SUPER_ADMIN') and post.number != 1 %}
+            {% if is_granted('ROLE_MODERATE_FORUM') and post.number != 1 %}
                 <a class="delete" href="{{ path('herzult_forum_post_delete', { "id": post.id }) }}">Delete</a>
             {% endif %}
         </div>
