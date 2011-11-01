@@ -10,4 +10,5 @@
 /web/.htaccess
 /web/google*
 /web/apcmonitor.php
+/web/bundles/*
 /vendor
