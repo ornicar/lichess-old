@@ -1,6 +1,6 @@
 security:
     role_hierarchy:
-        ROLE_ADMIN:       [ROLE_USER, ROLE_VIEW_TRIALS_IN_GAME, ROLE_MODERATE_FORUM, ROLE_ADJUST_CHEATER]
+        ROLE_ADMIN:       [ROLE_USER, ROLE_VIEW_TRIALS_IN_GAME, ROLE_MODERATE_FORUM, ROLE_ADJUST_CHEATER, ROLE_STAFF_FORUM]
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
     providers:
         fos_user_provider:
@@ -30,6 +30,7 @@ security:
     access_control:
         - { path: "^/(inbox|profile)(/.*|$)", role: ROLE_USER }
         - { path: "^/forum/(post|topic)/delete/.+", role: ROLE_MODERATE_FORUM }
+        - { path: "^/forum/staff(/.+|$)", role: ROLE_STAFF_FORUM }
         - { path: "^/trial/verdict/.+", role: ROLE_ADJUST_CHEATER }
         - { path: "^/@/.+/adjust", role: ROLE_ADJUST_CHEATER }
 
