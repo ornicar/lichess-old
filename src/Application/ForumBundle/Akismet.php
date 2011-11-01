@@ -3,12 +3,8 @@
 namespace Application\ForumBundle;
 
 use Ornicar\AkismetBundle\Akismet\AkismetInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
-use Herzult\Bundle\ForumBundle\Router\ForumUrlGenerator;
 use Application\ForumBundle\Document\Post;
 use Application\ForumBundle\Document\Topic;
-use Zend\Service\Akismet\Exception as AkismetException;
 
 class Akismet
 {
