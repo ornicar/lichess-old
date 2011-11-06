@@ -2,8 +2,9 @@ google.setOnLoadCallback(function() {
 
     $('div.elo_history').each(function() {
         var data = google.elemToData(this);
-        var chart = new google.visualization.AreaChart(this);
+        var chart = new google.visualization.ComboChart(this);
         chart.draw(data, {
+            series: [ { color: "blue", type: "area", lineWidth: 1 },  { color: "green", type: "line", lineWidth: 2 }],
             width: 460, 
             height: 320, 
             axisTitlePosition: 'none',

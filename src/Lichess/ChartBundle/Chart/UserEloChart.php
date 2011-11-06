@@ -19,6 +19,9 @@ class UserEloChart
      * @var int
      */
     protected $points = 100;
+    //protected $points = 230;
+
+    protected $median = 15;
 
     public function __construct(History $history)
     {
@@ -34,7 +37,8 @@ class UserEloChart
     {
         return array(
             array('string', 'Game'),
-            array('number', 'Elo')
+            array('number', 'Elo'),
+            array('number', 'Median')
         );
     }
 
@@ -42,14 +46,33 @@ class UserEloChart
     {
         $elos = $this->history->getEloByTs();
         $elos = $this->reduce($elos);
+        $elosAndMedian = $this->addMedian($elos);
 
         $data = array();
-        foreach ($elos as $ts => $elo) {
+        foreach ($elosAndMedian as $ts => $eloAndMed) {
             $date = date('M j', $ts);
-            $data[] = array($date, $elo);
+            $data[] = array($date, $eloAndMed[1], $eloAndMed[0]);
         }
 
         return $data;
+    }
+
+    protected function addMedian(array $elos)
+    {
+      $cur = reset($elos);
+      $indexedElos = array_values($elos);
+      $ar = array();
+      $it = 0;
+      foreach ($elos as $ts => $val) {
+        $since = max(0, $it - $this->median);
+        $length = $this->median + min($it, $this->median);
+        $slice = array_slice($indexedElos, $since, $length);
+        $median = array_sum($slice) / count($slice);
+        $ar[$ts] = array($val, (int) $median);
+        $it++;
+      }
+
+      return $ar;
     }
 
     protected function reduce(array $elos)
