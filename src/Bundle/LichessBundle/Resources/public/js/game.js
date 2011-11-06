@@ -8,6 +8,7 @@ $.widget("lichess.game", {
         self.$chat = $("div.lichess_chat");
         self.initialTitle = document.title;
         self.hasMovedOnce = false;
+        self.premove = null;
 
         if (self.options.game.started) {
             self.indicateTurn();
@@ -205,6 +206,7 @@ $.widget("lichess.game", {
     },
     applyEvents: function(events) {
         var self = this;
+        events.push({type: "premove"});
 
         // Queue all events
         $.each(events, function(i, event) {
@@ -295,8 +297,41 @@ $.widget("lichess.game", {
                         });
                     });
                     break;
+                case "premove":
+                    self.applyPremove();
+                    self.element.dequeue();
+                    break;
             }
         });
+    },
+    applyPremove: function() {
+        var self = this;
+        if (self.premove && self.options.possible_moves) {
+            var move = self.premove;
+            self.unsetPremove();
+            if (self.inArray(move.to, self.options.possible_moves[move.from])) {
+                var $fromSquare = $("#"+move.from).orNot();
+                var $toSquare = $("#"+move.to).orNot();
+                var $piece = $fromSquare.find(".lichess_piece").orNot();
+                if ($fromSquare && $toSquare && $piece) {
+                    self.dropPiece($piece, $fromSquare, $toSquare);
+                }
+            }
+        }
+    },
+    setPremove: function(move) {
+        var self = this;
+        if (!self.options.premove || self.isMyTurn()) return;
+        self.unsetPremove();
+        if (move.from == move.to) return;
+        self.premove = move;
+        $("#"+move.from+",#"+move.to).addClass("premoved");
+        self.$board.find('div.lcs.selected').removeClass('selected');
+    },
+    unsetPremove: function() {
+        var self = this;
+        self.premove = null;
+        self.$board.find('div.lcs.premoved').removeClass('premoved');
     },
     dropPiece: function($piece, $oldSquare, $newSquare) {
         var self = this,
@@ -307,9 +342,13 @@ $.widget("lichess.game", {
             b: self.blur
         };
 
+        if (self.options.premove && !self.isMyTurn()) {
+            return self.setPremove({ from: moveData.from, to: moveData.to });
+        }
+
+        self.$board.find('div.lcs.selected').removeClass('selected');
         self.hasMovedOnce = true;
         self.blur = 0;
-        self.$board.find('div.lcs.selected').removeClass('selected');
         self.options.possible_moves = null;
         self.movePiece($oldSquare.attr("id"), squareId);
 
@@ -356,7 +395,8 @@ $.widget("lichess.game", {
             var squareId = $(this).attr('id');
             $(this).droppable({
                 accept: function(draggable) {
-                    return self.isMyTurn() && self.inArray(squareId, self.options.possible_moves[draggable.parent().attr('id')]);
+                    return (self.options.premove && !self.isMyTurn())
+                    || (self.isMyTurn() && self.inArray(squareId, self.options.possible_moves[draggable.parent().attr('id')]));
                 },
                 drop: function(ev, ui) {
                     self.dropPiece(ui.draggable, ui.draggable.parent(), $(this));
@@ -390,6 +430,7 @@ $.widget("lichess.game", {
 
         self.$board.find("div.lichess_piece." + self.options.player.color).each(function() {
             $(this).click(function() {
+                self.unsetPremove();
                 var $square = $(this).parent();
                 if ($square.hasClass('selectable')) return;
                 var isSelected = $square.hasClass('selected');
@@ -409,10 +450,19 @@ $.widget("lichess.game", {
             function() {
                 $(this).removeClass('selectable');
             }).click(function() {
-                if (!$(this).hasClass('selectable')) return;
-                $(this).removeClass('selectable');
-                var $selected = self.$board.find('div.lcs.selected');
-                self.dropPiece($selected.find('div.lichess_piece'), $selected, $(this));
+                self.unsetPremove();
+                var $from = self.$board.find('div.lcs.selected').orNot();
+                var $to = $(this);
+                if (!$from || $from == $to) return;
+                var $piece = $from.find('div.lichess_piece');
+                if (self.options.premove && !self.isMyTurn() && $from) {
+                    self.dropPiece($piece, $from, $to);
+                    console.debug(self.premove);
+                } else {
+                    if (!$to.hasClass('selectable')) return;
+                    $to.removeClass('selectable');
+                    self.dropPiece($piece, $from, $(this));
+                }
             });
         });
 

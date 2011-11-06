@@ -49,6 +49,9 @@ div.lcs.moved div.lcsi {
 div.lcs.check div.lcsi {
     background-position: 0 -256px;
 }
+div.lcs.premoved div.lcsi {
+    background-position: 0 -64px !important;
+}
 div.my_turn.not_spectator div.lcs:hover div.lcsi {
     background-position: 0 0px;
 }
