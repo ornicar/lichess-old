@@ -33,12 +33,11 @@ class UserEloChart
         return $this->history->size() > 1;
     }
 
-    public function getColumns()
-    {
+    public function getColumns() {
         return array(
             array('string', 'Game'),
-            array('number', 'Elo'),
-            array('number', 'Median')
+            array('number', 'Average'),
+            array('number', 'Elo')
         );
     }
 
@@ -59,20 +58,19 @@ class UserEloChart
 
     protected function addMedian(array $elos)
     {
-      $cur = reset($elos);
-      $indexedElos = array_values($elos);
-      $ar = array();
-      $it = 0;
-      foreach ($elos as $ts => $val) {
-        $since = max(0, $it - $this->median);
-        $length = $this->median + min($it, $this->median);
-        $slice = array_slice($indexedElos, $since, $length);
-        $median = array_sum($slice) / count($slice);
-        $ar[$ts] = array($val, (int) $median);
-        $it++;
-      }
+        $indexedElos = array_values($elos);
+        $ar = array();
+        $it = 0;
+        foreach ($elos as $ts => $val) {
+            $since = max(0, $it - $this->median);
+            $length = $this->median + min($it, $this->median);
+            $slice = array_slice($indexedElos, $since, $length);
+            $median = array_sum($slice) / count($slice);
+            $ar[$ts] = array($val, (int) $median);
+            $it++;
+        }
 
-      return $ar;
+        return $ar;
     }
 
     protected function reduce(array $elos)
