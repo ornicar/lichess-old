@@ -299,7 +299,6 @@ $.widget("lichess.game", {
                     break;
                 case "premove":
                     self.applyPremove();
-                    self.element.dequeue();
                     break;
             }
         });

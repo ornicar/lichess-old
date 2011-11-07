@@ -47,7 +47,7 @@ class ClientUpdater
             }
         }
 
-        $data = array('v' => $version, 'oa' => $opponentActivity, 'e' => $events, 'p' => $currentPlayerColor, 't' => $game->getTurns());
+        $data = array('v' => $version, 'oa' => $opponentActivity, 'e' => array_values($events), 'p' => $currentPlayerColor, 't' => $game->getTurns());
         if($game->hasClock()) {
             $data['c'] = $game->getClock()->getRemainingTimes();
         }
