@@ -3,6 +3,6 @@ assetic:
     use_controller: false
     filters:
         yui_css:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
         yui_js:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
