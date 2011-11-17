@@ -16,7 +16,7 @@ $(function()
 
     if($searchForm = $('form.search_user_form').orNot()) {
         $searchInput = $searchForm.find('input.search_user');
-        $searchInput.bind('autocompleteselect', function(e, ui) {
+        $searchInput.on('autocompleteselect', function(e, ui) {
             setTimeout(function() {$searchForm.submit();},10);
         });
         $searchForm.submit(function() {

@@ -27,7 +27,7 @@ $(function() {
                 }
             }));
         });
-        $form.find('.clock_choice input').bind('change', function() {
+        $form.find('.clock_choice input').on('change', function() {
             $form.find('.time_choice, .increment_choice').toggle($(this).is(':checked'));
             $.centerOverboard();
         }).trigger('change');
@@ -52,7 +52,7 @@ $(function() {
         });
         return false;
     });
-    $('#lichess').delegate('form', 'submit', $.lichessOpeningPreventClicks);
+    $('#lichess').on('submit', 'form', $.lichessOpeningPreventClicks);
 
     if (window.location.hash) {
         $startButtons.find('a.config_'+window.location.hash.replace(/#/, '')).click();

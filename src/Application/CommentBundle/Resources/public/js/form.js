@@ -1,5 +1,5 @@
 $(function() {
-    $('#lichess div.game_share').delegate('form.fos_comment_comment_form', 'submit', function() {
+    $('#lichess div.game_share').on('submit', 'form.fos_comment_comment_form', function() {
         var $form = $(this).addClass('processing');
         var $body = $form.find('textarea.comment_body');
         var $author = $form.find('input.comment_author');
@@ -17,7 +17,7 @@ $(function() {
             }
         });
         return false;
-    }).delegate('button.fos_comment_comment_reply_show_form', 'click', function() {
+    }).on('click', 'button.fos_comment_comment_reply_show_form', function() {
         var $button = $(this);
         var $container = $button.parent().addClass('replying');
         var $reply = $('div.fos_comment_reply_prototype').clone()

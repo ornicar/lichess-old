@@ -82,7 +82,7 @@ $(function() {
         frozen = true;
     }
 
-    $hooks.delegate('table.empty_table tr', 'click', function() {
+    $hooks.on('click', 'table.empty_table tr', function() {
         $('#start_buttons a.config_hook').click();
     });
 
@@ -93,9 +93,9 @@ $(function() {
         $.data(document.body, 'lichess_ping').setData('hook_id', hookId);
     }
 
-    $(window).bind('blur', function() {
+    $(window).on('blur', function() {
         delay = slowDelay;
-    }).bind('focus', function() {
+    }).on('focus', function() {
         delay = fastDelay;
     });
 });

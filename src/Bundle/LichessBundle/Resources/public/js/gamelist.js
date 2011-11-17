@@ -63,5 +63,5 @@ $(function() {
     }
     parseFen();
 
-    $('body').bind('lichess.content_loaded', parseFen);
+    $('body').on('lichess.content_loaded', parseFen);
 });
