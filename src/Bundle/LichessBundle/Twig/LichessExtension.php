@@ -199,7 +199,7 @@ class LichessExtension extends Twig_Extension
             'animation_delay' => $this->container->getParameter('lichess.animation.delay') * 1000,
             'locale'          => $locale,
             'debug'           => $this->container->getParameter('kernel.debug'),
-            'premove'         => $this->container->get('security.context')->isGranted("ROLE_ADMIN")
+            'premove'         => $this->container->get('security.context')->isGranted("ROLE_BETATEST")
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
