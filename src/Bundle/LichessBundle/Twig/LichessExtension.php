@@ -74,9 +74,15 @@ class LichessExtension extends Twig_Extension
         $filters = array(
             // formatting filters
             'date'    => new Twig_Filter_Method($this, 'formatDate'),
+            'lichess_remove_language_prefix'    => new Twig_Filter_Method($this, 'removeLanguagePrefix'),
         );
 
         return $filters;
+    }
+
+    public function removeLanguagePrefix($url)
+    {
+      return preg_replace('#://\w{2,3}\.#', '://', $url);
     }
 
     public function getGameTrials(Game $game)
