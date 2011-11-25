@@ -1,6 +1,7 @@
 {% extends "FOSUserBundle::layoutUser.html.twig" %}
 
 {% block title %}{{ user.usernameWithElo }}{% if games.currentPage > 1 %} - Page {{ games.currentPage }}{% endif %}{% endblock %}
+{% block description %}{{ user.usernameWithElo }} - {{ user.bio }}{% endif %}{% endblock %}
 
 {% block content %}
 <div class="content_box no_padding user_show">
