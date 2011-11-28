@@ -76,7 +76,7 @@ class UserRepository extends DocumentRepository
      **/
     public function getUserRank(User $user)
     {
-        return $this->createQueryBuilder()
+        return $this->createEnabledQueryBuilder()
             ->field('elo')->gt($user->getElo())
             ->getQuery()
             ->count()
@@ -90,13 +90,18 @@ class UserRepository extends DocumentRepository
      **/
     public function getNbUsers()
     {
-        return $this->createQueryBuilder()->getQuery()->count();
+        return $this->createEnabledQueryBuilder()->getQuery()->count();
+    }
+
+    public function createEnabledQuery()
+    {
+      return $this->createQueryBuilder()
+        ->field('enabled')->equals(true);
     }
 
     public function createEnabledSortedByEloQuery()
     {
-        return $this->createQueryBuilder()
-            ->field('enabled')->equals(true)
+        return $this->createEnabledQueryBuilder()
             ->sort('elo', 'desc');
     }
 }
