@@ -93,7 +93,7 @@ class UserRepository extends DocumentRepository
         return $this->createEnabledQueryBuilder()->getQuery()->count();
     }
 
-    public function createEnabledQuery()
+    public function createEnabledQueryBuilder()
     {
       return $this->createQueryBuilder()
         ->field('enabled')->equals(true);

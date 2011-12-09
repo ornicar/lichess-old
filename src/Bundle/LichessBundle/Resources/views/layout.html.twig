@@ -103,7 +103,7 @@
                 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
             {% endif %}
             {% if block('google_chart') %}
-                <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                <script src="https://www.google.com/jsapi"></script>
                 {% if lichess_debug_assets() %}<script src="{{ asset('bundles/lichess/vendor/google.corechart.js') }}"></script>{% endif %}
             {% endif %}
             {% javascripts
