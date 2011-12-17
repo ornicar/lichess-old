@@ -35,6 +35,8 @@ class LichessExtension extends Extension
         }
         $container->setParameter('lichess.debug_assets', $config['debug_assets']);
         $container->setParameter('lichess.sync.path', $config['sync']['path']);
+        $container->setParameter('lichess.sync.latency', $config['sync']['latency']);
+        $container->setParameter('lichess.sync.delay', $config['sync']['delay']);
 
         if ($config['test']) {
             $loader->load('test.xml');

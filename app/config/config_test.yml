@@ -17,5 +17,6 @@ lichess:
     test: true
     sync:
         path: ""
+        latency: 0
     feature:
         listener: false
