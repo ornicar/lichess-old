@@ -10,6 +10,11 @@ function show_run($text, $command)
     }
 }
 
+function read_arg(array $argv, $index, $default = null)
+{
+    return isset($argv[$index+1]) ? $argv[$index+1] : $default;
+}
+
 function show_action($action)
 {
     echo "  _ _      _                  \n | (_)    | |                 \n | |_  ___| |__   ___ ___ ___ \n | | |/ __| '_ \ / _ | __/ __|\n | | | (__| | | |  __|__ \__ \ \n |_|_|\___|_| |_|\___|___/___/";
