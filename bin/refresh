@@ -16,6 +16,7 @@ if (!in_array($mode, array('all', 'trans', 'code'))) {
 show_action("Refresh prod ($mode)");
 
 if ($mode == 'all') {
+    show_run("Dumping assets", "php app/console --env=prod assetic:dump");
     show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
     show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
     foreach (array('app', 'xhr') as $app) {
@@ -23,7 +24,6 @@ if ($mode == 'all') {
         show_run("Raising $app permissions", "chmod -R 777 $app/cache/prod");
     }
     show_run("Clearing APC cache", "php app/console --env=prod apc:clear");
-    show_run("Dumping assets", "php app/console --env=prod assetic:dump");
     //show_run("Install crafty books", "bin/install_crafty_books");
 } elseif ($mode == 'code') {
     show_run("Clearing APC opcode cache", "php app/console --env=prod apc:clear --opcode");
