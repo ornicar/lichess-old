@@ -63,7 +63,7 @@ $(function() {
     }
 
     $.centerOverboard = function() {
-        if ($overboard = $('div.lichess_overboard').orNot()) {
+        if ($overboard = $('div.lichess_overboard.auto_center').orNot()) {
             $overboard.css('top', (238 - $overboard.height() / 2) + 'px').show();
         }
     };

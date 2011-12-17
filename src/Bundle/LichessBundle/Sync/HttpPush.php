@@ -21,7 +21,7 @@ class HttpPush
 
     public function poll(Player $player, $version)
     {
-        $nbLoops = min(1, round($this->latency / $this->delay));
+        $nbLoops = max(1, round($this->latency / $this->delay));
 
         for ($i=0; $i<$nbLoops; $i++) {
             // Get user cache from APC

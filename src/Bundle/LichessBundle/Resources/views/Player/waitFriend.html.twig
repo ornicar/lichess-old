@@ -4,7 +4,7 @@
 <div class="lichess_game lichess_game_not_started waiting_opponent clearfix lichess_player_{{ player.color }}">
     <div class="lichess_board_wrap">
         {% include "LichessBundle:Main:staticBoard_" ~ player.color ~ ".html.twig" %}
-        <div class="lichess_overboard">
+        <div class="lichess_overboard auto_center">
             {{ "To invite someone to play, give this url"|trans }}:
             <input class="lichess_id_input" readonly="readonly" value="{{ url("lichess_game", {"id": player.game.id} ) | lichess_remove_language_prefix }}" />
             <p class="explanations">

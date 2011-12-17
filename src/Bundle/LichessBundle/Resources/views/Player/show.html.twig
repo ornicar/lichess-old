@@ -6,6 +6,10 @@
 <div class="lichess_game clearfix lichess_player_{{ player.color }} not_spectator">
     <div class="lichess_board_wrap">
         {{ lichess_game_board(player, checkSquareKey)|raw }}
+      <div id="connection_lost" class="lichess_overboard">
+        Reconnecting 
+        <img width="220" height="33" src="{{ asset('bundles/lichess/images/hloader.gif') }}" />
+      </div>
     </div>
     <div class="lichess_ground">
         {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
