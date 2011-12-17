@@ -105,8 +105,13 @@ $.widget("lichess.game", {
             complete: function(xhr, status) {
                 if (status != 'success') {
                     self.onError('status is not success: '+status, reloadIfFail);
+                    // delay it a bit to avoid query frenzy
+                    setTimeout(function() {
+                      $.isFunction(callback) && callback();
+                    }, 1000);
+                } else {
+                  $.isFunction(callback) && callback();
                 }
-                $.isFunction(callback) && callback();
             }
         });
     },
