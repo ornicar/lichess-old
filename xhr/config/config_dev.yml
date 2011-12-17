@@ -3,4 +3,4 @@ imports:
 
 lichess:
     sync:
-        latency: 1
+        #latency: 5

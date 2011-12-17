@@ -68,5 +68,6 @@ $.connectivity.prototype = {
         for (i = 0; i < this.state; i++) {
             $(this.$bars[i]).addClass('on');
         }
+        $('#connection_lost').toggle(0 == this.state);
     }
 };

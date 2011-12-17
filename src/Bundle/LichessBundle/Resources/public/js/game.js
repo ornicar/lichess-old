@@ -6,7 +6,6 @@ $.widget("lichess.game", {
         self.$board = self.element.find("div.lichess_board");
         self.$table = self.element.find("div.lichess_table_wrap");
         self.$chat = $("div.lichess_chat");
-        self.$connectionLost = $('#connection_lost');
         self.initialTitle = document.title;
         self.hasMovedOnce = false;
         self.premove = null;
@@ -75,7 +74,6 @@ $.widget("lichess.game", {
             success: function(data) {
                 if (!data) return self.onError('received empty data', reloadIfFail);
                 var $cl = $('#connection_lost');
-                if (self.$connectionLost.is(':visible')) self.$connectionLost.effect("explode");
                 if (data.reload) {
                     location.reload();
                     return;
@@ -626,9 +624,6 @@ $.widget("lichess.game", {
     },
     onError: function(error, reloadIfFail) {
         var self = this;
-        setTimeout(function() {
-          if (!self.$connectionLost.is(':visible')) self.$connectionLost.effect("bounce", 200);
-        }, 2000);
         if (reloadIfFail) {
             location.reload();
         }
