@@ -15,20 +15,21 @@ if (!file_exists('bin/rsync_exclude')) {
 
 $mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
 
-if (!in_array($mode, array('all', 'trans', 'code'))) {
-    echo "\nusage: deploy [all|trans|code]";
+if (!in_array($mode, array('all', 'trans', 'code', 'noass'))) {
+    echo "\nusage: deploy [all|trans|code|noass]";
     echo "\n   all   Deploy all codebase";
     echo "\n   trans Deploy only translations";
     echo "\n   code  Deploy code that does not need cache:clear";
+    echo "\n   noass Deploy all codebase, don't dump assets";
     exit(1);
 }
 
 show_action("Deploy to prod ($mode)");
 
-if ($mode == 'all') {
+if ($mode == 'all' || $mode == 'noass') {
     $remoteTarget = "$remote:$remoteDir";
     show_run("Deploy all codebase to $remoteTarget", "rsync $rsyncoptions ./ $remoteTarget");
-    show_run("Run refresh all", "ssh $remote \"cd $remoteDir && bin/refresh all\"");
+    show_run("Run refresh ".$mode, "ssh $remote \"cd $remoteDir && bin/refresh $mode\"");
 } elseif ($mode == 'code') {
     $remoteTarget = "$remote:$remoteDir";
     show_run("Deploy all codebase to $remoteTarget", "rsync $rsyncoptions ./ $remoteTarget");

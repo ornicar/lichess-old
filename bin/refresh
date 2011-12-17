@@ -5,18 +5,19 @@ require_once __DIR__.'/base_script.php';
 
 $mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
 
-if (!in_array($mode, array('all', 'trans', 'code'))) {
-    echo "\nusage: refresh [all|trans|code]";
+if (!in_array($mode, array('all', 'trans', 'code', 'noass'))) {
+    echo "\nusage: refresh [all|trans|code|noass]";
     echo "\n   all   Refresh all";
     echo "\n   trans Refresh only translations";
     echo "\n   code  Only clears apc opcode cache";
+    echo "\n   noass refresh all, don't dump assets";
     exit(1);
 }
 
 show_action("Refresh prod ($mode)");
 
-if ($mode == 'all') {
-    show_run("Dumping assets", "php app/console --env=prod assetic:dump");
+if ($mode == 'all' || $mode == 'noass') {
+    if ($mode == 'all') show_run("Dumping assets", "php app/console --env=prod assetic:dump");
     show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
     show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
     foreach (array('app', 'xhr') as $app) {
