@@ -4,6 +4,7 @@ $(function() {
     if (!$wrap.length) {
         return;
     }
+    var $chat = $("div.lichess_chat");
     var $hooks = $wrap.find('div.hooks');
     var pollUrl = $hooks.data('poll-url');
     var actionUrls = {
@@ -12,8 +13,47 @@ $(function() {
     };
     var slowDelay = 3000, fastDelay = delay = 100;
     var state = 0;
+    var messageId = 0;
     var auth = $hooks.data('auth');
     var frozen = false;
+
+    function chat() {
+        var $form = $chat.find('form');
+        $chat.find('ol.lichess_messages')[0].scrollTop = 9999999;
+        var $input = $chat.find('input.lichess_say').one("focus", function() {
+            $input.val('').removeClass('lichess_hint');
+        });
+
+        // send a message
+        $form.submit(function() {
+            text = $.trim($input.val());
+            if (!text) return false;
+            if (text.length > 140) {
+                alert('Max length: 140 chars. ' + text.length + ' chars used.');
+                return false;
+            }
+            $input.val('');
+            $.ajax($form.attr("action"), {
+                data: {
+                    message: text
+                },
+                type: 'POST',
+                timeout: 8000
+            });
+            return false;
+        });
+
+        $chat.find('a.send').click(function() {
+            $input.trigger('click');
+            $form.submit();
+        });
+
+        // toggle the chat
+        $chat.find('input.toggle_chat').change(function() {
+            $chat.toggleClass('hidden', ! $(this).attr('checked'));
+        }).trigger('change');
+    };
+    chat();
 
     function reload() {
         setTimeout(function() {
@@ -25,7 +65,9 @@ $(function() {
                         freeze();
                         location.href = 'http://'+location.hostname+'/'+data.redirect;
                     } else {
-                        renderHooks(data);
+                        state = data.state
+                        renderHooks(data.pool);
+                        renderChat(data.chat);
                     }
                 },
                 complete: function() {
@@ -36,6 +78,7 @@ $(function() {
                 cache: false,
                 data: {
                     'state': state,
+                    'messageId': messageId,
                     'auth': auth
                 },
                 timeout: 15000
@@ -45,8 +88,18 @@ $(function() {
     };
     reload();
 
+    function renderChat(data) {
+        messageId = data.id;
+        var html = "";
+        for (i in data.messages) {
+            msg = data.messages[i];
+            html += '<li><span>' + msg['u'] + '</span>' + msg['m'] + '</li>';
+        }
+        if (html != "") {
+            $chat.find('ol.lichess_messages').append(html)[0].scrollTop = 9999999;
+        }
+    }
     function renderHooks(data) {
-        state = data.state;
         if (data.hooks) {
             var hook, html = '<table>';
             for (id in data.hooks) {
@@ -87,6 +140,7 @@ $(function() {
     });
 
     if (data = $hooks.data('hooks')) {
+        state = data.state;
         renderHooks(data);
     }
     if (hookId = $hooks.data('my-hook')) {

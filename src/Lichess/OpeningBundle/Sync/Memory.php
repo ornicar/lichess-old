@@ -14,9 +14,13 @@ class Memory
      */
     protected $timeout;
     protected $stateKey = 'lichess.hook_state';
+    protected $messageIdKey = 'lichess.message_id';
 
-    public function __construct($timeout)
+    protected $messageRepository;
+
+    public function __construct($messageRepository, $timeout)
     {
+        $this->messageRepository = $messageRepository;
         $this->timeout = (int) $timeout;
     }
 
@@ -36,6 +40,22 @@ class Memory
         }
 
         return $state;
+    }
+
+    public function setMessageId($id)
+    {
+        apc_store($this->messageIdKey, (int) $id);
+    }
+
+    public function getMessageId()
+    {
+        $id = apc_fetch($this->messageIdKey);
+        if (!$id) {
+            $id = $this->messageRepository->getLastId();
+            apc_store($this->stateKey, 1);
+        }
+
+        return $id;
     }
 
     public function setAlive(Hook $hook)

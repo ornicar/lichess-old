@@ -8,20 +8,17 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Lichess\OpeningBundle\Config\GameConfigView;
 use Lichess\OpeningBundle\Document\Hook;
-use Lichess\OpeningBundle\Sync\Memory;
 
 class HooksRenderer
 {
     protected $repository;
-    protected $memory;
     protected $translator;
     protected $router;
     protected $request;
 
-    public function __construct(HookRepository $repository, Memory $memory, TranslatorInterface $translator, UrlGeneratorInterface $router, Request $request)
+    public function __construct(HookRepository $repository, TranslatorInterface $translator, UrlGeneratorInterface $router, Request $request)
     {
         $this->repository = $repository;
-        $this->memory = $memory;
         $this->translator = $translator;
         $this->router = $router;
         $this->request = $request;
@@ -38,9 +35,7 @@ class HooksRenderer
         $translator->setLocale($this->request->query->get('l'));
         $router = $this->router;
 
-        $data = array(
-            'state' => $this->memory->getState()
-        );
+        $data = array();
         if (empty($hooks)) {
             $data['message'] = $translator->trans('No game available right now, create one!');
         } else {
