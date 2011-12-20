@@ -126,6 +126,9 @@ lichess_api_new:
 lichess_status:
     pattern:        /status
     defaults:       { _controller: LichessBundle:Main:status }
+lichess_how_many_games_now:
+    pattern:        /how-many-games-now
+    defaults:       { _controller: LichessBundle:Main:howManyGamesNow }
 lichess_ping:
     pattern:        /ping
     defaults:       { _controller: LichessBundle:Boost:ping }
