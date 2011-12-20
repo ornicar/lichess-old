@@ -52,7 +52,7 @@ div.content {
 #top {
     width: 100%;
     height: 24px;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #c4c4c4;
 }
 #site_description {
     position: absolute;
@@ -483,4 +483,16 @@ div.hooks td.action {
     background: -ms-linear-gradient(top , #ffffff, #c0c0c0) repeat scroll 0 0 #ffffff;
     background: -o-linear-gradient(top , #ffffff, #c0c0c0) repeat scroll 0 0 #ffffff;
     background: linear-gradient(top , #ffffff, #c0c0c0) repeat scroll 0 0 #ffffff;
+}
+
+/* current gradient */
+#top a.goto_nav.current {
+    color: #fff;
+    background: #d85000;
+    background: -moz-linear-gradient(center top , #aaa, #999) repeat scroll 0 0 #999;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
+    background: -webkit-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: -ms-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: -o-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
 }

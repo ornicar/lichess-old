@@ -39,13 +39,13 @@
                 </ul>
             </div>
             {% set active = block("menu_active") %}
-            <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " active" : "" }}" href="{{ path("lichess_homepage") }}">{{ "Play"|trans }}</a>
-            <a class="goto_gamelist goto_nav blank_if_play{{ active == "game" ? " active" : "" }}" title="{{ "See the games being played in real time"|trans }}" href="{{ path("lichess_list_current") }}">{{ "Games"|trans }}</a>
-            <a class="goto_userlist goto_nav blank_if_play{{ active == "user" ? " active" : "" }}" title="{{ "Chess players"|trans }}" href="{{ path("fos_user_user_list") }}">{{ "People"|trans }}</a>
-            <a class="goto_forum goto_nav blank_if_play{{ active == "forum" ? " active" : "" }}" title="{{ "Talk about chess and discuss lichess features in the forum"|trans }}" href="{{ path("herzult_forum_index") }}">{{ "Forum"|trans }}</a>
+            <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " current" : "" }}" href="{{ path("lichess_homepage") }}">{{ "Play"|trans }}</a>
+            <a class="goto_gamelist goto_nav blank_if_play{{ active == "game" ? " current" : "" }}" title="{{ "See the games being played in real time"|trans }}" href="{{ path("lichess_list_current") }}">{{ "Games"|trans }}</a>
+            <a class="goto_userlist goto_nav blank_if_play{{ active == "user" ? " current" : "" }}" title="{{ "Chess players"|trans }}" href="{{ path("fos_user_user_list") }}">{{ "People"|trans }}</a>
+            <a class="goto_forum goto_nav blank_if_play{{ active == "forum" ? " current" : "" }}" title="{{ "Talk about chess and discuss lichess features in the forum"|trans }}" href="{{ path("herzult_forum_index") }}">{{ "Forum"|trans }}</a>
             {% block top_security %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <a class="goto_nav goto_message blank_if_play{{ active == "message" ? " active" : "" }}" href="{{ path("ornicar_message_inbox") }}">
+                <a class="goto_nav goto_message blank_if_play{{ active == "message" ? " current" : "" }}" href="{{ path("ornicar_message_inbox") }}">
                     {{ "Inbox"|trans }}
                     <span id="nb_messages" class="new_messages{{ ornicar_message_nb_unread() > 0 ? " unread" : "" }}">{{ ornicar_message_nb_unread() }}</span>
                 </a>
