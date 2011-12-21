@@ -195,7 +195,8 @@ class GameRepository extends DocumentRepository
     public function createByUserQuery(User $user)
     {
         return $this->createQueryBuilder()
-            ->field('userIds')->equals((string) $user->getId());
+            ->field('userIds')->equals((string) $user->getId())
+            ->hint(array('userIds' => 1));
     }
 
     /**
@@ -331,7 +332,8 @@ class GameRepository extends DocumentRepository
      */
     public function createRecentByUsersQuery(User $playerA, User $playerB)
     {
-        $qb = $this->createRecentQuery();
+        $qb = $this->createRecentQuery()
+            ->hint(array('userIds' => 1));
 
         return $qb
             ->addOr($qb->expr()->field('userIds')->equals(array($playerA->getId(), $playerB->getId())))
