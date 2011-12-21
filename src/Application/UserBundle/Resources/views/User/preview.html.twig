@@ -12,7 +12,7 @@
         {% endfor %}
     </div>
     {% endif %}
-    {% include "LichessBundle:Game:listWidget.html.twig" with {"games": [critic.lastGame], "fromUser": user, "mini": true} %}
+    {% include "LichessBundle:Game:listWidget.html.twig" with {"games": critic.lastGameArray, "fromUser": user, "mini": true} %}
 {% else %}
     {{ user.username }} account is closed.
 {% endif %}

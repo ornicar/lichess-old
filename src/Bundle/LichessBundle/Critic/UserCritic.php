@@ -129,6 +129,11 @@ class UserCritic
         return $this->gameRepository->findOneRecentByUser($this->user);
     }
 
+    public function getLastGameArray()
+    {
+        return array($this->getLastGame());
+    }
+
     protected function cacheable($cacheKey, \Closure $closure)
     {
         if(array_key_exists($cacheKey, $this->cache)) {

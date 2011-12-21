@@ -28,7 +28,9 @@ class GameRepository extends DocumentRepository
     public function findOneRecentByUser(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->getQuery()->getSingleResult();
+            ->limit(1)
+            ->getQuery()
+            ->getSingleResult();
     }
 
     /**
