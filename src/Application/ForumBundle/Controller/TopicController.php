@@ -75,16 +75,4 @@ class TopicController extends BaseTopicController
             'category'  => $category
         ));
     }
-
-    /**
-     * Compatibility layer with old topic urls
-     */
-    public function showCompatAction($categorySlug, $slug, $id)
-    {
-        $topic = $this->get('herzult_forum.repository.topic')->findOneById($id);
-        if(!$topic) {
-            throw new NotFoundHttpException(sprintf('The topic with id "%s" does not exist', $id));
-        }
-        return new RedirectResponse($this->generateUrl('herzult_forum_topic_show', array('categorySlug' => $categorySlug, 'slug' => $topic->getSlug())));
-    }
 }
