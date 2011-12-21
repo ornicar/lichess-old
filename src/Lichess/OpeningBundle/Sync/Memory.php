@@ -18,7 +18,7 @@ class Memory
 
     protected $messageRepository;
 
-    public function __construct($messageRepository, $timeout)
+    public function __construct($messageRepository = null, $timeout = 6)
     {
         $this->messageRepository = $messageRepository;
         $this->timeout = (int) $timeout;

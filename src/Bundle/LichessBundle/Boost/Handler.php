@@ -51,7 +51,7 @@ class Handler
     {
         require_once __DIR__.'/../../../Lichess/OpeningBundle/Sync/Memory.php';
 
-        return new \Lichess\OpeningBundle\Sync\Memory(self::$softTimeout);
+        return new \Lichess\OpeningBundle\Sync\Memory(null, self::$softTimeout);
     }
 
     protected static function getUserSynchronizer()
