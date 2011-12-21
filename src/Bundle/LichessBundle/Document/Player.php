@@ -287,7 +287,6 @@ class Player
     public function canOfferRematch()
     {
         return $this->getGame()->getIsFinishedOrAborted()
-            && !$this->getIsOfferingRematch()
             && !$this->getOpponent()->getIsAi();
     }
 

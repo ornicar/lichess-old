@@ -36,7 +36,7 @@ class Rematcher
             throw new LogicException($this->logger->formatPlayer($player, 'Player:rematch'));
         } elseif($player->getOpponent()->getIsOfferingRematch()) {
             $this->acceptRematch($player);
-        } else {
+        } elseif(!$player->getIsOfferingRematch()) {
             $this->offerRematch($player);
         }
     }
