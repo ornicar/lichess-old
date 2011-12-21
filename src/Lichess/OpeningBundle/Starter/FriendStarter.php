@@ -49,9 +49,6 @@ class FriendStarter implements StarterInterface
         $this->objectManager->persist($game);
         $this->logger->notice($game, 'Game:inviteFriend create');
 
-        $event = new GameEvent($game);
-        $this->dispatcher->dispatch('lichess_game.start', $event);
-
         return $player;
     }
 }
