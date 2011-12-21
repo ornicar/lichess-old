@@ -10,6 +10,7 @@ use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Cheat\Judge;
 use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Finisher
 {
@@ -19,8 +20,10 @@ class Finisher
     protected $eloUpdater;
     protected $logger;
     protected $judge;
+    protected $autoDraw;
+    protected $dispatcher;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Judge $judge, AutoDraw $autoDraw)
+    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Judge $judge, AutoDraw $autoDraw, EventDispatcherInterface $dispatcher)
     {
         $this->calculator = $calculator;
         $this->messenger  = $messenger;
@@ -29,6 +32,7 @@ class Finisher
         $this->logger     = $logger;
         $this->judge      = $judge;
         $this->autoDraw   = $autoDraw;
+        $this->dispatcher = $dispatcher;
     }
 
     public function finish(Game $game)
@@ -37,6 +41,9 @@ class Finisher
         $this->judge->study($game);
 
         $this->updateElo($game);
+
+        $event = new GameEvent($game);
+        $this->dispatcher->dispatch('lichess_game.finish', $event);
     }
 
     /**

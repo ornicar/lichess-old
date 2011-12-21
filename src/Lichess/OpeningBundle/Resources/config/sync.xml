@@ -19,8 +19,19 @@
             <argument type="service" id="translator" />
             <argument type="service" id="request" />
         </service>
-        <service id="lichess_opening.messages_renderer" class="Lichess\OpeningBundle\Sync\MessagesRenderer" scope="request">
+        <service id="lichess_opening.messages_renderer" class="Lichess\OpeningBundle\Sync\MessagesRenderer">
             <argument type="service" id="lichess_opening.message_repository" />
+        </service>
+        <service id="lichess_opening.bot" class="Lichess\OpeningBundle\Sync\Bot">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="router" />
+            <argument type="service" id="lichess_opening.messenger" />
+            <tag name="kernel.event_listener" event="lichess_game.finish" method="onFinish" priority="0" />
+            <tag name="kernel.event_listener" event="lichess_game.start" method="onStart" priority="0" />
+        </service>
+        <service id="lichess_opening.messenger" class="Lichess\OpeningBundle\Messenger">
+            <argument type="service" id="lichess_opening.message_repository" />
+            <argument type="service" id="lichess_opening.memory" />
         </service>
     </services>
 </container>

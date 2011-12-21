@@ -74,10 +74,16 @@ class Message
 
     protected function processMessage($message)
     {
+        $message = trim($message);
         $message = wordwrap($message, $this->maxLength);
         $message = preg_replace('#lichess\.org/([\w-]{8})[\w-]{4}#si', 'lichess.org/$1', $message);
 
         return $message;
+    }
+
+    public function isValid()
+    {
+        return $this->message != "";
     }
 
     public function __toString()

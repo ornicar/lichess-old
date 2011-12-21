@@ -111,11 +111,10 @@ class HookController extends Controller
     public function messageAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
+        $user instanceof User ? $user : "anon";
         $text = trim($this->get('request')->get('message'));
-        $message = new Message($user instanceof User ? $user : "anon", $text);
-        $this->get('lichess_opening.message_repository')->add($message);
+        $this->get('lichess_opening.messenger')->send($user, $text);
         $this->get('doctrine.odm.mongodb.document_manager')->flush();
-        $this->get('lichess_opening.memory')->setMessageId($message->getId());
 
         return new Response('ok');
     }

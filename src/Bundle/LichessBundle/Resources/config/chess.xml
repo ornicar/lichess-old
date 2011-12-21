@@ -40,6 +40,7 @@
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.cheat.judge" />
             <argument type="service" id="lichess.autodraw" />
+            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="lichess.drawer" class="Bundle\LichessBundle\Chess\Drawer">

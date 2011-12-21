@@ -93,10 +93,10 @@ $(function() {
         var html = "";
         for (i in data.messages) {
             msg = data.messages[i];
-            html += '<li><span>'
+            html += '<li' + (msg["u"] == "[bot]" ? ' class="bot"' : '') + '><span>'
             if (msg["r"]) {
                 html += '<a class="user_link" href="/@/'+msg["u"]+'">'+msg["u"] + '</a>';
-            } else {
+            } else if (msg["u"] != "[bot]") {
                 html += msg["u"];
             }
             html += '</span>' + msg['m'] + '</li>';

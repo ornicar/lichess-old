@@ -8,7 +8,7 @@ use Bundle\LichessBundle\Chess\Messenger;
 use Bundle\LichessBundle\Chess\Generator as GameGenerator;
 use Bundle\LichessBundle\Sync\Memory;
 use Bundle\LichessBundle\Document\Player;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
 class Rematcher
@@ -20,13 +20,13 @@ class Rematcher
     protected $urlGenerator;
     protected $objectManager;
 
-    public function __construct(Logger $logger, Messenger $messenger, Generator $generator, Memory $memory, Router $router, DocumentManager $objectManager)
+    public function __construct(Logger $logger, Messenger $messenger, Generator $generator, Memory $memory, UrlGeneratorInterface $router, DocumentManager $objectManager)
     {
         $this->logger        = $logger;
         $this->messenger     = $messenger;
         $this->gameGenerator = $generator;
         $this->memory  = $memory;
-        $this->urlGenerator  = $router->getGenerator();
+        $this->urlGenerator  = $router;
         $this->objectManager = $objectManager;
     }
 

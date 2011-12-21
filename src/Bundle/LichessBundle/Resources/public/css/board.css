@@ -619,6 +619,16 @@ div.lichess_anon_chat li span {
     margin-right: 6px;
     color: #aaa;
 }
+div.lichess_anon_chat li.bot a {
+    color: #7788bb;
+    text-decoration: none;
+}
+div.lichess_anon_chat li.bot a:hover {
+    text-decoration: underline;
+}
+div.lichess_anon_chat li.bot span {
+    margin-right: 0;
+}
 div.lichess_anon_chat li a.user_link {
     padding: 0;
     background: transparent;

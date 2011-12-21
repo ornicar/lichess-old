@@ -12,8 +12,10 @@ use Lichess\OpeningBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Chess\ManipulatorFactory;
 use Lichess\OpeningBundle\Config\Persistence;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Bundle\LichessBundle\Chess\GameEvent;
 
 class AiStarter implements StarterInterface
 {
@@ -24,7 +26,7 @@ class AiStarter implements StarterInterface
     protected $logger;
     protected $configPersistence;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, ManipulatorFactory $manipulatorFactory, Persistence $configPersistence)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, ManipulatorFactory $manipulatorFactory, Persistence $configPersistence, EventDispatcherInterface $dispatcher)
     {
         $this->generator          = $generator;
         $this->playerBlamer       = $playerBlamer;
@@ -33,6 +35,7 @@ class AiStarter implements StarterInterface
         $this->logger             = $logger;
         $this->manipulatorFactory = $manipulatorFactory;
         $this->configPersistence  = $configPersistence;
+        $this->dispatcher   = $dispatcher;
     }
 
     public function start(GameConfig $config)
@@ -52,6 +55,9 @@ class AiStarter implements StarterInterface
         }
         $this->objectManager->persist($game);
         $this->logger->notice($game, 'Game:inviteAi create');
+
+        $event = new GameEvent($game);
+        $this->dispatcher->dispatch('lichess_game.start', $event);
 
         return $player;
     }
