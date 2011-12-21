@@ -100,7 +100,6 @@ $(function() {
                 hide: {
                     effect: false,
                     event: 'mouseleave',
-                    //event: 'click',
                     fixed: true,
                     delay: 0
                 },

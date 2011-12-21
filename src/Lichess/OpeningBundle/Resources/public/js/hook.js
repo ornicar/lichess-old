@@ -84,7 +84,7 @@ $(function() {
                 timeout: 15000
             });
         },
-        500);
+        200);
     };
     reload();
 
