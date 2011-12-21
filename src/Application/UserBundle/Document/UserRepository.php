@@ -78,6 +78,7 @@ class UserRepository extends DocumentRepository
     {
         return $this->createEnabledQueryBuilder()
             ->field('elo')->gt($user->getElo())
+            ->hint(array('elo' => -1))
             ->getQuery()
             ->count()
             + 1;
