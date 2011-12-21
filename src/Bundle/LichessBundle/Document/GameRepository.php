@@ -332,7 +332,7 @@ class GameRepository extends DocumentRepository
      */
     public function createRecentByUsersQuery(User $playerA, User $playerB)
     {
-        $qb = $this->createRecentQuery()
+        return $this->createRecentQuery()
             ->field('userIds')->all(array($playerA->getId(), $playerB->getId()))
             ->hint(array('userIds' => 1));
     }
