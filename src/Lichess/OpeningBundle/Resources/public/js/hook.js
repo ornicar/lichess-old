@@ -93,7 +93,13 @@ $(function() {
         var html = "";
         for (i in data.messages) {
             msg = data.messages[i];
-            html += '<li><span>' + msg['u'] + '</span>' + msg['m'] + '</li>';
+            html += '<li><span>'
+            if (msg["r"]) {
+                html += '<a class="user_link" href="/@/'+msg["u"]+'">'+msg["u"] + '</a>';
+            } else {
+                html += msg["u"];
+            }
+            html += '</span>' + msg['m'] + '</li>';
         }
         if (html != "") {
             $chat.find('ol.lichess_messages').append(html)[0].scrollTop = 9999999;
@@ -107,7 +113,7 @@ $(function() {
                 html += '<tr'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
                 html += '<td class="color"><span class="'+hook.color+'"></span></td>';
                 if (hook.elo) {
-                    html += '<td><a href="/@/'+hook.username+'">'+hook.username+'<br />('+hook.elo+')</a></td>';
+                    html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username+'<br />('+hook.elo+')</a></td>';
                 } else {
                     html += '<td>'+hook.username+'</td>';
                 }
@@ -128,6 +134,7 @@ $(function() {
         }
         $hooks.html(html).find('a.join').click(freeze);
         $wrap.removeClass('hidden');
+        $('body').trigger('lichess.content_loaded');
     }
 
     function freeze() {

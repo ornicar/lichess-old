@@ -1,3 +1,7 @@
+fos_user_preview:
+    pattern:    /preview/{username}
+    defaults:   { _controller: FOSUserBundle:Profile:preview }
+
 fos_user_user_list:
     pattern:    /people
     defaults:   { _controller: FOSUserBundle:Profile:list }

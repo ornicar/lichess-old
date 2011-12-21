@@ -78,6 +78,47 @@ $(function() {
         $(this).replaceWith($('<a/>').text(email).attr('href', 'mailto:'+email));
     });
 
+    function loadUserLinks() {
+        $('a.user_link:not(.tooltiped)').each(function() {
+            var $this = $(this).addClass("tooltiped");
+            $this.qtip({
+                content: {
+                    text: ' ', 
+                    ajax: {
+                        loading: false,
+                        url: $this.attr("href").replace(/@/, "preview"), 
+                        type: 'GET',
+                        success: function(content, status) {
+                            this.set('content.text', content);
+                            $('body').trigger('lichess.content_loaded');
+                        }
+                    }
+                },
+                show: {
+                    effect: false
+                },
+                hide: {
+                    effect: false,
+                    event: 'mouseleave',
+                    //event: 'click',
+                    fixed: true,
+                    delay: 0
+                },
+                position: {
+                    my: 'top left',  
+                    at: 'top left', 
+                    target: $this,
+                    adjust: {
+                        x: -9,
+                        y: -6
+                    }
+                }
+            });
+        });
+    }
+    loadUserLinks();
+    $('body').on('lichess.content_loaded', loadUserLinks);
+
     $.tipsyfy = function($elem) {
         $elem.find('a:not(div.game_list_inner a):not(.notipsy):not(#boardTable a), input, label, div.tipsyme, button').filter('[title]').tipsy({
             fade: true,

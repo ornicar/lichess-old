@@ -1,4 +1,5 @@
 {% if fromUser is not defined %}{% set fromUser = none %}{% endif %}
+{% if mini is not defined %}{% set mini = false %}{% endif %}
 {% for game in games %}
 {% set firstPlayer = game.getPlayerByUserOrCreator(fromUser) %}
 {% set fromPlayer = game.getPlayerByUser(fromUser) %}
@@ -21,7 +22,7 @@
 {{ (game.turnColor|capitalize ~ " plays")|trans }}
 {% endif %}
 {% if not game.isStandardVariant %}
-    <br /><br />
+    <br />
     {{ "Variant"|trans }}: <strong>{{ game.variantName }}</strong>
 {% endif %}
 <br /><br />
@@ -37,14 +38,16 @@
 {% endblock %}
 <br />
 {% if game.hasClock %}
-    <span class="s16 clock">{{ "Time control"|trans }}: {{ game.clockName }}</span>
+    <span class="s16 clock">{% if not mini %}{{ "Time control"|trans }}: {% endif %}{{ game.clockName }}</span>
     <br /><br />
 {% endif %}
 {% if game.isRated %}
 {{ "This game is rated"|trans }}
 <br /><br />
 {% endif %}
+{% if not mini %}
 <a class="go_analyse" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": game.creatorColor} ) }}">&gt;&gt; {{ "Replay and analyse"|trans }}</a>
+{% endif %}
 </div>
 </div>
 {% else %}

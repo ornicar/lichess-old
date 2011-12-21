@@ -1,0 +1,18 @@
+{% if user.isEnabled %}
+    <div class="title">
+        {{ lichess_link_user(user, "tooltiped", true) }}
+        <span class="stats">
+            {{ critic.nbGames }} games, {{ critic.nbWins }} wins
+        </span>
+    </div>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <div class="elo_with_me">
+        {% for end, elo in {'win':critic.eloIfWin,'draw':critic.eloIfDraw,'lose':critic.eloIfLose} %}
+        {{ end|capitalize }}: <strong>{{ elo }}</strong>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% include "LichessBundle:Game:listWidget.html.twig" with {"games": [critic.lastGame], "fromUser": user, "mini": true} %}
+{% else %}
+    {{ user.username }} account is closed.
+{% endif %}

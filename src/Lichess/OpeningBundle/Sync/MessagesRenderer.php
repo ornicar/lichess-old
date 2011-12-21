@@ -3,18 +3,15 @@
 namespace Lichess\OpeningBundle\Sync;
 
 use Lichess\OpeningBundle\Document\MessageRepository;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Lichess\OpeningBundle\Document\Message;
 
 class MessagesRenderer
 {
     protected $repository;
-    protected $router;
 
-    public function __construct(MessageRepository $repository, UrlGeneratorInterface $router)
+    public function __construct(MessageRepository $repository)
     {
         $this->repository = $repository;
-        $this->router = $router;
     }
 
     public function render($clientMessageId = null)

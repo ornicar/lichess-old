@@ -17,12 +17,10 @@
         <service id="lichess_opening.hooks_renderer" class="Lichess\OpeningBundle\Sync\HooksRenderer" scope="request">
             <argument type="service" id="lichess_opening.hook_repository" />
             <argument type="service" id="translator" />
-            <argument type="service" id="router" />
             <argument type="service" id="request" />
         </service>
         <service id="lichess_opening.messages_renderer" class="Lichess\OpeningBundle\Sync\MessagesRenderer" scope="request">
             <argument type="service" id="lichess_opening.message_repository" />
-            <argument type="service" id="router" />
         </service>
     </services>
 </container>

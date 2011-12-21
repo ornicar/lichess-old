@@ -10,6 +10,7 @@
                 '@LichessBundle/Resources/public/css/jquery-ui.css'
                 '@LichessBundle/Resources/public/css/common.css'
                 '@LichessBundle/Resources/public/css/board.css'
+                '@LichessBundle/Resources/public/css/gamelist.css'
                 '@LichessBundle/Resources/public/css/share.css'
                 '@LichessCommentBundle/Resources/public/css/comment.css'
                 '@LichessOpeningBundle/Resources/public/css/opening.css'
@@ -107,11 +108,13 @@
                 {% if lichess_debug_assets() %}<script src="{{ asset('bundles/lichess/vendor/google.corechart.js') }}"></script>{% endif %}
             {% endif %}
             {% javascripts
+                '@LichessBundle/Resources/public/vendor/qtip/jquery.qtip.min.js'
                 '@LichessBundle/Resources/public/js/tipsy.min.js'
                 '@LichessBundle/Resources/public/js/ping.js'
                 '@LichessBundle/Resources/public/js/connectivity.js'
                 '@LichessBundle/Resources/public/js/ctrl.js'
                 '@LichessBundle/Resources/public/js/game.js'
+                '@LichessBundle/Resources/public/js/gamelist.js'
                 '@LichessBundle/Resources/public/js/clock.js'
                 '@LichessCommentBundle/Resources/public/js/form.js'
                 '@LichessOpeningBundle/Resources/public/js/opening.js'

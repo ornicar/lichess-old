@@ -4,7 +4,6 @@ namespace Lichess\OpeningBundle\Sync;
 
 use Lichess\OpeningBundle\Document\HookRepository;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Lichess\OpeningBundle\Config\GameConfigView;
 use Lichess\OpeningBundle\Document\Hook;
@@ -13,14 +12,12 @@ class HooksRenderer
 {
     protected $repository;
     protected $translator;
-    protected $router;
     protected $request;
 
-    public function __construct(HookRepository $repository, TranslatorInterface $translator, UrlGeneratorInterface $router, Request $request)
+    public function __construct(HookRepository $repository, TranslatorInterface $translator, Request $request)
     {
         $this->repository = $repository;
         $this->translator = $translator;
-        $this->router = $router;
         $this->request = $request;
     }
 
@@ -33,13 +30,12 @@ class HooksRenderer
         }
         $translator = $this->translator;
         $translator->setLocale($this->request->query->get('l'));
-        $router = $this->router;
 
         $data = array();
         if (empty($hooks)) {
             $data['message'] = $translator->trans('No game available right now, create one!');
         } else {
-            $data['hooks'] = array_map(function(Hook $hook) use ($translator, $router, $myHookId) {
+            $data['hooks'] = array_map(function(Hook $hook) use ($translator, $myHookId) {
                 $config = new GameConfigView($hook->toArray());
                 $array = array(
                     'username' => $hook->getUsername(),

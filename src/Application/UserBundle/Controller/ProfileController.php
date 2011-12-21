@@ -15,6 +15,23 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 
 class ProfileController extends BaseProfileController
 {
+    public function previewAction($username)
+    {
+        $user = $this->container->get('fos_user.user_manager')->findUserByUsername($username);
+        if (!$user) {
+            $response = new Response("No such player");
+            $response->setStatusCode(404);
+
+            return $response;
+        }
+        $critic = $this->container->get('lichess.critic.user');
+        if ($user->isEnabled()) {
+            $critic->setUser($user);
+        }
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:User:preview.html.twig', array('user' => $user, 'critic' => $critic));
+    }
+
     public function closeAccountAction()
     {
         if ($this->container->get('request')->getMethod() == 'POST') {

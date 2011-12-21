@@ -617,7 +617,15 @@ div.lichess_anon_chat ol.lichess_messages li {
 div.lichess_anon_chat li span {
     font-weight: bold;
     margin-right: 6px;
+    color: #aaa;
 }
+div.lichess_anon_chat li a.user_link {
+    padding: 0;
+    background: transparent;
+    line-height: auto;
+    color: #aaa;
+}
+
 div.lichess_chat ol.lichess_messages li.white {
   background: url(/bundles/lichess/images/kw14.png) no-repeat;
 }

@@ -21,6 +21,17 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Find one game played by a user
+     *
+     * @return array
+     **/
+    public function findOneRecentByUser(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->getQuery()->getSingleResult();
+    }
+
+    /**
      * Find games played by a potential cheater, where we can cancel the elo points exchanged
      *
      * @return array

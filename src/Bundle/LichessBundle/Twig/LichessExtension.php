@@ -123,7 +123,7 @@ class LichessExtension extends Twig_Extension
         return implode(', ', $translated);
     }
 
-    public function linkPlayer(Player $player, $class = null)
+    public function linkPlayer(Player $player, $class = null, $withElo = true)
     {
         if(!$user = $player->getUser()) {
             return $this->escape($player->getUsernameWithElo());
@@ -131,18 +131,19 @@ class LichessExtension extends Twig_Extension
 
         $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
-        $username = $player->getUsernameWithElo();
+        $username = $withElo ? $user->getUsernameWithElo() : $user->getUsername();
         if($eloDiff = $player->getEloDiff()) {
             $username = sprintf('%s (%s)', $username, $eloDiff < 0 ? $eloDiff : '+'.$eloDiff);
         }
         return sprintf('<a class="user_link%s" href="%s"%s>%s</a>', $user->getIsOnline() ? ' online' : '', $url, null === $class ? '' : ' class="'.$class.'"', $username);
     }
 
-    public function linkUser(User $user, $class = null)
+    public function linkUser(User $user, $class = null, $withElo = false)
     {
+        $username = $withElo ? $user->getUsernameWithElo() : $user->getUsername();
         $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
-        return sprintf('<a class="user_link%s" href="%s"%s>%s</a>', $user->getIsOnline() ? ' online' : '', $url, null === $class ? '' : ' class="'.$class.'"', $user->getUsernameWithElo());
+        return sprintf('<a class="user_link%s%s" href="%s">%s</a>', $user->getIsOnline() ? ' online' : '', null === $class ? '' : ' '.$class, $url, $username);
     }
 
     public function escape($string)

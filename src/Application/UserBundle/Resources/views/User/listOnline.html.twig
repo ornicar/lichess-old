@@ -7,7 +7,7 @@
     {% set isAuthenticated = is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     {% for user in users %}
     <li>
-        {{ lichess_link_user(user) }}
+        {{ lichess_link_user(user, none, true) }}
         {% if isAuthenticated and app.user != user %}
             <a class="send" href="{{ path("ornicar_message_thread_new", {"to": user.username}) }}">{{ "Send a message"|trans }}</a>
         {% endif %}

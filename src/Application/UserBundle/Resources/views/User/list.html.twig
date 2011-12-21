@@ -12,7 +12,7 @@
             <div class="infinitescroll">
                 <div class="pager">{{ pagerfanta(users, 'default', {'proximity': 0}) }}</div>
                 <ol start="{{ 1+(users.currentPage-1)*users.maxPerPage }}" class="users paginated_element">
-                    {% for user in users %}<li>{{ lichess_link_user(user) }}</li>{% endfor %}
+                    {% for user in users %}<li>{{ lichess_link_user(user, none, true) }}</li>{% endfor %}
                 </ol>
             </div>
         </div>
