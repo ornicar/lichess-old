@@ -52,7 +52,7 @@ class Memory
         $id = apc_fetch($this->messageIdKey);
         if (!$id) {
             $id = $this->messageRepository->getLastId();
-            apc_store($this->stateKey, 1);
+            apc_store($this->messageIdKey, $id);
         }
 
         return $id;
