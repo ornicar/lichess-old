@@ -12,6 +12,7 @@ use Lichess\OpeningBundle\Config\GameConfig;
 use Bundle\LichessBundle\Document\Clock;
 use Symfony\Component\HttpFoundation\Response;
 use Application\UserBundle\Document\User;
+use Bundle\LichessBundle\Chess\GameEvent;
 
 class HookController extends Controller
 {
@@ -166,6 +167,10 @@ class HookController extends Controller
         $game->start();
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
+		if ($game->hasUser()) {
+            $event = new GameEvent($game);
+            $this->get('event_dispatcher')->dispatch('lichess_game.start', $event);
+        }
         $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
         $this->get('lichess_opening.memory')->incrementState();
 
