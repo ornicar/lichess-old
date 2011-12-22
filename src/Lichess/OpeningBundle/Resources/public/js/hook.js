@@ -128,7 +128,6 @@ $(function() {
         for (i in data.entries) {
           html += '<tr>' + data.entries[i] + '</tr>';
         }
-        console.debug(html);
         if (html != "") {
             $bot.find('.lichess_messages').append(html).parent()[0].scrollTop = 9999999;
         }

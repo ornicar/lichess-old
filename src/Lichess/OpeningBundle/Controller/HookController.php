@@ -169,10 +169,10 @@ class HookController extends Controller
         $game->start();
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
-        $message = $this->get('lichess_opening.bot')->onStart($game);
-        $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
-        if ($message) {
-            $this->get('lichess_opening.memory')->setMessageId($message->getId());
+        $entry = $this->get('lichess_opening.bot')->onStart($game);
+        $this->flush();
+        if ($entry) {
+            $this->get('lichess_opening.memory')->setEntryId($entry->getId());
         }
         $this->get('lichess_opening.memory')->incrementState();
 

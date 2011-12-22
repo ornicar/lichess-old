@@ -31,5 +31,7 @@ class Bot
         ));
 
         $this->repository->add($entry);
+
+        return $entry;
     }
 }
