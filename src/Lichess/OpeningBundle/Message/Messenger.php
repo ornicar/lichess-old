@@ -1,6 +1,6 @@
 <?php
 
-namespace Lichess\OpeningBundle;
+namespace Lichess\OpeningBundle\Message;
 
 use Lichess\OpeningBundle\Document\MessageRepository;
 use Lichess\OpeningBundle\Sync\Memory;

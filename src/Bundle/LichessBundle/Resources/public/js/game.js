@@ -525,6 +525,7 @@ $.widget("lichess.game", {
                 self.initTable();
                 self.initClocks();
                 callback();
+                $('body').trigger('lichess.content_loaded');
             }
         }, false);
     },

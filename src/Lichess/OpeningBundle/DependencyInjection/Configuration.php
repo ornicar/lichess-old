@@ -30,6 +30,7 @@ class Configuration
                         ->booleanNode('form')->defaultTrue()->end()
                         ->booleanNode('starter')->defaultTrue()->end()
                         ->booleanNode('cleaner')->defaultTrue()->end()
+                        ->booleanNode('message')->defaultTrue()->end()
                     ->end()
                 ->end()
             ->end()

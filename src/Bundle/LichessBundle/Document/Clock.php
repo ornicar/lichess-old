@@ -61,7 +61,7 @@ class Clock
         $this->increment = (int) $increment;
 
         if (0 === $this->limit) {
-            $this->limit = $this->increment;
+            $this->limit = max(2, $this->increment);
         }
 
         $this->reset();

@@ -1,6 +1,8 @@
 {% extends 'LichessOpeningBundle::index.html.twig' %}
 
-{% block opening_buttons %}{% endblock %}
+{% block opening_buttons %}
+<div class="lichess_ground"></div>
+{% endblock %}
 
 {% block opening_my_hook %}{{ myHookId }}{% endblock %}
 {% block opening_hooks %}{{ pool|json_encode }}{% endblock %}

@@ -88,6 +88,7 @@ $(function() {
                         loading: false,
                         url: $this.attr("href").replace(/@/, "preview"), 
                         type: 'GET',
+                        cache: false,
                         success: function(content, status) {
                             this.set('content.text', content);
                             $('body').trigger('lichess.content_loaded');

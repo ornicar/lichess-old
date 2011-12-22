@@ -1,6 +1,6 @@
 <?php
 
-namespace Lichess\OpeningBundle\Sync;
+namespace Lichess\OpeningBundle\Message;
 
 use Lichess\OpeningBundle\Document\MessageRepository;
 use Lichess\OpeningBundle\Document\Message;
@@ -24,7 +24,7 @@ class MessagesRenderer
                 'm' => $msg['username'] == '[bot]' ? $msg['message'] : nl2br(htmlspecialchars($msg['message'], ENT_QUOTES, 'UTF-8'))
             );
         }, array_values(iterator_to_array(
-            $clientMessageId ? $this->repository->findSince($clientMessageId) : $this->repository->findRecent(30)
+            $clientMessageId ? $this->repository->findSince($clientMessageId) : $this->repository->findRecent(80)
         )));
 
         $data = array(

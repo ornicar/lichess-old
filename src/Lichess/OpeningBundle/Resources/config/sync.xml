@@ -19,16 +19,5 @@
             <argument type="service" id="translator" />
             <argument type="service" id="request" />
         </service>
-        <service id="lichess_opening.messages_renderer" class="Lichess\OpeningBundle\Sync\MessagesRenderer">
-            <argument type="service" id="lichess_opening.message_repository" />
-        </service>
-        <service id="lichess_opening.bot" class="Lichess\OpeningBundle\Sync\Bot">
-            <argument type="service" id="router" />
-            <argument type="service" id="lichess_opening.messenger" />
-        </service>
-        <service id="lichess_opening.messenger" class="Lichess\OpeningBundle\Messenger">
-            <argument type="service" id="lichess_opening.message_repository" />
-            <argument type="service" id="lichess_opening.memory" />
-        </service>
     </services>
 </container>

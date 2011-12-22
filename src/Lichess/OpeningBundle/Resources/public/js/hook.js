@@ -5,6 +5,7 @@ $(function() {
         return;
     }
     var $chat = $("div.lichess_chat");
+    var $bot = $("div.lichess_bot");
     var $hooks = $wrap.find('div.hooks');
     var pollUrl = $hooks.data('poll-url');
     var actionUrls = {
@@ -55,6 +56,13 @@ $(function() {
     };
     chat();
 
+    function bot() {
+      $bot.on("click", "tr", function() {
+        location.href = $(this).find('a.watch').attr("href");
+      });
+    }
+    bot();
+
     function reload() {
         setTimeout(function() {
             if (frozen) return;
@@ -90,21 +98,32 @@ $(function() {
 
     function renderChat(data) {
         messageId = data.id;
-        var html = "";
+        var chat = "", bot = "", user = "", text = "";
         for (i in data.messages) {
             msg = data.messages[i];
-            html += '<li' + (msg["u"] == "[bot]" ? ' class="bot"' : '') + '><span>'
-            if (msg["r"]) {
-                html += '<a class="user_link" href="/@/'+msg["u"]+'">'+msg["u"] + '</a>';
-            } else if (msg["u"] != "[bot]") {
-                html += msg["u"];
+            user = msg["u"];
+            text = msg["m"];
+            if (user == "[bot]") {
+              bot += '<tr>' + text + '</tr>';
+            } else {
+              chat += '<li><span>'
+              if (msg["r"]) {
+                  chat += '<a class="user_link" href="/@/'+user+'">'+user + '</a>';
+              } else {
+                  chat += user;
+              }
+              chat += '</span>' + text + '</li>';
             }
-            html += '</span>' + msg['m'] + '</li>';
         }
-        if (html != "") {
-            $chat.find('ol.lichess_messages').append(html)[0].scrollTop = 9999999;
+        if (chat != "") {
+            $chat.find('.lichess_messages').append(chat)[0].scrollTop = 9999999;
         }
+        if (bot != "") {
+            $bot.find('.lichess_messages').append(bot).parent()[0].scrollTop = 9999999;
+        }
+        $('body').trigger('lichess.content_loaded');
     }
+
     function renderHooks(data) {
         if (data.hooks) {
             var hook, html = '<table>';

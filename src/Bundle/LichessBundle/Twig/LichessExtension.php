@@ -129,7 +129,7 @@ class LichessExtension extends Twig_Extension
             return $this->escape($player->getUsernameWithElo());
         }
 
-        $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
+        $url = $this->getUrlGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
         $username = $withElo ? $player->getUsernameWithElo() : $player->getUsername();
         if($eloDiff = $player->getEloDiff()) {
@@ -141,7 +141,7 @@ class LichessExtension extends Twig_Extension
     public function linkUser(User $user, $class = null, $withElo = false)
     {
         $username = $withElo ? $user->getUsernameWithElo() : $user->getUsername();
-        $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
+        $url = $this->getUrlGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
         return sprintf('<a class="user_link%s%s" href="%s">%s</a>', $user->getIsOnline() ? ' online' : '', null === $class ? '' : ' '.$class, $url, $username);
     }
@@ -163,7 +163,7 @@ class LichessExtension extends Twig_Extension
         $color        = $player->getColor();
         $opponent     = $player->getOpponent();
         $playerFullId = $player->getFullId();
-        $generator    = $this->getRouterGenerator();
+        $generator    = $this->getUrlGenerator();
         $translator   = $this->getTranslator();
         $locale       = $this->container->get('session')->getLocale();
 
@@ -218,7 +218,7 @@ class LichessExtension extends Twig_Extension
         $gameId     = $game->getId();
         $color      = $player->getColor();
         $opponent   = $player->getOpponent();
-        $generator  = $this->getRouterGenerator();
+        $generator  = $this->getUrlGenerator();
         $translator = $this->getTranslator();
         $locale       = $this->container->get('session')->getLocale();
 
@@ -274,9 +274,9 @@ class LichessExtension extends Twig_Extension
         $player     = $game->getPlayerByUserOrCreator($user);
         $authUser   = $this->container->get('security.context')->getToken()->getUser();
         if ($authUser instanceof User && ($authPlayer = $game->getPlayerByUser($authUser))) {
-            $gameUrl = $this->getRouterGenerator()->generate('lichess_player', array('id' => $authPlayer->getFullId()));
+            $gameUrl = $this->getUrlGenerator()->generate('lichess_player', array('id' => $authPlayer->getFullId()));
         } else {
-            $gameUrl = $this->getRouterGenerator()->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()));
+            $gameUrl = $this->getUrlGenerator()->generate('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor()));
         }
 
         return sprintf('<a href="%s" title="%s" class="mini_board parse_fen" data-color="%s" data-fen="%s"></a>',
@@ -402,7 +402,7 @@ class LichessExtension extends Twig_Extension
         return 'lichess';
     }
 
-    protected function getRouterGenerator()
+    protected function getUrlGenerator()
     {
         return $this->container->get('router');
     }

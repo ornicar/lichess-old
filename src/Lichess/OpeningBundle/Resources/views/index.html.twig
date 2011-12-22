@@ -18,6 +18,15 @@
     {% block opening_buttons %}
         {% include "LichessOpeningBundle::startButtons.html.twig" %}
     {% endblock %}
+    <div class="lichess_bot">
+        <div class="lichess_bot_top">
+            <span class="title">{{ "Games being played right now"|trans }}</span>
+        </div>
+        <div class="lichess_bot_inner">
+          <table class="lichess_messages">
+          </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -28,9 +37,7 @@
         <input title="{{ "Toggle the chat"|trans }}" class="toggle_chat" type="checkbox" checked="checked" />
     </div>
     <div class="lichess_chat_inner">
-        <ol class="lichess_messages">
-            
-        </ol>
+        <ol class="lichess_messages"></ol>
         <form action="{{ path('lichess_lobby_message') }}" method="post">
             <input class="lichess_say lichess_hint" value="{{ "Talk in chat"|trans }}" />
             <a class="send"></a>
