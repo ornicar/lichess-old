@@ -96,3 +96,8 @@ div.hooks tr.my_hook {
     color: #405090;
     background: #c9dbee;
 }
+
+div.hooks a.user_link {
+    background: transparent;
+    padding-left: 0;
+}
