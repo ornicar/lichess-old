@@ -131,7 +131,7 @@ class LichessExtension extends Twig_Extension
 
         $url = $this->getRouterGenerator()->generate('fos_user_user_show', array('username' => $user->getUsername()));
 
-        $username = $withElo ? $user->getUsernameWithElo() : $user->getUsername();
+        $username = $withElo ? $player->getUsernameWithElo() : $player->getUsername();
         if($eloDiff = $player->getEloDiff()) {
             $username = sprintf('%s (%s)', $username, $eloDiff < 0 ? $eloDiff : '+'.$eloDiff);
         }
