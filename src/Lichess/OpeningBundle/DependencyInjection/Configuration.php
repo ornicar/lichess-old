@@ -31,6 +31,7 @@ class Configuration
                         ->booleanNode('starter')->defaultTrue()->end()
                         ->booleanNode('cleaner')->defaultTrue()->end()
                         ->booleanNode('message')->defaultTrue()->end()
+                        ->booleanNode('timeline')->defaultTrue()->end()
                     ->end()
                 ->end()
             ->end()

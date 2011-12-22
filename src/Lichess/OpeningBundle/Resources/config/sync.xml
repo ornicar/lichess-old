@@ -5,9 +5,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="lichess_opening.hook_repository" class="Lichess\OpeningBundle\Document\HookRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
+            <argument type="string">Lichess\OpeningBundle\Document\Hook</argument>
+        </service>
         <service id="lichess_opening.memory" class="Lichess\OpeningBundle\Sync\Memory">
-            <argument type="service" id="lichess_opening.message_repository" />
             <argument>%lichess.memory.soft_timeout%</argument>
+            <argument type="service" id="lichess_opening.message_repository" />
+            <argument type="service" id="lichess_opening.entry_repository" />
         </service>
         <service id="lichess_opening.http_push" class="Lichess\OpeningBundle\Sync\HttpPush" public="true">
             <argument type="service" id="lichess_opening.memory" />

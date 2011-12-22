@@ -16,7 +16,7 @@ class HttpPush
         $this->delay   = $delay;
     }
 
-    public function poll($userState, $userMessageId)
+    public function poll($userState, $userMessageId, $userEntryId)
     {
         $nbLoops = round($this->latency / $this->delay);
 
@@ -32,6 +32,14 @@ class HttpPush
 
             // If the client and server message id differ, update the client
             if($userMessageId != $messageId) break;
+
+            if (0 === $i % 5) {
+              // Get entry id from APC
+              $entryId = $this->memory->getEntryId();
+
+              // If the client and server entry id differ, update the client
+              if($userEntryId != $entryId) break;
+            }
 
             usleep($this->delay * 1000 * 1000);
         }

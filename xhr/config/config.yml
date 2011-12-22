@@ -37,6 +37,7 @@ lichess:
         chess: false
         config: false
         cache: false
+
 # Disable as many features as possible
 lichess_opening:
     feature:

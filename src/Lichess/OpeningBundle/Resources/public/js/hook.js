@@ -15,6 +15,7 @@ $(function() {
     var slowDelay = 3000, fastDelay = delay = 100;
     var state = 0;
     var messageId = 0;
+    var entryId = 0;
     var auth = $hooks.data('auth');
     var frozen = false;
 
@@ -77,6 +78,8 @@ $(function() {
                         state = data.state
                         renderHooks(data.pool);
                         renderChat(data.chat);
+                        renderTimeline(data.timeline);
+                        $('body').trigger('lichess.content_loaded');
                     }
                 },
                 complete: function() {
@@ -88,6 +91,7 @@ $(function() {
                 data: {
                     'state': state,
                     'messageId': messageId,
+                    'entryId': entryId,
                     'auth': auth
                 },
                 timeout: 15000
@@ -99,30 +103,35 @@ $(function() {
 
     function renderChat(data) {
         messageId = data.id;
-        var chat = "", bot = "", user = "", text = "";
+        var html = "", user = "", text = "";
         for (i in data.messages) {
             msg = data.messages[i];
             user = msg["u"];
-            text = msg["m"];
-            if (user == "[bot]") {
-              bot += '<tr>' + text + '</tr>';
-            } else {
-              chat += '<li><span>'
+            if (user != "[bot]") {
+              html += '<li><span>'
               if (msg["r"]) {
-                  chat += '<a class="user_link" href="/@/'+user+'">'+user + '</a>';
+                  html += '<a class="user_link" href="/@/'+user+'">'+user + '</a>';
               } else {
-                  chat += user;
+                  html += user;
               }
-              chat += '</span>' + text + '</li>';
+              html += '</span>' + msg["m"] + '</li>';
             }
         }
-        if (chat != "") {
-            $chat.find('.lichess_messages').append(chat)[0].scrollTop = 9999999;
+        if (html != "") {
+            $chat.find('.lichess_messages').append(html)[0].scrollTop = 9999999;
         }
-        if (bot != "") {
-            $bot.find('.lichess_messages').append(bot).parent()[0].scrollTop = 9999999;
+    }
+
+    function renderTimeline(data) {
+        entryId = data.id;
+        var html = "";
+        for (i in data.entries) {
+          html += '<tr>' + data.entries[i] + '</tr>';
         }
-        $('body').trigger('lichess.content_loaded');
+        console.debug(html);
+        if (html != "") {
+            $bot.find('.lichess_messages').append(html).parent()[0].scrollTop = 9999999;
+        }
     }
 
     function renderHooks(data) {
@@ -153,7 +162,6 @@ $(function() {
         }
         $hooks.html(html).find('a.join').click(freeze);
         $wrap.removeClass('hidden');
-        $('body').trigger('lichess.content_loaded');
     }
 
     function freeze() {
@@ -165,10 +173,6 @@ $(function() {
         $('#start_buttons a.config_hook').click();
     });
 
-    if (data = $hooks.data('hooks')) {
-        state = data.state;
-        renderHooks(data);
-    }
     if (hookId = $hooks.data('my-hook')) {
         $.data(document.body, 'lichess_ping').setData('hook_id', hookId);
     }

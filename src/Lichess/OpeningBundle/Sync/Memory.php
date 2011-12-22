@@ -15,13 +15,16 @@ class Memory
     protected $timeout;
     protected $stateKey = 'lichess.hook_state';
     protected $messageIdKey = 'lichess.message_id';
+    protected $entryIdKey = 'lichess.entry_id';
 
     protected $messageRepository;
+    protected $entryRepository;
 
-    public function __construct($messageRepository = null, $timeout = 6)
+    public function __construct($timeout = 6, $messageRepository = null, $entryRepository = null)
     {
-        $this->messageRepository = $messageRepository;
         $this->timeout = (int) $timeout;
+        $this->messageRepository = $messageRepository;
+        $this->entryRepository = $entryRepository;
     }
 
     public function incrementState()
@@ -53,6 +56,22 @@ class Memory
         if (!$id) {
             $id = $this->messageRepository->getLastId();
             apc_store($this->messageIdKey, $id);
+        }
+
+        return $id;
+    }
+
+    public function setEntryId($id)
+    {
+        apc_store($this->entryIdKey, (int) $id);
+    }
+
+    public function getEntryId()
+    {
+        $id = apc_fetch($this->entryIdKey);
+        if (!$id) {
+            $id = $this->entryRepository->getLastId();
+            apc_store($this->entryIdKey, $id);
         }
 
         return $id;
