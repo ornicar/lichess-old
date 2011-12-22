@@ -11,10 +11,8 @@ use Lichess\OpeningBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Document\Clock;
 use Lichess\OpeningBundle\Config\Persistence;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Bundle\LichessBundle\Chess\GameEvent;
 
 class FriendStarter implements StarterInterface
 {
@@ -24,14 +22,13 @@ class FriendStarter implements StarterInterface
     protected $logger;
     protected $configPersistence;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, Persistence $configPersistence, EventDispatcherInterface $dispatcher)
+    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, Persistence $configPersistence)
     {
         $this->generator         = $generator;
         $this->playerBlamer      = $playerBlamer;
         $this->objectManager     = $objectManager;
         $this->logger            = $logger;
         $this->configPersistence = $configPersistence;
-        $this->dispatcher   = $dispatcher;
     }
 
     public function start(GameConfig $config)

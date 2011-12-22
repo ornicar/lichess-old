@@ -20,7 +20,8 @@ class Messenger
 
         if ($message->isValid()) {
             $this->repository->add($message);
-            $this->memory->setMessageId($message->getId());
         }
+
+		return $message;
     }
 }

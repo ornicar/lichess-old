@@ -72,8 +72,6 @@ class HookController extends Controller
 
                 return $this->renderJson(array('redirect' => $game->getCreator()->getFullId()));
             }
-        } else {
-            $myHook = null;
         }
         $newState = $this->get('lichess_opening.memory')->getState();
 
@@ -114,8 +112,10 @@ class HookController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $user instanceof User ? $user : "anon";
         $text = trim($this->get('request')->get('message'));
-        $this->get('lichess_opening.messenger')->send($user, $text);
-        $this->get('doctrine.odm.mongodb.document_manager')->flush();
+        if ($message = $this->get('lichess_opening.messenger')->send($user, $text)) {
+            $this->get('doctrine.odm.mongodb.document_manager')->flush();
+            $this->memory->setMessageId($message->getId());
+        }
 
         return new Response('ok');
     }
@@ -167,11 +167,11 @@ class HookController extends Controller
         $game->start();
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
-		if ($game->hasUser()) {
-            $event = new GameEvent($game);
-            $this->get('event_dispatcher')->dispatch('lichess_game.start', $event);
-        }
+        $message = $this->get('lichess_opening.bot')->onStart($game);
         $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
+        if ($message) {
+            $this->get('lichess_opening.memory')->setMessageId($message->getId());
+        }
         $this->get('lichess_opening.memory')->incrementState();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));

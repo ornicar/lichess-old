@@ -128,7 +128,11 @@ class GameController extends Controller
         } catch (InvalidArgumentException $e) {
             return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
         }
-        $this->flush();
+		$message = $this->get('lichess_opening.bot')->onStart($game);
+		$this->flush();
+		if ($message) {
+			$this->get('lichess_opening.memory')->setMessageId($message->getId());
+		}
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }
