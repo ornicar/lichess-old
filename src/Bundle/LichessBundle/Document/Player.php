@@ -300,6 +300,11 @@ class Player
         return $this->user;
     }
 
+    public function hasUser()
+    {
+        return $this->user != null;
+    }
+
     /**
      * Set the user bound to this player
      *

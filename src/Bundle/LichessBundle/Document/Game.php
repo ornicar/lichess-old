@@ -941,6 +941,16 @@ class Game
         return $player;
     }
 
+    public function hasUser()
+    {
+        foreach($this->getPlayers() as $p) {
+            if($p->hasUser()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getVsText()
     {
         $creator = $this->getCreator();

@@ -42,7 +42,9 @@ class Joiner
         ));
         $this->logger->notice($player, 'Game:join');
 
-        $event = new GameEvent($game);
-        $this->dispatcher->dispatch('lichess_game.start', $event);
+		if ($game->hasUser()) {
+            $event = new GameEvent($game);
+            $this->dispatcher->dispatch('lichess_game.start', $event);
+        }
     }
 }

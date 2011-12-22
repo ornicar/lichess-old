@@ -56,8 +56,10 @@ class AiStarter implements StarterInterface
         $this->objectManager->persist($game);
         $this->logger->notice($game, 'Game:inviteAi create');
 
-        $event = new GameEvent($game);
-        $this->dispatcher->dispatch('lichess_game.start', $event);
+		if ($game->hasUser()) {
+			$event = new GameEvent($game);
+			$this->dispatcher->dispatch('lichess_game.start', $event);
+		}
 
         return $player;
     }
