@@ -138,11 +138,10 @@ $(function() {
                 }
                 html += '</td>';
                 if (hook.variant == 'Chess960') {
-                    html += '<td><a href="http://en.wikipedia.org/wiki/Chess960"><strong>960</strong></a></td>';
+                    html += '<td><a href="http://en.wikipedia.org/wiki/Chess960"><strong>960</strong></a> ' + hook.mode + '</td>';
                 } else {
-                    html += '<td></td>';
+                    html += '<td>'+hook.mode+'</td>';
                 }
-                html += '<td>'+hook.mode+'</td>';
                 html += '<td>'+hook.clock+'</td>';
                 html += '<td class="action">';
                 html += '<a href="'+actionUrls[hook.action].replace(/\/0{8,12}\//, '/'+hook.id+'/')+'" class="'+hook.action+'"></a>';

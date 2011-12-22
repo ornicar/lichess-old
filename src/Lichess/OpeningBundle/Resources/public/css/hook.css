@@ -1,9 +1,9 @@
 div.hooks_wrap {
     position: absolute;
-    width: 424px;
-    height: 296px;
-    top: 96px;
-    left: 32px;
+    width: 384px;
+    height: 384px;
+    top: 50px;
+    left: 52px;
     padding: 12px;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -43,7 +43,8 @@ div.hooks table.empty_table {
 }
 div.hooks td {
     border-bottom: 1px solid #bababa;
-    padding: 14px 8px 14px 12px;
+    padding: 0 8px 0 12px;
+    height: 64px;
     margin: 0;
 }
 div.hooks tr:last-child td {
@@ -76,7 +77,7 @@ div.hooks td.color span.random {
 div.hooks td.action {
     cursor: pointer;
     border-left: 1px solid #cacaca;
-    width: 56px;
+    width: 63px;
     padding: 0;
 }
 div.hooks a.cancel,
@@ -84,13 +85,13 @@ div.hooks a.join {
     height: 32px;
     width: 32px;
     display: block;
-    padding: 12px 12px;
+    padding: 12px 14px;
 }
 div.hooks a.cancel {
-    background: url(/bundles/lichess/images/close24.png) +12px no-repeat;
+    background: url(/bundles/lichess/images/close24.png) +16px no-repeat;
 }
 div.hooks a.join {
-    background: url(/bundles/lichess/images/play32.png) +12px no-repeat;
+    background: url(/bundles/lichess/images/play32.png) +16px no-repeat;
 }
 div.hooks tr.my_hook {
     color: #405090;
