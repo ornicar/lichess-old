@@ -131,7 +131,9 @@ class UserCritic
 
     public function getLastGameArray()
     {
-        return array($this->getLastGame());
+        $lastGame = $this->getLastGame();
+
+        return $lastGame ? array($lastGame) : array();
     }
 
     protected function cacheable($cacheKey, \Closure $closure)

@@ -114,7 +114,7 @@ class HookController extends Controller
         $text = trim($this->get('request')->get('message'));
         if ($message = $this->get('lichess_opening.messenger')->send($user, $text)) {
             $this->get('doctrine.odm.mongodb.document_manager')->flush();
-            $this->memory->setMessageId($message->getId());
+            $this->get('lichess_opening.memory')->setMessageId($message->getId());
         }
 
         return new Response('ok');
