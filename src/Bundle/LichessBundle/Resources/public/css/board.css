@@ -565,11 +565,11 @@ div.lichess_chat input.toggle_chat {
 div.lichess_chat ol {
   height: 313px;
   width: 183px;
-  overflow-y: auto;
-  overflow-x: hidden;
   border: 1px solid #ccc;
   border-top: none;
   padding: 2px 5px;
+	position:relative;
+	overflow:hidden;
 }
 
 div.lichess_chat form {
@@ -618,16 +618,6 @@ div.lichess_anon_chat li span {
     font-weight: bold;
     margin-right: 6px;
     color: #aaa;
-}
-div.lichess_anon_chat li.bot a {
-    color: #7799cc;
-    text-decoration: none;
-}
-div.lichess_anon_chat li.bot a:hover {
-    text-decoration: underline;
-}
-div.lichess_anon_chat li.bot span {
-    margin-right: 0;
 }
 div.lichess_anon_chat a.user_link {
     padding: 0;
@@ -687,8 +677,8 @@ div.lichess_bot_inner {
   -moz-border-radius: 0 0 4px 4px;
   -webkit-border-radius: 0 0 4px 4px;
   height: 163px;
-  overflow-y: auto;
-  overflow-x: hidden;
+	position:relative;
+	overflow:hidden;
 }
 
 div.lichess_bot table {

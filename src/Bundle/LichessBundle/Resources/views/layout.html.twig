@@ -109,6 +109,7 @@
                 {% if lichess_debug_assets() %}<script src="{{ asset('bundles/lichess/vendor/google.corechart.js') }}"></script>{% endif %}
             {% endif %}
             {% javascripts
+                '@LichessBundle/Resources/public/vendor/jquery.mousewheel.js'
                 '@LichessBundle/Resources/public/vendor/qtip/jquery.qtip.min.js'
                 '@LichessBundle/Resources/public/js/tipsy.min.js'
                 '@LichessBundle/Resources/public/js/ping.js'

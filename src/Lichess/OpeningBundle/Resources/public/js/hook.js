@@ -20,7 +20,7 @@ $(function() {
 
     function chat() {
         var $form = $chat.find('form');
-        $chat.find('ol.lichess_messages')[0].scrollTop = 9999999;
+        $chat.find('.lichess_messages').scrollable();
         var $input = $chat.find('input.lichess_say').one("focus", function() {
             $input.val('').removeClass('lichess_hint');
         });
@@ -57,6 +57,7 @@ $(function() {
     chat();
 
     function bot() {
+      $bot.find('.lichess_bot_inner').scrollable();
       $bot.on("click", "tr", function() {
         location.href = $(this).find('a.watch').attr("href");
       });

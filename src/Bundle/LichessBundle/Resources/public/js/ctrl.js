@@ -212,6 +212,13 @@ $(function() {
     }
 });
 
+$.fn.scrollable = function() {
+  this.mousewheel(function(e, delta) {
+    this.scrollTop -= delta * 30;
+    return false;
+  });
+};
+
 $.fn.orNot = function() {
     return this.length == 0 ? false: this;
 };
