@@ -47,7 +47,7 @@ class TimelineRenderer
                 sprintf('<a class="watch" href="%s"></a>', $gameUrl),
                 $opponents,
                 ucfirst($this->translator->trans($data['variant'])),
-                $this->translator->trans(isset($data['rated']) ? "Rated" : "Casual"),
+                $this->translator->trans(empty($data['rated']) ? "Casual" : "Rated"),
                 $clock ? sprintf('%d + %d', $clock[0], $clock[1]) : $this->translator->trans("Unlimited")
             );
         }

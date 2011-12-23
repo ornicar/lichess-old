@@ -16,10 +16,6 @@ class Bot
 
     public function onStart(Game $game)
     {
-        if (!$game->hasUser()) {
-            return;
-        }
-
         $entry = new Entry(array(
           'players' => array_map(function($player) {
             return array('u' => $player->hasUser() ? $player->getUsername() : null, 'ue' => $player->getUsernameWithElo());
