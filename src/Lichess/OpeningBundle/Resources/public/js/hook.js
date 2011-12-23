@@ -111,7 +111,7 @@ $(function() {
             if (user != "[bot]") {
               html += '<li><span>'
               if (msg["r"]) {
-                  html += '<a class="user_link" href="/@/'+user+'">'+user + '</a>';
+                  html += '<a class="user_link" href="/@/'+user+'">'+user.substr(0, 12) + '</a>';
               } else {
                   html += user;
               }

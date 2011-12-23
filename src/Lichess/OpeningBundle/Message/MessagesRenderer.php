@@ -19,7 +19,7 @@ class MessagesRenderer
         $messages = array_map(function($msg) {
             return array(
                 'id' => $msg['_id'],
-                'u' => substr($msg['username'], 0, 12),
+                'u' => $msg['username'],
                 'r' => $msg['registered'],
                 'm' => $msg['username'] == '[bot]' ? $msg['message'] : nl2br(htmlspecialchars($msg['message'], ENT_QUOTES, 'UTF-8'))
             );
