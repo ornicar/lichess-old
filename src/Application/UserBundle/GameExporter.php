@@ -52,10 +52,11 @@ class GameExporter
     {
         $userId = $user->getId();
         $usernames = $this->userRepository->getUsernamesIndexedById();
-        $games = iterator_to_array($this->gameRepository->createRecentByUserQuery($user)
+        $games = iterator_to_array($this->gameRepository->createByUserQuery($user)
             ->hydrate(false)
             ->select('createdAt', 'status', 'turns', 'variant', 'isRated', 'clock.limit', 'clock.increment', 'players.user.$id', 'players.color', 'players.isWinner', 'players.elo', 'players.eloDiff')
             ->getQuery()->execute());
+        uasort($games, function($a, $b) { return $a['createdAt'] > $b['createdAt']; });
         $data = array(array('#', 'Date (RFC 2822)', 'Color', 'Opponent', 'Result', 'Status', 'Plies', 'Variant', 'Mode', 'Time control', 'Your Elo', 'Your Elo change', 'Opponent Elo', 'Opponent Elo Change', 'Game url', 'Analysis url', 'PGN url'));
         $it = 0;
         foreach ($games as $gameId => $game) {
