@@ -35,9 +35,9 @@ class Rematcher
         if(!$player->canOfferRematch()) {
             throw new LogicException($this->logger->formatPlayer($player, 'Player:rematch'));
         } elseif($player->getOpponent()->getIsOfferingRematch()) {
-            $this->acceptRematch($player);
+            return $this->acceptRematch($player);
         } elseif(!$player->getIsOfferingRematch()) {
-            $this->offerRematch($player);
+            return $this->offerRematch($player);
         }
     }
 
@@ -81,5 +81,7 @@ class Rematcher
             $pair[0]->addEventToStack(array('type' => 'redirect', 'url' => $this->urlGenerator->generate('lichess_player', array('id' => $pair[1]->getFullId()))));
         }
         $this->objectManager->persist($nextGame);
+
+        return $nextGame;
     }
 }

@@ -54,7 +54,7 @@ class TimelineRenderer
 
         $data = array(
             'id' => empty($entries) ? $clientEntryId : $entries[0]['_id'],
-            'entries' => $rows
+            'entries' => array_reverse($rows)
         );
 
         return $data;
