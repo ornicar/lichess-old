@@ -18,6 +18,7 @@ $(function() {
     var entryId = 0;
     var auth = $hooks.data('auth');
     var frozen = false;
+    var isRegistered = $('#user_tag').length > 0
 
     function chat() {
         var $form = $chat.find('form');
@@ -97,7 +98,7 @@ $(function() {
                 timeout: 15000
             });
         },
-        200);
+        500);
     };
     reload();
 
@@ -135,32 +136,42 @@ $(function() {
 
     function renderHooks(data) {
         if (data.hooks) {
-            var hook, html = '<table>';
+            var hook, html, mode;
+            $hooks.find('tr').addClass("hideme");
             for (id in data.hooks) {
-                hook = data.hooks[id];
-                html += '<tr'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
-                html += '<td class="color"><span class="'+hook.color+'"></span></td>';
-                if (hook.elo) {
-                    html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username+'<br />('+hook.elo+')</a></td>';
+                if ($tr = $("#" + id).orNot()) {
+                    $tr.removeClass("hideme");
                 } else {
-                    html += '<td>'+hook.username+'</td>';
+                    hook = data.hooks[id];
+                    html += '<tr id="'+id+'" '+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
+                    html += '<td class="color"><span class="'+hook.color+'"></span></td>';
+                    if (hook.elo) {
+                        html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username+'<br />('+hook.elo+')</a></td>';
+                    } else {
+                        html += '<td>'+hook.username+'</td>';
+                    }
+                    html += '</td>';
+                    mode = isRegistered ? hook.mode : ""
+                    if (hook.variant == 'Chess960') {
+                        html += '<td><a href="http://en.wikipedia.org/wiki/Chess960"><strong>960</strong></a> ' + mode + '</td>';
+                    } else {
+                        html += '<td>'+mode+'</td>';
+                    }
+                    html += '<td>'+hook.clock+'</td>';
+                    html += '<td class="action">';
+                    html += '<a href="'+actionUrls[hook.action].replace(/\/0{8,12}\//, '/'+hook.id+'/')+'" class="'+hook.action+'"></a>';
+                    html += '</td></tr>';
                 }
-                html += '</td>';
-                if (hook.variant == 'Chess960') {
-                    html += '<td><a href="http://en.wikipedia.org/wiki/Chess960"><strong>960</strong></a> ' + hook.mode + '</td>';
-                } else {
-                    html += '<td>'+hook.mode+'</td>';
-                }
-                html += '<td>'+hook.clock+'</td>';
-                html += '<td class="action">';
-                html += '<a href="'+actionUrls[hook.action].replace(/\/0{8,12}\//, '/'+hook.id+'/')+'" class="'+hook.action+'"></a>';
-                html += '</td></tr>';
             }
+            $hooks.find("table").append(html);
         } else {
             var html = '<table class="empty_table"><tr><td colspan="5">'+data.message+'</td></tr></table>';
+            $hooks.html(html);
         }
-        $hooks.html(html).find('a.join').click(freeze);
+        $hooks.find('a.join').click(freeze);
         $wrap.removeClass('hidden');
+        $hooks
+            .find("tr.hideme").fadeOut(500, function() { $(this).remove(); }).find("td.action a").remove();
     }
 
     function freeze() {
