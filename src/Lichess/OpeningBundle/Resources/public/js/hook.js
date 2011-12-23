@@ -146,7 +146,7 @@ $(function() {
                     html += '<tr id="'+id+'" '+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
                     html += '<td class="color"><span class="'+hook.color+'"></span></td>';
                     if (hook.elo) {
-                        html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username+'<br />('+hook.elo+')</a></td>';
+                        html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username.substr(0, 12)+'<br />('+hook.elo+')</a></td>';
                     } else {
                         html += '<td>'+hook.username+'</td>';
                     }
@@ -170,8 +170,12 @@ $(function() {
         }
         $hooks.find('a.join').click(freeze);
         $wrap.removeClass('hidden');
-        $hooks
-            .find("tr.hideme").fadeOut(500, function() { $(this).remove(); }).find("td.action a").remove();
+        $hooks.find("tr.hideme").remove();
+        if ($hooks.find("tr").length > 0) {
+            $wrap.addClass("large");
+        } else {
+            $wrap.removeClass("large");
+        }
     }
 
     function freeze() {
