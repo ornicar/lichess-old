@@ -36,6 +36,7 @@ class GameConfigFormType extends AbstractType
                 'multiple' => false,
                 'expanded' => true
             ));
+            $builder->add('eloRange', 'hidden');
         }
     }
 

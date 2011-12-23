@@ -27,6 +27,28 @@ $(function() {
                 }
             }));
         });
+        $form.find('.elo_range').each(function() {
+            var $this = $(this);
+            var $input = $this.find("input");
+            var min = $input.data("min");
+            var max = $input.data("max");
+            if ($input.val()) {
+                var values = $input.val().split("-");
+            } else {
+                var values = [min, max];
+            }
+            $this.slider({
+                range: true,
+                min: min,
+                max: max,
+                values: values,
+                //step: 50,
+                //animate: true,
+                slide: function( event, ui ) {
+                    $input.val(ui.values[0] + "-" + ui.values[1]);
+                }
+            });
+        });
         $form.find('.clock_choice input').on('change', function() {
             $form.find('.time_choice, .increment_choice').toggle($(this).is(':checked'));
             $.centerOverboard();
@@ -51,7 +73,7 @@ $(function() {
             }
         });
         return false;
-    });
+    }).get(0).click();
     $('#lichess').on('submit', 'form', $.lichessOpeningPreventClicks);
 
     if (window.location.hash) {
