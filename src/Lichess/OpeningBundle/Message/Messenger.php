@@ -28,10 +28,10 @@ class Messenger
 
     public function isSpam(Message $message)
     {
-        $lastMessage = $this->repository->findLastOne();
-
-        if ($message->isLike($lastMessage)) {
-            return true;
+        foreach ($this->repository->findRecent(10, true) as $recentMessage) {
+            if ($message->isLike($recentMessage)) {
+                return true;
+            }
         }
     }
 }
