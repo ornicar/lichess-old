@@ -448,7 +448,7 @@ $.widget("lichess.game", {
         self.$board.find("div.lcs").each(function() {
             $(this).hover(function() {
                 var $selected = self.$board.find('div.lcs.selected');
-                if ($selected.length && self.inArray($(this).attr('id'), self.options.possible_moves[$selected.attr('id')])) {
+                if ($selected.length && self.options.possible_moves && self.inArray($(this).attr('id'), self.options.possible_moves[$selected.attr('id')])) {
                     $(this).addClass('selectable');
                 }
             },
@@ -462,7 +462,6 @@ $.widget("lichess.game", {
                 var $piece = $from.find('div.lichess_piece');
                 if (self.options.premove && !self.isMyTurn() && $from) {
                     self.dropPiece($piece, $from, $to);
-                    console.debug(self.premove);
                 } else {
                     if (!$to.hasClass('selectable')) return;
                     $to.removeClass('selectable');

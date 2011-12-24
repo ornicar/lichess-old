@@ -163,7 +163,7 @@ $(function() {
                     html += '</td></tr>';
                 }
             }
-            $hooks.find("table").append(html);
+            $hooks.find("table").removeClass("empty_table").append(html);
         } else {
             var html = '<table class="empty_table"><tr><td colspan="5">'+data.message+'</td></tr></table>';
             $hooks.html(html);
@@ -171,7 +171,7 @@ $(function() {
         $hooks.find('a.join').click(freeze);
         $wrap.removeClass('hidden');
         $hooks.find("tr.hideme").remove();
-        if ($hooks.find("tr").length > 0) {
+        if ($hooks.find("tr").length > 6) {
             $wrap.addClass("large");
         } else {
             $wrap.removeClass("large");
