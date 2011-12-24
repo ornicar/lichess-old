@@ -10,6 +10,9 @@
         Reconnecting 
         <img width="220" height="33" src="{{ asset('bundles/lichess/images/hloader.gif') }}" />
       </div>
+      <div id="premove">
+        Premove enabled - Click anywhere to cancel
+      </div>
     </div>
     <div class="lichess_ground">
         {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}

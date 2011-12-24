@@ -332,11 +332,13 @@ $.widget("lichess.game", {
         self.premove = move;
         $("#"+move.from+",#"+move.to).addClass("premoved");
         self.$board.find('div.lcs.selected').removeClass('selected');
+        $("#premove").show();
     },
     unsetPremove: function() {
         var self = this;
         self.premove = null;
         self.$board.find('div.lcs.premoved').removeClass('premoved');
+        $("#premove").hide();
     },
     dropPiece: function($piece, $oldSquare, $newSquare) {
         var self = this,
