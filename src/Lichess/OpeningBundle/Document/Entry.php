@@ -15,7 +15,6 @@ class Entry
 {
     /**
      * @MongoDB\Id(strategy="increment")
-     * @MongoDB\Index(order="desc")
      */
     protected $id;
 
