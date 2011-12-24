@@ -16,6 +16,14 @@ abstract class TimelineRepository extends DocumentRepository
             ->execute();
     }
 
+    public function findLastOne()
+    {
+        return $this->createQueryBuilder()
+            ->sort('_id', 'desc')
+            ->getQuery()
+            ->getSingleResult();
+    }
+
     public function findSince($id)
     {
         return $this->createQueryBuilder()

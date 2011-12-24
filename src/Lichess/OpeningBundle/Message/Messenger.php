@@ -14,14 +14,24 @@ class Messenger
         $this->repository = $repository;
         $this->memory = $memory;
     }
+
     public function send($user, $text)
     {
         $message = new Message($user, $text);
 
-        if ($message->isValid()) {
+        if ($message->isValid() && !$this->isSpam($message)) {
             $this->repository->add($message);
         }
 
 		return $message;
+    }
+
+    public function isSpam(Message $message)
+    {
+        $lastMessage = $this->repository->findLastOne();
+
+        if ($message->isLike($lastMessage)) {
+            return true;
+        }
     }
 }

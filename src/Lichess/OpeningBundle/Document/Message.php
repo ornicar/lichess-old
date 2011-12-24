@@ -71,6 +71,11 @@ class Message
         return (bool) $this->registered;
     }
 
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
     protected function processMessage($message)
     {
         $message = trim($message);
@@ -83,6 +88,11 @@ class Message
     public function isValid()
     {
         return $this->message != "";
+    }
+
+    public function isLike(Message $m)
+    {
+        return $m->getUsername() == $this->getUsername() && $m->getMessage() == $this->getMessage();
     }
 
     public function __toString()
