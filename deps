@@ -94,10 +94,6 @@
     git=git://github.com/FriendsOfSymfony/FOSUserBundle.git
     target=/bundles/FOS/UserBundle
 
-[FOSCommentBundle]
-    git=git://github.com/FriendsOfSymfony/FOSCommentBundle.git
-    target=/bundles/FOS/CommentBundle
-
 [FOQElasticaBundle]
     git=git://github.com/Exercise/FOQElasticaBundle.git
     target=/bundles/FOQ/ElasticaBundle

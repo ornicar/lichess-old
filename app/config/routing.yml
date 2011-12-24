@@ -40,6 +40,3 @@ forum_post:
 ornicar_message:
     resource: @OrnicarMessageBundle/Resources/config/routing.xml
     prefix: /inbox
-
-fos_comment:
-    resource: @FOSCommentBundle/Resources/config/routing.yml

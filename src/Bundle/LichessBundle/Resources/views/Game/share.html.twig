@@ -4,13 +4,10 @@
     {% set title = "I like this Chess game! " ~ url %}
     <div class="game_share_top">
         <div class="game_share_widgets clearfix">
-            <a title="{{ "Follow these comments"|trans }}" class="fos_comment_thread_feed" href="{{ path("fos_comment_thread_show_feed", {"id": game.id}) }}"></a>
             <div class="facebook_placeholder"></div>
             <div class="twitter_placeholder"><a href="http://twitter.com/share" class="twitter-share-button" data-text="{{ title }}" data-count="none" data-url="http://lichess.org">Tweet this game</a></div>
             <div class="plusone_placeholder"></div>
         </div>
         <a title="{{ "Share this url to let spectators see the game"|trans }}" class="game_permalink blank_if_play" href="{{ path("lichess_game", {"id": game.id}) }}">{{ url }}</a>
     </div>
-
-    {% render "LichessCommentBundle:Thread:show" with {"id": "game:" ~ game.id} %}
 </div>

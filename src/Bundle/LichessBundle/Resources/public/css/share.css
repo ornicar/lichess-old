@@ -22,14 +22,6 @@ div.game_share_top a.game_permalink {
     margin-top: 3px;
 }
 
-div.game_share a.fos_comment_thread_feed {
-    width: 16px;
-    height: 16px;
-    display: block;
-    background: url(/bundles/lichess/images/feed-balloon.png) top left no-repeat;
-    float: right;
-    margin-top: 3px;
-}
 div.game_share_widgets {
     float: right;
     opacity: 0.7;

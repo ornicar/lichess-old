@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new Bundle\ApcBundle\ApcBundle(),
             new Herzult\Bundle\ForumBundle\HerzultForumBundle(),
             new Bundle\LichessBundle\LichessBundle(),
-            new FOS\CommentBundle\FOSCommentBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOQ\ElasticaBundle\FOQElasticaBundle(),
             new Lichess\ChartBundle\LichessChartBundle(),
@@ -32,7 +31,6 @@ class AppKernel extends Kernel
             new Ornicar\MessageBundle\OrnicarMessageBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
 
-            new Application\CommentBundle\LichessCommentBundle(),
             new Application\ForumBundle\LichessForumBundle(),
             new Lichess\MessageBundle\LichessMessageBundle(),
             new Application\UserBundle\LichessUserBundle(),

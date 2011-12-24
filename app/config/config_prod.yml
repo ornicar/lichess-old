@@ -14,8 +14,3 @@ lichess:
     ai:
         crafty:
             executable_path: /usr/games/crafty
-
-fos_comment:
-    service:
-        spam_detection:
-            comment: fos_comment.spam_detection.comment.akismet
