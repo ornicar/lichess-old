@@ -12,6 +12,7 @@ use Ornicar\MessageBundle\Model\ParticipantInterface;
  *   repositoryClass="Application\UserBundle\Document\UserRepository",
  *   collection="user"
  * )
+ * @MongoDB\Index(keys={"elo"="desc", "enabled"="asc"})
  */
 class User extends BaseUser implements ParticipantInterface
 {
