@@ -19,6 +19,7 @@ use LogicException;
  *   collection="game2",
  *   repositoryClass="Bundle\LichessBundle\Document\GameRepository"
  * )
+ * @MongoDB\Index(keys={"userIds"="asc", "createdAt"="desc"})
  */
 class Game
 {

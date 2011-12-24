@@ -195,8 +195,10 @@ class GameRepository extends DocumentRepository
      **/
     public function createRecentByUserQuery(User $user)
     {
-        return $this->createByUserQuery($user)
-            ->sort('updatedAt', 'DESC');
+        return $this->createQueryBuilder($user)
+            ->field('userIds')->equals((string) $user->getId())
+            ->sort('created', 'DESC')
+            ->hint(array('userIds' => 1, 'createdAt' => -1));
     }
 
     /**
