@@ -90,7 +90,7 @@ class UserCritic
     public function getNbWins()
     {
         return $this->cacheable('nbWins', function($games, $users, $user) {
-            return $games->createByUserQuery($user)
+            return $games->createQueryBuilder()
                 ->field('winnerUserId')->equals((string) $user->getId())
                 ->getQuery()->count();
         });

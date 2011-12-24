@@ -193,7 +193,6 @@ class Game
      *
      * @var bool
      * @MongoDB\Field(type="boolean")
-     * @MongoDB\Index()
      */
     protected $isRated;
 
