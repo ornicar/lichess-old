@@ -136,14 +136,14 @@ $(function() {
 
     function renderHooks(data) {
         if (data.hooks) {
-            var hook, html, mode;
+            var hook, html = "", mode;
             $hooks.find('tr').addClass("hideme");
             for (id in data.hooks) {
                 if ($tr = $("#" + id).orNot()) {
                     $tr.removeClass("hideme");
                 } else {
                     hook = data.hooks[id];
-                    html += '<tr id="'+id+'" '+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
+                    html += '<tr id="'+id+'"'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
                     html += '<td class="color"><span class="'+hook.color+'"></span></td>';
                     if (hook.elo) {
                         html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username.substr(0, 12)+'<br />('+hook.elo+')</a></td>';
