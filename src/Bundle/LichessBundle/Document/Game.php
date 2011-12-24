@@ -223,15 +223,6 @@ class Game
     protected $next;
 
     /**
-     * True if this is a game played with an AI
-     *
-     * @var boolean
-     * @MongoDB\Boolean
-     * @MongoDB\Index
-     */
-    protected $isAi;
-
-    /**
      * Config values used to create the game. Cleared when game starts.
      *
      * @var array
@@ -785,7 +776,6 @@ class Game
         if($this->getIsRated()) {
             $this->addRoomMessage('system', 'This game is rated');
         }
-        $this->isAi = $this->getInvited()->getIsAi();
         $this->setConfigArray(null);
     }
 
