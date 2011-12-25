@@ -29,6 +29,14 @@ class Message
     protected $username;
 
     /**
+     * The client IP (for flood control)
+     *
+     * @MongoDB\String
+     * @var string
+     */
+    protected $ip;
+
+    /**
      * @MongoDB\Boolean
      */
     protected $registered;
@@ -40,7 +48,7 @@ class Message
 
     protected $maxLength = 200;
 
-    public function __construct($user, $message)
+    public function __construct($user, $message, $ip)
     {
         if ($user instanceof User) {
             $this->registered = true;
@@ -50,6 +58,7 @@ class Message
             $this->username = $user;
         }
         $this->message = $this->processMessage($message);
+        $this->ip = $ip;
     }
 
     public function getId()
@@ -76,6 +85,11 @@ class Message
         return $this->message;
     }
 
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
     protected function processMessage($message)
     {
         $message = trim($message);
@@ -92,7 +106,12 @@ class Message
 
     public function isLike(Message $m)
     {
-        return $m->getUsername() == $this->getUsername() && $m->getMessage() == $this->getMessage();
+        return $m->getMessage() == $this->getMessage() && $this->isSameClient($m);
+    }
+
+    public function isSameClient(Message $m)
+    {
+        return $m->getUsername() == $this->getUsername() && $m->getIp() == $this->getIp();
     }
 
     public function __toString()
