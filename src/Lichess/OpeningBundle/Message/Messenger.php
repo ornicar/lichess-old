@@ -45,7 +45,7 @@ class Messenger
             }
         }
 
-        if ($countSameClient > 7) {
+        if ($countSameClient > 6) {
             return true;
         }
 

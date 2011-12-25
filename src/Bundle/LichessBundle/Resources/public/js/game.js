@@ -85,6 +85,7 @@ $.widget("lichess.game", {
                             self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
                                 fade: true
                             });
+                            $('body').trigger('lichess.content_loaded');
                         }
                     }, false);
                 }
@@ -222,6 +223,7 @@ $.widget("lichess.game", {
                         // if a draw was claimable, remove the zone
                         $('div.lichess_claim_draw_zone').remove();
                         self.$board.find("div.lcs.check").removeClass("check");
+                        self.$board.find("div.droppable-hover").removeClass("droppable-hover");
                         // If I made the move, the piece is already moved on the board
                         if (self.hasMovedOnce && event.color == self.options.player.color) {
                             self.element.dequeue();
