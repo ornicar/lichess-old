@@ -46,6 +46,7 @@ class Crafty implements AiInterface
         }
 
         $craftyAnswer = file($file, FILE_IGNORE_NEW_LINES);
+        apc_store("craftylog", $command."\n".implode("\n", $output));
         $forsyth = $this->extractForsyth($craftyAnswer);
         unlink($file);
 
