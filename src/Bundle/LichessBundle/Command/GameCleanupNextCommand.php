@@ -38,7 +38,7 @@ class GameCleanupNextCommand extends ContainerAwareCommand
         $collection = $dm->getDocumentCollection($repo->getDocumentName())->getMongoCollection();
 
         $total = $collection->count(array('next' => array('$type' => 3)));
-        $batchSize = 1000;
+        $batchSize = 10000;
         $it = 0;
 
         $output->writeLn(sprintf('Found %d games to process', $total));
