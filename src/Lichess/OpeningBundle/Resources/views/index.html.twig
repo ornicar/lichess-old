@@ -4,6 +4,7 @@
 <div class="clearfix lichess_homepage">
     <div class="lichess_board_wrap lichess_player_white">
         {% include "LichessBundle:Main:staticBoard_white.html.twig" %}
+        {% include "LichessBundle:Main:connectionLost.html.twig" %}
         <div class="hooks_wrap hidden">
             <div class="hooks"
                 data-my-hook="{% block opening_my_hook %}{% endblock %}"
