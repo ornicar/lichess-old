@@ -64,11 +64,7 @@ class UserCritic
 
     public function getNbGames()
     {
-        return $this->cacheable('nbGames', function($games, $users, $user) {
-            return $games->createByUserQuery($user)
-                ->field('status')->gte(Game::MATE)
-                ->getQuery()->count();
-        });
+        return $this->user->getNbGames();
     }
 
     public function getNbGamesWithMe()

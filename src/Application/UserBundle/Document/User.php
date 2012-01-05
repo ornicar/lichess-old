@@ -40,11 +40,23 @@ class User extends BaseUser implements ParticipantInterface
     /**
      * ELO score of the user
      *
-     * @MongoDB\Field(type="float")
+     * @MongoDB\Field(type="int")
      * @MongoDB\Index(order="desc")
      * @var int
      */
     protected $elo = null;
+
+    /**
+     * @MongoDB\Field(type="int")
+     * @var int
+     */
+    protected $nbGames = 0;
+
+    /**
+     * @MongoDB\Field(type="int")
+     * @var int
+     */
+    protected $nbRatedGames = 0;
 
     /**
      * Whether the user is online or not
@@ -178,6 +190,40 @@ class User extends BaseUser implements ParticipantInterface
     public function setElo($elo)
     {
         $this->elo = round($elo);
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbGames()
+    {
+        return $this->nbGames;
+    }
+
+    /**
+     * @param  float
+     * @return null
+     */
+    public function setNbGames($nbGames)
+    {
+        $this->nbGames = $nbGames;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbRatedGames()
+    {
+        return $this->nbRatedGames;
+    }
+
+    /**
+     * @param  float
+     * @return null
+     */
+    public function setNbRatedGames($nbRatedGames)
+    {
+        $this->nbRatedGames = $nbRatedGames;
     }
 
     public function setUsername($username)

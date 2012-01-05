@@ -209,8 +209,19 @@ class GameRepository extends DocumentRepository
      **/
     public function createByUserQuery(User $user)
     {
+        return $this->createByUserIdQuery($user->getId());
+    }
+
+    /**
+     * Query of games played by a user
+     *
+     * @param  User $user
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createByUserIdQuery($userId)
+    {
         return $this->createQueryBuilder()
-            ->field('userIds')->equals((string) $user->getId())
+            ->field('userIds')->equals((string) $userId)
             ->hint(array('userIds' => 1));
     }
 
