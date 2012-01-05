@@ -30,7 +30,7 @@ class Messenger
 
     public function isSpam(Message $message)
     {
-        $recentMessages = $this->repository->findRecent(10, true);
+        $recentMessages = iterator_to_array($this->repository->findRecent(10, true));
 
         foreach ($recentMessages as $recentMessage) {
             if ($message->isLike($recentMessage)) {
@@ -39,13 +39,22 @@ class Messenger
         }
 
         $countSameClient = 0;
+        foreach (array_slice($recentMessages, 0, 5) as $recentMessage) {
+            if ($message->isSameClient($recentMessage)) {
+                $countSameClient++;
+            }
+        }
+        if ($countSameClient == 5) {
+            return true;
+        }
+
+        $countSameClient = 0;
         foreach ($recentMessages as $recentMessage) {
             if ($message->isSameClient($recentMessage)) {
                 $countSameClient++;
             }
         }
-
-        if ($countSameClient > 6) {
+        if ($countSameClient >= 7) {
             return true;
         }
 
