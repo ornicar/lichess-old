@@ -23,7 +23,7 @@ class HooksRenderer
 
     public function render($auth, $myHookId)
     {
-        if ($auth == 1) {
+        if ($auth) {
             $hooks = $this->repository->findAllOpen()->toArray();
         } else {
             $hooks = $this->repository->findAllOpenCasual()->toArray();

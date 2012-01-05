@@ -57,8 +57,8 @@ class HookController extends Controller
     {
         $request = $this->get('request');
         $state = $request->query->get('state');
-        $messageId = $request->query->get('messageId');
         $entryId = $request->query->get('entryId');
+        $messageId = $request->query->get('messageId', false);
         $this->get('lichess_opening.http_push')->poll($state, $messageId, $entryId);
 
         if ($myHookId) {
@@ -79,7 +79,7 @@ class HookController extends Controller
         return $this->renderJson(array(
             'state' => $newState,
             'pool' => $this->get('lichess_opening.hooks_renderer')->render($request->query->get('auth'), $myHookId),
-            'chat' => $this->get('lichess_opening.messages_renderer')->render($messageId),
+            'chat' => $messageId !== false ? $this->get('lichess_opening.messages_renderer')->render($messageId) : null,
             'timeline' => $this->get('lichess_opening.timeline_renderer')->render($entryId)
         ));
     }

@@ -5,6 +5,7 @@ $(function() {
         return;
     }
     var $chat = $("div.lichess_chat");
+    var chatExists = $chat.length > 0;
     var $bot = $("div.lichess_bot");
     var $hooks = $wrap.find('div.hooks');
     var pollUrl = $hooks.data('poll-url');
@@ -77,7 +78,7 @@ $(function() {
                 } else {
                     state = data.state
                     renderHooks(data.pool);
-                    renderChat(data.chat);
+                    if (chatExists && data.chat) renderChat(data.chat);
                     renderTimeline(data.timeline);
                     $('body').trigger('lichess.content_loaded');
                 }
@@ -88,12 +89,11 @@ $(function() {
             dataType: 'json',
             type: "GET",
             cache: false,
-            data: {
+            data: $.extend({
                 'state': state,
-                'messageId': messageId,
                 'entryId': entryId,
                 'auth': auth
-            },
+            }, chatExists ? {'messageId': messageId} : {}),
             timeout: 15000
         });
     };
