@@ -32,12 +32,12 @@ class UserCritic
 
     public function getEloIfWin()
     {
-        return '+'.$this->calculator->calculateDiff($this->getAuthenticatedUser()->getElo(), $this->user->getElo(), -1);
+        return '+'.$this->calculator->calculateDiff($this->getAuthenticatedUser(), $this->user, -1);
     }
 
     public function getEloIfDraw()
     {
-        $diff = $this->calculator->calculateDiff($this->getAuthenticatedUser()->getElo(), $this->user->getElo(), 0);
+        $diff = $this->calculator->calculateDiff($this->getAuthenticatedUser(), $this->user, 0);
         if ($diff > 0) $diff = '+'.$diff;
 
         return $diff;
@@ -45,7 +45,7 @@ class UserCritic
 
     public function getEloIfLose()
     {
-        return $this->calculator->calculateDiff($this->getAuthenticatedUser()->getElo(), $this->user->getElo(), +1);
+        return $this->calculator->calculateDiff($this->getAuthenticatedUser(), $this->user, +1);
     }
 
     public function getRank()

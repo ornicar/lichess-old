@@ -4,15 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="lichess.elo.calculator.kFactor">32</parameter>
-    </parameters>
-
     <services>
 
-        <service id="lichess.elo.calculator" class="Bundle\LichessBundle\Elo\Calculator" public="false">
-            <argument>%lichess.elo.calculator.kFactor%</argument>
-        </service>
+        <service id="lichess.elo.calculator" class="Bundle\LichessBundle\Elo\Calculator" public="false" />
 
         <service id="lichess.elo.updater" class="Bundle\LichessBundle\Elo\Updater" public="false">
             <argument type="service" id="lichess.repository.history" />

@@ -186,7 +186,7 @@ class Finisher
         } else {
             $win = 0;
         }
-        list($whiteElo, $blackElo) = $this->calculator->calculate($white->getElo(), $black->getElo(), $win);
+        list($whiteElo, $blackElo) = $this->calculator->calculate($white, $black, $win);
         $white->setEloDiff($whiteEloDiff = $whiteElo - $white->getElo());
         $black->setEloDiff($blackEloDiff = $blackElo - $black->getElo());
 
