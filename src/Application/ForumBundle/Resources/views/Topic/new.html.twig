@@ -9,7 +9,7 @@
 <br />
 <h1>New topic</h1>
 <form action="{{ path("herzult_forum_category_topic_create", {"slug": category.slug} ) }}" method="post" novalidate>
-    <label><span class="required">Category</span> {{ form_widget(form.category) }}</label>
+    <label style="display: none"><span class="required">Category</span> {{ form_widget(form.category) }}</label>
     {{ form_errors(form.subject) }}
     <label><span class="required">Subject</span> {{ form_widget(form.subject, {"attr": {"class": "subject"}}) }}</label>
     {{ form_errors(form.firstPost) }}
