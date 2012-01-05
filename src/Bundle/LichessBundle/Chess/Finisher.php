@@ -38,6 +38,8 @@ class Finisher
         $this->judge->study($game);
 
         $this->updateElo($game);
+
+        $this->updateNbGames($game);
     }
 
     /**
@@ -144,6 +146,18 @@ class Finisher
         $this->finish($game);
         $game->addEventToStacks(array('type' => 'end'));
         $this->logger->notice($player, 'Player:resign');
+    }
+
+    protected function updateNbGames(Game $game)
+    {
+        foreach ($game->getPlayers() as $player) {
+            if ($user = $player->getUser()) {
+                $user->setNbGames($user->getNbGames() + 1);
+                if ($game->getIsRated()) {
+                    $user->setNbRatedGames($user->getNbRatedGames() + 1);
+                }
+            }
+        }
     }
 
     protected function updateElo(Game $game)
