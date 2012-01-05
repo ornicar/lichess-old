@@ -67,38 +67,35 @@ $(function() {
     bot();
 
     function reload() {
-        setTimeout(function() {
-            if (frozen) return;
-            $.ajax(pollUrl, {
-                success: function(data) {
-                    if (frozen) return;
-                    if (data.redirect) {
-                        freeze();
-                        location.href = 'http://'+location.hostname+'/'+data.redirect;
-                    } else {
-                        state = data.state
-                        renderHooks(data.pool);
-                        renderChat(data.chat);
-                        renderTimeline(data.timeline);
-                        $('body').trigger('lichess.content_loaded');
-                    }
-                },
-                complete: function() {
-                    reload();
-                },
-                dataType: 'json',
-                type: "GET",
-                cache: false,
-                data: {
-                    'state': state,
-                    'messageId': messageId,
-                    'entryId': entryId,
-                    'auth': auth
-                },
-                timeout: 15000
-            });
-        },
-        500);
+        if (frozen) return;
+        $.ajax(pollUrl, {
+            success: function(data) {
+                if (frozen) return;
+                if (data.redirect) {
+                    freeze();
+                    location.href = 'http://'+location.hostname+'/'+data.redirect;
+                } else {
+                    state = data.state
+                    renderHooks(data.pool);
+                    renderChat(data.chat);
+                    renderTimeline(data.timeline);
+                    $('body').trigger('lichess.content_loaded');
+                }
+            },
+            complete: function() {
+                setTimeout(reload, 300);
+            },
+            dataType: 'json',
+            type: "GET",
+            cache: false,
+            data: {
+                'state': state,
+                'messageId': messageId,
+                'entryId': entryId,
+                'auth': auth
+            },
+            timeout: 15000
+        });
     };
     reload();
 
