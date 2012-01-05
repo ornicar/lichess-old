@@ -202,6 +202,18 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Query of RATED games played by a user ordered by updatedAt
+     *
+     * @param  User $user
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createRecentRatedByUserQuery(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->field('isRated')->equals(true);
+    }
+
+    /**
      * Query of games played by a user
      *
      * @param  User $user

@@ -108,6 +108,8 @@ class ProfileController extends BaseProfileController
         $gameRepository = $this->container->get('lichess.repository.game');
         if ($mode === 'me' && $authenticatedUser && $authenticatedUser != $user) {
             $query = $gameRepository->createRecentByUsersQuery($user, $authenticatedUser);
+        } elseif ($mode === 'rated') {
+            $query = $gameRepository->createRecentRatedByUserQuery($user);
         } elseif ($mode === 'wins') {
             $query = $gameRepository->createRecentByWinnerQuery($user);
         } elseif ($mode === 'losses') {

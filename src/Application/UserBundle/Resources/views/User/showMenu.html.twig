@@ -6,6 +6,11 @@
     {{ critic.nbGamesWithMe }} vs <strong>{{ app.user.username }}</strong>
 </a>
 {% endif %}
+{% if critic.nbRated > 0 %}
+<a {{ active == 'rated' ? 'class="active" ' : '' }}href="{{ path('fos_user_user_show', {'username': user.username, 'mode': 'rated'}) }}">
+    {{ "%nb% rated"|trans({'%nb%': critic.nbRated}) }} 
+</a>
+{% endif %}
 {% if critic.nbWins > 0 %}
 <a {{ active == 'wins' ? 'class="active" ' : '' }}href="{{ path('fos_user_user_show', {'username': user.username, 'mode': 'wins'}) }}">
     {{ "%nb% wins"|trans({'%nb%': critic.nbWins}) }} 

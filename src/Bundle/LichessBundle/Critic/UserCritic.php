@@ -67,6 +67,11 @@ class UserCritic
         return $this->user->getNbGames();
     }
 
+    public function getNbRated()
+    {
+        return $this->user->getNbRatedGames();
+    }
+
     public function getNbGamesWithMe()
     {
         if (!$authenticatedUser = $this->getAuthenticatedUser()) {
