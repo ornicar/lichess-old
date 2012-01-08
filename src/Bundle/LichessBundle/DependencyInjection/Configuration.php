@@ -47,7 +47,7 @@ class Configuration
                 ->arrayNode('sync')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('path')->defaultValue('/xhr.php')->end()
-                        ->scalarNode('latency')->defaultValue(10)->end()
+                        ->scalarNode('latency')->defaultValue(5)->end()
                         ->scalarNode('delay')->defaultValue(0.15)->end()
                     ->end()
                 ->end()
