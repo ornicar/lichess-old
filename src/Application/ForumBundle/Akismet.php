@@ -30,8 +30,9 @@ class Akismet
         $simplified = str_replace(array("\r\n", "\n", " "), "", strtolower($post->getMessage()));
         $hasBr = strpos($simplified, '<br') !== false;
         $hasHref = strpos($simplified, '<ahref') !== false;
+        $hasSpam = strpos($simplified, 'hhtournaments.com') !== false;
 
-        return $hasBr || $hasHref;
+        return $hasBr || $hasHref || $hasSpam;
     }
 
     protected function getPostData(Post $post)
