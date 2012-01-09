@@ -12,6 +12,6 @@ framework:
         auto_start:     true
         domain: .lichess.org
     templating:
-        assets_version: 83
+        assets_version: 84
         engines: ['twig']
     translator: { fallback: en }

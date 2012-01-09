@@ -68,7 +68,7 @@
         <div class="content">
             <div class="header">
                 <h1>
-                    <a id="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
+                    <a id="site_title" href="{{ url('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
                     <span id="site_baseline">{{ "Free Online Chess"|trans }}</span>
                 </h1>
                 {% if app.session.hasFlash("locale_missing") %}iearnstoyarensoytranyusth{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
