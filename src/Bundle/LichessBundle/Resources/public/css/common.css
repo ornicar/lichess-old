@@ -488,11 +488,11 @@ div.hooks td.action {
 /* current gradient */
 #top a.goto_nav.current {
     color: #fff;
-    background: #d85000;
+    background: #999;
     background: -moz-linear-gradient(center top , #aaa, #999) repeat scroll 0 0 #999;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f49c00), to(#d85000));
-    background: -webkit-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
-    background: -ms-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
-    background: -o-linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
-    background: linear-gradient(top , #f49c00, #d85000) repeat scroll 0 0 #d85000;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#aaa), to(#999));
+    background: -webkit-linear-gradient(top , #aaa, #999) repeat scroll 0 0 #999;
+    background: -ms-linear-gradient(top , #aaa, #999) repeat scroll 0 0 #999;
+    background: -o-linear-gradient(top , #aaa, #999) repeat scroll 0 0 #999;
+    background: linear-gradient(top , #aaa, #999) repeat scroll 0 0 #999;
 }
