@@ -32,7 +32,7 @@
 {% endblock %}
 
 {% block chat %}
-{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user.canSeeChat %}
 <div class="lichess_chat lichess_anon_chat">
     <div class="lichess_chat_top">
         <span class="s16 title">{{ "Chat room"|trans }}</span>

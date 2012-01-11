@@ -49,6 +49,9 @@ div.user_show .win_stats {
     width: 312px;
     height: 200px;
 }
+div.user_show .stats form {
+    display: inline;
+}
 
 div.user_show .elo_with_me {
     margin-bottom: 1.5em;

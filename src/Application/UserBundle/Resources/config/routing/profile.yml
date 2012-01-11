@@ -15,6 +15,11 @@ fos_user_user_adjust:
     requirements: { _method: post }
     defaults:   { _controller: FOSUserBundle:Cheat:adjust }
 
+fos_user_user_chatban:
+    pattern:    /@/{username}/chatban
+    requirements: { _method: post }
+    defaults:   { _controller: FOSUserBundle:Cheat:chatban }
+
 fos_user_user_show:
     pattern:    /@/{username}/{mode}
     defaults:   { _controller: FOSUserBundle:Profile:view, mode: all }

@@ -98,12 +98,40 @@ class User extends BaseUser implements ParticipantInterface
      */
     protected $createdAt;
 
+    /**
+     * Whether the user is banned from public chat or not
+     *
+     * @MongoDB\Field(type="boolean")
+     * @var bool
+     */
+    protected $isChatBan;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->createdAt = new \DateTime();
         $this->setElo(self::STARTING_ELO);
+    }
+
+    public function setChatBan($v)
+    {
+        $this->isChatBan = $v ? true : null;
+    }
+
+    public function toggleChatBan()
+    {
+        $this->setChatBan(!$this->isChatBan());
+    }
+
+    public function isChatBan()
+    {
+        return $this->isChatBan;
+    }
+
+    public function canSeeChat()
+    {
+        return !$this->isChatBan;
     }
 
     /**
