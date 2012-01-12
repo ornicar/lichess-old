@@ -40,6 +40,8 @@
                 <form method="post" action="{{ path("fos_user_user_adjust", {"username": user.username}) }}">
                   <input class="confirm" type="submit" value="Adjust cheater" />
                 </form>
+              {% endif %}
+              {% if is_granted("ROLE_CHAT_BAN") %}
                 <form method="post" action="{{ path("fos_user_user_chatban", {"username": user.username}) }}">
                     <input class="confirm" type="submit" value="{{ user.isChatBan ? "Unban" : "Ban" }} from public chat" />
                 </form>
