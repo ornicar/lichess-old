@@ -13,6 +13,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  *   collection="trial",
  *   repositoryClass="Bundle\LichessBundle\Document\TrialRepository"
  * )
+ * @MongoDB\Index(keys={"game.$id"="asc"})
  */
 class Trial
 {
