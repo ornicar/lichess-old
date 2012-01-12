@@ -29,10 +29,10 @@ class PlayerController extends Controller
         if ($game) {
             $entry = $this->get('lichess_opening.bot')->onStart($game);
         }
-		$this->flush();
-		if ($game && $entry) {
-			$this->get('lichess_opening.memory')->setEntryId($entry->getId());
-		}
+        $this->flush();
+        if ($game && $entry) {
+            $this->get('lichess_opening.memory')->setEntryId($entry->getId());
+        }
 
         return new Response('ok');
     }
@@ -176,7 +176,7 @@ class PlayerController extends Controller
             $this->flush();
         } catch (FinisherException $e) {}
 
-        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function abortAction($id)
@@ -186,7 +186,7 @@ class PlayerController extends Controller
             $this->flush();
         } catch (FinisherException $e) {}
 
-        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function tableAction($id, $color, $playerFullId)
