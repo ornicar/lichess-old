@@ -101,6 +101,6 @@ EOF",
 
     protected function getTimeForLevel($level)
     {
-        return 8 === round($level/10, 2);
+        return round($level/10, 2);
     }
 }
