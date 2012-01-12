@@ -28,6 +28,9 @@ class CheatController extends Controller
         $user->toggleChatBan();
         $this->get('doctrine.odm.mongodb.document_manager')->flush();
 
+        // also temporary ban IP address
+        apc_store('chat_ip_ban_' . $this->container->get('request')->getClientIp(), true, 60 * 60 * 24);
+
         return new RedirectResponse($this->generateUrl("fos_user_user_show", array("username" => $username)));
     }
 }

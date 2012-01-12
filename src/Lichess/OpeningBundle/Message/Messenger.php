@@ -30,6 +30,11 @@ class Messenger
 
     public function isSpam(Message $message)
     {
+        // temporary IP ban
+        if (apc_fetch('chat_ip_ban_' . $message->getIp())) {
+          return true;
+        }
+
         $recentMessages = iterator_to_array($this->repository->findRecent(10, true));
 
         foreach ($recentMessages as $recentMessage) {

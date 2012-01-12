@@ -113,7 +113,7 @@ class HookController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
 
-        if ($user instanceof User) {
+        if ($user instanceof User && $user->canSeeChat()) {
           $text = trim($this->get('request')->get('message'));
           if ($message = $this->get('lichess_opening.messenger')->send($user, $text)) {
               $this->get('doctrine.odm.mongodb.document_manager')->flush();

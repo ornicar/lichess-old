@@ -5,8 +5,8 @@ doctrine_mongodb:
             options:
                 connect: true
                 persist: lichess
-    default_database: lichess_%kernel.environment%
-    #default_database: lichess
+    #default_database: lichess_%kernel.environment%
+    default_database: lichess
     document_managers:
         default:
             metadata_cache_driver: apc
