@@ -12,6 +12,7 @@ doctrine_mongodb:
     document_managers:
         default:
             metadata_cache_driver: apc
+    default_database: lichess_test
 
 lichess:
     test: true

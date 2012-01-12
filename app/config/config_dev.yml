@@ -25,3 +25,6 @@ monolog:
 
 ornicar_akismet:
     service: ornicar_akismet.akismet_stub
+
+doctrine_mongodb:
+    default_database: lichess
