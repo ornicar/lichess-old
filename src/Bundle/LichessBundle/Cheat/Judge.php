@@ -39,7 +39,7 @@ class Judge
         if (!$game->getIsRated()) {
             return;
         }
-        if ($game->getFullmoveNumber() < 10) {
+        if ($game->getFullmoveNumber() < 8) {
             return;
         }
         foreach ($game->getPlayers() as $player) {
