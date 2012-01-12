@@ -37,26 +37,15 @@ class Message
     protected $ip;
 
     /**
-     * @MongoDB\Boolean
-     */
-    protected $registered;
-
-    /**
      * @MongoDB\String
      */
     protected $message;
 
     protected $maxLength = 200;
 
-    public function __construct($user, $message, $ip)
+    public function __construct($username, $message, $ip)
     {
-        if ($user instanceof User) {
-            $this->registered = true;
-            $this->username = $user->getUsername();
-        } else {
-            $this->registered = false;
-            $this->username = $user;
-        }
+        $this->username = $username;
         $this->message = $this->processMessage($message);
         $this->ip = $ip;
     }
@@ -73,11 +62,6 @@ class Message
     public function getUsername()
     {
         return $this->username;
-    }
-
-    public function isRegistered()
-    {
-        return (bool) $this->registered;
     }
 
     public function getMessage()

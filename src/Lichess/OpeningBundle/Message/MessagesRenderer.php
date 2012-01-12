@@ -20,7 +20,6 @@ class MessagesRenderer
             return array(
                 'id' => $msg['_id'],
                 'u' => $msg['username'],
-                'r' => $msg['registered'],
                 'm' => $msg['username'] == '[bot]' ? $msg['message'] : nl2br(htmlspecialchars($msg['message'], ENT_QUOTES, 'UTF-8'))
             );
         }, array_values(iterator_to_array(

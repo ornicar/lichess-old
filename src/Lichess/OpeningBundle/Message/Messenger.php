@@ -17,9 +17,9 @@ class Messenger
         $this->request = $request;
     }
 
-    public function send($user, $text)
+    public function send(User $user, $text)
     {
-        $message = new Message($user, $text, $this->request->getClientIp());
+        $message = new Message($user->getUsername(), $text, $this->request->getClientIp());
 
         if ($message->isValid() && !$this->isSpam($message)) {
             $this->repository->add($message);
@@ -39,12 +39,12 @@ class Messenger
         }
 
         $countSameClient = 0;
-        foreach (array_slice($recentMessages, 0, 5) as $recentMessage) {
+        foreach (array_slice($recentMessages, 0, 6) as $recentMessage) {
             if ($message->isSameClient($recentMessage)) {
                 $countSameClient++;
             }
         }
-        if ($countSameClient == 5) {
+        if ($countSameClient == 6) {
             return true;
         }
 
@@ -54,7 +54,7 @@ class Messenger
                 $countSameClient++;
             }
         }
-        if ($countSameClient >= 7) {
+        if ($countSameClient >= 9) {
             return true;
         }
 

@@ -105,15 +105,9 @@ $(function() {
         for (i in data.messages) {
             msg = data.messages[i];
             user = msg["u"];
-            if (user != "[bot]") {
-              html += '<li><span>'
-              if (msg["r"]) {
-                  html += '<a class="user_link" href="/@/'+user+'">'+user.substr(0, 12) + '</a>';
-              } else {
-                  html += user;
-              }
-              html += '</span>' + msg["m"] + '</li>';
-            }
+            html += '<li><span>'
+            html += '<a class="user_link" href="/@/'+user+'">'+user.substr(0, 12) + '</a>';
+            html += '</span>' + msg["m"] + '</li>';
         }
         if (html != "") {
             $chat.find('.lichess_messages').append(html)[0].scrollTop = 9999999;
