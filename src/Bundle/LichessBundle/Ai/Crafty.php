@@ -46,7 +46,6 @@ class Crafty implements AiInterface
         }
 
         $craftyAnswer = file($file, FILE_IGNORE_NEW_LINES);
-        apc_store("craftylog", $command."\n".implode("\n", $output));
         $forsyth = $this->extractForsyth($craftyAnswer);
         unlink($file);
 
@@ -87,10 +86,6 @@ EOF",
     {
         $config = array(
             /*
-            * sd is the number of moves crafty can anticipate
-            */
-            //'sd='.$level,
-            /*
             * st is the time in seconds crafty can think about the situation
             */
             'st='.$this->getTimeForLevel($level)
@@ -106,6 +101,6 @@ EOF",
 
     protected function getTimeForLevel($level)
     {
-        return 8 === $level ? 1 : round($level/10, 2);
+        return 8 === round($level/10, 2);
     }
 }
