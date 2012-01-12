@@ -127,13 +127,19 @@ class ProfileController extends BaseProfileController
             throw new NotFoundHttpException(sprintf('Invalid user game page requested %s (page %s)', $user->getUsername(), $page));
         }
 
+        if ($this->container->get('security.context')->isGranted('ROLE_CHAT_BAN')) {
+          $chat = $this->container->get('lichess_opening.message_repository')->findByUsername($authenticatedUser->getUsername());
+        } else {
+          $chat = null;
+        }
+
         if ($user === $authenticatedUser) {
             $template = 'FOSUserBundle:User:home.html.twig';
         } else {
             $template = 'FOSUserBundle:User:show.html.twig';
         }
 
-        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'mode'));
+        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'mode', 'chat'));
     }
 
     protected function getAuthenticatedUser()

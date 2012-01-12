@@ -35,6 +35,9 @@
             {% endif %}
         {% endblock %}
         <div class="stats">
+            {% if winChart.hasData %}
+                <div class="win_stats" title="{{ "Games played"|trans }}: {{ critic.nbGames|default("0") }}" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
+            {% endif %}
             {% block actions %}
               {% if is_granted("ROLE_ADJUST_CHEATER") %}
                 <form method="post" action="{{ path("fos_user_user_adjust", {"username": user.username}) }}">
@@ -45,11 +48,13 @@
                 <form method="post" action="{{ path("fos_user_user_chatban", {"username": user.username}) }}">
                     <input class="confirm" type="submit" value="{{ user.isChatBan ? "Unban" : "Ban" }} from public chat" />
                 </form>
+                <div class="chat_messages">
+                  {% for message in chat %}
+                  <div>{{ message.message }}</div>
+                  {% endfor %}
+                </div>
               {% endif %}
             {% endblock %}
-            {% if winChart.hasData %}
-                <div class="win_stats" title="{{ "Games played"|trans }}: {{ critic.nbGames|default("0") }}" data-columns="{{ winChart.columns|json_encode }}" data-rows="{{ winChart.rows|json_encode }}"></div>
-            {% endif %}
         </div>
     </div>
     {% if critic.nbGames %}
