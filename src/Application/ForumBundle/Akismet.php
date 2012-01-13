@@ -27,6 +27,9 @@ class Akismet
 
     protected function isSpamLike(Post $post)
     {
+        if ($post->getAuthor() && $post->getAuthor()->hasRole('ROLE_ADMIN')) {
+            return false;
+        }
         $simplified = str_replace(array("\r\n", "\n", " "), "", strtolower($post->getMessage()));
         $hasBr = strpos($simplified, '<br') !== false;
         $hasHref = strpos($simplified, '<ahref') !== false;

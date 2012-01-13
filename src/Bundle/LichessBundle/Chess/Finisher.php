@@ -83,7 +83,7 @@ class Finisher
             $this->logger->notice($player, 'Player:forceResign');
         }
         else {
-            $this->logger->warn($player, 'Player:forceResign');
+            $this->logger->warn($player, 'Player:forceResign FAIL');
         }
     }
 
