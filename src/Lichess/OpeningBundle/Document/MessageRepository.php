@@ -18,4 +18,13 @@ class MessageRepository extends TimelineRepository
         ->getQuery()
         ->execute();
     }
+
+    public function findLastByUsername($username)
+    {
+      return $this->createQueryBuilder()
+        ->field('username')->equals($username)
+        ->sort(array('_id' => 'desc'))
+        ->getQuery()
+        ->getSingleResult();
+    }
 }
