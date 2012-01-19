@@ -536,6 +536,11 @@ class Game
         return $this->hasClock() ? $this->getClock()->getName() : 'No clock';
     }
 
+    public function estimateTotalTime()
+    {
+        return $this->hasClock() ? $this->getClock()->estimateTotalTime() : 1200; // defaults to 20 minutes
+    }
+
     /**
      * Verify if one of the player exceeded his time limit,
      * and terminate the game in this case

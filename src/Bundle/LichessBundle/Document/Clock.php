@@ -273,6 +273,11 @@ class Clock
         return sprintf('%02d:%02d', floor($time/60), $time%60);
     }
 
+    public function estimateTotalTime()
+    {
+        return $this->getLimit() + (30 * $this->getIncrement());
+    }
+
     public function __clone()
     {
         $this->reset();

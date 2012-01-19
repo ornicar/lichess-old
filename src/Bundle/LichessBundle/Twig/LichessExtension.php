@@ -203,13 +203,18 @@ class LichessExtension extends Twig_Extension
             ),
             'possible_moves'  => $possibleMoves,
             'sync_latency'    => $this->container->getParameter('lichess.sync.latency') * 1000,
-            'animation_delay' => $this->container->getParameter('lichess.animation.delay') * 1000,
+            'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime())),
             'locale'          => $locale,
             'debug'           => $this->container->getParameter('kernel.debug'),
             'premove'         => true
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
+    }
+
+    public static function animationDelayFactor($time)
+    {
+        return max(0.2, min(1.4, $time / 60 * 0.2));
     }
 
     public function renderGameWatchData(Player $player, $possibleMoves)
