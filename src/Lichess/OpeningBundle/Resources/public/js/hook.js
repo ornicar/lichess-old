@@ -30,6 +30,7 @@ $(function() {
 
         // send a message
         $form.submit(function() {
+            if ($input.hasClass("lichess_hint")) return false;
             text = $.trim($input.val());
             if (!text) return false;
             if (text.length > 140) {
