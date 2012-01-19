@@ -551,7 +551,7 @@ class Game
             return;
         }
         foreach($this->getPlayers() as $player) {
-            if($this->getClock()->isOutOfTime($player->getColor())) {
+            if($player->isMyTurn() && $this->getClock()->isOutOfTime($player->getColor())) {
                 return $player;
             }
         }
