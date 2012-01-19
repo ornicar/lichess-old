@@ -79,8 +79,7 @@ class Drawer
         $game = $player->getGame();
         if($player->getOpponent()->getIsOfferingDraw()) {
             $this->messenger->addSystemMessage($game, 'Draw offer accepted');
-            $game->setStatus(Game::DRAW);
-            $this->finisher->finish($game);
+            $this->finisher->finish($game, Game::DRAW, null);
             $game->addEventToStacks(array('type' => 'end'));
             $this->logger->notice($player, 'Player:acceptDrawOffer');
         } else {

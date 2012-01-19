@@ -149,8 +149,6 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
 
     protected function win(Game $game, $color = 'white')
     {
-        $game->setStatus(Game::MATE);
-        $game->setWinner($game->getPlayer($color));
-        $this->finisher->finish($game);
+        $this->finisher->finish($game, Game::MATE, $game->getPlayer($color));
     }
 }
