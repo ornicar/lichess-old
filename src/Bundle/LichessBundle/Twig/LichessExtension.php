@@ -260,7 +260,7 @@ class LichessExtension extends Twig_Extension
             ),
             'possible_moves'    => $possibleMoves,
             'sync_latency' => $this->container->getParameter('lichess.sync.latency') * 1000,
-            'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000,
+            'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime())),
             'locale' => $this->container->get('session')->getLocale()
         );
 
