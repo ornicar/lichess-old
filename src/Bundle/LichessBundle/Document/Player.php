@@ -585,11 +585,6 @@ class Player
         return $this->getGame()->getPlayer('white' === $this->color ? 'black' : 'white');
     }
 
-    public function getIsMyTurn()
-    {
-        return $this->game->getTurns() %2 xor 'white' === $this->color;
-    }
-
     public function isWhite()
     {
         return 'white' === $this->color;
@@ -609,7 +604,7 @@ class Player
 
     public function isMyTurn()
     {
-        return $this->getGame()->getTurns() %2 ? $this->isBlack() : $this->isWhite();
+        return $this->game->getTurns() %2 xor 'white' === $this->color;
     }
 
     public function getBoard()

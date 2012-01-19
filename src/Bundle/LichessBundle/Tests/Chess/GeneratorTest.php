@@ -76,12 +76,12 @@ EOF;
     public function testGamePlayerTurn(Document\Game $game)
     {
         $player = $game->getPlayer('white');
-        $this->assertTrue($player->getIsMyTurn());
-        $this->assertFalse($player->getOpponent()->getIsMyTurn());
+        $this->assertTrue($player->isMyTurn());
+        $this->assertFalse($player->getOpponent()->isMyTurn());
 
         $game->setTurns($game->getTurns()+1);
-        $this->assertFalse($player->getIsMyTurn());
-        $this->assertTrue($player->getOpponent()->getIsMyTurn());
+        $this->assertFalse($player->isMyTurn());
+        $this->assertTrue($player->getOpponent()->isMyTurn());
     }
 
     /**
