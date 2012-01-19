@@ -37,6 +37,21 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1381, $newP2Elo);
     }
 
+    public function testCalculateWithoutProvision()
+    {
+        $calculator = new Calculator();
+        $user1 = new User();
+        $user1->setElo(1313);
+        $user1->setNbRatedGames(1256);
+        $user2 = new User();
+        $user2->setElo(1158);
+        $user2->setNbRatedGames(124);
+        $win = -1;
+        list($newP1Elo, $newP2Elo) = $calculator->calculate($user1, $user2, $win);
+        $this->assertEquals(1322, $newP1Elo);
+        $this->assertEquals(1149, $newP2Elo);
+    }
+
     public function testUserKfactor()
     {
         $calculator = new Calculator();
@@ -45,5 +60,6 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(33, $calculator->nbRatedGamesToKfactor(10));
         $this->assertEquals(16, $calculator->nbRatedGamesToKfactor(20));
         $this->assertEquals(16, $calculator->nbRatedGamesToKfactor(200));
+        $this->assertEquals(16, $calculator->nbRatedGamesToKfactor(1257));
     }
 }
