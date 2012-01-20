@@ -31,8 +31,6 @@ class Calculator
     /**
      * Calculate both players new Elos
      *
-     * @param float $playerOneElo
-     * @param float $playerTwoElo
      * @param int   $win Game result (-1: p1 win, 0: draw, +1: p2 win) see class constants
      * @return array playerOneNewElo, playerTwoNewElo
      */

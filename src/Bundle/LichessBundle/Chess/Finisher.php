@@ -190,12 +190,12 @@ class Finisher
         } else {
             $win = 0;
         }
-        list($whiteElo, $blackElo) = $this->calculator->calculate($white->getUser(), $black->getUser(), $win);
-        $white->setEloDiff($whiteEloDiff = $whiteElo - $white->getElo());
-        $black->setEloDiff($blackEloDiff = $blackElo - $black->getElo());
+        list($whiteElo, $blackElo) = $this->calculator->calculate($whiteUser, $blackUser, $win);
+        $white->setEloDiff($whiteEloDiff = $whiteElo - $whiteUser->getElo());
+        $black->setEloDiff($blackEloDiff = $blackElo - $blackUser->getElo());
 
-        $this->eloUpdater->updateElo($whiteUser, $whiteUser->getElo() + $whiteEloDiff, $game);
-        $this->eloUpdater->updateElo($blackUser, $blackUser->getElo() + $blackEloDiff, $game);
+        $this->eloUpdater->updateElo($whiteUser, $whiteElo, $game);
+        $this->eloUpdater->updateElo($blackUser, $blackElo, $game);
 
         $this->logger->notice($game, sprintf('Elo exchanged: %s', $whiteEloDiff));
     }
