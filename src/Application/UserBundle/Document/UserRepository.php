@@ -13,6 +13,13 @@ class UserRepository extends DocumentRepository
         return $this->findOneBy(array('usernameCanonical' => $username));
     }
 
+    public function findByUsernameCanonicals(array $usernames)
+    {
+        return $this->createQueryBuilder()
+            ->field('usernameCanonical')->in($usernames)
+            ->getQuery()->execute();
+    }
+
     public function setOnline(User $user)
     {
         $query = array('_id' => new MongoId($user->getId()));
