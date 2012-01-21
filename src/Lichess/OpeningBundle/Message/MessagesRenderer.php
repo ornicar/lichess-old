@@ -28,7 +28,7 @@ class MessagesRenderer
 
         $data = array(
             'id' => empty($messages) ? $clientMessageId : $messages[0]['id'],
-            'messages' => array_reverse($messages)
+            'messages' => array_reverse(array_filter($messages, function($a) { return !empty($a['m']); }))
         );
 
         return $data;

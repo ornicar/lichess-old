@@ -57,11 +57,18 @@ class HookController extends Controller
     {
         $request = $this->get('request');
         $state = $request->query->get('state');
-        $entryId = $request->query->get('entryId');
         $messageId = $request->query->get('messageId', false);
+        $entryId = $request->query->get('entryId');
+        $auth = $request->query->get('auth');
         $this->get('lichess_opening.http_push')->poll($state, $messageId, $entryId);
 
+        return $this->pollResultAction($myHookId, $state, $messageId, $entryId, $auth);
+    }
+
+    public function pollResultAction($myHookId, $state, $messageId, $entryId, $auth)
+    {
         if ($myHookId) {
+            $myHookId = (string) $myHookId; // convert twig weirdness
             $myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($myHookId);
             if (!$myHook) {
                 return $this->renderJson(array('redirect' => '/'));
@@ -78,7 +85,7 @@ class HookController extends Controller
 
         return $this->renderJson(array(
             'state' => $newState,
-            'pool' => $this->get('lichess_opening.hooks_renderer')->render($request->query->get('auth'), $myHookId),
+            'pool' => $this->get('lichess_opening.hooks_renderer')->render($auth, $myHookId),
             'chat' => $messageId !== false ? $this->get('lichess_opening.messages_renderer')->render($messageId) : null,
             'timeline' => $this->get('lichess_opening.timeline_renderer')->render($entryId)
         ));

@@ -73,16 +73,7 @@ $(function() {
         $.ajax(pollUrl, {
             success: function(data) {
                 if (frozen) return;
-                if (data.redirect) {
-                    freeze();
-                    location.href = 'http://'+location.hostname+'/'+data.redirect;
-                } else {
-                    state = data.state
-                    renderHooks(data.pool);
-                    if (chatExists && data.chat) renderChat(data.chat);
-                    renderTimeline(data.timeline);
-                    $('body').trigger('lichess.content_loaded');
-                }
+                renderPollData(data);
             },
             complete: function() {
                 setTimeout(reload, 300);
@@ -98,7 +89,23 @@ $(function() {
             timeout: 15000
         });
     };
-    reload();
+
+    function renderPollData(data) {
+        if (data.redirect) {
+            freeze();
+            location.href = 'http://'+location.hostname+'/'+data.redirect;
+        } else {
+            state = data.state
+            renderHooks(data.pool);
+            if (chatExists && data.chat) renderChat(data.chat);
+            renderTimeline(data.timeline);
+            $('body').trigger('lichess.content_loaded');
+        }
+    }
+    var $preload = $("textarea.hooks_preload");
+    renderPollData($.parseJSON($preload.val()));
+    $preload.remove();
+    setTimeout(reload, 2000);
 
     function renderChat(data) {
         messageId = data.id;
@@ -161,7 +168,6 @@ $(function() {
             $hooks.html(html);
         }
         $hooks.find('a.join').click(freeze);
-        $wrap.removeClass('hidden');
         $hooks.find("tr.hideme").remove();
         if ($hooks.find("tr").length > 6) {
             $wrap.addClass("large");

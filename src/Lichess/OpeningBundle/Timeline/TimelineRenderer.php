@@ -17,7 +17,7 @@ class TimelineRenderer
     public function render($clientEntryId = null)
     {
         $entries = array_values(iterator_to_array(
-            $clientEntryId ? $this->repository->findSince($clientEntryId) : $this->repository->findRecent(15)
+            $clientEntryId ? $this->repository->findSince($clientEntryId) : $this->repository->findRecent(10)
         ));
 
         $escape = function($string) {
