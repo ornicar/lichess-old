@@ -98,7 +98,7 @@ class UserRepository extends DocumentRepository
      **/
     public function getNbUsers()
     {
-        return $this->createEnabledQueryBuilder()->getQuery()->count();
+        return $this->createQueryBuilder()->getQuery()->count();
     }
 
     public function createEnabledQueryBuilder()
