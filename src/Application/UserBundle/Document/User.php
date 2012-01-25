@@ -131,7 +131,7 @@ class User extends BaseUser implements ParticipantInterface
 
     public function canSeeChat()
     {
-        return !$this->isChatBan;
+        return !$this->isChatBan && $this->getNbGames() >= 3;
     }
 
     /**
