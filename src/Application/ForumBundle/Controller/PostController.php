@@ -9,9 +9,30 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends BasePostController
 {
+    public function recentAction()
+    {
+        $html = $this->get('lichess_forum.newposts_cache')->getCache();
+
+        if (!$html) {
+            $qty = 30;
+            $posts = array_reverse(iterator_to_array($this->get('herzult_forum.repository.post')->createQueryBuilder()
+                ->sort('createdAt', 'DESC')
+                ->limit($qty)
+                ->getQuery()
+                ->execute()));
+            $posts = array_filter($posts, function($post) { return !$post->isStaff(); });
+
+            $html = $this->get('templating')->render('HerzultForumBundle:Post:recent.html.twig', array('posts' => $posts));
+            $this->get('lichess_forum.newposts_cache')->setCache($html);
+        }
+
+        return new Response($html);
+    }
+
     public function newAction(Topic $topic)
     {
         $post = $this->get('herzult_forum.repository.post')->createNewPost();
@@ -48,8 +69,7 @@ class PostController extends BasePostController
         $objectManager = $this->get('herzult_forum.object_manager');
         $objectManager->persist($post);
         $objectManager->flush();
-
-        $objectManager->flush();
+        $this->get('lichess_forum.newposts_cache')->invalidate();
 
         $url = $this->get('herzult_forum.router.url_generator')->urlForPost($post);
         $response = new RedirectResponse($url);

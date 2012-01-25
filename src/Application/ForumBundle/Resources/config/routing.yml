@@ -5,3 +5,7 @@ herzult_forum_index:
 lichess_forum_search:
     pattern: /search
     defaults: { _controller: LichessForumBundle:Search:search }
+
+lichess_forum_newposts:
+    pattern: /recent
+    defaults: { _controller: LichessForumBundle:Post:recent }

@@ -46,7 +46,7 @@ div.header strong {
 
 div.content {
     width: 1010px;
-    margin: 30px auto 50px auto;
+    margin: 30px auto 30px auto;
 }
 
 #top {
@@ -451,7 +451,7 @@ div.lichess_server {
 }
 
 /* soft inactive gradient */
-#top, div.lichess_chat_top, div.lichess_bot_top, .button, .button:visited, .ui-state-default, div.content_box_top, div.hooks tr {
+#top, div.lichess_chat_top, div.undertable_top, .button, .button:visited, .ui-state-default, div.content_box_top, div.hooks tr {
     color: #666;
     background: #fafafa;
     background: -moz-linear-gradient(center top , #fafafa, #dadada) repeat scroll 0 0 #fafafa;

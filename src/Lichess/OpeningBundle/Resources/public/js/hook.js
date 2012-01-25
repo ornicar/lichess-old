@@ -7,6 +7,7 @@ $(function() {
     var $chat = $("div.lichess_chat");
     var chatExists = $chat.length > 0;
     var $bot = $("div.lichess_bot");
+    var $newposts = $("div.new_posts");
     var $hooks = $wrap.find('div.hooks');
     var pollUrl = $hooks.data('poll-url');
     var actionUrls = {
@@ -61,12 +62,21 @@ $(function() {
     chat();
 
     function bot() {
-      $bot.find('.lichess_bot_inner').scrollable();
+      $bot.find('.undertable_inner').scrollable();
       $bot.on("click", "tr", function() {
         location.href = $(this).find('a.watch').attr("href");
       });
     }
     bot();
+
+    var $newpostsinner = $newposts.find('.undertable_inner');
+    $newpostsinner[0].scrollTop = 9999999;
+    $newpostsinner.scrollable();
+    setInterval(function() { 
+        $newpostsinner.find('ol').load($newposts.data('url')); 
+        $newpostsinner[0].scrollTop = 9999999;
+        $('body').trigger('lichess.content_loaded');
+    }, 60 * 1000);
 
     function reload() {
         if (frozen) return;

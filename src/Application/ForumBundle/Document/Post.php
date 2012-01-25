@@ -41,6 +41,11 @@ class Post extends BasePost
      */
     protected $message;
 
+    public function isStaff()
+    {
+        return $this->getTopic()->getCategory()->isStaff();
+    }
+
     /**
      * @return User
      */
