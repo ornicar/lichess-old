@@ -116,6 +116,7 @@ $(function() {
             });
         });
     }
+    loadUserLinks();
     $('body').on('lichess.content_loaded', loadUserLinks);
 
     $.tipsyfy = function($elem) {
