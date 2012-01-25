@@ -88,4 +88,22 @@ class PostController extends BasePostController
             'id'           => $topic->getId()
         ), array('page' => $lastPage));
     }
+
+    /* Override */
+    public function deleteAction($id)
+    {
+        $post = $this->get('herzult_forum.repository.post')->find($id);
+        if (!$post) {
+            throw new NotFoundHttpException(sprintf('No post found with id "%s"', $id));
+        }
+
+        $precedentPost = $this->get('herzult_forum.repository.post')->getPostBefore($post);
+        $this->get('herzult_forum.remover.post')->remove($post);
+        $this->get('herzult_forum.object_manager')->flush();
+
+        // that's why it's overriden
+        $this->get('lichess_forum.newposts_cache')->invalidate();
+
+        return new RedirectResponse($this->get('herzult_forum.router.url_generator')->urlForPost($precedentPost));
+    }
 }
