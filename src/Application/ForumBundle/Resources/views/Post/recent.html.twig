@@ -1,5 +1,5 @@
 {% for post in posts %}<li>
 <a class="post_link" href="{{ forum_urlForPost(post) }}">{{ post.topic.subject }}</a>
 <span>{% if post.author %}{{ lichess_link_user(post.author) }}{% else %}{{ post.authorName|default("Anonymous") }}{% endif %}</span>
-{{ lichess_shorten(post.message, 70)|replace({"<br />": ""})|raw }}
+{{ lichess_shorten(post.message, 80)|replace({"<br />": ""})|raw }}
 </li>{% endfor %}
