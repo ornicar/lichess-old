@@ -59,7 +59,7 @@
                     <a class="goto_nav goto_logout" href="{{ path("fos_user_security_logout") }}"><span class="s16">{{ "Log out"|trans }}</span></a>
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}<a class="goto_nav" href="{{ path("lichess_homepage", {"_impersonate": "_exit" }) }}">Stop Impersonating</a>{% endif %}
                 </div>
-                <a id="user_tag" data-username="{{ app.user.usernameCanonical }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="blank_if_play goto_nav goto_profile"><span class="s16">{{ app.user.usernameWithElo}}</span></a>
+                <a id="user_tag" data-username="{{ app.user.usernameCanonical }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="blank_if_play goto_nav goto_profile"><span class="s16">{{ app.user.usernameWithElo }}</span></a>
             {% else %}
                 {% include "FOSUserBundle:Security:embeddedLogin.html.twig" %}
             {% endif %}

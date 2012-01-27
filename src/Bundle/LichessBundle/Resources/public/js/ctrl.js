@@ -50,7 +50,7 @@ $(function() {
     }
 
     if ($('#user_tag').length) {
-        ping.setData('username', $('#user_tag').data('username'));
+        ping.setData('username', $('#user_tag').attr('data-username'));
         ping.pushCallback(function(data) { $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0); });
     }
 
