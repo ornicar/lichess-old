@@ -21,3 +21,9 @@ function show_action($action)
 
     printf("\n\n %s\n| %s |\n %s", str_repeat('-', strlen($action)+2), $action, str_repeat('-', strlen($action)+2));
 }
+
+function maintenance($maintenance = false)
+{
+  $mode = $maintenance ? "on" : "off";
+  show_run("Setting maintenance: $mode", "bin/maintenance $mode");
+}

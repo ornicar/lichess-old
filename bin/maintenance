@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__.'/base_script.php';
+
+$mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : "off";
+$maintenance = $mode == "on";
+$testurl="http://en.lichess.org";
+$testurl="http://en.l.org";
+
+echo "Setting the site in maintenance: " . $mode;
+
+if ($maintenance) $replace = array('#^/{2,}(include "maintenance.php";)#m', '$1');
+else $replace = array('#^(include "maintenance.php";)#m', '//$1');
+
+foreach (array('web/index.php', 'web/index_dev.php', 'web/xhr.php', 'web/xhr_dev.php') as $file) {
+  file_put_contents($file, preg_replace($replace[0], $replace[1], file_get_contents($file)));
+}
+
+show_run("Testing $testurl", "curl -sILw \"%{http_code}\" -o /dev/null $testurl");

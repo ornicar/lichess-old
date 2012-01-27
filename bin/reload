@@ -8,6 +8,7 @@ $envs = (array) read_arg($argv, 0, array("dev", "test"));
 show_action("Reload " . implode(", ", $envs));
 
 show_run("Dumping assets", "php app/console assetic:dump");
+maintenance(true);
 show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
 show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
 show_run("Warming up xhr cache", "php xhr/console --env=dev cache:clear");
@@ -19,5 +20,7 @@ foreach ($envs as $environment) {
 }
 
 show_run("Clearing APC cache", "php app/console apc:clear");
+
+maintenance(false);
 
 echo "\nAll set!";

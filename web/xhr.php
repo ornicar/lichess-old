@@ -1,5 +1,7 @@
 <?php
 
+//include "maintenance.php";
+
 // Symfony2 boot
 require_once __DIR__.'/../xhr/bootstrap.php.cache';
 require_once __DIR__.'/../xhr/XhrKernel.php';
