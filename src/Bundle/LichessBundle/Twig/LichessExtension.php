@@ -249,9 +249,9 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
-                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
-                'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
+                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')),
+                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')),
+                'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
             ),
             'i18n' => array(
                 'Game Over'            => $translator->trans('Game Over'),
