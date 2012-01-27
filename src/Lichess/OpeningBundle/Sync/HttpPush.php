@@ -12,7 +12,7 @@ class HttpPush
     public function __construct(Memory $memory, $latency, $delay)
     {
         $this->memory  = $memory;
-        $this->latency = $latency;
+        $this->latency = $latency * 2;
         $this->delay   = $delay;
     }
 

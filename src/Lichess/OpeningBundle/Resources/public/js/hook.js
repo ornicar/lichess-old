@@ -96,7 +96,7 @@ $(function() {
                 'entryId': entryId,
                 'auth': auth
             }, chatExists ? {'messageId': messageId} : {}),
-            timeout: 15000
+            timeout: 20000
         });
     };
 
