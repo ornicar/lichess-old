@@ -27,12 +27,11 @@ if ($mode == 'all' || $mode == 'noass') {
     }
     show_run("Clearing APC cache", "php app/console --env=prod apc:clear");
     maintenance(false);
-    show_run("Clearing APC opcode cache", "php app/console --env=prod apc:clear --opcode");
 } elseif ($mode == 'code') {
-    show_run("Clearing APC opcode cache", "php app/console --env=prod apc:clear --opcode");
+    clearOpCode();
 } elseif ($mode == 'trans') {
     show_run("Clearing translation cache", "rm app/cache/prod/translations/*");
-    show_run("Clearing APC opcode cache", "php app/console --env=prod apc:clear --opcode");
+    clearOpCode();
 }
 
 show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
