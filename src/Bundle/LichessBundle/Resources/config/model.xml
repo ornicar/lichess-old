@@ -10,6 +10,10 @@
             <argument type="string">Bundle\LichessBundle\Document\Game</argument>
         </service>
 
+        <service id="lichess.repository.room" class="Bundle\LichessBundle\Document\RoomRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
+            <argument type="string">Bundle\LichessBundle\Document\Room</argument>
+        </service>
+
         <service id="lichess.repository.history" class="Bundle\LichessBundle\Document\HistoryRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
             <argument type="string">Bundle\LichessBundle\Document\History</argument>
         </service>

@@ -10,12 +10,14 @@ use InvalidArgumentException;
 
 class Joiner
 {
+    protected $starter;
     protected $playerBlamer;
     protected $urlGenerator;
     protected $logger;
 
-    public function __construct(PlayerBlamer $playerBlamer, Router $router, Logger $logger)
+    public function __construct(GameStarter $starter, PlayerBlamer $playerBlamer, Router $router, Logger $logger)
     {
+        $this->starter = $starter;
         $this->playerBlamer = $playerBlamer;
         $this->urlGenerator = $router->getGenerator();
         $this->logger       = $logger;
@@ -31,7 +33,7 @@ class Joiner
         }
 
         $this->playerBlamer->blame($player);
-        $game->start();
+        $this->starter->start($game);
         $player->getOpponent()->addEventToStack(array(
             'type' => 'redirect',
             'url'  => $this->urlGenerator->generate('lichess_player', array('id' => $player->getOpponent()->getFullId()))

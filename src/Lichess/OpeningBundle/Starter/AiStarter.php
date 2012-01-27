@@ -14,9 +14,11 @@ use Bundle\LichessBundle\Chess\ManipulatorFactory;
 use Lichess\OpeningBundle\Config\Persistence;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Lichess\OpeningBundle\Starter\GameStarter;
 
 class AiStarter implements StarterInterface
 {
+    protected $starter;
     protected $generator;
     protected $playerBlamer;
     protected $ai;
@@ -24,8 +26,9 @@ class AiStarter implements StarterInterface
     protected $logger;
     protected $configPersistence;
 
-    public function __construct(Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, ManipulatorFactory $manipulatorFactory, Persistence $configPersistence)
+    public function __construct(GameStarter $starter, Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, ManipulatorFactory $manipulatorFactory, Persistence $configPersistence)
     {
+        $this->starter          = $starter;
         $this->generator          = $generator;
         $this->playerBlamer       = $playerBlamer;
         $this->ai                 = $ai;
@@ -45,7 +48,7 @@ class AiStarter implements StarterInterface
         $opponent = $player->getOpponent();
         $opponent->setIsAi(true);
         $opponent->setAiLevel($config->getLevel());
-        $game->start();
+        $this->starter->start($game);
 
         if($player->isBlack()) {
             $this->manipulatorFactory->create($game)->play($this->ai->move($game, $opponent->getAiLevel()));

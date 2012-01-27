@@ -5,10 +5,21 @@ namespace Bundle\LichessBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @MongoDB\EmbeddedDocument
+ * @MongoDB\Document(
+ *   collection="game_room",
+ *   repositoryClass="Bundle\LichessBundle\Document\RoomRepository"
+ * )
  */
 class Room
 {
+    /**
+     * Unique ID of the game
+     *
+     * @var string
+     * @MongoDB\Id(strategy="none")
+     */
+    protected $id;
+
     /**
      * List of room messages
      *
@@ -16,6 +27,11 @@ class Room
      * @MongoDB\Field(type="collection")
      */
     protected $messages = array();
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * Get messages

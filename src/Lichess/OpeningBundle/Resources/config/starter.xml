@@ -5,7 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="lichess.starter.game" class="Lichess\OpeningBundle\Starter\GameStarter">
+            <argument type="service" id="lichess.messenger" />
+        </service>
         <service id="lichess.starter.ai" class="Lichess\OpeningBundle\Starter\AiStarter">
+            <argument type="service" id="lichess.starter.game" />
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
             <argument type="service" id="lichess.ai.chain" />
@@ -29,6 +33,7 @@
             <argument type="service" id="lichess.logger" />
         </service>
         <service id="lichess.joiner" class="Lichess\OpeningBundle\Starter\Joiner">
+            <argument type="service" id="lichess.starter.game" />
             <argument type="service" id="lichess.blamer.player" />
             <argument type="service" id="router" />
             <argument type="service" id="lichess.logger" />

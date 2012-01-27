@@ -124,6 +124,7 @@ class PlayerController extends Controller
 
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
+            'room'              => $this->get('lichess.repository.room')->findOneByGame($game),
             'opponentActivity'    => $this->get('lichess.memory')->getActivity($player->getOpponent()),
             'checkSquareKey'      => $checkSquareKey,
             'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, (bool) $checkSquareKey) : null
@@ -138,7 +139,7 @@ class PlayerController extends Controller
         $message = trim($this->get('request')->get('message'));
         $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.messenger')->addPlayerMessage($player, $message);
-        $this->flush(false);
+        $this->flush();
 
         return new Response('ok');
     }

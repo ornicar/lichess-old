@@ -19,9 +19,12 @@
             <argument>Bundle\LichessBundle\Chess\Manipulator</argument>
         </service>
 
-        <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger" />
+        <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger">
+            <argument type="service" id="lichess.repository.room" />
+        </service>
 
         <service id="lichess.rematcher" class="Bundle\LichessBundle\Chess\Rematcher">
+            <argument type="service" id="lichess.starter.game" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.messenger" />
             <argument type="service" id="lichess.generator" />

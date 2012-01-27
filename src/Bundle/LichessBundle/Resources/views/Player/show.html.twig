@@ -34,6 +34,6 @@
     {{ lichess_game_data(player, possibleMoves, opponentActivity) }}
 {% endblock %}
 {% block chat %}
-{% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"player": player} %}{% endif %}
+{% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"room": room} %}{% endif %}
 {% endblock %}
 {% block share %}{% include "LichessBundle:Game:share.html.twig" with {"game": game} %}{% endblock %}

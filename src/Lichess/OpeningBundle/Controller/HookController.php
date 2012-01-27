@@ -175,7 +175,7 @@ class HookController extends Controller
             $game->setClock($clock);
         }
         $game->setIsRated($config->getMode());
-        $game->start();
+        $this->get('lichess.starter.game')->start($game);
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
         $entry = $this->get('lichess_opening.bot')->onStart($game);

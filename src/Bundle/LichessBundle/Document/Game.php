@@ -181,14 +181,6 @@ class Game
     protected $clock;
 
     /**
-     * The chat room
-     *
-     * @var Room
-     * @MongoDB\EmbedOne(targetDocument="Room", nullable=true)
-     */
-    protected $room;
-
-    /**
      * Whether this game is rated or not
      *
      * @var bool
@@ -772,52 +764,7 @@ class Game
             $this->setIsRated(false);
         }
         $this->setStatus(static::STARTED);
-        $this->addRoomMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
-        $this->addRoomMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
-        if($this->hasClock()) {
-            $this->addRoomMessage('system', 'Clock: '.$this->getClock()->getName());
-        }
-        if($this->getIsRated()) {
-            $this->addRoomMessage('system', 'This game is rated');
-        }
         $this->setConfigArray(null);
-    }
-
-    /**
-     * Get room
-     * @return Room
-     */
-    public function getRoom()
-    {
-        return $this->room;
-    }
-
-    public function hasRoom()
-    {
-        return null !== $this->room;
-    }
-
-    /**
-     * Set room
-     * @param  Room
-     * @return null
-     */
-    public function setRoom($room)
-    {
-        $this->room = $room;
-    }
-
-    public function addRoomMessage($author, $message)
-    {
-        if($this->getInvited()->getIsAi()) {
-            return false;
-        }
-        if(!$this->hasRoom()) {
-            $this->setRoom(new Room());
-        }
-        $this->getRoom()->addMessage($author, $message);
-
-        return true;
     }
 
     /**
