@@ -98,16 +98,15 @@
         {% block javascripts %}
             {% if lichess_debug_assets() %}
                 <script src="{{ asset('bundles/lichess/vendor/jquery.min.js') }}"></script>
-                <script src="{{ asset('bundles/lichess/vendor/jquery-ui.min.js') }}"></script>
             {% else %}
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-                <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
             {% endif %}
             {% if block('google_chart') %}
                 <script src="http://www.google.com/jsapi"></script>
                 {% if lichess_debug_assets() %}<script src="{{ asset('bundles/lichess/vendor/google.corechart.js') }}"></script>{% endif %}
             {% endif %}
             {% javascripts
+                '@LichessBundle/Resources/public/vendor/jquery-ui.min.js'
                 '@LichessBundle/Resources/public/vendor/jquery.mousewheel.js'
                 '@LichessBundle/Resources/public/vendor/qtip/jquery.qtip.min.js'
                 '@LichessBundle/Resources/public/js/tipsy.min.js'

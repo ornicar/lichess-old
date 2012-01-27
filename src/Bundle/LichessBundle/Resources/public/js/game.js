@@ -197,7 +197,7 @@ $.widget("lichess.game", {
             top: tomb_offset.top,
             left: tomb_offset.left
         },
-        self.options.animation_delay * 3, 'easeInOutCubic', function() {
+        self.options.animation_delay * 2, function() {
             $tomb.append($piece.css({
                 position: "relative",
             top: 0,
