@@ -3,11 +3,7 @@
 namespace Bundle\LichessBundle\Document\Piece;
 
 use Bundle\LichessBundle\Document\Piece;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
-/**
- * @MongoDB\EmbeddedDocument
- */
 class Rook extends Piece
 {
     public function getClass()

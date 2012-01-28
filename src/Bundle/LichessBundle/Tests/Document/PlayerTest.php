@@ -22,7 +22,7 @@ class PlayerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $player->getStack()->getVersion());
     }
 
-    public function testCompressPieces()
+    public function testCompressPiecesStart()
     {
         $data = <<<EOF
 rnbqkbnr
@@ -44,10 +44,64 @@ EOF;
         $this->assertEquals($pieces, $p->getPieces());
     }
 
-    protected function generate($data)
+    public function testCompressPiecesMoved()
+    {
+        $data = <<<EOF
+       k
+
+
+pP
+
+
+
+K
+EOF;
+
+        $game = $this->generate($data, 20);
+        $game->getBoard()->getPieceByKey('a5')->setFirstMove(14);
+        $game->getBoard()->getPieceByKey('b5')->setFirstMove(3);
+        $game->removeDependencies();
+        $p = $game->getPlayer('white');
+        $pieces = $p->getPieces();
+        $p->compressPieces();
+        $p->extractPieces();
+
+        $this->assertEquals($pieces, $p->getPieces());
+    }
+
+    public function testCompressPiecesDead()
+    {
+        $data = <<<EOF
+       k
+
+
+pP
+
+
+
+K
+EOF;
+
+        $game = $this->generate($data, 20);
+        $game->getBoard()->getPieceByKey('a5')->setFirstMove(14);
+        $game->getBoard()->getPieceByKey('b5')->setFirstMove(3);
+        $game->getBoard()->getPieceByKey('b5')->setIsDead(true);
+        $game->removeDependencies();
+        $p = $game->getPlayer('white');
+        $pieces = $p->getPieces();
+        $p->compressPieces();
+        $p->extractPieces();
+
+        $this->assertEquals($pieces, $p->getPieces());
+    }
+
+    protected function generate($data, $turns = 8)
     {
         $generator = new Generator();
 
-        return $generator->createGameFromVisualBlock($data);
+        $game = $generator->createGameFromVisualBlock($data);
+        $game->setTurns($turns);
+
+        return $game;
     }
 }

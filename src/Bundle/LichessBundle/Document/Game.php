@@ -122,12 +122,12 @@ class Game
     protected $turns = 0;
 
     /**
-     * PGN moves of the game
+     * PGN moves of the game, compressed
      *
-     * @var array
-     * @MongoDB\Field(type="collection")
+     * @var string
+     * @MongoDB\String
      */
-    protected $pgnMoves = array();
+    protected $pgn = "";
 
     /**
      * Fen notation of the initial position
@@ -159,10 +159,10 @@ class Game
     /**
      * Array of position hashes, used to detect threefold repetition
      *
-     * @var array
-     * @MongoDB\Field(type="collection")
+     * @var string (array join ' ')
+     * @MongoDB\String
      */
-    protected $positionHashes = array();
+    protected $positionHashes = null;
 
     /**
      * Internal notation of the last move played
@@ -554,6 +554,11 @@ class Game
         }
     }
 
+    protected function getPositionHashArray()
+    {
+        return empty($this->positionHashes) ? array() : explode(' ', $this->positionHashes);
+    }
+
     /**
      * Add the current position hash to the stack
      */
@@ -563,7 +568,8 @@ class Game
         foreach($this->getPieces() as $piece) {
             $hash .= $piece->getContextualHash();
         }
-        $this->positionHashes[] = md5($hash);
+        if (!empty($this->positionHashes)) $this->positionHashes .= ' ';
+        $this->positionHashes .= substr(md5($hash), 0, 6);
     }
 
     /**
@@ -574,7 +580,7 @@ class Game
      */
     public function clearPositionHashes()
     {
-        $this->positionHashes = array();
+        $this->positionHashes = null;
     }
 
     /**
@@ -584,12 +590,20 @@ class Game
      **/
     public function isThreefoldRepetition()
     {
-        if(6 > count($this->positionHashes)) {
+        if(6 > $this->getNbPositionHashes()) {
             return false;
         }
-        $hash = end($this->positionHashes);
 
-        return count(array_keys($this->positionHashes, $hash)) >= 3;
+        $ph = $this->getPositionHashArray();
+
+        $hash = end($ph);
+
+        return count(array_keys($ph, $hash)) >= 3;
+    }
+
+    protected function getNbPositionHashes()
+    {
+        return empty($this->positionHashes) ? 0 : (substr_count($this->positionHashes, ' ') + 1);
     }
 
     /**
@@ -600,7 +614,7 @@ class Game
     public function isFiftyMoves()
     {
         // position hashes are half moves
-        return 100 <= count($this->positionHashes);
+        return 100 <= $this->getNbPositionHashes();
     }
 
     /**
@@ -611,7 +625,7 @@ class Game
      **/
     public function getHalfmoveClock()
     {
-        return max(0, count($this->positionHashes) - 1);
+        return max(0, $this->getNbPositionHashes() - 1);
     }
 
     /**
@@ -684,7 +698,7 @@ class Game
      */
     public function getPgnMoves()
     {
-        return $this->pgnMoves;
+        return explode(' ', $this->pgn);
     }
 
     /**
@@ -694,7 +708,7 @@ class Game
      */
     public function setPgnMoves(array $pgnMoves)
     {
-        $this->pgnMoves = $pgnMoves;
+        $this->pgn = implode(' ', $pgnMoves);
     }
 
     /**
@@ -705,7 +719,7 @@ class Game
      **/
     public function addPgnMove($pgnMove)
     {
-        $this->pgnMoves[] = $pgnMove;
+        $this->pgn .= ' ' . $pgnMove;
         $this->setUpdatedNow();
     }
 
@@ -765,6 +779,11 @@ class Game
         }
         $this->setStatus(static::STARTED);
         $this->setConfigArray(null);
+    }
+
+    public function finish()
+    {
+        $this->clearPositionHashes();
     }
 
     /**
@@ -1029,12 +1048,7 @@ class Game
 
     public function getPieces()
     {
-        $pieces = array();
-        foreach($this->getPlayers() as $player) {
-            $pieces = array_merge($pieces, $player->getPieces());
-        }
-
-        return $pieces;
+        return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
     }
 
     /**
@@ -1100,9 +1114,15 @@ class Game
         $this->updatedAt = new \DateTime();
     }
 
-    /**
-     * @MongoDB\PostLoad
-     */
+    public function removeDependencies()
+    {
+        foreach($this->getPlayers() as $player) {
+            foreach($player->getPieces() as $piece) {
+                $piece->setBoard(null);
+            }
+        }
+    }
+
     public function ensureDependencies()
     {
         $this->board = new Board($this);
@@ -1113,6 +1133,24 @@ class Game
                 $piece->setPlayer($player);
                 $piece->setBoard($this->board);
             }
+        }
+    }
+
+    /**
+     * @MongoDB\PostLoad
+     */
+    public function extract()
+    {
+        foreach($this->getPlayers() as $player) {
+            $player->extractPieces();
+        }
+        $this->ensureDependencies();
+    }
+
+    public function compress()
+    {
+        foreach($this->getPlayers() as $player) {
+            $player->compressPieces();
         }
     }
 

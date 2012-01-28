@@ -206,6 +206,7 @@ class Manipulator
         if($killed || $isPromotion || $isCastling || 'Pawn' === $pieceClass) {
             $this->game->clearPositionHashes();
         }
+        $this->game->compress();
 
         return $pgn;
     }

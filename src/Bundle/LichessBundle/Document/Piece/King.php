@@ -2,13 +2,9 @@
 
 namespace Bundle\LichessBundle\Document\Piece;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Document\Piece;
 use Bundle\LichessBundle\Chess\Board;
 
-/**
- * @MongoDB\EmbeddedDocument
- */
 class King extends Piece
 {
     public function getClass()

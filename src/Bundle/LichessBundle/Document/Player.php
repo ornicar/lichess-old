@@ -6,7 +6,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Util\KeyGenerator;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User;
 use Bundle\LichessBundle\Chess\Board;
 
@@ -91,9 +90,9 @@ class Player
     protected $stack;
 
     /**
-     * the player pieces, extracted from _ps
+     * the player pieces, extracted from ps
      *
-     * @var Collection
+     * @var array
      */
     protected $pieces;
 
@@ -103,7 +102,7 @@ class Player
      * @var string
      * @MongoDB\String
      */
-    protected $_ps;
+    protected $ps;
 
     /**
      * Whether the player is offering draw or not
@@ -133,10 +132,10 @@ class Player
      * Array of move times relative to the opponent previous move
      * Which really means: the time used to make the move
      *
-     * @var array of int
-     * @MongoDB\Field(type="collection")
+     * @var array of int compressed to string
+     * @MongoDB\String
      */
-    protected $moveTimes = array();
+    protected $mts = null;
 
     /**
      * Previous move timestamp
@@ -162,7 +161,6 @@ class Player
         $this->generateId();
         $this->stack = new Stack();
         $this->addEventToStack(array('type' => 'start'));
-        $this->pieces = new ArrayCollection();
     }
 
     /**
@@ -172,7 +170,9 @@ class Player
     {
         $ts = time();
         if ($opmt = $this->getOpponent()->getPreviousMoveTs()) {
-            $this->moveTimes[] = $ts - $opmt;
+            $mt = $ts - $opmt;
+            if (empty($this->mts)) $this->mts = (string) $mt;
+            else $this->mts .= ' ' . $mt;
         }
         $this->previousMoveTs = $ts;
     }
@@ -184,7 +184,7 @@ class Player
      */
     public function hasMoveTimes()
     {
-        return count($this->moveTimes) > 5;
+        return count($this->getMoveTimes()) > 5;
     }
 
     /**
@@ -194,7 +194,7 @@ class Player
      */
     public function getMoveTimes()
     {
-        return $this->moveTimes;
+        return explode(' ', $this->mts);
     }
 
     /**
@@ -381,6 +381,8 @@ class Player
      */
     public function getStack()
     {
+        if (null === $this->stack) $this->stack = new Stack();
+
         return $this->stack;
     }
 
@@ -527,7 +529,7 @@ class Player
      */
     public function getPieces()
     {
-        return $this->pieces->toArray();
+        return $this->pieces;
     }
 
     /**
@@ -535,9 +537,7 @@ class Player
      */
     public function setPieces(array $pieces)
     {
-        foreach($this->pieces as $index => $p) {
-            $this->pieces->remove($index);
-        }
+        $this->pieces = array();
         foreach($pieces as $piece) {
             $this->addPiece($piece);
         }
@@ -545,13 +545,18 @@ class Player
 
     public function addPiece(Piece $piece)
     {
-        $this->pieces->add($piece);
         $piece->setPlayer($this);
+        $this->pieces[] = $piece;
     }
 
     public function removePiece(Piece $piece)
     {
-        $this->pieces->removeElement($piece);
+        foreach ($this->pieces as $i => $p) {
+            if ($p === $piece) {
+                unset($this->pieces[$i]);
+                break;
+            }
+        }
     }
 
     /**
@@ -610,41 +615,29 @@ class Player
         return $this->getGame()->getBoard();
     }
 
-    /**
-     * @MongoDB\PreUpdate
-     * @MongoDB\PrePersist
-     */
     public function compressPieces()
     {
         $ps = array();
         foreach($this->getPieces() as $piece) {
-            $ps[] = Board::keyToPiotr($piece->getSquareKey()) . Piece::classToLetter($piece->getClass()) . ($piece->getIsDead() ? '_' : $piece->getFirstMove());
+            $letter = Piece::classToLetter($piece->getClass());
+            if ($piece->getIsDead()) $letter = strtoupper($letter);
+            $ps[] = Board::keyToPiotr($piece->getSquareKey()) . $letter . $piece->getFirstMove();
         }
 
-        $this->_ps = implode(' ', $ps);
+        $this->ps = implode(' ', $ps);
     }
 
-    /**
-     * @MongoDB\PostLoad
-     */
     public function extractPieces()
     {
-        $this->pieces = new ArrayCollection();
-        foreach(explode(' ', $this->_ps) as $p) {
-            $class = 'Bundle\\LichessBundle\\Document\\Piece\\'.Piece::letterToClass($p{1});
+        $pieces = array();
+        foreach(explode(' ', $this->ps) as $p) {
+            $class = 'Bundle\\LichessBundle\\Document\\Piece\\'.Piece::letterToClass(strtolower($p{1}));
             $pos = Board::keyToPos(Board::piotrToKey($p{0}));
             $piece = new $class($pos[0], $pos[1]);
-            if ($meta = substr($p, 2)) {
-                if ($meta === '_') $piece->setIsDead(true);
-                else $piece->setFirstMove((int)$meta);
-            }
-            $this->addPiece($piece);
+            if (ctype_upper($p{1})) $piece->setIsDead(true);
+            if ($meta = substr($p, 2)) $piece->setFirstMove((int)$meta);
+            $pieces[] = $piece;
         }
-    }
-
-    // For tests only
-    public function getCompressedPieces()
-    {
-        return $this->_ps;
+        $this->setPieces($pieces);
     }
 }

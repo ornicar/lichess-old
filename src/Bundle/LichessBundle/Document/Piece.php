@@ -2,20 +2,15 @@
 
 namespace Bundle\LichessBundle\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Chess\Board;
 use Bundle\LichessBundle\Chess\PieceFilter;
 
-/**
- * @MongoDB\MappedSuperclass
- */
 abstract class Piece
 {
     /**
      * X position
      *
      * @var int
-     * @MongoDB\Field(type="int")
      */
     protected $x = null;
 
@@ -23,7 +18,6 @@ abstract class Piece
      * Y position
      *
      * @var int
-     * @MongoDB\Field(type="int")
      */
     protected $y = null;
 
@@ -31,7 +25,6 @@ abstract class Piece
      * Whether the piece is dead or not
      *
      * @var boolean
-     * @MongoDB\Field(type="boolean")
      */
     protected $isDead = null;
 
@@ -39,7 +32,6 @@ abstract class Piece
      * When this piece moved for the first time (useful for en passant)
      *
      * @var int
-     * @MongoDB\Field(type="int")
      */
     protected $firstMove = null;
 
@@ -237,7 +229,7 @@ abstract class Piece
         return $this->board;
     }
 
-    public function setBoard(Board $board)
+    public function setBoard(Board $board = null)
     {
         $this->board = $board;
     }

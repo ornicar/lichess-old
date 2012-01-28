@@ -16,6 +16,7 @@ class GameStarter
 
     public function start(Game $game)
     {
+        $game->compress();
         $game->start();
 
         $this->messenger->addSystemMessage($game, ucfirst($game->getCreator()->getColor()).' creates the game');
