@@ -184,7 +184,7 @@ class Player
      */
     public function hasMoveTimes()
     {
-        return count($this->getMoveTimes()) > 5;
+        return !empty($this->mts) && strlen($this->mts) > 12;
     }
 
     /**
@@ -194,7 +194,7 @@ class Player
      */
     public function getMoveTimes()
     {
-        return explode(' ', $this->mts);
+        return array_map(function($t) { return (int)$t; }, explode(' ', $this->mts));
     }
 
     /**
