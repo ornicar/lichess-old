@@ -128,7 +128,6 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         if ($username2) {
             $this->blamePlayerWithUsername($player->getOpponent(), $username2);
         }
-        $game->compress();
         $game->start();
 
         return $game;

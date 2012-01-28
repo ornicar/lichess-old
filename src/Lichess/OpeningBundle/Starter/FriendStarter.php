@@ -43,6 +43,7 @@ class FriendStarter implements StarterInterface
             $game->setClock($clock);
         }
         $game->setIsRated($config->getMode());
+        $game->compress();
         $this->objectManager->persist($game);
         $this->logger->notice($game, 'Game:inviteFriend create');
 

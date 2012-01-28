@@ -698,7 +698,7 @@ class Game
      */
     public function getPgnMoves()
     {
-        return explode(' ', $this->pgn);
+        return empty($this->pgn) ? array() : explode(' ', $this->pgn);
     }
 
     /**
@@ -719,7 +719,8 @@ class Game
      **/
     public function addPgnMove($pgnMove)
     {
-        $this->pgn .= ' ' . $pgnMove;
+        if (!empty($this->pgn)) $this->pgn .= ' ';
+        $this->pgn .= $pgnMove;
         $this->setUpdatedNow();
     }
 
@@ -779,6 +780,7 @@ class Game
         }
         $this->setStatus(static::STARTED);
         $this->setConfigArray(null);
+        $this->compress();
     }
 
     public function finish()

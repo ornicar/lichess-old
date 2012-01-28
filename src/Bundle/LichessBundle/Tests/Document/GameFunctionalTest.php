@@ -135,6 +135,7 @@ class GameFunctionalTest extends WebTestCase
         $game->setCreatorColor('white');
         $positionGenerator = new StandardPositionGenerator();
         $positionGenerator->createPiecesMinimal($game);
+        $game->compress();
         return $game;
     }
 
