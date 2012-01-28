@@ -4,6 +4,7 @@
 require_once __DIR__.'/base_script.php';
 
 $mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
+$testurl="http://en.lichess.org";
 
 if (!in_array($mode, array('all', 'trans', 'code', 'noass'))) {
     echo "\nusage: refresh [all|trans|code|noass]";
@@ -35,3 +36,5 @@ if ($mode == 'all' || $mode == 'noass') {
 }
 
 show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
+
+show_run("Testing $testurl", "curl -sILw \"%{http_code}\" -o /dev/null $testurl");
