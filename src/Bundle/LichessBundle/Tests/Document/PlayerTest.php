@@ -2,6 +2,8 @@
 
 namespace Bundle\LichessBundle\Document;
 
+use Bundle\LichessBundle\Chess\Generator;
+
 class PlayerTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -20,4 +22,32 @@ class PlayerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $player->getStack()->getVersion());
     }
 
+    public function testCompressPieces()
+    {
+        $data = <<<EOF
+rnbqkbnr
+pppppppp
+
+
+
+
+PPPPPPPP
+RNBQKBNR
+EOF;
+
+        $game = $this->generate($data);
+        $p = $game->getPlayer('white');
+        $pieces = $p->getPieces();
+        $p->compressPieces();
+        $p->extractPieces();
+
+        $this->assertEquals($pieces, $p->getPieces());
+    }
+
+    protected function generate($data)
+    {
+        $generator = new Generator();
+
+        return $generator->createGameFromVisualBlock($data);
+    }
 }

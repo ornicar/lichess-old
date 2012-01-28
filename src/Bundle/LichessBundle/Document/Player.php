@@ -8,6 +8,7 @@ use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User;
+use Bundle\LichessBundle\Chess\Board;
 
 /**
  * Represents a single Chess player for one game
@@ -90,22 +91,19 @@ class Player
     protected $stack;
 
     /**
-     * the player pieces
+     * the player pieces, extracted from _ps
      *
      * @var Collection
-     * @MongoDB\EmbedMany(
-     *   discriminatorMap={
-     *     "p"="Bundle\LichessBundle\Document\Piece\Pawn",
-     *     "r"="Bundle\LichessBundle\Document\Piece\Rook",
-     *     "b"="Bundle\LichessBundle\Document\Piece\Bishop",
-     *     "n"="Bundle\LichessBundle\Document\Piece\Knight",
-     *     "q"="Bundle\LichessBundle\Document\Piece\Queen",
-     *     "k"="Bundle\LichessBundle\Document\Piece\King"
-     *   },
-     *   discriminatorField="t"
-     * )
      */
     protected $pieces;
+
+    /**
+     * the player pieces, compressed for efficient storage
+     *
+     * @var string
+     * @MongoDB\String
+     */
+    protected $_ps;
 
     /**
      * Whether the player is offering draw or not
@@ -610,5 +608,43 @@ class Player
     public function getBoard()
     {
         return $this->getGame()->getBoard();
+    }
+
+    /**
+     * @MongoDB\PreUpdate
+     * @MongoDB\PrePersist
+     */
+    public function compressPieces()
+    {
+        $ps = array();
+        foreach($this->getPieces() as $piece) {
+            $ps[] = Board::keyToPiotr($piece->getSquareKey()) . Piece::classToLetter($piece->getClass()) . ($piece->getIsDead() ? '_' : $piece->getFirstMove());
+        }
+
+        $this->_ps = implode(' ', $ps);
+    }
+
+    /**
+     * @MongoDB\PostLoad
+     */
+    public function extractPieces()
+    {
+        $this->pieces = new ArrayCollection();
+        foreach(explode(' ', $this->_ps) as $p) {
+            $class = 'Bundle\\LichessBundle\\Document\\Piece\\'.Piece::letterToClass($p{1});
+            $pos = Board::keyToPos(Board::piotrToKey($p{0}));
+            $piece = new $class($pos[0], $pos[1]);
+            if ($meta = substr($p, 2)) {
+                if ($meta === '_') $piece->setIsDead(true);
+                else $piece->setFirstMove((int)$meta);
+            }
+            $this->addPiece($piece);
+        }
+    }
+
+    // For tests only
+    public function getCompressedPieces()
+    {
+        return $this->_ps;
     }
 }

@@ -294,4 +294,18 @@ abstract class Piece
 
         return $class{0}.$this->color{0}.$this->x.$this->y;
     }
+
+    public static function classToLetter($class)
+    {
+        return self::$ctl[$class];
+    }
+
+    public static function letterToClass($letter)
+    {
+        return self::$ltc[$letter];
+    }
+
+    private static $ctl = array('Pawn'=>'p','Bishop'=>'b','Knight'=>'n','Rook'=>'r','Queen'=>'q','King'=>'k');
+
+    private static $ltc = array('p'=>'Pawn','b'=>'Bishop','n'=>'Knight','r'=>'Rook','q'=>'Queen','k'=>'King');
 }
