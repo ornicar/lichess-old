@@ -12,12 +12,16 @@ class RoomRepository extends DocumentRepository
         return $this->findOneBy(array('id' => $game->getId()));
     }
 
+    protected $roomCache = array();
     public function findOneByGameOrCreate(Game $game)
     {
-        if (!$room = $this->findOneByGame($game)) {
+        if (isset($this->roomCache[$game->getId()])) {
+            $room = $this->roomCache[$game->getId()];
+        } elseif (!$room = $this->findOneByGame($game)) {
             $room = new Room($game->getId());
             $this->dm->persist($room);
         }
+        $this->roomCache[$game->getId()] = $room;
 
         return $room;
     }

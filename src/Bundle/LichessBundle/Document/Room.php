@@ -28,9 +28,10 @@ class Room
      */
     protected $messages = array();
 
-    public function __construct($id)
+    public function __construct($id, array $messages = array())
     {
         $this->id = $id;
+        $this->messages = $messages;
     }
 
     /**

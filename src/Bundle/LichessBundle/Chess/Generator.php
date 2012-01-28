@@ -82,7 +82,6 @@ class Generator
         $nextGame->setIsRated($game->getIsRated());
         $nextGame->getPlayer('white')->setUser($game->getPlayer('black')->getUser());
         $nextGame->getPlayer('black')->setUser($game->getPlayer('white')->getUser());
-        $nextGame->setRoom(clone $game->getRoom());
         $nextGame->setPrevious($game);
         $game->setNext($nextGame);
 

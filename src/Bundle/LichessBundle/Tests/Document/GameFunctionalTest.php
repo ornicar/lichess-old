@@ -46,7 +46,6 @@ class GameFunctionalTest extends WebTestCase
         $this->assertEquals('black', $game->getPlayer('black')->getColor());
         $this->assertInstanceOf('\DateTime', $game->getCreatedAt());
         $this->assertNull($game->getClock());
-        $this->assertNull($game->getRoom());
 
         return $gameId;
     }
@@ -74,7 +73,6 @@ class GameFunctionalTest extends WebTestCase
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
         $this->assertTrue($game->getIsStarted());
         $this->assertEquals(Game::VARIANT_960, $game->getVariant());
-        $this->assertEquals(2, $game->getRoom()->getNbMessages());
     }
 
     public function testInsertFullFeaturedGame()
@@ -84,8 +82,6 @@ class GameFunctionalTest extends WebTestCase
         $game->start();
         $this->dm->persist($game);
         $this->dm->flush();
-        $game->getRoom()->addMessage('white', 'Rock\' n roll');
-        $game->getRoom()->addMessage('black', 'Ain\'t noise pollution');
         $game->getPlayer('white')->addEventToStack(array('type' => 'test white'));
         $game->getPlayer('black')->addEventToStack(array('type' => 'test black'));
         $this->dm->flush();
@@ -101,7 +97,6 @@ class GameFunctionalTest extends WebTestCase
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
         $this->assertInstanceOf('\Bundle\LichessBundle\Document\Clock', $game->getClock());
         $this->assertEquals(2, $game->getClock()->getLimitInMinutes());
-        $this->assertEquals(5, $game->getRoom()->getNbMessages());
     }
 
     public function testAddEventToPlayerStack()

@@ -255,7 +255,7 @@ $.widget("lichess.game", {
                     break;
                 case 'message':
                     self.element.queue(function() {
-                        self.$chat.find('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
+                        if (self.$chat.length) self.$chat.find('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
                         self.element.dequeue();
                     });
                     break;
