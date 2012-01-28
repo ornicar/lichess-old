@@ -74,7 +74,7 @@ class GameExporter
                 $player['color'],
                 $opponentUsername,
                 $this->getPgnResult($game),
-                $this->getStatusMessage($game->getStatus()),
+                $this->getStatusMessage($game['status']),
                 $game['turns'] -1,
                 $this->getVariantName($game['variant']),
                 !empty($game['isRated']) ? 'rated' : 'casual',
