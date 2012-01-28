@@ -78,6 +78,8 @@ class CompressPiecesCommand extends ContainerAwareCommand
                             'players.1.moveTimes' => true,
                             'players.0.isOfferingRematch' => true,
                             'players.1.isOfferingRematch' => true,
+                            'players.0.previousMoveTs' => true,
+                            'players.1.previousMoveTs' => true,
                             'positionHashes' => true,
                             'pgnMoves' => true
                         ),

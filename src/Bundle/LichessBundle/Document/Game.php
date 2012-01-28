@@ -786,6 +786,10 @@ class Game
     public function finish()
     {
         $this->clearPositionHashes();
+
+        foreach ($this->getPlayers() as $p) {
+            $p->finish();
+        }
     }
 
     /**
