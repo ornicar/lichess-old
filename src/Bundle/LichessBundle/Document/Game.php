@@ -197,14 +197,6 @@ class Game
     protected $isEloCanceled;
 
     /**
-     * The previous game. This game is then a rematch of the previous game
-     *
-     * @var Game
-     * @MongoDB\ReferenceOne(targetDocument="Game")
-     */
-    protected $previous;
-
-    /**
      * The next game, if this game has been rematched
      *
      * @var Game
@@ -289,23 +281,6 @@ class Game
     public function setLastMove($lastMove)
     {
         $this->lastMove = $lastMove;
-    }
-
-    /**
-     * @return Game
-     */
-    public function getPrevious()
-    {
-        return $this->previous;
-    }
-
-    /**
-     * @param  Game
-     * @return null
-     */
-    public function setPrevious(Game $previous)
-    {
-        $this->previous = $previous;
     }
 
     /**
