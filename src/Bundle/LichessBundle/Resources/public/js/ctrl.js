@@ -27,15 +27,6 @@ $(function() {
                 }
             });
         }
-    } else if ($homeBoard = $('div.lichess_homepage div.lichess_board').orNot()) {
-        $homeBoard.find('div.lichess_piece').draggable({
-            containment: $homeBoard,
-            helper: function() {
-                return $('<div>').attr("class", $(this).attr("class")).appendTo($homeBoard);
-            },
-            revert: true,
-            revertDuration: 2000
-        }).css('cursor', 'pointer');
     }
 
     var $nbConnectedPlayers = $('#nb_connected_players');
