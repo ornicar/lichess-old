@@ -420,7 +420,10 @@ $.widget("lichess.game", {
                 distance: 5,
                 containment: self.$board,
                 helper: function() { return $helper.appendTo(self.$board); },
-                cursorAt: { left: 32, top: 32 }
+                start: function() { $(this).hide(); },
+                stop: function() { $(this).show(); },
+                cursorAt: { left: 32, top: 32 },
+                scroll: false
             });
         });
 
