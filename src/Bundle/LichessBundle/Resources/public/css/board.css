@@ -56,7 +56,7 @@ div.my_turn.not_spectator div.lcs:hover div.lcsi {
   background-position: 0 0px;
 }
 div.lcs.droppable-hover div.lcsi {
-  background-position: 0 -128px;
+  background-position: 0 -64px !important;
 }
 div.lichess_board div.lcs.selected div.lcsi,
 div.lichess_board div.lcs.selectable div.lcsi {
