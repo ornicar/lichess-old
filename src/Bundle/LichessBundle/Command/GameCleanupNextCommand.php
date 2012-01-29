@@ -37,27 +37,22 @@ class GameCleanupNextCommand extends ContainerAwareCommand
 
         $collection = $dm->getDocumentCollection($repo->getDocumentName())->getMongoCollection();
 
-        $total = $collection->count(array('next' => array('$type' => 3)));
-        $batchSize = 10000;
         $it = 0;
 
-        $output->writeLn(sprintf('Found %d games to process', $total));
+        $cursor = $collection->find(array('next' => array('$type' => 3)), array('next' => true));
 
-        for($it = 0, $itMax = ceil($total/$batchSize); $it<$itMax; $it++) {
-            $cursor = $collection->find(array('next' => array('$type' => 3)), array('next' => true))->limit($batchSize)->skip($it*$batchSize);
-            $games = iterator_to_array($cursor);
-            foreach ($games as $id => $game) {
-                $nextId = $game['next']['$id'];
-                if (0 === $collection->count(array('_id' => $nextId))) {
-                    $collection->update(
-                        array('_id' => $id),
-                        array('$unset' => array('next' => true)),
-                        array('safe' => true)
-                    );
-                    print 'x';
-                }
+        while($game = $cursor->getNext()) {
+            $nextId = (string) $game['next']['$id'];
+            if (0 === $collection->count(array('_id' => $nextId))) {
+                $id = (string) $game['_id'];
+                $collection->update(
+                    array('_id' => $id),
+                    array('$unset' => array('next' => true)),
+                    array('safe' => true)
+                );
+                print 'x';
             }
-            $output->writeLn(sprintf('%d/%d', ($it+1)*$batchSize, $total));
+            if (0 == (++$it) % 10000) $output->writeLn("\n".$it);
         }
         $output->writeLn('Done');
     }
