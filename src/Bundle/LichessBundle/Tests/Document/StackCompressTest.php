@@ -48,7 +48,7 @@ class StackCompressTest extends \PHPUnit_Framework_TestCase
             array('type' => 'castling', 'king' => array('e1', 'c1'), 'rook' => array('a1', 'd1'), 'color' => 'white'),
             array('type' => 'redirect', 'url' => 'http://en.lichess.org/arstheien'),
             array('type' => 'move', 'from' => 'b7', 'to' => 'b8', 'color' => 'white'),
-            array('type' => 'promotion', 'pieceClass' => 'Queen', 'key' => 'b8'),
+            array('type' => 'promotion', 'pieceClass' => 'queen', 'key' => 'b8'),
             array('type' => 'move', 'from' => 'b7', 'to' => 'b6', 'color' => 'white'),
             array('type' => 'check', 'key' => 'd6'),
             array('type' => 'message', 'message' => array('foo', 'http://foto.mail.ru/mail/annabuut/_myphoto/631.html#1491')),
