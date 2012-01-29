@@ -19,22 +19,23 @@ show_action("Refresh prod ($mode)");
 
 if ($mode == 'all' || $mode == 'noass') {
     if ($mode == 'all') show_run("Dumping assets", "php app/console --env=prod assetic:dump");
-    maintenance(true);
     show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
     show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
     foreach (array('app', 'xhr') as $app) {
         show_run("Warming up $app cache", "php $app/console --env=prod cache:clear");
         show_run("Raising $app permissions", "chmod -R 777 $app/cache/prod");
     }
+    show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
+    show_run("Raising xhr permissions", "chmod -R 777 xhr/cache/prod");
+    maintenance(true);
     show_run("Clearing APC cache", "php app/console --env=prod apc:clear");
     maintenance(false);
 } elseif ($mode == 'code') {
     clearOpCode();
 } elseif ($mode == 'trans') {
     show_run("Clearing translation cache", "rm app/cache/prod/translations/*");
+    show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
     clearOpCode();
 }
-
-show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
 
 show_run("Testing $testurl", "curl -sILw \"%{http_code}\" -o /dev/null $testurl");
