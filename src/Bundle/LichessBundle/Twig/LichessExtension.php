@@ -214,7 +214,7 @@ class LichessExtension extends Twig_Extension
 
     public static function animationDelayFactor($time)
     {
-        return max(0.2, min(1.4, (($time - 60) / 60) * 0.2));
+        return max(0, min(1.2, (($time - 120) / 60) * 0.2));
     }
 
     public function renderGameWatchData(Player $player, $possibleMoves)
