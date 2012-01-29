@@ -327,7 +327,7 @@ $.widget("lichess.game", {
     },
     setPremove: function(move) {
         var self = this;
-        if (!self.options.premove || self.isMyTurn()) return;
+        if (self.isMyTurn()) return;
         self.unsetPremove();
         if (move.from == move.to) return;
         self.premove = move;
@@ -350,7 +350,7 @@ $.widget("lichess.game", {
             b: self.blur
         };
 
-        if (self.options.premove && !self.isMyTurn()) {
+        if (!self.isMyTurn()) {
             return self.setPremove({ from: moveData.from, to: moveData.to });
         }
 
@@ -458,7 +458,7 @@ $.widget("lichess.game", {
                 var $to = $(this);
                 if (!$from || $from == $to) return;
                 var $piece = $from.find('div.lichess_piece');
-                if (self.options.premove && !self.isMyTurn() && $from) {
+                if (!self.isMyTurn() && $from) {
                     self.dropPiece($piece, $from, $to);
                 } else {
                     if (!$to.hasClass('selectable')) return;
