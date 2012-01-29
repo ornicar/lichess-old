@@ -39,4 +39,3 @@ if ($mode == 'all' || $mode == 'noass') {
     show_run("Deploy translations to $remoteTarget", "rsync $rsyncoptions $translationDir $remoteTarget");
     show_run("Run refresh trans", "ssh $remote \"cd $remoteDir && bin/refresh trans\"");
 }
-show_run("Testing $testurl", "curl -sILw \"%{http_code}\" -o /dev/null $testurl");
