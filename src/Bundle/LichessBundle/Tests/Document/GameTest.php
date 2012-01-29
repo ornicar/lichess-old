@@ -4,13 +4,6 @@ namespace Bundle\LichessBundle\Document;
 
 class GameTest extends \PHPUnit_Framework_TestCase
 {
-
-    public function testCreation()
-    {
-        $game = new Game();
-        $this->assertEquals('Bundle\LichessBundle\Document\Game', get_class($game));
-    }
-
     public function testSetPlayers()
     {
         $game = new Game();

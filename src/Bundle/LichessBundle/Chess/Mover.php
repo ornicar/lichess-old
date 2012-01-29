@@ -7,7 +7,7 @@ use Bundle\LichessBundle\Cheat\InternalDetector;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Document\Stack;
+use ArrayObject;
 use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
 use InvalidArgumentException;
@@ -51,8 +51,8 @@ class Mover
         $canOfferDraw    = $player->canOfferDraw();
         $move            = $data['from'].' '.$data['to'];
         $options         = isset($data['options']) ? $data['options'] : array();
-        $stack           = new Stack();
-        $manipulator     = $this->manipulatorFactory->create($game, $stack);
+        $events           = new ArrayObject();
+        $manipulator     = $this->manipulatorFactory->create($game, $events);
 
         // increment player blur
         if (!empty($data['b']) && 1 == intval($data['b'])) {
@@ -63,7 +63,7 @@ class Mover
         $opponentPossibleMoves = $manipulator->play($move, $options);
 
         $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => null));
-        $player->addEventsToStack($stack->getEvents());
+        $player->addEventsToStack($events->getArrayCopy());
 
         if($opponent->getIsAi()) {
             if(!empty($opponentPossibleMoves)) {
@@ -71,7 +71,7 @@ class Mover
             }
         } else {
             $opponent->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $opponentPossibleMoves));
-            $opponent->addEventsToStack($stack->getEvents());
+            $opponent->addEventsToStack($events->getArrayCopy());
             $this->detectCheat($game);
         }
         if($game->getIsFinished()) {
@@ -93,13 +93,13 @@ class Mover
     {
         $game        = $player->getGame();
         $opponent    = $player->getOpponent();
-        $stack       = new Stack();
-        $manipulator = $this->manipulatorFactory->create($game, $stack);
+        $events       = new ArrayObject();
+        $manipulator = $this->manipulatorFactory->create($game, $events);
 
         $possibleMoves = $manipulator->play($this->ai->move($game, $opponent->getAiLevel()));
 
         $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $possibleMoves));
-        $player->addEventsToStack($stack->getEvents());
+        $player->addEventsToStack($events->getArrayCopy());
     }
 
     /**

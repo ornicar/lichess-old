@@ -49,6 +49,8 @@ class Finisher
         $this->updateElo($game);
 
         $this->updateNbGames($game);
+
+        $game->finish();
     }
 
     /**

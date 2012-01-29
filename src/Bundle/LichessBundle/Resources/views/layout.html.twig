@@ -71,7 +71,7 @@
                     <a id="site_title" href="{{ url('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
                     <span id="site_baseline">{{ "Free Online Chess"|trans }}</span>
                 </h1>
-                {% if app.session.hasFlash("locale_missing") %}iearnstoyarensoytranyusth{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
+                {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
                 {% elseif app.session.getFlash("locale_change_contribute", "en") != "en" %}{% render "LichessTranslationBundle:Contribution:onChange" with{"locale": app.session.locale} %}
                 {% elseif app.session.getFlash("locale_change_adjust") %}
                 <div class="locale_adjust"><a class="button" href="{{ lichess_locale_url(app.session.getFlash('locale_change_adjust'), app.request) }}">{{ lichess_locale_name(app.session.getFlash('locale_change_adjust')) }}</a></div>

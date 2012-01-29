@@ -7,7 +7,7 @@ use Bundle\LichessBundle\Document\Piece\King;
 use Bundle\LichessBundle\Document\Piece\Pawn;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Notation\PgnDumper;
-use Bundle\LichessBundle\Document\Stack;
+use ArrayObject;
 use Bundle\LichessBundle\Document\Game;
 
 class Manipulator
@@ -22,21 +22,21 @@ class Manipulator
     /**
      * The event stack to record chess events
      *
-     * @var Stack
+     * @var ArrayObject
      */
-    protected $stack;
+    protected $events;
 
     protected $game;
     protected $autodraw;
     protected $analyser;
 
-    public function __construct(Game $game, Autodraw $autodraw, Analyser $analyser, Stack $stack)
+    public function __construct(Game $game, Autodraw $autodraw, Analyser $analyser, ArrayObject $events)
     {
         $this->game     = $game;
         $this->board    = $game->getBoard();
         $this->autodraw = $autodraw;
         $this->analyser = $analyser;
-        $this->stack    = $stack;
+        $this->events    = $events;
     }
 
     public function play($notation, array $options = array())
@@ -47,7 +47,7 @@ class Manipulator
         $opponent = $player->getOpponent();
         $isOpponentKingAttacked = $this->analyser->isKingAttacked($opponent);
         if($isOpponentKingAttacked) {
-            $this->stack->addEvent(array(
+            $this->events->append(array(
                 'type' => 'check',
                 'key'  => $opponent->getKing()->getSquareKey()
             ));
@@ -73,16 +73,16 @@ class Manipulator
             else {
                 $this->game->setStatus(Game::STALEMATE);
             }
-            $this->stack->addEvent(array('type' => 'end'));
+            $this->events->append(array('type' => 'end'));
         }
         elseif($this->autodraw->isAutodraw($this->game)) {
             $this->game->setStatus(GAME::DRAW);
-            $this->stack->addEvent(array('type' => 'end'));
+            $this->events->append(array('type' => 'end'));
         }
 
         $this->game->addPositionHash();
         if($this->game->isThreefoldRepetition()) {
-            $this->stack->addEvent(array('type' => 'threefold_repetition'));
+            $this->events->append(array('type' => 'threefold_repetition'));
         }
 
         $this->game->addPgnMove($pgn);
@@ -172,7 +172,7 @@ class Manipulator
         $pgnDumper = new PgnDumper();
         $pgn = $pgnDumper->dumpMove($this->game, $piece, $from, $to, $playerPossibleMoves, $killed, $isCastling, $isPromotion, $isEnPassant, $options);
 
-        $this->stack->addEvent(array(
+        $this->events->append(array(
             'type'  => 'move',
             'from'  => $from->getKey(),
             'to'    => $to->getKey(),
@@ -225,7 +225,7 @@ class Manipulator
         $killed->setIsDead(true);
         $this->board->remove($killed);
 
-        $this->stack->addEvent(array(
+        $this->events->append(array(
             'type' => 'enpassant',
             'killed' => $passedSquare->getKey()
         ));
@@ -241,13 +241,13 @@ class Manipulator
         $this->board->remove($pawn);
         $player->removePiece($pawn);
 
-        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$promotionClass;
+        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.ucfirst($promotionClass);
         $new = new $fullClass($pawn->getX(), $pawn->getY());
         $new->setBoard($player->getGame()->getBoard());
         $player->addPiece($new);
         $this->board->add($new);
 
-        $this->stack->addEvent(array(
+        $this->events->append(array(
             'type' => 'promotion',
             'pieceClass' => strtolower($promotionClass),
             'key' => $new->getSquareKey()
@@ -294,7 +294,7 @@ class Manipulator
         $king->setFirstMove($this->game->getTurns());
         $rook->setFirstMove($this->game->getTurns());
 
-        $this->stack->addEvent(array(
+        $this->events->append(array(
             'type' => 'castling',
             'king' => array($kingSquare->getKey(), $newKingSquare->getKey()),
             'rook' => array($rookSquare->getKey(), $newRookSquare->getKey()),
@@ -302,22 +302,8 @@ class Manipulator
         ));
     }
 
-    /**
-     * Get stack
-     * @return Stack
-     */
-    public function getStack()
+    public function getEvents()
     {
-        return $this->stack;
-    }
-
-    /**
-     * Set stack
-     * @param  Stack
-     * @return null
-     */
-    public function setStack(Stack $stack)
-    {
-        $this->stack = $stack;
+        return $this->events;
     }
 }

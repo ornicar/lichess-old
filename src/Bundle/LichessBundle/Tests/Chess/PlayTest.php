@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Tests\Chess;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Document\Game;
+use ArrayObject;
 
 class PlayTest extends \PHPUnit_Framework_TestCase
 {
@@ -203,7 +204,7 @@ EOF
      **/
     protected function applyMoves(array $moves)
     {
-        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new ArrayObject());
         foreach ($moves as $move)
         {
             $manipulator->play($move);

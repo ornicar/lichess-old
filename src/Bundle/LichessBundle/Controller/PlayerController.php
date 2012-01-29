@@ -93,7 +93,7 @@ class PlayerController extends Controller
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.mover')->move($player, $this->get('request')->request->all());
-        $this->flush(false);
+        $this->flush();
 
         return new Response('ok');
     }

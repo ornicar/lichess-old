@@ -7,6 +7,7 @@ use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Notation\Forsyth;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
+use ArrayObject;
 
 class ForsythTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +15,7 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
     {
         $generator = new Generator();
         $game = $generator->createGame();
-        $manipulator = new TestManipulator($game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($game, new ArrayObject());
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', Forsyth::export($game));
         $manipulator->play('e2 e4');
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1', Forsyth::export($game));
@@ -34,7 +35,7 @@ class ForsythTest extends \PHPUnit_Framework_TestCase
         $game = $generator->createGame();
         $game->getBoard()->getPieceByKey('a1')->setFirstMove(1);
         $game->getBoard()->getPieceByKey('h8')->setFirstMove(1);
-        $manipulator = new TestManipulator($game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($game, new ArrayObject());
         $this->assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w Kq - 0 1', Forsyth::export($game));
         $game->getBoard()->getPieceByKey('a8')->setFirstMove(1);
         $game->getBoard()->getPieceByKey('h1')->setFirstMove(1);

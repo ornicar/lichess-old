@@ -179,7 +179,7 @@ class LichessExtension extends Twig_Extension
             ),
             'player' => array(
                 'color'     => $player->getColor(),
-                'version'   => $player->getStack()->getVersion(),
+                'version'   => $player->getStackVersion(),
                 'spectator' => false,
                 'alive_key' => $this->container->get('lichess.memory')->getPlayerKey($player)
             ),
@@ -239,7 +239,7 @@ class LichessExtension extends Twig_Extension
             ),
             'player' => array(
                 'color'     => $player->getColor(),
-                'version'   => $player->getStack()->getVersion(),
+                'version'   => $player->getStackVersion(),
                 'spectator' => true,
                 'unique_id' => uniqid()
             ),

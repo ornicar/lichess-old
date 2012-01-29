@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Document;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
+use ArrayObject;
 
 class GameFunctionalTest extends WebTestCase
 {
@@ -119,8 +120,8 @@ class GameFunctionalTest extends WebTestCase
         for($i=0; $i<$player->getStack()->getMaxEvents(); $i++) {
             $player->addEventToStack(array('type' => 'event '.$i));
         }
-        $this->assertEquals($player->getStack()->getMaxEvents(), $player->getStack()->getNbEvents());
         $this->dm->flush();
+        $this->assertEquals($player->getStack()->getMaxEvents(), $player->getStack()->getNbEvents());
         $this->dm->clear();
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
         $player = $game->getPlayer('white');
@@ -135,6 +136,7 @@ class GameFunctionalTest extends WebTestCase
         $game->setCreatorColor('white');
         $positionGenerator = new StandardPositionGenerator();
         $positionGenerator->createPiecesMinimal($game);
+        $game->compress();
         return $game;
     }
 
