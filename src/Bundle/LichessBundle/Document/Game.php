@@ -780,7 +780,6 @@ class Game
         }
         $this->setStatus(static::STARTED);
         $this->setConfigArray(null);
-        $this->compress();
     }
 
     public function finish()
@@ -1153,22 +1152,25 @@ class Game
         $this->ensureDependencies();
     }
 
+    public function preFlush()
+    {
+        $this->compress();
+        $this->cachePlayerVersions();
+    }
+
     public function compress()
     {
         foreach($this->getPlayers() as $player) {
             $player->compressPieces();
+            $player->compressStack();
         }
     }
 
-    /**
-     * @MongoDB\PreUpdate
-     * @MongoDB\PrePersist
-     */
     public function cachePlayerVersions()
     {
         foreach($this->getPlayers() as $player) {
             if(!$player->getIsAi()) {
-                apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
+                apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStackVersion(), 3600);
             }
         }
     }

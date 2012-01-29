@@ -53,7 +53,6 @@ class AiStarter implements StarterInterface
         if($player->isBlack()) {
             $this->manipulatorFactory->create($game)->play($this->ai->move($game, $opponent->getAiLevel()));
         }
-        $game->compress();
         $this->objectManager->persist($game);
         $this->logger->notice($game, 'Game:inviteAi create');
 

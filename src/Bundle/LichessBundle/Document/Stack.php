@@ -2,22 +2,23 @@
 
 namespace Bundle\LichessBundle\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Bundle\LichessBundle\Chess\Board;
 
-/**
- * @MongoDB\EmbeddedDocument
- */
 class Stack
 {
-    const MAX_EVENTS = 16;
+    const MAX_EVENTS = 20;
 
     /**
      * Events in the stack
      *
      * @var array
-     * @MongoDB\Field(type="hash")
      */
     protected $events = array();
+
+    public function __construct(array $events = array())
+    {
+        $this->events = $events;
+    }
 
     public function hasVersion($version)
     {
@@ -37,16 +38,6 @@ class Stack
      */
     public function getEvents()
     {
-        $events = array();
-        foreach($this->events as $version => $event) {
-            $events[$version] = $this->decodeEvent($event);
-        }
-
-        return $events;
-    }
-
-    public function getEncodedEvents()
-    {
         return $this->events;
     }
 
@@ -57,7 +48,7 @@ class Stack
      **/
     public function getEvent($version)
     {
-        return $this->decodeEvent($this->events[$version]);
+        return $this->events[$version];
     }
 
     /**
@@ -74,14 +65,17 @@ class Stack
 
     public function addEvent(array $event)
     {
-        $this->events[] = $this->encodeEvent($event);
-        $this->optimize();
-        $this->rotate();
+        $this->events[] = $event;
     }
 
     public function reset()
     {
         $this->events = array();
+    }
+
+    public function isEmpty()
+    {
+        return 0 === $this->getNbEvents();
     }
 
     /**
@@ -92,13 +86,13 @@ class Stack
      */
     public function optimize()
     {
-        $previousLastMoveIndex = null;
+        $previousIndex = null;
         foreach($this->events as $index => $event) {
-            if(array_key_exists('pm', $event)) {
-                if($previousLastMoveIndex) {
-                    $this->events[$previousLastMoveIndex] = array('pm' => null);
+            if($event['type'] === 'possible_moves') {
+                if($previousIndex) {
+                    $this->events[$previousIndex] = array('type' => 'possible_moves');
                 }
-                $previousLastMoveIndex = $index;
+                $previousIndex = $index;
             }
         }
     }
@@ -120,54 +114,145 @@ class Stack
         return self::MAX_EVENTS;
     }
 
-    protected function encodeEvent(array $event)
+    public static function compress(Stack $stack = null)
     {
-        if('possible_moves' === $event['type']) {
-            if(empty($event['possible_moves'])) {
-                $possibleMoves = null;
-            } else {
-                $possibleMoves = array();
-                foreach($event['possible_moves'] as $from => $tos) {
-                    $possibleMoves[$from] = implode(' ', $tos);
+        if (null === $stack || $stack->isEmpty()) return null;
+        $stack->optimize();
+        $stack->rotate();
+
+        $ktp = function($key) { return Board::keyToPiotr($key); };
+        $aktp = function($keys) use ($ktp) { return array_map($ktp, $keys); };
+        $goe = function($arr, $key, $default) { return isset($arr[$key]) ? $arr[$key] : $default; };
+        $col = function($color) { return substr($color, 0, 1); };
+        $es = array();
+        foreach ($stack->getEvents() as $index => $event) {
+            $type = $event['type'];
+            $t = isset(self::$sepyt[$type]) ? self::$sepyt[$type] : $type;
+            switch ($type) {
+            case "possible_moves":
+                $pms = array();
+                foreach($goe($event, 'possible_moves', array()) as $from => $tos) {
+                    $pms[] = $ktp($from) . implode('', $aktp($tos));
                 }
+                $data = implode(',', $pms);
+                break;
+            case "move":
+                $data = $ktp($event['from']) . $ktp($event['to']) . $col($event['color']);
+                break;
+            case "check":
+                $data = $ktp($event['key']);
+                break;
+            case "enpassant":
+                $data = $ktp($event['killed']);
+                break;
+            case "castling":
+                $data = implode('', $aktp($event['king'])) . implode('', $aktp($event['rook'])) . $col($event['color']);
+                break;
+            case "redirect":
+                $data = $event['url'];
+                break;
+            case "message":
+                $data = $event['message'][0] . ' ' . str_replace("|", "/", $event['message'][1]);
+                break;
+            case "promotion":
+                $data = $ktp($event['key']) . Piece::classToLetter($event['pieceClass']);
+                break;
+            default:
+                $data = '';
+                break;
             }
-            $event = array(
-                'pm' => $possibleMoves
-            );
-        } elseif('move' === $event['type']) {
-            $event = array(
-                'm' => $event['from'].' '.$event['to'].' '.$event['color']
-            );
+
+            $es[] = $index . $t . $data;
         }
 
-        return $event;
+        $str = implode('|', $es);
+
+        return $str;
     }
 
-    protected function decodeEvent(array $event)
+    public static function extract($str)
     {
-        if(array_key_exists('pm', $event)) {
-            if(empty($event['pm'])) {
-                $possibleMoves = null;
-            } else {
-                $possibleMoves = array();
-                foreach($event['pm'] as $from => $tos) {
-                    $possibleMoves[$from] = explode(' ', $tos);
+        if (empty($str)) return new Stack();
+        $ptk = function($key) { return Board::piotrToKey($key); };
+        $aptk = function($piotrs) use ($ptk) { return array_map($ptk, $piotrs); };
+        $col = function($c) { return $c === 'w' ? 'white' : 'black'; };
+        $events = array();
+        foreach (explode('|', $str) as $e) {
+            preg_match('/^(\d+)(\w)(.*)$/', $e, $info);
+            $index = $info[1];
+            $type = self::$types[$info[2]];
+            $data = $info[3];
+            switch ($type) {
+            case "possible_moves":
+                $pms = array();
+                if (empty($data)) {
+                    $event = array();
+                } else {
+                    foreach (explode(',', $data) as $pm) {
+                        $pms[$ptk($pm{0})] = $aptk(str_split(substr($pm, 1)));
+                    }
+                    $event = array('possible_moves' => $pms);
                 }
+                break;
+            case "move":
+                $event = array('from' => $ptk($data{0}), 'to' => $ptk($data{1}), 'color' => $col($data{2}));
+                break;
+            case "check":
+                $event = array('key' => $ptk($data));
+                break;
+            case "enpassant":
+                $event = array('killed' => $ptk($data));
+                break;
+            case "castling":
+                $event = array('king' => array($ptk($data{0}), $ptk($data{1})), 'rook' => array($ptk($data{2}), $ptk($data{3})), 'color' => $col($data{4}));
+                break;
+            case "redirect":
+                $event = array('url' => $data);
+                break;
+            case "message":
+                $pos = strpos($data, ' ');
+                $event = array('message' => array(substr($data, 0, $pos), substr($data, $pos + 1)));
+                break;
+            case "promotion":
+                $event = array('key' => $ptk($data{0}), 'pieceClass' => Piece::letterToClass($data{1}));
+                break;
+            default:
+                $event = array();
+                break;
             }
-            $event = array(
-                'type' => 'possible_moves',
-                'possible_moves' => $possibleMoves
-            );
-        } elseif(isset($event['m'])) {
-            list($from, $to, $color) = explode(' ', $event['m']);
-            $event = array(
-                'type' => 'move',
-                'from' => $from,
-                'to' => $to,
-                'color' => $color
-            );
+            $event['type'] = $type;
+            $events[$index] = $event;
         }
 
-        return $event;
+        return new Stack($events);
     }
+
+    private static $types = array(
+        's' => 'start',
+        'p' => 'possible_moves',
+        'P' => 'promotion',
+        'r' => 'redirect',
+        'R' => 'reload_table',
+        'm' => 'move',
+        'M' => 'message',
+        'c' => 'castling',
+        'C' => 'check',
+        't' => 'threefold_repetition',
+        'e' => 'end',
+        'E' => 'enpassant'
+    );
+    private static $sepyt = array(
+        'start' => 's',
+        'possible_moves' => 'p',
+        'promotion' => 'P',
+        'redirect' => 'r',
+        'reload_table' => 'R',
+        'move' => 'm',
+        'message' => 'M',
+        'castling' => 'c',
+        'check' => 'C',
+        'threefold_repetition' => 't',
+        'end' => 'e',
+        'enpassant' => 'E'
+    );
 }

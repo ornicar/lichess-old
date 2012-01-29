@@ -85,9 +85,16 @@ class Player
      * Event stack
      *
      * @var Stack
-     * @MongoDB\EmbedOne(targetDocument="Stack")
      */
     protected $stack;
+
+    /**
+     * the player stack events, compressed for efficient storage
+     *
+     * @var string
+     * @MongoDB\String
+     */
+    protected $evts;
 
     /**
      * the player pieces, extracted from ps
@@ -159,7 +166,6 @@ class Player
         }
         $this->color = $color;
         $this->generateId();
-        $this->stack = new Stack();
         $this->addEventToStack(array('type' => 'start'));
     }
 
@@ -388,9 +394,16 @@ class Player
      */
     public function getStack()
     {
-        if (null === $this->stack) $this->stack = new Stack();
+        if (null === $this->stack) {
+            $this->stack = Stack::extract($this->evts);
+        }
 
         return $this->stack;
+    }
+
+    public function getStackVersion()
+    {
+        return $this->getStack()->getVersion();
     }
 
     public function addEventsToStack(array $events)
@@ -637,14 +650,23 @@ class Player
     public function extractPieces()
     {
         $pieces = array();
-        foreach(explode(' ', $this->ps) as $p) {
-            $class = 'Bundle\\LichessBundle\\Document\\Piece\\'.Piece::letterToClass(strtolower($p{1}));
-            $pos = Board::keyToPos(Board::piotrToKey($p{0}));
-            $piece = new $class($pos[0], $pos[1]);
-            if (ctype_upper($p{1})) $piece->setIsDead(true);
-            if ($meta = substr($p, 2)) $piece->setFirstMove((int)$meta);
-            $pieces[] = $piece;
+        if (!empty($this->ps)) {
+            foreach(explode(' ', $this->ps) as $p) {
+                $class = 'Bundle\\LichessBundle\\Document\\Piece\\'.Piece::letterToClass(strtolower($p{1}));
+                $pos = Board::keyToPos(Board::piotrToKey($p{0}));
+                $piece = new $class($pos[0], $pos[1]);
+                if (ctype_upper($p{1})) $piece->setIsDead(true);
+                if ($meta = substr($p, 2)) $piece->setFirstMove((int)$meta);
+                $pieces[] = $piece;
+            }
         }
         $this->setPieces($pieces);
+    }
+
+    public function compressStack()
+    {
+        if ($this->stack) {
+            $this->evts = Stack::compress($this->stack);
+        }
     }
 }

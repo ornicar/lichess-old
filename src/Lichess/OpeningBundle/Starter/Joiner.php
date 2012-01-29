@@ -28,7 +28,6 @@ class Joiner
         $game = $player->getGame();
 
         if($game->getIsStarted()) {
-            $this->logger->warn($player, 'Game:join started');
             throw new InvalidArgumentException('Cannot join started game');
         }
 

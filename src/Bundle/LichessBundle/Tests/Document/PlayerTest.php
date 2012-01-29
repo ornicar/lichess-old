@@ -17,9 +17,9 @@ class PlayerTest extends \PHPUnit_Framework_TestCase
     {
         $player = new Player('white');
         $stack = $player->getStack();
-        $this->assertEquals(0, $player->getStack()->getVersion());
+        $this->assertEquals(0, $player->getStackVersion());
         $stack->addEvent(array('type' => 'test'));
-        $this->assertEquals(1, $player->getStack()->getVersion());
+        $this->assertEquals(1, $player->getStackVersion());
     }
 
     public function testCompressPiecesStart()
