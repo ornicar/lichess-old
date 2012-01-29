@@ -81,13 +81,10 @@ div.my_turn div.lichess_piece.ui-draggable {
   cursor: move;
 }
 
-div.lichess_piece.ui-draggable-dragging,
 div.lichess_piece.moving {
-  opacity: 0.5;
+  display: none;
 }
 
-div.lichess_piece.pawn.white{
-}
 div.lichess_piece.bishop.white{
   background-position: -64px 0;
 }

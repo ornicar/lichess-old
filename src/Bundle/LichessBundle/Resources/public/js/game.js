@@ -2,7 +2,6 @@ $.widget("lichess.game", {
 
     _init: function() {
         var self = this;
-        self.pieceMoving = false;
         self.$board = self.element.find("div.lichess_board");
         self.$table = self.element.find("div.lichess_table_wrap");
         self.$chat = $("div.lichess_chat");
@@ -416,20 +415,12 @@ $.widget("lichess.game", {
 
         // init pieces
         self.$board.find("div.lichess_piece." + self.options.player.color).each(function() {
+            var $helper = $('<div>').attr("class", $(this).attr("class"));
             $(this).draggable({
-                distance: 15,
+                distance: 5,
                 containment: self.$board,
-                helper: function() {
-                    return $('<div>').attr("class", $(this).attr("class")).attr('data-key', $(this).parent().attr('id')).appendTo(self.$board);
-                },
-                start: function() {
-                    self.pieceMoving = true;
-                    $(this).addClass("moving");
-                },
-                stop: function() {
-                    self.pieceMoving = false;
-                    $(this).removeClass("moving");
-                }
+                helper: function() { return $helper.appendTo(self.$board); },
+                cursorAt: { left: 32, top: 32 }
             });
         });
 
