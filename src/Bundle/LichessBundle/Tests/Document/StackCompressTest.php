@@ -40,8 +40,8 @@ class StackCompressTest extends \PHPUnit_Framework_TestCase
         return array(
             array('type' => 'start'),
             array('type' => 'move', 'from' => 'g4', 'to' => 'c3', 'color' => 'black'),
-            array('type' => 'possible_moves', 'possible_moves' => array('a7' => array('a8', 'b8'))),
-            array('type' => 'possible_moves', 'possible_moves' => array('a2' => array('a3', 'a4'), 'f3' => array('f5', 'g3', 'd4', 'e8'))),
+            array('type' => 'possible_moves', 'possible_moves' => array('a7' => 'a8b8')),
+            array('type' => 'possible_moves', 'possible_moves' => array('a2' => 'a3a4', 'f3' => 'f5g3d4e8')),
             array('type' => 'move', 'from' => 'e5', 'to' => 'f6', 'color' => 'white'),
             array('type' => 'enpassant', 'killed' => 'f5'),
             array('type' => 'move', 'from' => 'e1', 'to' => 'c1', 'color' => 'white'),

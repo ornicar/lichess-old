@@ -14,11 +14,11 @@ class StackTest extends \PHPUnit_Framework_TestCase
     {
         $events = array(
             0 => array('type' => 'f'),
-            1 => array('type' => 'possible_moves', 'possible_moves' => array('z' => array('i', 'o', 'nu'))),
+            1 => array('type' => 'possible_moves', 'possible_moves' => array('z' => 'ionu')),
             2 => array('type' => 'a'),
-            3 => array('type' => 'possible_moves', 'possible_moves' => array('a' => array('n', 'e'))),
+            3 => array('type' => 'possible_moves', 'possible_moves' => array('a' => 'ne')),
             4 => array('type' => 'c'),
-            5 => array('type' => 'possible_moves', 'possible_moves' => array('c' => array('x', 'y'))),
+            5 => array('type' => 'possible_moves', 'possible_moves' => array('c' => 'xy')),
         );
         $stack = new Stack($events);
         $stack->optimize();
@@ -30,7 +30,7 @@ class StackTest extends \PHPUnit_Framework_TestCase
             2 => array('type' => 'a'),
             3 => array('type' => 'possible_moves'),
             4 => array('type' => 'c'),
-            5 => array('type' => 'possible_moves', 'possible_moves' => array('c' => array('x', 'y'))),
+            5 => array('type' => 'possible_moves', 'possible_moves' => array('c' => 'xy')),
         );
         $this->assertSame($expected, $events);
     }

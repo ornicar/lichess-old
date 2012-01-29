@@ -70,7 +70,7 @@ class Mover
                 $this->performAiAnswer($player);
             }
         } else {
-            $opponent->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $opponentPossibleMoves));
+            $opponent->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $this->implodePossibleMoves($opponentPossibleMoves)));
             $opponent->addEventsToStack($events->getArrayCopy());
             $this->detectCheat($game);
         }
@@ -98,8 +98,13 @@ class Mover
 
         $possibleMoves = $manipulator->play($this->ai->move($game, $opponent->getAiLevel()));
 
-        $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $possibleMoves));
+        $player->addEventToStack(array('type' => 'possible_moves', 'possible_moves' => $this->implodePossibleMoves($possibleMoves)));
         $player->addEventsToStack($events->getArrayCopy());
+    }
+
+    protected function implodePossibleMoves(array $pms)
+    {
+        return array_map(function($keys) { return implode('', $keys); }, $pms);
     }
 
     /**

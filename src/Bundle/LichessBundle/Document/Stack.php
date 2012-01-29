@@ -136,7 +136,7 @@ class Stack
             case "possible_moves":
                 $pms = array();
                 foreach($goe($event, 'possible_moves', array()) as $from => $tos) {
-                    $pms[] = $ktp($from) . implode('', $aktp($tos));
+                    $pms[] = $ktp($from) . implode('', $aktp(str_split($tos, 2)));
                 }
                 $data = implode(',', $pms);
                 break;
@@ -193,7 +193,7 @@ class Stack
                     $event = array();
                 } else {
                     foreach (explode(',', $data) as $pm) {
-                        $pms[$ptk($pm{0})] = $aptk(str_split(substr($pm, 1)));
+                        $pms[$ptk($pm{0})] = implode('', $aptk(str_split(substr($pm, 1))));
                     }
                     $event = array('possible_moves' => $pms);
                 }
