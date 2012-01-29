@@ -3,7 +3,7 @@ twig master
 monolog master
 doctrine-common master
 doctrine-mongodb master
-doctrine-mongodb-odm master
+doctrine-mongodb-odm hackPreflush
 doctrine-data-fixtures 4a8464ef83093de2378cef2770e13da7e4858ffc
 assetic master
 metadata f88e63448fda6199d03cbd52c36faa610c40bec5
