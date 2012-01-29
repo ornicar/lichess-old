@@ -27,6 +27,10 @@ class Stack
 
     public function getVersion()
     {
+        if ($this->isEmpty()) {
+            return 0;
+        }
+
         end($this->events);
 
         return key($this->events);
