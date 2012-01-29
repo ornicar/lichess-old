@@ -8,6 +8,7 @@ $.widget("lichess.game", {
         self.initialTitle = document.title;
         self.hasMovedOnce = false;
         self.premove = null;
+        self.draggingKey = null;
 
         if (self.options.game.started) {
             self.indicateTurn();
@@ -310,12 +311,17 @@ $.widget("lichess.game", {
             }
         });
     },
+    possibleMovesContain: function(from, to) {
+      return this.options.possible_moves != null 
+        && typeof this.options.possible_moves[from] !== 'undefined'
+        && this.options.possible_moves[from].indexOf(to) != -1;
+    },
     applyPremove: function() {
         var self = this;
-        if (self.premove && self.options.possible_moves) {
+        if (self.premove && self.isMyTurn()) {
             var move = self.premove;
             self.unsetPremove();
-            if (self.inArray(move.to, self.options.possible_moves[move.from])) {
+            if (self.possibleMovesContain(move.from, move.to)) {
                 var $fromSquare = $("#"+move.from).orNot();
                 var $toSquare = $("#"+move.to).orNot();
                 var $piece = $fromSquare.find(".lichess_piece").orNot();
@@ -403,8 +409,7 @@ $.widget("lichess.game", {
             var squareId = $(this).attr('id');
             $(this).droppable({
                 accept: function(draggable) {
-                    return (self.options.premove && !self.isMyTurn())
-                    || (self.isMyTurn() && self.inArray(squareId, self.options.possible_moves[draggable.parent().attr('id')]));
+                    return !self.isMyTurn() || self.possibleMovesContain(self.draggingKey, squareId);
                 },
                 drop: function(ev, ui) {
                     self.dropPiece(ui.draggable, ui.draggable.parent(), $(this));
@@ -415,13 +420,14 @@ $.widget("lichess.game", {
 
         // init pieces
         self.$board.find("div.lichess_piece." + self.options.player.color).each(function() {
-            var $helper = $('<div>').attr("class", $(this).attr("class"));
-            $(this).draggable({
-                distance: 5,
+            var $this = $(this);
+            var $helper = $('<div>').attr("class", $this.attr("class"));
+            $this.draggable({
+                distance: 10,
                 containment: self.$board,
                 helper: function() { return $helper.appendTo(self.$board); },
-                start: function() { $(this).hide(); },
-                stop: function() { $(this).show(); },
+                start: function() { self.draggingKey = $this.hide().parent().attr('id'); },
+                stop: function() { self.draggingKey = null; $this.show(); },
                 cursorAt: { left: 32, top: 32 },
                 scroll: false
             });
@@ -446,7 +452,7 @@ $.widget("lichess.game", {
         self.$board.find("div.lcs").each(function() {
             $(this).hover(function() {
                 var $selected = self.$board.find('div.lcs.selected');
-                if ($selected.length && self.options.possible_moves && self.inArray($(this).attr('id'), self.options.possible_moves[$selected.attr('id')])) {
+                if ($selected.length && self.isMyTurn() && self.possibleMovesContain($selected.attr('id'), $(this).attr('id'))) {
                     $(this).addClass('selectable');
                 }
             },
@@ -629,6 +635,7 @@ $.widget("lichess.game", {
     onError: function(error, reloadIfFail) {
         var self = this;
         if (reloadIfFail) {
+          //console.debug(error);
             location.reload();
         }
     }
