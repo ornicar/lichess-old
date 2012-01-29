@@ -155,7 +155,7 @@ class Stack
                 $data = $event['message'][0] . ' ' . str_replace("|", "/", $event['message'][1]);
                 break;
             case "promotion":
-                $data = $ktp($event['key']) . Piece::classToLetter($event['pieceClass']);
+                $data = $ktp($event['key']) . Piece::classToLetter(ucfirst($event['pieceClass']));
                 break;
             default:
                 $data = '';
@@ -214,7 +214,7 @@ class Stack
                 $event = array('message' => array(substr($data, 0, $pos), substr($data, $pos + 1)));
                 break;
             case "promotion":
-                $event = array('key' => $ptk($data{0}), 'pieceClass' => Piece::letterToClass($data{1}));
+                $event = array('key' => $ptk($data{0}), 'pieceClass' => strtolower(Piece::letterToClass($data{1})));
                 break;
             default:
                 $event = array();

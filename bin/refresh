@@ -27,7 +27,7 @@ if ($mode == 'all' || $mode == 'noass') {
         show_run("Raising $app permissions", "chmod -R 777 $app/cache/prod");
     }
     show_run("Clearing APC cache", "php app/console --env=prod apc:clear");
-    maintenance(false);
+    //maintenance(false);
 } elseif ($mode == 'code') {
     clearOpCode();
 } elseif ($mode == 'trans') {

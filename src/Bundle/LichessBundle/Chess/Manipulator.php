@@ -241,7 +241,7 @@ class Manipulator
         $this->board->remove($pawn);
         $player->removePiece($pawn);
 
-        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$promotionClass;
+        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.ucfirst($promotionClass);
         $new = new $fullClass($pawn->getX(), $pawn->getY());
         $new->setBoard($player->getGame()->getBoard());
         $player->addPiece($new);
