@@ -412,7 +412,7 @@ $.widget("lichess.game", {
             var squareId = $(this).attr('id');
             $(this).droppable({
                 accept: function(draggable) {
-                    return !self.isMyTurn() || self.possibleMovesContain(draggingKey, squareId);
+                    return (!self.isMyTurn() && draggingKey != squareId) || (draggingKey && self.possibleMovesContain(draggingKey, squareId));
                 },
                 drop: function(ev, ui) {
                     self.dropPiece(ui.draggable, ui.draggable.parent(), $(this));
