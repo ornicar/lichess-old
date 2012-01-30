@@ -142,7 +142,7 @@ $.widget("lichess.game", {
             self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.player.color: self.options.opponent.color)).fadeIn(self.options.animation_delay);
         }
     },
-    movePiece: function(from, to, callback) {
+    movePiece: function(from, to, callback, mine) {
         var self = this,
         $piece = self.$board.find("div#" + from + " div.lichess_piece"),
         $from = $("div#" + from, self.$board),
@@ -159,15 +159,7 @@ $.widget("lichess.game", {
             $.playSound();
         }
 
-        $("body").append($piece.css({
-            top: $from.offset().top,
-            left: $from.offset().left
-        }));
-        $piece.animate({
-            top: $to.offset().top,
-            left: $to.offset().left
-        },
-        self.options.animation_delay, function() {
+        var afterMove = function() {
             var $killed = $to.find("div.lichess_piece");
             if ($killed.length && self.getPieceColor($piece) != self.getPieceColor($killed)) {
                 self.killPiece($killed);
@@ -175,7 +167,18 @@ $.widget("lichess.game", {
             $piece.css({top: 0, left: 0});
             $to.append($piece);
             $.isFunction(callback || null) && callback();
-        });
+        };
+
+        var animD = mine ? 0 : self.options.animation_delay;
+
+        if (animD < 100) {
+          $("body").append($piece.css({ top: $to.offset().top, left: $to.offset().left }));
+          afterMove();
+        }
+        else {
+          $("body").append($piece.css({ top: $from.offset().top, left: $from.offset().left }));
+          $piece.animate({ top: $to.offset().top, left: $to.offset().left }, animD, afterMove);
+        }
     },
     highlightLastMove: function(notation) {
         var self = this;
@@ -230,7 +233,7 @@ $.widget("lichess.game", {
                         } else {
                             self.movePiece(event.from, event.to, function() {
                                 self.element.dequeue();
-                            });
+                            }, false);
                         }
                     });
                     break;
@@ -364,7 +367,7 @@ $.widget("lichess.game", {
         self.hasMovedOnce = true;
         self.blur = 0;
         self.options.possible_moves = null;
-        self.movePiece($oldSquare.attr("id"), squareId);
+        self.movePiece($oldSquare.attr("id"), squareId, null, true);
 
         function sendMoveRequest(moveData) {
             self.post(self.options.url.move, {
