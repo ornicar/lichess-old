@@ -57,8 +57,7 @@ class TopicController extends BaseTopicController
         $objectManager->persist($topic);
         $objectManager->persist($topic->getFirstPost());
         $objectManager->flush();
-
-        $objectManager->flush();
+        $this->get('lichess_forum.newposts_cache')->invalidate();
 
         $this->get('session')->setFlash('forum_topic_create/success', true);
         $url = $this->get('herzult_forum.router.url_generator')->urlForTopic($topic);
