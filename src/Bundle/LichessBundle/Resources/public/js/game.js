@@ -8,7 +8,6 @@ $.widget("lichess.game", {
         self.initialTitle = document.title;
         self.hasMovedOnce = false;
         self.premove = null;
-        self.draggingKey = null;
 
         if (self.options.game.started) {
             self.indicateTurn();
@@ -172,7 +171,6 @@ $.widget("lichess.game", {
         var animD = mine ? 0 : self.options.animation_delay;
 
         if (animD < 100) {
-          $("body").append($piece.css({ top: $to.offset().top, left: $to.offset().left }));
           afterMove();
         }
         else {
@@ -407,12 +405,13 @@ $.widget("lichess.game", {
         if (self.options.player.spectator) {
             return;
         }
+        var draggingKey = null;
         // init squares
         self.$board.find("div.lcs").each(function() {
             var squareId = $(this).attr('id');
             $(this).droppable({
                 accept: function(draggable) {
-                    return !self.isMyTurn() || self.possibleMovesContain(self.draggingKey, squareId);
+                    return !self.isMyTurn() || self.possibleMovesContain(draggingKey, squareId);
                 },
                 drop: function(ev, ui) {
                     self.dropPiece(ui.draggable, ui.draggable.parent(), $(this));
@@ -426,11 +425,16 @@ $.widget("lichess.game", {
             var $this = $(this);
             var $helper = $('<div>').attr("class", $this.attr("class"));
             $this.draggable({
-                distance: 10,
+                distance: 1,
                 containment: self.$board,
                 helper: function() { return $helper.appendTo(self.$board); },
-                start: function() { self.draggingKey = $this.hide().parent().attr('id'); },
-                stop: function() { self.draggingKey = null; $this.show(); },
+                start: function() { 
+                  draggingKey = $this.hide().parent().attr('id'); 
+                },
+                stop: function() { 
+                  draggingKey = null; 
+                  $this.show(); 
+                },
                 cursorAt: { left: 32, top: 32 },
                 scroll: false
             });
