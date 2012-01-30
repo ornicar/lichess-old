@@ -530,7 +530,7 @@ class Game
 
     protected function getPositionHashArray()
     {
-        return empty($this->positionHashes) ? array() : explode(' ', $this->positionHashes);
+        return empty($this->positionHashes) ? array() : str_split($this->positionHashes, 5);
     }
 
     /**
@@ -542,8 +542,7 @@ class Game
         foreach($this->getPieces() as $piece) {
             $hash .= $piece->getContextualHash();
         }
-        if (!empty($this->positionHashes)) $this->positionHashes .= ' ';
-        $this->positionHashes .= substr(md5($hash), 0, 6);
+        $this->positionHashes .= substr(md5($hash), 0, 5);
     }
 
     /**
@@ -577,7 +576,7 @@ class Game
 
     protected function getNbPositionHashes()
     {
-        return empty($this->positionHashes) ? 0 : (substr_count($this->positionHashes, ' ') + 1);
+        return empty($this->positionHashes) ? 0 : (strlen($this->positionHashes) / 5);
     }
 
     /**
