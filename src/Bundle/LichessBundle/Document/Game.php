@@ -266,7 +266,7 @@ class Game
     }
 
     /**
-     * @return string
+     * @return string a2 a4
      */
     public function getLastMove()
     {
@@ -274,7 +274,7 @@ class Game
     }
 
     /**
-     * @param  string
+     * @param  string a2 a4
      * @return null
      */
     public function setLastMove($lastMove)

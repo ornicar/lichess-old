@@ -35,7 +35,7 @@ class Drawer
             }
             if(!$player->getIsOfferingDraw()) {
                 if($player->getOpponent()->getIsOfferingDraw()) {
-                    throw new DrawerConcurrentOfferException();
+                    return $this->accept($player);
                 }
                 $this->messenger->addSystemMessage($game, 'Draw offer sent');
                 $player->setIsOfferingDraw(true);

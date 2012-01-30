@@ -5,7 +5,6 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Chess\DrawerConcurrentOfferException;
 use Bundle\LichessBundle\Chess\FinisherException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,11 +46,7 @@ class PlayerController extends Controller
 
     public function offerDrawAction($id)
     {
-        try {
-            $this->get('lichess.drawer')->offer($this->get('lichess.provider')->findPlayer($id));
-        } catch (DrawerConcurrentOfferException $e) {
-            return $this->acceptDrawOffer($id);
-        }
+        $this->get('lichess.drawer')->offer($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
