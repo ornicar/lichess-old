@@ -462,7 +462,7 @@ $.widget("lichess.game", {
           var $this = $(this);
             $this.hover(function() {
                 var $selected = self.$board.find('div.lcs.selected');
-                if ($selected.length && self.isMyTurn() && self.possibleMovesContain($selected.attr('id'), $this.attr('id'))) {
+                if ($selected.length > 0 && self.isMyTurn() && self.possibleMovesContain($selected.attr('id'), $this.attr('id'))) {
                     $this.addClass('selectable');
                 }
             },
