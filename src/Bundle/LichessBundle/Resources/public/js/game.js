@@ -170,6 +170,7 @@ $.widget("lichess.game", {
 
         var animD = mine ? 0 : self.options.animation_delay;
 
+        $('body > div.lichess_piece').stop(true, true);
         if (animD < 100) {
           afterMove();
         }
@@ -307,7 +308,10 @@ $.widget("lichess.game", {
                     });
                     break;
                 case "premove":
-                    self.applyPremove();
+                    self.element.queue(function() {
+                      self.applyPremove();
+                      self.element.dequeue();
+                    });
                     break;
             }
         });
