@@ -406,6 +406,7 @@ $.widget("lichess.game", {
             return;
         }
         var draggingKey = null;
+        var dropped = false;
         // init squares
         self.$board.find("div.lcs").each(function() {
             var squareId = $(this).attr('id');
@@ -415,6 +416,7 @@ $.widget("lichess.game", {
                 },
                 drop: function(ev, ui) {
                     self.dropPiece(ui.draggable, ui.draggable.parent(), $(this));
+                    dropped = true;
                 },
                 hoverClass: 'droppable-hover'
             });
@@ -425,17 +427,17 @@ $.widget("lichess.game", {
             var $this = $(this);
             var $helper = $('<div>').attr("class", $this.attr("class"));
             $this.draggable({
-                distance: 1,
                 containment: self.$board,
                 helper: function() { return $helper.appendTo(self.$board); },
                 start: function() { 
                   draggingKey = $this.hide().parent().attr('id'); 
+                  dropped = false;
                 },
                 stop: function() { 
                   draggingKey = null; 
-                  $this.show(); 
+                  $this.show();
+                  if (!dropped) $this.trigger('click'); 
                 },
-                cursorAt: { left: 32, top: 32 },
                 scroll: false
             });
         });
