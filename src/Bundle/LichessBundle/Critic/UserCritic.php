@@ -111,7 +111,7 @@ class UserCritic
     {
         return $this->cacheable('nbDraws', function($games, $users, $user) {
             return $games->createByUserQuery($user)
-                ->field('status')->equals(Game::DRAW)
+                ->field('status')->in(array(Game::DRAW, Game::STALEMATE))
                 ->getQuery()->count();
         });
     }

@@ -290,7 +290,7 @@ class GameRepository extends DocumentRepository
     public function createRecentByDrawerQuery(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->field('status')->equals(Game::DRAW);
+            ->field('status')->in(array(Game::DRAW, Game::STALEMATE));
     }
 
     /**
