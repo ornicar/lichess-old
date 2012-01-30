@@ -23,7 +23,7 @@
         <service id="lichess_forum.form_type.new_topic" class="Application\ForumBundle\Form\NewTopicFormType" />
         <service id="lichess_forum.newposts_cache" class="Application\ForumBundle\NewPostsCache">
             <argument>lichess_newposts</argument>
-            <argument>72000</argument>
+            <argument>144000</argument>
         </service>
     </services>
 
