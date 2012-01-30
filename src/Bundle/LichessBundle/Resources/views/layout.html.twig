@@ -71,6 +71,14 @@
                     <a id="site_title" href="{{ url('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
                     <span id="site_baseline">{{ "Free Online Chess"|trans }}</span>
                 </h1>
+{% if false %}
+<div class="translation_block">
+<span class="name">Maintenance scheduled</span>
+Lichess.org will be down in a few minutes!
+<br />
+<a class="close">x</a>
+</div>
+{% endif %}
                 {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
                 {% elseif app.session.getFlash("locale_change_contribute", "en") != "en" %}{% render "LichessTranslationBundle:Contribution:onChange" with{"locale": app.session.locale} %}
                 {% elseif app.session.getFlash("locale_change_adjust") %}
