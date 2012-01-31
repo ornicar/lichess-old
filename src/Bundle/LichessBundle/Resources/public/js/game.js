@@ -560,7 +560,7 @@ $.widget("lichess.game", {
                 self.$table.html(html);
                 self.initTable();
                 self.initClocks();
-                callback();
+                $.isFunction(callback) && callback();
                 $('body').trigger('lichess.content_loaded');
             }
         }, false);
@@ -577,6 +577,14 @@ $.widget("lichess.game", {
         self.$table.find('a.lichess_rematch').click(function() {
             self.post($(this).attr('href'), {}, true);
             return false;
+        });
+        self.$table.find('a.moretime').click(function() {
+          self.post($(this).attr('href'), {
+              success: function(time) {
+                self.updateClock(self.options.opponent.color, time);
+              }
+          }, true);
+          return false;
         });
     },
     initClocks: function() {
@@ -608,6 +616,15 @@ $.widget("lichess.game", {
         self.$table.find('div.clock').clock('stop');
         if (self.options.game.turns > 0) {
             self.$table.find('div.clock_' + self.options.game.player).clock('start');
+        }
+    },
+    updateClock: function(color, time) {
+        var self = this;
+        if (!self.canRunClock()) return;
+        self.$table.find('div.clock_' + color).clock('setTime', time);
+        self.$table.find('div.clock').clock('stop');
+        if (self.options.game.turns > 0) {
+            self.$table.find('div.clock_' + color).clock('start');
         }
     },
     canRunClock: function() {

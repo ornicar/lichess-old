@@ -141,6 +141,11 @@ class Clock
         $this->times[$color] = round($this->times[$color] + $time, 2);
     }
 
+    public function giveTime($color, $time)
+    {
+        $this->times[$color] = round($this->times[$color] - $time, 2);
+    }
+
     /**
      * Tell if the player with this color is out of tim
      *

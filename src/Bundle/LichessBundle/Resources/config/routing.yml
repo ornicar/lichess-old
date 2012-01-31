@@ -96,6 +96,10 @@ lichess_decline_draw_offer:
     pattern:        /decline-draw-offer/{id}
     defaults:       { _controller: LichessBundle:Player:declineDrawOffer }
     requirements:   { id: "[\w\-]{12}" }
+lichess_moretime:
+    pattern:        /moretime/{id}
+    defaults:       { _controller: LichessBundle:Player:moretime }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_pgn_viewer:
     pattern:        /analyse/{id}/{color}
     defaults:       { _controller: LichessBundle:Pgn:analyse, color: white }

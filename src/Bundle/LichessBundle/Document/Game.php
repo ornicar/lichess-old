@@ -528,6 +528,26 @@ class Game
         }
     }
 
+    public function giveTime(Player $player, $seconds)
+    {
+        if(!$this->hasClock()) {
+            throw new LogicException('Cannot add time, the game has no clock');
+        }
+        if (!$this->getIsPlayable()) {
+            throw new LogicException('Cannot add time, the game is finished');
+        }
+        $clock = $this->getClock();
+        $color = $player->getColor();
+        $clock->giveTime($color, $seconds);
+        $this->addEventToStacks(array(
+            'type' => 'moretime',
+            'color' => $color,
+            'seconds' => $seconds
+        ));
+
+        return $clock->getRemainingTime($color);
+    }
+
     protected function getPositionHashArray()
     {
         return empty($this->positionHashes) ? array() : str_split($this->positionHashes, 5);

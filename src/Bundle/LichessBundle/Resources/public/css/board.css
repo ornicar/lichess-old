@@ -402,6 +402,19 @@ div.clock_bottom {
   -moz-border-radius: 0 0 4px 4px;
   -webkit-border-radius: 0 0 4px 4px;
 }
+div.lichess_table_wrap a.moretime {
+  opacity: 0.4;
+  position: absolute;
+  left: 87px;
+  top: 6px;
+  width: 32px;
+  height: 32px;
+  display: block;
+  background: url(/bundles/lichess/images/add.png) no-repeat;
+}
+div.lichess_table_wrap a.moretime:hover {
+  opacity: 1;
+}
 
 div.lichess_table_next {
   top: 145px;

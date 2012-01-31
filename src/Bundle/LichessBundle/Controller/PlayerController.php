@@ -14,6 +14,15 @@ use Lichess\OpeningBundle\Config\GameConfig;
 
 class PlayerController extends Controller
 {
+    public function moretimeAction($id)
+    {
+        $player = $this->get('lichess.provider')->findPlayer($id);
+        $time = $player->getGame()->giveTime($player->getOpponent(), 15);
+        $this->flush();
+
+        return new Response($time);
+    }
+
     public function outoftimeAction($id)
     {
         $this->get('lichess.finisher')->outoftime($this->get('lichess.provider')->findPlayer($id));

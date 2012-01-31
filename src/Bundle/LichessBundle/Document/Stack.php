@@ -161,6 +161,9 @@ class Stack
             case "promotion":
                 $data = $ktp($event['key']) . Piece::classToLetter(ucfirst($event['pieceClass']));
                 break;
+            case "moretime":
+                $data = $col($event['color']) . $event['seconds'];
+                break;
             default:
                 $data = '';
                 break;
@@ -220,6 +223,9 @@ class Stack
             case "promotion":
                 $event = array('key' => $ptk($data{0}), 'pieceClass' => strtolower(Piece::letterToClass($data{1})));
                 break;
+            case "moretime":
+                $event = array('color' => $col($data{0}), 'seconds' => substr($data, 1));
+                break;
             default:
                 $event = array();
                 break;
@@ -242,6 +248,7 @@ class Stack
         'c' => 'castling',
         'C' => 'check',
         't' => 'threefold_repetition',
+        'T' => 'moretime',
         'e' => 'end',
         'E' => 'enpassant'
     );
@@ -256,6 +263,7 @@ class Stack
         'castling' => 'c',
         'check' => 'C',
         'threefold_repetition' => 't',
+        'moretime' => 'T',
         'end' => 'e',
         'enpassant' => 'E'
     );
