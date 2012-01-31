@@ -39,6 +39,7 @@
                 <li><a href="{{ path("lichess_translation_contribution") }}">Help translate Lichess!</a></li>
                 </ul>
             </div>
+            <a href="#" class="colorpicker">{{ "Color"|trans }}</a>
             {% set active = block("menu_active") %}
             <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " current" : "" }}" href="{{ path("lichess_homepage") }}">{{ "Play"|trans }}</a>
             <a class="goto_gamelist goto_nav blank_if_play{{ active == "game" ? " current" : "" }}" title="{{ "See the games being played in real time"|trans }}" href="{{ path("lichess_list_current") }}">{{ "Games"|trans }}</a>
@@ -115,6 +116,7 @@ Lichess.org will be down in a few minutes!
             {% endif %}
             {% javascripts
                 '@LichessBundle/Resources/public/vendor/jquery-ui.min.js'
+                '@LichessBundle/Resources/public/vendor/jquery.cookie.js'
                 '@LichessBundle/Resources/public/vendor/jquery.mousewheel.js'
                 '@LichessBundle/Resources/public/vendor/qtip/jquery.qtip.min.js'
                 '@LichessBundle/Resources/public/js/tipsy.min.js'

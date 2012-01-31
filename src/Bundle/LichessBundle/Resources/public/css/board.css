@@ -29,11 +29,29 @@ div.lcs {
   height: 64px;
 }
 
-div.lcs.white {
+div.grey div.lcs.black, a.colorpicker.grey  {
+  background: #cacaca;
+}
+div.grey div.lcs.white {
   background: #FFFFFF;
 }
-div.lcs.black {
-  background: #CFCFCF;
+div.brown div.lcs.black, a.colorpicker.brown   {
+  background: #b58863;
+}
+div.brown div.lcs.white {
+  background: #f0d9b5;
+}
+div.green div.lcs.black, a.colorpicker.green   {
+  background: #769656;
+}
+div.green div.lcs.white {
+  background: #ffffdd;
+}
+div.blue div.lcs.black, a.colorpicker.blue   {
+  background: #4d6d92;
+}
+div.blue div.lcs.white {
+  background: #ffffdd;
 }
 
 div.lcsi {

@@ -51,6 +51,22 @@ $(function() {
     if ($bw = $('div.lichess_board_wrap').orNot()) {
         if ($('div.lichess_homepage').length == 0)
           $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
+
+        // board color
+        var $board = $bw.find('> div.lichess_board');
+        var $picker = $('#top a.colorpicker');
+        var colors = {0:'grey', 1:'brown', 2:'green', 3:'blue', length: 4};
+        var nbColors = 3;
+        var colorIndex = $.cookie('lbc') || 0;
+        function setColor(index) {
+          $picker.add($board).removeClass(Array.prototype.slice.call(colors).join(' ')).addClass(colors[index]);
+        }
+        setColor(colorIndex);
+        $picker.click(function() {
+          colorIndex = (colorIndex + 1) % colors.length;
+          $.cookie('lbc', colorIndex);
+          setColor(colorIndex);
+        });
     }
 
     $.centerOverboard = function() {

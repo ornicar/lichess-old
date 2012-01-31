@@ -15,7 +15,7 @@ if (!file_exists('bin/rsync_exclude')) {
 
 $mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
 
-if (!in_array($mode, array('all', 'trans', 'code', 'noass'))) {
+if (!in_array($mode, array('all', 'trans', 'code', 'ass', 'noass'))) {
     echo "\nusage: deploy [all|trans|code|noass]";
     echo "\n   all   Deploy all codebase";
     echo "\n   trans Deploy only translations";
