@@ -429,10 +429,9 @@ $.widget("lichess.game", {
         // init pieces
         self.$board.find("div.lichess_piece." + self.options.player.color).each(function() {
             var $this = $(this);
-            var $helper = $('<div>').attr("class", $this.attr("class"));
             $this.draggable({
                 containment: self.$board,
-                helper: function() { return $helper.appendTo(self.$board); },
+                helper: function() { return $('<div>').attr('class', $this.attr('class')).appendTo(self.$board); },
                 start: function() { 
                   draggingKey = $this.hide().parent().attr('id'); 
                   dropped = false;
