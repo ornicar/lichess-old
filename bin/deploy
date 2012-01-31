@@ -21,7 +21,6 @@ if (!in_array($mode, array('all', 'trans', 'code', 'ass', 'noass'))) {
     echo "\n   trans Deploy only translations";
     echo "\n   code  Deploy code that does not need cache:clear";
     echo "\n   noass Deploy all codebase, don't dump assets";
-    echo "\n   ass   Only an asset deploy";
     exit(1);
 }
 
@@ -31,10 +30,6 @@ if ($mode == 'all' || $mode == 'noass') {
     $remoteTarget = "$remote:$remoteDir";
     show_run("Deploy all codebase to $remoteTarget", "rsync $rsyncoptions ./ $remoteTarget");
     show_run("Run refresh ".$mode, "ssh $remote \"cd $remoteDir && bin/refresh $mode\"");
-} elseif ($mode == 'ass') {
-    $remoteTarget = "$remote:$remoteDir";
-    show_run("Deploy all codebase to $remoteTarget", "rsync $rsyncoptions ./ $remoteTarget");
-    show_run("Run refresh ass", "ssh $remote \"cd $remoteDir && bin/refresh ass\"");
 } elseif ($mode == 'code') {
     $remoteTarget = "$remote:$remoteDir";
     show_run("Deploy all codebase to $remoteTarget", "rsync $rsyncoptions ./ $remoteTarget");
