@@ -6,12 +6,13 @@ require_once __DIR__.'/base_script.php';
 $mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
 $testurl="http://en.lichess.org";
 
-if (!in_array($mode, array('all', 'trans', 'code', 'noass', 'cc'))) {
+if (!in_array($mode, array('all', 'trans', 'code', 'noass', 'ass', 'cc'))) {
     echo "\nusage: refresh [all|trans|code|noass]";
     echo "\n   all   Refresh all";
     echo "\n   trans Refresh only translations";
     echo "\n   code  Only clears apc opcode cache";
     echo "\n   noass refresh all, don't dump assets";
+    echo "\n   ass refresh assets";
     echo "\n   cc clear the cache";
     exit(1);
 }
@@ -29,6 +30,11 @@ if ($mode == 'all' || $mode == 'noass') {
     maintenance(true);
     show_run("Clearing APC cache", "php app/console --env=prod apc:clear");
     maintenance(false);
+} elseif ($mode == 'ass') {
+    show_run("Dumping assets", "php app/console --env=prod assetic:dump");
+    show_run("Warming up app cache", "php app/console --env=prod cache:clear");
+    show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
+    clearOpCode();
 } elseif ($mode == 'cc') {
     show_run("Warming up app cache", "php app/console --env=prod cache:clear");
     show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
