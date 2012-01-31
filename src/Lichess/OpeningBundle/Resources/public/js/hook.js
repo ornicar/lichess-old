@@ -123,9 +123,10 @@ $(function() {
         for (i in data.messages) {
             msg = data.messages[i];
             user = msg["u"];
+            text = urlToLink(msg["m"]);
             html += '<li><span>'
             html += '<a class="user_link" href="/@/'+user+'">'+user.substr(0, 12) + '</a>';
-            html += '</span>' + msg["m"] + '</li>';
+            html += '</span>' + text + '</li>';
         }
         if (html != "") {
             $chat.find('.lichess_messages').append(html)[0].scrollTop = 9999999;

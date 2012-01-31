@@ -264,6 +264,11 @@ if (/.+\.lichess\.org/.test(document.domain)) {
     })();
 }
 
+function urlToLink(text) {
+    var exp = /\bhttp:\/\/[a-z]{0,3}\.(lichess\.org[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    return text.replace(exp,"<a href='http://$1'>$1</a>"); 
+}
+
 if (!Array.prototype.indexOf) {
   Array.prototype.indexOf = function(elt) {
     var len = this.length >>> 0;

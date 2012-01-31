@@ -257,7 +257,7 @@ $.widget("lichess.game", {
                     break;
                 case 'message':
                     self.element.queue(function() {
-                        if (self.$chat.length) self.$chat.find('ol.lichess_messages').append(event.html)[0].scrollTop = 9999999;
+                        if (self.$chat.length) self.$chat.find('ol.lichess_messages').append(urlToLink(event.html))[0].scrollTop = 9999999;
                         self.element.dequeue();
                     });
                     break;
@@ -508,9 +508,11 @@ $.widget("lichess.game", {
             return;
         }
         if (self.$chat.length) {
-            self.$chat.find('.lichess_messages').scrollable();
+            var $messages = self.$chat.find('.lichess_messages');
+            $messages.find('>li').each(function() { $(this).html(urlToLink($(this).html())); });
+            $messages.scrollable();
             var $form = self.$chat.find('form');
-            self.$chat.find('ol.lichess_messages')[0].scrollTop = 9999999;
+            $messages[0].scrollTop = 9999999;
             var $input = self.$chat.find('input.lichess_say').one("focus", function() {
                 $input.val('').removeClass('lichess_hint');
             });
