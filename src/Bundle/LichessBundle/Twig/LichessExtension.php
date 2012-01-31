@@ -300,7 +300,7 @@ class LichessExtension extends Twig_Extension
             $squares = array_reverse($squares, true);
         }
         $x = $y = 1;
-        $html = '<div class="lichess_board">';
+        $html = '<div class="lichess_board grey">';
         foreach($squares as $squareKey => $square) {
             $html .= sprintf('<div class="lcs %s%s" id="%s" style="top:%dpx;left:%dpx;">',
                 $square->getColor(), $checkSquareKey === $squareKey ? ' check' : '', $squareKey, 64*(8-$x), 64*($y-1)
