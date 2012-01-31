@@ -331,7 +331,7 @@ $.widget("lichess.game", {
                 var $toSquare = $("#"+move.to).orNot();
                 var $piece = $fromSquare.find(".lichess_piece").orNot();
                 if ($fromSquare && $toSquare && $piece) {
-                    self.dropPiece($piece, $fromSquare, $toSquare);
+                    self.dropPiece($piece, $fromSquare, $toSquare, true);
                 }
             }
         }
@@ -355,8 +355,9 @@ $.widget("lichess.game", {
     unselect: function() {
         this.$board.find('> div.selected').removeClass('selected');
     },
-    dropPiece: function($piece, $oldSquare, $newSquare) {
+    dropPiece: function($piece, $oldSquare, $newSquare, isPremove) {
         var self = this,
+        isPremove = isPremove || false;
         squareId = $newSquare.attr('id'),
         moveData = {
             from: $oldSquare.attr("id"),
@@ -389,19 +390,24 @@ $.widget("lichess.game", {
         var color = self.options.player.color;
         // promotion
         if ($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1))) {
+          if (isPremove) {
+            moveData.options = { promotion: "queen" };
+            sendMoveRequest(moveData);
+          } else {
             var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
-                    <div rel="queen" class="lichess_piece queen ' + color + '"></div>\
-                    <div rel="knight" class="lichess_piece knight ' + color + '"></div>\
-                    <div rel="rook" class="lichess_piece rook ' + color + '"></div>\
-                    <div rel="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
+                    <div data-piece="queen" class="lichess_piece queen ' + color + '"></div>\
+                    <div data-piece="knight" class="lichess_piece knight ' + color + '"></div>\
+                    <div data-piece="rook" class="lichess_piece rook ' + color + '"></div>\
+                    <div data-piece="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
                         moveData.options = {
-                            promotion: $(this).attr('rel')
+                            promotion: $(this).attr('data-piece')
                         };
                         sendMoveRequest(moveData);
                         $choices.fadeOut(self.options.animation_delay, function() {
                             $choices.remove();
                         });
                     }).end();
+          }
         }
         else {
             sendMoveRequest(moveData);
