@@ -95,7 +95,7 @@ class GameExporter
     protected function findPlayerAndOpponent(array $game, $userId)
     {
         foreach ($game['players'] as $p) {
-            if (isset($p['user']['$id']) && $userId === $p['user']['$id']->__toString()) {
+            if (isset($p['user']['$id']) && $userId == $p['user']['$id']->__toString()) {
                 $player = $p;
             } else {
                 $opponent = $p;
