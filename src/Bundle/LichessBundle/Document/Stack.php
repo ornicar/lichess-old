@@ -6,7 +6,7 @@ use Bundle\LichessBundle\Chess\Board;
 
 class Stack
 {
-    const MAX_EVENTS = 20;
+    const MAX_EVENTS = 16;
 
     /**
      * Events in the stack
