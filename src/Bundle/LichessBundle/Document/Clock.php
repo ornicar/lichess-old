@@ -45,7 +45,7 @@ class Clock
      *  Assume that a move takes some time to go from player1 -> server -> player2
      *  and remove this time from each move time
      */
-    const HTTP_DELAY = 1;
+    const HTTP_DELAY = 0.7;
 
     /**
      * Fisher clock bonus per move in seconds
@@ -139,6 +139,11 @@ class Clock
     public function addTime($color, $time)
     {
         $this->times[$color] = round($this->times[$color] + $time, 2);
+    }
+
+    public function giveTime($color, $time)
+    {
+        $this->times[$color] = round($this->times[$color] - $time, 2);
     }
 
     /**
@@ -273,8 +278,17 @@ class Clock
         return sprintf('%02d:%02d', floor($time/60), $time%60);
     }
 
+    public function estimateTotalTime()
+    {
+        return $this->getLimit() + (30 * $this->getIncrement());
+    }
+
     public function __clone()
     {
         $this->reset();
+    }
+
+    public function __toString() {
+        return 'clock';
     }
 }

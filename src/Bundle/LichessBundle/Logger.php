@@ -122,7 +122,7 @@ class Logger
 
     public function notice($object, $message)
     {
-        return $this->warn($object, $message);
+        //return $this->warn($object, $message);
     }
 
     public function info($object, $message)

@@ -16,9 +16,10 @@
         <service id="lichess_opening.messages_renderer" class="Lichess\OpeningBundle\Message\MessagesRenderer">
             <argument type="service" id="lichess_opening.message_repository" />
         </service>
-        <service id="lichess_opening.messenger" class="Lichess\OpeningBundle\Message\Messenger">
+        <service id="lichess_opening.messenger" class="Lichess\OpeningBundle\Message\Messenger" scope="request">
             <argument type="service" id="lichess_opening.message_repository" />
             <argument type="service" id="lichess_opening.memory" />
+            <argument type="service" id="request" />
         </service>
     </services>
 </container>

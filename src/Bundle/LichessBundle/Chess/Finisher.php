@@ -32,12 +32,25 @@ class Finisher
         $this->autoDraw   = $autoDraw;
     }
 
-    public function finish(Game $game)
+    public function finish(Game $game, $status = null, Player $winner = null)
     {
+        // try to prevent concurrent game finishing
+        $apcLockKey = 'game_finish_lock_' . $game->getId();
+        if (apc_fetch($apcLockKey)) { throw new FinisherException('Game finish lock'); }
+        apc_store($apcLockKey, true, 60);
+
+        if ($status) $game->setStatus($status);
+        if ($winner) $game->setWinner($winner);
+
         $this->messenger->addSystemMessage($game, $game->getStatusMessage());
+
         $this->judge->study($game);
 
         $this->updateElo($game);
+
+        $this->updateNbGames($game);
+
+        $game->finish();
     }
 
     /**
@@ -50,11 +63,12 @@ class Finisher
     {
         $game = $player->getGame();
         if ($oftPlayer = $game->checkOutOfTime()) {
-            $game->setStatus(Game::OUTOFTIME);
-            if (!$this->autoDraw->hasTooFewMaterialToMate($oftPlayer->getOpponent())) {
-                $game->setWinner($oftPlayer->getOpponent());
+            if ($this->autoDraw->hasTooFewMaterialToMate($oftPlayer->getOpponent())) {
+                $winner = null;
+            } else {
+                $winner = $oftPlayer->getOpponent();
             }
-            $this->finish($game);
+            $this->finish($game, Game::OUTOFTIME, $winner);
             $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
             $game->addEventsToStacks($events);
             $this->logger->notice($player, 'Player:outoftime');
@@ -74,14 +88,12 @@ class Finisher
     {
         $game = $player->getGame();
         if($game->getIsPlayable() && 0 == $this->memory->getActivity($player->getOpponent())) {
-            $game->setStatus(Game::TIMEOUT);
-            $game->setWinner($player);
-            $this->finish($game);
+            $this->finish($game, Game::TIMEOUT, $player);
             $game->addEventToStacks(array('type' => 'end'));
             $this->logger->notice($player, 'Player:forceResign');
         }
         else {
-            $this->logger->warn($player, 'Player:forceResign');
+            $this->logger->warn($player, 'Player:forceResign FAIL');
         }
     }
 
@@ -95,8 +107,7 @@ class Finisher
     {
         $game = $player->getGame();
         if($game->getIsPlayable() && $game->isThreefoldRepetition() && $player->isMyTurn()) {
-            $game->setStatus(Game::DRAW);
-            $this->finish($game);
+            $this->finish($game, Game::DRAW, null);
             $game->addEventToStacks(array('type' => 'end'));
             $this->logger->notice($player, 'Player:claimDraw');
         }
@@ -118,8 +129,7 @@ class Finisher
             $this->logger->warn($player, 'Player:abort non-abortable');
             throw new FinisherException();
         }
-        $game->setStatus(Game::ABORTED);
-        $this->finish($game);
+        $this->finish($game, Game::ABORTED, null);
         $game->addEventToStacks(array('type' => 'end'));
         $this->logger->notice($player, 'Player:abort');
     }
@@ -139,11 +149,21 @@ class Finisher
         }
         $opponent = $player->getOpponent();
 
-        $game->setStatus(Game::RESIGN);
-        $game->setWinner($opponent);
-        $this->finish($game);
+        $this->finish($game, Game::RESIGN, $opponent);
         $game->addEventToStacks(array('type' => 'end'));
         $this->logger->notice($player, 'Player:resign');
+    }
+
+    protected function updateNbGames(Game $game)
+    {
+        foreach ($game->getPlayers() as $player) {
+            if ($user = $player->getUser()) {
+                $user->setNbGames($user->getNbGames() + 1);
+                if ($game->getIsRated()) {
+                    $user->setNbRatedGames($user->getNbRatedGames() + 1);
+                }
+            }
+        }
     }
 
     protected function updateElo(Game $game)
@@ -172,12 +192,12 @@ class Finisher
         } else {
             $win = 0;
         }
-        list($whiteElo, $blackElo) = $this->calculator->calculate($white->getElo(), $black->getElo(), $win);
-        $white->setEloDiff($whiteEloDiff = $whiteElo - $white->getElo());
-        $black->setEloDiff($blackEloDiff = $blackElo - $black->getElo());
+        list($whiteElo, $blackElo) = $this->calculator->calculate($whiteUser, $blackUser, $win);
+        $white->setEloDiff($whiteEloDiff = $whiteElo - $whiteUser->getElo());
+        $black->setEloDiff($blackEloDiff = $blackElo - $blackUser->getElo());
 
-        $this->eloUpdater->updateElo($whiteUser, $whiteUser->getElo() + $whiteEloDiff, $game);
-        $this->eloUpdater->updateElo($blackUser, $blackUser->getElo() + $blackEloDiff, $game);
+        $this->eloUpdater->updateElo($whiteUser, $whiteElo, $game);
+        $this->eloUpdater->updateElo($blackUser, $blackElo, $game);
 
         $this->logger->notice($game, sprintf('Elo exchanged: %s', $whiteEloDiff));
     }

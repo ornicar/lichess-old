@@ -54,7 +54,7 @@ class PlayerWithOpponentControllerTest extends WebTestCase
 
         $p1->request('POST', $this->getSyncUrl($h1));
         $response = json_decode($p1->getResponse()->getContent(), true);
-        $this->assertEquals('redirect', $response['e'][0]['type']);
+        $this->assertEquals('redirect', $response['e'][2]['type']);
 
         $crawler = $p1->request('GET', '/'.$h1);
         $this->assertEquals(0, $crawler->selectLink('Rematch')->count());

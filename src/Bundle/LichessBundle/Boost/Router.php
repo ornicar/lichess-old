@@ -13,21 +13,29 @@ $url = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST
 // sends an http response
 function _lichess_boost_send_response($content, $type)
 {
-    $content = (string)$content;
-    header('HTTP/1.0 200 OK');
-    header('content-type: '.$type);
-    header('content-length: '.strlen($content)); // short content length prevents gzip
+  $content = (string)$content;
+  header('HTTP/1.0 200 OK');
+  header('content-type: '.$type);
+  header('content-length: '.strlen($content)); // short content length prevents gzip
 
-    exit((string)$content);
+  exit((string)$content);
+}
+
+// Redirect urls containing the frontend controller
+if (0 === strncmp($url, '/index.php', 10)) {
+  $newUrl = substr($url, 10);
+  if (empty($newUrl)) $newUrl = '/';
+  header("Location: ".$newUrl, true , 301);
+  exit;
 }
 
 // Handle user ping
 if (0 === strncmp($url, '/ping', 5)) {
-    require_once(__DIR__.'/Handler.php');
-    _lichess_boost_send_response(\Bundle\LichessBundle\Boost\Handler::ping(), 'application/json');
+  require_once(__DIR__.'/Handler.php');
+  _lichess_boost_send_response(\Bundle\LichessBundle\Boost\Handler::ping(), 'application/json');
 }
 // Handle number of active players requests
 elseif(0 === strncmp($url, '/how-many-players-now', 21)) {
-    require_once(__DIR__.'/Handler.php');
-    _lichess_boost_send_response(\Bundle\LichessBundle\Boost\Handler::howManyPlayersNow(), 'text/plain');
+  require_once(__DIR__.'/Handler.php');
+  _lichess_boost_send_response(\Bundle\LichessBundle\Boost\Handler::howManyPlayersNow(), 'text/plain');
 }

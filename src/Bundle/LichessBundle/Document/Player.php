@@ -6,8 +6,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Bundle\LichessBundle\Util\KeyGenerator;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User;
+use Bundle\LichessBundle\Chess\Board;
 
 /**
  * Represents a single Chess player for one game
@@ -85,27 +85,31 @@ class Player
      * Event stack
      *
      * @var Stack
-     * @MongoDB\EmbedOne(targetDocument="Stack")
      */
     protected $stack;
 
     /**
-     * the player pieces
+     * the player stack events, compressed for efficient storage
      *
-     * @var Collection
-     * @MongoDB\EmbedMany(
-     *   discriminatorMap={
-     *     "p"="Bundle\LichessBundle\Document\Piece\Pawn",
-     *     "r"="Bundle\LichessBundle\Document\Piece\Rook",
-     *     "b"="Bundle\LichessBundle\Document\Piece\Bishop",
-     *     "n"="Bundle\LichessBundle\Document\Piece\Knight",
-     *     "q"="Bundle\LichessBundle\Document\Piece\Queen",
-     *     "k"="Bundle\LichessBundle\Document\Piece\King"
-     *   },
-     *   discriminatorField="t"
-     * )
+     * @var string
+     * @MongoDB\String
+     */
+    protected $evts;
+
+    /**
+     * the player pieces, extracted from ps
+     *
+     * @var array
      */
     protected $pieces;
+
+    /**
+     * the player pieces, compressed for efficient storage
+     *
+     * @var string
+     * @MongoDB\String
+     */
+    protected $ps;
 
     /**
      * Whether the player is offering draw or not
@@ -135,10 +139,10 @@ class Player
      * Array of move times relative to the opponent previous move
      * Which really means: the time used to make the move
      *
-     * @var array of int
-     * @MongoDB\Field(type="collection")
+     * @var array of int compressed to string
+     * @MongoDB\String
      */
-    protected $moveTimes = array();
+    protected $mts = null;
 
     /**
      * Previous move timestamp
@@ -162,9 +166,14 @@ class Player
         }
         $this->color = $color;
         $this->generateId();
-        $this->stack = new Stack();
         $this->addEventToStack(array('type' => 'start'));
-        $this->pieces = new ArrayCollection();
+    }
+
+    public function finish()
+    {
+        if(!empty($this->previousMoveTs)) {
+            $this->previousMoveTs = null;
+        }
     }
 
     /**
@@ -174,7 +183,9 @@ class Player
     {
         $ts = time();
         if ($opmt = $this->getOpponent()->getPreviousMoveTs()) {
-            $this->moveTimes[] = $ts - $opmt;
+            $mt = $ts - $opmt;
+            if (empty($this->mts)) $this->mts = (string) $mt;
+            else $this->mts .= ' ' . $mt;
         }
         $this->previousMoveTs = $ts;
     }
@@ -186,7 +197,7 @@ class Player
      */
     public function hasMoveTimes()
     {
-        return count($this->moveTimes) > 5;
+        return !empty($this->mts) && strlen($this->mts) > 12;
     }
 
     /**
@@ -196,7 +207,7 @@ class Player
      */
     public function getMoveTimes()
     {
-        return $this->moveTimes;
+        return array_map(function($t) { return (int)$t; }, explode(' ', $this->mts));
     }
 
     /**
@@ -383,7 +394,16 @@ class Player
      */
     public function getStack()
     {
+        if (null === $this->stack) {
+            $this->stack = Stack::extract($this->evts);
+        }
+
         return $this->stack;
+    }
+
+    public function getStackVersion()
+    {
+        return $this->getStack()->getVersion();
     }
 
     public function addEventsToStack(array $events)
@@ -529,7 +549,7 @@ class Player
      */
     public function getPieces()
     {
-        return $this->pieces->toArray();
+        return $this->pieces;
     }
 
     /**
@@ -537,9 +557,7 @@ class Player
      */
     public function setPieces(array $pieces)
     {
-        foreach($this->pieces as $index => $p) {
-            $this->pieces->remove($index);
-        }
+        $this->pieces = array();
         foreach($pieces as $piece) {
             $this->addPiece($piece);
         }
@@ -547,13 +565,18 @@ class Player
 
     public function addPiece(Piece $piece)
     {
-        $this->pieces->add($piece);
         $piece->setPlayer($this);
+        $this->pieces[] = $piece;
     }
 
     public function removePiece(Piece $piece)
     {
-        $this->pieces->removeElement($piece);
+        foreach ($this->pieces as $i => $p) {
+            if ($p === $piece) {
+                unset($this->pieces[$i]);
+                break;
+            }
+        }
     }
 
     /**
@@ -585,11 +608,6 @@ class Player
         return $this->getGame()->getPlayer('white' === $this->color ? 'black' : 'white');
     }
 
-    public function getIsMyTurn()
-    {
-        return $this->game->getTurns() %2 xor 'white' === $this->color;
-    }
-
     public function isWhite()
     {
         return 'white' === $this->color;
@@ -609,11 +627,47 @@ class Player
 
     public function isMyTurn()
     {
-        return $this->getGame()->getTurns() %2 ? $this->isBlack() : $this->isWhite();
+        return $this->game->getTurns() %2 xor 'white' === $this->color;
     }
 
     public function getBoard()
     {
         return $this->getGame()->getBoard();
+    }
+
+    public function compressPieces()
+    {
+        $ps = array();
+        foreach($this->getPieces() as $piece) {
+            $letter = Piece::classToLetter($piece->getClass());
+            if ($piece->getIsDead()) $letter = strtoupper($letter);
+            $ps[] = Board::keyToPiotr($piece->getSquareKey()) . $letter . $piece->getFirstMove();
+        }
+
+        $this->ps = implode(' ', $ps);
+    }
+
+    public function extractPieces()
+    {
+        $pieces = array();
+        if (!empty($this->ps)) {
+            $baseClass = 'Bundle\\LichessBundle\\Document\\Piece\\';
+            foreach(explode(' ', $this->ps) as $p) {
+                $class = $baseClass . Piece::letterToClass(strtolower($p{1}));
+                $pos = Board::keyToPos(Board::piotrToKey($p{0}));
+                $piece = new $class($pos[0], $pos[1]);
+                if (ctype_upper($p{1})) $piece->setIsDead(true);
+                if ($meta = substr($p, 2)) $piece->setFirstMove((int)$meta);
+                $pieces[] = $piece;
+            }
+        }
+        $this->setPieces($pieces);
+    }
+
+    public function compressStack()
+    {
+        if ($this->stack) {
+            $this->evts = Stack::compress($this->stack);
+        }
     }
 }

@@ -49,6 +49,15 @@ div.user_show .win_stats {
     width: 312px;
     height: 200px;
 }
+div.user_show .stats form {
+    display: inline;
+}
+div.user_show .chat_messages {
+  overflow: auto;
+  height: 7em;
+  border: 1px solid #dadada;
+  padding: 1px 5px;
+}
 
 div.user_show .elo_with_me {
     margin-bottom: 1.5em;

@@ -20,7 +20,7 @@ class ClientUpdater
     public function getEventsSinceClientVersion(Player $player, $clientVersion, $withPrivateEvents)
     {
         $game                = $player->getGame();
-        $version             = $player->getStack()->getVersion();
+        $version             = $player->getStackVersion();
         $opponentActivity    = $this->memory->getActivity($player->getOpponent());
         $currentPlayerColor  = $game->getTurnColor();
 

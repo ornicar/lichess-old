@@ -32,12 +32,12 @@ class UserCritic
 
     public function getEloIfWin()
     {
-        return '+'.$this->calculator->calculateDiff($this->getAuthenticatedUser()->getElo(), $this->user->getElo(), -1);
+        return '+'.$this->calculator->calculateDiff($this->getAuthenticatedUser(), $this->user, -1);
     }
 
     public function getEloIfDraw()
     {
-        $diff = $this->calculator->calculateDiff($this->getAuthenticatedUser()->getElo(), $this->user->getElo(), 0);
+        $diff = $this->calculator->calculateDiff($this->getAuthenticatedUser(), $this->user, 0);
         if ($diff > 0) $diff = '+'.$diff;
 
         return $diff;
@@ -45,7 +45,7 @@ class UserCritic
 
     public function getEloIfLose()
     {
-        return $this->calculator->calculateDiff($this->getAuthenticatedUser()->getElo(), $this->user->getElo(), +1);
+        return $this->calculator->calculateDiff($this->getAuthenticatedUser(), $this->user, +1);
     }
 
     public function getRank()
@@ -64,11 +64,12 @@ class UserCritic
 
     public function getNbGames()
     {
-        return $this->cacheable('nbGames', function($games, $users, $user) {
-            return $games->createByUserQuery($user)
-                ->field('status')->gte(Game::MATE)
-                ->getQuery()->count();
-        });
+        return $this->user->getNbGames();
+    }
+
+    public function getNbRated()
+    {
+        return $this->user->getNbRatedGames();
     }
 
     public function getNbGamesWithMe()
@@ -90,7 +91,7 @@ class UserCritic
     public function getNbWins()
     {
         return $this->cacheable('nbWins', function($games, $users, $user) {
-            return $games->createByUserQuery($user)
+            return $games->createQueryBuilder()
                 ->field('winnerUserId')->equals((string) $user->getId())
                 ->getQuery()->count();
         });
@@ -110,7 +111,7 @@ class UserCritic
     {
         return $this->cacheable('nbDraws', function($games, $users, $user) {
             return $games->createByUserQuery($user)
-                ->field('status')->equals(Game::DRAW)
+                ->field('status')->in(array(Game::DRAW, Game::STALEMATE))
                 ->getQuery()->count();
         });
     }

@@ -19,8 +19,7 @@ class MessagesRenderer
         $messages = array_map(function($msg) {
             return array(
                 'id' => $msg['_id'],
-                'u' => substr($msg['username'], 0, 12),
-                'r' => $msg['registered'],
+                'u' => $msg['username'],
                 'm' => $msg['username'] == '[bot]' ? $msg['message'] : nl2br(htmlspecialchars($msg['message'], ENT_QUOTES, 'UTF-8'))
             );
         }, array_values(iterator_to_array(
@@ -29,7 +28,7 @@ class MessagesRenderer
 
         $data = array(
             'id' => empty($messages) ? $clientMessageId : $messages[0]['id'],
-            'messages' => array_reverse($messages)
+            'messages' => array_reverse(array_filter($messages, function($a) { return !empty($a['m']); }))
         );
 
         return $data;

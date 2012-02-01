@@ -1,15 +1,9 @@
 #!/bin/sh
 
-SLEEP=10
-
-echo "Ensure indexes"
-php app/console --env=prod doctrine:mongodb:schema:create --index
-
-echo "Sleep $SLEEP"
-sleep $SLEEP
+SLEEP=20
 
 echo "Delete old unplayed games"
-php app/console --env=prod --execute lichess:game:cleanup
+php app/console --env=prod lichess:game:cleanup
 
 echo "Sleep $SLEEP"
 sleep $SLEEP

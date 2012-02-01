@@ -4,6 +4,7 @@
 <div class="lichess_game clearfix lichess_player_{{ player.color }}">
     <div class="lichess_board_wrap">
         {{ lichess_game_board(player, checkSquareKey)|raw }}
+        {% include "LichessBundle:Main:connectionLost.html.twig" %}
     </div>
     <div class="lichess_ground">
         {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
@@ -61,4 +62,3 @@
 {% endblock %}
 {% block menu_active %}game{% endblock %}
 {% block share %}{% include "LichessBundle:Game:share.html.twig" with {"game": game} %}{% endblock %}
-{% block feed_link %}{% include "LichessCommentBundle:Thread:feedLink.html.twig" with {"game": game} %}{% endblock %}

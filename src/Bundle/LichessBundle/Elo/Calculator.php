@@ -2,6 +2,8 @@
 
 namespace Bundle\LichessBundle\Elo;
 
+use Application\UserBundle\Document\User;
+
 /**
  * Calculates players ELO
  * @see http://en.wikipedia.org/wiki/Elo_rating_system
@@ -11,14 +13,6 @@ namespace Bundle\LichessBundle\Elo;
  */
 class Calculator
 {
-    /**
-     * kFactor
-     * @see http://en.wikipedia.org/wiki/Elo_rating_system#Most_accurate_K-factor
-     *
-     * @var float
-     */
-    protected $kFactor;
-
     /**
      * Player 1 wins
      */
@@ -35,56 +29,60 @@ class Calculator
     const P2WIN = 1;
 
     /**
-     * Instanciates an ELO calculator
-     *
-     * @param float $kFactor
-     */
-    public function __construct($kFactor)
-    {
-        $this->kFactor = $kFactor;
-    }
-
-    /**
      * Calculate both players new Elos
      *
-     * @param float $playerOneElo
-     * @param float $playerTwopponentElo
      * @param int   $win Game result (-1: p1 win, 0: draw, +1: p2 win) see class constants
      * @return array playerOneNewElo, playerTwoNewElo
      */
-    public function calculate($playerOneElo, $playerTwopponentElo, $win)
+    public function calculate(User $user1, User $user2, $win)
     {
-        $playerOneNewElo = $this->calculatePlayerElo($playerOneElo, $playerTwopponentElo, -$win);
-        $playerTwoNewElo = $this->calculatePlayerElo($playerTwopponentElo, $playerOneElo, $win);
+        $user1NewElo = $this->calculateUserElo($user1, $user2->getElo(), -$win);
+        $user2NewElo = $this->calculateUserElo($user2, $user1->getElo(), $win);
 
-        return array($playerOneNewElo, $playerTwoNewElo);
+        return array($user1NewElo, $user2NewElo);
     }
 
     /**
      * Only returns the elo diff
      */
-    public function calculateDiff($playerOneElo, $playerTwopponentElo, $win)
+    public function calculateDiff(User $user1, User $user2, $win)
     {
-        $playerOneNewElo = $this->calculatePlayerElo($playerOneElo, $playerTwopponentElo, -$win);
+        $user1NewElo = $this->calculateUserElo($user1, $user2->getElo(), -$win);
 
-        return $playerOneNewElo - $playerOneElo;
+        return $user1NewElo - $user1->getElo();
     }
 
     /**
      * Calculate a single player new elo
      *
-     * @param int $playerElo
+     * @param User $user
      * @param int $opponentElo
      * @param int $win
      * @return int
      */
-    protected function calculatePlayerElo($playerElo, $opponentElo, $win)
+    protected function calculateUserElo(User $user, $opponentElo, $win)
     {
         $score      = $this->calculateScore($win);
-        $expected   = $this->calculateExpected($playerElo, $opponentElo);
-        $difference = $this->kFactor * ($score - $expected);
+        $expected   = $this->calculateExpected($user->getElo(), $opponentElo);
+        $kFactor    = $this->nbRatedGamesToKfactor($user->getNbRatedGames());
+        $difference = 2 * $kFactor * ($score - $expected);
 
-        return round($playerElo + $difference);
+        return round($user->getElo() + $difference);
+    }
+
+    /**
+     * kFactor
+     * @see http://en.wikipedia.org/wiki/Elo_rating_system#Most_accurate_K-factor
+     *
+     * @var float
+     */
+    public function nbRatedGamesToKfactor($nb)
+    {
+        return round(
+            $nb > 20
+            ? 16
+            : 50 - $nb * 34 / 20
+        );
     }
 
     /**

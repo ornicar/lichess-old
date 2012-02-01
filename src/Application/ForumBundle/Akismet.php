@@ -27,10 +27,15 @@ class Akismet
 
     protected function isSpamLike(Post $post)
     {
-        $hasBr = strpos(strtolower($post->getMessage()), '<br') !== false;
-        $hasHref = strpos(strtolower($post->getMessage()), '<a href') !== false;
+        if ($post->getAuthor() && $post->getAuthor()->hasRole('ROLE_ADMIN')) {
+            return false;
+        }
+        $simplified = str_replace(array("\r\n", "\n", " "), "", strtolower($post->getMessage()));
+        $hasBr = strpos($simplified, '<br') !== false;
+        $hasHref = strpos($simplified, '<ahref') !== false;
+        $hasSpam = strpos($simplified, 'hhtournaments.com') !== false;
 
-        return $hasBr || $hasHref;
+        return $hasBr || $hasHref || $hasSpam;
     }
 
     protected function getPostData(Post $post)

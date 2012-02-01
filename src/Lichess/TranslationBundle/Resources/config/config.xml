@@ -65,6 +65,7 @@
             <parameter key="sq">Shqip</parameter>
             <parameter key="be">Беларуская</parameter>
             <parameter key="ka">ქართულ</parameter>
+            <parameter key="sw">Kiswahili</parameter>
         </parameter>
 
     </parameters>

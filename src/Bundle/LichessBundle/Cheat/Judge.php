@@ -39,23 +39,21 @@ class Judge
         if (!$game->getIsRated()) {
             return;
         }
-        if ($game->getFullmoveNumber() < 10) {
+        if ($game->getFullmoveNumber() < 8) {
             return;
         }
-        if (!$winner = $game->getWinner()) {
-            return;
+        foreach ($game->getPlayers() as $player) {
+            $blurFactor  = $this->calculateBlurFactor($player);
+            $timePerMove = $this->calculateTimePerMove($game);
+            $score = $this->trialScoreCalculator->calculateScore($blurFactor, $timePerMove);
+            if ($score > 70) {
+                $trial = new Trial();
+                $trial->setGame($game);
+                $trial->setUser($player->getUser());
+                $trial->setScore($score);
+                $this->objectManager->persist($trial);
+            }
         }
-        $blurFactor  = $this->calculateBlurFactor($winner);
-        $timePerMove = $this->calculateTimePerMove($game);
-        $score = $this->trialScoreCalculator->calculateScore($blurFactor, $timePerMove);
-        if ($score < 75) {
-            return;
-        }
-        $trial = new Trial();
-        $trial->setGame($game);
-        $trial->setUser($winner->getUser());
-        $trial->setScore($score);
-        $this->objectManager->persist($trial);
     }
 
     public function setVerdict(Trial $trial, $verdict)

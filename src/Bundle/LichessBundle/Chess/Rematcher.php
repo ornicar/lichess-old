@@ -10,9 +10,11 @@ use Bundle\LichessBundle\Sync\Memory;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Lichess\OpeningBundle\Starter\GameStarter;
 
 class Rematcher
 {
+    protected $starter;
     protected $logger;
     protected $messenger;
     protected $gameGenerator;
@@ -20,8 +22,9 @@ class Rematcher
     protected $urlGenerator;
     protected $objectManager;
 
-    public function __construct(Logger $logger, Messenger $messenger, Generator $generator, Memory $memory, UrlGeneratorInterface $router, DocumentManager $objectManager)
+    public function __construct(GameStarter $starter, Logger $logger, Messenger $messenger, Generator $generator, Memory $memory, UrlGeneratorInterface $router, DocumentManager $objectManager)
     {
+        $this->starter        = $starter;
         $this->logger        = $logger;
         $this->messenger     = $messenger;
         $this->gameGenerator = $generator;
@@ -66,7 +69,7 @@ class Rematcher
             $nextGame     = $nextOpponent->getGame();
             $this->logger->notice($player, 'Player:rematch accept');
             $this->messenger->addSystemMessage($game, 'Rematch offer accepted');
-            $nextGame->start();
+            $this->starter->start($nextGame);
             $this->memory->setAlive($nextPlayer);
             // the opponent still pings the old game,
             // so we set it as active on the new game

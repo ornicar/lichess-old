@@ -5,7 +5,7 @@
     </div>
     <div class="lichess_chat_inner">
         <ol class="lichess_messages">
-            {{ lichess_room_messages(player.game.room.messages)|raw }}
+            {{ lichess_room_messages(room.messages|default([]))|raw }}
         </ol>
         <form action="" method="post">
             <input class="lichess_say lichess_hint" value="{{ "Talk in chat"|trans }}" />

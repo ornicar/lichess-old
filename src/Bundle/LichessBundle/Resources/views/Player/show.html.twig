@@ -6,10 +6,8 @@
 <div class="lichess_game clearfix lichess_player_{{ player.color }} not_spectator">
     <div class="lichess_board_wrap">
         {{ lichess_game_board(player, checkSquareKey)|raw }}
-      <div id="connection_lost" class="lichess_overboard">
-        Reconnecting 
-        <img width="220" height="33" src="{{ asset('bundles/lichess/images/hloader.gif') }}" />
-      </div>
+        {% include "LichessBundle:Main:connectionLost.html.twig" %}
+        <div id="premove">Premove enabled - Click anywhere to cancel</div>
     </div>
     <div class="lichess_ground">
         {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
@@ -36,7 +34,6 @@
     {{ lichess_game_data(player, possibleMoves, opponentActivity) }}
 {% endblock %}
 {% block chat %}
-{% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"player": player} %}{% endif %}
+{% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"room": room} %}{% endif %}
 {% endblock %}
 {% block share %}{% include "LichessBundle:Game:share.html.twig" with {"game": game} %}{% endblock %}
-{% block feed_link %}{% include "LichessCommentBundle:Thread:feedLink.html.twig" with {"game": game} %}{% endblock %}

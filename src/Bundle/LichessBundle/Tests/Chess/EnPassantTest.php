@@ -7,6 +7,7 @@ use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Chess\Analyser;
 use Bundle\LichessBundle\Chess\PieceFilter;
 use Bundle\LichessBundle\Document\Game;
+use ArrayObject;
 
 class EnPassantTest extends \PHPUnit_Framework_TestCase
 {
@@ -79,7 +80,7 @@ EOF;
      **/
     protected function move($move, array $options = array())
     {
-        $manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $manipulator = new TestManipulator($this->game, new ArrayObject());
         $manipulator->move($move, $options);
         $this->game->getBoard()->compile();
         $this->game->addTurn();

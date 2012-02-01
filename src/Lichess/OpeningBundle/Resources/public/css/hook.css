@@ -18,6 +18,11 @@ div.hooks_wrap {
     background: -ms-linear-gradient(top, rgba(212,212,212,0.9) 0%,rgba(240,240,240,0.5) 100%);
     background: -o-linear-gradient(top, rgba(212,212,212,0.9) 0%,rgba(240,240,240,0.5) 100%);
 }
+div.hooks_wrap.large {
+  height: 512px;
+  top: -14px;
+}
+
 div.hooks_wrap.hidden {
     display: none;
 }

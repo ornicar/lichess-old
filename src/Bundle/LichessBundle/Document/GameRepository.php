@@ -195,8 +195,22 @@ class GameRepository extends DocumentRepository
      **/
     public function createRecentByUserQuery(User $user)
     {
-        return $this->createByUserQuery($user)
-            ->sort('updatedAt', 'DESC');
+        return $this->createQueryBuilder($user)
+            ->field('userIds')->equals((string) $user->getId())
+            ->sort('createdAt', 'DESC')
+            ->hint(array('userIds' => 1, 'createdAt' => -1));
+    }
+
+    /**
+     * Query of RATED games played by a user ordered by updatedAt
+     *
+     * @param  User $user
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createRecentRatedByUserQuery(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->field('isRated')->equals(true);
     }
 
     /**
@@ -207,8 +221,19 @@ class GameRepository extends DocumentRepository
      **/
     public function createByUserQuery(User $user)
     {
+        return $this->createByUserIdQuery($user->getId());
+    }
+
+    /**
+     * Query of games played by a user
+     *
+     * @param  User $user
+     * @return Doctrine\ODM\Mongodb\Query
+     **/
+    public function createByUserIdQuery($userId)
+    {
         return $this->createQueryBuilder()
-            ->field('userIds')->equals((string) $user->getId())
+            ->field('userIds')->equals((string) $userId)
             ->hint(array('userIds' => 1));
     }
 
@@ -265,7 +290,7 @@ class GameRepository extends DocumentRepository
     public function createRecentByDrawerQuery(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->field('status')->equals(Game::DRAW);
+            ->field('status')->in(array(Game::DRAW, Game::STALEMATE));
     }
 
     /**

@@ -28,11 +28,11 @@ class Updater
                 $user->setIsOnline(false);
             }
         }
-        foreach($onlineUsernames as $username) {
-            if(!in_array($username, $repoUsernames)) {
-                $user = $this->userRepository->findOneByUsernameCanonical($username);
-                $user->setIsOnline(true);
-            }
+        $newOnlineUsers = $this->userRepository->findByUsernameCanonicals(
+            array_diff($onlineUsernames, $repoUsernames)
+        );
+        foreach($newOnlineUsers as $newOnlineUser) {
+            $newOnlineUser->setIsOnline(true);
         }
     }
 }

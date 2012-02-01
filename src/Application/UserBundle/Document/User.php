@@ -12,6 +12,7 @@ use Ornicar\MessageBundle\Model\ParticipantInterface;
  *   repositoryClass="Application\UserBundle\Document\UserRepository",
  *   collection="user"
  * )
+ * @MongoDB\Index(keys={"elo"="desc", "enabled"="asc"})
  */
 class User extends BaseUser implements ParticipantInterface
 {
@@ -39,11 +40,23 @@ class User extends BaseUser implements ParticipantInterface
     /**
      * ELO score of the user
      *
-     * @MongoDB\Field(type="float")
+     * @MongoDB\Field(type="int")
      * @MongoDB\Index(order="desc")
      * @var int
      */
     protected $elo = null;
+
+    /**
+     * @MongoDB\Field(type="int")
+     * @var int
+     */
+    protected $nbGames = 0;
+
+    /**
+     * @MongoDB\Field(type="int")
+     * @var int
+     */
+    protected $nbRatedGames = 0;
 
     /**
      * Whether the user is online or not
@@ -85,12 +98,40 @@ class User extends BaseUser implements ParticipantInterface
      */
     protected $createdAt;
 
+    /**
+     * Whether the user is banned from public chat or not
+     *
+     * @MongoDB\Field(type="boolean")
+     * @var bool
+     */
+    protected $isChatBan;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->createdAt = new \DateTime();
         $this->setElo(self::STARTING_ELO);
+    }
+
+    public function setChatBan($v)
+    {
+        $this->isChatBan = $v ? true : null;
+    }
+
+    public function toggleChatBan()
+    {
+        $this->setChatBan(!$this->isChatBan());
+    }
+
+    public function isChatBan()
+    {
+        return $this->isChatBan;
+    }
+
+    public function canSeeChat()
+    {
+        return !$this->isChatBan && $this->getNbGames() >= 3;
     }
 
     /**
@@ -177,6 +218,40 @@ class User extends BaseUser implements ParticipantInterface
     public function setElo($elo)
     {
         $this->elo = round($elo);
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbGames()
+    {
+        return $this->nbGames;
+    }
+
+    /**
+     * @param  float
+     * @return null
+     */
+    public function setNbGames($nbGames)
+    {
+        $this->nbGames = $nbGames;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbRatedGames()
+    {
+        return $this->nbRatedGames;
+    }
+
+    /**
+     * @param  float
+     * @return null
+     */
+    public function setNbRatedGames($nbRatedGames)
+    {
+        $this->nbRatedGames = $nbRatedGames;
     }
 
     public function setUsername($username)

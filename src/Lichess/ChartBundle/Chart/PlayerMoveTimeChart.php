@@ -27,11 +27,13 @@ class PlayerMoveTimeChart
         $blackTimes = $this->players['black']->getMoveTimes();
         $data = array();
         foreach ($this->players['white']->getMoveTimes() as $move => $whiteTime) {
-            $data[] = array(
-                (string) $move,
-                $whiteTime,
-                $blackTimes[$move]
-            );
+            if (isset($blackTimes[$move])) {
+                $data[] = array(
+                    (string) $move,
+                    $whiteTime,
+                    $blackTimes[$move]
+                );
+            }
         }
 
         return $data;

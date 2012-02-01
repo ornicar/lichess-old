@@ -57,11 +57,18 @@ class HookController extends Controller
     {
         $request = $this->get('request');
         $state = $request->query->get('state');
-        $messageId = $request->query->get('messageId');
+        $messageId = $request->query->get('messageId', false);
         $entryId = $request->query->get('entryId');
+        $auth = $request->query->get('auth');
         $this->get('lichess_opening.http_push')->poll($state, $messageId, $entryId);
 
+        return $this->pollResultAction($myHookId, $state, $messageId, $entryId, $auth);
+    }
+
+    public function pollResultAction($myHookId, $state, $messageId, $entryId, $auth)
+    {
         if ($myHookId) {
+            $myHookId = (string) $myHookId; // convert twig weirdness
             $myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($myHookId);
             if (!$myHook) {
                 return $this->renderJson(array('redirect' => '/'));
@@ -78,8 +85,8 @@ class HookController extends Controller
 
         return $this->renderJson(array(
             'state' => $newState,
-            'pool' => $this->get('lichess_opening.hooks_renderer')->render($request->query->get('auth'), $myHookId),
-            'chat' => $this->get('lichess_opening.messages_renderer')->render($messageId),
+            'pool' => $this->get('lichess_opening.hooks_renderer')->render($auth, $myHookId),
+            'chat' => $messageId !== false ? $this->get('lichess_opening.messages_renderer')->render($messageId) : null,
             'timeline' => $this->get('lichess_opening.timeline_renderer')->render($entryId)
         ));
     }
@@ -112,11 +119,13 @@ class HookController extends Controller
     public function messageAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $user instanceof User ? $user : "anon";
-        $text = trim($this->get('request')->get('message'));
-        if ($message = $this->get('lichess_opening.messenger')->send($user, $text)) {
-            $this->get('doctrine.odm.mongodb.document_manager')->flush();
-            $this->get('lichess_opening.memory')->setMessageId($message->getId());
+
+        if ($user instanceof User && $user->canSeeChat()) {
+          $text = trim($this->get('request')->get('message'));
+          if ($message = $this->get('lichess_opening.messenger')->send($user, $text)) {
+              $this->get('doctrine.odm.mongodb.document_manager')->flush();
+              $this->get('lichess_opening.memory')->setMessageId($message->getId());
+          }
         }
 
         return new Response('ok');
@@ -166,7 +175,7 @@ class HookController extends Controller
             $game->setClock($clock);
         }
         $game->setIsRated($config->getMode());
-        $game->start();
+        $this->get('lichess.starter.game')->start($game);
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
         $entry = $this->get('lichess_opening.bot')->onStart($game);

@@ -49,4 +49,5 @@
 </div>
 {% if game.hasClock %}
     {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
+    <a class="moretime" href="{{ path("lichess_moretime", {'id': player.fullId}) }}" title="{{ "Give %nb% seconds"|trans({"%nb%": 15}) }}"></a>
 {% endif %}

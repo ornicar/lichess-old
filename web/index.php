@@ -1,5 +1,7 @@
 <?php
 
+//include "maintenance.php";
+
 // Try to avoid running the application
 require_once __DIR__.'/../src/Bundle/LichessBundle/Boost/Router.php';
 

@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Tests\Ai;
 use Bundle\LichessBundle\Chess\Generator;
 use Bundle\LichessBundle\Tests\TestManipulator;
 use Bundle\LichessBundle\Ai\Crafty;
+use ArrayObject;
 
 class CraftyTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +18,7 @@ class CraftyTest extends \PHPUnit_Framework_TestCase
         $generator = new Generator();
         $this->game = $generator->createGame();
         $this->board = $this->game->getBoard();
-        $this->manipulator = new TestManipulator($this->game, new \Bundle\LichessBundle\Document\Stack());
+        $this->manipulator = new TestManipulator($this->game, new ArrayObject());
     }
 
     public function testMoveFormat()

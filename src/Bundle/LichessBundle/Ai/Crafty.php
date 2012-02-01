@@ -63,7 +63,8 @@ class Crafty implements AiInterface
 
     protected function getPlayCommand($forsythNotation, $file, $level)
     {
-        return sprintf("cd %s && %s bookpath=%s log=off ponder=off smpmt=1 %s <<EOF
+        return sprintf("cd %s && %s learn=off bookpath=%s log=off ponder=off smpmt=1 %s <<EOF
+skill %d
 book random 1
 book width 10
 setboard %s
@@ -75,6 +76,7 @@ EOF",
             $this->options['executable_path'],
             $this->options['book_dir'],
             $this->getCraftyLevel($level),
+            $this->getSkillForLevel($level),
             $forsythNotation,
             basename($file)
         );
@@ -84,10 +86,6 @@ EOF",
     {
         $config = array(
             /*
-            * sd is the number of moves crafty can anticipate
-            */
-            'sd='.$level,
-            /*
             * st is the time in seconds crafty can think about the situation
             */
             'st='.$this->getTimeForLevel($level)
@@ -96,8 +94,13 @@ EOF",
         return implode(' ', $config);
     }
 
+    protected function getSkillForLevel($level)
+    {
+        return 8 === $level ? 100 : ($level * 12);
+    }
+
     protected function getTimeForLevel($level)
     {
-        return 8 === $level ? 1 : round($level/10, 2);
+        return round($level/10, 2);
     }
 }

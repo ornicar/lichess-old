@@ -179,7 +179,7 @@ class LichessExtension extends Twig_Extension
             ),
             'player' => array(
                 'color'     => $player->getColor(),
-                'version'   => $player->getStack()->getVersion(),
+                'version'   => $player->getStackVersion(),
                 'spectator' => false,
                 'alive_key' => $this->container->get('lichess.memory')->getPlayerKey($player)
             ),
@@ -203,13 +203,17 @@ class LichessExtension extends Twig_Extension
             ),
             'possible_moves'  => $possibleMoves,
             'sync_latency'    => $this->container->getParameter('lichess.sync.latency') * 1000,
-            'animation_delay' => $this->container->getParameter('lichess.animation.delay') * 1000,
+            'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime())),
             'locale'          => $locale,
-            'debug'           => $this->container->getParameter('kernel.debug'),
-            'premove'         => $this->container->get('security.context')->isGranted("ROLE_BETATEST")
+            'debug'           => $this->container->getParameter('kernel.debug')
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
+    }
+
+    public static function animationDelayFactor($time)
+    {
+        return max(0, min(1.2, (($time - 60) / 60) * 0.2));
     }
 
     public function renderGameWatchData(Player $player, $possibleMoves)
@@ -234,7 +238,7 @@ class LichessExtension extends Twig_Extension
             ),
             'player' => array(
                 'color'     => $player->getColor(),
-                'version'   => $player->getStack()->getVersion(),
+                'version'   => $player->getStackVersion(),
                 'spectator' => true,
                 'unique_id' => uniqid()
             ),
@@ -244,9 +248,9 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')).'/',
-                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/',
-                'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')).'/'
+                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')),
+                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')),
+                'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
             ),
             'i18n' => array(
                 'Game Over'            => $translator->trans('Game Over'),
@@ -255,7 +259,7 @@ class LichessExtension extends Twig_Extension
             ),
             'possible_moves'    => $possibleMoves,
             'sync_latency' => $this->container->getParameter('lichess.sync.latency') * 1000,
-            'animation_delay'   => $this->container->getParameter('lichess.animation.delay') * 1000,
+            'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime())),
             'locale' => $this->container->get('session')->getLocale()
         );
 
@@ -296,7 +300,7 @@ class LichessExtension extends Twig_Extension
             $squares = array_reverse($squares, true);
         }
         $x = $y = 1;
-        $html = '<div class="lichess_board">';
+        $html = '<div class="lichess_board grey">';
         foreach($squares as $squareKey => $square) {
             $html .= sprintf('<div class="lcs %s%s" id="%s" style="top:%dpx;left:%dpx;">',
                 $square->getColor(), $checkSquareKey === $squareKey ? ' check' : '', $squareKey, 64*(8-$x), 64*($y-1)
@@ -369,7 +373,7 @@ class LichessExtension extends Twig_Extension
 
     public function shorten($text, $length = 140)
     {
-        return mb_substr(str_replace("\n", ' ', $this->escape($text)), 0, $length);
+        return mb_substr(str_replace("\n", ' ', $this->escape($text)), 0, $length, 'utf-8');
     }
 
     public function getCurrentUrl()

@@ -1,13 +1,13 @@
 user_security:
-    resource: @FOSUserBundle/Resources/config/routing/security.xml
+    resource: @LichessUserBundle/Resources/config/routing/security.yml
 user_profile:
     resource: @FOSUserBundle/Resources/config/routing/profile.yml
 user_registration:
     resource: @FOSUserBundle/Resources/config/routing/registration.yml
 user_online:
-    resource: @FOSUserBundle/Resources/config/routing/online.yml
+    resource: @LichessUserBundle/Resources/config/routing/online.yml
 user_stats:
-    resource: @FOSUserBundle/Resources/config/routing/stats.yml
+    resource: @LichessUserBundle/Resources/config/routing/stats.yml
 
 lichess:
     resource: @LichessBundle/Resources/config/routing.yml
@@ -20,9 +20,6 @@ lichess_sync:
 lichess_translation:
     resource: @LichessTranslationBundle/Resources/config/routing.yml
     prefix: /translation
-#lichess_search:
-    #resource: @LichessSearchBundle/Resources/config/routing.yml
-    #prefix: /search
 
 forum:
     resource: @LichessForumBundle/Resources/config/routing.yml
@@ -40,6 +37,3 @@ forum_post:
 ornicar_message:
     resource: @OrnicarMessageBundle/Resources/config/routing.xml
     prefix: /inbox
-
-fos_comment:
-    resource: @FOSCommentBundle/Resources/config/routing.yml

@@ -3,7 +3,7 @@
 namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Document\Stack;
+use ArrayObject;
 
 class ManipulatorFactory
 {
@@ -18,11 +18,11 @@ class ManipulatorFactory
         $this->class = $class;
     }
 
-    public function create(Game $game, Stack $stack = null)
+    public function create(Game $game, ArrayObject $events = null)
     {
         $class = $this->class;
-        $stack = $stack ?: new Stack();
+        $events = $events ?: new ArrayObject();
 
-        return new $class($game, $this->autodraw, $this->analyserFactory->create($game->getBoard()), $stack);
+        return new $class($game, $this->autodraw, $this->analyserFactory->create($game->getBoard()), $events);
     }
 }

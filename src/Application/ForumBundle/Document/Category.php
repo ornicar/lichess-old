@@ -22,4 +22,9 @@ class Category extends BaseCategory
      * @MongoDB\ReferenceOne(targetDocument="Application\ForumBundle\Document\Post")
      */
     protected $lastPost;
+
+    public function isStaff()
+    {
+        return $this->getName() == "Staff";
+    }
 }

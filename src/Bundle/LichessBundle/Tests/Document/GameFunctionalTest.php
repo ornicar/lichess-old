@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Document;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
+use ArrayObject;
 
 class GameFunctionalTest extends WebTestCase
 {
@@ -46,7 +47,6 @@ class GameFunctionalTest extends WebTestCase
         $this->assertEquals('black', $game->getPlayer('black')->getColor());
         $this->assertInstanceOf('\DateTime', $game->getCreatedAt());
         $this->assertNull($game->getClock());
-        $this->assertNull($game->getRoom());
 
         return $gameId;
     }
@@ -74,7 +74,6 @@ class GameFunctionalTest extends WebTestCase
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
         $this->assertTrue($game->getIsStarted());
         $this->assertEquals(Game::VARIANT_960, $game->getVariant());
-        $this->assertEquals(2, $game->getRoom()->getNbMessages());
     }
 
     public function testInsertFullFeaturedGame()
@@ -84,8 +83,6 @@ class GameFunctionalTest extends WebTestCase
         $game->start();
         $this->dm->persist($game);
         $this->dm->flush();
-        $game->getRoom()->addMessage('white', 'Rock\' n roll');
-        $game->getRoom()->addMessage('black', 'Ain\'t noise pollution');
         $game->getPlayer('white')->addEventToStack(array('type' => 'test white'));
         $game->getPlayer('black')->addEventToStack(array('type' => 'test black'));
         $this->dm->flush();
@@ -101,7 +98,6 @@ class GameFunctionalTest extends WebTestCase
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($gameId);
         $this->assertInstanceOf('\Bundle\LichessBundle\Document\Clock', $game->getClock());
         $this->assertEquals(2, $game->getClock()->getLimitInMinutes());
-        $this->assertEquals(5, $game->getRoom()->getNbMessages());
     }
 
     public function testAddEventToPlayerStack()
@@ -124,8 +120,8 @@ class GameFunctionalTest extends WebTestCase
         for($i=0; $i<$player->getStack()->getMaxEvents(); $i++) {
             $player->addEventToStack(array('type' => 'event '.$i));
         }
-        $this->assertEquals($player->getStack()->getMaxEvents(), $player->getStack()->getNbEvents());
         $this->dm->flush();
+        $this->assertEquals($player->getStack()->getMaxEvents(), $player->getStack()->getNbEvents());
         $this->dm->clear();
         $game = $this->dm->getRepository('LichessBundle:Game')->findOneById($game->getId());
         $player = $game->getPlayer('white');
@@ -140,6 +136,7 @@ class GameFunctionalTest extends WebTestCase
         $game->setCreatorColor('white');
         $positionGenerator = new StandardPositionGenerator();
         $positionGenerator->createPiecesMinimal($game);
+        $game->compress();
         return $game;
     }
 

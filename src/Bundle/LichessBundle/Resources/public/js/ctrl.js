@@ -5,7 +5,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
 $(function() {
 
     // Start ping
-    var pingDelay = 2500;
+    var pingDelay = 3000;
     var connectivity = new $.connectivity($('#connectivity'), {
         delay: pingDelay,
         tolerance: 300
@@ -27,15 +27,6 @@ $(function() {
                 }
             });
         }
-    } else if ($homeBoard = $('div.lichess_homepage div.lichess_board').orNot()) {
-        $homeBoard.find('div.lichess_piece').draggable({
-            containment: $homeBoard,
-            helper: function() {
-                return $('<div>').attr("class", $(this).attr("class")).appendTo($homeBoard);
-            },
-            revert: true,
-            revertDuration: 2000
-        }).css('cursor', 'pointer');
     }
 
     var $nbConnectedPlayers = $('#nb_connected_players');
@@ -50,7 +41,7 @@ $(function() {
     }
 
     if ($('#user_tag').length) {
-        ping.setData('username', $('#user_tag').data('username'));
+        ping.setData('username', $('#user_tag').attr('data-username'));
         ping.pushCallback(function(data) { $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0); });
     }
 
@@ -60,6 +51,22 @@ $(function() {
     if ($bw = $('div.lichess_board_wrap').orNot()) {
         if ($('div.lichess_homepage').length == 0)
           $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);
+
+        // board color
+        var $board = $bw.find('> div.lichess_board');
+        var $picker = $('#top a.colorpicker');
+        var colors = {0:'grey', 1:'brown', 2:'green', 3:'blue', length: 4};
+        var nbColors = 3;
+        var colorIndex = $.cookie('lbc') || 0;
+        function setColor(index) {
+          $picker.add($board).removeClass(Array.prototype.slice.call(colors).join(' ')).addClass(colors[index]);
+        }
+        setColor(colorIndex);
+        $picker.click(function() {
+          colorIndex = (colorIndex + 1) % colors.length;
+          $.cookie('lbc', colorIndex);
+          setColor(colorIndex);
+        });
     }
 
     $.centerOverboard = function() {
@@ -196,15 +203,16 @@ $(function() {
     }
 
     if (false || /.+\.lichess\.org/.test(document.domain)) {
+        var homeUrl = $('#site_title').attr('href');
         setTimeout(function() {
             if ($gameSharing = $('div.game_share_widgets').orNot()) {
-                $gameSharing.find('div.plusone_placeholder').replaceWith('<div class="lichess_plusone"><g:plusone size="medium" href="http://lichess.org"></g:plusone></div>');
-                $gameSharing.find('div.facebook_placeholder').replaceWith('<div class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=' + encodeURIComponent(document.location.href) + '&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></div>');
+                $gameSharing.find('div.plusone_placeholder').replaceWith('<div class="lichess_plusone"><g:plusone size="medium" href="'+homeUrl+'"></g:plusone></div>');
+                $gameSharing.find('div.facebook_placeholder').replaceWith('<div class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=' + encodeURIComponent(homeUrl) + '&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></div>');
                 $.getScript('http://platform.twitter.com/widgets.js', function() {
                     $gameSharing.addClass('loaded')
                 });
             } else {
-                $('ul.lichess_social').prepend('<li class="lichess_stumbleupon"><iframe src="http://www.stumbleupon.com/badge/embed/2/?url=http://lichess.org/"></iframe></li><li class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flichess.org%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></li><li><g:plusone size="medium" href="http://lichess.org"></g:plusone></li>');
+                $('ul.lichess_social').prepend('<li class="lichess_stumbleupon"><iframe src="http://www.stumbleupon.com/badge/embed/2/?url='+homeUrl+'"></iframe></li><li class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href='+encodeURIComponent(homeUrl)+'%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></li><li><g:plusone size="medium" href="'+homeUrl+'"></g:plusone></li>');
             }
             $.getScript('https://apis.google.com/js/plusone.js');
         },
@@ -254,4 +262,25 @@ if (/.+\.lichess\.org/.test(document.domain)) {
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(ga, s);
     })();
+}
+
+function urlToLink(text) {
+    var exp = /\bhttp:\/\/[a-z]{0,3}\.(lichess\.org[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    return text.replace(exp,"<a href='http://$1'>$1</a>"); 
+}
+
+if (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = function(elt) {
+    var len = this.length >>> 0;
+
+    var from = Number(arguments[1]) || 0;
+    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+    if (from < 0) from += len;
+
+    for (; from < len; from++) {
+      if (from in this && this[from] === elt)
+        return from;
+    }
+    return -1;
+  };
 }

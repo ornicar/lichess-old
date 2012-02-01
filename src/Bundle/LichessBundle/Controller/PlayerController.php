@@ -5,7 +5,6 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\LichessBundle\Document\Player;
 use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Chess\DrawerConcurrentOfferException;
 use Bundle\LichessBundle\Chess\FinisherException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +14,18 @@ use Lichess\OpeningBundle\Config\GameConfig;
 
 class PlayerController extends Controller
 {
+    public function moretimeAction($id)
+    {
+        $seconds = 15;
+        $player = $this->get('lichess.provider')->findPlayer($id);
+        $opponent = $player->getOpponent();
+        $time = $player->getGame()->giveTime($opponent, $seconds);
+        $this->get('lichess.messenger')->addSystemMessage($player->getGame(), sprintf('%s + %d seconds', $opponent->getColor(), $seconds));
+        $this->flush();
+
+        return new Response($time);
+    }
+
     public function outoftimeAction($id)
     {
         $this->get('lichess.finisher')->outoftime($this->get('lichess.provider')->findPlayer($id));
@@ -29,10 +40,10 @@ class PlayerController extends Controller
         if ($game) {
             $entry = $this->get('lichess_opening.bot')->onStart($game);
         }
-		$this->flush();
-		if ($game && $entry) {
-			$this->get('lichess_opening.memory')->setEntryId($entry->getId());
-		}
+        $this->flush();
+        if ($game && $entry) {
+            $this->get('lichess_opening.memory')->setEntryId($entry->getId());
+        }
 
         return new Response('ok');
     }
@@ -47,11 +58,7 @@ class PlayerController extends Controller
 
     public function offerDrawAction($id)
     {
-        try {
-            $this->get('lichess.drawer')->offer($this->get('lichess.provider')->findPlayer($id));
-        } catch (DrawerConcurrentOfferException $e) {
-            return $this->acceptDrawOffer($id);
-        }
+        $this->get('lichess.drawer')->offer($this->get('lichess.provider')->findPlayer($id));
         $this->flush();
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
@@ -93,7 +100,7 @@ class PlayerController extends Controller
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.mover')->move($player, $this->get('request')->request->all());
-        $this->flush(false);
+        $this->flush();
 
         return new Response('ok');
     }
@@ -124,6 +131,7 @@ class PlayerController extends Controller
 
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
+            'room'              => $this->get('lichess.repository.room')->findOneByGame($game),
             'opponentActivity'    => $this->get('lichess.memory')->getActivity($player->getOpponent()),
             'checkSquareKey'      => $checkSquareKey,
             'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, (bool) $checkSquareKey) : null
@@ -138,7 +146,7 @@ class PlayerController extends Controller
         $message = trim($this->get('request')->get('message'));
         $player = $this->get('lichess.provider')->findPlayer($id);
         $this->get('lichess.messenger')->addPlayerMessage($player, $message);
-        $this->flush(false);
+        $this->flush();
 
         return new Response('ok');
     }
@@ -176,7 +184,7 @@ class PlayerController extends Controller
             $this->flush();
         } catch (FinisherException $e) {}
 
-        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function abortAction($id)
@@ -186,7 +194,7 @@ class PlayerController extends Controller
             $this->flush();
         } catch (FinisherException $e) {}
 
-        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
+            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function tableAction($id, $color, $playerFullId)

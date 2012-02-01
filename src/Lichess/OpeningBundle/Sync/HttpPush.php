@@ -12,7 +12,7 @@ class HttpPush
     public function __construct(Memory $memory, $latency, $delay)
     {
         $this->memory  = $memory;
-        $this->latency = $latency;
+        $this->latency = $latency * 2;
         $this->delay   = $delay;
     }
 
@@ -27,11 +27,13 @@ class HttpPush
             // If the client and server state differ, update the client
             if($userState != $state) break;
 
-            // Get message id from APC
-            $messageId = $this->memory->getMessageId();
+            if ($userMessageId !== false) {
+                // Get message id from APC
+                $messageId = $this->memory->getMessageId();
 
-            // If the client and server message id differ, update the client
-            if($userMessageId != $messageId) break;
+                // If the client and server message id differ, update the client
+                if($userMessageId != $messageId) break;
+            }
 
             if (0 === $i % 5) {
               // Get entry id from APC

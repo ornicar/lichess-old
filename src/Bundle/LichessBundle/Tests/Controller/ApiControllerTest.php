@@ -20,6 +20,7 @@ class ApiControllerTest extends AbstractControllerTest
         $this->assertEquals(0, $crawler->filter('div.lichess_player:contains("Waiting")')->count());
 
         $crawler = $client2->request('GET', preg_replace('#^.+(/\w+)$#', '$1', $response['white']));
+        //var_dump($client2->getResponse()->getContent());die;
         $this->assertTrue($client2->getResponse()->isSuccessful());
         $this->assertEquals(1, $crawler->filter('div.lichess_opponent:contains("Anonymous")')->count());
         $this->assertEquals(1, $crawler->filter('div.lichess_player:contains("Your turn")')->count());

@@ -108,6 +108,8 @@ class ProfileController extends BaseProfileController
         $gameRepository = $this->container->get('lichess.repository.game');
         if ($mode === 'me' && $authenticatedUser && $authenticatedUser != $user) {
             $query = $gameRepository->createRecentByUsersQuery($user, $authenticatedUser);
+        } elseif ($mode === 'rated') {
+            $query = $gameRepository->createRecentRatedByUserQuery($user);
         } elseif ($mode === 'wins') {
             $query = $gameRepository->createRecentByWinnerQuery($user);
         } elseif ($mode === 'losses') {
@@ -125,13 +127,19 @@ class ProfileController extends BaseProfileController
             throw new NotFoundHttpException(sprintf('Invalid user game page requested %s (page %s)', $user->getUsername(), $page));
         }
 
+        if ($this->container->get('security.context')->isGranted('ROLE_CHAT_BAN')) {
+          $chat = $this->container->get('lichess_opening.message_repository')->findByUsername($user->getUsername());
+        } else {
+          $chat = null;
+        }
+
         if ($user === $authenticatedUser) {
             $template = 'FOSUserBundle:User:home.html.twig';
         } else {
             $template = 'FOSUserBundle:User:show.html.twig';
         }
 
-        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'mode'));
+        return $this->container->get('templating')->renderResponse($template, compact('user', 'critic', 'eloChart', 'winChart', 'games', 'mode', 'chat'));
     }
 
     protected function getAuthenticatedUser()

@@ -13,7 +13,6 @@
                 '@LichessBundle/Resources/public/css/gamelist.css'
                 '@LichessBundle/Resources/public/css/share.css'
                 '@LichessBundle/Resources/public/css/tooltip.css'
-                '@LichessCommentBundle/Resources/public/css/comment.css'
                 '@LichessOpeningBundle/Resources/public/css/opening.css'
                 '@LichessOpeningBundle/Resources/public/css/hook.css'
                 filter="?yui_css"
@@ -40,6 +39,7 @@
                 <li><a href="{{ path("lichess_translation_contribution") }}">Help translate Lichess!</a></li>
                 </ul>
             </div>
+            <a href="#" class="colorpicker">{{ "Color"|trans }}</a>
             {% set active = block("menu_active") %}
             <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " current" : "" }}" href="{{ path("lichess_homepage") }}">{{ "Play"|trans }}</a>
             <a class="goto_gamelist goto_nav blank_if_play{{ active == "game" ? " current" : "" }}" title="{{ "See the games being played in real time"|trans }}" href="{{ path("lichess_list_current") }}">{{ "Games"|trans }}</a>
@@ -60,7 +60,7 @@
                     <a class="goto_nav goto_logout" href="{{ path("fos_user_security_logout") }}"><span class="s16">{{ "Log out"|trans }}</span></a>
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}<a class="goto_nav" href="{{ path("lichess_homepage", {"_impersonate": "_exit" }) }}">Stop Impersonating</a>{% endif %}
                 </div>
-                <a id="user_tag" data-username="{{ app.user.usernameCanonical }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="blank_if_play goto_nav goto_profile"><span class="s16">{{ app.user.usernameWithElo}}</span></a>
+                <a id="user_tag" data-username="{{ app.user.usernameCanonical }}" href="{{ path("fos_user_user_show", {"username": app.user.username} ) }}" class="blank_if_play goto_nav goto_profile"><span class="s16">{{ app.user.usernameWithElo }}</span></a>
             {% else %}
                 {% include "FOSUserBundle:Security:embeddedLogin.html.twig" %}
             {% endif %}
@@ -69,10 +69,18 @@
         <div class="content">
             <div class="header">
                 <h1>
-                    <a id="site_title" href="{{ path('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
+                    <a id="site_title" href="{{ url('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
                     <span id="site_baseline">{{ "Free Online Chess"|trans }}</span>
                 </h1>
-                {% if app.session.hasFlash("locale_missing") %}iearnstoyarensoytranyusth{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
+{% if false %}
+<div class="translation_block">
+<span class="name">Maintenance scheduled</span>
+Lichess.org will be down in a few minutes!
+<br />
+<a class="close">x</a>
+</div>
+{% endif %}
+                {% if app.session.hasFlash("locale_missing") %}{% render "LichessTranslationBundle:Contribution:onMissing" with{"locale": app.session.getFlash("locale_missing")} %}
                 {% elseif app.session.getFlash("locale_change_contribute", "en") != "en" %}{% render "LichessTranslationBundle:Contribution:onChange" with{"locale": app.session.locale} %}
                 {% elseif app.session.getFlash("locale_change_adjust") %}
                 <div class="locale_adjust"><a class="button" href="{{ lichess_locale_url(app.session.getFlash('locale_change_adjust'), app.request) }}">{{ lichess_locale_name(app.session.getFlash('locale_change_adjust')) }}</a></div>
@@ -99,16 +107,16 @@
         {% block javascripts %}
             {% if lichess_debug_assets() %}
                 <script src="{{ asset('bundles/lichess/vendor/jquery.min.js') }}"></script>
-                <script src="{{ asset('bundles/lichess/vendor/jquery-ui.min.js') }}"></script>
             {% else %}
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-                <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
             {% endif %}
             {% if block('google_chart') %}
                 <script src="http://www.google.com/jsapi"></script>
                 {% if lichess_debug_assets() %}<script src="{{ asset('bundles/lichess/vendor/google.corechart.js') }}"></script>{% endif %}
             {% endif %}
             {% javascripts
+                '@LichessBundle/Resources/public/vendor/jquery-ui.min.js'
+                '@LichessBundle/Resources/public/vendor/jquery.cookie.js'
                 '@LichessBundle/Resources/public/vendor/jquery.mousewheel.js'
                 '@LichessBundle/Resources/public/vendor/qtip/jquery.qtip.min.js'
                 '@LichessBundle/Resources/public/js/tipsy.min.js'
@@ -118,7 +126,6 @@
                 '@LichessBundle/Resources/public/js/game.js'
                 '@LichessBundle/Resources/public/js/gamelist.js'
                 '@LichessBundle/Resources/public/js/clock.js'
-                '@LichessCommentBundle/Resources/public/js/form.js'
                 '@LichessOpeningBundle/Resources/public/js/opening.js'
                 '@LichessOpeningBundle/Resources/public/js/hook.js'
                 filter="?yui_js" %}

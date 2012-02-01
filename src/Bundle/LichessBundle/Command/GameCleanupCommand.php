@@ -22,7 +22,6 @@ class GameCleanupCommand extends BaseCommand
         $this
             ->setDefinition(array(
             ))
-            ->addOption('execute', null, InputOption::VALUE_NONE, 'Execute game removal')
             ->setName('lichess:game:cleanup')
         ;
     }
@@ -34,22 +33,12 @@ class GameCleanupCommand extends BaseCommand
     {
         $repo = $this->getContainer()->get('lichess.repository.game');
         $batchSize = 1000;
-        $sleep = 15;
-
-        $ids = $repo->findCandidatesToCleanup(999999);
-        $nb = count($ids);
-        $output->writeLn(sprintf('Found %d games of %d to remove', $nb, $repo->createQueryBuilder()->getQuery()->count()));
-
-        if (!$input->getOption('execute')) {
-            return;
-        }
+        $sleep = 10;
 
         do {
             try {
                 $ids = $repo->findCandidatesToCleanup($batchSize);
                 $nb = count($ids);
-
-                $output->writeLn(sprintf('Found %d games of %d to remove', $nb, $repo->createQueryBuilder()->getQuery()->count()));
 
                 if ($nb == 0) {
                     return;

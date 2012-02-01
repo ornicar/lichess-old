@@ -52,11 +52,10 @@ class GameExporter
     {
         $userId = $user->getId();
         $usernames = $this->userRepository->getUsernamesIndexedById();
-        $games = iterator_to_array($this->gameRepository->createByUserQuery($user)
+        $games = iterator_to_array($this->gameRepository->createRecentByUserQuery($user)
             ->hydrate(false)
             ->select('createdAt', 'status', 'turns', 'variant', 'isRated', 'clock.limit', 'clock.increment', 'players.user.$id', 'players.color', 'players.isWinner', 'players.elo', 'players.eloDiff')
             ->getQuery()->execute());
-        uasort($games, function($a, $b) { return $a['createdAt'] > $b['createdAt']; });
         $data = array(array('#', 'Date (RFC 2822)', 'Color', 'Opponent', 'Result', 'Status', 'Plies', 'Variant', 'Mode', 'Time control', 'Your Elo', 'Your Elo change', 'Opponent Elo', 'Opponent Elo Change', 'Game url', 'Analysis url', 'PGN url'));
         $it = 0;
         foreach ($games as $gameId => $game) {
@@ -75,7 +74,7 @@ class GameExporter
                 $player['color'],
                 $opponentUsername,
                 $this->getPgnResult($game),
-                $this->getStatusMessage($game),
+                $this->getStatusMessage($game['status']),
                 $game['turns'] -1,
                 $this->getVariantName($game['variant']),
                 !empty($game['isRated']) ? 'rated' : 'casual',
@@ -96,7 +95,7 @@ class GameExporter
     protected function findPlayerAndOpponent(array $game, $userId)
     {
         foreach ($game['players'] as $p) {
-            if (isset($p['user']['$id']) && $userId === $p['user']['$id']->__toString()) {
+            if (isset($p['user']['$id']) && $userId == $p['user']['$id']->__toString()) {
                 $player = $p;
             } else {
                 $opponent = $p;

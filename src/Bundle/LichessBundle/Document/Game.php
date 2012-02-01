@@ -19,6 +19,7 @@ use LogicException;
  *   collection="game2",
  *   repositoryClass="Bundle\LichessBundle\Document\GameRepository"
  * )
+ * @MongoDB\Index(keys={"userIds"="asc", "createdAt"="desc"})
  */
 class Game
 {
@@ -121,12 +122,12 @@ class Game
     protected $turns = 0;
 
     /**
-     * PGN moves of the game
+     * PGN moves of the game, compressed
      *
-     * @var array
-     * @MongoDB\Field(type="collection")
+     * @var string
+     * @MongoDB\String
      */
-    protected $pgnMoves = array();
+    protected $pgn = "";
 
     /**
      * Fen notation of the initial position
@@ -158,10 +159,10 @@ class Game
     /**
      * Array of position hashes, used to detect threefold repetition
      *
-     * @var array
-     * @MongoDB\Field(type="collection")
+     * @var string (array join ' ')
+     * @MongoDB\String
      */
-    protected $positionHashes = array();
+    protected $positionHashes = null;
 
     /**
      * Internal notation of the last move played
@@ -180,19 +181,10 @@ class Game
     protected $clock;
 
     /**
-     * The chat room
-     *
-     * @var Room
-     * @MongoDB\EmbedOne(targetDocument="Room", nullable=true)
-     */
-    protected $room;
-
-    /**
      * Whether this game is rated or not
      *
      * @var bool
      * @MongoDB\Field(type="boolean")
-     * @MongoDB\Index()
      */
     protected $isRated;
 
@@ -205,30 +197,12 @@ class Game
     protected $isEloCanceled;
 
     /**
-     * The previous game. This game is then a rematch of the previous game
-     *
-     * @var Game
-     * @MongoDB\ReferenceOne(targetDocument="Game")
-     */
-    protected $previous;
-
-    /**
      * The next game, if this game has been rematched
      *
      * @var Game
      * @MongoDB\ReferenceOne(targetDocument="Game")
-     * @MongoDB\Index()
      */
     protected $next;
-
-    /**
-     * True if this is a game played with an AI
-     *
-     * @var boolean
-     * @MongoDB\Boolean
-     * @MongoDB\Index
-     */
-    protected $isAi;
 
     /**
      * Config values used to create the game. Cleared when game starts.
@@ -292,7 +266,7 @@ class Game
     }
 
     /**
-     * @return string
+     * @return string a2 a4
      */
     public function getLastMove()
     {
@@ -300,29 +274,12 @@ class Game
     }
 
     /**
-     * @param  string
+     * @param  string a2 a4
      * @return null
      */
     public function setLastMove($lastMove)
     {
         $this->lastMove = $lastMove;
-    }
-
-    /**
-     * @return Game
-     */
-    public function getPrevious()
-    {
-        return $this->previous;
-    }
-
-    /**
-     * @param  Game
-     * @return null
-     */
-    public function setPrevious(Game $previous)
-    {
-        $this->previous = $previous;
     }
 
     /**
@@ -545,6 +502,11 @@ class Game
         return $this->hasClock() ? $this->getClock()->getName() : 'No clock';
     }
 
+    public function estimateTotalTime()
+    {
+        return $this->hasClock() ? $this->getClock()->estimateTotalTime() : 1200; // defaults to 20 minutes
+    }
+
     /**
      * Verify if one of the player exceeded his time limit,
      * and terminate the game in this case
@@ -560,10 +522,35 @@ class Game
             return;
         }
         foreach($this->getPlayers() as $player) {
-            if($this->getClock()->isOutOfTime($player->getColor())) {
+            if($player->isMyTurn() && $this->getClock()->isOutOfTime($player->getColor())) {
                 return $player;
             }
         }
+    }
+
+    public function giveTime(Player $player, $seconds)
+    {
+        if(!$this->hasClock()) {
+            throw new LogicException('Cannot add time, the game has no clock');
+        }
+        if (!$this->getIsPlayable()) {
+            throw new LogicException('Cannot add time, the game is finished');
+        }
+        $clock = $this->getClock();
+        $color = $player->getColor();
+        $clock->giveTime($color, $seconds);
+        $this->addEventToStacks(array(
+            'type' => 'moretime',
+            'color' => $color,
+            'seconds' => $seconds
+        ));
+
+        return $clock->getRemainingTime($color);
+    }
+
+    protected function getPositionHashArray()
+    {
+        return empty($this->positionHashes) ? array() : str_split($this->positionHashes, 5);
     }
 
     /**
@@ -575,7 +562,7 @@ class Game
         foreach($this->getPieces() as $piece) {
             $hash .= $piece->getContextualHash();
         }
-        $this->positionHashes[] = md5($hash);
+        $this->positionHashes .= substr(md5($hash), 0, 5);
     }
 
     /**
@@ -586,7 +573,7 @@ class Game
      */
     public function clearPositionHashes()
     {
-        $this->positionHashes = array();
+        $this->positionHashes = null;
     }
 
     /**
@@ -596,12 +583,20 @@ class Game
      **/
     public function isThreefoldRepetition()
     {
-        if(6 > count($this->positionHashes)) {
+        if(6 > $this->getNbPositionHashes()) {
             return false;
         }
-        $hash = end($this->positionHashes);
 
-        return count(array_keys($this->positionHashes, $hash)) >= 3;
+        $ph = $this->getPositionHashArray();
+
+        $hash = end($ph);
+
+        return count(array_keys($ph, $hash)) >= 3;
+    }
+
+    protected function getNbPositionHashes()
+    {
+        return empty($this->positionHashes) ? 0 : (strlen($this->positionHashes) / 5);
     }
 
     /**
@@ -612,7 +607,7 @@ class Game
     public function isFiftyMoves()
     {
         // position hashes are half moves
-        return 100 <= count($this->positionHashes);
+        return 100 <= $this->getNbPositionHashes();
     }
 
     /**
@@ -623,7 +618,7 @@ class Game
      **/
     public function getHalfmoveClock()
     {
-        return max(0, count($this->positionHashes) - 1);
+        return max(0, $this->getNbPositionHashes() - 1);
     }
 
     /**
@@ -696,7 +691,7 @@ class Game
      */
     public function getPgnMoves()
     {
-        return $this->pgnMoves;
+        return empty($this->pgn) ? array() : explode(' ', $this->pgn);
     }
 
     /**
@@ -706,7 +701,7 @@ class Game
      */
     public function setPgnMoves(array $pgnMoves)
     {
-        $this->pgnMoves = $pgnMoves;
+        $this->pgn = implode(' ', $pgnMoves);
     }
 
     /**
@@ -717,7 +712,8 @@ class Game
      **/
     public function addPgnMove($pgnMove)
     {
-        $this->pgnMoves[] = $pgnMove;
+        if (!empty($this->pgn)) $this->pgn .= ' ';
+        $this->pgn .= $pgnMove;
         $this->setUpdatedNow();
     }
 
@@ -776,53 +772,16 @@ class Game
             $this->setIsRated(false);
         }
         $this->setStatus(static::STARTED);
-        $this->addRoomMessage('system', ucfirst($this->getCreator()->getColor()).' creates the game');
-        $this->addRoomMessage('system', ucfirst($this->getInvited()->getColor()).' joins the game');
-        if($this->hasClock()) {
-            $this->addRoomMessage('system', 'Clock: '.$this->getClock()->getName());
-        }
-        if($this->getIsRated()) {
-            $this->addRoomMessage('system', 'This game is rated');
-        }
-        $this->isAi = $this->getInvited()->getIsAi();
         $this->setConfigArray(null);
     }
 
-    /**
-     * Get room
-     * @return Room
-     */
-    public function getRoom()
+    public function finish()
     {
-        return $this->room;
-    }
+        $this->clearPositionHashes();
 
-    public function hasRoom()
-    {
-        return null !== $this->room;
-    }
-
-    /**
-     * Set room
-     * @param  Room
-     * @return null
-     */
-    public function setRoom($room)
-    {
-        $this->room = $room;
-    }
-
-    public function addRoomMessage($author, $message)
-    {
-        if($this->getInvited()->getIsAi()) {
-            return false;
+        foreach ($this->getPlayers() as $p) {
+            $p->finish();
         }
-        if(!$this->hasRoom()) {
-            $this->setRoom(new Room());
-        }
-        $this->getRoom()->addMessage($author, $message);
-
-        return true;
     }
 
     /**
@@ -1087,12 +1046,7 @@ class Game
 
     public function getPieces()
     {
-        $pieces = array();
-        foreach($this->getPlayers() as $player) {
-            $pieces = array_merge($pieces, $player->getPieces());
-        }
-
-        return $pieces;
+        return array_merge($this->getPlayer('white')->getPieces(), $this->getPlayer('black')->getPieces());
     }
 
     /**
@@ -1158,9 +1112,15 @@ class Game
         $this->updatedAt = new \DateTime();
     }
 
-    /**
-     * @MongoDB\PostLoad
-     */
+    public function removeDependencies()
+    {
+        foreach($this->getPlayers() as $player) {
+            foreach($player->getPieces() as $piece) {
+                $piece->setBoard(null);
+            }
+        }
+    }
+
     public function ensureDependencies()
     {
         $this->board = new Board($this);
@@ -1175,14 +1135,39 @@ class Game
     }
 
     /**
-     * @MongoDB\PreUpdate
-     * @MongoDB\PrePersist
+     * @MongoDB\PostLoad
      */
+    public function extract()
+    {
+        foreach($this->getPlayers() as $player) {
+            $player->extractPieces();
+        }
+        $this->ensureDependencies();
+    }
+
+    public function preFlush()
+    {
+        $this->compress();
+    }
+
+    public function postFlush()
+    {
+        $this->cachePlayerVersions();
+    }
+
+    public function compress()
+    {
+        foreach($this->getPlayers() as $player) {
+            $player->compressPieces();
+            $player->compressStack();
+        }
+    }
+
     public function cachePlayerVersions()
     {
         foreach($this->getPlayers() as $player) {
             if(!$player->getIsAi()) {
-                apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStack()->getVersion(), 3600);
+                apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStackVersion(), 3600);
             }
         }
     }

@@ -5,7 +5,9 @@ $(function() {
         return;
     }
     var $chat = $("div.lichess_chat");
+    var chatExists = $chat.length > 0;
     var $bot = $("div.lichess_bot");
+    var $newposts = $("div.new_posts");
     var $hooks = $wrap.find('div.hooks');
     var pollUrl = $hooks.data('poll-url');
     var actionUrls = {
@@ -29,6 +31,7 @@ $(function() {
 
         // send a message
         $form.submit(function() {
+            if ($input.hasClass("lichess_hint")) return false;
             text = $.trim($input.val());
             if (!text) return false;
             if (text.length > 140) {
@@ -59,48 +62,60 @@ $(function() {
     chat();
 
     function bot() {
-      $bot.find('.lichess_bot_inner').scrollable();
+      $bot.find('.undertable_inner').scrollable();
       $bot.on("click", "tr", function() {
         location.href = $(this).find('a.watch').attr("href");
       });
     }
     bot();
 
+    var $newpostsinner = $newposts.find('.undertable_inner');
+    $newpostsinner[0].scrollTop = 9999999;
+    $newpostsinner.scrollable();
+    setInterval(function() { 
+        $newpostsinner.find('ol').load($newposts.data('url')); 
+        $newpostsinner[0].scrollTop = 9999999;
+        $('body').trigger('lichess.content_loaded');
+    }, 60 * 1000);
+
     function reload() {
-        setTimeout(function() {
-            if (frozen) return;
-            $.ajax(pollUrl, {
-                success: function(data) {
-                    if (frozen) return;
-                    if (data.redirect) {
-                        freeze();
-                        location.href = 'http://'+location.hostname+'/'+data.redirect;
-                    } else {
-                        state = data.state
-                        renderHooks(data.pool);
-                        renderChat(data.chat);
-                        renderTimeline(data.timeline);
-                        $('body').trigger('lichess.content_loaded');
-                    }
-                },
-                complete: function() {
-                    reload();
-                },
-                dataType: 'json',
-                type: "GET",
-                cache: false,
-                data: {
-                    'state': state,
-                    'messageId': messageId,
-                    'entryId': entryId,
-                    'auth': auth
-                },
-                timeout: 15000
-            });
-        },
-        500);
+        if (frozen) return;
+        $.ajax(pollUrl, {
+            success: function(data) {
+                if (frozen) return;
+                renderPollData(data);
+            },
+            complete: function() {
+                setTimeout(reload, 300);
+            },
+            dataType: 'json',
+            type: "GET",
+            cache: false,
+            data: $.extend({
+                'state': state,
+                'entryId': entryId,
+                'auth': auth
+            }, chatExists ? {'messageId': messageId} : {}),
+            timeout: 20000
+        });
     };
-    reload();
+
+    function renderPollData(data) {
+        if (data.redirect) {
+            freeze();
+            location.href = 'http://'+location.hostname+'/'+data.redirect;
+        } else {
+            state = data.state
+            renderHooks(data.pool);
+            if (chatExists && data.chat) renderChat(data.chat);
+            renderTimeline(data.timeline);
+            $('body').trigger('lichess.content_loaded');
+        }
+    }
+    var $preload = $("textarea.hooks_preload");
+    renderPollData($.parseJSON($preload.val()));
+    $preload.remove();
+    setTimeout(reload, 2000);
 
     function renderChat(data) {
         messageId = data.id;
@@ -108,15 +123,10 @@ $(function() {
         for (i in data.messages) {
             msg = data.messages[i];
             user = msg["u"];
-            if (user != "[bot]") {
-              html += '<li><span>'
-              if (msg["r"]) {
-                  html += '<a class="user_link" href="/@/'+user+'">'+user + '</a>';
-              } else {
-                  html += user;
-              }
-              html += '</span>' + msg["m"] + '</li>';
-            }
+            text = urlToLink(msg["m"]);
+            html += '<li><span>'
+            html += '<a class="user_link" href="/@/'+user+'">'+user.substr(0, 12) + '</a>';
+            html += '</span>' + text + '</li>';
         }
         if (html != "") {
             $chat.find('.lichess_messages').append(html)[0].scrollTop = 9999999;
@@ -136,17 +146,17 @@ $(function() {
 
     function renderHooks(data) {
         if (data.hooks) {
-            var hook, html, mode;
+            var hook, html = "", mode;
             $hooks.find('tr').addClass("hideme");
             for (id in data.hooks) {
                 if ($tr = $("#" + id).orNot()) {
                     $tr.removeClass("hideme");
                 } else {
                     hook = data.hooks[id];
-                    html += '<tr id="'+id+'" '+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
+                    html += '<tr id="'+id+'"'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
                     html += '<td class="color"><span class="'+hook.color+'"></span></td>';
                     if (hook.elo) {
-                        html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username+'<br />('+hook.elo+')</a></td>';
+                        html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username.substr(0, 12)+'<br />('+hook.elo+')</a></td>';
                     } else {
                         html += '<td>'+hook.username+'</td>';
                     }
@@ -163,15 +173,18 @@ $(function() {
                     html += '</td></tr>';
                 }
             }
-            $hooks.find("table").append(html);
+            $hooks.find("table").removeClass("empty_table").append(html);
         } else {
             var html = '<table class="empty_table"><tr><td colspan="5">'+data.message+'</td></tr></table>';
             $hooks.html(html);
         }
         $hooks.find('a.join').click(freeze);
-        $wrap.removeClass('hidden');
-        $hooks
-            .find("tr.hideme").fadeOut(500, function() { $(this).remove(); }).find("td.action a").remove();
+        $hooks.find("tr.hideme").remove();
+        if ($hooks.find("tr").length > 6) {
+            $wrap.addClass("large");
+        } else {
+            $wrap.removeClass("large");
+        }
     }
 
     function freeze() {

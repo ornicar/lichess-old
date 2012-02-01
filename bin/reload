@@ -13,8 +13,8 @@ show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
 show_run("Warming up xhr cache", "php xhr/console --env=dev cache:clear");
 
 foreach ($envs as $environment) {
-    show_run("Warming up app $environment cache", "php app/console --env=$environment cache:clear");
-    show_run("Loading app $environment fixtures", "php app/console --env=$environment doctrine:mongodb:fixtures:load");
+    if ($environment != 'test') show_run("Warming up app $environment cache", "php app/console --env=$environment cache:clear");
+    if ($environment != 'dev') show_run("Loading app $environment fixtures", "php app/console --env=$environment doctrine:mongodb:fixtures:load");
     show_run("Creating app $environment MongoDB indexes", "php app/console --env=$environment doctrine:mongodb:schema:create --index");
 }
 

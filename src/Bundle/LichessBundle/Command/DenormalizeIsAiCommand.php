@@ -34,16 +34,18 @@ class DenormalizeIsAiCommand extends BaseCommand
         $repo = $this->getContainer()->get('lichess.repository.game');
         $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
 
+        $query = array('isAi' => array('$exists' => false));
+        $select = array('players.isAi' => true);
         $collection = $dm->getDocumentCollection($repo->getDocumentName())->getMongoCollection();
 
-        $total = $collection->count();
+        $total = $collection->count($query);
         $batchSize = 10000;
         $it = 0;
 
         $output->writeLn(sprintf('Found %d games to process', $total));
 
         for($it = 0, $itMax = ceil($total/$batchSize); $it<$itMax; $it++) {
-            $cursor = $collection->find(array(), array('players.isAi'))->limit($batchSize)->skip($it*$batchSize);
+            $cursor = $collection->find($query, $select)->limit($batchSize)->skip($it*$batchSize);
             $games = iterator_to_array($cursor);
             $nbIsAi = 0;
             foreach ($games as $id => $game) {

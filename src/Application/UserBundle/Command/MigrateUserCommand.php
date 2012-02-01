@@ -9,12 +9,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
-use FOS\UserBundle\Model\User;
-use FOS\UserBundle\Util\Canonicalizer;
+use Bundle\LichessBundle\Document\Game;
 
-/**
- * Migrate user db to latest johanness changes
- */
 class MigrateUserCommand extends ContainerAwareCommand
 {
     /**
@@ -24,7 +20,7 @@ class MigrateUserCommand extends ContainerAwareCommand
     {
         $this
             ->setDefinition(array())
-            ->setName('fos:user:migrate')
+            ->setName('lichess:user:migrate')
         ;
     }
 
@@ -33,41 +29,26 @@ class MigrateUserCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repo = $this->getContainer()->get('fos_user.repository.user');
+        $gameRepo = $this->getContainer()->get('lichess.repository.game');
+        $userRepo = $this->getContainer()->get('fos_user.repository.user');
         $dm = $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
+        $userCollection = $dm->getDocumentCollection($userRepo->getDocumentName())->getMongoCollection();
 
-        $collection = $dm->getDocumentCollection($repo->getDocumentName())->getMongoCollection();
-        $users = $collection->find();
+        $users = iterator_to_array($userCollection->find(array(), array('_id' => true, 'username' => true)));
 
+        $it = 1;
         foreach($users as $user) {
-            $output->writeLn(sprintf('Update %s', $user['username']));
-            $this->migrate($user);
-            $collection->update(array('_id' => $user['_id']), $user, array('safe' => true));
+            $builder = $gameRepo->createByUserIdQuery($user['_id'])->field('status')->gte(Game::MATE);
+            $output->writeLn(sprintf('%d %s', $it, $user['username']));
+            $userCollection->update(
+                array('_id' => $user['_id']),
+                array('$set' => array(
+                    'nbGames' => $builder->getQuery()->count(),
+                    'nbRatedGames' => $builder->field('isRated')->equals(true)->getQuery()->count()
+                ))
+            );
+            $it++;
         }
         $output->writeLn('Done');
-    }
-
-    protected function migrate(&$user)
-    {
-        if(array_key_exists('isActive', $user)) {
-            $user['enabled'] = (bool) $user['isActive'];
-            unset($user['isActive']);
-        }
-        if(!array_key_exists('roles', $user)) {
-            $user['roles'] = array();
-        }
-        if(isset($user['confirmationToken'])) {
-            unset($user['confirmationToken']);
-        }
-        if(isset($user['usernameLower'])) {
-            $canonicalizer = new Canonicalizer();
-            $user['usernameCanonical'] = $canonicalizer->canonicalize($user['usernameLower']);
-            $user['emailCanonical'] = $canonicalizer->canonicalize($user['email']);
-            unset($user['usernameLower']);
-        }
-        if(isset($user['isSuperAdmin'])) {
-            unset($user['isSuperAdmin']);
-            $user['roles'] = array(User::ROLE_SUPER_ADMIN);
-        }
     }
 }

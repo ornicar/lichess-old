@@ -5,7 +5,7 @@ $.ping = function(url, options) {
         dataType: 'json',
         timeout: 10000,
         data: {},
-        callbacks: [],
+        callbacks: []
     }, options);
     this.queue();
 };
