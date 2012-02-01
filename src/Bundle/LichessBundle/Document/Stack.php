@@ -124,8 +124,10 @@ class Stack
         $stack->optimize();
         $stack->rotate();
 
-        $ktp = function($key) { return Board::keyToPiotr($key); };
-        $aktp = function($keys) use ($ktp) { return array_map($ktp, $keys); };
+        $aktp = function($keys) {
+            foreach ($keys as $i => $key) $keys[$i] = Board::keyToPiotr($key);
+            return $keys;
+        };
         $goe = function($arr, $key, $default) { return isset($arr[$key]) ? $arr[$key] : $default; };
         $col = function($color) { return substr($color, 0, 1); };
         $es = array();
@@ -136,18 +138,18 @@ class Stack
             case "possible_moves":
                 $pms = array();
                 foreach($goe($event, 'possible_moves', array()) as $from => $tos) {
-                    $pms[] = $ktp($from) . implode('', $aktp(str_split($tos, 2)));
+                    $pms[] = Board::keyToPiotr($from) . implode('', $aktp(str_split($tos, 2)));
                 }
                 $data = implode(',', $pms);
                 break;
             case "move":
-                $data = $ktp($event['from']) . $ktp($event['to']) . $col($event['color']);
+                $data = Board::keyToPiotr($event['from']) . Board::keyToPiotr($event['to']) . $col($event['color']);
                 break;
             case "check":
-                $data = $ktp($event['key']);
+                $data = Board::keyToPiotr($event['key']);
                 break;
             case "enpassant":
-                $data = $ktp($event['killed']);
+                $data = Board::keyToPiotr($event['killed']);
                 break;
             case "castling":
                 $data = implode('', $aktp($event['king'])) . implode('', $aktp($event['rook'])) . $col($event['color']);
@@ -159,7 +161,7 @@ class Stack
                 $data = $event['message'][0] . ' ' . str_replace("|", "/", $event['message'][1]);
                 break;
             case "promotion":
-                $data = $ktp($event['key']) . Piece::classToLetter(ucfirst($event['pieceClass']));
+                $data = Board::keyToPiotr($event['key']) . Piece::classToLetter(ucfirst($event['pieceClass']));
                 break;
             case "moretime":
                 $data = $col($event['color']) . $event['seconds'];
@@ -180,8 +182,10 @@ class Stack
     public static function extract($str)
     {
         if (empty($str)) return new Stack();
-        $ptk = function($key) { return Board::piotrToKey($key); };
-        $aptk = function($piotrs) use ($ptk) { return array_map($ptk, $piotrs); };
+        $aptk = function($piotrs) {
+            foreach ($piotrs as $i => $piotr) $piotrs[$i] = Board::piotrToKey($piotr);
+            return $piotrs;
+        };
         $col = function($c) { return $c === 'w' ? 'white' : 'black'; };
         $events = array();
         foreach (explode('|', $str) as $e) {
@@ -196,22 +200,22 @@ class Stack
                     $event = array();
                 } else {
                     foreach (explode(',', $data) as $pm) {
-                        $pms[$ptk($pm{0})] = implode('', $aptk(str_split(substr($pm, 1))));
+                        $pms[Board::piotrToKey($pm{0})] = implode('', $aptk(str_split(substr($pm, 1))));
                     }
                     $event = array('possible_moves' => $pms);
                 }
                 break;
             case "move":
-                $event = array('from' => $ptk($data{0}), 'to' => $ptk($data{1}), 'color' => $col($data{2}));
+                $event = array('from' => Board::piotrToKey($data{0}), 'to' => Board::piotrToKey($data{1}), 'color' => $col($data{2}));
                 break;
             case "check":
-                $event = array('key' => $ptk($data));
+                $event = array('key' => Board::piotrToKey($data));
                 break;
             case "enpassant":
-                $event = array('killed' => $ptk($data));
+                $event = array('killed' => Board::piotrToKey($data));
                 break;
             case "castling":
-                $event = array('king' => array($ptk($data{0}), $ptk($data{1})), 'rook' => array($ptk($data{2}), $ptk($data{3})), 'color' => $col($data{4}));
+                $event = array('king' => array(Board::piotrToKey($data{0}), Board::piotrToKey($data{1})), 'rook' => array(Board::piotrToKey($data{2}), Board::piotrToKey($data{3})), 'color' => $col($data{4}));
                 break;
             case "redirect":
                 $event = array('url' => $data);
@@ -221,7 +225,7 @@ class Stack
                 $event = array('message' => array(substr($data, 0, $pos), substr($data, $pos + 1)));
                 break;
             case "promotion":
-                $event = array('key' => $ptk($data{0}), 'pieceClass' => strtolower(Piece::letterToClass($data{1})));
+                $event = array('key' => Board::piotrToKey($data{0}), 'pieceClass' => strtolower(Piece::letterToClass($data{1})));
                 break;
             case "moretime":
                 $event = array('color' => $col($data{0}), 'seconds' => substr($data, 1));
