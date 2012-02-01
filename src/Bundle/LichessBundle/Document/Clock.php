@@ -287,4 +287,8 @@ class Clock
     {
         $this->reset();
     }
+
+    public function __toString() {
+        return 'clock';
+    }
 }

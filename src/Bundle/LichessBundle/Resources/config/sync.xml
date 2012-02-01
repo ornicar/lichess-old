@@ -24,6 +24,8 @@
             <argument type="service" id="lichess.renderer.room_message" />
         </service>
         <service id="lichess.synchronizer" class="Bundle\LichessBundle\Sync\Synchronizer">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <argument type="service" id="lichess.provider" />
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.http_push" />
             <argument type="service" id="lichess.client_updater" />

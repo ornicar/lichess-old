@@ -1148,6 +1148,10 @@ class Game
     public function preFlush()
     {
         $this->compress();
+    }
+
+    public function postFlush()
+    {
         $this->cachePlayerVersions();
     }
 

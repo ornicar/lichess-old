@@ -66,4 +66,8 @@ class Room
     {
         return count($this->messages);
     }
+
+    public function __toString() {
+        return 'room';
+    }
 }

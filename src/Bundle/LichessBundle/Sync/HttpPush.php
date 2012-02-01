@@ -21,19 +21,26 @@ class HttpPush
 
     public function poll(Player $player, $version)
     {
-        $nbLoops = max(1, round($this->latency / $this->delay));
+        $nbLoops = max(1, round($this->latency / $this->delay)) - 1;
+        $sleepUs = $this->delay * 1000 * 1000;
+
+        usleep($sleepUs);
 
         for ($i=0; $i<$nbLoops; $i++) {
-            // Get user cache from APC
-            $userVersion = $this->memory->getVersion($player);
 
-            // If the user has no cache, hit the application
-            if(false === $userVersion) break;
+            if (!$this->isSynced($player, $version)) {
+                break;
+            }
 
-            // If the client and server version differ, update the client
-            if($userVersion != $version) break;
-
-            usleep($this->delay * 1000 * 1000);
+            usleep($sleepUs);
         }
+    }
+
+    public function isSynced(Player $player, $version)
+    {
+        // Get user cache from APC
+        $memoryVersion = $this->memory->getVersion($player);
+
+        return false !== $memoryVersion && $version == $memoryVersion;
     }
 }
