@@ -49,7 +49,6 @@ class Messenger
         foreach($game->getPlayers() as $player) {
             $player->addEventToStack($sayEvent);
         }
-        $game->cachePlayerVersions();
 
         return true;
     }
