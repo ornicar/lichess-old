@@ -35,7 +35,7 @@ class Messenger
           return true;
         }
 
-        $recentMessages = iterator_to_array($this->repository->findRecent(10, true));
+        $recentMessages = iterator_to_array($this->repository->findRecent(15, true));
 
         foreach ($recentMessages as $recentMessage) {
             if ($message->isLike($recentMessage)) {
@@ -44,12 +44,12 @@ class Messenger
         }
 
         $countSameClient = 0;
-        foreach (array_slice($recentMessages, 0, 6) as $recentMessage) {
+        foreach (array_slice($recentMessages, 0, 8) as $recentMessage) {
             if ($message->isSameClient($recentMessage)) {
                 $countSameClient++;
             }
         }
-        if ($countSameClient == 6) {
+        if ($countSameClient == 8) {
             return true;
         }
 
@@ -59,7 +59,7 @@ class Messenger
                 $countSameClient++;
             }
         }
-        if ($countSameClient >= 9) {
+        if ($countSameClient >= 13) {
             return true;
         }
 
