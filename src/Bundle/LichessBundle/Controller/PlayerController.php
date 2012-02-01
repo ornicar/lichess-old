@@ -16,8 +16,11 @@ class PlayerController extends Controller
 {
     public function moretimeAction($id)
     {
+        $seconds = 15;
         $player = $this->get('lichess.provider')->findPlayer($id);
-        $time = $player->getGame()->giveTime($player->getOpponent(), 15);
+        $opponent = $player->getOpponent();
+        $time = $player->getGame()->giveTime($opponent, $seconds);
+        $this->get('lichess.messenger')->addSystemMessage($player->getGame(), sprintf('%s + %d seconds', $opponent->getColor(), $seconds));
         $this->flush();
 
         return new Response($time);
