@@ -4,7 +4,6 @@
 * show table of games per opponent (http://en.lichess.org/forum/lichess-feedback/suggestions-for-improving?page=1#2)
 * change password
 * translate minutes/side (clock.name)
-* warn when opponent hides chat room
 * alert when low on time
 * start game with any custom position - position builder
 * continue game for fun after a player flags
@@ -14,17 +13,19 @@
 * language on 2 cols
 * favorite games http://lichess.org/forum/lichess-feedback/folder-in-profile
 * more player stats (including running score)
-* timeline post entry author is wrong
 * show capture count
 * game list order choice and search engine
-* allow to edit previous forum post
 * show number of watchers
-* add color wish in anybody mode
-* try stockfish
-* "empty space" issue on /inbox/new when username suggestion box is active
 * put user icons to separate sprite
 * keyboard play
 * Facebook share (http://lichess.org/forum/lichess-feedback/share-game-analyse-on-facebook/4cf4248430c3530873010000)
 * analysis anchor (http://lichess.org/forum/lichess-feedback/4cd1967630c3534159000000)
 * propose to cancel a move
 * show game in forum
+* mark cheaters with computer icon http://en.lichess.org/forum/staff/extra-step-against-fighting-cheaters?page=1#8
+* wiki
+* install issues https://github.com/ornicar/lichess/issues/37
+* css https://github.com/ornicar/lichess/issues/38
+* rematch link in replay & analyze http://en.lichess.org/forum/lichess-feedback/suggestion-rematch-link-in-replay-analyze?page=1#1
+* create game with elo range
+* stats win white/black
