@@ -42,7 +42,7 @@ class Crafty implements AiInterface
         $command = $this->getPlayCommand($forsythNotation, $file, $level);
         exec($command, $output, $code);
         if($code !== 0) {
-            throw new \RuntimeException(sprintf('Can not run crafty: '.$command.' '.implode("\n", $output)));
+            throw new \RuntimeException('Can not run crafty: '.$command.' '.implode("\n", $output));
         }
 
         $craftyAnswer = file($file, FILE_IGNORE_NEW_LINES);
