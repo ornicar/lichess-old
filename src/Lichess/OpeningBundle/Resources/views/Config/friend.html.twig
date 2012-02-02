@@ -32,6 +32,10 @@
 {% endif %}
 {% if form.eloRange is defined %}
 <div class="elo_range_config ">
+    <div class="elo_choice">
+        {{ form_label(form.clock, "Time control"|trans) }}
+        {{ form_widget(form.clock) }}
+    </div>
     <div class="elo_range">
         {{ form_widget(form.eloRange, {"attr":{"data-min":800,"data-max":2100}}) }}
     </div>
