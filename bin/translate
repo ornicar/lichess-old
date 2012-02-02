@@ -20,6 +20,7 @@ elif [ "$1" = "apply" ]; then
 elif [ "$1" = "next" ]; then
     printf "Increment translation version\n"
     version=$(($version+1))
+    bin/translate show
 elif [ "$1" = "commit" ]; then
     printf "Commit resolved conflict\n"
     (( prevVersion = version -1 ))
