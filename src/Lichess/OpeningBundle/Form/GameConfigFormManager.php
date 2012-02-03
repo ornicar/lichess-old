@@ -23,21 +23,21 @@ class GameConfigFormManager
 
     public function createFriendForm()
     {
-        return $this->createGenericForm('friend');
+        return $this->createGenericForm('friend', false);
     }
 
     public function createHookForm()
     {
-        return $this->createGenericForm('hook');
+        return $this->createGenericForm('hook', true);
     }
 
-    protected function createGenericForm($persistedName)
+    protected function createGenericForm($persistedName, $rangeable = false)
     {
         $isAuthenticated = $this->security->isGranted('IS_AUTHENTICATED_REMEMBERED');
         $config = new GameConfig();
         $config->fromArray($this->configPersistence->loadConfigFor($persistedName));
 
-        return $this->formFactory->create(new GameConfigFormType($isAuthenticated), $config);
+        return $this->formFactory->create(new GameConfigFormType($isAuthenticated, true, $rangeable), $config);
     }
 
     public function createAiForm()

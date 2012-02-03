@@ -10,11 +10,13 @@ class GameConfigFormType extends AbstractType
 {
     protected $ratable;
     protected $timeable;
+    protected $rangeable;
 
-    public function __construct($ratable, $timeable = true)
+    public function __construct($ratable, $timeable, $rangeable)
     {
         $this->ratable = $ratable;
         $this->timeable = $timeable;
+        $this->rangeable = $rangeable;
     }
 
     public function buildForm(FormBuilder $builder, array $options)
@@ -36,7 +38,9 @@ class GameConfigFormType extends AbstractType
                 'multiple' => false,
                 'expanded' => true
             ));
-            $builder->add('eloRange', 'hidden');
+            if ($this->rangeable) {
+                $builder->add('eloRange', 'hidden');
+            }
         }
     }
 
