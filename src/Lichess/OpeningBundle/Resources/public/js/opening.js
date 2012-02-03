@@ -30,6 +30,7 @@ $(function() {
         $form.find('.elo_range').each(function() {
             var $this = $(this);
             var $input = $this.find("input");
+            var $span = $this.parent().find("span.range");
             var min = $input.data("min");
             var max = $input.data("max");
             if ($input.val()) {
@@ -37,20 +38,27 @@ $(function() {
             } else {
                 var values = [min, max];
             }
+            $span.text(values.join(' - '));
             $this.slider({
                 range: true,
                 min: min,
                 max: max,
                 values: values,
-                //step: 50,
+                step: 50,
                 //animate: true,
                 slide: function( event, ui ) {
                     $input.val(ui.values[0] + "-" + ui.values[1]);
+                    $span.text(ui.values[0] + " - " + ui.values[1]);
                 }
             });
         });
         $form.find('.clock_choice input').on('change', function() {
             $form.find('.time_choice, .increment_choice').toggle($(this).is(':checked'));
+            $.centerOverboard();
+        }).trigger('change');
+        var $modeChoices = $form.find('.mode_choice input');
+        $modeChoices.on('change', function() {
+            $form.find('.elo_range_config').toggle($modeChoices.eq(1).attr('checked') == 'checked');
             $.centerOverboard();
         }).trigger('change');
         $form.prepend($('<a class="close"></a>').click(function() {
