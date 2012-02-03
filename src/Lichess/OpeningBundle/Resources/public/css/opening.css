@@ -41,6 +41,8 @@ div.game_config button.submit {
 }
 div.game_config div.color_submits {
     margin-top: 1em;
+    margin-left: 18px;
+    height: 65px;
 }
 div.game_config div.color_submits button.submit {
     float: left;
