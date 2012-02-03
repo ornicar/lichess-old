@@ -81,18 +81,18 @@ $(function() {
     });
 
     $('.js_email').one('click', function() {
-        var email = ['thibault.', 'duplessis@', 'gmail.com'].join('');
+        var email = ['thibault.', 'dupl', 'essis@', 'gmail.com'].join('');
         $(this).replaceWith($('<a/>').text(email).attr('href', 'mailto:'+email));
     });
 
     function loadUserLinks() {
-        $('a.user_link:not(.tooltiped)').each(function() {
-            var $this = $(this).addClass("tooltiped");
+        $('a.user_link:not(.qtiped)').each(function() {
+            var $this = $(this).addClass("qtiped");
             $this.qtip({
                 content: {
-                    text: ' ', 
+                    text: $this.clone(), 
                     ajax: {
-                        loading: false,
+                        loading: true,
                         url: $this.attr("href").replace(/@/, "preview"), 
                         type: 'GET',
                         cache: false,
@@ -103,7 +103,8 @@ $(function() {
                     }
                 },
                 show: {
-                    effect: false
+                    effect: false,
+                    event: 'click'
                 },
                 hide: {
                     effect: false,
@@ -120,7 +121,7 @@ $(function() {
                         y: -6
                     }
                 }
-            });
+            }).click(function() { return false; });
         });
     }
     loadUserLinks();
