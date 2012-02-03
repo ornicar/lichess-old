@@ -165,6 +165,18 @@ class Hook
         return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color, 'eloRange' => $this->eloRange);
     }
 
+    public function userCanJoin(User $user = null)
+    {
+        if ($this->mode == 1) {
+            if (!$user) return false;
+            if ($this->getEloRange()) {
+                return $user->getElo() >= $this->getEloMin() && $user->getElo() <= $this->getEloMax();
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Gets: Game variant (like standard or chess960)
      *
@@ -294,6 +306,20 @@ class Hook
     public function setEloRange($eloRange)
     {
         $this->eloRange = $eloRange;
+    }
+
+    public function getEloMin()
+    {
+        if (empty($this->eloRange)) return null;
+
+        return substr($this->eloRange, 0, strpos($this->eloRange, '-'));
+    }
+
+    public function getEloMax()
+    {
+        if (empty($this->eloRange)) return null;
+
+        return substr($this->eloRange, strpos($this->eloRange, '-') + 1);
     }
 
     /**

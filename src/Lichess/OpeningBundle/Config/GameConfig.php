@@ -62,7 +62,7 @@ class GameConfig
     protected $color = 'random';
 
     /**
-     * @Assert\Regex(pattern="/^\d{3, 4}-\d{3, 4}$/")
+     * @Assert\Regex(pattern="/^\d{3,4}\-\d{3,4}$/")
      * @var string
      */
     protected $eloRange = null;
@@ -207,6 +207,11 @@ class GameConfig
     public function setEloRange($eloRange)
     {
         $this->eloRange = $eloRange;
+    }
+
+    public function hasEloRange()
+    {
+        return (bool) $this->eloRange;
     }
 
     public function getClock()

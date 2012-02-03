@@ -43,7 +43,9 @@ class HooksRenderer
                     'variant' => $translator->trans($config->getVariant()),
                     'mode' => $translator->trans($config->getMode()),
                     'color' => lcfirst($config->getColor()),
-                    'clock' => $config->getClock() ? sprintf('%d + %d', $config->getTime(), $config->getIncrement()) : $translator->trans($config->getTime())
+                    'clock' => $config->getClock() ? sprintf('%d + %d', $config->getTime(), $config->getIncrement()) : $translator->trans($config->getTime()),
+                    'emin' => $config->getEloMin(),
+                    'emax' => $config->getEloMax()
                 );
                 if ($myHookId === $hook->getOwnerId()) {
                     $array['action'] = 'cancel';

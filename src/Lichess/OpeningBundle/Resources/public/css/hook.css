@@ -79,6 +79,14 @@ div.hooks td.color span.black {
 div.hooks td.color span.random {
     background-position: 0 -49px;
 }
+div.hooks span.elorange {
+  display: block;
+  font-style: italic;
+  color: #999;
+}
+div.hooks span.elorange.nope {
+  color: #dd8888;
+}
 div.hooks td.action {
     cursor: pointer;
     border-left: 1px solid #cacaca;

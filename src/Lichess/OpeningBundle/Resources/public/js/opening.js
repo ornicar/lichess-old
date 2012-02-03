@@ -17,7 +17,6 @@ $(function() {
                 max: $input.data('max'),
                 range: 'min',
                 step: 1,
-                animate: true,
                 slide: function( event, ui ) {
                     $value.text(ui.value);
                     $input.attr('value', ui.value);
@@ -45,7 +44,6 @@ $(function() {
                 max: max,
                 values: values,
                 step: 50,
-                //animate: true,
                 slide: function( event, ui ) {
                     $input.val(ui.values[0] + "-" + ui.values[1]);
                     $span.text(ui.values[0] + " - " + ui.values[1]);
@@ -84,7 +82,7 @@ $(function() {
             }
         });
         return false;
-    }).get(0).click();
+    });
     $('#lichess').on('submit', 'form', $.lichessOpeningPreventClicks);
 
     if (window.location.hash) {

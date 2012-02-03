@@ -40,6 +40,22 @@ class GameConfigView
         return ucfirst($variantNames[$this->config['variant']]);
     }
 
+    public function getEloMin()
+    {
+        if (empty($this->config['eloRange'])) return null;
+        $range = $this->config['eloRange'];
+
+        return substr($range, 0, strpos($range, '-'));
+    }
+
+    public function getEloMax()
+    {
+        if (empty($this->config['eloRange'])) return null;
+        $range = $this->config['eloRange'];
+
+        return substr($range, strpos($range, '-') + 1);
+    }
+
     public function getMode()
     {
         if ($this->config['mode'] == 1) {
