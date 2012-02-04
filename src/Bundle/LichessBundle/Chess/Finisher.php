@@ -187,6 +187,9 @@ class Finisher
         if(!$whiteUser || !$blackUser) {
             return;
         }
+        if ($whiteUser->is($blackUser)) {
+            return;
+        }
         if($winner = $game->getWinner()) {
             $win = $winner->isWhite() ? -1 : 1;
         } else {

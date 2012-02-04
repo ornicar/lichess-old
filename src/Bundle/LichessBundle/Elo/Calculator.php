@@ -47,6 +47,9 @@ class Calculator
      */
     public function calculateDiff(User $user1, User $user2, $win)
     {
+        if ($user1->is($user2)) {
+            return 0;
+        }
         $user1NewElo = $this->calculateUserElo($user1, $user2->getElo(), -$win);
 
         return $user1NewElo - $user1->getElo();
