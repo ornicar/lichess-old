@@ -657,7 +657,10 @@ class Player
                 $pos = Board::keyToPos(Board::piotrToKey($p{0}));
                 $piece = new $class($pos[0], $pos[1]);
                 if (ctype_upper($p{1})) $piece->setIsDead(true);
-                if ($meta = substr($p, 2)) $piece->setFirstMove((int)$meta);
+                $meta = substr($p, 2);
+                if (is_numeric($meta)) {
+                    $piece->setFirstMove((int)$meta);
+                }
                 $pieces[] = $piece;
             }
         }
