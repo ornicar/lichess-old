@@ -278,7 +278,6 @@ class GameRepository extends DocumentRepository
     public function createRecentByLoserQuery(User $user)
     {
         return $this->createRecentByUserQuery($user)
-            ->field('winnerUserId')->exists(true)
             ->field('winnerUserId')->notEqual($user->getId());
     }
 
