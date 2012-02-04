@@ -35,6 +35,19 @@ EOF;
         $this->assertTrue($this->game->getBoard()->getSquareByKey('a5')->isEmpty());
     }
 
+    public function testEnPassantTooLate()
+    {
+        $this->createGame();
+        $this->move('d2 d4');
+        $this->move('c7 c5');
+        $this->move('d4 d5');
+
+        $pieceKey = 'c5';
+        $moves = array('c4');
+        $possibleMoves = $this->analyser->getPlayerPossibleMoves($this->game->getTurnPlayer());
+        $this->assertEquals($moves, isset($possibleMoves[$pieceKey]) ? $this->sort($possibleMoves[$pieceKey]) : null);
+    }
+
     public function testEnPassantImpossibleWhenOneSquareOnly()
     {
         $data = <<<EOF
@@ -91,12 +104,17 @@ EOF;
      *
      * @return Game
      **/
-    protected function createGame($data, $blackTurn = false)
+    protected function createGame($data = null, $blackTurn = false)
     {
         $generator = new Generator();
-        $this->game = $generator->createGameFromVisualBlock($data);
+        if ($data) {
+            $this->game = $generator->createGameFromVisualBlock($data);
+            $this->game->setTurns($blackTurn ? 11 : 10);
+        }
+        else {
+            $this->game = $generator->createGame();
+        }
         $this->game->setStatus(Game::STARTED);
-        $this->game->setTurns($blackTurn ? 11 : 10);
         $this->analyser = new Analyser($this->game->getBoard());
     }
 

@@ -53,7 +53,7 @@ class Fetcher
             if(!$repo->hasBranch($branchName)) {
                 $commitMessage = sprintf('commit -m "Update \"%s\" translation. Author: %s. Messages: %d. Id: %d. %s"',
                     $this->manager->getLanguageName($translation['code']),
-                    $translation['author'] ?: 'Anonymous',
+                    str_replace('"', "'", $translation['author'] ?: 'Anonymous'),
                     count($translation['messages']),
                     $id,
                     str_replace('"', "'", $translation['comment'])
