@@ -162,12 +162,12 @@ class Hook
 
     public function toArray()
     {
-        return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color, 'eloRange' => $this->eloRange);
+        return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color, 'eloRange' => $this->getEloRange());
     }
 
     public function userCanJoin(User $user = null)
     {
-        if ($this->mode == 1) {
+        if ($this->isRated()) {
             if (!$user) return false;
             if ($this->getEloRange()) {
                 return $user->getElo() >= $this->getEloMin() && $user->getElo() <= $this->getEloMax();
@@ -274,6 +274,11 @@ class Hook
         $this->mode = $mode;
     }
 
+    public function isRated()
+    {
+        return $this->mode === 1;
+    }
+
     /**
      * @return string
      */
@@ -296,7 +301,9 @@ class Hook
      */
     public function getEloRange()
     {
-        return $this->eloRange;
+        if ($this->isRated()) {
+            return $this->eloRange;
+        }
     }
 
     /**
