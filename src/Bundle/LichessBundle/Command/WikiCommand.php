@@ -33,7 +33,7 @@ class WikiCommand extends ContainerAwareCommand
     {
         $fs = new Filesystem();
         $repoUrl = 'git://github.com/ornicar/lichess.wiki.git';
-        $repoUrl = '/home/thib/lichess.wiki/';
+        //$repoUrl = '/home/thib/lichess.wiki/';
         $repoName = 'lichess_wiki';
         $repoDir = '/tmp';
         $repo = $repoDir . '/' . $repoName;

@@ -51,6 +51,6 @@ class MainController extends Controller
 
     public function aboutAction()
     {
-        return $this->render('LichessBundle:Main:about.html.twig');
+        return new RedirectResponse($this->generateUrl('lichess_wiki_show', array('slug' => 'Lichess-Wiki')));
     }
 }
