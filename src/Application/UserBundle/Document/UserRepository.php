@@ -34,7 +34,7 @@ class UserRepository extends DocumentRepository
      */
     public function getElosArray()
     {
-        $result = $this->createQueryBuilder()
+        $result = $this->createEnabledQueryBuilder()
             ->select('elo')
             ->hydrate(false)
             ->getQuery()

@@ -29,18 +29,23 @@ class GameEndChart
 
     public function getRows()
     {
-        $ends = array(
-            'mates' => $this->getNbGameByStatus(Game::MATE),
-            'resigns' => $this->getNbGameByStatus(Game::RESIGN),
-            'stalemates' => $this->getNbGameByStatus(Game::STALEMATE),
-            'timeouts' => $this->getNbGameByStatus(Game::TIMEOUT),
-            'disconnects' => $this->getNbGameByStatus(Game::OUTOFTIME),
-            'draws' => $this->getNbGameByStatus(Game::DRAW),
-        );
+        $cacheKey = 'lichess_game_end_chart';
+        $data = apc_fetch($cacheKey);
+        if (false === $data) {
+            $ends = array(
+                'mates' => $this->getNbGameByStatus(Game::MATE),
+                'resigns' => $this->getNbGameByStatus(Game::RESIGN),
+                'stalemates' => $this->getNbGameByStatus(Game::STALEMATE),
+                'timeouts' => $this->getNbGameByStatus(Game::TIMEOUT),
+                'disconnects' => $this->getNbGameByStatus(Game::OUTOFTIME),
+                'draws' => $this->getNbGameByStatus(Game::DRAW),
+            );
 
-        $data = array();
-        foreach ($ends as $text => $nb) {
-            $data[] = array(number_format($nb).' '.$text, $nb);
+            $data = array();
+            foreach ($ends as $text => $nb) {
+                $data[] = array(number_format($nb).' '.$text, $nb);
+            }
+            apc_store($cacheKey, $data, 86400);
         }
 
         return $data;

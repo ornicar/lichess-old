@@ -1,0 +1,5 @@
+<ul>
+{% for page in pages %}
+<li><a href="{{ path("lichess_wiki_show", {"slug": page.slug}) }}">{{ page.title }}</a></li>
+{% endfor %}
+</ul>
