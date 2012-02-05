@@ -96,11 +96,13 @@ Lichess.org will be down in a few minutes!
             <ul class="lichess_social"></ul>
             <div class="footer">
                 <div class="right">
-                    <a href="http://twitter.com/#!/ornicar">twitter.com/ornicar</a> | <a href="http://github.com/ornicar">github.com/ornicar</a> | <a class="js_email">email me</a><br />
+                    <a href="http://github.com/ornicar">github.com/ornicar</a> | <a class="js_email">email me</a><br />
                     <a href="{{ path("lichess_about") }}" class="blank_if_play">{{ "Learn more about Lichess"|trans }}</a>
                 </div>
-                Get <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">source code</a> | Give <a href="{{ path("herzult_forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">feedback</a><br />
-                Help <a href="{{ path("lichess_translation_contribution") }}">translate Lichess</a> | View <a href="{{ path("lichess_todolist") }}">TODO list</a><br />
+                <a href="{{ path("lichess_wiki_index") }}">Wiki</a> |
+                <a href="{{ path("herzult_forum_category_show", {"slug": "lichess-feedback"} ) }}" title="Having a suggestion, feature request or bug report? Let me know">Feedback</a> |
+                <a href="http://github.com/ornicar/lichess" target="_blank" title="See what's inside, fork and contribute">Source Code</a><br />
+                Help <a href="{{ path("lichess_translation_contribution") }}">translate Lichess</a>
             </div>
         </div>
         {% block js_data %}{% endblock %}

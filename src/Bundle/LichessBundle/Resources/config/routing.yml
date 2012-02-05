@@ -135,3 +135,9 @@ lichess_ping:
 lichess_how_many_players_now:
     pattern:        /how-many-players-now
     defaults:       { _controller: LichessBundle:Boost:howManyPlayersNow }
+lichess_wiki_index:
+    pattern:        /wiki
+    defaults:       { _controller: LichessBundle:Wiki:index }
+lichess_wiki_show:
+    pattern:        /wiki/{slug}
+    defaults:       { _controller: LichessBundle:Wiki:show }

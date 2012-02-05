@@ -1,0 +1,17 @@
+{% extends "LichessBundle:Wiki:layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }}
+{% stylesheets
+    '@LichessBundle/Resources/public/css/about.css'
+    filter="?yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
+{% block content %}
+<div class="content_box small_box about_box">
+  <h1 class="lichess_title">{{ page.title }}</h1>
+  <div class="body">
+    {{ page.body|raw }}
+  </div>
+</div>
+{% endblock %}
