@@ -48,6 +48,11 @@ class UserCritic
         return $this->calculator->calculateDiff($this->getAuthenticatedUser(), $this->user, +1);
     }
 
+    public function hasRank()
+    {
+        return $this->user->getElo() >= 1600;
+    }
+
     public function getRank()
     {
         return $this->cacheable('rank', function($games, $users, $user) {

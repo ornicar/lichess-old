@@ -15,7 +15,11 @@
         <a href="{{ path("lichess_user_export", {"username": user.username}) }}">{{ "Export games"|trans }}</a>
         <div class="status {{ user.isOnline ? "connected" : "" }}"></div>
         <h1 class="lichess_title">{{ user.usernameWithElo }}</h1>
-        <span class="rank">{{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}</span>
+        <span class="rank">
+        {% if critic.hasRank %}
+          {{ "Rank"|trans }}: <strong>{{ critic.rank }}</strong> / {{ critic.nbUsers }}
+        {% endif %}
+        </span>
     </div>
     <div class="content_box_content clearfix">
         {% if user.hasRole("ROLE_ADMIN") %}<div class="staff">STAFF</div>{% endif %}
