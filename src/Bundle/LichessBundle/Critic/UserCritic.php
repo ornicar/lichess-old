@@ -101,7 +101,7 @@ class UserCritic
     {
         return $this->cacheable('nbLosses', function($games, $users, $user) {
             return $games->createByUserQuery($user)
-                ->field('winnerUserId')->exists(true)
+                ->field('status')->in(array(Game::MATE, Game::RESIGN, Game::OUTOFTIME, Game::TIMEOUT))
                 ->field('winnerUserId')->notEqual((string) $user->getId())
                 ->getQuery()->count();
         });
