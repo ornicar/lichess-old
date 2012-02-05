@@ -55,7 +55,7 @@ $(function() {
         // board color
         var $board = $bw.find('> div.lichess_board');
         var $picker = $('#top a.colorpicker');
-        var colors = {0:'grey', 1:'brown', 2:'green', 3:'blue', length: 4};
+        var colors = {0:'brown', 1:'grey', 2:'green', 3:'blue', length: 4};
         var nbColors = 3;
         var colorIndex = $.cookie('lbc') || 0;
         function setColor(index) {
