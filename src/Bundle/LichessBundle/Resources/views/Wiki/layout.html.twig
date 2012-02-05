@@ -1,0 +1,22 @@
+{% extends "LichessBundle::layout.html.twig" %}
+
+{% block menu_active %}wiki{% endblock %}
+
+{% block layout_content %}
+<div id="wiki">{% block content %}{% endblock %}</div>
+{% endblock %}
+
+{% block goodies %}
+    <div class="sidebar">
+      {% render "LichessBundle:Wiki:pages" %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% stylesheets
+    '@LichessBundle/Resources/public/css/wiki.css'
+    filter="?yui_css" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}

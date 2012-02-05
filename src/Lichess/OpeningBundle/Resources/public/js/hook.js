@@ -20,7 +20,9 @@ $(function() {
     var entryId = 0;
     var auth = $hooks.data('auth');
     var frozen = false;
-    var isRegistered = $('#user_tag').length > 0
+    var $userTag = $('#user_tag');
+    var isRegistered = $userTag.length > 0
+    var myElo = isRegistered ? parseInt($userTag.data('elo')) : null;
 
     function chat() {
         var $form = $chat.find('form');
@@ -146,7 +148,7 @@ $(function() {
 
     function renderHooks(data) {
         if (data.hooks) {
-            var hook, html = "", mode;
+            var hook, html = "", mode, eloRestriction;
             $hooks.find('tr').addClass("hideme");
             for (id in data.hooks) {
                 if ($tr = $("#" + id).orNot()) {
@@ -161,16 +163,29 @@ $(function() {
                         html += '<td>'+hook.username+'</td>';
                     }
                     html += '</td>';
-                    mode = isRegistered ? hook.mode : ""
+                    eloRestriction = false;
+                    if (isRegistered) {
+                      mode = hook.mode;
+                      if (hook.emin && (hook.emin > 800 || hook.emax < 2100)) {
+                        if (hook.action == "join" && myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax)) {
+                          eloRestriction = true;
+                        }
+                        mode += "<span class='elorange" + (eloRestriction ? ' nope' : '') + "'>" + hook.emin + ' - ' + hook.emax + '</span>';
+                      }
+                    } else {
+                      mode = "";
+                    }
                     if (hook.variant == 'Chess960') {
                         html += '<td><a href="http://en.wikipedia.org/wiki/Chess960"><strong>960</strong></a> ' + mode + '</td>';
                     } else {
                         html += '<td>'+mode+'</td>';
                     }
                     html += '<td>'+hook.clock+'</td>';
-                    html += '<td class="action">';
-                    html += '<a href="'+actionUrls[hook.action].replace(/\/0{8,12}\//, '/'+hook.id+'/')+'" class="'+hook.action+'"></a>';
-                    html += '</td></tr>';
+                    if (eloRestriction) {
+                      html += '<td></td>';
+                    } else {
+                      html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}\//, '/'+hook.id+'/')+'" class="'+hook.action+'"></a></td>';
+                    }
                 }
             }
             $hooks.find("table").removeClass("empty_table").append(html);

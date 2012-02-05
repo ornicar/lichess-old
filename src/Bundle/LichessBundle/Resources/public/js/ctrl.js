@@ -67,6 +67,8 @@ $(function() {
           $.cookie('lbc', colorIndex);
           setColor(colorIndex);
         });
+    } else {
+        $('#top a.colorpicker').remove();
     }
 
     $.centerOverboard = function() {

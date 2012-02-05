@@ -136,6 +136,12 @@ class Hook
      */
     protected $match = false;
 
+    /**
+     * @var string
+     * @MongoDB\Field(type="string")
+     */
+    protected $eloRange = null;
+
     public function __construct()
     {
         $this->id      = KeyGenerator::generate(8);
@@ -151,11 +157,24 @@ class Hook
         if(isset($data['variant'])) $this->variant = $data['variant'];
         if(isset($data['mode'])) $this->mode = $data['mode'];
         if(isset($data['color'])) $this->color = $data['color'];
+        if(isset($data['eloRange'])) $this->eloRange = $data['eloRange'];
     }
 
     public function toArray()
     {
-        return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color);
+        return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color, 'eloRange' => $this->eloRange);
+    }
+
+    public function userCanJoin(User $user = null)
+    {
+        if ($this->mode == 1) {
+            if (!$user) return false;
+            if ($this->getEloRange()) {
+                return $user->getElo() >= $this->getEloMin() && $user->getElo() <= $this->getEloMax();
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -270,6 +289,37 @@ class Hook
     public function setColor($color)
     {
         $this->color = $color;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEloRange()
+    {
+        return $this->eloRange;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setEloRange($eloRange)
+    {
+        $this->eloRange = $eloRange;
+    }
+
+    public function getEloMin()
+    {
+        if (empty($this->eloRange)) return null;
+
+        return substr($this->eloRange, 0, strpos($this->eloRange, '-'));
+    }
+
+    public function getEloMax()
+    {
+        if (empty($this->eloRange)) return null;
+
+        return substr($this->eloRange, strpos($this->eloRange, '-') + 1);
     }
 
     /**

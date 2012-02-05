@@ -35,13 +35,18 @@ class UsersEloChart
 
     public function getRows()
     {
-        $elos = $this->userRepository->getElosArray();
-        $distribution = array_count_values($elos);
-        unset($distribution[1200]);
+        $cacheKey = 'lichess_users_elo_chart';
+        $data = apc_fetch($cacheKey);
+        if (false === $data) {
+            $elos = $this->userRepository->getElosArray();
+            $distribution = array_count_values($elos);
+            unset($distribution[1200]);
 
-        $data = array();
-        foreach ($distribution as $elo => $nb) {
-            $data[] = array($elo, $nb);
+            $data = array();
+            foreach ($distribution as $elo => $nb) {
+                $data[] = array($elo, $nb);
+            }
+            apc_store($cacheKey, $data, 86400);
         }
 
         return $data;

@@ -83,7 +83,7 @@
     target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
 
 [ForumBundle]
-	git=git://github.com/Herzult/HerzultForumBundle.git
+	git=git://github.com/ornicar/HerzultForumBundle.git
   target=/bundles/Herzult/Bundle/ForumBundle
 
 [ApcBundle]

@@ -148,7 +148,8 @@ class HookController extends Controller
         $hook = $this->get('lichess_opening.hook_repository')->findOneById($id);
         $myHookId = $this->get('request')->query->get('cancel');
         // hook is not available anymore
-        if (!$hook || $hook->isMatch()) {
+        // hook elo range does not let me in
+        if (!$hook || $hook->isMatch() || !$hook->userCanJoin($this->get('security.context')->getToken()->getUser())) {
             if ($myHookId) {
                 return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $myHookId)));
             }

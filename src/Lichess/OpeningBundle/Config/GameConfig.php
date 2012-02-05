@@ -62,6 +62,12 @@ class GameConfig
     protected $color = 'random';
 
     /**
+     * @Assert\Regex(pattern="/^\d{3,4}\-\d{3,4}$/")
+     * @var string
+     */
+    protected $eloRange = null;
+
+    /**
      * There is no clock, or ther is some time in it
      *
      * @Assert\True()
@@ -82,7 +88,7 @@ class GameConfig
 
     public function toArray()
     {
-        return array('clock' => $this->clock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color);
+        return array('clock' => $this->clock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color, 'eloRange' => $this->eloRange);
     }
 
     public function fromArray(array $data)
@@ -93,6 +99,7 @@ class GameConfig
         if(isset($data['variant'])) $this->variant = $data['variant'];
         if(isset($data['mode'])) $this->mode = $data['mode'];
         if(isset($data['color'])) $this->color = $data['color'];
+        if(isset($data['eloRange'])) $this->eloRange = $data['eloRange'];
     }
 
     public function createView()
@@ -183,6 +190,28 @@ class GameConfig
     public function setColor($color)
     {
         $this->color = $color;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEloRange()
+    {
+        return $this->eloRange;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setEloRange($eloRange)
+    {
+        $this->eloRange = $eloRange;
+    }
+
+    public function hasEloRange()
+    {
+        return (bool) $this->eloRange;
     }
 
     public function getClock()

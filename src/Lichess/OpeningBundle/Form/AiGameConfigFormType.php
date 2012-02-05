@@ -8,7 +8,7 @@ class AiGameConfigFormType extends GameConfigFormType
 {
     public function __construct()
     {
-        parent::__construct(false, false);
+        parent::__construct(false, false, false);
     }
 
     public function buildForm(FormBuilder $builder, array $options)
