@@ -108,9 +108,6 @@ lichess_pgn_export:
     pattern:        /analyse/{id}/export
     defaults:       { _controller: LichessBundle:Pgn:export, color: white }
     requirements:   { id: "[\w\-]{8}" }
-lichess_todolist:
-    pattern:        /todo-list
-    defaults:       { _controller: LichessBundle:Main:todolist }
 lichess_trial_list_unresolved:
     pattern:        /trial/unresolved
     defaults:       { _controller: LichessBundle:Trial:listUnresolved }

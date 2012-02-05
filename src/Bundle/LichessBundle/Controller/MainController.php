@@ -30,15 +30,6 @@ class MainController extends Controller
       );
     }
 
-    public function todolistAction()
-    {
-        $text = file_get_contents($this->container->getParameter('kernel.root_dir').'/../TODO');
-        $items = explode("\n", preg_replace('/^\*\s/m', '', $text));
-        array_pop($items);
-
-        return $this->render('LichessBundle:Main:todolist.html.twig', array('items' => $items));
-    }
-
     public function toggleSoundAction()
     {
         $session = $this->get('session');
