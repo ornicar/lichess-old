@@ -166,7 +166,7 @@ $(function() {
                     eloRestriction = false;
                     if (isRegistered) {
                       mode = hook.mode;
-                      if (hook.emin) {
+                      if (hook.emin && (hook.emin > 800 || hook.emax < 2100)) {
                         if (hook.action == "join" && myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax)) {
                           eloRestriction = true;
                         }

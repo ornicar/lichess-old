@@ -49,19 +49,18 @@ $(function() {
                     $span.text(ui.values[0] + " - " + ui.values[1]);
                 }
             });
+            var $eloRangeConfig = $this.parent();
+            var $modeChoices = $form.find('.mode_choice input');
+            $modeChoices.on('change', function() {
+                $eloRangeConfig.toggle($modeChoices.eq(1).attr('checked') == 'checked');
+                $.centerOverboard();
+            }).trigger('change');
         });
         $form.find('.clock_choice input').on('change', function() {
             $form.find('.time_choice, .increment_choice').toggle($(this).is(':checked'));
             $.centerOverboard();
         }).trigger('change');
         var $eloRangeConfig = $form.find('.elo_range_config');
-        if ($eloRangeConfig.length) {
-          var $modeChoices = $form.find('.mode_choice input');
-          $modeChoices.on('change', function() {
-              $eloRangeConfig.toggle($modeChoices.eq(1).attr('checked') == 'checked');
-              $.centerOverboard();
-          }).trigger('change');
-        }
         $form.prepend($('<a class="close"></a>').click(function() {
             $form.remove();
             $startButtons.find('a.active').removeClass('active');
