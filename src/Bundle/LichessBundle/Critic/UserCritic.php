@@ -50,7 +50,7 @@ class UserCritic
 
     public function hasRank()
     {
-        return $this->user->getElo() >= 1600;
+        return $this->user->getElo() >= 1500;
     }
 
     public function getRank()
