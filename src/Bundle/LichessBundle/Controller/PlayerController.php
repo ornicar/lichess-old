@@ -20,7 +20,7 @@ class PlayerController extends Controller
         $player = $this->get('lichess.provider')->findPlayer($id);
         $opponent = $player->getOpponent();
         $time = $player->getGame()->giveTime($opponent, $seconds);
-        $this->get('lichess.messenger')->addSystemMessage($player->getGame(), sprintf('%s + %d seconds', $opponent->getColor(), $seconds));
+        $this->get('lichess.messenger')->addSystemMessage($player->getGame(), sprintf('%s + %d seconds', ucfirst($opponent->getColor()), $seconds));
         $this->flush();
 
         return new Response($time);

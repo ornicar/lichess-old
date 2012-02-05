@@ -48,7 +48,7 @@ class Configuration
                     ->children()
                         ->scalarNode('path')->defaultValue('/xhr.php')->end()
                         ->scalarNode('latency')->defaultValue(5)->end()
-                        ->scalarNode('delay')->defaultValue(0.15)->end()
+                        ->scalarNode('delay')->defaultValue(0.2)->end()
                     ->end()
                 ->end()
                 ->arrayNode('feature')->addDefaultsIfNotSet()
