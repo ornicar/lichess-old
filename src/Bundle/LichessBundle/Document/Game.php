@@ -1152,7 +1152,9 @@ class Game
 
     public function postFlush()
     {
-        $this->cachePlayerVersions();
+        foreach($this->getPlayers() as $player) {
+            $player->cacheVersion();
+        }
     }
 
     public function compress()
@@ -1160,15 +1162,6 @@ class Game
         foreach($this->getPlayers() as $player) {
             $player->compressPieces();
             $player->compressStack();
-        }
-    }
-
-    public function cachePlayerVersions()
-    {
-        foreach($this->getPlayers() as $player) {
-            if(!$player->getIsAi()) {
-                apc_store($this->getId().'.'.$player->getColor().'.data', $player->getStackVersion(), 3600);
-            }
         }
     }
 }

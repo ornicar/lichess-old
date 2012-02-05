@@ -27,7 +27,7 @@ class Synchronizer
     {
         $game = $player->getGame();
 
-        $game->cachePlayerVersions();
+        $player->cacheVersion();
 
         if ($this->httpPush->isSynced($player, $version)) {
             $this->httpPush->poll($player, $version);
