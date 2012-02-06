@@ -7,7 +7,7 @@
     <div class="lichess_board_wrap">
         {{ lichess_game_board(player, checkSquareKey)|raw }}
         {% include "LichessBundle:Main:connectionLost.html.twig" %}
-        <div id="premove">Premove enabled - Click anywhere to cancel</div>
+        <div id="premove">{{ "Premove enabled - Click anywhere to cancel"|trans }}</div>
     </div>
     <div class="lichess_ground">
         {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
