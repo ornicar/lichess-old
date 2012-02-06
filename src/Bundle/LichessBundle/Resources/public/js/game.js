@@ -578,12 +578,16 @@ $.widget("lichess.game", {
             self.post($(this).attr('href'), {}, true);
             return false;
         });
+        var nbmoretime = 0;
         self.$table.find('a.moretime').click(function() {
+          if (nbmoretime > 3) return false;
+          nbmoretime++;
           self.post($(this).attr('href'), {
               success: function(time) {
                 self.updateClock(self.options.opponent.color, time);
+                setTimeout(function() { nbmoretime = Math.max(0, nbmoretime -1); }, 2500);
               }
-          }, true);
+          }, false);
           return false;
         });
     },
@@ -684,7 +688,7 @@ $.widget("lichess.game", {
     onError: function(error, reloadIfFail) {
         var self = this;
         if (reloadIfFail) {
-            //location.reload();
+            location.reload();
         }
     }
 });
