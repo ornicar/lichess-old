@@ -45,7 +45,7 @@ class Clock
      *  Assume that a move takes some time to go from player1 -> server -> player2
      *  and remove this time from each move time
      */
-    const HTTP_DELAY = 0.7;
+    const HTTP_DELAY = 0.5;
 
     /**
      * Fisher clock bonus per move in seconds
