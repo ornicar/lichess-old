@@ -93,6 +93,10 @@ div.hooks td.action {
     width: 63px;
     padding: 0;
 }
+div.hooks td.action.empty {
+  cursor: normal;
+  background: none;
+}
 div.hooks a.cancel,
 div.hooks a.join {
     height: 32px;

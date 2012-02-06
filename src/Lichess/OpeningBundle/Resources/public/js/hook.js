@@ -167,7 +167,8 @@ $(function() {
                     if (isRegistered) {
                       mode = hook.mode;
                       if (hook.emin && (hook.emin > 700 || hook.emax < 2200)) {
-                        if (hook.action == "join" && myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax)) {
+                        if (hook.action == "join" && (myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax))) {
+                          console.debug(hook);
                           eloRestriction = true;
                         }
                         mode += "<span class='elorange" + (eloRestriction ? ' nope' : '') + "'>" + hook.emin + ' - ' + hook.emax + '</span>';
@@ -182,7 +183,7 @@ $(function() {
                     }
                     html += '<td>'+hook.clock+'</td>';
                     if (eloRestriction) {
-                      html += '<td></td>';
+                      html += '<td class="action empty"></td>';
                     } else {
                       html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}\//, '/'+hook.id+'/')+'" class="'+hook.action+'"></a></td>';
                     }
