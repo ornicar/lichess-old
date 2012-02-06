@@ -59,7 +59,7 @@ class Fetcher
                     str_replace('"', "'", $translation['comment'])
                 );
                 $logger($commitMessage);
-                $repo->git('checkout -b '.$branchName.' origin/master');
+                $repo->git('checkout -b '.$branchName.' master');
                 $this->manager->saveMessages($translation['code'], $translation['messages']);
                 $repo->git('add '.$this->manager->getLanguageFile($translation['code']));
                 $modified = strlen($repo->git('diff --cached')) > 1;
