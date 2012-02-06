@@ -24,6 +24,7 @@ class Message
      * The user name
      *
      * @MongoDB\String
+     * @MongoDB\Index
      * @var string
      */
     protected $username;

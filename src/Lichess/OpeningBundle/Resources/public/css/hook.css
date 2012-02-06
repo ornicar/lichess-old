@@ -94,7 +94,7 @@ div.hooks td.action {
     padding: 0;
 }
 div.hooks td.action.empty {
-  cursor: normal;
+  cursor: default;
   background: none;
 }
 div.hooks a.cancel,

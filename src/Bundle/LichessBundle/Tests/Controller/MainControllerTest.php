@@ -13,14 +13,6 @@ class MainControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
-    public function testAbout()
-    {
-        $client = self::createClient();
-        $crawler = $client->request('GET', '/about');
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals(1, $crawler->filter('h1:contains("About Lichess")')->count());
-    }
-
     public function testHowManyPlayersNow()
     {
         $client = self::createClient();
