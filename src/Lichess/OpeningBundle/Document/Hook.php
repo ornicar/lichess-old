@@ -165,8 +165,10 @@ class Hook
         return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color, 'eloRange' => $this->getEloRange());
     }
 
-    public function userCanJoin(User $user = null)
+    public function userCanJoin($user = null)
     {
+        if (!$user instanceof User) $user = null;
+
         if ($this->isRated()) {
             if (!$user) return false;
             if ($this->getEloRange()) {
