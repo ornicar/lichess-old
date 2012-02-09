@@ -36,7 +36,7 @@ div.hooks table {
     overflow: hidden;
     text-align: left;
     border-collapse: collapse;
-    background: #f0f0f0;
+    background: none;
     color: #666;
     border-top: 1px solid #bababa;
 }

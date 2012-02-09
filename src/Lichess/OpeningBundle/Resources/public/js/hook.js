@@ -168,7 +168,6 @@ $(function() {
                       mode = hook.mode;
                       if (hook.emin && (hook.emin > 700 || hook.emax < 2200)) {
                         if (hook.action == "join" && (myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax))) {
-                          console.debug(hook);
                           eloRestriction = true;
                         }
                         mode += "<span class='elorange" + (eloRestriction ? ' nope' : '') + "'>" + hook.emin + ' - ' + hook.emax + '</span>';
@@ -195,7 +194,9 @@ $(function() {
             $hooks.html(html);
         }
         $hooks.find('a.join').click(freeze);
-        $hooks.find("tr.hideme").remove();
+        $hooks.find("tr.hideme").find('td.action').addClass('empty').html("").end().fadeOut(1000, function() {
+          $(this).remove();
+        });
         if ($hooks.find("tr").length > 6) {
             $wrap.addClass("large");
         } else {
