@@ -64,7 +64,7 @@ $(function() {
         setColor(colorIndex);
         $picker.click(function() {
           colorIndex = (colorIndex + 1) % colors.length;
-          $.cookie('lbc', colorIndex);
+          $.cookie('lbc', colorIndex, {domain: document.domain.replace(/^[a-z]+./, '')});
           setColor(colorIndex);
         });
     } else {

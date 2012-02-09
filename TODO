@@ -29,4 +29,4 @@
 * stats win white/black
 * show spectator names
 * favorite games http://en.lichess.org/forum/lichess-feedback/what-wold-you-think-about-a-favorite-games-feature?page=1#2
-* save board color better
+* investigate clearing production cache using --no-warmup
