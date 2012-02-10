@@ -149,7 +149,7 @@ $(function() {
     function renderHooks(data) {
         if (data.hooks) {
             var hook, html = "", mode, eloRestriction;
-            $hooks.find('tr').addClass("hideme");
+            $hooks.find('tr').addClass("hideme").filter('.create_game').remove();
             for (id in data.hooks) {
                 if ($tr = $("#" + id).orNot()) {
                     $tr.removeClass("hideme");
@@ -190,11 +190,11 @@ $(function() {
             }
             $hooks.find("table").removeClass("empty_table").append(html);
         } else {
-            var html = '<table class="empty_table"><tr><td colspan="5">'+data.message+'</td></tr></table>';
+            var html = '<table class="empty_table"><tr class="create_game"><td colspan="5">'+data.message+'</td></tr></table>';
             $hooks.html(html);
         }
         $hooks.find('a.join').click(freeze);
-        $hooks.find("tr.hideme").find('td.action').addClass('empty').html("").end().fadeOut(1000, function() {
+        $hooks.find("tr.hideme").find('td.action').addClass('empty').html("").end().fadeOut(600, function() {
           $(this).remove();
         });
         if ($hooks.find("tr").length > 6) {
