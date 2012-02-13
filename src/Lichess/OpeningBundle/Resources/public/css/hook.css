@@ -2,7 +2,7 @@ div.hooks_wrap {
     position: absolute;
     width: 384px;
     height: 384px;
-    top: 50px;
+    top: 51px;
     left: 52px;
     padding: 12px;
     border-radius: 3px;
@@ -20,7 +20,7 @@ div.hooks_wrap {
 }
 div.hooks_wrap.large {
   height: 512px;
-  top: -14px;
+  top: -13px;
 }
 
 div.hooks_wrap.hidden {
@@ -47,7 +47,6 @@ div.hooks table.empty_table {
     margin-top: 152px;
 }
 div.hooks td {
-    border-bottom: 1px solid #bababa;
     padding: 0 8px 0 12px;
     height: 64px;
     margin: 0;
