@@ -26,18 +26,6 @@ class Punisher
 
     public function punish(User $user)
     {
-        $this->log(sprintf('Punish player %s', $user->getUsernameWithElo()));
-        //$games = $this->gameRepository->findCancelableByUser($user);
-        //foreach($games as $game) {
-            //$loser = $game->getLoser();
-            //if($eloDiff = $loser->getEloDiff()) {
-                //if($loserUser = $loser->getUser()) {
-                    //$this->log(sprintf('Restitute %d elo to %s for game %s', -$eloDiff, $loserUser->getUsername(), $game->getId()));
-                    //$this->eloUpdater->adjustElo($loserUser, $loserUser->getElo() - $eloDiff);
-                    //$game->setIsEloCanceled(true);
-                //}
-            //}
-        //}
         $this->log(sprintf('Reset %s elo to %d', $user->getUsername(), User::STARTING_ELO));
         $this->eloUpdater->adjustElo($user, User::STARTING_ELO);
     }
