@@ -408,12 +408,16 @@ div.locale_adjust {
   margin: 12px 0;
 }
 
-ul.lichess_social {
+div.lichess_social {
   height: 25px;
   text-align: center;
 }
-ul.lichess_social li {
+div.lichess_social > div {
   display: inline;
+}
+div.lichess_social div.addtochrome {
+  display: block;
+  margin-bottom: 15px;
 }
 .lichess_facebook iframe,
 .lichess_stumbleupon iframe {
