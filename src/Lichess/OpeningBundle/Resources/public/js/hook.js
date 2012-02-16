@@ -78,7 +78,7 @@ $(function() {
         $newpostsinner.find('ol').load($newposts.data('url')); 
         $newpostsinner[0].scrollTop = 9999999;
         $('body').trigger('lichess.content_loaded');
-    }, 60 * 1000);
+    }, 30 * 1000);
 
     function reload() {
         if (frozen) return;
@@ -87,8 +87,9 @@ $(function() {
                 if (frozen) return;
                 renderPollData(data);
             },
-            complete: function() {
-                setTimeout(reload, 300);
+            complete: function(xhr, status) {
+                // delay it a bit to avoid query frenzy
+                setTimeout(reload, status == 'success' ? 300 : 3000);
             },
             dataType: 'json',
             type: "GET",
