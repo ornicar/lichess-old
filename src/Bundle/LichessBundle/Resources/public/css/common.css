@@ -416,7 +416,7 @@ div.lichess_social > div {
   display: inline;
 }
 div.lichess_social div.addtochrome {
-  display: block;
+  display: none;
   margin-bottom: 15px;
 }
 .lichess_facebook iframe,

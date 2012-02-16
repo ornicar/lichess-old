@@ -221,6 +221,11 @@ $(function() {
         },
         2000);
     }
+
+    if(Boolean(window.chrome)) {
+      $("div.addtochrome").show();
+    }
+
 });
 
 $.fn.scrollable = function() {
