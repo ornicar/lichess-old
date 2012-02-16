@@ -26,3 +26,8 @@
     {{ "%nb% draws"|trans({'%nb%': critic.nbDraws}) }} 
 </a>
 {% endif %}
+{% if critic.nbInProgress > 0 %}
+<a {{ active == 'inprogress' ? 'class="active" ' : '' }}href="{{ path('fos_user_user_show', {'username': user.username, 'mode': 'inprogress'}) }}">
+    {{ "%nb% in progress"|trans({'%nb%': critic.nbInProgress}) }} 
+</a>
+{% endif %}

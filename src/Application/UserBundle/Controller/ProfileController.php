@@ -116,6 +116,8 @@ class ProfileController extends BaseProfileController
             $query = $gameRepository->createRecentByLoserQuery($user);
         } elseif ($mode === 'draws') {
             $query = $gameRepository->createRecentByDrawerQuery($user);
+        } elseif ($mode === 'inprogress') {
+            $query = $gameRepository->createRecentByInProgressQuery($user);
         } else {
             $query = $gameRepository->createRecentStartedOrFinishedByUserQuery($user);
         }

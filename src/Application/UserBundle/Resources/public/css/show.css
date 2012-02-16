@@ -77,7 +77,8 @@ div.user_show div.games {
 
 div.user_show div.content_box_inter a {
     margin: 5px 0.5em -1px 0;
-    padding: 0 1em;
+    padding: 0 0.7em;
+    font-size: 1em;
 }
 div.user_show div.content_box_inter a.active {
     background: white;

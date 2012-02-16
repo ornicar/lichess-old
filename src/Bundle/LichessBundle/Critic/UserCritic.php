@@ -121,6 +121,15 @@ class UserCritic
         });
     }
 
+    public function getNbInProgress()
+    {
+        return $this->cacheable('nbInProgress', function($games, $users, $user) {
+            return $games->createByUserQuery($user)
+                ->field('status')->equals(Game::STARTED)
+                ->getQuery()->count();
+        });
+    }
+
     public function getPercentWins()
     {
         if($this->getNbGames() > 0) {

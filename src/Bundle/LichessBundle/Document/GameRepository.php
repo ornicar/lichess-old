@@ -294,6 +294,17 @@ class GameRepository extends DocumentRepository
     }
 
     /**
+     * Gets the games currently played by the user
+     *
+     * @return Builder
+     */
+    public function createRecentByInProgressQuery(User $user)
+    {
+        return $this->createRecentByUserQuery($user)
+            ->field('status')->equals(Game::STARTED);
+    }
+
+    /**
      * Query of at least mate games
      *
      * @return Doctrine\ODM\Mongodb\Query
