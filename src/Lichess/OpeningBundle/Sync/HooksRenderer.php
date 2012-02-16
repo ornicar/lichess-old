@@ -47,6 +47,9 @@ class HooksRenderer
                     'emin' => $config->getEloMin(),
                     'emax' => $config->getEloMax()
                 );
+                if ($hook->isEngine()) {
+                    $array['engine'] = true;
+                }
                 if ($myHookId === $hook->getOwnerId()) {
                     $array['action'] = 'cancel';
                     $array['id'] = $hook->getOwnerId();

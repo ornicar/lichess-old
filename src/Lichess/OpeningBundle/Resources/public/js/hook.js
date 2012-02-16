@@ -149,7 +149,7 @@ $(function() {
 
     function renderHooks(data) {
         if (data.hooks) {
-            var hook, html = "", mode, eloRestriction;
+            var hook, html = "", isEngine, engineMark, userClass, mode, eloRestriction;
             $hooks.find('tr').addClass("hideme").filter('.create_game').remove();
             for (id in data.hooks) {
                 if ($tr = $("#" + id).orNot()) {
@@ -158,8 +158,11 @@ $(function() {
                     hook = data.hooks[id];
                     html += '<tr id="'+id+'"'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
                     html += '<td class="color"><span class="'+hook.color+'"></span></td>';
+                    isEngine = hook.engine && hook.action == 'join';
+                    engineMark = isEngine ? '<span class="engine_mark"></span>' : '';
+                    userClass = isEngine ? "user_link engine" : "user_link";
                     if (hook.elo) {
-                        html += '<td><a class="user_link" href="/@/'+hook.username+'">'+hook.username.substr(0, 12)+'<br />('+hook.elo+')</a></td>';
+                        html += '<td><a class="'+userClass+'" href="/@/'+hook.username+'">'+hook.username.substr(0, 12)+'<br />'+'('+hook.elo+')'+engineMark+'</a></td>';
                     } else {
                         html += '<td>'+hook.username+'</td>';
                     }

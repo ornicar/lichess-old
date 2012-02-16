@@ -26,6 +26,11 @@
         {% if eloChart.hasData %}
             <div class="elo_history" title="Elo history" data-columns="{{ eloChart.columns|json_encode }}" data-rows="{{ eloChart.rows|json_encode }}"></div>
         {% endif %}
+        {% block engine %}
+          {% if user.isEngine and user != app.user %}
+            <div class="engine_warning">{{ "This player uses chess computer assistance"|trans }}</div>
+          {% endif %}
+        {% endblock %}
         {% block user_bio %}
             {% if user.bio %}<span class="user_bio">{{ lichess_shorten(user.bio, 400) }}</span>{% endif %}
         {% endblock %}

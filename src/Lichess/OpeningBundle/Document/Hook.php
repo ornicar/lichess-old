@@ -142,6 +142,14 @@ class Hook
      */
     protected $eloRange = null;
 
+    /**
+     * Whether the creator uses an engine
+     *
+     * @MongoDB\Field(type="boolean")
+     * @var bool
+     */
+    protected $engine = false;
+
     public function __construct()
     {
         $this->id      = KeyGenerator::generate(8);
@@ -163,6 +171,11 @@ class Hook
     public function toArray()
     {
         return array('clock' => $this->hasClock, 'time' => $this->time, 'increment' => $this->increment, 'variant' => $this->variant, 'mode' => $this->mode, 'color' => $this->color, 'eloRange' => $this->getEloRange());
+    }
+
+    public function isEngine()
+    {
+        return $this->engine;
     }
 
     public function userCanJoin($user = null)
@@ -351,6 +364,7 @@ class Hook
         $this->user = $user;
         $this->username = $user->getUsername();
         $this->elo = $user->getElo();
+        $this->engine = $user->isEngine();
     }
 
     /**

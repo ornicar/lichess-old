@@ -6,6 +6,9 @@
         </span>
     </div>
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% if user.isEngine and user != app.user %}
+      <div class="engine_warning">{{ "This player uses chess computer assistance"|trans }}</div>
+    {% endif %}
     <div class="elo_with_me">
         {% for end, elo in {'win':critic.eloIfWin,'draw':critic.eloIfDraw,'lose':critic.eloIfLose} %}
         {{ end|capitalize }}: <strong>{{ elo }}</strong>

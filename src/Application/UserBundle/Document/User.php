@@ -106,12 +106,30 @@ class User extends BaseUser implements ParticipantInterface
      */
     protected $isChatBan;
 
+    /**
+     * Whether the user uses an engine
+     *
+     * @MongoDB\Field(type="boolean")
+     * @var bool
+     */
+    protected $engine = false;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->createdAt = new \DateTime();
         $this->setElo(self::STARTING_ELO);
+    }
+
+    public function setEngine($x)
+    {
+        $this->engine = (bool) $x;
+    }
+
+    public function isEngine()
+    {
+        return $this->engine;
     }
 
     public function setChatBan($v)

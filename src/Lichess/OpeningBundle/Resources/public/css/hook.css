@@ -86,6 +86,9 @@ div.hooks span.elorange {
 div.hooks span.elorange.nope {
   color: #dd8888;
 }
+div.hooks a.user_link.engine {
+  color: #cc7070;
+}
 div.hooks td.action {
     cursor: pointer;
     border-left: 1px solid #cacaca;

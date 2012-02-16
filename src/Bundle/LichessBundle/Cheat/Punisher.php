@@ -27,7 +27,10 @@ class Punisher
     public function punish(User $user)
     {
         $this->log(sprintf('Reset %s elo to %d', $user->getUsername(), User::STARTING_ELO));
-        $this->eloUpdater->adjustElo($user, User::STARTING_ELO);
+        if ($user->getElo() > User::STARTING_ELO) {
+            $this->eloUpdater->adjustElo($user, User::STARTING_ELO);
+        }
+        $user->setEngine(true);
     }
 
     protected function log($message)
