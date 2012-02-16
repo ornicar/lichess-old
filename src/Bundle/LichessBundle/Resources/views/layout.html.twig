@@ -70,7 +70,7 @@
             <div class="header">
                 <h1>
                     <a id="site_title" href="{{ url('lichess_homepage') }}">lichess<span class="extension">.org</span></a>
-                    <span id="site_baseline">{{ "Free Online Chess"|trans }}</span>
+                    {% block site_baseline %}{% endblock %}
                 </h1>
 {% if false %}
 <div class="translation_block">

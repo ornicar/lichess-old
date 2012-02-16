@@ -1,11 +1,10 @@
 div.game_share {
     margin-top: 30px;
     width: 512px;
-    background: #f0f0f0;
-    box-shadow: 0 0 7px #bbb;
-    -moz-box-shadow: 0 0 7px #bbb;
-    -webkit-box-shadow: 0 0 7px #bbb;
-    border: 1px solid #ccc;
+    box-shadow: 0 0 7px #d0d0d0;
+    -moz-box-shadow: 0 0 7px #d0d0d0;
+    -webkit-box-shadow: 0 0 7px #d0d0d0;
+    border: 1px solid #c0c0c0;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -14,7 +13,6 @@ div.game_share_top {
     width: 92%;
     height: 25px;
     padding: 10px 4% 6px 4%;
-    border-bottom: 1px solid #ccc;
 }
 div.game_share_top a.game_permalink {
     float: left;
