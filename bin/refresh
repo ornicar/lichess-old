@@ -5,6 +5,7 @@ require_once __DIR__.'/base_script.php';
 
 $mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
 $testurl="http://en.lichess.org";
+$env = 'prod';
 
 if (!in_array($mode, array('all', 'trans', 'code', 'noass', 'cc'))) {
     echo "\nusage: refresh [all|trans|code|noass]";
@@ -16,28 +17,25 @@ if (!in_array($mode, array('all', 'trans', 'code', 'noass', 'cc'))) {
     exit(1);
 }
 
-show_action("Refresh prod ($mode)");
+show_action("Refresh $env ($mode)");
 
 if ($mode == 'all' || $mode == 'noass') {
-    if ($mode == 'all') show_run("Dumping assets", "php app/console --env=prod assetic:dump");
-    show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
-    show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
-    foreach (array('app', 'xhr') as $app) {
-        show_run("Warming up $app cache", "php $app/console --env=prod cache:clear");
-        show_run("Raising $app permissions", "chmod -R 777 $app/cache/prod");
-    }
+    if ($mode != 'noass') show_run("Dumping assets", "php app/console --env=$env assetic:dump");
+    // rebuildBootstrap();
     maintenance(true);
-    show_run("Clearing APC cache", "php app/console --env=prod apc:clear");
+    foreach (array('app', 'xhr') as $app) {
+        clearCache($app, $env, true);
+    }
+    show_run("Clearing APC cache", "php app/console --env=$env apc:clear");
     maintenance(false);
 } elseif ($mode == 'cc') {
-    show_run("Warming up app cache", "php app/console --env=prod cache:clear");
-    show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
+    clearCache('app', $env, true);
     clearOpCode();
 } elseif ($mode == 'code') {
     clearOpCode();
 } elseif ($mode == 'trans') {
-    show_run("Clearing translation cache", "rm app/cache/prod/translations/*");
-    show_run("Raising app permissions", "chmod -R 777 app/cache/prod");
+    show_run("Clearing translation cache", "rm app/cache/$env/translations/*");
+    show_run("Raising app permissions", "chmod -R 777 app/cache/$env");
     clearOpCode();
 }
 

@@ -10,7 +10,7 @@ use Bundle\LichessBundle\ConsoleGuardRail;
 
 $input = new ArgvInput();
 $env = $input->getParameterOption(array('--env', '-e'), 'dev');
-$debug = true;
+$debug = !$input->hasParameterOption(array('--no-debug', ''));
 $guardRail = new ConsoleGuardRail();
 
 if (!$guardRail->isSafe($input, $env)) {

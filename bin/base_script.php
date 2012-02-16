@@ -1,13 +1,18 @@
 <?php
 
-function show_run($text, $command)
+function show_run($text, $command, $catch = false)
 {
     echo "\n* $text\n$command\n";
     passthru($command, $return);
-    if (0 !== $return) {
+    if (0 !== $return && !$catch) {
         echo "\n/!\\ The command returned $return\n";
         exit(1);
     }
+}
+
+function show_run_catch($text, $command)
+{
+    show_run($text, $command, true);
 }
 
 function read_arg(array $argv, $index, $default = null)
@@ -32,4 +37,17 @@ function maintenance($maintenance = false)
     $mode = $maintenance ? "on" : "off";
     show_run("Setting maintenance: $mode", "bin/maintenance $mode");
     clearOpCode();
+}
+
+function clearCache($app, $env, $warmup = true)
+{
+    show_run("Warming up $app cache", "php $app/console --env=$env cache:clear".($warmup ? "" : " --no-warmup"));
+    show_run_catch("Creating $app cache", "mkdir -p $app/cache/$env");
+    show_run("Raising $app cache permissions", "chmod -R 777 $app/cache/$env");
+}
+
+function rebuildBootstrap()
+{
+    show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
+    show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
 }

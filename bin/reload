@@ -10,12 +10,12 @@ show_action("Reload " . implode(", ", $envs));
 show_run("Dumping assets", "php app/console assetic:dump");
 show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
 show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
-show_run("Warming up xhr cache", "php xhr/console --env=dev cache:clear");
+clearCache('xhr', 'dev', false);
 
-foreach ($envs as $environment) {
-    if ($environment != 'test') show_run("Warming up app $environment cache", "php app/console --env=$environment cache:clear");
-    if ($environment != 'dev') show_run("Loading app $environment fixtures", "php app/console --env=$environment doctrine:mongodb:fixtures:load");
-    show_run("Creating app $environment MongoDB indexes", "php app/console --env=$environment doctrine:mongodb:schema:create --index");
+foreach ($envs as $env) {
+    if ($env != 'test') clearCache('app', $env, false);
+    if ($env != 'dev') show_run("Loading app $env fixtures", "php app/console --env=$env doctrine:mongodb:fixtures:load");
+    show_run("Creating app $env MongoDB indexes", "php app/console --env=$env doctrine:mongodb:schema:create --index");
 }
 
 show_run("Clearing APC cache", "php app/console apc:clear");
