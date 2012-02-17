@@ -55,7 +55,8 @@ $(function() {
         // board color
         var $board = $bw.find('> div.lichess_board');
         var $picker = $('#top a.colorpicker');
-        var colors = {0:'brown', 1:'grey', 2:'green', 3:'blue', length: 4};
+        var indexes = [ 0, 1, 2, 3];
+        var colors = ['brown', 'grey', 'green', 'blue'];
         var nbColors = 3;
         var colorIndex = $.cookie('lbc') || 0;
         function setColor(index) {
@@ -63,9 +64,13 @@ $(function() {
         }
         setColor(colorIndex);
         $picker.click(function() {
-          colorIndex = (colorIndex + 1) % colors.length;
-          $.cookie('lbc', colorIndex, {domain: document.domain.replace(/^[a-z]+./, '')});
+          var colorIndex = (colorIndex + 1) % colors.length;
+          var color = colors[colorIndex];
           setColor(colorIndex);
+          $.ajax($picker.attr("href"), {
+            type: 'POST',
+            data: {color: color}
+          });
         });
     } else {
         $('#top a.colorpicker').remove();

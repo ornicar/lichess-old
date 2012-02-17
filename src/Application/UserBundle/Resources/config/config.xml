@@ -6,6 +6,11 @@
 
     <services>
 
+        <service id="lichess_user.settings" class="Application\UserBundle\Settings" scope="request">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="session" />
+        </service>
+
         <service id="lichess_user.account_closer" class="Application\UserBundle\AccountCloser" scope="request">
             <argument type="service" id="fos_user.user_manager" />
             <argument type="service" id="security.context" />

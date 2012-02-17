@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends Controller
 {
@@ -30,14 +31,27 @@ class MainController extends Controller
       );
     }
 
+    private function settings()
+    {
+        return $this->get('lichess_user.settings');
+    }
+
     public function toggleSoundAction()
     {
-        $session = $this->get('session');
-        $attributeName = 'lichess.sound.enabled';
-        $enableSound = !$session->get($attributeName, true);
-        $session->set($attributeName, $enableSound);
+        $this->settings()->toggle('sound', true);
+        $this->get('doctrine.odm.mongodb.document_manager')->flush();
 
-        return new Response($enableSound ? 'on' : 'off');
+        return new Response($this->settings()->get('sound', true) ? 'on' : 'off');
+    }
+
+    public function boardColorAction(Request $request)
+    {
+        if ($color = $request->query->get('color', false)) {
+            $this->settings()->set('color', $color);
+            $this->get('doctrine.odm.mongodb.document_manager')->flush();
+        }
+
+        return new Response('ok');
     }
 
     public function aboutAction()

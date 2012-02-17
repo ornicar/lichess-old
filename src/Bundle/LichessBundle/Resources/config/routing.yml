@@ -9,6 +9,9 @@ lichess_say:
 lichess_toggle_sound:
     pattern:        /toggle-sound
     defaults:       { _controller: LichessBundle:Main:toggleSound }
+lichess_board_color:
+    pattern:        /board-color
+    defaults:       { _controller: LichessBundle:Main:boardColor }
 lichess_wait_friend:
     pattern:        /friend/{id}
     defaults:       { _controller: LichessBundle:Player:waitFriend }
