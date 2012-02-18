@@ -31,7 +31,7 @@
         <div id="site_description">{{ "Free online Chess game. Play Chess now in a clean interface. No registration, no ads, no plugin required. Play Chess with computer, friends or random opponents."|trans }}</div>
         <div id="top" class="clearfix">
             <div id="connectivity" class="tipsyme" data-ping-url="{{ path('lichess_ping') }}" title="{{ "Network"|trans }}"></div>
-            <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ app.session.get('lichess.sound.enabled', true) ? 'on' : 'off' }}"><span></span></a>
+            <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ lichess_user_setting('sound', true) ? 'on' : 'off' }}"><span></span></a>
             <div class="lichess_language">
                 <a class="toggle_language toggle"><span class="s16">{{ lichess_locale_name(app.session.locale) }}</span></a>
                 <ul class="lichess_language_links">
@@ -121,7 +121,6 @@ Lichess.org will be down in a few minutes!
             {% endif %}
             {% javascripts
                 '@LichessBundle/Resources/public/vendor/jquery-ui.min.js'
-                '@LichessBundle/Resources/public/vendor/jquery.cookie.js'
                 '@LichessBundle/Resources/public/vendor/jquery.mousewheel.js'
                 '@LichessBundle/Resources/public/vendor/qtip/jquery.qtip.min.js'
                 '@LichessBundle/Resources/public/js/tipsy.min.js'

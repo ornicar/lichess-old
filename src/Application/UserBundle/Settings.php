@@ -16,7 +16,7 @@ class Settings
 
     public function toggle($name, $default)
     {
-        $this->set($name, !$this->get($name, !$default));
+        return $this->set($name, !$this->get($name, !$default));
     }
 
     public function get($name, $default)
@@ -36,6 +36,8 @@ class Settings
         if ($user = $this->getUser()) {
             $user->setSetting($name, $value);
         }
+
+        return $value;
     }
 
     private function getUser()

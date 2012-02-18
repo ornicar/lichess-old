@@ -55,22 +55,21 @@ $(function() {
         // board color
         var $board = $bw.find('> div.lichess_board');
         var $picker = $('#top a.colorpicker');
-        var indexes = [ 0, 1, 2, 3];
         var colors = ['brown', 'grey', 'green', 'blue'];
-        var nbColors = 3;
-        var colorIndex = $.cookie('lbc') || 0;
-        function setColor(index) {
-          $picker.add($board).removeClass(Array.prototype.slice.call(colors).join(' ')).addClass(colors[index]);
+        var color;
+        function setColor(c) {
+          color = c;
+          $picker.add($board).removeClass(colors.join(' ')).addClass(c);
         }
-        setColor(colorIndex);
+        setColor($picker.data('color'));
         $picker.click(function() {
-          var colorIndex = (colorIndex + 1) % colors.length;
-          var color = colors[colorIndex];
-          setColor(colorIndex);
+          var c = colors[(colors.indexOf(color) + 1) % colors.length];
+          setColor(c);
           $.ajax($picker.attr("href"), {
             type: 'POST',
-            data: {color: color}
+            data: {color: c}
           });
+          return false;
         });
     } else {
         $('#top a.colorpicker').remove();
@@ -283,17 +282,11 @@ function urlToLink(text) {
 }
 
 if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = function(elt) {
-    var len = this.length >>> 0;
-
-    var from = Number(arguments[1]) || 0;
-    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-    if (from < 0) from += len;
-
-    for (; from < len; from++) {
-      if (from in this && this[from] === elt)
-        return from;
-    }
-    return -1;
-  };
+    Array.prototype.indexOf = function (obj) {
+        for (var i = 0, j = this.length; i < j; i++) {
+            if (this[i] === obj)
+                return i;
+        }
+        return -1;
+    };
 }
