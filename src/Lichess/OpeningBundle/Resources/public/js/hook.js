@@ -202,15 +202,15 @@ $(function() {
             var html = '<table class="empty_table"><tr class="create_game"><td colspan="5">'+data.message+'</td></tr></table>';
             $hooks.html(html);
         }
+        function resizeLobby() {
+            $wrap.toggleClass("large", $hooks.find("tr").length > 6);
+        }
         $hooks.find('a.join').click(freeze);
         $hooks.find("tr.hideme").find('td.action').addClass('empty').html("").end().fadeOut(600, function() {
           $(this).remove();
+          resizeLobby();
         });
-        if ($hooks.find("tr").length > 6) {
-            $wrap.addClass("large");
-        } else {
-            $wrap.removeClass("large");
-        }
+        resizeLobby();
     }
 
     function freeze() {
