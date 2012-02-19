@@ -37,6 +37,10 @@ class Switcher
             if ($locale == $session->getLocale()) {
                 return;
             }
+            // not a language subdomain
+            if (strlen($locale) > 3) {
+                return;
+            }
             if ($this->manager->isAvailable($locale)) {
                 $session->setLocale($locale);
                 $preferred = $request->getPreferredLanguage($this->manager->getAvailableLanguageCodes());
