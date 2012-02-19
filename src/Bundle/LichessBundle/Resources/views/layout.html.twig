@@ -27,11 +27,11 @@
         <meta name="google-site-verification" content="fZ08Imok7kcLaGcJg7BKQExO6vXGgSgsJUsW6JalUCo" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     </head>
-    <body data-sound-enabled="{{ app.session.get('lichess.sound.enabled', true) ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
+    <body data-sound-enabled="{{ lichess_user_setting('sound', true) ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         <div id="site_description">{{ "Free online Chess game. Play Chess now in a clean interface. No registration, no ads, no plugin required. Play Chess with computer, friends or random opponents."|trans }}</div>
         <div id="top" class="clearfix">
             <div id="connectivity" class="tipsyme" data-ping-url="{{ path('lichess_ping') }}" title="{{ "Network"|trans }}"></div>
-            <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ app.session.get('lichess.sound.enabled', true) ? 'on' : 'off' }}"><span></span></a>
+            <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ lichess_user_setting('sound', true) ? 'on' : 'off' }}"><span></span></a>
             <div class="lichess_language">
                 <a class="toggle_language toggle"><span class="s16">{{ lichess_locale_name(app.session.locale) }}</span></a>
                 <ul class="lichess_language_links">
@@ -39,7 +39,7 @@
                 <li><a href="{{ path("lichess_translation_contribution") }}">Help translate Lichess!</a></li>
                 </ul>
             </div>
-            <a href="#" class="colorpicker">{{ "Color"|trans }}</a>
+            <a href="{{ path("lichess_board_color") }}" class="colorpicker" data-color="{{ lichess_user_setting("color", "brown") }}">{{ "Color"|trans }}</a>
             {% set active = block("menu_active") %}
             <a class="goto_play goto_nav blank_if_play{{ active == "play" ? " current" : "" }}" href="{{ path("lichess_homepage") }}">{{ "Play"|trans }}</a>
             <a class="goto_gamelist goto_nav blank_if_play{{ active == "game" ? " current" : "" }}" title="{{ "See the games being played in real time"|trans }}" href="{{ path("lichess_list_current") }}">{{ "Games"|trans }}</a>
@@ -121,7 +121,6 @@ Lichess.org will be down in a few minutes!
             {% endif %}
             {% javascripts
                 '@LichessBundle/Resources/public/vendor/jquery-ui.min.js'
-                '@LichessBundle/Resources/public/vendor/jquery.cookie.js'
                 '@LichessBundle/Resources/public/vendor/jquery.mousewheel.js'
                 '@LichessBundle/Resources/public/vendor/qtip/jquery.qtip.min.js'
                 '@LichessBundle/Resources/public/js/tipsy.min.js'

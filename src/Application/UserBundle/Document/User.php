@@ -114,12 +114,30 @@ class User extends BaseUser implements ParticipantInterface
      */
     protected $engine = false;
 
+    /**
+     * User settings
+     *
+     * @var array
+     * @MongoDB\Field(type="hash")
+     */
+    protected $settings = array();
+
     public function __construct()
     {
         parent::__construct();
 
         $this->createdAt = new \DateTime();
         $this->setElo(self::STARTING_ELO);
+    }
+
+    public function getSetting($name, $default)
+    {
+        return isset($this->settings[$name]) ? $this->settings[$name] : $default;
+    }
+
+    public function setSetting($name, $value)
+    {
+        $this->settings[$name] = $value;
     }
 
     public function setEngine($x)

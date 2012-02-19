@@ -78,7 +78,7 @@ $(function() {
       $.ajax($newposts.data('url'), {
         timeout: 10000,
         success: function(data) {
-          $newpostsinner.find('ol').html(html);
+          $newpostsinner.find('ol').html(data);
           $newpostsinner[0].scrollTop = 9999999;
           $('body').trigger('lichess.content_loaded');
         } 

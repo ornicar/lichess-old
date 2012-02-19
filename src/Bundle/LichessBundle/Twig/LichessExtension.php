@@ -53,7 +53,8 @@ class LichessExtension extends Twig_Extension
             'lichess_debug_assets'      => 'debugAssets',
             'lichess_date'              => 'formatDate',
             'lichess_game_trials'       => 'getGameTrials',
-            'lichess_xhr_url_prefix'    => 'getXhrUrlPrefix'
+            'lichess_xhr_url_prefix'    => 'getXhrUrlPrefix',
+            'lichess_user_setting'      => 'setting'
         );
 
         $functions = array();
@@ -83,6 +84,11 @@ class LichessExtension extends Twig_Extension
     public function removeLanguagePrefix($url)
     {
       return preg_replace('#://\w{2,3}\.#', '://', $url);
+    }
+
+    public function setting($name, $default)
+    {
+        return $this->container->get('lichess_user.settings')->get($name, $default);
     }
 
     public function getGameTrials(Game $game)
