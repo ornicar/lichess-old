@@ -57,9 +57,6 @@ class Autodraw
             return false;
         }
 
-        $whitePiece = $this->getLastPiece($white);
-        $blackPiece = $this->getLastPiece($black);
-
         if ($this->canNotMate($white) && $this->canNotMate($black)) {
             return true;
         }
