@@ -7,7 +7,7 @@
 "Waiting for opponent": "ממתין ליריב"
 "Waiting": "ממתין"
 "Your turn": "תורך"
-"%ai_name% level %ai_level%": "%ai_name% רמה %ai_level%"
+"%ai_name% level %ai_level%": "%ai_level% רמה %ai_name%"
 "Level": "רמה"
 "Toggle the chat": "הפעל את הצא'ט"
 "Chat": "צ'אט"
