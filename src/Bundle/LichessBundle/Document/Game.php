@@ -159,7 +159,7 @@ class Game
     /**
      * Array of position hashes, used to detect threefold repetition
      *
-     * @var string (array join ' ')
+     * @var string (array join '')
      * @MongoDB\String
      */
     protected $positionHashes = null;
