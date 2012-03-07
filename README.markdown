@@ -57,7 +57,7 @@ Open app/config/config_dev.yml and replace occurences of `l.org` with your own l
 
 ### Configure subdomains
 
-lichess uses one subdomain per language. You don't to configure all of them. Here is how to configure then english and french ones:
+lichess uses one subdomain per language. You don't have to configure all of them. Here is how to configure the English and French ones:
 Just replace `l.org` with your domain name.
 
 /etc/hosts
