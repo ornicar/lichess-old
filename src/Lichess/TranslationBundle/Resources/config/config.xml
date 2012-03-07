@@ -66,6 +66,7 @@
             <parameter key="be">Беларуская</parameter>
             <parameter key="ka">ქართულ</parameter>
             <parameter key="sw">Kiswahili</parameter>
+            <parameter key="ps">پښتو</parameter>
         </parameter>
 
     </parameters>
