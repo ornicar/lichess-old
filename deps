@@ -17,7 +17,7 @@
     git=git://github.com/ornicar/mongodb-odm.git
 
 [doctrine-data-fixtures]
-	git=git://github.com/doctrine/data-fixtures.git
+    git=git://github.com/doctrine/data-fixtures.git
 
 [assetic]
     git=git://github.com/kriswallsmith/assetic.git
@@ -32,7 +32,7 @@
     git=git://github.com/ruflin/Elastica.git
 
 [doctrine-extensions]
-	git=git://github.com/l3pp4rd/DoctrineExtensions.git
+    git=git://github.com/l3pp4rd/DoctrineExtensions.git
 
 [easy-csv]
     git=git://github.com/jwage/EasyCSV.git
@@ -41,20 +41,20 @@
     git=git://github.com/ornicar/Buzz.git
 
 [zend-service]
-	git=git://github.com/knplabs/zend-service.git
-	target=zend-subtrees/Zend/Service
+    git=git://github.com/KnpLabs/zend-service.git
+    target=zend-subtrees/Zend/Service
 
 [zend-uri]
-	git=git://github.com/knplabs/zend-uri.git
-	target=zend-subtrees/Zend/Uri
+    git=git://github.com/KnpLabs/zend-uri.git
+    target=zend-subtrees/Zend/Uri
 
 [zend-validator]
-	git=git://github.com/knplabs/zend-validator.git
-	target=zend-subtrees/Zend/Validator
+    git=git://github.com/KnpLabs/zend-validator.git
+    target=zend-subtrees/Zend/Validator
 
 [zend-http]
-	git=git://github.com/knplabs/zend-http.git
-	target=zend-subtrees/Zend/Http
+    git=git://github.com/KnpLabs/zend-http.git
+    target=zend-subtrees/Zend/Http
 
 [php-git-repo]
     git=git://github.com/ornicar/php-git-repo.git
@@ -83,11 +83,11 @@
     target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
 
 [ForumBundle]
-	git=git://github.com/ornicar/HerzultForumBundle.git
-  target=/bundles/Herzult/Bundle/ForumBundle
+    git=git://github.com/ornicar/HerzultForumBundle.git
+    target=/bundles/Herzult/Bundle/ForumBundle
 
 [ApcBundle]
-	git=git://github.com/ornicar/ApcBundle.git
+    git=git://github.com/ornicar/ApcBundle.git
     target=/bundles/Bundle/ApcBundle
 
 [FOSUserBundle]
