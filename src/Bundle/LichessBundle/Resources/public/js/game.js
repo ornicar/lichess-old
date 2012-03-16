@@ -391,7 +391,7 @@ $.widget("lichess.game", {
         // promotion
         if ($piece.hasClass('pawn') && ((color == "white" && squareId[1] == 8) || (color == "black" && squareId[1] == 1))) {
           if (isPremove) {
-            moveData.options = { promotion: "queen" };
+            moveData.promotion = "queen";
             sendMoveRequest(moveData);
           } else {
             var $choices = $('<div class="lichess_promotion_choice">').appendTo(self.$board).html('\
@@ -399,9 +399,7 @@ $.widget("lichess.game", {
                     <div data-piece="knight" class="lichess_piece knight ' + color + '"></div>\
                     <div data-piece="rook" class="lichess_piece rook ' + color + '"></div>\
                     <div data-piece="bishop" class="lichess_piece bishop ' + color + '"></div>').fadeIn(self.options.animation_delay).find('div.lichess_piece').click(function() {
-                        moveData.options = {
-                            promotion: $(this).attr('data-piece')
-                        };
+                        moveData.promotion = $(this).attr('data-piece');
                         sendMoveRequest(moveData);
                         $choices.fadeOut(self.options.animation_delay, function() {
                             $choices.remove();
