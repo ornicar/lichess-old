@@ -16,7 +16,7 @@ web_profiler:
 
 lichess:
     sync:
-        path: /xhr_dev.php
+        path: /lila
 
 monolog:
     handlers:

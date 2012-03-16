@@ -5,7 +5,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
 $(function() {
 
     // Start ping
-    var pingDelay = 3000;
+    var pingDelay = 30000;
     var connectivity = new $.connectivity($('#connectivity'), {
         delay: pingDelay,
         tolerance: 300

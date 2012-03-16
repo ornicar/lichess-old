@@ -688,7 +688,8 @@ $.widget("lichess.game", {
     onError: function(error, reloadIfFail) {
         var self = this;
         if (reloadIfFail) {
-            location.reload();
+            //location.reload();
+            console.debug(error)
         }
     }
 });
