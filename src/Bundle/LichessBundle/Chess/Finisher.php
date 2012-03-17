@@ -150,8 +150,6 @@ class Finisher
         $opponent = $player->getOpponent();
 
         $this->finish($game, Game::RESIGN, $opponent);
-        $game->addEventToStacks(array('type' => 'end'));
-        $this->logger->notice($player, 'Player:resign');
     }
 
     protected function updateNbGames(Game $game)

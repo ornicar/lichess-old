@@ -98,11 +98,7 @@ class PlayerController extends Controller
 
     public function moveAction($id)
     {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        $this->get('lichess.mover')->move($player, $this->get('request')->request->all());
-        $this->flush();
-
-        return new Response('ok');
+        throw new \Exception("lila");
     }
 
     public function showAction($id)
