@@ -64,7 +64,7 @@ $.widget("lichess.game", {
     sync: function(callback, reloadIfFail) {
         var self = this;
         self.currentSync = $.ajax(self.options.url.sync.replace(/9999999/, self.options.player.version), {
-            type: 'POST',
+            type: 'GET',
             data: {
                 locale: self.options.locale
             },
