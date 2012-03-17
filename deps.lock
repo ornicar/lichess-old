@@ -3,7 +3,7 @@ twig aa3c0d84577f2259e76129bdda3cf236a4c75c57
 monolog 8e11234066280685e903ea6dcc0d304cd1aec9b9
 doctrine-common 2.1.0~1
 doctrine-mongodb 8ecdda68fb0a8ea2eb8cd32aa0ce433c5638cb4e
-doctrine-mongodb-odm 7555e9bc7ae22305c6267072160823cf1b09ae3e
+doctrine-mongodb-odm 475904ee6eddbb61a4b58976336b57f3833442e6
 doctrine-data-fixtures 4a8464ef83093de2378cef2770e13da7e4858ffc
 assetic e15a13fe4782caa6566c7f0c34ae10badaf85361
 metadata 1.1.0~2
