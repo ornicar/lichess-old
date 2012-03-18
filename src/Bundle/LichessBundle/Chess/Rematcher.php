@@ -5,7 +5,6 @@ namespace Bundle\LichessBundle\Chess;
 use LogicException;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Chess\Generator as GameGenerator;
-use Bundle\LichessBundle\Sync\Memory;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -16,16 +15,14 @@ class Rematcher
     protected $starter;
     protected $logger;
     protected $gameGenerator;
-    protected $memory;
     protected $urlGenerator;
     protected $objectManager;
 
-    public function __construct(GameStarter $starter, Logger $logger, Generator $generator, Memory $memory, UrlGeneratorInterface $router, DocumentManager $objectManager)
+    public function __construct(GameStarter $starter, Logger $logger, Generator $generator, UrlGeneratorInterface $router, DocumentManager $objectManager)
     {
         $this->starter        = $starter;
         $this->logger        = $logger;
         $this->gameGenerator = $generator;
-        $this->memory  = $memory;
         $this->urlGenerator  = $router;
         $this->objectManager = $objectManager;
     }
@@ -62,12 +59,6 @@ class Rematcher
             $nextPlayer   = $nextOpponent->getOpponent();
             $nextGame     = $nextOpponent->getGame();
             $this->starter->start($nextGame);
-            $this->memory->setAlive($nextPlayer);
-            // the opponent still pings the old game,
-            // so we set it as active on the new game
-            if ($this->memory->getActivity($opponent)) {
-                $this->memory->setAlive($nextOpponent);
-            }
         }
         $this->objectManager->persist($nextGame);
 

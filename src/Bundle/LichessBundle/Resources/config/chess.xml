@@ -27,7 +27,6 @@
             <argument type="service" id="lichess.starter.game" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.generator" />
-            <argument type="service" id="lichess.memory" />
             <argument type="service" id="router" />
             <argument type="service" id="doctrine.odm.mongodb.document_manager" />
         </service>
@@ -52,7 +51,6 @@
 
         <service id="lichess.mover" class="Bundle\LichessBundle\Chess\Mover">
             <argument type="service" id="lichess.manipulator_factory" />
-            <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.ai.chain" />
             <argument type="service" id="lichess.cheat.internal_detector" />
             <argument type="service" id="lichess.finisher" />

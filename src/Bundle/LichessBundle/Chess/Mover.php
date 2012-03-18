@@ -8,23 +8,20 @@ use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use ArrayObject;
-use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
 use InvalidArgumentException;
 
 class Mover
 {
     protected $manipulatorFactory;
-    protected $memory;
     protected $ai;
     protected $cheatDetector;
     protected $finisher;
     protected $logger;
 
-    public function __construct(ManipulatorFactory $manipulatorFactory, Memory $memory, AiInterface $ai, InternalDetector $cheatDetector, Finisher $finisher, Logger $logger)
+    public function __construct(ManipulatorFactory $manipulatorFactory, AiInterface $ai, InternalDetector $cheatDetector, Finisher $finisher, Logger $logger)
     {
         $this->manipulatorFactory = $manipulatorFactory;
-        $this->memory             = $memory;
         $this->ai                 = $ai;
         $this->cheatDetector      = $cheatDetector;
         $this->finisher           = $finisher;
@@ -33,8 +30,6 @@ class Mover
 
     public function move(Player $player, array $data)
     {
-        $this->memory->setAlive($player);
-
         if (empty($data['from']) || empty($data['to'])) {
             throw new InvalidArgumentException('Mover::move Invalid data received, from and to are required.');
         }

@@ -27,6 +27,11 @@ class Lila
         $this->post('reload-table/' . $game->getId());
     }
 
+    public function alive(Player $player)
+    {
+        $this->post('alive/' . $player->getGame()->getId() .'/'. $player->getColor());
+    }
+
     public function end(Game $game)
     {
         $this->post('end/' . $game->getId(), array(
@@ -39,10 +44,10 @@ class Lila
         $this->reloadTable($game);
     }
 
-    public function acceptRematch(Game $game, Game $nextGame)
+    public function acceptRematch(Player $player, Game $nextGame)
     {
         // tell players to move to next game
-        $this->post('accept-rematch/' . $game->getId(), array(
+        $this->post('accept-rematch/' . $player->getGame()->getId() . '/' . $nextGame->getId() . '/' . $player->getColor(), array(
             "whiteRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('black')->getFullId())),
             "blackRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('white')->getFullId()))
         ));

@@ -43,7 +43,7 @@ class PlayerController extends Controller
         }
         $this->flush();
         if ($game) {
-            $this->get('lila')->acceptRematch($player->getGame(), $game);
+            $this->get('lila')->acceptRematch($player, $game);
         } else {
             $this->get('lila')->offerRematch($player->getGame());
         }
@@ -118,7 +118,7 @@ class PlayerController extends Controller
             // protect game against private url sharing
             return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor())));
         }
-        $this->get('lichess.memory')->setAlive($player);
+        $this->get('lila')->alive($player);
 
         if(!$game->getIsStarted()) {
             if ($this->get('lichess.memory')->getActivity($player->getOpponent()) > 0) {
@@ -162,7 +162,7 @@ class PlayerController extends Controller
         if($player->getGame()->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
-        $this->get('lichess.memory')->setAlive($player);
+        $this->get('lila')->alive($player);
 
         $config = new GameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
