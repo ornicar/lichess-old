@@ -26,7 +26,6 @@ class Messenger
         return $this->addMessage($game, 'system', $message);
     }
 
-    /** returns bool success */
     public function addMessage(Game $game, $author, $message)
     {
         if($game->getInvited()->getIsAi()) {
@@ -42,14 +41,7 @@ class Messenger
             throw new \InvalidArgumentException('Messenger: message is too long');
         }
         $room->addMessage($author, $message);
-        $sayEvent = array(
-            'type' => 'message',
-            'message' => array($author, $message)
-        );
-        foreach($game->getPlayers() as $player) {
-            $player->addEventToStack($sayEvent);
-        }
 
-        return true;
+        return array("author" => $author, "message" => $message);
     }
 }

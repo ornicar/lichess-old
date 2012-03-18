@@ -141,8 +141,11 @@ class PlayerController extends Controller
     {
         $message = trim($this->get('request')->get('message'));
         $player = $this->get('lichess.provider')->findPlayer($id);
-        $this->get('lichess.messenger')->addPlayerMessage($player, $message);
-        $this->flush();
+        $messageData = $this->get('lichess.messenger')->addPlayerMessage($player, $message);
+        if ($messageData) {
+            $this->flush();
+            $this->get('lila')->talk($player->getGame(), $messageData);
+        }
 
         return new Response('ok');
     }
@@ -178,6 +181,7 @@ class PlayerController extends Controller
         try {
             $this->get('lichess.finisher')->resign($this->get('lichess.provider')->findPlayer($id));
             $this->flush();
+            $this->get('lila')->endGame($player->getGame());
         } catch (FinisherException $e) {}
 
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));

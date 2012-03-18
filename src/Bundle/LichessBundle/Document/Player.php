@@ -673,11 +673,4 @@ class Player
             $this->evts = Stack::compress($this->stack);
         }
     }
-
-    public function cacheVersion()
-    {
-        if(!$this->getIsAi()) {
-            apc_store($this->game->getId().'.'.$this->getColor().'.data', $this->getStackVersion(), 1800);
-        }
-    }
 }

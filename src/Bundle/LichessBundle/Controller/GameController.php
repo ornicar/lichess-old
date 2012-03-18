@@ -124,15 +124,20 @@ class GameController extends Controller
 
         $player = $game->getInvited();
         try {
-            $this->get('lichess.joiner')->join($player);
+            $messages = $this->get('lichess.joiner')->join($player);
         } catch (InvalidArgumentException $e) {
             return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
         }
-		$entry = $this->get('lichess_opening.bot')->onStart($game);
-		$this->flush();
-		if ($entry) {
-			$this->get('lichess_opening.memory')->setEntryId($entry->getId());
-		}
+        $entry = $this->get('lichess_opening.bot')->onStart($game);
+        $this->flush();
+        $this->get('lila')->join(
+            $player,
+            $this->generateUrl('lichess_player', array('id' => $player->getOpponent()->getFullId())),
+            $messages
+        );
+        if ($entry) {
+            $this->get('lichess_opening.memory')->setEntryId($entry->getId());
+        }
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }

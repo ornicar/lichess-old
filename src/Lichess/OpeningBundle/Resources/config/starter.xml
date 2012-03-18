@@ -35,8 +35,6 @@
         <service id="lichess.joiner" class="Lichess\OpeningBundle\Starter\Joiner">
             <argument type="service" id="lichess.starter.game" />
             <argument type="service" id="lichess.blamer.player" />
-            <argument type="service" id="router" />
-            <argument type="service" id="lichess.logger" />
         </service>
     </services>
 </container>

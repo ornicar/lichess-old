@@ -18,13 +18,16 @@ class GameStarter
     {
         $game->start();
 
-        $this->messenger->addSystemMessage($game, ucfirst($game->getCreator()->getColor()).' creates the game');
-        $this->messenger->addSystemMessage($game, ucfirst($game->getInvited()->getColor()).' joins the game');
+        $messages = array();
+        $messages[] = $this->messenger->addSystemMessage($game, ucfirst($game->getCreator()->getColor()).' creates the game');
+        $messages[] = $this->messenger->addSystemMessage($game, ucfirst($game->getInvited()->getColor()).' joins the game');
         if($game->hasClock()) {
-            $this->messenger->addSystemMessage($game, 'Clock: '.$game->getClock()->getName());
+            $messages[] = $this->messenger->addSystemMessage($game, 'Clock: '.$game->getClock()->getName());
         }
         if($game->getIsRated()) {
-            $this->messenger->addSystemMessage($game, 'This game is rated');
+            $messages[] = $this->messenger->addSystemMessage($game, 'This game is rated');
         }
+
+        return array_map(function(array $mes) { return $mes['message']; }, $messages);
     }
 }

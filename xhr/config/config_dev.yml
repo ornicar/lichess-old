@@ -3,7 +3,7 @@ imports:
 
 lichess:
     sync:
-        #latency: 6
+        #latency: 10
 
 doctrine_mongodb:
     default_database: lichess

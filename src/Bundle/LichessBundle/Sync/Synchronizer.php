@@ -27,8 +27,6 @@ class Synchronizer
     {
         $game = $player->getGame();
 
-        $player->cacheVersion();
-
         if ($this->httpPush->isSynced($player, $version)) {
             $this->httpPush->poll($player, $version);
             // only way to reload from DB

@@ -1152,9 +1152,6 @@ class Game
 
     public function postFlush()
     {
-        foreach($this->getPlayers() as $player) {
-            $player->cacheVersion();
-        }
     }
 
     public function compress()

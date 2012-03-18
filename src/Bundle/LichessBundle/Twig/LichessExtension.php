@@ -199,7 +199,7 @@ class LichessExtension extends Twig_Extension
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'move'      => $this->getXhrUrlPrefix().$generator->generate('lichess_move', array('id' => $playerFullId)),
-                'say'       => $generator->generate('lichess_say', array('id' => $playerFullId, 'version' => 9999999)),
+                'say'       => $generator->generate('lichess_say', array('id' => $playerFullId)),
                 'outoftime' => $game->hasClock() ? $generator->generate('lichess_outoftime', array('id' => $playerFullId)) : null
             ),
             'i18n' => array(
