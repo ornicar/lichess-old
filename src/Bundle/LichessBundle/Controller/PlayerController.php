@@ -240,7 +240,7 @@ class PlayerController extends Controller
         } else {
             $template = 'watchOpponent';
         }
-        $opponentActivity = $playerFullId ? $this->get('lichess.memory')->getActivity($opponent) : 2;
+        $opponentActivity = $playerFullId ? $this->get('lila')->getActivity($opponent) : 2;
 
         return $this->render('LichessBundle:Player:'.$template.'.html.twig', array(
             'opponent'         => $opponent,

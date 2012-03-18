@@ -5,7 +5,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
 $(function() {
 
     // Start ping
-    var pingDelay = 30000;
+    var pingDelay = 3000;
     var connectivity = new $.connectivity($('#connectivity'), {
         delay: pingDelay,
         tolerance: 300
@@ -42,7 +42,9 @@ $(function() {
 
     if ($('#user_tag').length) {
         ping.setData('username', $('#user_tag').attr('data-username'));
-        ping.pushCallback(function(data) { $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0); });
+        ping.pushCallback(function(data) { 
+          if (typeof data.nbm != "undefined") $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0); 
+        });
     }
 
     $('input.lichess_id_input').select();

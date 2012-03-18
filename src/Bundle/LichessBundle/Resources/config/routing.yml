@@ -136,7 +136,7 @@ lichess_how_many_games_now:
     pattern:        /how-many-games-now
     defaults:       { _controller: LichessBundle:Main:howManyGamesNow }
 lichess_ping:
-    pattern:        /ping
+    pattern:        /lila/ping
     defaults:       { _controller: LichessBundle:Boost:ping }
 lichess_how_many_players_now:
     pattern:        /how-many-players-now

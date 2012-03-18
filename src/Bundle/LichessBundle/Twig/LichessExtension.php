@@ -83,7 +83,7 @@ class LichessExtension extends Twig_Extension
 
     public function removeLanguagePrefix($url)
     {
-      return preg_replace('#://\w{2,3}\.#', '://', $url);
+        return preg_replace('#://\w{2,3}\.#', '://', $url);
     }
 
     public function setting($name, $default)
@@ -187,7 +187,7 @@ class LichessExtension extends Twig_Extension
                 'color'     => $player->getColor(),
                 'version'   => $player->getStackVersion(),
                 'spectator' => false,
-                'alive_key' => $this->container->get('lichess.memory')->getPlayerKey($player)
+                'alive_key' => $game->getId() . '.' . $player->getColorLetter()
             ),
             'opponent' => array(
                 'color'  => $opponent->getColor(),
@@ -368,8 +368,8 @@ class LichessExtension extends Twig_Extension
                     return $matches[1].'<a href="'.($matches[2] == 'www.' ? 'http://www.' : $matches[2]).$matches[3].'" target="_blank">'.$matches[2].$matches[3].'</a>'.$matches[4];
                 }
             },
-            $text
-        );
+                $text
+            );
     }
 
     public function userText($text)

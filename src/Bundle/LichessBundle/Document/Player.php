@@ -603,6 +603,11 @@ class Player
         return $this->color;
     }
 
+    public function getColorLetter()
+    {
+        return $this->color{0};
+    }
+
     public function getOpponent()
     {
         return $this->getGame()->getPlayer('white' === $this->color ? 'black' : 'white');

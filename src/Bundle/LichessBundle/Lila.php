@@ -17,6 +17,11 @@ class Lila
         $this->url = $url;
     }
 
+    public function getActivity(Player $player)
+    {
+        return $this->get('activity/' . $player->getGame()->getId() . '/' . $player->getColor());
+    }
+
     public function updateVersions(Game $game)
     {
         $this->post('update-version/' . $game->getId());
@@ -80,7 +85,7 @@ class Lila
     {
         $ch = $this->init($path);
 
-        return execute($ch);
+        return $this->execute($ch);
     }
 
     private function post($path, array $data = array())
