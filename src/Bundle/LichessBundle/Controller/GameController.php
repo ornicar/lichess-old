@@ -130,11 +130,7 @@ class GameController extends Controller
         }
         $entry = $this->get('lichess_opening.bot')->onStart($game);
         $this->flush();
-        $this->get('lila')->join(
-            $player,
-            $this->generateUrl('lichess_player', array('id' => $player->getOpponent()->getFullId())),
-            $messages
-        );
+        $this->get('lila')->join($player, $messages);
         if ($entry) {
             $this->get('lichess_opening.memory')->setEntryId($entry->getId());
         }

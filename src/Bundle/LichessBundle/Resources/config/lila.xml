@@ -6,6 +6,7 @@
 
     <services>
         <service id="lila" class="Bundle\LichessBundle\Lila">
+            <argument type="service" id="router" />
             <argument>%lichess.lila.internal_url%</argument>
         </service>
     </services>

@@ -26,7 +26,6 @@
         <service id="lichess.rematcher" class="Bundle\LichessBundle\Chess\Rematcher">
             <argument type="service" id="lichess.starter.game" />
             <argument type="service" id="lichess.logger" />
-            <argument type="service" id="lichess.messenger" />
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.memory" />
             <argument type="service" id="router" />

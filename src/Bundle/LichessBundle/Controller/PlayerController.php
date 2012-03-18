@@ -36,12 +36,18 @@ class PlayerController extends Controller
 
     public function rematchAction($id)
     {
-        $game = $this->get('lichess.rematcher')->rematch($this->get('lichess.provider')->findPlayer($id));
+        $player = $this->get('lichess.provider')->findPlayer($id);
+        $game = $this->get('lichess.rematcher')->rematch($player);
         if ($game) {
             $entry = $this->get('lichess_opening.bot')->onStart($game);
         }
         $this->flush();
-        if ($game && $entry) {
+        if ($game) {
+            $this->get('lila')->acceptRematch($player->getGame(), $game);
+        } else {
+            $this->get('lila')->offerRematch($player->getGame());
+        }
+        if (isset($entry)) {
             $this->get('lichess_opening.memory')->setEntryId($entry->getId());
         }
 
@@ -181,7 +187,7 @@ class PlayerController extends Controller
         try {
             $this->get('lichess.finisher')->resign($this->get('lichess.provider')->findPlayer($id));
             $this->flush();
-            $this->get('lila')->endGame($player->getGame());
+            $this->get('lila')->end($player->getGame());
         } catch (FinisherException $e) {}
 
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
@@ -189,9 +195,11 @@ class PlayerController extends Controller
 
     public function abortAction($id)
     {
+        $player = $this->get('lichess.provider')->findPlayer($id);
         try {
-            $this->get('lichess.finisher')->abort($this->get('lichess.provider')->findPlayer($id));
+            $this->get('lichess.finisher')->abort($player);
             $this->flush();
+            $this->get('lila')->end($player->getGame());
         } catch (FinisherException $e) {}
 
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));

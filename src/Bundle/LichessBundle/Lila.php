@@ -4,13 +4,16 @@ namespace Bundle\LichessBundle;
 
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Lila
 {
+    protected $urlGenerator;
     private $url;
 
-    public function __construct($url)
+    public function __construct(UrlGeneratorInterface $urlGenerator, $url)
     {
+        $this->urlGenerator = $urlGenerator;
         $this->url = $url;
     }
 
@@ -19,9 +22,30 @@ class Lila
         $this->post('update-version/' . $game->getId());
     }
 
-    public function endGame(Game $game)
+    public function reloadTable(Game $game)
     {
-        $this->post('end-game/' . $game->getId());
+        $this->post('reload-table/' . $game->getId());
+    }
+
+    public function end(Game $game)
+    {
+        $this->post('end/' . $game->getId(), array(
+            "messages" => $this->encodeMessages(array($game->getStatusMessage()))
+        ));
+    }
+
+    public function offerRematch(Game $game)
+    {
+        $this->reloadTable($game);
+    }
+
+    public function acceptRematch(Game $game, Game $nextGame)
+    {
+        // tell players to move to next game
+        $this->post('accept-rematch/' . $game->getId(), array(
+            "whiteRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('black')->getFullId())),
+            "blackRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('white')->getFullId()))
+        ));
     }
 
     public function talk(Game $game, $message)
@@ -29,12 +53,22 @@ class Lila
         $this->post('talk/' . $game->getId(), $message);
     }
 
-    public function join(Player $player, $redirect, array $messages)
+    public function join(Player $player, array $messages)
     {
         $this->post('join/' . $player->getFullId(), array(
-            "redirect" => $redirect,
-            "messages" => implode('$', $messages)
+            "redirect" => $this->url('lichess_player', array('id' => $player->getOpponent()->getFullId())),
+            "messages" => $this->encodeMessages($messages)
         ));
+    }
+
+    private function encodeMessages(array $messages)
+    {
+        return implode('$', $messages);
+    }
+
+    private function url($route, array $params = array())
+    {
+        return $this->urlGenerator->generate($route, $params);
     }
 
     private function get($path)
