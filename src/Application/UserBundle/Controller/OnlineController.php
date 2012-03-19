@@ -9,7 +9,6 @@ class OnlineController extends ContainerAware
 {
     public function updateOnlineAction()
     {
-        $this->container->get('lichess_user.online.updater')->update();
         $this->container->get('lichess_opening.hook_cleaner')->removeDeadHooks();
         $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
 
