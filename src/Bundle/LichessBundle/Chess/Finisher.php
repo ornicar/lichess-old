@@ -8,24 +8,23 @@ use Bundle\LichessBundle\Elo\Calculator;
 use Bundle\LichessBundle\Elo\Updater;
 use Bundle\LichessBundle\Logger;
 use Bundle\LichessBundle\Cheat\Judge;
-use Bundle\LichessBundle\Sync\Memory;
 use LogicException;
+use Bundle\LichessBundle\Lila;
 
 class Finisher
 {
     protected $calculator;
     protected $messenger;
-    protected $memory;
     protected $eloUpdater;
     protected $logger;
     protected $judge;
     protected $autoDraw;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Memory $memory, Updater $eloUpdater, Logger $logger, Judge $judge, AutoDraw $autoDraw)
+    public function __construct(Calculator $calculator, Messenger $messenger, Lila $lila, Updater $eloUpdater, Logger $logger, Judge $judge, AutoDraw $autoDraw)
     {
         $this->calculator = $calculator;
         $this->messenger  = $messenger;
-        $this->memory     = $memory;
+        $this->lila     = $lila;
         $this->eloUpdater = $eloUpdater;
         $this->logger     = $logger;
         $this->judge      = $judge;
@@ -87,7 +86,7 @@ class Finisher
     public function forceResign(Player $player)
     {
         $game = $player->getGame();
-        if($game->getIsPlayable() && 0 == $this->memory->getActivity($player->getOpponent())) {
+        if($game->getIsPlayable() && 0 == $this->lila->getActivity($player->getOpponent())) {
             $this->finish($game, Game::TIMEOUT, $player);
             $game->addEventToStacks(array('type' => 'end'));
             $this->logger->notice($player, 'Player:forceResign');

@@ -29,7 +29,6 @@
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
             <argument type="service" id="doctrine.odm.mongodb.document_manager" />
-            <argument type="service" id="lichess.memory" />
             <argument type="service" id="lichess.logger" />
         </service>
         <service id="lichess.joiner" class="Lichess\OpeningBundle\Starter\Joiner">

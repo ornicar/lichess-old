@@ -6,6 +6,9 @@ use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+class LilaException extends \Exception {
+}
+
 class Lila
 {
     protected $urlGenerator;
@@ -20,6 +23,11 @@ class Lila
     public function getActivity(Player $player)
     {
         return $this->get('activity/' . $player->getGame()->getId() . '/' . $player->getColor());
+    }
+
+    public function nbPlayers()
+    {
+        return $this->get('nb-players');
     }
 
     public function updateVersions(Game $game)
@@ -83,9 +91,7 @@ class Lila
 
     private function get($path)
     {
-        $ch = $this->init($path);
-
-        return $this->execute($ch);
+        return $this->execute($this->init($path));
     }
 
     private function post($path, array $data = array())
@@ -117,7 +123,9 @@ class Lila
         $response = curl_exec($ch);
 
         if (curl_errno($ch)) {
-            throw new \Exception('cURL error ' . curl_errno($ch) . ': ' . curl_error($ch));
+            $message = 'Lila error ' . curl_errno($ch) . ': ' . curl_error($ch);
+            curl_close($ch);
+            throw new LilaException($message);
         }
 
         curl_close($ch);

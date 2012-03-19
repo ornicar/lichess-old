@@ -121,7 +121,7 @@ class PlayerController extends Controller
         $this->get('lila')->alive($player);
 
         if(!$game->getIsStarted()) {
-            if ($this->get('lichess.memory')->getActivity($player->getOpponent()) > 0) {
+            if ($this->get('lila')->getActivity($player->getOpponent()) > 0) {
                 $this->get('lichess.joiner')->join($player);
                 $this->flush();
             } else {
@@ -133,8 +133,8 @@ class PlayerController extends Controller
 
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
-            'room'              => $this->get('lichess.repository.room')->findOneByGame($game),
-            'opponentActivity'    => $this->get('lichess.memory')->getActivity($player->getOpponent()),
+            'room'                => $this->get('lichess.repository.room')->findOneByGame($game),
+            'opponentActivity'    => $this->get('lila')->getActivity($player->getOpponent()),
             'checkSquareKey'      => $checkSquareKey,
             'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, (bool) $checkSquareKey) : null
         ));
@@ -217,7 +217,7 @@ class PlayerController extends Controller
         }
         return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
             'player'           => $player,
-            'opponentActivity' => $this->get('lichess.memory')->getActivity($player->getOpponent())
+            'opponentActivity' => $this->get('lila')->getActivity($player->getOpponent())
         ));
     }
 

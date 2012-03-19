@@ -15,7 +15,7 @@ class MainController extends Controller
         $load = sys_getloadavg();
 
         return new Response(implode(' ', array(
-            $this->container->get('lichess.memory')->getNbActivePlayers(),
+            $this->container->get('lila')->nbPlayers(),
             $this->container->get('lichess.repository.game')->getNbGames(),
             $this->container->get('lichess.repository.game')->countPlaying(),
             $this->container->get('lichess.repository.game')->countRecentlyCreated(),

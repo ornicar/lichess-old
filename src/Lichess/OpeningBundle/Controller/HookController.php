@@ -166,10 +166,10 @@ class HookController extends Controller
         $color = $config->resolveColor();
         $opponent = $this->get('lichess.generator')->createGameForPlayer($color, $config->getVariant());
         $opponent->setUser($hook->getUser());
-        $this->get('lichess.memory')->setAlive($opponent);
+        $this->get('lila')->alive($opponent);
         $player = $opponent->getOpponent();
         $this->get('lichess.blamer.player')->blame($player);
-        $this->get('lichess.memory')->setAlive($player);
+        $this->get('lila')->alive($player);
         $game = $player->getGame();
         if($config->getClock()) {
             $clock = new Clock($config->getTime() * 60, $config->getIncrement());

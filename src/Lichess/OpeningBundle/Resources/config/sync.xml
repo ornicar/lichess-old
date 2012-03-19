@@ -9,14 +9,14 @@
             <argument type="string">Lichess\OpeningBundle\Document\Hook</argument>
         </service>
         <service id="lichess_opening.memory" class="Lichess\OpeningBundle\Sync\Memory">
-            <argument>%lichess.memory.soft_timeout%</argument>
+            <argument>6</argument>
             <argument type="service" id="lichess_opening.message_repository" />
             <argument type="service" id="lichess_opening.entry_repository" />
         </service>
         <service id="lichess_opening.http_push" class="Lichess\OpeningBundle\Sync\HttpPush" public="true">
             <argument type="service" id="lichess_opening.memory" />
             <argument>%lichess.sync.latency%</argument>
-            <argument>%lichess.sync.delay%</argument>
+            <argument>0.3</argument>
         </service>
         <service id="lichess_opening.hooks_renderer" class="Lichess\OpeningBundle\Sync\HooksRenderer" scope="request">
             <argument type="service" id="lichess_opening.hook_repository" />

@@ -36,7 +36,7 @@ class PlayerWithAiControllerTest extends WebTestCase
 
         $client->request('POST', $syncUrl);
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $nbActivePlayers = $client->getContainer()->get('lichess.memory')->getNbActivePlayers();
+        $nbActivePlayers = $client->getContainer()->get('lila')->nbPlayers();
         $this->assertEquals('{"v":0,"oa":2,"e":[],"p":"white","t":0}', $client->getResponse()->getContent());
     }
 
@@ -50,7 +50,7 @@ class PlayerWithAiControllerTest extends WebTestCase
 
         $client->request('POST', $moveUrl, array('from' => 'b1', 'to' => 'c3'));
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $nbActivePlayers = $client->getContainer()->get('lichess.memory')->getNbActivePlayers();
+        $nbActivePlayers = $client->getContainer()->get('lila')->nbPlayers();
         $this->assertEquals('ok', $client->getResponse()->getContent());
 
         $client->request('POST', $this->getSyncUrl($id));

@@ -19,7 +19,6 @@ class LichessExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('model.xml');
         $loader->load('provider.xml');
-        $loader->load('sync.xml');
         $loader->load('lila.xml');
         $loader->load('messenger.xml');
         foreach ($config['feature'] as $feature => $enabled) {
@@ -38,7 +37,6 @@ class LichessExtension extends Extension
         $container->setParameter('lichess.debug_assets', $config['debug_assets']);
         $container->setParameter('lichess.sync.path', $config['sync']['path']);
         $container->setParameter('lichess.sync.latency', $config['sync']['latency']);
-        $container->setParameter('lichess.sync.delay', $config['sync']['delay']);
 
         if ($config['test']) {
             $loader->load('test.xml');

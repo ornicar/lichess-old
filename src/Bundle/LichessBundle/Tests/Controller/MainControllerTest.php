@@ -12,13 +12,4 @@ class MainControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
-
-    public function testHowManyPlayersNow()
-    {
-        $client = self::createClient();
-        $client->request('GET', '/how-many-players-now');
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertRegexp('/^\d+$/', (string)$client->getResponse()->getContent());
-    }
-
 }

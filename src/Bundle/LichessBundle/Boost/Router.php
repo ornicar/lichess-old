@@ -34,8 +34,3 @@ if (0 === strncmp($url, '/ping', 5)) {
   require_once(__DIR__.'/Handler.php');
   _lichess_boost_send_response(\Bundle\LichessBundle\Boost\Handler::ping(), 'application/json');
 }
-// Handle number of active players requests
-elseif(0 === strncmp($url, '/how-many-players-now', 21)) {
-  require_once(__DIR__.'/Handler.php');
-  _lichess_boost_send_response(\Bundle\LichessBundle\Boost\Handler::howManyPlayersNow(), 'text/plain');
-}

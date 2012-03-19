@@ -332,7 +332,7 @@ class LichessExtension extends Twig_Extension
 
     public function getNbActivePlayers()
     {
-        return $this->container->get('lichess.memory')->getNbActivePlayers();
+        return $this->container->get('lila')->nbPlayers();
     }
 
     protected function autoLink($text)
