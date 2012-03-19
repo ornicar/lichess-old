@@ -22,12 +22,26 @@ class Lila
 
     public function getActivity(Player $player)
     {
-        return $this->get('activity/' . $player->getGame()->getId() . '/' . $player->getColor());
+        return $this->get('activity/' . $this->gameColorUrl($player));
     }
 
     public function nbPlayers()
     {
         return $this->get('nb-players');
+    }
+
+    public function draw(Player $player, $message)
+    {
+        $this->post('draw/' . $this->gameColorUrl($player), array(
+            "messages" => $message
+        ));
+    }
+
+    public function drawAccept(Player $player, $message)
+    {
+        $this->post('draw-accept/' . $this->gameColorUrl($player), array(
+            "messages" => $message
+        ));
     }
 
     public function updateVersions(Game $game)
@@ -42,13 +56,13 @@ class Lila
 
     public function alive(Player $player)
     {
-        $this->post('alive/' . $player->getGame()->getId() .'/'. $player->getColor());
+        $this->post('alive/' . $this->gameColorUrl($player));
     }
 
     public function end(Game $game)
     {
         $this->post('end/' . $game->getId(), array(
-            "messages" => $this->encodeMessages(array($game->getStatusMessage()))
+            "messages" => $game->getStatusMessage()
         ));
     }
 
@@ -60,7 +74,7 @@ class Lila
     public function acceptRematch(Player $player, Game $nextGame)
     {
         // tell players to move to next game
-        $this->post('accept-rematch/' . $player->getGame()->getId() . '/' . $nextGame->getId() . '/' . $player->getColor(), array(
+        $this->post('accept-rematch/' . $this->gameColorUrl($player) . '/' . $nextGame->getId(), array(
             "whiteRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('black')->getFullId())),
             "blackRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('white')->getFullId()))
         ));
@@ -77,6 +91,11 @@ class Lila
             "redirect" => $this->url('lichess_player', array('id' => $player->getOpponent()->getFullId())),
             "messages" => $this->encodeMessages($messages)
         ));
+    }
+
+    private function gameColorUrl(Player $player)
+    {
+        return $player->getGame()->getId() . '/' . $player->getColor();
     }
 
     private function encodeMessages(array $messages)

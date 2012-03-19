@@ -36,6 +36,7 @@
         <service id="lichess.finisher" class="Bundle\LichessBundle\Chess\Finisher">
             <argument type="service" id="lichess.elo.calculator" />
             <argument type="service" id="lichess.messenger" />
+            <argument type="service" id="lila" />
             <argument type="service" id="lichess.elo.updater" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.cheat.judge" />

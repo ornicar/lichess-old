@@ -64,32 +64,48 @@ class PlayerController extends Controller
 
     public function offerDrawAction($id)
     {
-        $this->get('lichess.drawer')->offer($this->get('lichess.provider')->findPlayer($id));
-        $this->flush();
+        $player = $this->get('lichess.provider')->findPlayer($id);
+
+        if ($message = $this->get('lichess.drawer')->offer($player)) {
+            $this->flush();
+            $this->get('lila')->draw($player, $message['message']);
+        }
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function declineDrawOfferAction($id)
     {
-        $this->get('lichess.drawer')->decline($this->get('lichess.provider')->findPlayer($id));
-        $this->flush();
+        $player = $this->get('lichess.provider')->findPlayer($id);
 
-        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
-    }
-
-    public function acceptDrawOfferAction($id)
-    {
-        $this->get('lichess.drawer')->accept($this->get('lichess.provider')->findPlayer($id));
-        $this->flush();
+        if ($message = $this->get('lichess.drawer')->decline($player)) {
+            $this->flush();
+            $this->get('lila')->draw($player, $message['message']);
+        }
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
     public function cancelDrawOfferAction($id)
     {
-        $this->get('lichess.drawer')->cancel($this->get('lichess.provider')->findPlayer($id));
-        $this->flush();
+        $player = $this->get('lichess.provider')->findPlayer($id);
+
+        if ($message = $this->get('lichess.drawer')->cancel($player)) {
+            $this->flush();
+            $this->get('lila')->draw($player, $message['message']);
+        }
+
+        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
+    }
+
+    public function acceptDrawOfferAction($id)
+    {
+        $player = $this->get('lichess.provider')->findPlayer($id);
+
+        if ($message = $this->get('lichess.drawer')->accept($player)) {
+            $this->flush();
+            $this->get('lila')->drawAccept($player, $message['message']);
+        }
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
