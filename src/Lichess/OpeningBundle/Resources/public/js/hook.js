@@ -174,7 +174,7 @@ $(function() {
                     html += '</td>';
                     eloRestriction = false;
                     if (isRegistered) {
-                      mode = hook.mode;
+                      mode = $.trans(hook.mode);
                       if (hook.emin && (hook.emin > 700 || hook.emax < 2200)) {
                         if (hook.action == "join" && (myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax))) {
                           eloRestriction = true;

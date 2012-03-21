@@ -246,6 +246,10 @@ $.fn.orNot = function() {
     return this.length == 0 ? false: this;
 };
 
+$.trans = function(text) {
+  return lichess_translations[text] ? lichess_translations[text] : text;
+}
+
 $.displayBoardMarks = function($board, isWhite) {
     if (isWhite) {
         factor = 1;
