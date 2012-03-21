@@ -11,4 +11,5 @@
 /web/google*
 /web/apcmonitor.php
 /web/bundles/
+/web/trans
 /vendor

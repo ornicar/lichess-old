@@ -1,6 +1,6 @@
 lichess:
     lila:
-        internal_url: http://localhost:9000/internal
+        internal_url: http://localhost:9000/api
     ai:
         crafty:
             enabled: true

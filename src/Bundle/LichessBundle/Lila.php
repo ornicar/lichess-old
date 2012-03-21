@@ -93,6 +93,11 @@ class Lila
         ));
     }
 
+    public function lobbyJoin(Player $player)
+    {
+        $this->post('lobby/join/' . $this->gameColorUrl($player));
+    }
+
     private function gameColorUrl(Player $player)
     {
         return $player->getGame()->getId() . '/' . $player->getColor();
@@ -130,7 +135,7 @@ class Lila
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_TIMEOUT, 9);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 9);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'lichess/internal');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'lichess/api');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
 

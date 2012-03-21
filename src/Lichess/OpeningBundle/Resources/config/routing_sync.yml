@@ -1,4 +1,0 @@
-lichess_hook_poll:
-    pattern: /new/poll/{myHookId}
-    defaults: { _controller: LichessOpeningBundle:Hook:poll, myHookId '' }
-    requirements: { myHookId: "([\w\-]{12}|)" }

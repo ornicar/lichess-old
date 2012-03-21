@@ -6,6 +6,7 @@ $(function() {
 
     // Start ping
     var pingDelay = 3000;
+    var pingDelay = pingDelay * 20;
     var connectivity = new $.connectivity($('#connectivity'), {
         delay: pingDelay,
         tolerance: 300

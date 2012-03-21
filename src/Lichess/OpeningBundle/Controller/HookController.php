@@ -166,10 +166,8 @@ class HookController extends Controller
         $color = $config->resolveColor();
         $opponent = $this->get('lichess.generator')->createGameForPlayer($color, $config->getVariant());
         $opponent->setUser($hook->getUser());
-        $this->get('lila')->alive($opponent);
         $player = $opponent->getOpponent();
         $this->get('lichess.blamer.player')->blame($player);
-        $this->get('lila')->alive($player);
         $game = $player->getGame();
         if($config->getClock()) {
             $clock = new Clock($config->getTime() * 60, $config->getIncrement());
@@ -181,6 +179,7 @@ class HookController extends Controller
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
         $entry = $this->get('lichess_opening.bot')->onStart($game);
         $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
+        $this->get('lila')->lobbyJoin($player);
         if ($entry) {
             $this->get('lichess_opening.memory')->setEntryId($entry->getId());
         }

@@ -137,5 +137,6 @@ Lichess.org will be down in a few minutes!
             {% endjavascripts %}
             <!--[if lte IE 7]><script>jQuery.ajax('/bundles/lichess/browser.html', { success: function(html) { jQuery('body').prepend(html); } });</script><![endif]-->
         {% endblock %}
+        <script src="{{ asset("trans/" ~ app.session.locale ~ ".js") }}"></script>
     </body>
 </html>
