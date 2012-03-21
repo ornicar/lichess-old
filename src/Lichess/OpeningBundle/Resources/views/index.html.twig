@@ -19,13 +19,6 @@
         data-join-url="{{ path('lichess_hook_join', {'id': '00000000'}) }}"
         >
         <table></table>
-        {% set preload %}{% render "LichessOpeningBundle:Hook:pollResult" with { 
-        "myHookId": my_hook_id|default(false),
-        "state": 0,
-        "messageId": 0,
-        "entryId": 0,
-        "auth": auth|default(false)
-        } %}{% endset %}
         <textarea class="hooks_preload" style="display: none">{{ preload|e }}</textarea>
       </div>
     </div>

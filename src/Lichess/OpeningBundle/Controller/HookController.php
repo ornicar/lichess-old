@@ -18,8 +18,11 @@ class HookController extends Controller
 {
     public function indexAction()
     {
+        $auth = $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0';
+
         return $this->render('LichessOpeningBundle::index.html.twig', array(
-            'auth' => $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0'
+            'auth' => $auth,
+            'preload' => $this->get('lila')->lobbyPreload($auth)
         ));
     }
 

@@ -20,6 +20,12 @@ class Lila
         $this->url = $url;
     }
 
+    // int auth 0 or 1
+    public function lobbyPreload($auth)
+    {
+        return $this->get('lobby/preload?auth=' . $auth);
+    }
+
     public function getActivity(Player $player)
     {
         return $this->get('activity/' . $this->gameColorUrl($player));
