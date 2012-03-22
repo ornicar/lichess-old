@@ -40,8 +40,9 @@ class HookController extends Controller
                     $hook->setUser($this->get('security.context')->getToken()->getUser());
                 }
                 $this->get('lichess.config.persistence')->saveConfigFor('hook', $config->toArray());
-                $this->get('lila')->lobbyCreate($hook);
+                $this->get('doctrine.odm.mongodb.document_manager')->persist($hook);
                 $this->get('doctrine.odm.mongodb.document_manager')->flush();
+                $this->get('lila')->lobbyCreate($hook);
 
                 return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $hook->getOwnerId())));
             } else {
