@@ -11,6 +11,7 @@
 /web/apcmonitor.php
 /web/monitor
 /web/bundles
+/web/trans
 /dump*
 */tests/*
 */Tests/*
