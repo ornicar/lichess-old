@@ -5,6 +5,7 @@ namespace Bundle\LichessBundle;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Lichess\OpeningBundle\Document\Hook;
 
 class LilaException extends \Exception {
 }
@@ -14,6 +15,8 @@ class Lila
     protected $urlGenerator;
     private $url;
 
+    public $debug = false;
+
     public function __construct(UrlGeneratorInterface $urlGenerator, $url)
     {
         $this->urlGenerator = $urlGenerator;
@@ -21,9 +24,34 @@ class Lila
     }
 
     // int auth 0 or 1
-    public function lobbyPreload($auth)
+    public function lobbyPreload($auth, $id = null)
     {
-        return $this->get('lobby/preload?auth=' . $auth);
+        $path = $id ? 'lobby/preload/' . $id : 'lobby/preload';
+
+        return $this->get($path . '?auth=' . $auth);
+    }
+
+    public function lobbyInc()
+    {
+        $this->post('lobby/inc');
+    }
+
+    public function lobbyCreate(Hook $hook)
+    {
+        $this->post('lobby/create', array(
+            "id" => $hook->getId(),
+            "ownerId" => $hook->getOwnerId(),
+            "variant" => $hook->getVariant(),
+            "time" => $hook->getTime(),
+            "increment" => $hook->getIncrement(),
+            "mode" => $hook->getMode(),
+            "color" => $hook->getColor(),
+            "username" => $hook->getUsername(),
+            "elo" => $hook->getElo(),
+            "match" => "false",
+            "eloRange" => $hook->getEloRange(),
+            "engine" => $hook->isEngine() ? "true" : "false"
+        ));
     }
 
     public function getActivity(Player $player)
@@ -121,6 +149,8 @@ class Lila
 
     private function get($path)
     {
+        if ($this->debug) print "GET " . $path;
+
         return $this->execute($this->init($path));
     }
 
@@ -129,6 +159,8 @@ class Lila
         $ch = $this->init($path);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        if ($this->debug) print "POST " . $path . " " . json_encode($data);
 
         return $this->execute($ch);
     }
@@ -143,7 +175,11 @@ class Lila
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 9);
         curl_setopt($ch, CURLOPT_USERAGENT, 'lichess/api');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        if ($this->debug) {
+            curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        } else {
+            curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        }
 
         return $ch;
     }
@@ -153,12 +189,20 @@ class Lila
         $response = curl_exec($ch);
 
         if (curl_errno($ch)) {
-            $message = 'Lila error ' . curl_errno($ch) . ': ' . curl_error($ch);
+            $message = 'Lila error ' . curl_errno($ch) . ': ' . curl_error($ch) . "\n";
             curl_close($ch);
             throw new LilaException($message);
         }
-
-        curl_close($ch);
+        elseif ($this->debug) {
+            $info = curl_getinfo($ch);
+            curl_close($ch);
+            echo '<pre>';
+            print $response . "\n";
+            var_dump($info);
+            if ($info['http_code'] !== 200) die;
+        } else {
+            curl_close($ch);
+        }
 
         return $response;
     }

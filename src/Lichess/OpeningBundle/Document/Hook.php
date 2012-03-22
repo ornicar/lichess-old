@@ -165,7 +165,7 @@ class Hook
         if(isset($data['variant'])) $this->variant = $data['variant'];
         if(isset($data['mode'])) $this->mode = $data['mode'];
         if(isset($data['color'])) $this->color = $data['color'];
-        if(isset($data['eloRange'])) $this->eloRange = $data['eloRange'];
+        if($this->mode && isset($data['eloRange'])) $this->eloRange = $data['eloRange'];
     }
 
     public function toArray()

@@ -40,10 +40,8 @@ class HookController extends Controller
                     $hook->setUser($this->get('security.context')->getToken()->getUser());
                 }
                 $this->get('lichess.config.persistence')->saveConfigFor('hook', $config->toArray());
-                $this->get('doctrine.odm.mongodb.document_manager')->persist($hook);
+                $this->get('lila')->lobbyCreate($hook);
                 $this->get('doctrine.odm.mongodb.document_manager')->flush();
-                $this->get('lichess_opening.memory')->setAlive($hook);
-                $this->get('lichess_opening.memory')->incrementState();
 
                 return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $hook->getOwnerId())));
             } else {
@@ -115,7 +113,8 @@ class HookController extends Controller
             'state' => $newState,
             'pool' => $this->get('lichess_opening.hooks_renderer')->render($auth, $id),
             'auth' => $auth,
-            'myHookId' => $id
+            'myHookId' => $id,
+            'preload' => $this->get('lila')->lobbyPreload($auth, $id)
         ));
     }
 
@@ -140,7 +139,7 @@ class HookController extends Controller
         if ($hook) {
             $this->get('doctrine.odm.mongodb.document_manager')->remove($hook);
             $this->get('doctrine.odm.mongodb.document_manager')->flush();
-            $this->get('lichess_opening.memory')->incrementState();
+            $this->get('lila')->lobbyInc();
         }
 
         return new RedirectResponse($this->generateUrl('lichess_homepage'));

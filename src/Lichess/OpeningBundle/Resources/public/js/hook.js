@@ -199,7 +199,7 @@ $(function() {
             }
             $hooks.find("table").removeClass("empty_table").append(html);
         } else {
-            var html = '<table class="empty_table"><tr class="create_game"><td colspan="5">'+data.message+'</td></tr></table>';
+            var html = '<table class="empty_table"><tr class="create_game"><td colspan="5">'+$.trans(data.message)+'</td></tr></table>';
             $hooks.html(html);
         }
         function resizeLobby() {

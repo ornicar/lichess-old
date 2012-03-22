@@ -35,7 +35,8 @@ class DumpTranslationCommand extends BaseCommand
         $items = array(
             "Unlimited",
             "Rated",
-            "Casual"
+            "Casual",
+            "No game available right now, create one!"
         );
         $tm = $this->getContainer()->get('lichess_translation.manager');
         $translator = $this->getContainer()->get('translator');
