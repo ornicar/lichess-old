@@ -50,7 +50,7 @@ class Lila
     public function lobbyJoin(Player $player)
     {
         $this->post('lobby/join/' . $this->gameColorUrl($player), array(
-            "entry" => $this->lobbyEntry($player->getGame())
+            "entry" => $this->encodeLobbyEntry($player->getGame())
         ));
     }
 
@@ -80,8 +80,8 @@ class Lila
 
     public function start(Game $game)
     {
-        $this->post('start', array(
-            "entry" => $this->lobbyEntry($game)
+        $this->post('start/' . $game->getId(), array(
+            "entry" => $this->encodeLobbyEntry($game)
         ));
     }
 
@@ -118,7 +118,7 @@ class Lila
         $this->post('rematch-accept/' . $this->gameColorUrl($player) . '/' . $nextGame->getId(), array(
             "whiteRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('black')->getFullId())),
             "blackRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('white')->getFullId())),
-            "entry" => $this->lobbyEntry($nextGame)
+            "entry" => $this->encodeLobbyEntry($nextGame)
         ));
     }
 
@@ -132,21 +132,18 @@ class Lila
         $this->post('join/' . $player->getFullId(), array(
             "redirect" => $this->url('lichess_player', array('id' => $player->getOpponent()->getFullId())),
             "messages" => $this->encodeMessages($messages),
-            "entry" => $this->lobbyEntry($player->getGame())
+            "entry" => $this->encodeLobbyEntry($player->getGame())
         ));
     }
 
-    private function lobbyEntry(Game $game)
+    private function encodeLobbyEntry(Game $game)
     {
-        return array_filter(array(
-            'players' => array_map(function(Player $player) {
-                return array('u' => $player->hasUser() ? $player->getUsername() : null, 'ue' => $player->getUsernameWithElo());
-            }, $game->getPlayers()->toArray()),
-                'id' => $game->getId(),
-                'variant' => $game->getVariantName(),
-                'rated' => $game->getIsRated() ? "true" : "false",
-                'clock' => $game->hasClock() ? array($game->getClock()->getLimitInMinutes(), $game->getClock()->getIncrement()) : null
-            ));
+        $entry = array();
+        foreach ($game->getPlayers() as $player) {
+            $entry[$player->getColor() . "Username"] = $player->hasUser() ? $player->getUsername() : null;
+            $entry[$player->getColor() . "UsernameElo"] = $player->getUsernameWithElo();
+        }
+        return implode("$", $entry);
     }
 
     private function gameColorUrl(Player $player)

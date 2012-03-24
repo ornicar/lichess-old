@@ -137,7 +137,7 @@ $(function() {
     $('body').on('lichess.content_loaded', loadUserLinks);
 
     function translateTexts() {
-        $('a.trans_me').each(function() {
+        $('.trans_me').each(function() {
           $(this).removeClass('trans_me').text($.trans($(this).text()));
         });
     }
