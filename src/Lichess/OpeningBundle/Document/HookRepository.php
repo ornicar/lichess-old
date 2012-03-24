@@ -41,15 +41,4 @@ class HookRepository extends DocumentRepository
             ->getQuery()
             ->execute();
     }
-
-    public function removeOldHooks()
-    {
-        $old = new \DateTime('-1 hour');
-
-        $this->createQueryBuilder()
-            ->field('createdAt')->lt($old)
-            ->remove()
-            ->getQuery()
-            ->execute();
-    }
 }

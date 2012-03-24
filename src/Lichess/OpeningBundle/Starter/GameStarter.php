@@ -18,6 +18,10 @@ class GameStarter
     {
         $game->start();
 
+        if($game->getInvited()->getIsAi()) {
+            return array();
+        }
+
         $messages = array();
         $messages[] = $this->messenger->addSystemMessage($game, ucfirst($game->getCreator()->getColor()).' creates the game');
         $messages[] = $this->messenger->addSystemMessage($game, ucfirst($game->getInvited()->getColor()).' joins the game');

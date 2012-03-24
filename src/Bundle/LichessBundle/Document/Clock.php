@@ -175,6 +175,7 @@ class Clock
      **/
     public function getElapsedTime($color)
     {
+        //var_dump($this);die;
         $time = $this->times[$color];
 
         if($this->isRunning() && $color === $this->color) {

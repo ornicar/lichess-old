@@ -42,7 +42,7 @@ class HookController extends Controller
                 $this->get('lichess.config.persistence')->saveConfigFor('hook', $config->toArray());
                 $this->get('doctrine.odm.mongodb.document_manager')->persist($hook);
                 $this->get('doctrine.odm.mongodb.document_manager')->flush();
-                $this->get('lila')->lobbyCreate($hook);
+                $this->get('lila')->lobbyCreate($hook->getOwnerId());
 
                 return new RedirectResponse($this->generateUrl('lichess_hook', array('id' => $hook->getOwnerId())));
             } else {
@@ -55,36 +55,8 @@ class HookController extends Controller
         return $this->render('LichessOpeningBundle:Config:hook.html.twig', array('form' => $form->createView(), 'config' => $form->getData()));
     }
 
-    public function pollAction($myHookId)
-    {
-        $request = $this->get('request');
-        $state = $request->query->get('state');
-        $messageId = $request->query->get('messageId', false);
-        $entryId = $request->query->get('entryId');
-        $auth = $request->query->get('auth');
-        $this->get('lichess_opening.http_push')->poll($state, $messageId, $entryId);
-
-        return $this->pollResultAction($myHookId, $state, $messageId, $entryId, $auth);
-    }
-
     public function pollResultAction($myHookId, $state, $messageId, $entryId, $auth)
     {
-        if ($myHookId) {
-            $myHookId = (string) $myHookId; // convert twig weirdness
-            $myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($myHookId);
-            if (!$myHook) {
-                return $this->renderJson(array('redirect' => '/'));
-            }
-            if ($game = $myHook->getGame()) {
-                $this->get('doctrine.odm.mongodb.document_manager')->remove($myHook);
-                $this->get('doctrine.odm.mongodb.document_manager')->flush();
-                $this->get('lichess_opening.memory')->incrementState();
-
-                return $this->renderJson(array('redirect' => $game->getCreator()->getFullId()));
-            }
-        }
-        $newState = $this->get('lichess_opening.memory')->getState();
-
         return $this->renderJson(array(
             'state' => $newState,
             'pool' => $this->get('lichess_opening.hooks_renderer')->render($auth, $myHookId),
@@ -99,20 +71,9 @@ class HookController extends Controller
         if (!$hook) {
             return new RedirectResponse($this->generateUrl('lichess_homepage'));
         }
-        if ($game = $hook->getGame()) {
-            $this->get('doctrine.odm.mongodb.document_manager')->remove($hook);
-            $this->get('doctrine.odm.mongodb.document_manager')->flush();
-            $this->get('lichess_opening.memory')->incrementState();
-
-            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $game->getCreator()->getFullId())));
-        }
-        $this->get('lichess_opening.memory')->setAlive($hook);
         $auth = $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0';
-        $newState = $this->get('lichess_opening.memory')->getState();
 
         return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array(
-            'state' => $newState,
-            'pool' => $this->get('lichess_opening.hooks_renderer')->render($auth, $id),
             'auth' => $auth,
             'myHookId' => $id,
             'preload' => $this->get('lila')->lobbyPreload($auth, $id)
@@ -138,9 +99,7 @@ class HookController extends Controller
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
         if ($hook) {
-            $this->get('doctrine.odm.mongodb.document_manager')->remove($hook);
-            $this->get('doctrine.odm.mongodb.document_manager')->flush();
-            $this->get('lila')->lobbyInc();
+            $this->get('lila')->lobbyRemove($hook->getId());
         }
 
         return new RedirectResponse($this->generateUrl('lichess_homepage'));
@@ -180,13 +139,8 @@ class HookController extends Controller
         $this->get('lichess.starter.game')->start($game);
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
-        $entry = $this->get('lichess_opening.bot')->onStart($game);
         $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
-        $this->get('lila')->lobbyJoin($player);
-        if ($entry) {
-            $this->get('lichess_opening.memory')->setEntryId($entry->getId());
-        }
-        $this->get('lichess_opening.memory')->incrementState();
+        $this->get('lila')->lobbyJoin($player, $entry);
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }

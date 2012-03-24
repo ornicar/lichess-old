@@ -12,7 +12,6 @@
     <div class="hooks_wrap">
       <div class="hooks"
         data-my-hook="{{ my_hook_id }}"
-        data-hooks="{% block opening_hooks %}{% endblock %}"
         data-poll-url="{% block opening_hook_poll_url %}{{ lichess_xhr_url_prefix()~path('lichess_hook_poll', {'l': app.session.locale}) }}{% endblock %}"
         data-auth="{{ auth }}"
         data-cancel-url="{{ path('lichess_hook_cancel', {'id': '000000000000'}) }}"

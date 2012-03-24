@@ -8,17 +8,11 @@
         <service id="lichess_opening.message_repository" class="Lichess\OpeningBundle\Document\MessageRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
             <argument type="string">Lichess\OpeningBundle\Document\Message</argument>
         </service>
-        <service id="lichess_opening.bot" class="Lichess\OpeningBundle\Message\Bot">
-            <argument type="service" id="router" />
-            <argument type="service" id="lichess_opening.messenger" />
-            <argument type="service" id="translator" />
-        </service>
         <service id="lichess_opening.messages_renderer" class="Lichess\OpeningBundle\Message\MessagesRenderer">
             <argument type="service" id="lichess_opening.message_repository" />
         </service>
         <service id="lichess_opening.messenger" class="Lichess\OpeningBundle\Message\Messenger" scope="request">
             <argument type="service" id="lichess_opening.message_repository" />
-            <argument type="service" id="lichess_opening.memory" />
             <argument type="service" id="request" />
         </service>
     </services>

@@ -3,17 +3,15 @@
 namespace Lichess\OpeningBundle\Message;
 
 use Lichess\OpeningBundle\Document\MessageRepository;
-use Lichess\OpeningBundle\Sync\Memory;
 use Lichess\OpeningBundle\Document\Message;
 use Application\UserBundle\Document\User;
 use Symfony\Component\HttpFoundation\Request;
 
 class Messenger
 {
-    public function __construct(MessageRepository $repository, Memory $memory, Request $request)
+    public function __construct(MessageRepository $repository, Request $request)
     {
         $this->repository = $repository;
-        $this->memory = $memory;
         $this->request = $request;
     }
 

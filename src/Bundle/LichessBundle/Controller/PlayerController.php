@@ -39,16 +39,9 @@ class PlayerController extends Controller
         $player = $this->get('lichess.provider')->findPlayer($id);
         $game = $this->get('lichess.rematcher')->rematch($player);
         if ($game) {
-            $entry = $this->get('lichess_opening.bot')->onStart($game);
-        }
-        $this->flush();
-        if ($game) {
-            $this->get('lila')->acceptRematch($player, $game);
+            $this->get('lila')->rematchAccept($player, $game);
         } else {
-            $this->get('lila')->offerRematch($player->getGame());
-        }
-        if (isset($entry)) {
-            $this->get('lichess_opening.memory')->setEntryId($entry->getId());
+            $this->get('lila')->rematchOffer($player->getGame());
         }
 
         return new Response('ok');

@@ -5,5 +5,4 @@
 {% endblock %}
 
 {% block opening_my_hook %}{{ myHookId }}{% endblock %}
-{% block opening_hooks %}{{ pool|json_encode }}{% endblock %}
 {% block opening_hook_poll_url %}{{ lichess_xhr_url_prefix()~path('lichess_hook_poll', {'myHookId': myHookId, 'l': app.session.locale}) }}{% endblock %}

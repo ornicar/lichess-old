@@ -42,11 +42,9 @@ class ConfigController extends Controller
             $form->bindRequest($request);
             if($form->isValid()) {
                 $player = $this->get('lichess.starter.ai')->start($form->getData());
-                $entry = $this->get('lichess_opening.bot')->onStart($player->getGame());
                 $this->flush();
-                if ($entry) {
-                    $this->get('lichess_opening.memory')->setEntryId($entry->getId());
-                }
+                $this->get('lila')->start($player->getGame());
+
                 return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
             } else {
                 return new RedirectResponse($this->generateUrl('lichess_homepage'));

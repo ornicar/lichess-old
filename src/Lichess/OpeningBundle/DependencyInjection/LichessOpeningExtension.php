@@ -23,7 +23,6 @@ class LichessOpeningExtension extends Extension
         $config = $processor->process($configuration->getConfigTree(), $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('sync.xml');
 
         foreach ($config['feature'] as $feature => $enabled) {
             if ($enabled) $loader->load($feature.'.xml');

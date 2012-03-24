@@ -136,6 +136,14 @@ $(function() {
     loadUserLinks();
     $('body').on('lichess.content_loaded', loadUserLinks);
 
+    function translateTexts() {
+        $('a.trans_me').each(function() {
+          $(this).removeClass('trans_me').text($.trans($(this).text()));
+        });
+    }
+    translateTexts();
+    $('body').on('lichess.content_loaded', translateTexts);
+
     $.tipsyfy = function($elem) {
         $elem.find('a:not(div.game_list_inner a):not(.notipsy):not(#boardTable a), input, label, div.tipsyme, button').filter('[title]').tipsy({
             fade: true,

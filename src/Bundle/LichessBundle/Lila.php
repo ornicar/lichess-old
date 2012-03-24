@@ -6,6 +6,7 @@ use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Lichess\OpeningBundle\Document\Hook;
+use Lichess\OpeningBundle\Document\Entry;
 
 class LilaException extends \Exception {
 }
@@ -31,26 +32,25 @@ class Lila
         return $this->get($path . '?auth=' . $auth);
     }
 
-    public function lobbyInc()
+    public function lobbyCreate($hookOwnerId)
     {
-        $this->post('lobby/inc');
+        $this->post('lobby/create/' . $hookOwnerId);
     }
 
-    public function lobbyCreate(Hook $hook)
+    public function lobbyRemove($hookId)
     {
-        $this->post('lobby/create', array(
-            "id" => $hook->getId(),
-            "ownerId" => $hook->getOwnerId(),
-            "variant" => $hook->getVariant(),
-            "time" => $hook->getTime(),
-            "increment" => $hook->getIncrement(),
-            "mode" => $hook->getMode(),
-            "color" => $hook->getColor(),
-            "username" => $hook->getUsername(),
-            "elo" => $hook->getElo(),
-            "match" => "false",
-            "eloRange" => $hook->getEloRange(),
-            "engine" => $hook->isEngine() ? "true" : "false"
+        $this->post('lobby/remove/' . $hookId);
+    }
+
+    public function lobbyAlive($hookOwnerId)
+    {
+        $this->post('lobby/alive/' . $hookOwnerId);
+    }
+
+    public function lobbyJoin(Player $player)
+    {
+        $this->post('lobby/join/' . $this->gameColorUrl($player), array(
+            "entry" => $this->lobbyEntry($player->getGame())
         ));
     }
 
@@ -78,6 +78,13 @@ class Lila
         ));
     }
 
+    public function start(Game $game)
+    {
+        $this->post('start', array(
+            "entry" => $this->lobbyEntry($game)
+        ));
+    }
+
     public function updateVersions(Game $game)
     {
         $this->post('update-version/' . $game->getId());
@@ -100,17 +107,18 @@ class Lila
         ));
     }
 
-    public function offerRematch(Game $game)
+    public function rematchOffer(Game $game)
     {
         $this->reloadTable($game);
     }
 
-    public function acceptRematch(Player $player, Game $nextGame)
+    public function rematchAccept(Player $player, Game $nextGame)
     {
         // tell players to move to next game
-        $this->post('accept-rematch/' . $this->gameColorUrl($player) . '/' . $nextGame->getId(), array(
+        $this->post('rematch-accept/' . $this->gameColorUrl($player) . '/' . $nextGame->getId(), array(
             "whiteRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('black')->getFullId())),
-            "blackRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('white')->getFullId()))
+            "blackRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('white')->getFullId())),
+            "entry" => $this->lobbyEntry($nextGame)
         ));
     }
 
@@ -123,13 +131,22 @@ class Lila
     {
         $this->post('join/' . $player->getFullId(), array(
             "redirect" => $this->url('lichess_player', array('id' => $player->getOpponent()->getFullId())),
-            "messages" => $this->encodeMessages($messages)
+            "messages" => $this->encodeMessages($messages),
+            "entry" => $this->lobbyEntry($player->getGame())
         ));
     }
 
-    public function lobbyJoin(Player $player)
+    private function lobbyEntry(Game $game)
     {
-        $this->post('lobby/join/' . $this->gameColorUrl($player));
+        return array_filter(array(
+            'players' => array_map(function(Player $player) {
+                return array('u' => $player->hasUser() ? $player->getUsername() : null, 'ue' => $player->getUsernameWithElo());
+            }, $game->getPlayers()->toArray()),
+                'id' => $game->getId(),
+                'variant' => $game->getVariantName(),
+                'rated' => $game->getIsRated() ? "true" : "false",
+                'clock' => $game->hasClock() ? array($game->getClock()->getLimitInMinutes(), $game->getClock()->getIncrement()) : null
+            ));
     }
 
     private function gameColorUrl(Player $player)
