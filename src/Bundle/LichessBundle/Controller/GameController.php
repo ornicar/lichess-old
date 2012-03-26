@@ -84,7 +84,7 @@ class GameController extends Controller
             return $this->render('LichessBundle:Player:watch.html.twig', array(
                 'game'           => $game,
                 'player'         => $player,
-                'checkSquareKey' => $this->get('lichess.analyser_factory')->create($game->getBoard())->getCheckSquareKey($game->getTurnPlayer()),
+                'checkSquareKey' => $game->getCheckSquareKey(),
                 'possibleMoves'  => ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null
             ));
         }

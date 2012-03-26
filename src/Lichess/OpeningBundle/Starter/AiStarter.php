@@ -2,7 +2,6 @@
 
 namespace Lichess\OpeningBundle\Starter;
 
-use Bundle\LichessBundle\Ai\AiInterface;
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
@@ -10,7 +9,6 @@ use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Logger;
 use Lichess\OpeningBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;
-use Bundle\LichessBundle\Chess\ManipulatorFactory;
 use Lichess\OpeningBundle\Config\Persistence;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -21,20 +19,17 @@ class AiStarter implements StarterInterface
     protected $starter;
     protected $generator;
     protected $playerBlamer;
-    protected $ai;
     protected $objectManager;
     protected $logger;
     protected $configPersistence;
 
-    public function __construct(GameStarter $starter, Generator $generator, PlayerBlamer $playerBlamer, AiInterface $ai, DocumentManager $objectManager, Logger $logger, ManipulatorFactory $manipulatorFactory, Persistence $configPersistence)
+    public function __construct(GameStarter $starter, Generator $generator, PlayerBlamer $playerBlamer, DocumentManager $objectManager, Logger $logger, Persistence $configPersistence)
     {
         $this->starter          = $starter;
         $this->generator          = $generator;
         $this->playerBlamer       = $playerBlamer;
-        $this->ai                 = $ai;
         $this->objectManager      = $objectManager;
         $this->logger             = $logger;
-        $this->manipulatorFactory = $manipulatorFactory;
         $this->configPersistence  = $configPersistence;
     }
 
@@ -50,11 +45,7 @@ class AiStarter implements StarterInterface
         $opponent->setAiLevel($config->getLevel());
         $this->starter->start($game);
 
-        if($player->isBlack()) {
-            $this->manipulatorFactory->create($game)->play($this->ai->move($game, $opponent->getAiLevel()));
-        }
         $this->objectManager->persist($game);
-        $this->logger->notice($game, 'Game:inviteAi create');
 
         return $player;
     }

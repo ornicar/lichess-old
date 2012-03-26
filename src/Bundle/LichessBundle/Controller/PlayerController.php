@@ -137,15 +137,13 @@ class PlayerController extends Controller
                 return $this->render('LichessBundle:Player:waitOpponent.html.twig', array('player' => $player));
             }
         }
-        $analyser = $this->get('lichess.analyser_factory')->create($game->getBoard());
-        $checkSquareKey = $analyser->getCheckSquareKey($game->getTurnPlayer());
 
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
             'room'                => $this->get('lichess.repository.room')->findOneByGame($game),
             'opponentActivity'    => $this->get('lila')->getActivity($player->getOpponent()),
-            'checkSquareKey'      => $checkSquareKey,
-            'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $analyser->getPlayerPossibleMoves($player, (bool) $checkSquareKey) : null
+            'checkSquareKey'      => $game->getCheckSquareKey(),
+            'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $this->get('lila')->possibleMoves($player) : null
         ));
     }
 

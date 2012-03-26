@@ -2,7 +2,9 @@
 
 namespace Lichess\OpeningBundle\Document;
 
-class MessageRepository extends TimelineRepository
+use Doctrine\ODM\MongoDB\DocumentRepository;
+
+class MessageRepository extends DocumentRepository
 {
     public function add(Message $message)
     {

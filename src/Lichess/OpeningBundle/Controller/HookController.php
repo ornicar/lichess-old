@@ -88,7 +88,7 @@ class HookController extends Controller
           $text = trim($this->get('request')->get('message'));
           if ($message = $this->get('lichess_opening.messenger')->send($user, $text)) {
               $this->get('doctrine.odm.mongodb.document_manager')->flush();
-              $this->get('lichess_opening.memory')->setMessageId($message->getId());
+              $this->get('lila')->lobbyMessage();
           }
         }
 
@@ -140,7 +140,7 @@ class HookController extends Controller
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
         $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
-        $this->get('lila')->lobbyJoin($player, $entry);
+        $this->get('lila')->lobbyJoin($player);
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }

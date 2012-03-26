@@ -5,6 +5,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="lichess_opening.hook_repository" class="Lichess\OpeningBundle\Document\HookRepository" factory-service="doctrine.odm.mongodb.document_manager" factory-method="getRepository">
+            <argument type="string">Lichess\OpeningBundle\Document\Hook</argument>
+        </service>
         <service id="lichess.starter.game" class="Lichess\OpeningBundle\Starter\GameStarter">
             <argument type="service" id="lichess.messenger" />
         </service>
@@ -12,10 +15,8 @@
             <argument type="service" id="lichess.starter.game" />
             <argument type="service" id="lichess.generator" />
             <argument type="service" id="lichess.blamer.player" />
-            <argument type="service" id="lichess.ai.chain" />
             <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <argument type="service" id="lichess.logger" />
-            <argument type="service" id="lichess.manipulator_factory" />
             <argument type="service" id="lichess.config.persistence" />
         </service>
         <service id="lichess.starter.friend" class="Lichess\OpeningBundle\Starter\FriendStarter">

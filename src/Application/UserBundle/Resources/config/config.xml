@@ -20,7 +20,6 @@
         <service id="lichess_user.game_exporter" class="Application\UserBundle\GameExporter">
             <argument type="service" id="lichess.repository.game" />
             <argument type="service" id="fos_user.repository.user" />
-            <argument type="service" id="lichess.pgn_dumper" />
             <argument type="service" id="router" />
         </service>
 

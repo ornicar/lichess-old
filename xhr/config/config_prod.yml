@@ -1,5 +1,0 @@
-imports:
-    - { resource: config.yml }
-
-doctrine_mongodb:
-    default_database: lichess

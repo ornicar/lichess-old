@@ -173,6 +173,22 @@ class Game
     protected $lastMove;
 
     /**
+     * Square key of the checked king if any
+     *
+     * @var nullable string
+     * @MongoDB\Field(type="string")
+     */
+    protected $csk;
+
+    /**
+     * Possible castles in forsyth format KQkq
+     *
+     * @var nullable string
+     * @MongoDB\Field(type="string")
+     */
+    protected $castles;
+
+    /**
      * The game clock
      *
      * @var Clock
@@ -246,6 +262,16 @@ class Game
             throw new LogicException('Can not change the id of a saved game');
         }
         $this->id = KeyGenerator::generate(8);
+    }
+
+    public function getCheckSquareKey()
+    {
+        return $this->csk;
+    }
+
+    public function getCastles()
+    {
+        return $this->castles ?: "-";
     }
 
     /**

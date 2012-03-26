@@ -54,6 +54,11 @@ class Lila
         ));
     }
 
+    public function lobbyMessage()
+    {
+        $this->post('lobby/message');
+    }
+
     public function getActivity(Player $player)
     {
         return $this->get('activity/' . $this->gameColorUrl($player));
@@ -83,6 +88,11 @@ class Lila
         $this->post('start/' . $game->getId(), array(
             "entry" => $this->encodeLobbyEntry($game)
         ));
+    }
+
+    public function possibleMoves(Player $player)
+    {
+        return json_decode($this->get('possible-moves/' .$this->gameColorUrl($player)));
     }
 
     public function updateVersions(Game $game)

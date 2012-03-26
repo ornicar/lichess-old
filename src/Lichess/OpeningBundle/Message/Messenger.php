@@ -19,7 +19,7 @@ class Messenger
     {
         $message = new Message($user->getUsername(), $text, $this->request->getClientIp());
 
-        if ($message->isValid() && !$this->isSpam($message)) {
+        if ($message->isValid() && ($user->hasRole('ROLE_ADMIN') || !$this->isSpam($message))) {
             $this->repository->add($message);
         }
 

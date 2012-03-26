@@ -5,7 +5,6 @@ namespace Application\UserBundle;
 use Bundle\LichessBundle\Document\GameRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Application\UserBundle\Document\User;
-use Bundle\LichessBundle\Notation\PgnDumper;
 use Lichess\OpeningBundle\Config\GameConfigView;
 use Application\UserBundle\Document\UserRepository;
 use Bundle\LichessBundle\Document\Game;
@@ -27,24 +26,16 @@ class GameExporter
     protected $userRepository;
 
     /**
-     * PGN dumper
-     *
-     * @var PgnDumper
-     */
-    protected $pgnDumper;
-
-    /**
      * Url generator
      *
      * @var UrlGeneratorInterface
      */
     protected $urlGenerator;
 
-    public function __construct(GameRepository $gameRepository, UserRepository $userRepository, PgnDumper $pgnDumper, UrlGeneratorInterface $urlGenerator)
+    public function __construct(GameRepository $gameRepository, UserRepository $userRepository, UrlGeneratorInterface $urlGenerator)
     {
         $this->gameRepository = $gameRepository;
         $this->userRepository = $userRepository;
-        $this->pgnDumper = $pgnDumper;
         $this->urlGenerator = $urlGenerator;
     }
 

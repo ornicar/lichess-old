@@ -9,16 +9,6 @@
     </parameters>
 
     <services>
-        <service id="lichess.analyser_factory" class="Bundle\LichessBundle\Chess\AnalyserFactory">
-            <argument>Bundle\LichessBundle\Chess\Analyser</argument>
-        </service>
-
-        <service id="lichess.manipulator_factory" class="Bundle\LichessBundle\Chess\ManipulatorFactory">
-            <argument type="service" id="lichess.autodraw" />
-            <argument type="service" id="lichess.analyser_factory" />
-            <argument>Bundle\LichessBundle\Chess\Manipulator</argument>
-        </service>
-
         <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger">
             <argument type="service" id="lichess.repository.room" />
         </service>
@@ -40,27 +30,12 @@
             <argument type="service" id="lichess.elo.updater" />
             <argument type="service" id="lichess.logger" />
             <argument type="service" id="lichess.cheat.judge" />
-            <argument type="service" id="lichess.autodraw" />
         </service>
 
         <service id="lichess.drawer" class="Bundle\LichessBundle\Chess\Drawer">
             <argument type="service" id="lichess.messenger" />
             <argument type="service" id="lichess.finisher" />
             <argument type="service" id="lichess.logger" />
-        </service>
-
-        <service id="lichess.mover" class="Bundle\LichessBundle\Chess\Mover">
-            <argument type="service" id="lichess.manipulator_factory" />
-            <argument type="service" id="lichess.ai.chain" />
-            <argument type="service" id="lichess.cheat.internal_detector" />
-            <argument type="service" id="lichess.finisher" />
-            <argument type="service" id="lichess.logger" />
-        </service>
-
-        <service id="lichess.autodraw" class="Bundle\LichessBundle\Chess\Autodraw" public="false"/>
-
-        <service id="lichess.pgn_dumper" class="Bundle\LichessBundle\Notation\PgnDumper">
-            <argument type="service" id="router" />
         </service>
     </services>
 </container>

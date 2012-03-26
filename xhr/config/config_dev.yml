@@ -1,9 +1,0 @@
-imports:
-    - { resource: config.yml }
-
-lichess:
-    sync:
-        #latency: 10
-
-doctrine_mongodb:
-    default_database: lichess

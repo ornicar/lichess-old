@@ -18,9 +18,8 @@ class Finisher
     protected $eloUpdater;
     protected $logger;
     protected $judge;
-    protected $autoDraw;
 
-    public function __construct(Calculator $calculator, Messenger $messenger, Lila $lila, Updater $eloUpdater, Logger $logger, Judge $judge, AutoDraw $autoDraw)
+    public function __construct(Calculator $calculator, Messenger $messenger, Lila $lila, Updater $eloUpdater, Logger $logger, Judge $judge)
     {
         $this->calculator = $calculator;
         $this->messenger  = $messenger;
@@ -28,7 +27,6 @@ class Finisher
         $this->eloUpdater = $eloUpdater;
         $this->logger     = $logger;
         $this->judge      = $judge;
-        $this->autoDraw   = $autoDraw;
     }
 
     public function finish(Game $game, $status = null, Player $winner = null)
@@ -62,7 +60,7 @@ class Finisher
     {
         $game = $player->getGame();
         if ($oftPlayer = $game->checkOutOfTime()) {
-            if ($this->autoDraw->hasTooFewMaterialToMate($oftPlayer->getOpponent())) {
+            if ($this->hasTooFewMaterialToMate($oftPlayer->getOpponent())) {
                 $winner = null;
             } else {
                 $winner = $oftPlayer->getOpponent();
@@ -75,6 +73,24 @@ class Finisher
         } else {
             throw new FinisherException($this->logger->formatPlayer($player, 'Player:outoftime too early or not applicable'));
         }
+    }
+
+    /**
+     * Tells if this player has too few material to mate
+     * if true, he cannot mate.
+     *
+     * @return boolean
+     */
+    private function hasTooFewMaterialToMate(Player $player)
+    {
+        $nbPieces = $player->getNbAlivePieces();
+        if (2 < $nbPieces) {
+            return false;
+        }
+        $pieces = PieceFilter::filterNotClass(PieceFilter::filterAlive($player->getPieces()), 'King');
+        $lastPiece = empty($pieces) ? null : $pieces[0];
+
+        return !$lastPiece || $lastPiece->isClass('Knight') || $lastPiece->isClass('Bishop');
     }
 
     /**
