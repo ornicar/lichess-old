@@ -26,18 +26,26 @@ class Clock
     private $color = null;
 
     /**
-     * Times for white and black players
+     * Times for white player
      *
-     * @var array
-     * @MongoDB\Field(type="hash")
+     * @var int
+     * @MongoDB\Float
      */
-    private $times = null;
+    private $white = null;
+
+    /**
+     * Times for black player
+     *
+     * @var int
+     * @MongoDB\Float
+     */
+    private $black = null;
 
     /**
      * Internal timer
      *
      * @var float
-     * @MongoDB\Field(type="float")
+     * @MongoDB\Float
      */
     private $timer = null;
 
@@ -85,7 +93,8 @@ class Clock
     public function reset()
     {
         $this->color = 'white';
-        $this->times = array('white' => 0, 'black' => 0);
+        $this->white = 0;
+        $this->black = 0;
         $this->timer = null;
     }
 
@@ -138,12 +147,12 @@ class Clock
 
     public function addTime($color, $time)
     {
-        $this->times[$color] = round($this->times[$color] + $time, 2);
+        $this->setTime($color, round($this->getTime($color) + $time, 2));
     }
 
     public function giveTime($color, $time)
     {
-        $this->times[$color] = round($this->times[$color] - $time, 2);
+        $this->setTime($color, round($this->getTime($color) - $time, 2));
     }
 
     /**
@@ -175,8 +184,7 @@ class Clock
      **/
     public function getElapsedTime($color)
     {
-        //var_dump($this);die;
-        $time = $this->times[$color];
+        $time = $this->getTime($color);
 
         if($this->isRunning() && $color === $this->color) {
             $time += microtime(true) - $this->timer;
@@ -191,6 +199,20 @@ class Clock
             'white' => $this->getRemainingTime('white'),
             'black' => $this->getRemainingTime('black')
         );
+    }
+
+    private function getTime($color)
+    {
+        if ($color === 'white') return $this->white;
+        elseif ($color === 'black') return $this->black;
+        else throw new \Exception("Wrong color $color");
+    }
+
+    private function setTime($color, $time)
+    {
+        if ($color === 'white') $this->white = $time;
+        elseif ($color === 'black') $this->black = $time;
+        else throw new \Exception("Wrong color $color");
     }
 
     /**
@@ -271,7 +293,10 @@ class Clock
      */
     public function getTimes()
     {
-        return $this->times;
+        return array(
+            'white' => $this->white,
+            'black' => $this->black
+        );
     }
 
     public function renderTime($time)

@@ -1,4 +1,0 @@
-lichess_sync:
-    pattern:        /sync/{id}/{color}/{version}/{playerFullId}
-    defaults:       { _controller: LichessBundle:Sync:sync, playerFullId: "" }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), version: "\d+", playerFullId: "([\w\-]{12}|)" }

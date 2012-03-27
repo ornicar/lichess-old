@@ -14,26 +14,6 @@ use Lichess\OpeningBundle\Config\GameConfig;
 
 class PlayerController extends Controller
 {
-    public function moretimeAction($id)
-    {
-        $seconds = 15;
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        $opponent = $player->getOpponent();
-        $time = $player->getGame()->giveTime($opponent, $seconds);
-        $this->get('lichess.messenger')->addSystemMessage($player->getGame(), sprintf('%s + %d seconds', ucfirst($opponent->getColor()), $seconds));
-        $this->flush();
-
-        return new Response($time);
-    }
-
-    public function outoftimeAction($id)
-    {
-        $this->get('lichess.finisher')->outoftime($this->get('lichess.provider')->findPlayer($id));
-        $this->flush();
-
-        return new Response('ok');
-    }
-
     public function rematchAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
@@ -43,6 +23,7 @@ class PlayerController extends Controller
         } else {
             $this->get('lila')->rematchOffer($player->getGame());
         }
+        $this->flush();
 
         return new Response('ok');
     }

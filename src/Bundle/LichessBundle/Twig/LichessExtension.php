@@ -53,7 +53,7 @@ class LichessExtension extends Twig_Extension
             'lichess_debug_assets'      => 'debugAssets',
             'lichess_date'              => 'formatDate',
             'lichess_game_trials'       => 'getGameTrials',
-            'lichess_xhr_url_prefix'    => 'getXhrUrlPrefix',
+            'lichess_xhr_url_prefix'    => 'getSyncUrlPrefix',
             'lichess_user_setting'      => 'setting'
         );
 
@@ -157,7 +157,7 @@ class LichessExtension extends Twig_Extension
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 
-    public function getXhrUrlPrefix()
+    public function getSyncUrlPrefix()
     {
         return $this->container->getParameter('lichess.sync.path');
     }
@@ -171,7 +171,6 @@ class LichessExtension extends Twig_Extension
         $playerFullId = $player->getFullId();
         $generator    = $this->getUrlGenerator();
         $translator   = $this->getTranslator();
-        $locale       = $this->container->get('session')->getLocale();
 
         $data = array(
             'game' => array(
@@ -195,12 +194,12 @@ class LichessExtension extends Twig_Extension
                 'active' => $isOpponentActive,
             ),
             'url' => array(
-                'sync'      => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => $playerFullId)),
+                'sync'      => $this->getSyncUrlPrefix().'/move/'.array($gameId, $color, 9999999, $playerFullId),
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
-                'move'      => $this->getXhrUrlPrefix().$generator->generate('lichess_move', array('id' => $playerFullId)),
-                'say'       => $generator->generate('lichess_say', array('id' => $playerFullId)),
-                'outoftime' => $game->hasClock() ? $generator->generate('lichess_outoftime', array('id' => $playerFullId)) : null
+                'move'      => $this->getSyncUrlPrefix().'/move/'.$playerFullId,
+                'say'       => $this->getSyncUrlPrefix().'/talk/'.$playerFullId,
+                'outoftime' => $game->hasClock() ? $this->getSyncUrlPrefix().'/outoftime/'.$playerFullId : null
             ),
             'i18n' => array(
                 'Game Over'            => $translator->trans('Game Over'),
@@ -210,7 +209,7 @@ class LichessExtension extends Twig_Extension
             'possible_moves'  => $possibleMoves,
             'sync_latency'    => $this->container->getParameter('lichess.sync.latency') * 1000,
             'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime())),
-            'locale'          => $locale,
+            'locale'          => $this->container->get('session')->getLocale(),
             'debug'           => $this->container->getParameter('kernel.debug')
         );
 
@@ -254,7 +253,7 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $this->getXhrUrlPrefix().$generator->generate('lichess_sync', array('l' => $locale, 'id' => $gameId, 'color' => $color, 'version' => 9999999, 'playerFullId' => '')),
+                'sync'     => $this->getSyncUrlPrefix().'/sync'.implode('/', array($gameId, $color, 9999999)),
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')),
                 'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
             ),

@@ -66,9 +66,6 @@ class Finisher
                 $winner = $oftPlayer->getOpponent();
             }
             $this->finish($game, Game::OUTOFTIME, $winner);
-            $events = array(array('type' => 'end'), array('type' => 'possible_moves', 'possible_moves' => null));
-            $game->addEventsToStacks($events);
-            $this->logger->notice($player, 'Player:outoftime');
             return true;
         } else {
             throw new FinisherException($this->logger->formatPlayer($player, 'Player:outoftime too early or not applicable'));

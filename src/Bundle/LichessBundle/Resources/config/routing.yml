@@ -1,11 +1,3 @@
-lichess_move:
-    pattern:        /move/{id}
-    defaults:       { _controller: LichessBundle:Player:move }
-    requirements:   { id: "[\w\-]{12}" }
-lichess_say:
-    pattern:        /talk/{id}
-    defaults:       { _controller: LichessBundle:Player:say }
-    requirements:   { id: "[\w\-]{12}" }
 lichess_toggle_sound:
     pattern:        /toggle-sound
     defaults:       { _controller: LichessBundle:Main:toggleSound }
@@ -45,10 +37,6 @@ lichess_resign:
 lichess_abort:
     pattern:        /abort/{id}
     defaults:       { _controller: LichessBundle:Player:abort }
-    requirements:   { id: "[\w\-]{12}" }
-lichess_outoftime:
-    pattern:        /outoftime/{id}
-    defaults:       { _controller: LichessBundle:Player:outoftime }
     requirements:   { id: "[\w\-]{12}" }
 lichess_table:
     pattern:        /table/{id}/{color}/{playerFullId}
