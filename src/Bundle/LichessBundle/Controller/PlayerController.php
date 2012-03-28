@@ -181,18 +181,6 @@ class PlayerController extends Controller
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
     }
 
-    public function abortAction($id)
-    {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-        try {
-            $this->get('lichess.finisher')->abort($player);
-            $this->flush();
-            $this->get('lila')->end($player->getGame());
-        } catch (FinisherException $e) {}
-
-            return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
-    }
-
     public function tableAction($id, $color, $playerFullId)
     {
         if($playerFullId) {

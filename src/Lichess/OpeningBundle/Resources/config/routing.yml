@@ -31,8 +31,3 @@ lichess_lobby_message:
     pattern:        /chat
     defaults:       { _controller: LichessOpeningBundle:Hook:message }
     requirements:   { _method: POST }
-
-lichess_hook_poll:
-    pattern: /lobby/sync/{myHookId}
-    defaults: { _controller: LichessOpeningBundle:Hook:poll, myHookId: "" }
-    requirements: { myHookId: "([\w\-]{12}|)" }

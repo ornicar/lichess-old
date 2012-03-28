@@ -51,46 +51,6 @@ class Finisher
     }
 
     /**
-     * Ends the game if out of time
-     *
-     * @param Game $game
-     * @return void
-     */
-    public function outoftime(Player $player)
-    {
-        $game = $player->getGame();
-        if ($oftPlayer = $game->checkOutOfTime()) {
-            if ($this->hasTooFewMaterialToMate($oftPlayer->getOpponent())) {
-                $winner = null;
-            } else {
-                $winner = $oftPlayer->getOpponent();
-            }
-            $this->finish($game, Game::OUTOFTIME, $winner);
-            return true;
-        } else {
-            throw new FinisherException($this->logger->formatPlayer($player, 'Player:outoftime too early or not applicable'));
-        }
-    }
-
-    /**
-     * Tells if this player has too few material to mate
-     * if true, he cannot mate.
-     *
-     * @return boolean
-     */
-    private function hasTooFewMaterialToMate(Player $player)
-    {
-        $nbPieces = $player->getNbAlivePieces();
-        if (2 < $nbPieces) {
-            return false;
-        }
-        $pieces = PieceFilter::filterNotClass(PieceFilter::filterAlive($player->getPieces()), 'King');
-        $lastPiece = empty($pieces) ? null : $pieces[0];
-
-        return !$lastPiece || $lastPiece->isClass('Knight') || $lastPiece->isClass('Bishop');
-    }
-
-    /**
      * Resign this player opponent if possible
      *
      * @param Player $player
@@ -126,40 +86,6 @@ class Finisher
         else {
             $this->logger->warn($player, 'Player:claimDraw FAIL');
         }
-    }
-
-    /**
-     * The player aborts the game
-     *
-     * @param Player $player
-     * @return void
-     */
-    public function abort(Player $player)
-    {
-        $game = $player->getGame();
-        if(!$game->getIsAbortable()) {
-            $this->logger->warn($player, 'Player:abort non-abortable');
-            throw new FinisherException();
-        }
-        $this->finish($game, Game::ABORTED, null);
-    }
-
-    /**
-     * The player resigns and loses the game
-     *
-     * @param Player $player
-     * @return void
-     */
-    public function resign(Player $player)
-    {
-        $game = $player->getGame();
-        if(!$game->isResignable()) {
-            $this->logger->warn($player, 'Player:resign non-resignable');
-            throw new FinisherException();
-        }
-        $opponent = $player->getOpponent();
-
-        $this->finish($game, Game::RESIGN, $opponent);
     }
 
     protected function updateNbGames(Game $game)

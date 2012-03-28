@@ -21,9 +21,9 @@
     </div>
     <div class="lichess_control clearfix">
         {% if game.isAbortable %}
-            <a href="{{ path("lichess_abort", {'id': player.fullId} ) }}" class="lichess_abort">{{ "Abort game"|trans }}</a>
+            <a href="{{ lila_path("abort/" ~ player.fullId) }}" class="lichess_abort">{{ "Abort game"|trans }}</a>
         {% else %}
-        <a href="{{ path("lichess_resign", {'id': player.fullId} ) }}" class="lichess_resign" title="{{ "Give up"|trans }}">{{ "Resign"|trans }}</a>
+        <a href="{{ lila_path("resign/" ~ player.fullId) }}" class="lichess_resign" title="{{ "Give up"|trans }}">{{ "Resign"|trans }}</a>
             {% if player.canOfferDraw %}
                 <a class="offer_draw" href="{{ path("lichess_offer_draw", {"id": player.fullId} ) }}">{{ "Offer draw"|trans }}</a>
             {% endif %}

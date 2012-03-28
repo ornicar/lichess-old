@@ -54,6 +54,7 @@ class LichessExtension extends Twig_Extension
             'lichess_date'              => 'formatDate',
             'lichess_game_trials'       => 'getGameTrials',
             'lichess_xhr_url_prefix'    => 'getSyncUrlPrefix',
+            'lila_path'                 => 'lilaPath',
             'lichess_user_setting'      => 'setting'
         );
 
@@ -162,6 +163,11 @@ class LichessExtension extends Twig_Extension
         return $this->container->getParameter('lichess.sync.path');
     }
 
+    public function lilaPath($path)
+    {
+        return $this->container->getParameter('lichess.sync.path') . "/" . $path;
+    }
+
     public function renderGameData(Player $player, $possibleMoves, $isOpponentActive)
     {
         $game         = $player->getGame();
@@ -194,12 +200,12 @@ class LichessExtension extends Twig_Extension
                 'active' => $isOpponentActive,
             ),
             'url' => array(
-                'sync'      => $this->getSyncUrlPrefix().'/move/'.array($gameId, $color, 9999999, $playerFullId),
+                'sync'      => $this->lilaPath('move/'.array($gameId, $color, 9999999, $playerFullId)),
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
-                'move'      => $this->getSyncUrlPrefix().'/move/'.$playerFullId,
-                'say'       => $this->getSyncUrlPrefix().'/talk/'.$playerFullId,
-                'outoftime' => $game->hasClock() ? $this->getSyncUrlPrefix().'/outoftime/'.$playerFullId : null
+                'move'      => $this->lilaPath('move/'.$playerFullId),
+                'say'       => $this->lilaPath('talk/'.$playerFullId),
+                'outoftime' => $game->hasClock() ? $this->lilaPath('outoftime/'.$playerFullId) : null
             ),
             'i18n' => array(
                 'Game Over'            => $translator->trans('Game Over'),
@@ -253,7 +259,7 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $this->getSyncUrlPrefix().'/sync'.implode('/', array($gameId, $color, 9999999)),
+                'sync'     => $this->lilaPath('sync'.implode('/', array($gameId, $color, 9999999))),
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')),
                 'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
             ),

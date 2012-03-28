@@ -30,14 +30,6 @@ lichess_join_game:
     pattern:        /join/{id}
     defaults:       { _controller: LichessBundle:Game:join }
     requirements:   { id: "[\w\-]{8}" }
-lichess_resign:
-    pattern:        /resign/{id}
-    defaults:       { _controller: LichessBundle:Player:resign }
-    requirements:   { id: "[\w\-]{12}" }
-lichess_abort:
-    pattern:        /abort/{id}
-    defaults:       { _controller: LichessBundle:Player:abort }
-    requirements:   { id: "[\w\-]{12}" }
 lichess_table:
     pattern:        /table/{id}/{color}/{playerFullId}
     defaults:       { _controller: LichessBundle:Player:table, playerFullId "" }
