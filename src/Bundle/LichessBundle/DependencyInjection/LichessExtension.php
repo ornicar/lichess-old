@@ -20,7 +20,6 @@ class LichessExtension extends Extension
         $loader->load('model.xml');
         $loader->load('provider.xml');
         $loader->load('lila.xml');
-        $loader->load('messenger.xml');
         foreach ($config['feature'] as $feature => $enabled) {
             if ($enabled) $loader->load($feature.'.xml');
         }

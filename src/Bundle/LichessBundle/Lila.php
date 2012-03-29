@@ -25,11 +25,12 @@ class Lila
     }
 
     // int auth 0 or 1
-    public function lobbyPreload($auth, $id = null)
+    public function lobbyPreload($auth, $id = null, $canSeeChat = false)
     {
         $path = $id ? 'lobby/preload/' . $id : 'lobby/preload';
+        $messageId = $canSeeChat ? 0 : -1;
 
-        return $this->get($path . '?auth=' . $auth);
+        return $this->get($path . '?auth=' . $auth . '&messageId=' . $messageId);
     }
 
     public function lobbyCreate($hookOwnerId)
@@ -76,11 +77,10 @@ class Lila
         ));
     }
 
-    public function drawAccept(Player $player, $message)
+    // used by the GameFixCommand
+    public function outoftime(Player $player)
     {
-        $this->post('draw-accept/' . $this->gameColorUrl($player), array(
-            "messages" => $message
-        ));
+        $this->post('outoftime/' . $player->getFullId());
     }
 
     public function start(Game $game)
@@ -88,6 +88,11 @@ class Lila
         $this->post('start/' . $game->getId(), array(
             "entry" => $this->encodeLobbyEntry($game)
         ));
+    }
+
+    public function renderMessages(Game $game)
+    {
+        return $this->get('room/' .$game->getId());
     }
 
     public function possibleMoves(Player $player)

@@ -28,6 +28,7 @@ class Joiner
         }
 
         $this->playerBlamer->blame($player);
+
         return $this->starter->start($game);
     }
 }

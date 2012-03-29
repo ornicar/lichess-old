@@ -30,66 +30,9 @@ class Board
         }
     }
 
-    public function move(Piece $piece, $x, $y)
-    {
-        unset($this->pieces[$piece->getSquareKey()]);
-        $piece->setX($x);
-        $piece->setY($y);
-        $this->pieces[$piece->getSquareKey()] = $piece;
-    }
-
-    public function castle(King $king, Rook $rook, $kingX, $rookX)
-    {
-        unset($this->pieces[$king->getSquareKey()]);
-        unset($this->pieces[$rook->getSquareKey()]);
-        $king->setX($kingX);
-        $rook->setX($rookX);
-        $this->pieces[$king->getSquareKey()] = $king;
-        $this->pieces[$rook->getSquareKey()] = $rook;
-    }
-
-    public function remove(Piece $piece)
-    {
-        unset($this->pieces[$piece->getSquareKey()]);
-    }
-
-    public function add(Piece $piece)
-    {
-        $this->pieces[$piece->getSquareKey()] = $piece;
-    }
-
     public function setGame(Game $game)
     {
         $this->game = $game;
-    }
-
-    /**
-     * Dump the game to visual block notation like:
-r bqkb r
- ppp ppp
-p n  n
-    p
-B   P
-     N
-PPPP PPP
-RNBQK  R
-    */
-    public function dump()
-    {
-        $string = "\n";
-        for($y=8; $y>0; $y--) {
-            for($x=1; $x<9; $x++) {
-                if($piece = $this->getPieceByPos($x, $y)) {
-                    $string .= $piece->getForsyth();
-                }
-                else {
-                    $string .= ' ';
-                }
-            }
-            $string .= "\n";
-        }
-
-        return $string;
     }
 
     public function getGame()
@@ -192,28 +135,6 @@ RNBQK  R
         }
 
         return $squares;
-    }
-
-    /**
-     * removes non existing or duplicated square
-     */
-    public function cleanSquares(array $squares, $passedKeys = array())
-    {
-        foreach($squares as $it => $square) {
-            if($square instanceof Square) {
-                $key = $square->getKey();
-            } else {
-                unset($squares[$it]);
-                continue;
-            }
-            if(in_array($key, $passedKeys)) {
-                unset($squares[$it]);
-            } else {
-                $passedKeys[] = $key;
-            }
-        }
-
-        return array_values($squares);
     }
 
     public static function posToKey($x, $y)

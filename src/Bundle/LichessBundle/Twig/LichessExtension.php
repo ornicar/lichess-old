@@ -17,6 +17,7 @@ use Bundle\LichessBundle\Notation\Forsyth;
 class LichessExtension extends Twig_Extension
 {
     protected $container;
+    protected $lilaBasePath;
     protected $dateFormatter;
 
     /**
@@ -27,6 +28,7 @@ class LichessExtension extends Twig_Extension
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->lilaBasePath = $container->getParameter('lichess.sync.path');
     }
 
     /**
@@ -48,12 +50,9 @@ class LichessExtension extends Twig_Extension
             'lichess_user_text'         => 'userText',
             'lichess_shorten'           => 'shorten',
             'lichess_current_url'       => 'getCurrentUrl',
-            'lichess_room_message'      => 'roomMessage',
-            'lichess_room_messages'     => 'roomMessages',
             'lichess_debug_assets'      => 'debugAssets',
             'lichess_date'              => 'formatDate',
             'lichess_game_trials'       => 'getGameTrials',
-            'lichess_xhr_url_prefix'    => 'getSyncUrlPrefix',
             'lila_path'                 => 'lilaPath',
             'lichess_user_setting'      => 'setting'
         );
@@ -158,14 +157,9 @@ class LichessExtension extends Twig_Extension
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 
-    public function getSyncUrlPrefix()
-    {
-        return $this->container->getParameter('lichess.sync.path');
-    }
-
     public function lilaPath($path)
     {
-        return $this->container->getParameter('lichess.sync.path') . "/" . $path;
+        return $this->lilaBasePath . "/" . $path;
     }
 
     public function renderGameData(Player $player, $possibleMoves, $isOpponentActive)
@@ -200,7 +194,7 @@ class LichessExtension extends Twig_Extension
                 'active' => $isOpponentActive,
             ),
             'url' => array(
-                'sync'      => $this->lilaPath('move/'.array($gameId, $color, 9999999, $playerFullId)),
+                'sync'      => $this->lilaPath('sync/'.implode("/", array($gameId, $color, 9999999, $playerFullId))),
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'move'      => $this->lilaPath('move/'.$playerFullId),
@@ -390,21 +384,6 @@ class LichessExtension extends Twig_Extension
     public function getCurrentUrl()
     {
         return isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'http://test/';
-    }
-
-    public function roomMessage(array $message)
-    {
-        return $this->container->get('lichess.renderer.room_message')->renderRoomMessage($message);
-    }
-
-    public function roomMessages(array $messages)
-    {
-        $html = '';
-        foreach($messages as $message) {
-            $html .= $this->roomMessage($message);
-        }
-
-        return $html;
     }
 
     /**

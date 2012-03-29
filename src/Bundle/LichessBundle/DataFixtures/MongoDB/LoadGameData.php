@@ -32,7 +32,6 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
         $this->aiStarter          = $container->get('lichess.starter.ai');
         $this->friendStarter      = $container->get('lichess.starter.friend');
         $this->manipulatorFactory = $container->get('lichess.manipulator_factory');
-        $this->finisher           = $container->get('lichess.finisher');
         if ($container->get('lichess.repository.game')->getNbGames() > 1000) {
             throw new \Exception('Refuse to erase prod data');
         }
@@ -149,6 +148,6 @@ class LoadGameData implements FixtureInterface, OrderedFixtureInterface, Contain
 
     protected function win(Game $game, $color = 'white')
     {
-        $this->finisher->finish($game, Game::MATE, $game->getPlayer($color));
+        //$this->finisher->finish($game, Game::MATE, $game->getPlayer($color));
     }
 }

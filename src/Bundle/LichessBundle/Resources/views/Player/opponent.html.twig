@@ -7,6 +7,6 @@
     <div class="username {{ status }}">{{ lichess_link_player(opponent, 'blank_if_play')}}</div>
     {% if opponentActivity == 0 and game.isPlayable %}
         {{ "The other player has left the game. You can force resignation, or wait for him."|trans }}<br />
-        <a title="{{ "Make your opponent resign"|trans }}" class="force_resignation" href="{{ path("lichess_force_resignation", {"id": playerFullId} ) }}">{{ "Force resignation"|trans }}</a>
+        <a title="{{ "Make your opponent resign"|trans }}" class="force_resignation" href="{{ lila_path("force-resign/" ~ playerFullId) }}">{{ "Force resignation"|trans }}</a>
     {% endif %}
 {% endif %}

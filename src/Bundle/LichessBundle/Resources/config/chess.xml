@@ -9,10 +9,6 @@
     </parameters>
 
     <services>
-        <service id="lichess.messenger" class="Bundle\LichessBundle\Chess\Messenger">
-            <argument type="service" id="lichess.repository.room" />
-        </service>
-
         <service id="lichess.rematcher" class="Bundle\LichessBundle\Chess\Rematcher">
             <argument type="service" id="lichess.starter.game" />
             <argument type="service" id="lichess.logger" />
@@ -23,18 +19,8 @@
 
         <service id="lichess.generator" class="Bundle\LichessBundle\Chess\Generator" />
 
-        <service id="lichess.finisher" class="Bundle\LichessBundle\Chess\Finisher">
-            <argument type="service" id="lichess.elo.calculator" />
-            <argument type="service" id="lichess.messenger" />
-            <argument type="service" id="lila" />
-            <argument type="service" id="lichess.elo.updater" />
-            <argument type="service" id="lichess.logger" />
-            <argument type="service" id="lichess.cheat.judge" />
-        </service>
-
         <service id="lichess.drawer" class="Bundle\LichessBundle\Chess\Drawer">
             <argument type="service" id="lichess.messenger" />
-            <argument type="service" id="lichess.finisher" />
             <argument type="service" id="lichess.logger" />
         </service>
     </services>

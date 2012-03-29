@@ -30,7 +30,7 @@
     <body data-sound-enabled="{{ lichess_user_setting('sound', true) ? 'on' : 'off' }}" data-sound-file="{{ asset('bundles/lichess/sound/alert.ogg') }}">
         <div id="site_description">{{ "Free online Chess game. Play Chess now in a clean interface. No registration, no ads, no plugin required. Play Chess with computer, friends or random opponents."|trans }}</div>
         <div id="top" class="clearfix">
-            <div id="connectivity" class="tipsyme" data-ping-url="{{ path('lichess_ping') }}" title="{{ "Network"|trans }}"></div>
+            <div id="connectivity" class="tipsyme" data-ping-url="{{ lila_path('ping') }}" title="{{ "Network"|trans }}"></div>
             <a title="{{ "Toggle sound"|trans }}" href="{{ path("lichess_toggle_sound") }}" id="sound_state" class="available sound_state_{{ lichess_user_setting('sound', true) ? 'on' : 'off' }}"><span></span></a>
             <div class="lichess_language">
                 <a class="toggle_language toggle"><span class="s16">{{ lichess_locale_name(app.session.locale) }}</span></a>

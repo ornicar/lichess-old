@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 use Bundle\LichessBundle\Document\Game;
-use Bundle\LichessBundle\Chess\FinisherException;
 
 /**
  * Fix games that reached an anormal state
@@ -41,15 +40,14 @@ class GameFixCommand extends BaseCommand
         $output->writeLn(sprintf('Found %d unfinished games', $nb));
 
         if($input->getOption('execute') && $nb) {
-            $finisher = $this->getContainer()->get('lichess.finisher');
             foreach ($games as $game) {
                 if (!$game->hasClock()) {
                     continue;
                 }
                 $output->writeLn(sprintf('Finish %s', $this->generateUrl($game->getId())));
                 try {
-                    $finisher->outoftime($game->getCreator());
-                } catch (FinisherException $e) {
+                    $lila->outoftime($game->getCreator());
+                } catch (\Exception $e) {
                     $output->writeLn($e->getMessage());
                 }
             }

@@ -23,15 +23,6 @@ class MainController extends Controller
         )), 200, array('content-type' => 'text/plain'));
     }
 
-    public function howManyGamesNowAction()
-    {
-      return new Response(
-        $this->container->get('lichess.repository.game')->countPlaying(),
-        200,
-        array('content-type' => 'text/plain')
-      );
-    }
-
     private function settings()
     {
         return $this->get('lichess_user.settings');

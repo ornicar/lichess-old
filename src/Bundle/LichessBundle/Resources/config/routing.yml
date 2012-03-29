@@ -57,14 +57,6 @@ lichess_rematch:
     pattern:        /rematch/{id}
     defaults:       { _controller: LichessBundle:Player:rematch }
     requirements:   { id: "[\w\-]{12}" }
-lichess_force_resignation:
-    pattern:        /force-resign/{id}
-    defaults:       { _controller: LichessBundle:Player:forceResign }
-    requirements:   { id: "[\w\-]{12}" }
-lichess_claim_draw:
-    pattern:        /claim-draw/{id}
-    defaults:       { _controller: LichessBundle:Player:claimDraw }
-    requirements:   { id: "[\w\-]{12}" }
 lichess_offer_draw:
     pattern:        /offer-draw/{id}
     defaults:       { _controller: LichessBundle:Player:offerDraw }
@@ -112,12 +104,6 @@ lichess_api_new:
 lichess_status:
     pattern:        /status
     defaults:       { _controller: LichessBundle:Main:status }
-lichess_how_many_games_now:
-    pattern:        /how-many-games-now
-    defaults:       { _controller: LichessBundle:Main:howManyGamesNow }
-lichess_ping:
-    pattern:        /lila/ping
-    defaults:       { _controller: LichessBundle:Boost:ping }
 lichess_wiki_index:
     pattern:        /wiki
     defaults:       { _controller: LichessBundle:Wiki:index }

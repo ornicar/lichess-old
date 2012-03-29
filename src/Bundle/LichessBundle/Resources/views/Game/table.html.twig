@@ -32,7 +32,7 @@
     {% if player.isMyTurn and game.isThreefoldRepetition %}
     <div class="lichess_claim_draw_zone">
         {{ "Threefold repetition"|trans }}.&nbsp;
-        <a class="lichess_claim_draw" href="{{ path("lichess_claim_draw", {"id": player.fullId} ) }}">{{ "Claim a draw"|trans }}</a>
+        <a class="lichess_claim_draw" href="{{ lila_path("claim-draw/" ~ player.fullId) }}">{{ "Claim a draw"|trans }}</a>
     </div>
     {% elseif player.isOfferingDraw %}
     <div class="offered_draw">

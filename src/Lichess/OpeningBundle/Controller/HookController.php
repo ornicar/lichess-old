@@ -22,7 +22,7 @@ class HookController extends Controller
 
         return $this->render('LichessOpeningBundle::index.html.twig', array(
             'auth' => $auth,
-            'preload' => $this->get('lila')->lobbyPreload($auth)
+            'preload' => $this->get('lila')->lobbyPreload($auth, null, $this->canSeeChat()),
         ));
     }
 
@@ -76,7 +76,7 @@ class HookController extends Controller
         return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array(
             'auth' => $auth,
             'myHookId' => $id,
-            'preload' => $this->get('lila')->lobbyPreload($auth, $id)
+            'preload' => $this->get('lila')->lobbyPreload($auth, $id, $this->canSeeChat())
         ));
     }
 
@@ -143,6 +143,13 @@ class HookController extends Controller
         $this->get('lila')->lobbyJoin($player);
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
+    }
+
+    private function canSeeChat()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        return $user instanceof User && $user->canSeeChat();
     }
 
     protected function renderJson($data)

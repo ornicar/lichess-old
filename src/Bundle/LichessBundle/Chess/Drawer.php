@@ -9,14 +9,10 @@ use LogicException;
 
 class Drawer
 {
-    protected $messenger;
-    protected $finisher;
     protected $logger;
 
-    public function __construct(Messenger $messenger, Finisher $finisher, Logger $logger)
+    public function __construct(Logger $logger)
     {
-        $this->messenger = $messenger;
-        $this->finisher  = $finisher;
         $this->logger    = $logger;
     }
 
@@ -36,7 +32,7 @@ class Drawer
                 }
                 $player->setIsOfferingDraw(true);
 
-                return $this->messenger->addSystemMessage($game, 'Draw offer sent');
+                return 'Draw offer sent';
             } else {
                 $this->logger->warn($player, 'Player:offerDraw already offered');
             }
@@ -56,26 +52,9 @@ class Drawer
         if($player->getOpponent()->getIsOfferingDraw()) {
             $player->getOpponent()->setIsOfferingDraw(false);
 
-            return $this->messenger->addSystemMessage($game, 'Draw offer declined');
+            return 'Draw offer declined';
         } else {
             $this->logger->warn($player, 'Player:declineDrawOffer no offered draw');
-        }
-
-        return false;
-    }
-
-    /**
-     * The player accepts the opponent draw offer
-     */
-    public function accept(Player $player)
-    {
-        $game = $player->getGame();
-        if($player->getOpponent()->getIsOfferingDraw()) {
-            $this->finisher->finish($game, Game::DRAW, null);
-
-            return $this->messenger->addSystemMessage($game, 'Draw offer accepted');
-        } else {
-            $this->logger->warn($player, 'Player:acceptDrawOffer no offered draw');
         }
 
         return false;
@@ -89,7 +68,7 @@ class Drawer
         $game = $player->getGame();
         if($player->getIsOfferingDraw()) {
             $player->setIsOfferingDraw(false);
-            return $this->messenger->addSystemMessage($game, 'Draw offer canceled');
+            return 'Draw offer canceled';
         } else {
             $this->logger->warn($player, 'Player:cancelDrawOffer no offered draw');
         }
