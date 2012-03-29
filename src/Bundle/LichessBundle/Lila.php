@@ -48,10 +48,11 @@ class Lila
         $this->post('lobby/alive/' . $hookOwnerId);
     }
 
-    public function lobbyJoin(Player $player)
+    public function lobbyJoin(Player $player, array $messages)
     {
         $this->post('lobby/join/' . $this->gameColorUrl($player), array(
-            "entry" => $this->encodeLobbyEntry($player->getGame())
+            "entry" => $this->encodeLobbyEntry($player->getGame()),
+            "messages" => $this->encodeMessages($messages)
         ));
     }
 
@@ -127,13 +128,14 @@ class Lila
         $this->reloadTable($game);
     }
 
-    public function rematchAccept(Player $player, Game $nextGame)
+    public function rematchAccept(Player $player, Game $nextGame, array $messages)
     {
         // tell players to move to next game
         $this->post('rematch-accept/' . $this->gameColorUrl($player) . '/' . $nextGame->getId(), array(
             "whiteRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('black')->getFullId())),
             "blackRedirect" => $this->url('lichess_player', array('id' => $nextGame->getPlayer('white')->getFullId())),
-            "entry" => $this->encodeLobbyEntry($nextGame)
+            "entry" => $this->encodeLobbyEntry($nextGame),
+            "messages" => $this->encodeMessages($messages)
         ));
     }
 

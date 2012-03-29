@@ -20,7 +20,6 @@
         <service id="lichess.generator" class="Bundle\LichessBundle\Chess\Generator" />
 
         <service id="lichess.drawer" class="Bundle\LichessBundle\Chess\Drawer">
-            <argument type="service" id="lichess.messenger" />
             <argument type="service" id="lichess.logger" />
         </service>
     </services>

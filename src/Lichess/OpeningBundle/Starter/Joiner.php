@@ -24,7 +24,7 @@ class Joiner
         $game = $player->getGame();
 
         if($game->getIsStarted()) {
-            throw new InvalidArgumentException('Cannot join started game');
+            return false;
         }
 
         $this->playerBlamer->blame($player);

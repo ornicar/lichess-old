@@ -54,14 +54,15 @@ class Rematcher
         if ($nextGame = $game->getNext()) {
             $nextOpponent = $nextGame->getPlayer($player->getColor());
             $nextPlayer   = $nextOpponent->getOpponent();
+            $messages = array();
         } else {
             $nextOpponent = $this->gameGenerator->createReturnGame($opponent);
             $nextPlayer   = $nextOpponent->getOpponent();
             $nextGame     = $nextOpponent->getGame();
-            $this->starter->start($nextGame);
+            $messages = $this->starter->start($nextGame);
         }
         $this->objectManager->persist($nextGame);
 
-        return $nextGame;
+        return array($nextGame, $messages);
     }
 }

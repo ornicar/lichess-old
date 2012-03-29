@@ -42,12 +42,12 @@
     {% elseif player.opponent.isOfferingDraw %}
     <div class="offered_draw">
         {{ "Your opponent offers a draw"|trans }}.<br />
-        <a href="{{ path("lichess_accept_draw_offer", {"id": player.fullId} ) }}">{{ "Accept"|trans }}</a>&nbsp;
+        <a href="{{ lila_path("draw-accept/" ~ player.fullId) }}">{{ "Accept"|trans }}</a>&nbsp;
         <a href="{{ path("lichess_decline_draw_offer", {"id": player.fullId} ) }}">{{ "Decline"|trans }}</a>
     </div>
     {% endif %}
 </div>
 {% if game.hasClock %}
     {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
-    <a class="moretime" href="{{ path("lichess_moretime", {'id': player.fullId}) }}" title="{{ "Give %nb% seconds"|trans({"%nb%": 15}) }}"></a>
+    <a class="moretime" href="{{ lila_path("moretime/" ~ player.fullId) }}" title="{{ "Give %nb% seconds"|trans({"%nb%": 15}) }}"></a>
 {% endif %}

@@ -16,13 +16,13 @@ class PlayerController extends Controller
     public function rematchAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
-        $game = $this->get('lichess.rematcher')->rematch($player);
+        list($game, $messages) = $this->get('lichess.rematcher')->rematch($player);
+        $this->flush();
         if ($game) {
-            $this->get('lila')->rematchAccept($player, $game);
+            $this->get('lila')->rematchAccept($player, $game, $messages);
         } else {
             $this->get('lila')->rematchOffer($player->getGame());
         }
-        $this->flush();
 
         return new Response('ok');
     }
@@ -78,8 +78,12 @@ class PlayerController extends Controller
 
         if(!$game->getIsStarted()) {
             if ($this->get('lila')->getActivity($player->getOpponent()) > 0) {
-                $this->get('lichess.joiner')->join($player);
+                $messages = $this->get('lichess.joiner')->join($player);
+                if (!$messages) {
+                    return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
+                }
                 $this->flush();
+                $this->get('lila')->join($player, $messages);
             } else {
                 return $this->render('LichessBundle:Player:waitOpponent.html.twig', array('player' => $player));
             }

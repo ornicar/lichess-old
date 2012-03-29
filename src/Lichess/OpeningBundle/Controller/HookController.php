@@ -55,16 +55,6 @@ class HookController extends Controller
         return $this->render('LichessOpeningBundle:Config:hook.html.twig', array('form' => $form->createView(), 'config' => $form->getData()));
     }
 
-    public function pollResultAction($myHookId, $state, $messageId, $entryId, $auth)
-    {
-        return $this->renderJson(array(
-            'state' => $newState,
-            'pool' => $this->get('lichess_opening.hooks_renderer')->render($auth, $myHookId),
-            'chat' => $messageId !== false ? $this->get('lichess_opening.messages_renderer')->render($messageId) : null,
-            'timeline' => $this->get('lichess_opening.timeline_renderer')->render($entryId)
-        ));
-    }
-
     public function hookAction($id)
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
@@ -136,11 +126,11 @@ class HookController extends Controller
             $game->setClock($clock);
         }
         $game->setIsRated($config->getMode());
-        $this->get('lichess.starter.game')->start($game);
+        $messages = $this->get('lichess.starter.game')->start($game);
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
         $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
-        $this->get('lila')->lobbyJoin($player);
+        $this->get('lila')->lobbyJoin($player, $messages);
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }

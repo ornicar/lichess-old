@@ -533,47 +533,6 @@ class Game
         return $this->hasClock() ? $this->getClock()->estimateTotalTime() : 1200; // defaults to 20 minutes
     }
 
-    /**
-     * Verify if one of the player exceeded his time limit,
-     * and terminate the game in this case
-     *
-     * @return boolean true if the game has been terminated
-     **/
-    public function checkOutOfTime()
-    {
-        if(!$this->hasClock()) {
-            throw new LogicException('This game has no clock');
-        }
-        if($this->getIsFinishedOrAborted()) {
-            return;
-        }
-        foreach($this->getPlayers() as $player) {
-            if($player->isMyTurn() && $this->getClock()->isOutOfTime($player->getColor())) {
-                return $player;
-            }
-        }
-    }
-
-    public function giveTime(Player $player, $seconds)
-    {
-        if(!$this->hasClock()) {
-            throw new LogicException('Cannot add time, the game has no clock');
-        }
-        if (!$this->getIsPlayable()) {
-            throw new LogicException('Cannot add time, the game is finished');
-        }
-        $clock = $this->getClock();
-        $color = $player->getColor();
-        $clock->giveTime($color, $seconds);
-        $this->addEventToStacks(array(
-            'type' => 'moretime',
-            'color' => $color,
-            'seconds' => $seconds
-        ));
-
-        return $clock->getRemainingTime($color);
-    }
-
     protected function getPositionHashArray()
     {
         return empty($this->positionHashes) ? array() : str_split($this->positionHashes, 5);
