@@ -16,7 +16,7 @@ use LogicException;
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
  *
  * @MongoDB\Document(
- *   collection="game2",
+ *   collection="game",
  *   repositoryClass="Bundle\LichessBundle\Document\GameRepository"
  * )
  * @MongoDB\Index(keys={"userIds"="asc", "createdAt"="desc"})
@@ -51,7 +51,7 @@ class Game
      * @var int
      * @MongoDB\Field(type="int")
      */
-    protected $variant;
+    protected $v;
 
     /**
      * The current state of the game, like CREATED, STARTED or MATE.
@@ -110,7 +110,7 @@ class Game
      * @var string
      * @MongoDB\Field(type="string")
      */
-    protected $creatorColor;
+    protected $cc;
 
     /**
      * Number of turns passed
@@ -238,7 +238,7 @@ class Game
     public function __construct($variant = self::VARIANT_STANDARD)
     {
         $this->generateId();
-        $this->setVariant($variant);
+        $this->v = $variant;
         $this->status   = self::CREATED;
         $this->players  = new ArrayCollection();
     }
@@ -436,7 +436,7 @@ class Game
      */
     public function getVariant()
     {
-        return $this->variant;
+        return $this->v;
     }
 
     /**
@@ -452,12 +452,12 @@ class Game
         if($this->getIsStarted()) {
             throw new LogicException('Can not change variant, game is already started');
         }
-        $this->variant = $variant;
+        $this->v = $variant;
     }
 
     public function isStandardVariant()
     {
-        return static::VARIANT_STANDARD === $this->variant;
+        return static::VARIANT_STANDARD === $this->v;
     }
 
     public function getVariantName()
@@ -949,7 +949,7 @@ class Game
      */
     public function getCreatorColor()
     {
-        return $this->creatorColor;
+        return $this->cc;
     }
 
     /**
@@ -958,7 +958,7 @@ class Game
      */
     public function setCreatorColor($creatorColor)
     {
-        $this->creatorColor = $creatorColor;
+        $this->cc = $creatorColor;
     }
 
     public function setCreator(Player $player)

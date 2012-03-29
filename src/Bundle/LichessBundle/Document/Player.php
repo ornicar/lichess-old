@@ -55,7 +55,7 @@ class Player
      * @var string
      * @MongoDB\Field(type="string")
      */
-    protected $color;
+    protected $c;
 
     /**
      * Whether the player won the game or not
@@ -63,7 +63,7 @@ class Player
      * @var boolean
      * @MongoDB\Field(type="boolean")
      */
-    protected $isWinner;
+    protected $w;
 
     /**
      * Whether this player is an Artificial intelligence or not
@@ -164,7 +164,7 @@ class Player
         if(!in_array($color, array('white', 'black'))) {
             throw new \InvalidArgumentException(sprintf('"%s" is not a valid player color'));
         }
-        $this->color = $color;
+        $this->c = $color;
         $this->generateId();
         $this->addEventToStack(array('type' => 'start'));
     }
@@ -533,7 +533,7 @@ class Player
      */
     public function getIsWinner()
     {
-        return (boolean) $this->isWinner;
+        return (boolean) $this->w;
     }
 
     /**
@@ -541,7 +541,7 @@ class Player
      */
     public function setIsWinner($isWinner)
     {
-        $this->isWinner = $isWinner;
+        $this->w = $isWinner;
     }
 
     /**
@@ -600,27 +600,27 @@ class Player
      */
     public function getColor()
     {
-        return $this->color;
+        return $this->c;
     }
 
     public function getColorLetter()
     {
-        return $this->color{0};
+        return $this->c{0};
     }
 
     public function getOpponent()
     {
-        return $this->getGame()->getPlayer('white' === $this->color ? 'black' : 'white');
+        return $this->getGame()->getPlayer('white' === $this->c ? 'black' : 'white');
     }
 
     public function isWhite()
     {
-        return 'white' === $this->color;
+        return 'white' === $this->c;
     }
 
     public function isBlack()
     {
-        return 'black' === $this->color;
+        return 'black' === $this->c;
     }
 
     public function __toString()
@@ -632,7 +632,7 @@ class Player
 
     public function isMyTurn()
     {
-        return $this->game->getTurns() %2 xor 'white' === $this->color;
+        return $this->game->getTurns() %2 xor 'white' === $this->c;
     }
 
     public function getBoard()
@@ -646,7 +646,7 @@ class Player
         foreach($this->getPieces() as $piece) {
             $letter = Piece::classToLetter($piece->getClass());
             if ($piece->getIsDead()) $letter = strtoupper($letter);
-            $ps[] = Board::keyToPiotr($piece->getSquareKey()) . $letter . $piece->getFirstMove();
+            $ps[] = Board::keyToPiotr($piece->getSquareKey()) . $letter;
         }
 
         $this->ps = implode(' ', $ps);
@@ -662,10 +662,6 @@ class Player
                 $pos = Board::keyToPos(Board::piotrToKey($p{0}));
                 $piece = new $class($pos[0], $pos[1]);
                 if (ctype_upper($p{1})) $piece->setIsDead(true);
-                $meta = substr($p, 2);
-                if (is_numeric($meta)) {
-                    $piece->setFirstMove((int)$meta);
-                }
                 $pieces[] = $piece;
             }
         }

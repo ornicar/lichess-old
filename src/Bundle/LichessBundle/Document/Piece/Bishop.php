@@ -10,14 +10,4 @@ class Bishop extends Piece
     {
         return 'Bishop';
     }
-
-    public function getBasicTargetKeys()
-    {
-        return array_merge(
-            $this->getKeysByProjection(1, 1),
-            $this->getKeysByProjection(1, -1),
-            $this->getKeysByProjection(-1, 1),
-            $this->getKeysByProjection(-1, -1)
-        );
-    }
 }

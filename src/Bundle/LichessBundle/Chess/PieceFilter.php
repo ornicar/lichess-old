@@ -76,20 +76,4 @@ class PieceFilter
     {
         return self::filterClass($pieces, ucfirst($type));
     }
-
-    /**
-     * Return pieces that never moved
-     *
-     * @return array of pieces
-     **/
-    public static function filterNotMoved(array $pieces)
-    {
-        foreach ($pieces as $index => $piece) {
-            if($piece->hasMoved()) {
-                unset($pieces[$index]);
-            }
-        }
-
-        return array_values($pieces);
-    }
 }

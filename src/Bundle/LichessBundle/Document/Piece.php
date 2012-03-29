@@ -29,13 +29,6 @@ abstract class Piece
     protected $isDead = null;
 
     /**
-     * When this piece moved for the first time (useful for en passant)
-     *
-     * @var int
-     */
-    protected $firstMove = null;
-
-    /**
      * the player that owns the piece
      *
      * @var Player
@@ -64,40 +57,9 @@ abstract class Piece
     }
 
     /**
-     * @return array
-     */
-    abstract public function getBasicTargetKeys();
-
-    /**
-     * Squares beeing attacked by the piece.
-     *
-     * @return array
-     */
-    public function getAttackTargetKeys()
-    {
-        return $this->getBasicTargetKeys();
-    }
-
-    /**
      * @return string
      */
     abstract public function getClass();
-
-    /**
-     * @return integer
-     */
-    public function getFirstMove()
-    {
-        return $this->firstMove;
-    }
-
-    /**
-     * @param integer
-     */
-    public function setFirstMove($firstMove)
-    {
-        $this->firstMove = $firstMove;
-    }
 
     /**
      * @return boolean
@@ -237,11 +199,6 @@ abstract class Piece
     public function getColor()
     {
         return $this->color;
-    }
-
-    public function hasMoved()
-    {
-        return null !== $this->firstMove;
     }
 
     public function toDebug()

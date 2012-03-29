@@ -15,7 +15,7 @@ class Clock
      * @var int
      * @MongoDB\Field(type="int")
      */
-    private $limit = null;
+    private $l = null;
 
     /**
      * Current player color
@@ -23,7 +23,7 @@ class Clock
      * @var string
      * @MongoDB\Field(type="string")
      */
-    private $color = null;
+    private $c = null;
 
     /**
      * Times for white player
@@ -31,7 +31,7 @@ class Clock
      * @var int
      * @MongoDB\Float
      */
-    private $white = null;
+    private $w = null;
 
     /**
      * Times for black player
@@ -39,7 +39,7 @@ class Clock
      * @var int
      * @MongoDB\Float
      */
-    private $black = null;
+    private $b = null;
 
     /**
      * Internal timer
@@ -61,15 +61,15 @@ class Clock
      * @var int
      * @MongoDB\Field(type="int")
      */
-    protected $increment;
+    protected $i;
 
     public function __construct($limit, $increment)
     {
-        $this->limit = (int) $limit;
-        $this->increment = (int) $increment;
+        $this->l = (int) $limit;
+        $this->i = (int) $increment;
 
-        if (0 === $this->limit) {
-            $this->limit = max(2, $this->increment);
+        if (0 === $this->l) {
+            $this->l = max(2, $this->i);
         }
 
         $this->reset();
@@ -92,67 +92,10 @@ class Clock
      **/
     public function reset()
     {
-        $this->color = 'white';
-        $this->white = 0;
-        $this->black = 0;
+        $this->c = 'white';
+        $this->w = 0;
+        $this->b = 0;
         $this->timer = null;
-    }
-
-    /**
-     * Switch to next player
-     *
-     * @return null
-     **/
-    public function step()
-    {
-        if(!$this->isRunning()) {
-            throw new \LogicException('Can not step clock as it is not running');
-        }
-        // Get absolute time
-        $moveTime = microtime(true) - $this->timer;
-        // Substract http delay
-        $moveTime = max(0, $moveTime - static::HTTP_DELAY);
-        // Substract move bonus
-        $moveTime -= $this->increment;
-        // Update player time
-        $this->addTime($this->color, $moveTime);
-        $this->color = 'white' === $this->color ? 'black' : 'white';
-        $this->timer = microtime(true);
-    }
-
-    /**
-     * Start the clock now
-     * This gives white the time bonus if any.
-     *
-     * @return null
-     **/
-    public function start()
-    {
-        $this->addTime('white', - $this->increment);
-        $this->timer = microtime(true);
-    }
-
-    /**
-     * Stop the clock now
-     *
-     * @return null
-     **/
-    public function stop()
-    {
-        if($this->isRunning()) {
-            $this->addTime($this->color, microtime(true) - $this->timer);
-            $this->timer = null;
-        }
-    }
-
-    public function addTime($color, $time)
-    {
-        $this->setTime($color, round($this->getTime($color) + $time, 2));
-    }
-
-    public function giveTime($color, $time)
-    {
-        $this->setTime($color, round($this->getTime($color) - $time, 2));
     }
 
     /**
@@ -172,7 +115,7 @@ class Clock
      **/
     public function getRemainingTime($color)
     {
-        $time = $this->limit - $this->getElapsedTime($color);
+        $time = $this->l - $this->getElapsedTime($color);
 
         return max(0, round($time, 3));
     }
@@ -186,7 +129,7 @@ class Clock
     {
         $time = $this->getTime($color);
 
-        if($this->isRunning() && $color === $this->color) {
+        if($this->isRunning() && $color === $this->c) {
             $time += microtime(true) - $this->timer;
         }
 
@@ -203,15 +146,8 @@ class Clock
 
     private function getTime($color)
     {
-        if ($color === 'white') return $this->white;
-        elseif ($color === 'black') return $this->black;
-        else throw new \Exception("Wrong color $color");
-    }
-
-    private function setTime($color, $time)
-    {
-        if ($color === 'white') $this->white = $time;
-        elseif ($color === 'black') $this->black = $time;
+        if ($color === 'white') return $this->w;
+        elseif ($color === 'black') return $this->b;
         else throw new \Exception("Wrong color $color");
     }
 
@@ -221,17 +157,7 @@ class Clock
      */
     public function getIncrement()
     {
-        return $this->increment;
-    }
-
-    /**
-     * Set increment
-     * @param  int
-     * @return null
-     */
-    public function setIncrement($increment)
-    {
-        $this->increment = (int) $increment;
+        return $this->i;
     }
 
     /**
@@ -240,17 +166,7 @@ class Clock
      */
     public function getColor()
     {
-        return $this->color;
-    }
-
-    /**
-     * Set color
-     * @param  string
-     * @return null
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
+        return $this->c;
     }
 
     /**
@@ -260,7 +176,7 @@ class Clock
      **/
     public function isEnabled()
     {
-        return $this->limit > 0;
+        return $this->l > 0;
     }
 
     /**
@@ -279,7 +195,7 @@ class Clock
      */
     public function getLimit()
     {
-        return $this->limit;
+        return $this->l;
     }
 
     public function getLimitInMinutes()
@@ -294,8 +210,8 @@ class Clock
     public function getTimes()
     {
         return array(
-            'white' => $this->white,
-            'black' => $this->black
+            'white' => $this->w,
+            'black' => $this->b
         );
     }
 
