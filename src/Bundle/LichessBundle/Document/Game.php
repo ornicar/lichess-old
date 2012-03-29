@@ -1112,9 +1112,9 @@ class Game
 
         foreach($this->getPlayers() as $player) {
             $player->setGame($this);
+            $color = $player->getColor();
             foreach($player->getPieces() as $piece) {
-                $piece->setPlayer($player);
-                $piece->setBoard($this->board);
+                $piece->setColor($color);
             }
         }
     }

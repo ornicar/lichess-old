@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Chess\Generator;
 
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
+use Bundle\LichessBundle\Document\Piece;
 
 abstract class PositionGenerator
 {
@@ -13,21 +14,9 @@ abstract class PositionGenerator
     {
         $_pieces = array();
         foreach($pieces as $piece) {
-            $_pieces[] = $this->createPiece($piece->getClass(), $piece->getX(), 9-$piece->getY());
+            $_pieces[] = new Piece($piece->getX(), 9-$piece->getY(), $piece->getClass());
         }
 
         return $_pieces;
-    }
-
-    /**
-     * @return Piece
-     */
-    protected function createPiece($class, $x, $y)
-    {
-        $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
-
-        $piece = new $fullClass($x, $y);
-
-        return $piece;
     }
 }

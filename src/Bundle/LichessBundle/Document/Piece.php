@@ -3,44 +3,31 @@
 namespace Bundle\LichessBundle\Document;
 
 use Bundle\LichessBundle\Chess\Board;
-use Bundle\LichessBundle\Chess\PieceFilter;
 
-abstract class Piece
+final class Piece
 {
     /**
      * X position
      *
      * @var int
      */
-    protected $x = null;
+    private $x = null;
 
     /**
      * Y position
      *
      * @var int
      */
-    protected $y = null;
+    private $y = null;
+
+    private $class;
 
     /**
      * Whether the piece is dead or not
      *
      * @var boolean
      */
-    protected $isDead = null;
-
-    /**
-     * the player that owns the piece
-     *
-     * @var Player
-     */
-    protected $player = null;
-
-    /**
-     * Performance pointer to the player game board
-     *
-     * @var Board
-     */
-    protected $board = null;
+    private $isDead = null;
 
     /**
      * Cache of the player color
@@ -48,18 +35,21 @@ abstract class Piece
      *
      * @var string
      */
-    protected $color = null;
+    private $color = null;
 
-    public function __construct($x, $y)
+    public function __construct($x, $y, $class)
     {
         $this->x = $x;
         $this->y = $y;
+        $this->class = $class;
     }
 
     /**
      * @return string
      */
-    abstract public function getClass();
+    public function getClass() {
+        return $this->class;
+    }
 
     /**
      * @return boolean
@@ -117,63 +107,9 @@ abstract class Piece
         $this->x = $x;
     }
 
-    /**
-     * @return Player
-     */
-    public function getPlayer()
+    public function setColor($color)
     {
-        return $this->player;
-    }
-
-    /**
-     * @param Player
-     */
-    public function setPlayer($player)
-    {
-        $this->player = $player;
-        $this->color = $player->getColor();
-    }
-
-    protected function getKeysByProjection($dx, $dy)
-    {
-        $keys = array();
-        $continue = true;
-        $x = $this->x;
-        $y = $this->y;
-
-        while($continue)
-        {
-            $x += $dx;
-            $y += $dy;
-            if($x>0 && $x<9 && $y>0 && $y<9)
-            {
-                $key = Board::posToKey($x, $y);
-                if ($piece = $this->board->getPieceByKey($key))
-                {
-                    if ($piece->getColor() !== $this->color)
-                    {
-                        $keys[] = $key;
-                    }
-
-                    $continue = false;
-                }
-                else
-                {
-                    $keys[] = $key;
-                }
-            }
-            else
-            {
-                $continue = false;
-            }
-        }
-
-        return $keys;
-    }
-
-    public function getSquare()
-    {
-        return $this->board->getSquareByKey(Board::posToKey($this->x, $this->y));
+        $this->color = $color;
     }
 
     public function getSquareKey()
@@ -181,31 +117,9 @@ abstract class Piece
         return Board::posToKey($this->x, $this->y);
     }
 
-    public function getGame()
-    {
-        return $this->player->getGame();
-    }
-
-    public function getBoard()
-    {
-        return $this->board;
-    }
-
-    public function setBoard(Board $board = null)
-    {
-        $this->board = $board;
-    }
-
     public function getColor()
     {
         return $this->color;
-    }
-
-    public function toDebug()
-    {
-        $pos = ($square = $this->getSquare()) ? $square->getKey() : 'no-pos';
-
-        return $this->getClass().' '.$this->getPlayer()->getColor().' in '.$pos;
     }
 
     public function __toString()

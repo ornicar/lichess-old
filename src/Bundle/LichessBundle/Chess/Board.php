@@ -4,8 +4,6 @@ namespace Bundle\LichessBundle\Chess;
 
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Piece;
-use Bundle\LichessBundle\Document\Piece\King;
-use Bundle\LichessBundle\Document\Piece\Rook;
 
 class Board
 {

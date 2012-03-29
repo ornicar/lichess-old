@@ -4,6 +4,7 @@ namespace Bundle\LichessBundle\Chess\Generator;
 
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Notation\Forsyth;
+use Bundle\LichessBundle\Document\Piece;
 
 class Chess960PositionGenerator extends PositionGenerator
 {
@@ -14,27 +15,27 @@ class Chess960PositionGenerator extends PositionGenerator
 
         // Bishop on black square
         $file = 2*mt_rand(1, 4) - 1;
-        $pieces[$file] = $this->createPiece('Bishop', $file, 1);
+        $pieces[$file] = new Piece($file, 1, 'Bishop');
 
         // Bishop on white square
         $file = 2*mt_rand(1, 4);
-        $pieces[$file] = $this->createPiece('Bishop', $file, 1);
+        $pieces[$file] = new Piece($file, 1, 'Bishop');
 
         // Queen and Knights
         foreach(array(6 => 'Queen', 5 => 'Knight', 4 => 'Knight') as $rand => $class) {
             $file = $this->getEmptyFile($pieces, mt_rand(1, $rand));
-            $pieces[$file] = $this->createPiece($class, $file, 1);
+            $pieces[$file] = new Piece($file, 1, $class);
         }
 
         // Rooks and King
         foreach(array('Rook', 'King', 'Rook') as $class) {
             $file = $this->getEmptyFile($pieces, 1);
-            $pieces[$file] = $this->createPiece($class, $file, 1);
+            $pieces[$file] = new Piece($file, 1, $class);
         }
 
         // Pawns
         for($it=1; $it<=8; $it++) {
-            $pieces[] = $this->createPiece('Pawn', $it, 2);
+            $pieces[] = new Piece($it, 2, 'Pawn');
         }
 
         $pieces = array_values($pieces);
@@ -42,7 +43,6 @@ class Chess960PositionGenerator extends PositionGenerator
         $player->getOpponent()->setPieces($this->mirrorPieces($pieces));
 
         $game->ensureDependencies();
-        $game->setInitialFen(Forsyth::export($game));
     }
 
     protected function getEmptyFile($pieces, $num)

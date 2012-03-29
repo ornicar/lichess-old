@@ -8,6 +8,7 @@ use Bundle\LichessBundle\Chess\Generator\PositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\StandardPositionGenerator;
 use Bundle\LichessBundle\Chess\Generator\Chess960PositionGenerator;
 use Bundle\LichessBundle\Notation\Forsyth;
+use Bundle\LichessBundle\Document\Piece;
 
 class Generator
 {
@@ -137,8 +138,7 @@ RNBQK  R
                     case 'q': $class = 'Queen'; break;
                     case 'k': $class = 'King'; break;
                 }
-                $fullClass = 'Bundle\\LichessBundle\\Document\\Piece\\'.$class;
-                $player->addPiece(new $fullClass($x, $y));
+                $player->addPiece(new Piece($x, $y, $class));
             }
         }
 

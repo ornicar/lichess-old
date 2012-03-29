@@ -3,6 +3,7 @@
 {% block robots %}noindex, nofollow{% endblock %}
 {% block title %}Play {{ player.id }} - {{ player.color }}{% endblock %}
 {% block content %}
+{{ game.initialFen }}
 <div class="lichess_game clearfix lichess_player_{{ player.color }} not_spectator">
     <div class="lichess_board_wrap">
         {{ lichess_game_board(player, checkSquareKey)|raw }}

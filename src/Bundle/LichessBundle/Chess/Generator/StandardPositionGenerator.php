@@ -3,6 +3,7 @@
 namespace Bundle\LichessBundle\Chess\Generator;
 
 use Bundle\LichessBundle\Document\Game;
+use Bundle\LichessBundle\Document\Piece;
 
 class StandardPositionGenerator extends PositionGenerator
 {
@@ -13,8 +14,8 @@ class StandardPositionGenerator extends PositionGenerator
 
         foreach(explode(' ', 'Rook Knight Bishop Queen King Bishop Knight Rook') as $x => $class)
         {
-            $pieces[] = $this->createPiece('Pawn', $x+1, 2);
-            $pieces[] = $this->createPiece($class, $x+1, 1);
+            $pieces[] = new Piece($x+1, 2, 'Pawn');
+            $pieces[] = new Piece($x+1, 1, $class);
         }
 
         $player->setPieces($pieces);
@@ -27,7 +28,7 @@ class StandardPositionGenerator extends PositionGenerator
     {
         $pieces = array();
         $player = $game->getPlayer('white');
-        $pieces[] = $this->createPiece('Pawn', 1, 2);
+        $pieces[] = new Piece(1, 2, 'Pawn');
         $player->setPieces($pieces);
         $player->getOpponent()->setPieces($this->mirrorPieces($pieces));
 

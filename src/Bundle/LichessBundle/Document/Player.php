@@ -565,18 +565,8 @@ class Player
 
     public function addPiece(Piece $piece)
     {
-        $piece->setPlayer($this);
+        $piece->setColor($this->getColor());
         $this->pieces[] = $piece;
-    }
-
-    public function removePiece(Piece $piece)
-    {
-        foreach ($this->pieces as $i => $p) {
-            if ($p === $piece) {
-                unset($this->pieces[$i]);
-                break;
-            }
-        }
     }
 
     /**
@@ -656,11 +646,10 @@ class Player
     {
         $pieces = array();
         if (!empty($this->ps)) {
-            $baseClass = 'Bundle\\LichessBundle\\Document\\Piece\\';
             foreach(explode(' ', $this->ps) as $p) {
-                $class = $baseClass . Piece::letterToClass(strtolower($p{1}));
                 $pos = Board::keyToPos(Board::piotrToKey($p{0}));
-                $piece = new $class($pos[0], $pos[1]);
+                $class = Piece::letterToClass(strtolower($p{1}));
+                $piece = new Piece($pos[0], $pos[1], $class);
                 if (ctype_upper($p{1})) $piece->setIsDead(true);
                 $pieces[] = $piece;
             }
