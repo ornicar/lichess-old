@@ -9,8 +9,3 @@ doctrine_mongodb:
 
 assetic:
     debug: false
-
-lichess:
-    ai:
-        crafty:
-            executable_path: /usr/games/crafty

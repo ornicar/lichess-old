@@ -23,10 +23,11 @@ if ($mode == 'all' || $mode == 'noass') {
     if ($mode != 'noass') show_run("Dumping assets", "php app/console --env=$env assetic:dump");
     // rebuildBootstrap();
     maintenance(true);
-    foreach (array('app', 'xhr') as $app) {
+    foreach (array('app') as $app) {
         clearCache($app, $env, true);
     }
     show_run("Clearing APC cache", "php app/console --env=$env apc:clear");
+    show_run("Dumping translations", "php app/console --env=$env lichess:translation:dump");
     maintenance(false);
 } elseif ($mode == 'cc') {
     clearCache('app', $env, true);

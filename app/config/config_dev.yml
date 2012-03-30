@@ -14,10 +14,6 @@ web_profiler:
     toolbar: false
     intercept_redirects: false
 
-lichess:
-    sync:
-        path: /lila
-
 monolog:
     handlers:
         main:

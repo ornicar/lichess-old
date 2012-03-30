@@ -22,7 +22,7 @@ function read_arg(array $argv, $index, $default = null)
 
 function show_action($action)
 {
-    echo "  _ _      _                  \n | (_)    | |                 \n | |_  ___| |__   ___ ___ ___ \n | | |/ __| '_ \ / _ | __/ __|\n | | | (__| | | |  __|__ \__ \ \n |_|_|\___|_| |_|\___|___/___/";
+    echo "  _ _      _                  \n | (_)    | |                 \n | |_  ___| |__   ___ ___ ___ \n | | |/ __| '_ \ / _ | __/ __|\n | | | (__| | | |  __|__ \__ \ \n |_|_|\___|_| |_|\___|___/___/ lila";
 
     printf("\n\n %s\n| %s |\n %s", str_repeat('-', strlen($action)+2), $action, str_repeat('-', strlen($action)+2));
 }
@@ -49,5 +49,4 @@ function clearCache($app, $env, $warmup = true)
 function rebuildBootstrap()
 {
     show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php");
-    show_run("Copying  bootstrap", "cp app/bootstrap.* xhr/");
 }

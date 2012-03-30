@@ -11,7 +11,7 @@ echo "Setting the site in maintenance: " . $mode;
 if ($maintenance) $replace = array('#^/{2,}(include "maintenance.php";)#m', '$1');
 else $replace = array('#^(include "maintenance.php";)#m', '//$1');
 
-foreach (array('web/index.php', 'web/index_dev.php', 'web/xhr.php', 'web/xhr_dev.php') as $file) {
+foreach (array('web/index.php', 'web/index_dev.php') as $file) {
     if (file_exists($file)) {
         file_put_contents($file, preg_replace($replace[0], $replace[1], file_get_contents($file)));
     }

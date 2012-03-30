@@ -33,7 +33,7 @@ class Configuration
                 ->end()
                 ->arrayNode('sync')->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('path')->defaultValue('/xhr.php')->end()
+                        ->scalarNode('path')->defaultValue('/lila')->end()
                         ->scalarNode('latency')->defaultValue(7)->end()
                     ->end()
                 ->end()
