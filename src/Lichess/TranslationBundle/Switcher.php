@@ -32,13 +32,10 @@ class Switcher
     {
         $session = $request->getSession();
         $parts = explode('.', $request->getHost());
-        if (count($parts) === 3) {
-            $locale = $parts[0];
-            if ($locale == $session->getLocale()) {
-                return;
-            }
-            // not a language subdomain
-            if (strlen($locale) > 3) {
+        $locale = $parts[0];
+        $localeLen = strlen($locale);
+        if ($localeLen === 2 || $localeLen === 3) {
+            if ($locale === $session->getLocale()) {
                 return;
             }
             if ($this->manager->isAvailable($locale)) {
@@ -51,9 +48,10 @@ class Switcher
                 }
                 return;
             }
-            $host = $parts[1].'.'.$parts[2];
+            array_shift($parts);
+            $host = implode('.', $parts);
         } else {
-            $host = $parts[0].'.'.$parts[1];
+            $host = $request->getHost();
         }
 
         $locale = $request->getPreferredLanguage($this->manager->getAvailableLanguageCodes());
