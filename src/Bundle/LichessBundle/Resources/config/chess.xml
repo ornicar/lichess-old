@@ -22,5 +22,9 @@
         <service id="lichess.drawer" class="Bundle\LichessBundle\Chess\Drawer">
             <argument type="service" id="lichess.logger" />
         </service>
+
+        <service id="lichess.pgn_dumper" class="Bundle\LichessBundle\Notation\PgnDumper">
+            <argument type="service" id="router" />
+        </service>
     </services>
 </container>

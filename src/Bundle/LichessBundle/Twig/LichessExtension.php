@@ -278,8 +278,6 @@ class LichessExtension extends Twig_Extension
 
     public function renderGameFen(Game $game, User $user = null)
     {
-        $fenString = Forsyth::export($game, true);
-
         $player     = $game->getPlayerByUserOrCreator($user);
         $authUser   = $this->container->get('security.context')->getToken()->getUser();
         if ($authUser instanceof User && ($authPlayer = $game->getPlayerByUser($authUser))) {
@@ -292,7 +290,7 @@ class LichessExtension extends Twig_Extension
             $gameUrl,
             $this->getTranslator()->trans('View in full size'),
             $player->getColor(),
-            $fenString
+            Forsyth::export($game)
         );
     }
 

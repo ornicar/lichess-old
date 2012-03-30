@@ -178,7 +178,7 @@ class Game
      * @var nullable string
      * @MongoDB\Field(type="string")
      */
-    protected $csk;
+    protected $check;
 
     /**
      * Possible castles in forsyth format KQkq
@@ -266,7 +266,7 @@ class Game
 
     public function getCheckSquareKey()
     {
-        return $this->csk;
+        return $this->check;
     }
 
     public function getCastles()

@@ -9,6 +9,38 @@ use Bundle\LichessBundle\Chess\PieceFilter;
 class Forsyth
 {
     /**
+     * Transform a game to standard Forsyth Edwards Notation
+     * This only deals with piece positions, not game metadata
+     */
+    public static function export(Game $game)
+    {
+        $board = $game->getBoard();
+        $emptySquare = 0;
+        $forsyth = '';
+
+        for($y = 8; $y > 0; $y--) {
+            for($x = 1; $x < 9; $x++) {
+                if ($piece = $board->getPieceByPosNoCheck($x, $y)) {
+                    if ($emptySquare) {
+                        $forsyth .= $emptySquare;
+                        $emptySquare = 0;
+                    }
+                    $forsyth .= $piece->getForsyth();
+                } else {
+                    ++$emptySquare;
+                }
+            }
+            if ($emptySquare) {
+                $forsyth .= $emptySquare;
+                $emptySquare = 0;
+            }
+            $forsyth .= '/';
+        }
+
+        return trim($forsyth, '/');
+    }
+
+    /**
      * Create and position pieces of the game for the forsyth string
      *
      * @param Game $game
