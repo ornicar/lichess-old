@@ -29,7 +29,7 @@ class GameEndChart
 
     public function getRows()
     {
-        $cacheKey = 'lichess_game_end_chart';
+        $cacheKey = 'lichess2.game_end_chart';
         $data = apc_fetch($cacheKey);
         if (false === $data) {
             $ends = array(

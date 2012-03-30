@@ -4,7 +4,7 @@
 require_once __DIR__.'/base_script.php';
 
 $mode = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
-$testurl="http://en.lichess.org";
+$testurl="http://en.staging.lichess.org";
 $env = 'prod';
 
 if (!in_array($mode, array('all', 'trans', 'code', 'noass', 'cc'))) {
