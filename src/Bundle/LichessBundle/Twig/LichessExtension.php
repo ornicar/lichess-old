@@ -221,7 +221,7 @@ class LichessExtension extends Twig_Extension
         return max(0, min(1.2, (($time - 60) / 60) * 0.2));
     }
 
-    public function renderGameWatchData(Player $player, $possibleMoves)
+    public function renderGameWatchData(Player $player, $stackVersion, $possibleMoves)
     {
         $game       = $player->getGame();
         $gameId     = $game->getId();
@@ -243,7 +243,7 @@ class LichessExtension extends Twig_Extension
             ),
             'player' => array(
                 'color'     => $player->getColor(),
-                'version'   => $player->getStackVersion(),
+                'version'   => $stackVersion,
                 'spectator' => true,
                 'unique_id' => uniqid()
             ),

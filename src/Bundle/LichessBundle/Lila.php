@@ -29,6 +29,11 @@ class Lila
         return $this->get('show/' . $player->getFullId());
     }
 
+    public function playerVersion(Player $player)
+    {
+        return $this->get('player-version/' . $this->gameColorUrl($player));
+    }
+
     // int auth 0 or 1
     public function lobbyPreload($auth, $id = null, $canSeeChat = false)
     {
