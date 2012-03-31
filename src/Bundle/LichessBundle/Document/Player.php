@@ -169,13 +169,6 @@ class Player
         $this->addEventToStack(array('type' => 'start'));
     }
 
-    public function finish()
-    {
-        if(!empty($this->previousMoveTs)) {
-            $this->previousMoveTs = null;
-        }
-    }
-
     /**
      * Adds a time to the move times list
      */

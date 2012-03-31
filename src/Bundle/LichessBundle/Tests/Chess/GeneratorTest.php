@@ -87,17 +87,6 @@ EOF;
     /**
      * @depends testGameCreationStandard
      */
-    public function testGameGetWinner(Document\Game $game)
-    {
-        $this->assertNull($game->getWinner());
-
-        $game->setWinner($game->getPlayer('white'));
-        $this->assertSame($game->getPlayer('white'), $game->getWinner());
-    }
-
-    /**
-     * @depends testGameCreationStandard
-     */
     public function testGamePieces(Document\Game $game)
     {
         $this->assertEquals(32, count($game->getPieces()));

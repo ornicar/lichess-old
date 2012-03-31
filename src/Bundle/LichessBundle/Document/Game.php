@@ -324,19 +324,6 @@ class Game
         return $this->userIds;
     }
 
-    public function setWinner(Player $player)
-    {
-        $player->setIsWinner(true);
-        $player->getOpponent()->setIsWinner(null);
-
-        // Denormalization
-        if($user = $player->getUser()) {
-            $this->winnerUserId = (string) $user->getId();
-        } else {
-            $this->winnerUserId = false;
-        }
-    }
-
     public function incrementBlurs($color)
     {
         if ($this->getIsRated()) {
@@ -707,15 +694,6 @@ class Game
             $this->setIsRated(false);
         }
         $this->setStatus(static::STARTED);
-    }
-
-    public function finish()
-    {
-        $this->clearPositionHashes();
-
-        foreach ($this->getPlayers() as $p) {
-            $p->finish();
-        }
     }
 
     /**
