@@ -160,8 +160,8 @@ class Hook
     public function fromArray(array $data)
     {
         if(isset($data['clock'])) $this->hasClock = (boolean) $data['clock'];
-        if(isset($data['time'])) $this->time = $data['time'];
-        if(isset($data['increment'])) $this->increment = $data['increment'];
+        if(isset($data['time'])) $this->time = $this->hasClock ? $data['time'] : null;
+        if(isset($data['increment'])) $this->increment = $this->hasClock ? $data['increment'] : null;
         if(isset($data['variant'])) $this->variant = $data['variant'];
         if(isset($data['mode'])) $this->mode = $data['mode'];
         if(isset($data['color'])) $this->color = $data['color'];
