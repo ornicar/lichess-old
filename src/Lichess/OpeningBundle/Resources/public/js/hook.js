@@ -109,7 +109,7 @@ $(function() {
     };
 
     function renderPollData(data) {
-        if (data.redirect) {
+        if (typeof data.redirect != "undefined") {
             freeze();
             location.href = 'http://'+location.hostname+'/'+data.redirect;
         } else {
