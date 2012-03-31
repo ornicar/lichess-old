@@ -7,7 +7,7 @@ framework:
     csrf_protection: false
     session:
         default_locale: en
-        name:     lichess3
+        name:     lichess4
         lifetime: 72000
         auto_start:     true
         domain: .staging.lichess.org
