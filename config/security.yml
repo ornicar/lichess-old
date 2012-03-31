@@ -9,7 +9,7 @@ security:
         main:
             form_login:
                 provider:    fos_user_provider
-                login_path:  /login
+                login_path:  /
                 check_path:  /login_check
                 use_referer: true
             remember_me:
