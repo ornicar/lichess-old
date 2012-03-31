@@ -7,14 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OnlineController extends ContainerAware
 {
-    public function updateOnlineAction()
-    {
-        $this->container->get('lichess_opening.hook_cleaner')->removeDeadHooks();
-        $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
-
-        return new Response('ok');
-    }
-
     public function listOnlineAction()
     {
         $users = $this->container->get('fos_user.repository.user')->findOnlineUsersSortByElo();
