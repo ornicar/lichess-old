@@ -253,7 +253,7 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $this->lilaPath('sync'.implode('/', array($gameId, $color, 9999999))),
+                'sync'     => $this->lilaPath('sync/'.implode('/', array($gameId, $color, 9999999))),
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')),
                 'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
             ),
