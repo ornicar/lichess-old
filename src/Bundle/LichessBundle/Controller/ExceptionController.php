@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\Exception\FlattenException;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Application\UserBundle\Document\User;
 
 class ExceptionController extends ContainerAware
 {
@@ -38,6 +39,9 @@ class ExceptionController extends ContainerAware
             if($this->container->get('request')->isXmlHttpRequest()) {
                 $response = new Response('You should not do that.');
             } else {
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                $canSeeChat = $user instanceof User && $user->canSeeChat();
+                $params['preload'] = $this->container->get('lila')->lobbyPreload($params['auth'], null, $canSeeChat);
                 $response = $templating->renderResponse('LichessBundle:Exception:notFound.html.twig', $params);
             }
         } else {
