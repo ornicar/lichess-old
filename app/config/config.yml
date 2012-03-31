@@ -1,14 +1,14 @@
 imports:
-    - { resource: ../../config/akismet.yml }
-    - { resource: ../../config/apc.yml }
-    - { resource: ../../config/assetic.yml }
-    - { resource: ../../config/doctrine.yml }
-    - { resource: ../../config/forum.yml }
-    - { resource: ../../config/framework.yml }
-    - { resource: ../../config/lichess.yml }
-    - { resource: ../../config/message.yml }
-    - { resource: ../../config/monolog.yml }
-    - { resource: ../../config/security.yml }
-    - { resource: ../../config/twig.yml }
-    - { resource: ../../config/user.yml }
-    - { resource: ../../config/elastica.yml }
+    - { resource: akismet.yml }
+    - { resource: apc.yml }
+    - { resource: assetic.yml }
+    - { resource: doctrine.yml }
+    - { resource: forum.yml }
+    - { resource: framework.yml }
+    - { resource: lichess.yml }
+    - { resource: message.yml }
+    - { resource: monolog.yml }
+    - { resource: security.yml }
+    - { resource: twig.yml }
+    - { resource: user.yml }
+    - { resource: elastica.yml }
