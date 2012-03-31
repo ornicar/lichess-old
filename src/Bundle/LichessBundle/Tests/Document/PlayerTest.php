@@ -13,15 +13,6 @@ class PlayerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Bundle\LichessBundle\Document\Player', get_class($player));
     }
 
-    public function testStack()
-    {
-        $player = new Player('white');
-        $stack = $player->getStack();
-        $this->assertEquals(0, $player->getStackVersion());
-        $stack->addEvent(array('type' => 'test'));
-        $this->assertEquals(1, $player->getStackVersion());
-    }
-
     public function testCompressPiecesStart()
     {
         $data = <<<EOF

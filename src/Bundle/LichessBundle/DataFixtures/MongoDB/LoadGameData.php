@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 use Bundle\LichessBundle\Chess\Manipulator;
-use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Document\Game;
 use Lichess\OpeningBundle\Config\AiGameConfig;
 use Lichess\OpeningBundle\Config\GameConfig;

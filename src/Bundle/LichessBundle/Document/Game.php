@@ -476,7 +476,7 @@ class Game
     }
 
     /**
-     * Add the current position hash to the stack
+     * Add the current position hash to the hash
      */
     public function addPositionHash()
     {
@@ -838,30 +838,6 @@ class Game
     }
 
     /**
-     * Add an event to both players stack
-     *
-     * @return null
-     **/
-    public function addEventToStacks(array $event)
-    {
-        foreach($this->getPlayers() as $player) {
-            $player->addEventToStack($event);
-        }
-    }
-
-    /**
-     * Add many events to both players stack
-     *
-     * @return null
-     **/
-    public function addEventsToStacks(array $events)
-    {
-        foreach($this->getPlayers() as $player) {
-            $player->addEventsToStack($events);
-        }
-    }
-
-    /**
      * Color who plays
      *
      * @return string
@@ -1070,7 +1046,6 @@ class Game
     {
         foreach($this->getPlayers() as $player) {
             $player->compressPieces();
-            $player->compressStack();
         }
     }
 }

@@ -82,13 +82,6 @@ class Player
     protected $aiLevel;
 
     /**
-     * Event stack
-     *
-     * @var Stack
-     */
-    protected $stack;
-
-    /**
      * the player stack events, compressed for efficient storage
      *
      * @var string
@@ -166,7 +159,6 @@ class Player
         }
         $this->c = $color;
         $this->generateId();
-        $this->addEventToStack(array('type' => 'start'));
     }
 
     /**
@@ -382,38 +374,6 @@ class Player
     }
 
     /**
-     * Get stack
-     * @return Stack
-     */
-    public function getStack()
-    {
-        if (null === $this->stack) {
-            $this->stack = Stack::extract($this->evts);
-        }
-
-        return $this->stack;
-    }
-
-    public function getStackVersion()
-    {
-        return $this->getStack()->getVersion();
-    }
-
-    public function addEventsToStack(array $events)
-    {
-        if(!$this->getIsAi()) {
-            $this->getStack()->addEvents($events);
-        }
-    }
-
-    public function addEventToStack(array $event)
-    {
-        if(!$this->getIsAi()) {
-            $this->getStack()->addEvent($event);
-        }
-    }
-
-    /**
      * @return string
      */
     public function getId()
@@ -515,10 +475,6 @@ class Player
     public function setIsAi($isAi)
     {
         $this->isAi = $isAi;
-
-        if($this->isAi) {
-            $this->getStack()->reset();
-        }
     }
 
     /**
@@ -648,12 +604,5 @@ class Player
             }
         }
         $this->setPieces($pieces);
-    }
-
-    public function compressStack()
-    {
-        if ($this->stack) {
-            $this->evts = Stack::compress($this->stack);
-        }
     }
 }

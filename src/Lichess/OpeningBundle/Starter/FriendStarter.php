@@ -5,7 +5,6 @@ namespace Lichess\OpeningBundle\Starter;
 use Bundle\LichessBundle\Blamer\PlayerBlamer;
 use Bundle\LichessBundle\Document\Game;
 use Bundle\LichessBundle\Document\Player;
-use Bundle\LichessBundle\Document\Stack;
 use Bundle\LichessBundle\Logger;
 use Lichess\OpeningBundle\Config\GameConfig;
 use Bundle\LichessBundle\Chess\Generator;

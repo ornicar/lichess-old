@@ -75,7 +75,6 @@ class PlayerController extends Controller
             // protect game against private url sharing
             return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $game->getId(), 'color' => $player->getColor())));
         }
-        $this->get('lila')->alive($player);
 
         if(!$game->getIsStarted()) {
             if ($this->get('lila')->getActivity($player->getOpponent()) > 0) {
@@ -90,12 +89,15 @@ class PlayerController extends Controller
             }
         }
 
+        $lilaData = json_decode($this->get('lila')->show($player), true);
+
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
-            'messageHtml'         => $this->get('lila')->renderMessages($game),
-            'opponentActivity'    => $this->get('lila')->getActivity($player->getOpponent()),
+            'messageHtml'         => $lilaData['roomHtml'],
+            'stackVersion'        => $lilaData['stackVersion'],
+            'opponentActivity'    => (int) $lilaData['opponentActivity'],
             'checkSquareKey'      => $game->getCheckSquareKey(),
-            'possibleMoves'       => ($player->isMyTurn() && $game->getIsPlayable()) ? $this->get('lila')->possibleMoves($player) : null
+            'possibleMoves'       => $lilaData['possibleMoves']
         ));
     }
 

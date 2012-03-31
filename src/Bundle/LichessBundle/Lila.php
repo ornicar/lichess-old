@@ -24,6 +24,11 @@ class Lila
         $this->url = $url;
     }
 
+    public function show(Player $player)
+    {
+        return $this->get('show/' . $player->getFullId());
+    }
+
     // int auth 0 or 1
     public function lobbyPreload($auth, $id = null, $canSeeChat = false)
     {
@@ -59,7 +64,7 @@ class Lila
 
     public function getActivity(Player $player)
     {
-        return $this->get('activity/' . $this->gameColorUrl($player));
+        return (int) $this->get('activity/' . $this->gameColorUrl($player));
     }
 
     public function nbPlayers()
@@ -85,21 +90,6 @@ class Lila
         $this->post('start/' . $game->getId(), array(
             "entry" => $this->encodeLobbyEntry($game)
         ));
-    }
-
-    public function renderMessages(Game $game)
-    {
-        return $this->get('room/' .$game->getId());
-    }
-
-    public function possibleMoves(Player $player)
-    {
-        return json_decode($this->get('possible-moves/' .$this->gameColorUrl($player)));
-    }
-
-    public function updateVersions(Game $game)
-    {
-        $this->post('update-version/' . $game->getId());
     }
 
     public function reloadTable(Game $game)

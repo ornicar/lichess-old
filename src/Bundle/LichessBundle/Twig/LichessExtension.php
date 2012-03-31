@@ -162,7 +162,7 @@ class LichessExtension extends Twig_Extension
         return $this->lilaBasePath . "/" . $path;
     }
 
-    public function renderGameData(Player $player, $possibleMoves, $isOpponentActive)
+    public function renderGameData(Player $player, $stackVersion, $possibleMoves, $isOpponentActive)
     {
         $game         = $player->getGame();
         $gameId       = $game->getId();
@@ -184,7 +184,7 @@ class LichessExtension extends Twig_Extension
             ),
             'player' => array(
                 'color'     => $player->getColor(),
-                'version'   => $player->getStackVersion(),
+                'version'   => $stackVersion,
                 'spectator' => false,
                 'alive_key' => $game->getId() . '.' . $player->getColorLetter()
             ),
