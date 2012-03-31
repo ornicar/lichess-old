@@ -213,14 +213,6 @@ class Game
     protected $next;
 
     /**
-     * Config values used to create the game. Cleared when game starts.
-     *
-     * @var array
-     * @MongoDB\Field(type="hash")
-     */
-    protected $configArray;
-
-    /**
      * The game board
      *
      * @var Board
@@ -264,23 +256,6 @@ class Game
     public function getCastles()
     {
         return $this->castles ?: "-";
-    }
-
-    /**
-     * @return array
-     */
-    public function getConfigArray()
-    {
-        return $this->configArray;
-    }
-
-    /**
-     * @param  array
-     * @return null
-     */
-    public function setConfigArray(array $configArray = null)
-    {
-        $this->configArray = $configArray;
     }
 
     /**
@@ -732,7 +707,6 @@ class Game
             $this->setIsRated(false);
         }
         $this->setStatus(static::STARTED);
-        $this->setConfigArray(null);
     }
 
     public function finish()
