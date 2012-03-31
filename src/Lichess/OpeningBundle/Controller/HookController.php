@@ -85,16 +85,6 @@ class HookController extends Controller
         return new Response('ok');
     }
 
-    public function cancelAction($id)
-    {
-        $hook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
-        if ($hook) {
-            $this->get('lila')->lobbyRemove($hook->getId());
-        }
-
-        return new RedirectResponse($this->generateUrl('lichess_homepage'));
-    }
-
     public function joinAction($id)
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneById($id);

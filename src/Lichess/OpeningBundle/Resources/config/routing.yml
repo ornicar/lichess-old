@@ -12,11 +12,6 @@ lichess_hook_join:
     defaults: { _controller: LichessOpeningBundle:Hook:join }
     requirements:   { id: "[\w\-]{8}" }
 
-lichess_hook_cancel:
-    pattern: /new/{id}/cancel
-    defaults: { _controller: LichessOpeningBundle:Hook:cancel }
-    requirements:   { id: "[\w\-]{12}" }
-
 lichess_config_friend:
     pattern:        /start/friend
     defaults:       { _controller: LichessOpeningBundle:Config:friend }

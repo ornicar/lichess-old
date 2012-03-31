@@ -193,7 +193,7 @@ $(function() {
                     if (eloRestriction) {
                       html += '<td class="action empty"></td>';
                     } else {
-                      html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}\//, '/'+hook.id+'/')+'" class="'+hook.action+'"></a></td>';
+                      html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}/, '/'+hook.id)+'" class="'+hook.action+'"></a></td>';
                     }
                 }
             }

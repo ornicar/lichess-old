@@ -39,11 +39,6 @@ class Lila
         $this->post('lobby/create/' . $hookOwnerId);
     }
 
-    public function lobbyRemove($hookId)
-    {
-        $this->post('lobby/remove/' . $hookId);
-    }
-
     public function lobbyAlive($hookOwnerId)
     {
         $this->post('lobby/alive/' . $hookOwnerId);
