@@ -183,10 +183,10 @@ class Game
     /**
      * Possible castles in forsyth format KQkq
      *
-     * @var nullable string
+     * @var string
      * @MongoDB\Field(type="string")
      */
-    protected $castles;
+    protected $castles = "KQkq";
 
     /**
      * The game clock
