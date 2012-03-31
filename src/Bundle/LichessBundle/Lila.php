@@ -27,6 +27,7 @@ class Lila
     // int auth 0 or 1
     public function lobbyPreload($auth, $id = null, $canSeeChat = false)
     {
+        $auth = $auth ? 1 : 0;
         $path = $id ? 'lobby/preload/' . $id : 'lobby/preload';
         $messageId = $canSeeChat ? 0 : -1;
 
