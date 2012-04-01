@@ -406,18 +406,6 @@ class Player
     }
 
     /**
-     * @return Piece\King
-     */
-    public function getKing()
-    {
-        foreach($this->getPieces() as $piece) {
-            if($piece instanceof Piece\King) {
-                return $piece;
-            }
-        }
-    }
-
-    /**
      * @return array
      */
     public function getPiecesByClass($class) {

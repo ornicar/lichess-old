@@ -29,7 +29,6 @@ class SquareTest extends \PHPUnit_Framework_TestCase
     {
         $square = $this->getSquare(1, 1);
         $piece = $square->getPiece();
-        $this->assertTrue($piece instanceof Entities\Piece\Rook);
         $this->assertEquals('white', $piece->getColor());
         $this->assertEquals(1, $piece->getX());
         $this->assertEquals(1, $piece->getY());

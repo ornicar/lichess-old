@@ -31,18 +31,6 @@ class PieceFilter
         return array_values($pieces);
     }
 
-    // only return bishop, rook and queen
-    public static function filterProjection(array $pieces)
-    {
-        foreach($pieces as $it => $piece) {
-            if (!($piece instanceof Piece\Bishop || $piece instanceof Piece\Rook || $piece instanceof Piece\Queen)) {
-                unset($pieces[$it]);
-            }
-        }
-
-        return array_values($pieces);
-    }
-
     // only keep asked class
     public static function filterClass(array $pieces, $class)
     {
