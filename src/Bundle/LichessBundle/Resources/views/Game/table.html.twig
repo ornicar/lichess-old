@@ -25,14 +25,14 @@
         {% else %}
         <a href="{{ lila_path("resign/" ~ player.fullId) }}" class="lichess_resign" title="{{ "Give up"|trans }}">{{ "Resign"|trans }}</a>
             {% if player.canOfferDraw %}
-                <a class="offer_draw" href="{{ path("lichess_offer_draw", {"id": player.fullId} ) }}">{{ "Offer draw"|trans }}</a>
+                <a class="offer_draw" href="{{ lila_path("draw-offer/" ~ player.fullId) }}">{{ "Offer draw"|trans }}</a>
             {% endif %}
         {% endif %}
     </div>
     {% if player.isMyTurn and game.isThreefoldRepetition %}
     <div class="lichess_claim_draw_zone">
         {{ "Threefold repetition"|trans }}.&nbsp;
-        <a class="lichess_claim_draw" href="{{ lila_path("claim-draw/" ~ player.fullId) }}">{{ "Claim a draw"|trans }}</a>
+        <a class="lichess_claim_draw" href="{{ lila_path("draw-claim/" ~ player.fullId) }}">{{ "Claim a draw"|trans }}</a>
     </div>
     {% elseif player.isOfferingDraw %}
     <div class="offered_draw">
