@@ -77,13 +77,6 @@ class Lila
         return $this->get('nb-players');
     }
 
-    public function draw(Player $player, $message)
-    {
-        $this->post('draw/' . $this->gameColorUrl($player), array(
-            "messages" => $message
-        ));
-    }
-
     // used by the GameFixCommand
     public function outoftime(Player $player)
     {
