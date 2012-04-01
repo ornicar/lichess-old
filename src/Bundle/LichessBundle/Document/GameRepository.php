@@ -183,8 +183,7 @@ class GameRepository extends DocumentRepository
     {
         return $this->createQueryBuilder($user)
             ->field('userIds')->equals((string) $user->getId())
-            ->sort('createdAt', 'DESC')
-            ->hint(array('createdAt' => -1, 'userIds' => 1));
+            ->sort('createdAt', 'DESC');
     }
 
     /**
