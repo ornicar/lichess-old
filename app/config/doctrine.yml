@@ -9,5 +9,5 @@ doctrine_mongodb:
     #default_database: lichess
     document_managers:
         default:
-            metadata_cache_driver: array
+            metadata_cache_driver: apc
             auto_mapping: true
