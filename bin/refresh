@@ -27,8 +27,8 @@ if ($mode == 'all' || $mode == 'noass') {
         clearCache($app, $env, true);
     }
     show_run("Clearing APC cache", "php app/console --env=$env apc:clear");
-    show_run("Dumping translations", "php app/console --env=$env lichess:translation:dump");
     maintenance(false);
+    show_run("Dumping translations", "php app/console --env=$env lichess:translation:dump");
 } elseif ($mode == 'cc') {
     clearCache('app', $env, true);
     clearOpCode();
