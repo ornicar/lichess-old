@@ -314,53 +314,6 @@ class GameRepository extends DocumentRepository
     }
 
     /**
-     * Find old, unplayed games
-     *
-     * @return array
-     */
-    public function findCandidatesToCleanup($max)
-    {
-        $date = date_create('-2 day')->getTimestamp();
-
-        $games = $this->createQueryBuilder()
-            ->field('turns')->lt(2)
-            ->sort('createdAt', 'asc')
-            ->limit($max)
-            ->hydrate(false)
-            ->select('createdAt')
-            ->getQuery()->execute();
-
-        $ids = array();
-        foreach ($games as $game) {
-            $createdAt = isset($game['createdAt']) ? $game['createdAt']->sec : null;
-            if (!$createdAt || $createdAt < $date) {
-                $ids[] = $game['_id'];
-            } else {
-                break;
-            }
-        }
-
-        return $ids;
-    }
-
-    /**
-     * Find unfinished games where an opponent flagged
-     *
-     * @return array
-     */
-    public function findCandidatesToFinish()
-    {
-        $date = new DateTime('-2 hours');
-        return $this->createQueryBuilder()
-            ->field('status')->equals(Game::STARTED)
-            ->field('clock')->exists(true)
-            ->field('clock')->notEqual(null)
-            ->field('updatedAt')->lt(new MongoDate($date->getTimestamp()))
-            ->limit(500)
-            ->getQuery()->execute();
-    }
-
-    /**
      * Find games played between these two players
      *
      * @return array of Game
