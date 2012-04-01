@@ -17,33 +17,6 @@ class Drawer
     }
 
     /**
-     * This players offers a draw
-     */
-    public function offer(Player $player)
-    {
-        $game = $player->getGame();
-        if($game->getIsPlayable()) {
-            if (!$game->getHasEnoughMovesToDraw()) {
-                throw new LogicException('Too early to draw');
-            }
-            if(!$player->getIsOfferingDraw()) {
-                if($player->getOpponent()->getIsOfferingDraw()) {
-                    return $this->accept($player);
-                }
-                $player->setIsOfferingDraw(true);
-
-                return 'Draw offer sent';
-            } else {
-                $this->logger->warn($player, 'Player:offerDraw already offered');
-            }
-        } else {
-            $this->logger->warn($player, 'Player:offerDraw on finished game');
-        }
-
-        return false;
-    }
-
-    /**
      * The player declines the opponent draw offer
      */
     public function decline(Player $player)

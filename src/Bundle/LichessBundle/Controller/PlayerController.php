@@ -28,18 +28,6 @@ class PlayerController extends Controller
         return new Response('ok');
     }
 
-    public function offerDrawAction($id)
-    {
-        $player = $this->get('lichess.provider')->findPlayer($id);
-
-        if ($message = $this->get('lichess.drawer')->offer($player)) {
-            $this->flush();
-            $this->get('lila')->draw($player, $message);
-        }
-
-        return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
-    }
-
     public function declineDrawOfferAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
