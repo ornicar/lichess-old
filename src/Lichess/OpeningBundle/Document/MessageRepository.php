@@ -29,4 +29,14 @@ class MessageRepository extends DocumentRepository
         ->getQuery()
         ->getSingleResult();
     }
+
+    public function findRecent($nb, $hydrate = false)
+    {
+        return $this->createQueryBuilder()
+            ->sort('_id', 'desc')
+            ->limit($nb)
+            ->hydrate($hydrate)
+            ->getQuery()
+            ->execute();
+    }
 }
