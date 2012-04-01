@@ -5,7 +5,7 @@ twig:
     exception_controller: LichessBundle:Exception:show
 
 doctrine_mongodb:
-    default_database: lichess_staging
+    default_database: lichess
 
 assetic:
     debug: false
