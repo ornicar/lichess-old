@@ -410,7 +410,7 @@ $.widget("lichess.game", {
     },
     initSquaresAndPieces: function() {
         var self = this;
-        if (self.options.player.spectator) {
+        if (self.options.game.finished || self.options.player.spectator) {
             return;
         }
         var draggingKey = null;
