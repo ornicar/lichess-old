@@ -6,7 +6,6 @@ use Bundle\LichessBundle\Document\Piece;
 
 class PieceFilter
 {
-
     // remove dead pieces
     public static function filterAlive(array $pieces)
     {
@@ -29,39 +28,5 @@ class PieceFilter
         }
 
         return array_values($pieces);
-    }
-
-    // only keep asked class
-    public static function filterClass(array $pieces, $class)
-    {
-        foreach($pieces as $it => $piece) {
-            if (!$piece->isClass($class)) {
-                unset($pieces[$it]);
-            }
-        }
-
-        return array_values($pieces);
-    }
-
-    public static function filterType($pieces, $type)
-    {
-        return $this->filterClass($pieces, ucfirst($type));
-    }
-
-    // remove asked class
-    public static function filterNotClass(array $pieces, $class)
-    {
-        foreach($pieces as $it => $piece) {
-            if ($piece->isClass($class)) {
-                unset($pieces[$it]);
-            }
-        }
-
-        return array_values($pieces);
-    }
-
-    public static function filterNotType(array $pieces, $type)
-    {
-        return self::filterClass($pieces, ucfirst($type));
     }
 }
