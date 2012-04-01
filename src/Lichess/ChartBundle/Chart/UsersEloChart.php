@@ -35,7 +35,7 @@ class UsersEloChart
 
     public function getRows()
     {
-        $cacheKey = 'lichess2.users_elo_chart';
+        $cacheKey = 'lichess_users_elo_chart';
         $data = apc_fetch($cacheKey);
         if (false === $data) {
             $elos = $this->userRepository->getElosArray();

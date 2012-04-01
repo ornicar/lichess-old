@@ -5,7 +5,7 @@ $bundleDir = __DIR__.'/../vendor/bundles';
 
 require $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/ApcUniversalClassLoader.php';
 
-$loader = new Symfony\Component\ClassLoader\ApcUniversalClassLoader('lichess2.cl.');
+$loader = new Symfony\Component\ClassLoader\ApcUniversalClassLoader('lichess.cl.');
 
 $loader->registerNamespaces(array(
     'Symfony'                        => array($vendorDir.'/symfony/src', $bundleDir),

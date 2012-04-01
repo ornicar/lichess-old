@@ -32,14 +32,14 @@ class Cache
     public function updateNbUnread(ParticipantInterface $participant)
     {
         $nbUnread = $this->messageManager->getNbUnreadMessageByParticipant($participant);
-        apc_store('lichess2.nbm.'.$participant->getUsernameCanonical(), $nbUnread);
+        apc_store('nbm.'.$participant->getUsernameCanonical(), $nbUnread);
 
         return $nbUnread;
     }
 
     public function getNbUnread(ParticipantInterface $participant)
     {
-        $nb = apc_fetch('lichess2.nbm.'.$participant->getUsernameCanonical());
+        $nb = apc_fetch('nbm.'.$participant->getUsernameCanonical());
         if (false === $nb) {
             $nb = $this->updateNbUnread($participant);
         }
@@ -49,7 +49,7 @@ class Cache
 
     public function getNbUnreadByUsername($username)
     {
-        $nb = apc_fetch('lichess2.nbm.'.$username);
+        $nb = apc_fetch('nbm.'.$username);
         if (false === $nb) {
             $user = $this->userManager->findUserByUsername($username);
             $nb = $this->updateNbUnread($participant);

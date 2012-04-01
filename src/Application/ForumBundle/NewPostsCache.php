@@ -6,7 +6,7 @@ class NewPostsCache
 {
     public function __construct($key, $lifetime)
     {
-        $this->key = 'lichess2.'.$key;
+        $this->key = $key;
         $this->lifetime = $lifetime;
     }
 

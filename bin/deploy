@@ -2,10 +2,10 @@
 <?php
 
 $remote="phobos";
-$remoteDir="/home/lichess_staging";
+$remoteDir="/home/lichess";
 $translationDir="src/Bundle/LichessBundle/Resources/translations/";
 $rsyncoptions="--archive --force --delete --progress --compress --checksum --exclude-from=bin/rsync_exclude";
-$testurl="http://en.staging.lichess.org";
+$testurl="http://en.lichess.org";
 
 require_once __DIR__.'/base_script.php';
 

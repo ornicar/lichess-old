@@ -10,7 +10,7 @@ framework:
         name:     lichess4
         lifetime: 72000
         auto_start:     true
-        domain: .staging.lichess.org
+        domain: .lichess.org
     templating:
         assets_version: 13
         engines: ['twig']
