@@ -41,6 +41,7 @@ class GameExporter
 
     public function getData(User $user)
     {
+        throw new \Exception("fix me");
         $userId = $user->getId();
         $usernames = $this->userRepository->getUsernamesIndexedById();
         $games = iterator_to_array($this->gameRepository->createRecentByUserQuery($user)
