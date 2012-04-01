@@ -57,14 +57,6 @@ lichess_rematch:
     pattern:        /rematch/{id}
     defaults:       { _controller: LichessBundle:Player:rematch }
     requirements:   { id: "[\w\-]{12}" }
-lichess_cancel_draw_offer:
-    pattern:        /cancel-draw-offer/{id}
-    defaults:       { _controller: LichessBundle:Player:cancelDrawOffer }
-    requirements:   { id: "[\w\-]{12}" }
-lichess_decline_draw_offer:
-    pattern:        /decline-draw-offer/{id}
-    defaults:       { _controller: LichessBundle:Player:declineDrawOffer }
-    requirements:   { id: "[\w\-]{12}" }
 lichess_pgn_viewer:
     pattern:        /analyse/{id}/{color}
     defaults:       { _controller: LichessBundle:Pgn:analyse, color: white }

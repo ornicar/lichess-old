@@ -37,13 +37,13 @@
     {% elseif player.isOfferingDraw %}
     <div class="offered_draw">
         {{ "Draw offer sent"|trans }}.&nbsp;
-        <a href="{{ path("lichess_cancel_draw_offer", {"id": player.fullId} ) }}">{{ "Cancel"|trans }}</a>
+        <a href="{{ lila_path("draw-cancel/" ~ player.fullId) }}">{{ "Cancel"|trans }}</a>
     </div>
     {% elseif player.opponent.isOfferingDraw %}
     <div class="offered_draw">
         {{ "Your opponent offers a draw"|trans }}.<br />
         <a href="{{ lila_path("draw-accept/" ~ player.fullId) }}">{{ "Accept"|trans }}</a>&nbsp;
-        <a href="{{ path("lichess_decline_draw_offer", {"id": player.fullId} ) }}">{{ "Decline"|trans }}</a>
+        <a href="{{ lila_path("draw-decline/" ~ player.fullId) }}">{{ "Decline"|trans }}</a>
     </div>
     {% endif %}
 </div>
