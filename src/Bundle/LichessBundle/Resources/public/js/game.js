@@ -134,8 +134,8 @@ $.widget("lichess.game", {
         }
 
         if (!self.$table.find('>div').hasClass('finished')) {
-            self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.opponent.color: self.options.player.color)).fadeOut(self.options.animation_delay);
-            self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.player.color: self.options.opponent.color)).fadeIn(self.options.animation_delay);
+            self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.opponent.color: self.options.player.color)).hide();
+            self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.player.color: self.options.opponent.color)).show();
         }
     },
     movePiece: function(from, to, callback, mine) {
