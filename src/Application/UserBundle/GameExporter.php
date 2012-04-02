@@ -41,12 +41,11 @@ class GameExporter
 
     public function getData(User $user)
     {
-        throw new \Exception("fix me");
         $userId = $user->getId();
         $usernames = $this->userRepository->getUsernamesIndexedById();
         $games = iterator_to_array($this->gameRepository->createRecentByUserQuery($user)
             ->hydrate(false)
-            ->select('createdAt', 'status', 'turns', 'variant', 'isRated', 'clock.limit', 'clock.increment', 'players.user.$id', 'players.color', 'players.isWinner', 'players.elo', 'players.eloDiff')
+            ->select('createdAt', 'status', 'turns', 'v', 'isRated', 'clock.l', 'clock.i', 'players.user.$id', 'players.c', 'players.w', 'players.elo', 'players.eloDiff')
             ->getQuery()->execute());
         $data = array(array('#', 'Date (RFC 2822)', 'Color', 'Opponent', 'Result', 'Status', 'Plies', 'Variant', 'Mode', 'Time control', 'Your Elo', 'Your Elo change', 'Opponent Elo', 'Opponent Elo Change', 'Game url', 'Analysis url', 'PGN url'));
         $it = 0;
@@ -63,21 +62,21 @@ class GameExporter
             $data[] = array(
                 ++$it,
                 date('r', $game['createdAt']->sec),
-                $player['color'],
+                $player['c'],
                 $opponentUsername,
                 $this->getPgnResult($game),
                 $this->getStatusMessage($game['status']),
                 $game['turns'] -1,
-                $this->getVariantName($game['variant']),
+                $this->getVariantName($game['v']),
                 !empty($game['isRated']) ? 'rated' : 'casual',
-                $clock ? sprintf('%d %d', round($clock['limit']/60, 1), $clock['increment']) : 'unlimited',
+                $clock ? sprintf('%d %d', round($clock['l']/60, 1), $clock['i']) : 'unlimited',
                 (int) $player['elo'],
                 (int) isset($player['eloDiff']) ? $player['eloDiff'] : 0,
                 (int) isset($opponent['elo']) ? $opponent['elo'] : 0,
                 (int) isset($opponent['eloDiff']) ? $opponent['eloDiff'] : 0,
-                $this->urlGenerator->generate('lichess_game', array('id' => $gameId, 'color' => $player['color']), true),
-                $this->urlGenerator->generate('lichess_pgn_viewer', array('id' => $gameId, 'color' => $player['color']), true),
-                $this->urlGenerator->generate('lichess_pgn_export', array('id' => $gameId, 'color' => $player['color']), true),
+                $this->urlGenerator->generate('lichess_game', array('id' => $gameId, 'color' => $player['c']), true),
+                $this->urlGenerator->generate('lichess_pgn_viewer', array('id' => $gameId, 'color' => $player['c']), true),
+                $this->urlGenerator->generate('lichess_pgn_export', array('id' => $gameId, 'color' => $player['c']), true),
             );
         }
 
@@ -103,7 +102,7 @@ class GameExporter
     protected function getPgnResult(array $game)
     {
         foreach ($game['players'] as $p) {
-            if ('white' === $p['color']) {
+            if ('white' === $p['c']) {
                 $white = $p;
             } else {
                 $black = $p;
@@ -111,9 +110,9 @@ class GameExporter
         }
 
         if($game['status'] >= Game::MATE) {
-            if(!empty($white['isWinner'])) {
+            if(!empty($white['w'])) {
                 return '1-0';
-            } elseif(!empty($black['isWinner'])) {
+            } elseif(!empty($black['w'])) {
                 return '0-1';
             }
             return '1/2-1/2';
