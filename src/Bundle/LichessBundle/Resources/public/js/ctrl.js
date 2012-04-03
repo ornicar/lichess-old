@@ -7,14 +7,14 @@ $(function() {
     // Start ping
     var pingDelay = 2500;
     //var pingDelay = pingDelay * 20;
-    var connectivity = new $.connectivity($('#connectivity'), {
-        delay: pingDelay,
-        tolerance: 300
-    });
+    //var connectivity = new $.connectivity($('#connectivity'), {
+        //delay: pingDelay,
+        //tolerance: 300
+    //});
     var ping = new $.ping($('#connectivity').data('ping-url'), {
         delay: pingDelay,
     });
-    ping.pushCallback(function() { connectivity.ping(); });
+    //ping.pushCallback(function() { connectivity.ping(); });
     $.data(document.body, 'lichess_ping', ping);
 
     // Start game

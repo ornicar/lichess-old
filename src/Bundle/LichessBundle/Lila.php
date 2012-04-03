@@ -35,13 +35,12 @@ class Lila
     }
 
     // int auth 0 or 1
-    public function lobbyPreload($auth, $id = null, $canSeeChat = false)
+    public function lobbyPreload($isAuth, $canSeeChat, $hookId)
     {
-        $auth = $auth ? 1 : 0;
-        $path = $id ? 'lobby/preload/' . $id : 'lobby/preload';
-        $messageId = $canSeeChat ? 0 : -1;
+        $auth = $isAuth ? 1 : 0;
+        $chat = $canSeeChat ? 1 : 0;
 
-        return $this->get($path . '?auth=' . $auth . '&messageId=' . $messageId);
+        return $this->get('lobby/preload?auth=' . $auth . '&chat=' . $chat . '&hook=' . $hookId);
     }
 
     public function lobbyCreate($hookOwnerId)

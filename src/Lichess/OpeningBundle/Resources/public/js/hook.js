@@ -1,9 +1,8 @@
 $(function() { 
 
     var $wrap = $('div.hooks_wrap');
-    if (!$wrap.length) {
-        return;
-    }
+    if (!$wrap.length) return;
+
     var $chat = $("div.lichess_chat");
     var chatExists = $chat.length > 0;
     var $bot = $("div.lichess_bot");
@@ -23,6 +22,14 @@ $(function() {
     var $userTag = $('#user_tag');
     var isRegistered = $userTag.length > 0
     var myElo = isRegistered ? parseInt($userTag.data('elo')) : null;
+    var uid = Math.random().toString(36).substring(5);
+    var username = isRegistered ? $userTag.data("username") : "Anonymous";
+
+    var ws = $.websocket("ws://127.0.0.1:9000/lobby/socket/" + uid, {
+      events: {
+        talk: function(e) { addToChat(buildChatMessage(e.d.txt, e.d.u)); }
+      }
+    });
 
     function chat() {
         var $form = $chat.find('form');
@@ -34,34 +41,34 @@ $(function() {
         // send a message
         $form.submit(function() {
             if ($input.hasClass("lichess_hint")) return false;
-            text = $.trim($input.val());
+            var text = $.trim($input.val());
             if (!text) return false;
             if (text.length > 140) {
                 alert('Max length: 140 chars. ' + text.length + ' chars used.');
                 return false;
             }
             $input.val('');
-            $.ajax($form.attr("action"), {
-                data: {
-                    message: text
-                },
-                type: 'POST',
-                timeout: 8000
-            });
+            ws.send('talk', { u: username, txt: text });
             return false;
         });
-
-        $chat.find('a.send').click(function() {
-            $input.trigger('click');
-            $form.submit();
-        });
+        $chat.find('a.send').click(function() { $input.trigger('click'); $form.submit(); });
 
         // toggle the chat
         $chat.find('input.toggle_chat').change(function() {
             $chat.toggleClass('hidden', ! $(this).attr('checked'));
         }).trigger('change');
     };
-    chat();
+    if (chatExists) chat();
+
+    function addToChat(html) {
+        $chat.find('.lichess_messages').append(html)[0].scrollTop = 9999999;
+    }
+    function buildChatMessage(txt, username) {
+        var html = '<li><span>'
+        html += '<a class="user_link" href="/@/'+username+'">'+username.substr(0, 12) + '</a>';
+        html += '</span>' + urlToLink(txt) + '</li>';
+        return html;
+    }
 
     function bot() {
       $bot.find('.undertable_inner').scrollable();
@@ -85,29 +92,6 @@ $(function() {
       });
     }, 30 * 1000);
 
-    function reload() {
-        if (frozen) return;
-        $.ajax(pollUrl, {
-            success: function(data) {
-                if (frozen) return;
-                renderPollData(data);
-            },
-            complete: function(xhr, status) {
-                // delay it a bit to avoid query frenzy
-                setTimeout(reload, status == 'success' ? 300 : 3000);
-            },
-            dataType: 'json',
-            type: "GET",
-            cache: false,
-            data: $.extend({
-                'state': state,
-                'entryId': entryId,
-                'auth': auth
-            }, chatExists ? {'messageId': messageId} : {}),
-            timeout: 20000
-        });
-    };
-
     function renderPollData(data) {
         if (typeof data.redirect != "undefined") {
             freeze();
@@ -115,31 +99,21 @@ $(function() {
         } else {
             state = data.state
             renderHooks(data.pool);
-            if (chatExists && data.chat) renderChat(data.chat);
             renderTimeline(data.timeline);
             $('body').trigger('lichess.content_loaded');
         }
     }
     var $preload = $("textarea.hooks_preload");
-    renderPollData($.parseJSON($preload.val()));
+    var preloadData = $.parseJSON($preload.val());
     $preload.remove();
-    setTimeout(reload, 2000);
-
-    function renderChat(data) {
-        messageId = data.id;
-        var html = "", user = "", text = "";
-        for (i in data.messages) {
-            msg = data.messages[i];
-            user = msg["u"];
-            text = urlToLink(msg["m"]);
-            html += '<li><span>'
-            html += '<a class="user_link" href="/@/'+user+'">'+user.substr(0, 12) + '</a>';
-            html += '</span>' + text + '</li>';
-        }
-        if (html != "") {
-            $chat.find('.lichess_messages').append(html)[0].scrollTop = 9999999;
-        }
+    //renderHooks(preloadData.pool);
+    //renderTimeline(preloadData.timeline);
+    if (chatExists) {
+      var chatHtml = "";
+      $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
+      addToChat(chatHtml);
     }
+    $('body').trigger('lichess.content_loaded');
 
     function renderTimeline(data) {
         entryId = data.id;

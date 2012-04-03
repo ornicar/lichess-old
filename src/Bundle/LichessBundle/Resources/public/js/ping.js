@@ -7,7 +7,7 @@ $.ping = function(url, options) {
         data: {},
         callbacks: []
     }, options);
-    this.queue();
+    //this.queue();
 };
 $.ping.prototype = {
     queue: function() { var self = this;

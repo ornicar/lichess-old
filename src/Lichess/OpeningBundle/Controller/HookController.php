@@ -22,7 +22,7 @@ class HookController extends Controller
 
         return $this->render('LichessOpeningBundle::index.html.twig', array(
             'auth' => $auth,
-            'preload' => $this->get('lila')->lobbyPreload($auth, null, $this->canSeeChat()),
+            'preload' => $this->get('lila')->lobbyPreload($auth, $this->canSeeChat(), null),
         ));
     }
 
@@ -66,7 +66,7 @@ class HookController extends Controller
         return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array(
             'auth' => $auth,
             'myHookId' => $id,
-            'preload' => $this->get('lila')->lobbyPreload($auth, $id, $this->canSeeChat())
+            'preload' => $this->get('lila')->lobbyPreload($auth, $this->canSeeChat(), $id)
         ));
     }
 
