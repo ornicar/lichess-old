@@ -21,7 +21,6 @@ class ConfigController extends Controller
             if($form->isValid()) {
                 $player = $this->get('lichess.starter.friend')->start($form->getData());
                 $this->flush();
-                $this->get('lila')->start($player->getGame());
                 return new RedirectResponse($this->generateUrl('lichess_wait_friend', array('id' => $player->getFullId())));
             } else {
                 return new RedirectResponse($this->generateUrl('lichess_homepage'));
