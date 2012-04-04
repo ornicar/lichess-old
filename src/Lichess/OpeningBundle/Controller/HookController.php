@@ -70,21 +70,6 @@ class HookController extends Controller
         ));
     }
 
-    public function messageAction()
-    {
-        $user = $this->get('security.context')->getToken()->getUser();
-
-        if ($user instanceof User && $user->canSeeChat()) {
-          $text = trim($this->get('request')->get('message'));
-          if ($message = $this->get('lichess_opening.messenger')->send($user, $text)) {
-              $this->get('doctrine.odm.mongodb.document_manager')->flush();
-              $this->get('lila')->lobbyMessage();
-          }
-        }
-
-        return new Response('ok');
-    }
-
     public function joinAction($id)
     {
         $hook = $this->get('lichess_opening.hook_repository')->findOneById($id);

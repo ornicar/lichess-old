@@ -21,8 +21,3 @@ lichess_config_ai:
 lichess_config_hook:
     pattern:        /start/new
     defaults:       { _controller: LichessOpeningBundle:Hook:new }
-
-lichess_lobby_message:
-    pattern:        /chat
-    defaults:       { _controller: LichessOpeningBundle:Hook:message }
-    requirements:   { _method: POST }

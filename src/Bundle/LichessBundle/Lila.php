@@ -61,11 +61,6 @@ class Lila
         ));
     }
 
-    public function lobbyMessage()
-    {
-        $this->post('lobby/message');
-    }
-
     public function getActivity(Player $player)
     {
         return (int) $this->get('activity/' . $this->gameColorUrl($player));
