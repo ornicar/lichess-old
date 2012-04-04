@@ -29,7 +29,6 @@ class Configuration
                         ->booleanNode('config_persistence')->defaultTrue()->end()
                         ->booleanNode('form')->defaultTrue()->end()
                         ->booleanNode('starter')->defaultTrue()->end()
-                        ->booleanNode('message')->defaultTrue()->end()
                     ->end()
                 ->end()
             ->end()
