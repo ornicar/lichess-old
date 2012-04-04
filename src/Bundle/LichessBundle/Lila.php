@@ -135,8 +135,8 @@ class Lila
     {
         $entry = array();
         foreach ($game->getPlayers() as $player) {
-            $entry[$player->getColor() . "Username"] = $player->hasUser() ? $player->getUsername() : null;
-            $entry[$player->getColor() . "UsernameElo"] = $player->getUsernameWithElo();
+            $entry[] = $player->hasUser() ? $player->getUsername() : null;
+            $entry[] = $player->getUsernameWithElo();
         }
         return implode("$", $entry);
     }
