@@ -16,7 +16,6 @@ $(function() {
     var slowDelay = 3000, fastDelay = delay = 100;
     var state = 0;
     var messageId = 0;
-    var entryId = 0;
     var auth = $hooks.data('auth');
     var frozen = false;
     var $userTag = $('#user_tag');
@@ -27,7 +26,8 @@ $(function() {
 
     var ws = $.websocket("ws://127.0.0.1:9000/lobby/socket/" + uid, {
       events: {
-        talk: function(e) { addToChat(buildChatMessage(e.d.txt, e.d.u)); }
+        talk: function(e) { addToChat(buildChatMessage(e.d.txt, e.d.u)); },
+        entry: function(e) { renderTimeline([e.d.html]); }
       }
     });
 
@@ -106,8 +106,9 @@ $(function() {
     var $preload = $("textarea.hooks_preload");
     var preloadData = $.parseJSON($preload.val());
     $preload.remove();
-    //renderHooks(preloadData.pool);
-    //renderTimeline(preloadData.timeline);
+    console.debug(preloadData);
+    renderHooks(preloadData.pool);
+    renderTimeline(preloadData.timeline);
     if (chatExists) {
       var chatHtml = "";
       $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
@@ -116,25 +117,20 @@ $(function() {
     $('body').trigger('lichess.content_loaded');
 
     function renderTimeline(data) {
-        entryId = data.id;
         var html = "";
-        for (i in data.entries) {
-          html += '<tr>' + data.entries[i] + '</tr>';
-        }
-        if (html != "") {
-            $bot.find('.lichess_messages').append(html).parent()[0].scrollTop = 9999999;
-        }
+        for (i in data) { html += '<tr>' + data[i] + '</tr>'; }
+        $bot.find('.lichess_messages').append(html).parent()[0].scrollTop = 9999999;
     }
 
-    function renderHooks(data) {
-        if (data.hooks) {
+    function renderHooks(hooks) {
+        if (hooks.length) {
             var hook, html = "", isEngine, engineMark, userClass, mode, eloRestriction;
             $hooks.find('tr').addClass("hideme").filter('.create_game').remove();
-            for (id in data.hooks) {
+            for (id in hooks) {
                 if ($tr = $("#" + id).orNot()) {
                     $tr.removeClass("hideme");
                 } else {
-                    hook = data.hooks[id];
+                    hook = hooks[id];
                     html += '<tr id="'+id+'"'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
                     html += '<td class="color"><span class="'+hook.color+'"></span></td>';
                     isEngine = hook.engine && hook.action == 'join';
@@ -167,20 +163,21 @@ $(function() {
                     if (eloRestriction) {
                       html += '<td class="action empty"></td>';
                     } else {
-                      html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}/, '/'+hook.id)+'" class="'+hook.action+'"></a></td>';
+                      var urlId = hook.ownerId || hook.id
+                      html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}/, '/'+urlId)+'" class="'+hook.action+'"></a></td>';
                     }
                 }
             }
             $hooks.find("table").removeClass("empty_table").append(html);
         } else {
-            var html = '<table class="empty_table"><tr class="create_game"><td colspan="5">'+$.trans(data.message)+'</td></tr></table>';
+            var html = '<table class="empty_table"><tr class="create_game"><td colspan="5">'+$.trans("No game available right now, create one!")+'</td></tr></table>';
             $hooks.html(html);
         }
         function resizeLobby() {
             $wrap.toggleClass("large", $hooks.find("tr").length > 6);
         }
         $hooks.find('a.join').click(freeze);
-        $hooks.find("tr.hideme").find('td.action').addClass('empty').html("").end().fadeOut(600, function() {
+        $hooks.find("tr.hideme").find('td.action').addClass('empty').html("").end().fadeOut(500, function() {
           $(this).remove();
           resizeLobby();
         });
