@@ -7,18 +7,13 @@ $(function() {
     var chatExists = $chat.length > 0;
     var $bot = $("div.lichess_bot");
     var $newposts = $("div.new_posts");
+    var $newpostsinner = $newposts.find('.undertable_inner');
     var $hooks = $wrap.find('div.hooks');
     var $hooksTable = $hooks.find("table");
-    var pollUrl = $hooks.data('poll-url');
     var actionUrls = {
         'cancel': $hooks.data('cancel-url'),
         'join': $hooks.data('join-url')
     };
-    var slowDelay = 3000, fastDelay = delay = 100;
-    var state = 0;
-    var messageId = 0;
-    var auth = $hooks.data('auth');
-    var frozen = false;
     var $userTag = $('#user_tag');
     var isRegistered = $userTag.length > 0
     var myElo = isRegistered ? parseInt($userTag.data('elo')) : null;
@@ -31,10 +26,9 @@ $(function() {
 
     function connect() {
       var wsUrl = "ws://127.0.0.1:9000/lobby/socket/" + uid + "/" + socketVersion + (hookOwnerId ? "/" + hookOwnerId : "");
-      console.debug("Connecting to " + wsUrl);
       socket = $.websocket(wsUrl, {
         events: {
-          talk: function(e) { addToChat(buildChatMessage(e.d.txt, e.d.u)); },
+          talk: function(e) { if (chatExists) addToChat(buildChatMessage(e.d.txt, e.d.u)); },
           entry: function(e) { renderTimeline([e.d]); },
           hook_add: function(e) { addHook(e.d); },
           hook_remove: function(e) { removeHook(e.d); },
@@ -48,13 +42,13 @@ $(function() {
           if (!connectionTimeout) connectionTimeout = setTimeout(function() {
             $('#connection_lost').show();
           }, 5000);
-          //setTimeout(function() { connect(); }, 1000);
+          setTimeout(function() { connect(); }, 1000);
         }
       });
     }
     function disconnect() { socket.close(); }
 
-    function chat() {
+    if (chatExists) {
         var $form = $chat.find('form');
         $chat.find('.lichess_messages').scrollable();
         var $input = $chat.find('input.lichess_say').one("focus", function() {
@@ -82,8 +76,7 @@ $(function() {
         $chat.find('input.toggle_chat').change(function() {
             $chat.toggleClass('hidden', ! $(this).attr('checked'));
         }).trigger('change');
-    };
-    if (chatExists) chat();
+    }
 
     function addToChat(html) {
         $chat.find('.lichess_messages').append(html)[0].scrollTop = 9999999;
@@ -95,15 +88,8 @@ $(function() {
         return html;
     }
 
-    function bot() {
-      $bot.find('.undertable_inner').scrollable();
-      $bot.on("click", "tr", function() {
-        location.href = $(this).find('a.watch').attr("href");
-      });
-    }
-    bot();
-
-    var $newpostsinner = $newposts.find('.undertable_inner');
+    $bot.on("click", "tr", function() { location.href = $(this).find('a.watch').attr("href"); });
+    $newpostsinner.scrollable();
     $newpostsinner[0].scrollTop = 9999999;
     $newpostsinner.scrollable();
     setInterval(function() { 
@@ -115,19 +101,8 @@ $(function() {
           $('body').trigger('lichess.content_loaded');
         } 
       });
-    }, 30 * 1000);
+    }, 60 * 1000);
 
-    function renderPollData(data) {
-        if (typeof data.redirect != "undefined") {
-            freeze();
-            location.href = 'http://'+location.hostname+'/'+data.redirect;
-        } else {
-            state = data.state
-            renderHooks(data.pool);
-            renderTimeline(data.timeline);
-            $('body').trigger('lichess.content_loaded');
-        }
-    }
     var $preload = $("textarea.hooks_preload");
     var preloadData = $.parseJSON($preload.val());
     $preload.remove();
@@ -171,10 +146,11 @@ $(function() {
         $hooksTable.removeClass('empty_table').find('tr.create_game').remove();
       }
       resizeLobby();
-      $hooksTable.find('a.join').click(freeze);
+      $hooksTable.find('a.join').click($.lichessOpeningPreventClicks);
     }
 
     function renderHook(hook) {
+      if (!isRegistered && hook.mode == "Rated") return "";
       var html = "", isEngine, engineMark, userClass, mode, eloRestriction;
       html += '<tr id="'+hook.id+'" class="hook'+(hook.action == 'join' ? ' joinable' : '')+'">';
       html += '<td class="color"><span class="'+hook.color+'"></span></td>';
@@ -218,18 +194,7 @@ $(function() {
         $wrap.toggleClass("large", $hooks.find("tr").length > 6);
     }
 
-    function freeze() {
-        $.lichessOpeningPreventClicks();
-        frozen = true;
-    }
-
     $hooks.on('click', 'table.empty_table tr', function() {
         $('#start_buttons a.config_hook').click();
-    });
-
-    $(window).on('blur', function() {
-        delay = slowDelay;
-    }).on('focus', function() {
-        delay = fastDelay;
     });
 });
