@@ -48,11 +48,6 @@ class Lila
         $this->post('lobby/create/' . $hookOwnerId);
     }
 
-    public function lobbyAlive($hookOwnerId)
-    {
-        $this->post('lobby/alive/' . $hookOwnerId);
-    }
-
     public function lobbyJoin(Player $player, array $messages)
     {
         $this->post('lobby/join/' . $this->gameColorUrl($player), array(

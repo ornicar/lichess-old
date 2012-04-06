@@ -15,22 +15,22 @@ $.extend({
 			send: function(m){ return false },
 			close: function(){}
 		};
-		$.websocketSettings = $.extend($.websocketSettings, s);
+		var settings = $.extend($.websocketSettings, s);
 		$(ws)
-			.bind('open', $.websocketSettings.open)
-			.bind('close', $.websocketSettings.close)
-			.bind('message', $.websocketSettings.message)
+			.bind('open', settings.open)
+			.bind('close', settings.close)
 			.bind('message', function(e){
 				var m = $.parseJSON(e.originalEvent.data);
-				var h = $.websocketSettings.events[m.t];
+				var h = settings.events[m.t];
 				if (h) h.call(this, m);
         else console.debug("ws: " + m.t + " not supported");
+        settings.message(m);
 			});
-		ws._settings = $.extend($.websocketSettings, s);
+		ws._settings = settings;
 		ws._send = ws.send;
 		ws.send = function(t, data) {
 			var m = {t: t};
-			m = $.extend(true, m, $.extend(true, {}, $.websocketSettings.options, m));
+			m = $.extend(true, m, $.extend(true, {}, settings.options, m));
 			if (data) m['data'] = data;
 			return this._send($.toJSON(m));
 		}

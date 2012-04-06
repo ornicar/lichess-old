@@ -8,6 +8,7 @@ $(function() {
     var $bot = $("div.lichess_bot");
     var $newposts = $("div.new_posts");
     var $hooks = $wrap.find('div.hooks');
+    var $hooksTable = $hooks.find("table");
     var pollUrl = $hooks.data('poll-url');
     var actionUrls = {
         'cancel': $hooks.data('cancel-url'),
@@ -21,15 +22,37 @@ $(function() {
     var $userTag = $('#user_tag');
     var isRegistered = $userTag.length > 0
     var myElo = isRegistered ? parseInt($userTag.data('elo')) : null;
-    var uid = Math.random().toString(36).substring(5);
+    var uid = Math.random().toString(36).substring(5); // 8 chars
     var username = isRegistered ? $userTag.data("username") : "Anonymous";
+    var hookOwnerId = $hooks.data('my-hook');
+    var socketVersion = 0;
+    var socket;
+    var connectionTimeout;
 
-    var ws = $.websocket("ws://127.0.0.1:9000/lobby/socket/" + uid, {
-      events: {
-        talk: function(e) { addToChat(buildChatMessage(e.d.txt, e.d.u)); },
-        entry: function(e) { renderTimeline([e.d.html]); }
-      }
-    });
+    function connect() {
+      var wsUrl = "ws://127.0.0.1:9000/lobby/socket/" + uid + "/" + socketVersion + (hookOwnerId ? "/" + hookOwnerId : "");
+      console.debug("Connecting to " + wsUrl);
+      socket = $.websocket(wsUrl, {
+        events: {
+          talk: function(e) { addToChat(buildChatMessage(e.d.txt, e.d.u)); },
+          entry: function(e) { renderTimeline([e.d]); },
+          hook_add: function(e) { addHook(e.d); },
+          hook_remove: function(e) { removeHook(e.d); },
+        },
+        message: function(e) { socketVersion = e.v; },
+        open: function() { 
+          if (connectionTimeout) clearTimeout(connectionTimeout);
+          $('#connection_lost').hide(); 
+        },
+        close: function() {
+          if (!connectionTimeout) connectionTimeout = setTimeout(function() {
+            $('#connection_lost').show();
+          }, 5000);
+          //setTimeout(function() { connect(); }, 1000);
+        }
+      });
+    }
+    function disconnect() { socket.close(); }
 
     function chat() {
         var $form = $chat.find('form');
@@ -48,7 +71,9 @@ $(function() {
                 return false;
             }
             $input.val('');
-            ws.send('talk', { u: username, txt: text });
+            if (text == "ws-") disconnect();
+            else if (text == "ws+") connect();
+            else socket.send('talk', { u: username, txt: text });
             return false;
         });
         $chat.find('a.send').click(function() { $input.trigger('click'); $form.submit(); });
@@ -106,14 +131,15 @@ $(function() {
     var $preload = $("textarea.hooks_preload");
     var preloadData = $.parseJSON($preload.val());
     $preload.remove();
-    console.debug(preloadData);
-    renderHooks(preloadData.pool);
+    addHooks(preloadData.pool);
     renderTimeline(preloadData.timeline);
     if (chatExists) {
       var chatHtml = "";
       $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
       addToChat(chatHtml);
     }
+    socketVersion = preloadData.version;
+    connect();
     $('body').trigger('lichess.content_loaded');
 
     function renderTimeline(data) {
@@ -122,66 +148,74 @@ $(function() {
         $bot.find('.lichess_messages').append(html).parent()[0].scrollTop = 9999999;
     }
 
-    function renderHooks(hooks) {
-        if (hooks.length) {
-            var hook, html = "", isEngine, engineMark, userClass, mode, eloRestriction;
-            $hooks.find('tr').addClass("hideme").filter('.create_game').remove();
-            for (id in hooks) {
-                if ($tr = $("#" + id).orNot()) {
-                    $tr.removeClass("hideme");
-                } else {
-                    hook = hooks[id];
-                    html += '<tr id="'+id+'"'+(hook.action == 'join' ? ' class="joinable"' : '')+'>';
-                    html += '<td class="color"><span class="'+hook.color+'"></span></td>';
-                    isEngine = hook.engine && hook.action == 'join';
-                    engineMark = isEngine ? '<span class="engine_mark"></span>' : '';
-                    userClass = isEngine ? "user_link engine" : "user_link";
-                    if (hook.elo) {
-                        html += '<td><a class="'+userClass+'" href="/@/'+hook.username+'">'+hook.username.substr(0, 12)+'<br />'+'('+hook.elo+')'+engineMark+'</a></td>';
-                    } else {
-                        html += '<td>'+hook.username+'</td>';
-                    }
-                    html += '</td>';
-                    eloRestriction = false;
-                    if (isRegistered) {
-                      mode = $.trans(hook.mode);
-                      if (hook.emin && (hook.emin > 700 || hook.emax < 2200)) {
-                        if (hook.action == "join" && (myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax))) {
-                          eloRestriction = true;
-                        }
-                        mode += "<span class='elorange" + (eloRestriction ? ' nope' : '') + "'>" + hook.emin + ' - ' + hook.emax + '</span>';
-                      }
-                    } else {
-                      mode = "";
-                    }
-                    if (hook.variant == 'Chess960') {
-                        html += '<td><a href="http://en.wikipedia.org/wiki/Chess960"><strong>960</strong></a> ' + mode + '</td>';
-                    } else {
-                        html += '<td>'+mode+'</td>';
-                    }
-                    html += '<td>'+hook.clock+'</td>';
-                    if (eloRestriction) {
-                      html += '<td class="action empty"></td>';
-                    } else {
-                      var urlId = hook.ownerId || hook.id
-                      html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}/, '/'+urlId)+'" class="'+hook.action+'"></a></td>';
-                    }
-                }
-            }
-            $hooks.find("table").removeClass("empty_table").append(html);
-        } else {
-            var html = '<table class="empty_table"><tr class="create_game"><td colspan="5">'+$.trans("No game available right now, create one!")+'</td></tr></table>';
-            $hooks.html(html);
-        }
-        function resizeLobby() {
-            $wrap.toggleClass("large", $hooks.find("tr").length > 6);
-        }
-        $hooks.find('a.join').click(freeze);
-        $hooks.find("tr.hideme").find('td.action').addClass('empty').html("").end().fadeOut(500, function() {
+    function removeHook(id) {
+        $("#" + id).find('td.action').addClass('empty').html("").end().fadeOut(500, function() {
           $(this).remove();
-          resizeLobby();
+          updateHookTable();
         });
-        resizeLobby();
+    }
+    function addHooks(hooks) {
+      var html = "";
+      for (i in hooks) html += renderHook(hooks[i]);
+      $hooksTable.append(html);
+      updateHookTable();
+    }
+    function addHook(hook) {
+      $hooksTable.append(renderHook(hook));
+      updateHookTable();
+    }
+    function updateHookTable() {
+      if (0 == $hooksTable.find('tr.hook').length) {
+        $hooksTable.addClass('empty_table').html('<tr class="create_game"><td colspan="5">'+$.trans("No game available right now, create one!")+'</td></tr>');
+      } else {
+        $hooksTable.removeClass('empty_table').find('tr.create_game').remove();
+      }
+      resizeLobby();
+      $hooksTable.find('a.join').click(freeze);
+    }
+
+    function renderHook(hook) {
+      var html = "", isEngine, engineMark, userClass, mode, eloRestriction;
+      html += '<tr id="'+hook.id+'" class="hook'+(hook.action == 'join' ? ' joinable' : '')+'">';
+      html += '<td class="color"><span class="'+hook.color+'"></span></td>';
+      isEngine = hook.engine && hook.action == 'join';
+      engineMark = isEngine ? '<span class="engine_mark"></span>' : '';
+      userClass = isEngine ? "user_link engine" : "user_link";
+      if (hook.elo) {
+          html += '<td><a class="'+userClass+'" href="/@/'+hook.username+'">'+hook.username.substr(0, 12)+'<br />'+'('+hook.elo+')'+engineMark+'</a></td>';
+      } else {
+          html += '<td>'+hook.username+'</td>';
+      }
+      html += '</td>';
+      eloRestriction = false;
+      if (isRegistered) {
+        mode = $.trans(hook.mode);
+        if (hook.emin && (hook.emin > 700 || hook.emax < 2200)) {
+          if (hook.action == "join" && (myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax))) {
+            eloRestriction = true;
+          }
+          mode += "<span class='elorange" + (eloRestriction ? ' nope' : '') + "'>" + hook.emin + ' - ' + hook.emax + '</span>';
+        }
+      } else {
+        mode = "";
+      }
+      if (hook.variant == 'Chess960') {
+          html += '<td><a href="http://en.wikipedia.org/wiki/Chess960"><strong>960</strong></a> ' + mode + '</td>';
+      } else {
+          html += '<td>'+mode+'</td>';
+      }
+      html += '<td>'+hook.clock+'</td>';
+      if (eloRestriction) {
+        html += '<td class="action empty"></td>';
+      } else {
+        var urlId = hook.ownerId || hook.id
+        html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}/, '/'+urlId)+'" class="'+hook.action+'"></a></td>';
+      }
+      return html;
+    }
+
+    function resizeLobby() {
+        $wrap.toggleClass("large", $hooks.find("tr").length > 6);
     }
 
     function freeze() {
@@ -192,10 +226,6 @@ $(function() {
     $hooks.on('click', 'table.empty_table tr', function() {
         $('#start_buttons a.config_hook').click();
     });
-
-    if (hookId = $hooks.data('my-hook')) {
-        $.data(document.body, 'lichess_ping').setData('hook_id', hookId);
-    }
 
     $(window).on('blur', function() {
         delay = slowDelay;
