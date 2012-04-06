@@ -12,8 +12,6 @@
     <div class="hooks_wrap">
       <div class="hooks"
         data-my-hook="{{ my_hook_id }}"
-        data-poll-url="{% block opening_hook_poll_url %}{{ lila_path("lobby/sync") }}{% endblock %}"
-        data-auth="{{ auth }}"
         data-cancel-url="{{ lila_path('lobby/cancel/000000000000') }}"
         data-join-url="{{ path('lichess_hook_join', {'id': '00000000'}) }}"
         >

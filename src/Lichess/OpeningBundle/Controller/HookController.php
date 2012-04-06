@@ -21,7 +21,6 @@ class HookController extends Controller
         $auth = $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0';
 
         return $this->render('LichessOpeningBundle::index.html.twig', array(
-            'auth' => $auth,
             'preload' => $this->get('lila')->lobbyPreload($auth, $this->canSeeChat(), null),
         ));
     }
@@ -64,7 +63,6 @@ class HookController extends Controller
         $auth = $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0';
 
         return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array(
-            'auth' => $auth,
             'myHookId' => $id,
             'preload' => $this->get('lila')->lobbyPreload($auth, $this->canSeeChat(), $id)
         ));
