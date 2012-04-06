@@ -81,10 +81,9 @@ class HookController extends Controller
             return new RedirectResponse($this->generateUrl('lichess_homepage'));
         }
         // if I also have a hook, cancel it
+        $myHook = null;
         if ($myHookId) {
-            if ($myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($myHookId)) {
-                $this->get('doctrine.odm.mongodb.document_manager')->remove($myHook);
-            }
+            $myHook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($myHookId);
         }
         $config = new GameConfig();
         $config->fromArray($hook->toArray());
@@ -103,7 +102,7 @@ class HookController extends Controller
         $hook->setGame($game);
         $this->get('doctrine.odm.mongodb.document_manager')->persist($game);
         $this->get('doctrine.odm.mongodb.document_manager')->flush(array('safe' => true));
-        $this->get('lila')->lobbyJoin($player, $messages);
+        $this->get('lila')->lobbyJoin($player, $messages, $hook, $myHook);
 
         return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $player->getFullId())));
     }

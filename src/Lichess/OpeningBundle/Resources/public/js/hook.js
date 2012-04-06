@@ -32,6 +32,10 @@ $(function() {
           entry: function(e) { renderTimeline([e.d]); },
           hook_add: function(e) { addHook(e.d); },
           hook_remove: function(e) { removeHook(e.d); },
+          redirect: function(e) {
+            $.lichessOpeningPreventClicks();
+            location.href = 'http://'+location.hostname+'/'+e.d;
+          }
         },
         message: function(e) { socketVersion = e.v; },
         open: function() { 
@@ -184,8 +188,13 @@ $(function() {
       if (eloRestriction) {
         html += '<td class="action empty"></td>';
       } else {
-        var urlId = hook.ownerId || hook.id
-        html += '<td class="action"><a href="'+actionUrls[hook.action].replace(/\/0{8,12}/, '/'+urlId)+'" class="'+hook.action+'"></a></td>';
+        html += '<td class="action">';
+        if (hook.ownerId) {
+          html += '<a href="'+actionUrls.cancel.replace(/\/0{12}/, '/'+hook.ownerId)+'" class="cancel"></a>';
+        } else {
+          var cancelParam = hookOwnerId ? "?cancel=" + hookOwnerId : ""
+          html += '<a href="'+actionUrls.join.replace(/\/0{8}/, '/'+hook.id)+cancelParam+'" class="join"></a>';
+        }
       }
       return html;
     }
