@@ -3,20 +3,6 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
 };
 
 $(function() {
-
-    // Start ping
-    var pingDelay = 2500;
-    //var pingDelay = pingDelay * 20;
-    //var connectivity = new $.connectivity($('#connectivity'), {
-        //delay: pingDelay,
-        //tolerance: 300
-    //});
-    var ping = new $.ping($('#connectivity').data('ping-url'), {
-        delay: pingDelay,
-    });
-    //ping.pushCallback(function() { connectivity.ping(); });
-    $.data(document.body, 'lichess_ping', ping);
-
     // Start game
     var $game = $('div.lichess_game').orNot();
     if ($game) {
@@ -29,6 +15,12 @@ $(function() {
             });
         }
     }
+
+    // workaround
+    var ping = {
+      pushCallback: function() {},
+      setData: function() {}
+    };
 
     var $nbConnectedPlayers = $('#nb_connected_players');
     $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/(\d+)/, '<strong>$1</strong>'));

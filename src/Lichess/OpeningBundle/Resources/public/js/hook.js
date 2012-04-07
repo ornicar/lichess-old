@@ -20,39 +20,7 @@ $(function() {
     var uid = Math.random().toString(36).substring(5); // 8 chars
     var username = isRegistered ? $userTag.data("username") : "Anonymous";
     var hookOwnerId = $hooks.data('my-hook');
-    var socketVersion = 0;
     var socket;
-    var connectionTimeout;
-
-    function connect() {
-      var wsUrl = "ws://127.0.0.1:9000/lobby/socket/" + uid + "/" + socketVersion + (hookOwnerId ? "/" + hookOwnerId : "");
-      socket = $.websocket(wsUrl, {
-        events: {
-          talk: function(e) { if (chatExists) addToChat(buildChatMessage(e.d.txt, e.d.u)); },
-          entry: function(e) { renderTimeline([e.d]); },
-          hook_add: function(e) { addHook(e.d); },
-          hook_remove: function(e) { removeHook(e.d); },
-          redirect: function(e) {
-            $.lichessOpeningPreventClicks();
-            location.href = 'http://'+location.hostname+'/'+e.d;
-          }
-        },
-        message: function(e) { socketVersion = e.v; },
-        open: function() { 
-          console.debug("Connected to: " + wsUrl);
-          if (connectionTimeout) clearTimeout(connectionTimeout);
-          $('#connection_lost').hide(); 
-        },
-        close: function() {
-          console.debug("Disconnected");
-          if (!connectionTimeout) connectionTimeout = setTimeout(function() {
-            $('#connection_lost').show();
-          }, 5000);
-          setTimeout(function() { connect(); }, 1000);
-        }
-      });
-    }
-    function disconnect() { socket.close(); }
 
     if (chatExists) {
         var $form = $chat.find('form');
@@ -71,8 +39,8 @@ $(function() {
                 return false;
             }
             $input.val('');
-            if (text == "ws-") disconnect();
-            else if (text == "ws+") connect();
+            if (text == "ws-") socket.disconnect();
+            else if (text == "ws+") socket.connect();
             else socket.send('talk', { u: username, txt: text });
             return false;
         });
@@ -122,8 +90,19 @@ $(function() {
         $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
         addToChat(chatHtml);
       }
-      socketVersion = preloadData.version;
-      connect();
+      var socketUrl = "ws://127.0.0.1:9000/lobby/socket/" + uid + "/{version}" + (hookOwnerId ? "/" + hookOwnerId : "");
+      socket = new $.websocket(socketUrl, preloadData.version, {
+        events: {
+          talk: function(e) { if (chatExists) addToChat(buildChatMessage(e.d.txt, e.d.u)); },
+          entry: function(e) { renderTimeline([e.d]); },
+          hook_add: function(e) { addHook(e.d); },
+          hook_remove: function(e) { removeHook(e.d); },
+          redirect: function(e) {
+            $.lichessOpeningPreventClicks();
+            location.href = 'http://'+location.hostname+'/'+e.d;
+          }
+        }
+      });
     }
     $('body').trigger('lichess.content_loaded');
 
