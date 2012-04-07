@@ -39,10 +39,12 @@ $(function() {
         },
         message: function(e) { socketVersion = e.v; },
         open: function() { 
+          console.debug("Connected to: " + wsUrl);
           if (connectionTimeout) clearTimeout(connectionTimeout);
           $('#connection_lost').hide(); 
         },
         close: function() {
+          console.debug("Disconnected");
           if (!connectionTimeout) connectionTimeout = setTimeout(function() {
             $('#connection_lost').show();
           }, 5000);
@@ -110,15 +112,19 @@ $(function() {
     var $preload = $("textarea.hooks_preload");
     var preloadData = $.parseJSON($preload.val());
     $preload.remove();
-    addHooks(preloadData.pool);
-    renderTimeline(preloadData.timeline);
-    if (chatExists) {
-      var chatHtml = "";
-      $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
-      addToChat(chatHtml);
+    if (preloadData.redirect) {
+      location.href = preloadData.redirect;
+    } else {
+      addHooks(preloadData.pool);
+      renderTimeline(preloadData.timeline);
+      if (chatExists) {
+        var chatHtml = "";
+        $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
+        addToChat(chatHtml);
+      }
+      socketVersion = preloadData.version;
+      connect();
     }
-    socketVersion = preloadData.version;
-    connect();
     $('body').trigger('lichess.content_loaded');
 
     function renderTimeline(data) {

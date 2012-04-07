@@ -56,15 +56,12 @@ class HookController extends Controller
 
     public function hookAction($id)
     {
-        $hook = $this->get('lichess_opening.hook_repository')->findOneByOwnerId($id);
-        if (!$hook) {
-            return new RedirectResponse($this->generateUrl('lichess_homepage'));
-        }
         $auth = $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0';
+        $preload = $this->get('lila')->lobbyPreload($auth, $this->canSeeChat(), $id);
 
         return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array(
             'myHookId' => $id,
-            'preload' => $this->get('lila')->lobbyPreload($auth, $this->canSeeChat(), $id)
+            'preload' => $preload
         ));
     }
 
