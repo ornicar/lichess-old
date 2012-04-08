@@ -17,7 +17,6 @@ $(function() {
     var $userTag = $('#user_tag');
     var isRegistered = $userTag.length > 0
     var myElo = isRegistered ? parseInt($userTag.data('elo')) : null;
-    var uid = Math.random().toString(36).substring(5); // 8 chars
     var username = isRegistered ? $userTag.data("username") : "Anonymous";
     var hookOwnerId = $hooks.data('my-hook');
     var socket;
@@ -90,8 +89,8 @@ $(function() {
         $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
         addToChat(chatHtml);
       }
-      var socketUrl = "ws://127.0.0.1:9000/lobby/socket/" + uid + "/{version}" + (hookOwnerId ? "/" + hookOwnerId : "");
-      socket = new $.websocket(socketUrl, preloadData.version, {
+      if (hookOwnerId) { $.websocketSettings.params.hook = hookOwnerId; }
+      socket = new $.websocket("ws://127.0.0.1:9000/lobby/socket", preloadData.version, {
         events: {
           talk: function(e) { if (chatExists) addToChat(buildChatMessage(e.d.txt, e.d.u)); },
           entry: function(e) { renderTimeline([e.d]); },

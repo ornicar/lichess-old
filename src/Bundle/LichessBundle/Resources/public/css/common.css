@@ -461,30 +461,6 @@ div.lichess_server {
   text-align: center;
 }
 
-#connectivity {
-  height: 20px;
-  width: 30px;
-  padding: 2px 12px;
-  display: block;
-  float: right;
-}
-#connectivity span {
-  display: block;
-  width: 4px;
-  margin-right: 2px;
-  background-color: #cacaca;
-  float: left;
-  display: block;
-}
-#connectivity span.on {
-  background-color: #808080;
-}
-#connectivity span.alert {
-  background-color: red;
-  height: 4px!important;
-  margin-top: 16px!important;
-}
-
 /* soft inactive gradient */
 #top, div.lichess_chat_top, div.undertable_top, .button, .button:visited, .ui-state-default, div.content_box_top, div.hooks tr {
   color: #666;

@@ -22,9 +22,10 @@ $(function() {
       setData: function() {}
     };
 
-    var $nbConnectedPlayers = $('#nb_connected_players');
-    $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/(\d+)/, '<strong>$1</strong>'));
-    ping.pushCallback(function(data) { $nbConnectedPlayers.html($nbConnectedPlayers.html().replace(/\d+/, data.nbp)); });
+    var $nbPlayersTag = $('#nb_connected_players');
+    $.websocketSettings.events.nbp = function(e) {
+      $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e.d)).removeClass('none');
+    }
 
     var $nbViewers = $('.nb_viewers');
     if ($nbViewers.length) {
@@ -34,10 +35,10 @@ $(function() {
     }
 
     if ($('#user_tag').length) {
-        ping.setData('username', $('#user_tag').attr('data-username'));
-        ping.pushCallback(function(data) { 
-          if (typeof data.nbm != "undefined") $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0); 
-        });
+      $.websocketSettings.params.username = $('#user_tag').attr('data-username');
+      ping.pushCallback(function(data) { 
+        if (typeof data.nbm != "undefined") $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0); 
+      });
     }
 
     $('input.lichess_id_input').select();

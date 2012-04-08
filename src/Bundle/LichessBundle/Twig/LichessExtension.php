@@ -46,7 +46,6 @@ class LichessExtension extends Twig_Extension
             'lichess_game_watch_data'   => 'renderGameWatchData',
             'lichess_game_board'        => 'renderGameBoard',
             'lichess_game_fen'          => 'renderGameFen',
-            'lichess_nb_active_players' => 'getNbActivePlayers',
             'lichess_user_text'         => 'userText',
             'lichess_shorten'           => 'shorten',
             'lichess_current_url'       => 'getCurrentUrl',
@@ -325,11 +324,6 @@ class LichessExtension extends Twig_Extension
         $html .= '</div>';
 
         return $html;
-    }
-
-    public function getNbActivePlayers()
-    {
-        return $this->container->get('lila')->nbPlayers();
     }
 
     protected function autoLink($text)
