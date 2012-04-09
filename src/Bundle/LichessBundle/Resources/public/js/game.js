@@ -330,6 +330,9 @@ $.widget("lichess.game", {
         self.movePiece($oldSquare.attr("id"), squareId, null, true);
 
         // TODO send moveData here
+        function sendMoveRequest(moveData) {
+          self.socket.send("move", moveData);
+        }
 
         var color = self.options.player.color;
         // promotion

@@ -29,7 +29,10 @@ $.websocket = function(url, version, settings) {
 }
 $.websocket.prototype = {
   addEvent: function(name, fn) { this.settings.events[name] = fn; },
-  send: function(t, d) { return this.ws.send($.toJSON({t: t, d: d})); },
+  send: function(t, d) { 
+    this._debug({t: t, d: d});
+    return this.ws.send($.toJSON({t: t, d: d})); 
+  },
   connect: function() { var self = this;
     self._destroy();
     self.fullUrl = self.url + "?" + $.param($.extend(self.settings.params, { version: self.version }));
