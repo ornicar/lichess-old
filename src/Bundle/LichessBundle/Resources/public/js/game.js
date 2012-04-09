@@ -5,6 +5,7 @@ $.widget("lichess.game", {
         self.$board = self.element.find("div.lichess_board");
         self.$table = self.element.find("div.lichess_table_wrap");
         self.$chat = $("div.lichess_chat");
+        self.$chatMsgs = self.$chat.find('.lichess_messages');
         self.initialTitle = document.title;
         self.hasMovedOnce = false;
         self.premove = null;
@@ -52,7 +53,14 @@ $.widget("lichess.game", {
         }
 
         self.socket = new $.websocket("ws://127.0.0.1:9000/socket/" + self.options.game.id + "/" + self.options.player.color, self.options.player.version, {
-          events: { },
+          events: { 
+            message: function(e) { 
+              self.element.queue(function() {
+                  self.appendToChat(e.d);
+                  self.element.dequeue();
+              });
+            }
+          },
           params: {
             playerId: self.options.player.id
           },
@@ -448,11 +456,10 @@ $.widget("lichess.game", {
             return;
         }
         if (self.$chat.length) {
-            var $messages = self.$chat.find('.lichess_messages');
-            $messages.find('>li').each(function() { $(this).html(urlToLink($(this).html())); });
-            $messages.scrollable();
+            self.$chatMsgs.find('>li').each(function() { $(this).html(urlToLink($(this).html())); });
+            self.$chatMsgs.scrollable();
             var $form = self.$chat.find('form');
-            $messages[0].scrollTop = 9999999;
+            self.$chatMsgs[0].scrollTop = 9999999;
             var $input = self.$chat.find('input.lichess_say').one("focus", function() {
                 $input.val('').removeClass('lichess_hint');
             });
@@ -480,6 +487,9 @@ $.widget("lichess.game", {
                 self.$chat.toggleClass('hidden', ! $(this).attr('checked'));
             }).trigger('change');
         }
+    },
+    appendToChat: function(msg) {
+      if (this.$chat.length) this.$chatMsgs.append(urlToLink(msg))[0].scrollTop = 9999999;
     },
     reloadTable: function(callback) {
         var self = this;

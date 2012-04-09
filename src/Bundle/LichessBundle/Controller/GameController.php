@@ -84,7 +84,7 @@ class GameController extends Controller
             return $this->render('LichessBundle:Player:watch.html.twig', array(
                 'game'           => $game,
                 'player'         => $player,
-                'version'   => $this->get('lila')->gameVersion($player),
+                'version'   => $this->get('lila')->gameVersion($game),
                 'checkSquareKey' => $game->getCheckSquareKey(),
                 'possibleMoves'  => ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null
             ));
