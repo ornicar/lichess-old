@@ -58,7 +58,7 @@ class PlayerController extends Controller
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
             'messageHtml'         => $lilaData['roomHtml'],
-            'stackVersion'        => $lilaData['stackVersion'],
+            'version'             => $lilaData['version'],
             'opponentActivity'    => (int) $lilaData['opponentActivity'],
             'checkSquareKey'      => $game->getCheckSquareKey(),
             'possibleMoves'       => $lilaData['possibleMoves']

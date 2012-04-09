@@ -29,9 +29,9 @@ class Lila
         return $this->get('show/' . $player->getFullId());
     }
 
-    public function playerVersion(Player $player)
+    public function gameVersion(Game $game)
     {
-        return $this->get('player-version/' . $this->gameColorUrl($player));
+        return $this->get('game-version/' . $game->getId());
     }
 
     // int auth 0 or 1

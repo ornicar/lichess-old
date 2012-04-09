@@ -25,20 +25,17 @@ $(function() {
     var $nbPlayersTag = $('#nb_connected_players');
     $.websocketSettings.events.nbp = function(e) {
       $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e.d)).removeClass('none');
-    }
+    };
 
-    var $nbViewers = $('.nb_viewers');
+    var $nbViewers = $('#lichess .nb_viewers');
     if ($nbViewers.length) {
-        ping.pushCallback(function(data) {
-            $nbViewers.html($nbViewers.html().replace(/(\d+|-)/, data.nbw)).toggle(data.nbw > 0);
-        });
+      $.websocketSettings.events.nbw = function(e) {
+        $nbViewers.html($nbViewers.html().replace(/(\d+|-)/, e.d)).toggle(data.nbw > 0);
+      };
     }
 
     if ($('#user_tag').length) {
       $.websocketSettings.params.username = $('#user_tag').attr('data-username');
-      ping.pushCallback(function(data) { 
-        if (typeof data.nbm != "undefined") $('#nb_messages').text(data.nbm).toggleClass('unread', data.nbm > 0); 
-      });
     }
 
     $('input.lichess_id_input').select();

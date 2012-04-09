@@ -8,6 +8,7 @@ $.widget("lichess.game", {
         self.initialTitle = document.title;
         self.hasMovedOnce = false;
         self.premove = null;
+        self.socket;
 
         if (self.options.game.started) {
             self.indicateTurn();
@@ -44,72 +45,20 @@ $.widget("lichess.game", {
             400);
         }
 
-        var ping = $.data(document.body, 'lichess_ping');
         if (self.options.player.spectator) {
-            ping.setData('watcher', self.options.game.id+'.'+self.options.player.unique_id);
+          $.websocketSettings.params.watcher = self.options.game.id+"."+self.options.player.unique_id;
         } else {
-            ping.setData('player_key', lichess_data.player.alive_key);
+          $.websocketSettings.params.player_key = lichess_data.player.alive_key;
         }
-        ping.setData('get_nb_watchers', self.options.game.id);
 
-        function syncLoop() {
-            if (!self.options.opponent.ai || self.options.player.spectator) {
-                setTimeout(function() {
-                    self.sync(syncLoop, false);
-                }, 100);
-            }
-        }
-        setTimeout(syncLoop, 1000);
-    },
-    sync: function(callback, reloadIfFail) {
-        var self = this;
-        self.currentSync = $.ajax(self.options.url.sync.replace(/9999999/, self.options.player.version), {
-            type: 'GET',
-            dataType: 'json',
-            timeout: self.options.sync_latency + 5000,
-            success: function(data) {
-                if (!data) return self.onError('received empty data', reloadIfFail);
-                var $cl = $('#connection_lost');
-                if (data.reload) {
-                    location.reload();
-                    return;
-                }
-                if (!self.options.opponent.ai && self.options.game.started && self.options.opponent.active != data.oa) {
-                    self.options.opponent.active = data.oa;
-                    self.get(self.options.url.opponent, {
-                        success: function(html) {
-                            self.$table.find('div.lichess_opponent').html(html).find('a').tipsy({
-                                fade: true
-                            });
-                            $('body').trigger('lichess.content_loaded');
-                        }
-                    }, false);
-                }
-                if (data.v && data.v != self.options.player.version) {
-                    self.options.player.version = data.v;
-                    self.applyEvents(data.e);
-                }
-                if (data.t) {
-                    self.options.game.turns = data.t;
-                }
-                if (data.p) {
-                    self.options.game.player = data.p;
-                }
-                if (data.c) {
-                    self.updateClocks(data.c);
-                }
-            },
-            complete: function(xhr, status) {
-                if (status != 'success') {
-                    self.onError('status is not success: '+status, reloadIfFail);
-                    // delay it a bit to avoid query frenzy
-                    setTimeout(function() {
-                      $.isFunction(callback) && callback();
-                    }, 1000);
-                } else {
-                  $.isFunction(callback) && callback();
-                }
-            }
+        self.socket = new $.websocket("ws://127.0.0.1:9000/socket/" + self.options.game.id + "/" + self.options.player.color, self.options.player.version, {
+          events: { },
+          params: {
+            playerId: self.options.player.id
+          },
+          options: {
+            debug: true
+          }
         });
     },
     isMyTurn: function() {
@@ -372,17 +321,7 @@ $.widget("lichess.game", {
         self.options.possible_moves = null;
         self.movePiece($oldSquare.attr("id"), squareId, null, true);
 
-        function sendMoveRequest(moveData) {
-            self.post(self.options.url.move, {
-                success: self.options.opponent.ai ? function() {
-                    setTimeout(function() {
-                        self.sync();
-                    },
-                    self.options.animation_delay);
-                }: null,
-                data: moveData,
-            }, true);
-        }
+        // TODO send moveData here
 
         var color = self.options.player.color;
         // promotion
@@ -520,18 +459,14 @@ $.widget("lichess.game", {
 
             // send a message
             $form.submit(function() {
-                text = $.trim($input.val());
+                var text = $.trim($input.val());
                 if (!text) return false;
                 if (text.length > 140) {
                     alert('Max length: 140 chars. ' + text.length + ' chars used.');
                     return false;
                 }
                 $input.val('');
-                self.post(self.options.url.say, {
-                    data: {
-                        message: text
-                    }
-                }, true);
+                self.socket.send('talk', text);
                 return false;
             });
 

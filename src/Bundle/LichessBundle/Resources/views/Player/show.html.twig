@@ -31,7 +31,7 @@
     </div>
 {% endblock %}
 {% block js_data %}
-    {{ lichess_game_data(player, stackVersion, possibleMoves, opponentActivity) }}
+    {{ lichess_game_data(player, version, possibleMoves, opponentActivity) }}
 {% endblock %}
 {% block chat %}
 {% if player.opponent.isHuman %}{% include "LichessBundle:Player:room.html.twig" with {"messageHtml": messageHtml} %}{% endif %}
