@@ -24,13 +24,13 @@ $(function() {
 
     var $nbPlayersTag = $('#nb_connected_players');
     $.websocketSettings.events.nbp = function(e) {
-      $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e.d)).removeClass('none');
+      $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e)).removeClass('none');
     };
 
     var $nbViewers = $('#lichess .nb_viewers');
     if ($nbViewers.length) {
       $.websocketSettings.events.nbw = function(e) {
-        $nbViewers.html($nbViewers.html().replace(/(\d+|-)/, e.d)).toggle(data.nbw > 0);
+        $nbViewers.html($nbViewers.html().replace(/(\d+|-)/, e)).toggle(data.nbw > 0);
       };
     }
 

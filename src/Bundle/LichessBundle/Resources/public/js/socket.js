@@ -34,6 +34,7 @@ $.websocket.prototype = {
     return this.ws.send($.toJSON({t: t, d: d})); 
   },
   connect: function() { var self = this;
+    self._debug("WS connection attempt");
     self._destroy();
     self.fullUrl = self.url + "?" + $.param($.extend(self.settings.params, { version: self.version }));
     self.ws = new WebSocket(self.fullUrl); 
@@ -50,7 +51,7 @@ $.websocket.prototype = {
           self.options.offlineTag.show(); 
         }, self.options.offlineDelay);
         if (self.options.reconnectDelay) self.reconnectTimeout = setTimeout(function() {
-          self.connect
+          self.connect();
         }, self.options.reconnectDelay);
         self.settings.close();
       })
@@ -59,7 +60,7 @@ $.websocket.prototype = {
         self._debug(m);
         if (m.v) self.version = m.v;
         var h = self.settings.events[m.t];
-        if ($.isFunction(h)) h(m);
+        if ($.isFunction(h)) h(m.d || null);
         else self._debug("WS " + m.t + " not supported");
         self.settings.message(m);
       });
