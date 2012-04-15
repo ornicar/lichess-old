@@ -3,6 +3,16 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
 };
 
 $(function() {
+
+    if ($('#user_tag').length) {
+      $.websocketSettings.params.username = $('#user_tag').attr('data-username');
+    }
+
+    var $nbPlayersTag = $('#nb_connected_players');
+    $.websocketSettings.events.nbp = function(e) {
+      $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e)).removeClass('none');
+    };
+
     // Start game
     var $game = $('div.lichess_game').orNot();
     if ($game) {
@@ -16,24 +26,8 @@ $(function() {
         }
     }
 
-    // workaround
-    var ping = {
-      pushCallback: function() {},
-      setData: function() {}
-    };
-
-    var $nbPlayersTag = $('#nb_connected_players');
-    $.websocketSettings.events.nbp = function(e) {
-      $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e)).removeClass('none');
-    };
-
-    if ($('#user_tag').length) {
-      $.websocketSettings.params.username = $('#user_tag').attr('data-username');
-    }
-
     $('input.lichess_id_input').select();
 
-    // Append marks 1-8 && a-h
     if ($bw = $('div.lichess_board_wrap').orNot()) {
         if ($('div.lichess_homepage').length == 0)
           $.displayBoardMarks($bw, $('#lichess > div.lichess_player_white').length);

@@ -1,49 +1,31 @@
 {% set game = player.game %}
-{% if game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.opponent.color, "position": "top"} %}
-{% endif %}
-<div class="lichess_table{{ game.hasClock ? " table_with_clock" : "" }}{{ game.isFinished ? " finished" : "" }} spectator">
-    <div class="lichess_opponent">
-        {% render "LichessBundle:Player:player" with {"player": player.opponent} %}
-    </div>
-    <div class="lichess_separator"></div>
-    <div class="lichess_current_player">
-        {% if game.isFinished or game.isAborted %}
-            {% if game.winner %}
-                <div class="lichess_player {{ game.winner.color }}">
-                    <div class="lichess_piece king {{ game.winner.color }}"></div>
-                    <p>{{ game.statusMessage|trans }}<br />{{ (game.winner.color|capitalize ~ " is victorious")|trans }}</p>
-                </div>
-            {% else %}
-                <div class="lichess_player">
-                    <p>{{ game.statusMessage|trans }}</p>
-                </div>
-            {% endif %}
-        {% else %}
-            <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
-                <div class="lichess_piece king white"></div>
-                <p>{{ "White plays"|trans }}</p>
+<div class="lichess_current_player">
+    {% if game.isFinished or game.isAborted %}
+        {% if game.winner %}
+            <div class="lichess_player {{ game.winner.color }}">
+                <div class="lichess_piece king {{ game.winner.color }}"></div>
+                <p>{{ game.statusMessage|trans }}<br />{{ (game.winner.color|capitalize ~ " is victorious")|trans }}</p>
             </div>
-            <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
-                <div class="lichess_piece king black"></div>
-                <p>{{ 'Black plays'|trans }}</p>
+        {% else %}
+            <div class="lichess_player">
+                <p>{{ game.statusMessage|trans }}</p>
             </div>
         {% endif %}
-    </div>
-    <div class="lichess_separator"></div>
-    {% render "LichessBundle:Player:player" with {"player": player} %}
-    {% if game.next %}
-        <div class="lichess_control buttons">
-            <a class="button" href="{{ path('lichess_game', {'id': game.next.id, 'color': player.opponent.color}) }}">View rematch</a>
+    {% else %}
+        <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
+            <div class="lichess_piece king white"></div>
+            <p>{{ "White plays"|trans }}</p>
+        </div>
+        <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
+            <div class="lichess_piece king black"></div>
+            <p>{{ 'Black plays'|trans }}</p>
         </div>
     {% endif %}
 </div>
-{% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
+<div class="lichess_separator"></div>
+{% include "LichessBundle:Player:player.html.twig" with {"player": player} %}
+{% if game.next %}
+    <div class="lichess_control buttons">
+        <a class="button" href="{{ path('lichess_game', {'id': game.next.id, 'color': player.opponent.color}) }}">View rematch</a>
+    </div>
 {% endif %}
-{% if is_granted('ROLE_VIEW_TRIALS_IN_GAME') %}
-    {% for trial in lichess_game_trials(game) %}
-    <br />{{ trial.user.username }}: {{ trial.score }}% suspicion
-    {% endfor %}
-{% endif %}
-        

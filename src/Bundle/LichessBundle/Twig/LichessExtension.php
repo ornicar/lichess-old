@@ -192,11 +192,7 @@ class LichessExtension extends Twig_Extension
                 'ai'     => $opponent->getIsAi(),
             ),
             'url' => array(
-                'sync'      => $this->lilaPath('sync/'.implode("/", array($gameId, $color, 9999999, $playerFullId))),
-                'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
-                'move'      => $this->lilaPath('move/'.$playerFullId),
-                'say'       => $this->lilaPath('talk/'.$playerFullId),
-                'outoftime' => $game->hasClock() ? $this->lilaPath('outoftime/'.$playerFullId) : null
+                'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId))
             ),
             'i18n' => array(
                 'Game Over'            => $translator->trans('Game Over'),
@@ -250,8 +246,7 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'sync'     => $this->lilaPath('sync/'.implode('/', array($gameId, $color, 9999999))),
-                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')),
+                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
             ),
             'i18n' => array(
                 'Game Over'            => $translator->trans('Game Over'),

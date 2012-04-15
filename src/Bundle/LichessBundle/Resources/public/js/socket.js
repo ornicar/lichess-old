@@ -7,6 +7,7 @@ $.websocketSettings = {
     uid: Math.random().toString(36).substring(5) // 8 chars
   },
   options: {
+    name: "unnamed",
     reconnectDelay: 1000,
     //reconnectDelay: 0,
     debug: true,
@@ -58,18 +59,25 @@ $.websocket.prototype = {
       })
       .bind('message', function(e){
         var m = $.parseJSON(e.originalEvent.data);
-        self._debug(m);
-        if (m.v) self.version = m.v;
-        var h = self.settings.events[m.t];
-        if ($.isFunction(h)) h(m.d || null);
-        else self._debug("WS " + m.t + " not supported");
-        self.settings.message(m);
+        if (m.t != "nbp") self._debug(m);
+        if (m.t == "batch") {
+          $(m.d || []).each(function() { self._handle(this); });
+        } else {
+          self._handle(m);
+        }
       });
   },
   disconnect: function() { 
     this.ws.close(); 
     clearTimeout(self.reconnectTimeout);
   },
-  _debug: function(msg) { if (this.options.debug) console.debug(msg); },
+  _handle: function(m) { var self = this;
+    if (m.v) self.version = m.v;
+    var h = self.settings.events[m.t];
+    if ($.isFunction(h)) h(m.d || null);
+    else self._debug("WS " + m.t + " not supported");
+    self.settings.message(m);
+  },
+  _debug: function(msg) { if (this.options.debug) console.debug("[" + this.options.name + "] " + msg); },
   _destroy: function() { if (this.ws) { this.ws.close(); this.ws = null; } }
 };

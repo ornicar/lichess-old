@@ -18,7 +18,12 @@
         </div>
         <div data-reload-url="{{ path("fos_user_online_users") }}" class="online_users">
             <h1 class="lichess_title">{{ "Who is online"|trans }}</h1>
-            <div class="online_users_inner">{% render "FOSUserBundle:Online:listOnline" %}</div>
+              <h2>{{ "All players"|trans }} (<span class="players_count none">?</span>)</h2>
+              <ul class="anonymous_users clearfix"></ul>
+              <div class="online_users_inner">
+                {% render "FOSUserBundle:Online:listOnline" %}
+              </div>
+            </div>
         </div>
     </div>
 </div>

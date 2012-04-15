@@ -1,56 +1,38 @@
 {% set game = player.game %}
 {% set winner = game.winner %}
-{% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": player.game.clock, "color": player.opponent.color, "position": "top"} %}
-{% endif %}
-<div class="lichess_table finished{{ game.hasClock ? " table_with_clock" : "" }}{{ game.next is defined ? " lichess_table_next" : "" }}">
-    <div class="lichess_opponent">
-        {% if player.opponent.isAi %}
-        <span>{{ "%ai_name% level %ai_level%"|trans({'%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel}) }}</span>
-        {% else %}
-            <div class="opponent_status">
-                {% render "LichessBundle:Player:player" with {"player": player.opponent} %}
-            </div>
-        {% endif %}
-    </div>
-    <div class="lichess_separator"></div>
-    <div class="lichess_current_player">
-        {% if winner %}
-            <div class="lichess_player {{ winner.color }}">
-                <div class="lichess_piece king {{ winner.color }}"></div>
-                <p>{{ game.statusMessage|trans }}<br />{{ (winner.color|capitalize ~ " is victorious")|trans }}</p>
-            </div>
-        {% else %}
-            <div class="lichess_player">
-                <p>{{ game.statusMessage|trans }}</p>
-            </div>
-        {% endif %}
-    </div>
-    <div class="lichess_control buttons">
-        {% if player.opponent.isHuman %}
-            <div class="lichess_separator"></div>
-            {% if game.next %}
-                <a class="button" href="{{ path('lichess_game', {'id': game.next.id, 'color': player.opponent.color}) }}">View rematch</a>
-            {% elseif player.opponent.isOfferingRematch %}
-                <div class="lichess_play_again_join rematch_alert">
-                    {{ "Your opponent wants to play a new game with you"|trans }}.&nbsp;
-                    <a class="lichess_play_again lichess_rematch" title="{{ "Play with the same opponent again"|trans }}" href="{{ path("lichess_rematch", {"id": player.fullId} ) }}">{{ "Join the game"|trans }}</a><br />
-                    <a class="lichess_play_again_decline">{{ "Decline invitation"|trans }}</a>
-                </div>
-            {% elseif player.isOfferingRematch %}
-                <div class="lichess_play_again_join rematch_wait">
-                    {{ "Rematch offer sent"|trans }}.<br />
-                    {{ 'Waiting for opponent'|trans }}...
-                </div>
-            {% else %}
-            <a class="lichess_rematch button" title="{{ "Play with the same opponent again"|trans }}" href="{{ path("lichess_rematch", {"id": player.fullId} ) }}">{{ "Rematch"|trans }}</a>
-            {% endif %}
-        {% else %}
-        <a class="button" title="{{ "Play with the same opponent again"|trans }}" href="{{ path("lichess_homepage") }}#ai">{{ "Rematch"|trans }}</a>
-        {% endif %}
-        <a class="lichess_new_game button" title="{{ "Play with another opponent"|trans }}" href="{{ path("lichess_homepage") }}">{{ "New opponent"|trans }}</a>
-    </div>
+<div class="lichess_current_player">
+    {% if winner %}
+        <div class="lichess_player {{ winner.color }}">
+            <div class="lichess_piece king {{ winner.color }}"></div>
+            <p>{{ game.statusMessage|trans }}<br />{{ (winner.color|capitalize ~ " is victorious")|trans }}</p>
+        </div>
+    {% else %}
+        <div class="lichess_player">
+            <p>{{ game.statusMessage|trans }}</p>
+        </div>
+    {% endif %}
 </div>
-{% if player.game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
-{% endif %}
+<div class="lichess_control buttons">
+    {% if player.opponent.isHuman %}
+        <div class="lichess_separator"></div>
+        {% if game.next %}
+            <a class="button" href="{{ path('lichess_game', {'id': game.next.id, 'color': player.opponent.color}) }}">View rematch</a>
+        {% elseif player.opponent.isOfferingRematch %}
+            <div class="lichess_play_again_join rematch_alert">
+                {{ "Your opponent wants to play a new game with you"|trans }}.&nbsp;
+                <a class="lichess_play_again lichess_rematch" title="{{ "Play with the same opponent again"|trans }}" href="{{ path("lichess_rematch", {"id": player.fullId} ) }}">{{ "Join the game"|trans }}</a><br />
+                <a class="lichess_play_again_decline">{{ "Decline invitation"|trans }}</a>
+            </div>
+        {% elseif player.isOfferingRematch %}
+            <div class="lichess_play_again_join rematch_wait">
+                {{ "Rematch offer sent"|trans }}.<br />
+                {{ 'Waiting for opponent'|trans }}...
+            </div>
+        {% else %}
+        <a class="lichess_rematch button" title="{{ "Play with the same opponent again"|trans }}" href="{{ path("lichess_rematch", {"id": player.fullId} ) }}">{{ "Rematch"|trans }}</a>
+        {% endif %}
+    {% else %}
+    <a class="button" title="{{ "Play with the same opponent again"|trans }}" href="{{ path("lichess_homepage") }}#ai">{{ "Rematch"|trans }}</a>
+    {% endif %}
+    <a class="lichess_new_game button" title="{{ "Play with another opponent"|trans }}" href="{{ path("lichess_homepage") }}">{{ "New opponent"|trans }}</a>
+</div>

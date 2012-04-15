@@ -68,12 +68,6 @@ class Lila
         return $this->get('nb-players');
     }
 
-    // used by the GameFixCommand
-    public function outoftime(Player $player)
-    {
-        $this->post('outoftime/' . $player->getFullId());
-    }
-
     public function start(Game $game)
     {
         $this->post('start/' . $game->getId(), array(
@@ -84,11 +78,6 @@ class Lila
     public function reloadTable(Game $game)
     {
         $this->post('reload-table/' . $game->getId());
-    }
-
-    public function alive(Player $player)
-    {
-        $this->post('alive/' . $this->gameColorUrl($player));
     }
 
     public function end(Game $game)

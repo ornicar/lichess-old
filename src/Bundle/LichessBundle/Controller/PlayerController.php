@@ -70,7 +70,6 @@ class PlayerController extends Controller
         if($player->getGame()->getIsStarted()) {
             return new RedirectResponse($this->generateUrl('lichess_player', array('id' => $id)));
         }
-        $this->get('lila')->alive($player);
 
         $config = new GameConfig();
         $config->fromArray($this->get('session')->get('lichess.game_config.friend', array()));
@@ -99,17 +98,7 @@ class PlayerController extends Controller
             $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
             $template = 'watchTable';
         }
-        return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
-            'player'           => $player
-        ));
-    }
-
-    public function playerAction(Player $player)
-    {
-        return $this->render('LichessBundle:Player:player.html.twig', array(
-            'player'         => $player,
-            'game'             => $player->getGame()
-        ));
+        return $this->render('LichessBundle:Game:'.$template.'.html.twig', array('player' => $player));
     }
 
     protected function flush($safe = true)

@@ -12,7 +12,26 @@
     <div class="lichess_ground">
         {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player, "position": "top"} %}
         <div class="lichess_table_wrap">
-            {% render "LichessBundle:Player:table" with {"id": game.id, "color": player.color, "playerFullId": player.fullId} %}
+          {% if game.hasClock %}
+              {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.opponent.color, "position": "top"} %}
+          {% endif %}
+          <div class="lichess_table{{ game.hasClock ? " table_with_clock" : "" }}{{ game.isFinished ? " finished" : "" }}">
+            <div class="lichess_opponent">
+                <div class="opponent_status">
+                    {% include "LichessBundle:Player:player.html.twig" with {"player": player.opponent} %}
+                </div>
+            </div>
+            <div class="lichess_separator"></div>
+            <div class="table_inner">
+              {% include (game.isPlayable ? "LichessBundle:Game:table.html.twig" : "LichessBundle:Game:tableEnd.html.twig") with {"player": player} %}
+            </div>
+          </div>
+          {% if game.hasClock %}
+              {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
+              {% if not game.isFinished %}
+                <a class="moretime" href="#" title="{{ "Give %nb% seconds"|trans({"%nb%": 15}) }}"></a>
+              {% endif %}
+          {% endif %}
         </div>
         {% include "LichessBundle:Game:cemetery.html.twig" with {"player": player.opponent, "position": "bottom"} %}
     </div>

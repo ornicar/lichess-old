@@ -4,6 +4,7 @@ $.widget("lichess.game", {
         var self = this;
         self.$board = self.element.find("div.lichess_board");
         self.$table = self.element.find("div.lichess_table_wrap");
+        self.$tableInner = self.$table.find("div.table_inner");
         self.$chat = $("div.lichess_chat");
         self.$chatMsgs = self.$chat.find('.lichess_messages');
         self.$nbViewers = $('.nb_viewers');
@@ -119,6 +120,10 @@ $.widget("lichess.game", {
             end: function(event) {
               // Game end must be applied firt: no queue
               self.options.game.finished = true;
+              self.$table
+                .find("div.lichess_table").addClass("finished").end()
+                .find(".moretime").remove().end()
+                .find('div.clock').clock('stop');
               self.element.find("div.ui-draggable").draggable("destroy");
               // But enqueue the visible changes
               self.element.queue(function() {
@@ -153,6 +158,13 @@ $.widget("lichess.game", {
               $(["white", "black"]).each(function() {
                 self.$table.find("div.username." + this).toggleClass("connected", event[this]).toggleClass("offline", !event[this]);
               });
+            },
+            state: function(event) {
+              self.element.queue(function() {
+                self.options.game.player = event.color;
+                self.options.game.turns = event.turns;
+                self.element.dequeue();
+              });
             }
           },
           params: {
@@ -182,8 +194,8 @@ $.widget("lichess.game", {
         }
 
         if (!self.$table.find('>div').hasClass('finished')) {
-            self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.opponent.color: self.options.player.color)).hide();
-            self.$table.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.player.color: self.options.opponent.color)).show();
+            self.$tableInner.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.opponent.color: self.options.player.color)).hide();
+            self.$tableInner.find("div.lichess_current_player div.lichess_player." + (self.isMyTurn() ? self.options.player.color: self.options.opponent.color)).show();
         }
     },
     movePiece: function(from, to, callback, mine) {
@@ -503,10 +515,8 @@ $.widget("lichess.game", {
         self.get(self.options.url.table, {
             success: function(html) {
                 $('body > div.tipsy').remove();
-                self.destroyClocks();
-                self.$table.html(html);
+                self.$tableInner.html(html);
                 self.initTable();
-                self.initClocks();
                 $.isFunction(callback) && callback();
                 $('body').trigger('lichess.content_loaded');
             }
@@ -538,15 +548,12 @@ $.widget("lichess.game", {
                 time: $(this).attr('data-time'),
                 buzzer: function() {
                     if (!self.options.game.finished && ! self.options.player.spectator) {
-                        self.post(self.options.url.outoftime, {}, false);
+                        self.socket.send("outoftime");
                     }
                 }
             });
         });
         self.updateClocks();
-    },
-    destroyClocks: function() {
-        this.$table.find('div.clock_enabled').clock('destroy').remove();
     },
     updateClocks: function(times) {
         var self = this;
@@ -559,15 +566,6 @@ $.widget("lichess.game", {
         self.$table.find('div.clock').clock('stop');
         if (self.options.game.turns > 0) {
             self.$table.find('div.clock_' + self.options.game.player).clock('start');
-        }
-    },
-    updateClock: function(color, time) {
-        var self = this;
-        if (!self.canRunClock()) return;
-        self.$table.find('div.clock_' + color).clock('setTime', time);
-        self.$table.find('div.clock').clock('stop');
-        if (self.options.game.turns > 0) {
-            self.$table.find('div.clock_' + color).clock('start');
         }
     },
     canRunClock: function() {

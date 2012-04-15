@@ -1,53 +1,38 @@
 {% set game = player.game %}
-{% if game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.opponent.color, "position": "top"} %}
-{% endif %}
-<div class="lichess_table{{ game.hasClock ? " table_with_clock" : "" }}">
-    <div class="lichess_opponent">
-        <div class="opponent_status">
-            {% render "LichessBundle:Player:player" with {"player": player.opponent} %}
-        </div>
+<div class="lichess_current_player">
+    <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
+        <div class="lichess_piece king white"></div>
+        <p>{{ (player.isWhite ? 'Your turn' : 'Waiting')|trans }}</p>
     </div>
-    <div class="lichess_separator"></div>
-    <div class="lichess_current_player">
-        <div class="lichess_player white {{ game.turnColor == "black" ? " none" : "" }}">
-            <div class="lichess_piece king white"></div>
-            <p>{{ (player.isWhite ? 'Your turn' : 'Waiting')|trans }}</p>
-        </div>
-        <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
-            <div class="lichess_piece king black"></div>
-            <p>{{ (player.isBlack ? 'Your turn' : 'Waiting')|trans }}</p>
-        </div>
+    <div class="lichess_player black {{ game.turnColor == "white" ? " none" : "" }}">
+        <div class="lichess_piece king black"></div>
+        <p>{{ (player.isBlack ? 'Your turn' : 'Waiting')|trans }}</p>
     </div>
-    <div class="lichess_control clearfix">
-        {% if game.isAbortable %}
-            <a href="{{ lila_path("abort/" ~ player.fullId) }}" class="lichess_abort">{{ "Abort game"|trans }}</a>
-        {% else %}
-        <a href="{{ lila_path("resign/" ~ player.fullId) }}" class="lichess_resign" title="{{ "Give up"|trans }}">{{ "Resign"|trans }}</a>
-            {% if player.canOfferDraw %}
-                <a class="offer_draw" href="{{ lila_path("draw-offer/" ~ player.fullId) }}">{{ "Offer draw"|trans }}</a>
-            {% endif %}
+</div>
+<div class="lichess_control clearfix">
+    {% if game.isAbortable %}
+        <a href="{{ lila_path("abort/" ~ player.fullId) }}" class="lichess_abort">{{ "Abort game"|trans }}</a>
+    {% else %}
+    <a href="{{ lila_path("resign/" ~ player.fullId) }}" class="lichess_resign" title="{{ "Give up"|trans }}">{{ "Resign"|trans }}</a>
+        {% if player.canOfferDraw %}
+            <a class="offer_draw" href="{{ lila_path("draw-offer/" ~ player.fullId) }}">{{ "Offer draw"|trans }}</a>
         {% endif %}
-    </div>
-    {% if player.isMyTurn and game.isThreefoldRepetition %}
-    <div class="lichess_claim_draw_zone">
-        {{ "Threefold repetition"|trans }}.&nbsp;
-        <a class="lichess_claim_draw" href="{{ lila_path("draw-claim/" ~ player.fullId) }}">{{ "Claim a draw"|trans }}</a>
-    </div>
-    {% elseif player.isOfferingDraw %}
-    <div class="offered_draw">
-        {{ "Draw offer sent"|trans }}.&nbsp;
-        <a href="{{ lila_path("draw-cancel/" ~ player.fullId) }}">{{ "Cancel"|trans }}</a>
-    </div>
-    {% elseif player.opponent.isOfferingDraw %}
-    <div class="offered_draw">
-        {{ "Your opponent offers a draw"|trans }}.<br />
-        <a href="{{ lila_path("draw-accept/" ~ player.fullId) }}">{{ "Accept"|trans }}</a>&nbsp;
-        <a href="{{ lila_path("draw-decline/" ~ player.fullId) }}">{{ "Decline"|trans }}</a>
-    </div>
     {% endif %}
 </div>
-{% if game.hasClock %}
-    {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
-    <a class="moretime" href="#" title="{{ "Give %nb% seconds"|trans({"%nb%": 15}) }}"></a>
+{% if player.isMyTurn and game.isThreefoldRepetition %}
+<div class="lichess_claim_draw_zone">
+    {{ "Threefold repetition"|trans }}.&nbsp;
+    <a class="lichess_claim_draw" href="{{ lila_path("draw-claim/" ~ player.fullId) }}">{{ "Claim a draw"|trans }}</a>
+</div>
+{% elseif player.isOfferingDraw %}
+<div class="offered_draw">
+    {{ "Draw offer sent"|trans }}.&nbsp;
+    <a href="{{ lila_path("draw-cancel/" ~ player.fullId) }}">{{ "Cancel"|trans }}</a>
+</div>
+{% elseif player.opponent.isOfferingDraw %}
+<div class="offered_draw">
+    {{ "Your opponent offers a draw"|trans }}.<br />
+    <a href="{{ lila_path("draw-accept/" ~ player.fullId) }}">{{ "Accept"|trans }}</a>&nbsp;
+    <a href="{{ lila_path("draw-decline/" ~ player.fullId) }}">{{ "Decline"|trans }}</a>
+</div>
 {% endif %}

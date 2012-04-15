@@ -9,9 +9,18 @@ $(function()
                     $users.find('div.online_users_inner').html(html);
                     reloadOnlineUsers();
                 });
-            }, 2100);
+            }, 5000);
         };
         reloadOnlineUsers();
+
+        var $nbPlayersTag = $users.find('.players_count');
+        var $anonsTag = $users.find('.anonymous_users');
+        var oldNbpFn = $.websocketSettings.events.nbp
+        $.websocketSettings.events.nbp = function(e) {
+          oldNbpFn(e);
+          $nbPlayersTag.html(e).removeClass('none');
+          $anonsTag.html(str_repeat('<li></li>', e));
+        };
     }
 
     if($searchForm = $('form.search_user_form').orNot()) {
@@ -24,4 +33,9 @@ $(function()
             return false;
         });
     }
+
+    new $.websocket("ws://127.0.0.1:9000/socket", 0);
 });
+function str_repeat(input, multiplier) { 
+  return new Array(multiplier + 1).join(input);
+}

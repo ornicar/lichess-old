@@ -1,16 +1,4 @@
-<h2>{{ "All players"|trans }} ({{ nbPlayers}})</h2>
-<ul class="anonymous_users clearfix">
-    {% for player in 1..nbPlayers %}<li></li>{% endfor %}
-</ul>
 <h2>{{ "Named players"|trans }} ({{ users.count }})</h2>
 <ul class="users">
-    {% set isAuthenticated = is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-    {% for user in users %}
-    <li>
-        {{ lichess_link_user(user, none, true) }}
-        {% if isAuthenticated and app.user != user %}
-            <a class="send" href="{{ path("ornicar_message_thread_new", {"to": user.username}) }}">{{ "Send a message"|trans }}</a>
-        {% endif %}
-    </li>
-    {% endfor %}
+{% for user in users %}<li>{{ lichess_link_user(user, none, true) }}</li>{% endfor %}
 </ul>
