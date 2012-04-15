@@ -87,8 +87,10 @@ $(function() {
         $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
         addToChat(chatHtml);
       }
-      if (hookOwnerId) { $.websocketSettings.params.hook = hookOwnerId; }
       socket = new $.websocket("ws://127.0.0.1:9000/lobby/socket", preloadData.version, {
+        params: {
+          hook: hookOwnerId
+        },
         events: {
           talk: function(e) { if (chatExists) addToChat(buildChatMessage(e.txt, e.u)); },
           entry: function(e) { renderTimeline([e]); },
@@ -98,6 +100,9 @@ $(function() {
             $.lichessOpeningPreventClicks();
             location.href = 'http://'+location.hostname+'/'+e;
           }
+        },
+        options: {
+          name: "lobby"
         }
       });
     }

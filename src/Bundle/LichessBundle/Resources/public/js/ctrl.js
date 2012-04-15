@@ -2,16 +2,11 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
     log: function() {}
 };
 
+var lichess = {
+  socket: null
+};
+
 $(function() {
-
-    if ($('#user_tag').length) {
-      $.websocketSettings.params.username = $('#user_tag').attr('data-username');
-    }
-
-    var $nbPlayersTag = $('#nb_connected_players');
-    $.websocketSettings.events.nbp = function(e) {
-      $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e)).removeClass('none');
-    };
 
     // Start game
     var $game = $('div.lichess_game').orNot();
@@ -25,6 +20,23 @@ $(function() {
             });
         }
     }
+
+    var $nbPlayersTag = $('#nb_connected_players');
+    lichess.socket = new $.websocket("ws://127.0.0.1:9000/socket", 0, {
+      params: {
+        username: $('#user_tag').attr('data-username')
+      },
+      events: {
+        nbp: function(e) {
+          $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e)).removeClass('none');
+        }
+      },
+      options: {
+        name: "site",
+        offlineDelay: 5000,
+        offlineTag: $('#connection_lost')
+      }
+    });
 
     $('input.lichess_id_input').select();
 

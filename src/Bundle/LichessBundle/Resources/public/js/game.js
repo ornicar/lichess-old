@@ -169,6 +169,9 @@ $.widget("lichess.game", {
           },
           params: {
             playerId: self.options.player.id
+          },
+          options: {
+            name: "game"
           }
         });
     },
