@@ -161,7 +161,7 @@ class LichessExtension extends Twig_Extension
         return $this->lilaBasePath . "/" . $path;
     }
 
-    public function renderGameData(Player $player, $version, $possibleMoves, $isOpponentActive)
+    public function renderGameData(Player $player, $version, $possibleMoves)
     {
         $game         = $player->getGame();
         $gameId       = $game->getId();
@@ -185,18 +185,15 @@ class LichessExtension extends Twig_Extension
                 'id'        => $player->getId(),
                 'color'     => $player->getColor(),
                 'version'   => $version,
-                'spectator' => false,
-                'alive_key' => $game->getId() . '.' . $player->getColorLetter()
+                'spectator' => false
             ),
             'opponent' => array(
                 'color'  => $opponent->getColor(),
                 'ai'     => $opponent->getIsAi(),
-                'active' => $isOpponentActive,
             ),
             'url' => array(
                 'sync'      => $this->lilaPath('sync/'.implode("/", array($gameId, $color, 9999999, $playerFullId))),
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
-                'opponent'  => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
                 'move'      => $this->lilaPath('move/'.$playerFullId),
                 'say'       => $this->lilaPath('talk/'.$playerFullId),
                 'outoftime' => $game->hasClock() ? $this->lilaPath('outoftime/'.$playerFullId) : null
@@ -255,7 +252,6 @@ class LichessExtension extends Twig_Extension
             'url' => array(
                 'sync'     => $this->lilaPath('sync/'.implode('/', array($gameId, $color, 9999999))),
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')),
-                'opponent' => $generator->generate('lichess_opponent', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
             ),
             'i18n' => array(
                 'Game Over'            => $translator->trans('Game Over'),

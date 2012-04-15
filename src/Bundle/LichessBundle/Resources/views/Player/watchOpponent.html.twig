@@ -1,7 +1,0 @@
-{% if opponent.isAi %}
-    {{ "%ai_name% level %ai_level%"|trans({'%ai_name%': 'Crafty A.I.', '%ai_level%': opponent.aiLevel}) }}
-{% else %}
-<div class="username">
-    {{ lichess_link_player(opponent)|raw }}
-</div>
-{% endif %}

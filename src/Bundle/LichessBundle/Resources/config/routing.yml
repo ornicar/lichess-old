@@ -34,10 +34,6 @@ lichess_table:
     pattern:        /table/{id}/{color}/{playerFullId}
     defaults:       { _controller: LichessBundle:Player:table, playerFullId "" }
     requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)" }
-lichess_opponent:
-    pattern:        /opponent/{id}/{color}/{playerFullId}
-    defaults:       { _controller: LichessBundle:Player:opponent, playerFullId "" }
-    requirements:   { id: "[\w\-]{8}", color: (white|black), playerFullId: "([\w\-]{12}|)" }
 lichess_list_current:
     pattern:        /games
     defaults:       { _controller: LichessBundle:Game:listCurrent }

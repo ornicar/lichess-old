@@ -6,6 +6,7 @@ $.widget("lichess.game", {
         self.$table = self.element.find("div.lichess_table_wrap");
         self.$chat = $("div.lichess_chat");
         self.$chatMsgs = self.$chat.find('.lichess_messages');
+        self.$nbViewers = $('.nb_viewers');
         self.initialTitle = document.title;
         self.hasMovedOnce = false;
         self.premove = null;
@@ -44,12 +45,6 @@ $.widget("lichess.game", {
                 setTimeout(self.updateTitle, 400);
             },
             400);
-        }
-
-        if (self.options.player.spectator) {
-          $.websocketSettings.params.watcher = self.options.game.id+"."+self.options.player.unique_id;
-        } else {
-          $.websocketSettings.params.player_key = lichess_data.player.alive_key;
         }
 
         self.socket = new $.websocket("ws://127.0.0.1:9000/socket/" + self.options.game.id + "/" + self.options.player.color, self.options.player.version, {
@@ -140,13 +135,28 @@ $.widget("lichess.game", {
                       self.element.dequeue();
                   });
               });
+            },
+            clock: function(event) {
+              self.element.queue(function() {
+                self.updateClocks(event);
+                self.element.dequeue();
+              });
+            },
+            premove: function(event) {
+              self.element.queue(function() {
+                self.applyPremove();
+                self.element.dequeue();
+              });
+            },
+            crowd: function(event) {
+              self.$nbViewers.html(self.$nbViewers.html().replace(/(\d+|-)/, event.watchers)).toggle(event.watchers > 0);
+              $(["white", "black"]).each(function() {
+                self.$table.find("div.username." + this).toggleClass("connected", event[this]).toggleClass("offline", !event[this]);
+              });
             }
           },
           params: {
             playerId: self.options.player.id
-          },
-          options: {
-            debug: true
           }
         });
     },
@@ -515,16 +525,8 @@ $.widget("lichess.game", {
             self.post($(this).attr('href'), {}, true);
             return false;
         });
-        var nbmoretime = 0;
-        self.$table.find('a.moretime').click(function() {
-          if (nbmoretime > 3) return false;
-          nbmoretime++;
-          self.post($(this).attr('href'), {
-              success: function(time) {
-                self.updateClock(self.options.opponent.color, time);
-                setTimeout(function() { nbmoretime = Math.max(0, nbmoretime -1); }, 2500);
-              }
-          }, false);
+        self.$table.find('a.moretime').click(function() { 
+          self.socket.send("moretime"); 
           return false;
         });
     },

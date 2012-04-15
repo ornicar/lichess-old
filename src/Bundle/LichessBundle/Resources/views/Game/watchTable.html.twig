@@ -4,7 +4,7 @@
 {% endif %}
 <div class="lichess_table{{ game.hasClock ? " table_with_clock" : "" }}{{ game.isFinished ? " finished" : "" }} spectator">
     <div class="lichess_opponent">
-        {% render "LichessBundle:Player:opponentPlayer" with {"opponent": player.opponent, "playerFullId": ""} %}
+        {% render "LichessBundle:Player:player" with {"player": player.opponent} %}
     </div>
     <div class="lichess_separator"></div>
     <div class="lichess_current_player">
@@ -31,7 +31,7 @@
         {% endif %}
     </div>
     <div class="lichess_separator"></div>
-    {% render "LichessBundle:Player:opponentPlayer" with {"opponent": player, "playerFullId": ""} %}
+    {% render "LichessBundle:Player:player" with {"player": player} %}
     {% if game.next %}
         <div class="lichess_control buttons">
             <a class="button" href="{{ path('lichess_game', {'id': game.next.id, 'color': player.opponent.color}) }}">View rematch</a>

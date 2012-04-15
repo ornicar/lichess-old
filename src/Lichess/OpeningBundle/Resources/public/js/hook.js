@@ -38,9 +38,7 @@ $(function() {
                 return false;
             }
             $input.val('');
-            if (text == "ws-") socket.disconnect();
-            else if (text == "ws+") socket.connect();
-            else socket.send('talk', { u: username, txt: text });
+            socket.send('talk', { u: username, txt: text });
             return false;
         });
         $chat.find('a.send').click(function() { $input.trigger('click'); $form.submit(); });
@@ -92,13 +90,13 @@ $(function() {
       if (hookOwnerId) { $.websocketSettings.params.hook = hookOwnerId; }
       socket = new $.websocket("ws://127.0.0.1:9000/lobby/socket", preloadData.version, {
         events: {
-          talk: function(e) { if (chatExists) addToChat(buildChatMessage(e.d.txt, e.d.u)); },
-          entry: function(e) { renderTimeline([e.d]); },
-          hook_add: function(e) { addHook(e.d); },
-          hook_remove: function(e) { removeHook(e.d); },
+          talk: function(e) { if (chatExists) addToChat(buildChatMessage(e.txt, e.u)); },
+          entry: function(e) { renderTimeline([e]); },
+          hook_add: addHook,
+          hook_remove: removeHook,
           redirect: function(e) {
             $.lichessOpeningPreventClicks();
-            location.href = 'http://'+location.hostname+'/'+e.d;
+            location.href = 'http://'+location.hostname+'/'+e;
           }
         }
       });

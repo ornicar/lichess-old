@@ -30,13 +30,14 @@ $.websocket = function(url, version, settings) {
 $.websocket.prototype = {
   addEvent: function(name, fn) { this.settings.events[name] = fn; },
   send: function(t, d) { 
-    this._debug({t: t, d: d});
-    return this.ws.send($.toJSON({t: t, d: d})); 
+    var data = d || {};
+    this._debug({t: t, d: data});
+    return this.ws.send($.toJSON({t: t, d: data})); 
   },
   connect: function() { var self = this;
-    self._debug("WS connection attempt");
     self._destroy();
     self.fullUrl = self.url + "?" + $.param($.extend(self.settings.params, { version: self.version }));
+    self._debug("WS connection attempt to " + self.fullUrl);
     self.ws = new WebSocket(self.fullUrl); 
     $(self.ws)
       .bind('open', function() {

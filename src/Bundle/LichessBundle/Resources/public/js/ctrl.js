@@ -27,13 +27,6 @@ $(function() {
       $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e)).removeClass('none');
     };
 
-    var $nbViewers = $('#lichess .nb_viewers');
-    if ($nbViewers.length) {
-      $.websocketSettings.events.nbw = function(e) {
-        $nbViewers.html($nbViewers.html().replace(/(\d+|-)/, e)).toggle(data.nbw > 0);
-      };
-    }
-
     if ($('#user_tag').length) {
       $.websocketSettings.params.username = $('#user_tag').attr('data-username');
     }

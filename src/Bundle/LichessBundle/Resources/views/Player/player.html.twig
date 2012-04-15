@@ -1,0 +1,7 @@
+{% if player.isAi %}
+    <div class="username connected">
+        {{ "%ai_name% level %ai_level%"|trans({'%ai_name%': 'Crafty A.I.', '%ai_level%': player.aiLevel}) }}
+    </div>
+{% else %}
+  <div class="username {{ player.color }}">{{ lichess_link_player(player, 'blank_if_play')}}</div>
+{% endif %}

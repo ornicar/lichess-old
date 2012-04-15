@@ -41,7 +41,7 @@ class PlayerController extends Controller
         }
 
         if(!$game->getIsStarted()) {
-            if ($this->get('lila')->getActivity($player->getOpponent()) > 0) {
+            if ($this->get('lila')->getActivity($player->getOpponent())) {
                 $messages = $this->get('lichess.joiner')->join($player);
                 if (!$messages) {
                     return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id)));
@@ -59,7 +59,6 @@ class PlayerController extends Controller
             'player'              => $player,
             'messageHtml'         => $lilaData['roomHtml'],
             'version'             => $lilaData['version'],
-            'opponentActivity'    => (int) $lilaData['opponentActivity'],
             'checkSquareKey'      => $game->getCheckSquareKey(),
             'possibleMoves'       => $lilaData['possibleMoves']
         ));
@@ -101,37 +100,15 @@ class PlayerController extends Controller
             $template = 'watchTable';
         }
         return $this->render('LichessBundle:Game:'.$template.'.html.twig', array(
-            'player'           => $player,
-            'opponentActivity' => $this->get('lila')->getActivity($player->getOpponent())
+            'player'           => $player
         ));
     }
 
-    public function opponentAction($id, $color, $playerFullId)
+    public function playerAction(Player $player)
     {
-        if($playerFullId) {
-            $player = $this->get('lichess.provider')->findPlayer($playerFullId);
-        } else {
-            $player = $this->get('lichess.provider')->findPublicPlayer($id, $color);
-        }
-        $opponent = $player->getOpponent();
-
-        return $this->opponentPlayerAction($opponent, $playerFullId);
-    }
-
-    public function opponentPlayerAction(Player $opponent, $playerFullId)
-    {
-        if($playerFullId) {
-            $template = 'opponent';
-        } else {
-            $template = 'watchOpponent';
-        }
-        $opponentActivity = $playerFullId ? $this->get('lila')->getActivity($opponent) : 2;
-
-        return $this->render('LichessBundle:Player:'.$template.'.html.twig', array(
-            'opponent'         => $opponent,
-            'opponentActivity' => $opponentActivity,
-            'game'             => $opponent->getGame(),
-            'playerFullId'     => $playerFullId
+        return $this->render('LichessBundle:Player:player.html.twig', array(
+            'player'         => $player,
+            'game'             => $player->getGame()
         ));
     }
 

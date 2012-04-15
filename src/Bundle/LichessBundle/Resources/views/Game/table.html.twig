@@ -5,7 +5,7 @@
 <div class="lichess_table{{ game.hasClock ? " table_with_clock" : "" }}">
     <div class="lichess_opponent">
         <div class="opponent_status">
-            {% render "LichessBundle:Player:opponentPlayer" with {"opponent": player.opponent, "playerFullId": player.fullId} %}
+            {% render "LichessBundle:Player:player" with {"player": player.opponent} %}
         </div>
     </div>
     <div class="lichess_separator"></div>
@@ -49,5 +49,5 @@
 </div>
 {% if game.hasClock %}
     {% include "LichessBundle:Game:clock.html.twig" with {"clock": game.clock, "color": player.color, "position": "bottom"} %}
-    <a class="moretime" href="{{ lila_path("moretime/" ~ player.fullId) }}" title="{{ "Give %nb% seconds"|trans({"%nb%": 15}) }}"></a>
+    <a class="moretime" href="#" title="{{ "Give %nb% seconds"|trans({"%nb%": 15}) }}"></a>
 {% endif %}

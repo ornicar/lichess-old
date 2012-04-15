@@ -9,7 +9,7 @@
         <span>{{ "%ai_name% level %ai_level%"|trans({'%ai_name%': 'Crafty A.I.', '%ai_level%': player.opponent.aiLevel}) }}</span>
         {% else %}
             <div class="opponent_status">
-                {% render "LichessBundle:Player:opponent" with {"id": game.id, "color": player.color, "playerFullId": player.fullId} %}
+                {% render "LichessBundle:Player:player" with {"player": player.opponent} %}
             </div>
         {% endif %}
     </div>
