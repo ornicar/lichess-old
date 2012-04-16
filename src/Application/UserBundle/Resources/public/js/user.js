@@ -9,7 +9,7 @@ $(function()
                     $users.find('div.online_users_inner').html(html);
                     reloadOnlineUsers();
                 });
-            }, 5000);
+            }, 3000);
         };
         reloadOnlineUsers();
 
