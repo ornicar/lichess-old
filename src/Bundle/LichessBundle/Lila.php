@@ -92,6 +92,11 @@ class Lila
         $this->reloadTable($game);
     }
 
+    public function rematchCancel(Game $game)
+    {
+        $this->reloadTable($game);
+    }
+
     public function rematchAccept(Player $player, Game $nextGame, array $messages)
     {
         // tell players to move to next game

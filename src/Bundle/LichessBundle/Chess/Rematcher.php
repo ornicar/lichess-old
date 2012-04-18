@@ -38,9 +38,17 @@ class Rematcher
         }
     }
 
+    public function rematchCancel(Player $player)
+    {
+        if ($player->getIsOfferingRematch()) {
+            $player->setIsOfferingRematch(false);
+            return true;
+        }
+        return false;
+    }
+
     protected function offerRematch(Player $player)
     {
-        $game = $player->getGame();
         $player->setIsOfferingRematch(true);
     }
 

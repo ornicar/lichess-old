@@ -26,7 +26,8 @@
         {% elseif player.isOfferingRematch %}
             <div class="lichess_play_again_join rematch_wait">
                 {{ "Rematch offer sent"|trans }}.<br />
-                {{ 'Waiting for opponent'|trans }}...
+                {{ 'Waiting for opponent'|trans }}...<br /><br />
+                <a class="lichess_rematch_cancel" href="{{ path('lichess_rematch_cancel', { "id": player.fullId }) }}">{{ 'Cancel rematch offer'|trans }}</a>
             </div>
         {% else %}
         <a class="lichess_rematch button" title="{{ "Play with the same opponent again"|trans }}" href="{{ path("lichess_rematch", {"id": player.fullId} ) }}">{{ "Rematch"|trans }}</a>

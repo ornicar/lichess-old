@@ -28,6 +28,17 @@ class PlayerController extends Controller
         return new Response('ok');
     }
 
+    public function rematchCancelAction($id)
+    {
+        $player = $this->get('lichess.provider')->findPlayer($id);
+        if ($this->get('lichess.rematcher')->rematchCancel($player)) {
+            $this->flush();
+            $this->get('lila')->rematchCancel($player->getGame());
+        }
+
+        return new Response('ok');
+    }
+
     public function showAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);

@@ -53,6 +53,10 @@ lichess_rematch:
     pattern:        /rematch/{id}
     defaults:       { _controller: LichessBundle:Player:rematch }
     requirements:   { id: "[\w\-]{12}" }
+lichess_rematch_cancel:
+    pattern:        /rematch/cancel/{id}
+    defaults:       { _controller: LichessBundle:Player:rematchCancel }
+    requirements:   { id: "[\w\-]{12}" }
 lichess_pgn_viewer:
     pattern:        /analyse/{id}/{color}
     defaults:       { _controller: LichessBundle:Pgn:analyse, color: white }

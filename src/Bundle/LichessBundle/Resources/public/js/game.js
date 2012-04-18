@@ -534,7 +534,7 @@ $.widget("lichess.game", {
         self.$table.find('a.lichess_play_again_decline').one('click', function() {
             $(this).parent().remove();
         });
-        self.$table.find('a.lichess_rematch').click(function() {
+        self.$table.find('a.lichess_rematch, a.lichess_rematch_cancel').click(function() {
             self.post($(this).attr('href'), {}, true);
             return false;
         });
