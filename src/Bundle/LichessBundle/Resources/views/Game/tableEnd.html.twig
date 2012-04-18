@@ -21,7 +21,7 @@
             <div class="lichess_play_again_join rematch_alert">
                 {{ "Your opponent wants to play a new game with you"|trans }}.&nbsp;
                 <a class="lichess_play_again lichess_rematch" title="{{ "Play with the same opponent again"|trans }}" href="{{ path("lichess_rematch", {"id": player.fullId} ) }}">{{ "Join the game"|trans }}</a><br />
-                <a class="lichess_play_again_decline">{{ "Decline invitation"|trans }}</a>
+                <a class="lichess_rematch_decline" href="{{ path('lichess_rematch_decline', { "id": player.fullId }) }}">{{ "Decline invitation"|trans }}</a>
             </div>
         {% elseif player.isOfferingRematch %}
             <div class="lichess_play_again_join rematch_wait">

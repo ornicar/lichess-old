@@ -47,6 +47,15 @@ class Rematcher
         return false;
     }
 
+    public function rematchDecline(Player $player)
+    {
+        if ($player->getOpponent()->getIsOfferingRematch()) {
+            $player->getOpponent()->setIsOfferingRematch(false);
+            return true;
+        }
+        return false;
+    }
+
     protected function offerRematch(Player $player)
     {
         $player->setIsOfferingRematch(true);

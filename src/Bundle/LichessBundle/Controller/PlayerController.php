@@ -39,6 +39,17 @@ class PlayerController extends Controller
         return new Response('ok');
     }
 
+    public function rematchDeclineAction($id)
+    {
+        $player = $this->get('lichess.provider')->findPlayer($id);
+        if ($this->get('lichess.rematcher')->rematchDecline($player)) {
+            $this->flush();
+            $this->get('lila')->rematchDecline($player->getGame());
+        }
+
+        return new Response('ok');
+    }
+
     public function showAction($id)
     {
         $player = $this->get('lichess.provider')->findPlayer($id);
