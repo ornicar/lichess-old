@@ -134,7 +134,7 @@ class Player
      */
     protected $blurs;
 
-    /*
+    /**
      * Array of move times relative to the opponent previous move
      * Which really means: the time used to make the move
      *
