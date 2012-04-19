@@ -4,16 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="lichess.cheat.internal_detector.turns">14</parameter>
-    </parameters>
-
     <services>
-
-        <service id="lichess.cheat.internal_detector" class="Bundle\LichessBundle\Cheat\InternalDetector" public="false">
-            <argument type="service" id="lichess.repository.game" />
-            <argument>%lichess.cheat.internal_detector.turns%</argument>
-        </service>
 
         <service id="lichess.cheat.punisher" class="Bundle\LichessBundle\Cheat\Punisher">
             <argument type="service" id="lichess.repository.game" />
