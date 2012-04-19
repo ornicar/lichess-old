@@ -118,6 +118,11 @@ class Lila
         $this->post('talk/' . $game->getId(), $message);
     }
 
+    public function adjust($username)
+    {
+        $this->post('adjust/' . $username);
+    }
+
     public function join(Player $player, array $messages)
     {
         $this->post('join/' . $player->getFullId(), array(

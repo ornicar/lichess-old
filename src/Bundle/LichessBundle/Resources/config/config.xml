@@ -5,6 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="lichess.elo.calculator" class="Bundle\LichessBundle\Elo\Calculator" public="false" />
         <service id="lichess.blamer.player" class="Bundle\LichessBundle\Blamer\PlayerBlamer" public="false">
             <argument type="service" id="security.context" />
         </service>
