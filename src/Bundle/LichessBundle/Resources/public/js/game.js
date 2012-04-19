@@ -333,8 +333,8 @@ $.widget("lichess.game", {
         isPremove = isPremove || false;
         squareId = $newSquare.attr('id'),
         moveData = {
-            from: $oldSquare.attr("id"),
-            to: squareId,
+            orig: $oldSquare.attr("id"),
+            dest: squareId,
             b: self.blur
         };
 

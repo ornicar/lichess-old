@@ -146,6 +146,12 @@ class Player
     protected $previousMoveTs = null;
 
     /**
+     * @var integer
+     * @MongoDB\Field(type="int")
+     */
+    protected $blurs;
+
+    /**
      * the player current game
      *
      * @var Game
@@ -159,6 +165,23 @@ class Player
         }
         $this->c = $color;
         $this->generateId();
+    }
+
+    public function getBlurs()
+    {
+        return $this->blurs ? $this->blurs : 0;
+    }
+
+    public function getBlurPercent()
+    {
+        $nbMoves = $this->getNbMoves();
+
+        return $nbMoves == 0 ? 0 : round(($this->getBlurs() * 100) / $nbMoves);
+    }
+
+    public function getNbMoves()
+    {
+        return floor(($this->getGame()->getTurns() + ($this->isWhite() ? 1 : 0)) / 2);
     }
 
     /**

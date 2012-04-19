@@ -20,13 +20,5 @@
             <argument type="service" id="lichess.elo.updater" />
         </service>
 
-        <service id="lichess.cheat.judge" class="Bundle\LichessBundle\Cheat\Judge">
-            <argument type="service" id="lichess.repository.trial" />
-            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
-            <argument type="service" id="lichess.cheat.trial_score_calculator" />
-        </service>
-
-        <service id="lichess.cheat.trial_score_calculator" class="Bundle\LichessBundle\Cheat\TrialScoreCalculator" public="false" />
-
     </services>
 </container>

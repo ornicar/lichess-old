@@ -93,18 +93,6 @@ class Game
     protected $winnerUserId = null;
 
     /**
-     * @var integer
-     * @MongoDB\Field(type="int")
-     */
-    protected $whiteBlurs;
-
-    /**
-     * @var integer
-     * @MongoDB\Field(type="int")
-     */
-    protected $blackBlurs;
-
-    /**
      * Color of the player who created the game
      *
      * @var string
@@ -324,22 +312,11 @@ class Game
         return $this->userIds;
     }
 
-    public function incrementBlurs($color)
-    {
-        if ($this->getIsRated()) {
-            if ('white' === $color) {
-                ++ $this->whiteBlurs;
-            } elseif ('black' === $color) {
-                ++ $this->blackBlurs;
-            }
-        }
-    }
-
     public function getBlurs()
     {
         return array(
-            'white' => $this->whiteBlurs,
-            'black' => $this->blackBlurs
+            'white' => $this->getPlayer('white')->getBlurs(),
+            'black' => $this->getPlayer('black')->getBlurs()
         );
     }
 

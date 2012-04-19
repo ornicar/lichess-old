@@ -51,7 +51,6 @@ class LichessExtension extends Twig_Extension
             'lichess_current_url'       => 'getCurrentUrl',
             'lichess_debug_assets'      => 'debugAssets',
             'lichess_date'              => 'formatDate',
-            'lichess_game_trials'       => 'getGameTrials',
             'lila_path'                 => 'lilaPath',
             'lichess_user_setting'      => 'setting'
         );
@@ -88,11 +87,6 @@ class LichessExtension extends Twig_Extension
     public function setting($name, $default)
     {
         return $this->container->get('lichess_user.settings')->get($name, $default);
-    }
-
-    public function getGameTrials(Game $game)
-    {
-        return $this->container->get('lichess.repository.trial')->findByGame($game);
     }
 
     public function formatDate($date, $format = null)

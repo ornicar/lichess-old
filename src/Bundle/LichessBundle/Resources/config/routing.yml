@@ -69,18 +69,6 @@ lichess_pgn_export:
     pattern:        /analyse/{id}/export
     defaults:       { _controller: LichessBundle:Pgn:export, color: white }
     requirements:   { id: "[\w\-]{8}" }
-lichess_trial_list_unresolved:
-    pattern:        /trial/unresolved
-    defaults:       { _controller: LichessBundle:Trial:listUnresolved }
-lichess_trial_list_guilty:
-    pattern:        /trial/guilty
-    defaults:       { _controller: LichessBundle:Trial:listGuilty }
-lichess_trial_list_innocent:
-    pattern:        /trial/innocent
-    defaults:       { _controller: LichessBundle:Trial:listInnocent }
-lichess_trial_verdict:
-    pattern:        /trial/verdict/{id}/{verdict}
-    defaults:       { _controller: LichessBundle:Trial:verdict }
 lichess_api_new:
     pattern:        /api/game/new
     defaults:       { _controller: LichessBundle:Api:new }

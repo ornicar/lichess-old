@@ -1,7 +1,0 @@
-{% extends "LichessBundle:Game:listWidget.html.twig" %}
-{% block players %}
-{% for player in [firstPlayer.opponent, firstPlayer] %}
-{{ lichess_link_player(player) }} suspicion level = {{ game.getBlurFactor(player.color) }}
-<br />
-{% endfor %}
-{% endblock %}

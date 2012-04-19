@@ -56,13 +56,6 @@ class GameController extends Controller
         ));
     }
 
-    public function listSuspiciousAction()
-    {
-        return $this->render('LichessBundle:Game:listSuspicious.html.twig', array(
-            'games'    => $this->createPaginatorForQuery($this->get('lichess.repository.game')->createHighestBlurQuery())
-        ));
-    }
-
     /**
      * Join a game and start it if new, or see it as a spectator
      */
