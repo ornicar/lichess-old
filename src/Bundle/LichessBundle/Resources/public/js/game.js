@@ -267,28 +267,6 @@ $.widget("lichess.game", {
             }));
         });
     },
-    queue: function(callback) {
-        this.queue.queue(callback);
-    },
-    dequeue: function() {
-        this.queue.dequeue();
-    },
-    applyEvents: function(events) {
-        var self = this;
-        events.push({type: "premove"});
-
-        // Queue all events
-        $.each(events, function(i, event) {
-            switch (event.type) {
-                case "premove":
-                    self.element.queue(function() {
-                      self.applyPremove();
-                      self.element.dequeue();
-                    });
-                    break;
-            }
-        });
-    },
     possibleMovesContain: function(from, to) {
       return this.options.possible_moves != null 
         && typeof this.options.possible_moves[from] !== 'undefined'
@@ -333,8 +311,8 @@ $.widget("lichess.game", {
         isPremove = isPremove || false;
         squareId = $newSquare.attr('id'),
         moveData = {
-            orig: $oldSquare.attr("id"),
-            dest: squareId,
+            from: $oldSquare.attr("id"),
+            to: squareId,
             b: self.blur
         };
 
