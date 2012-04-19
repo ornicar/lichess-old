@@ -5,6 +5,11 @@ $(function() {
         return;
     }
 
+    if (!$.websocket.available) {
+      $('#start_buttons a').attr('href', '#');
+      return;
+    }
+
     function prepareForm() {
         var $form = $('div.lichess_overboard');
         $form.find('div.buttons').buttonset().disableSelection();

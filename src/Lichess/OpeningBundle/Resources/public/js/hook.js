@@ -2,6 +2,7 @@ $(function() {
 
     var $wrap = $('div.hooks_wrap');
     if (!$wrap.length) return;
+    if (!$.websocket.available) return;
 
     var $chat = $("div.lichess_chat");
     var chatExists = $chat.length > 0;

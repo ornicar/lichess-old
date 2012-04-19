@@ -26,6 +26,7 @@ $.websocket = function(url, version, settings) {
   this.connect();
   $(window).unload(this._destroy);
 }
+$.websocket.available = window.WebSocket || window.MozWebSocket;
 $.websocket.prototype = {
   addEvent: function(name, fn) { var self = this;
     var prev = self.settings.events[name];
@@ -43,7 +44,12 @@ $.websocket.prototype = {
     self._destroy();
     self.fullUrl = self.url + "?" + $.param($.extend(self.settings.params, { version: self.version }));
     self._debug("connection attempt to " + self.fullUrl);
-    self.ws = new WebSocket(self.fullUrl); 
+    if (window.MozWebSocket) self.ws = new MozWebSocket(self.fullUrl); 
+    else if (window.WebSocket) self.ws = new WebSocket(self.fullUrl); 
+    else self.ws = {
+      send: function(m){ return false },
+      close: function(){}
+    }; 
     $(self.ws)
       .bind('open', function() {
         self._debug("connected to " + self.fullUrl);

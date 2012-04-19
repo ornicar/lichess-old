@@ -8,6 +8,10 @@ var lichess = {
 
 $(function() {
 
+  if (!$.websocket.available) {
+    $.ajax('/bundles/lichess/browser.html', { success: function(html) { $('body').prepend(html); } });
+  }
+
     // Start game
     var $game = $('div.lichess_game').orNot();
     if ($game) {

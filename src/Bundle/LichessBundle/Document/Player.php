@@ -129,23 +129,6 @@ class Player
     protected $lastDrawOffer = null;
 
     /**
-     * Array of move times relative to the opponent previous move
-     * Which really means: the time used to make the move
-     *
-     * @var array of int compressed to string
-     * @MongoDB\String
-     */
-    protected $mts = null;
-
-    /**
-     * Previous move timestamp
-     *
-     * @var int
-     * @MongoDB\Field(type="int")
-     */
-    protected $previousMoveTs = null;
-
-    /**
      * @var integer
      * @MongoDB\Field(type="int")
      */
@@ -185,20 +168,6 @@ class Player
     }
 
     /**
-     * Adds a time to the move times list
-     */
-    public function saveMoveTime()
-    {
-        $ts = time();
-        if ($opmt = $this->getOpponent()->getPreviousMoveTs()) {
-            $mt = $ts - $opmt;
-            if (empty($this->mts)) $this->mts = (string) $mt;
-            else $this->mts .= ' ' . $mt;
-        }
-        $this->previousMoveTs = $ts;
-    }
-
-    /**
      * Tells if this player saved his move times
      *
      * @return boolean
@@ -216,16 +185,6 @@ class Player
     public function getMoveTimes()
     {
         return array_map(function($t) { return (int)$t; }, explode(' ', $this->mts));
-    }
-
-    /**
-     * Gets the timestamp of the previous move played
-     *
-     * @return int
-     */
-    public function getPreviousMoveTs()
-    {
-        return $this->previousMoveTs;
     }
 
     /**
