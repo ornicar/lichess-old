@@ -36,7 +36,16 @@ class DumpTranslationCommand extends BaseCommand
             "Unlimited",
             "Rated",
             "Casual",
-            "No game available right now, create one!"
+            "No game available right now, create one!",
+            "This game is rated",
+            "White creates the game",
+            "Black creates the game",
+            "White joins the game",
+            "Black joins the game",
+            "Draw offer sent",
+            "Draw offer declined",
+            "Draw offer accepted",
+            "Draw offer canceled"
         );
         $tm = $this->getContainer()->get('lichess_translation.manager');
         $translator = $this->getContainer()->get('translator');
