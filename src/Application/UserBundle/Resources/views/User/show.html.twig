@@ -57,11 +57,6 @@
                 <form method="post" action="{{ path("fos_user_user_chatban", {"username": user.username}) }}">
                     <input class="confirm" type="submit" value="{{ user.isChatBan ? "Unban" : "Ban" }} from public chat" />
                 </form>
-                <div class="chat_messages">
-                  {% for message in chat %}
-                  <div>{{ message.message }}</div>
-                  {% endfor %}
-                </div>
               {% endif %}
             {% endblock %}
         </div>
