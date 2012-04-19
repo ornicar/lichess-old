@@ -1,3 +1,0 @@
-search:
-    pattern:  /
-    defaults: { _controller: LichessSearchBundle:Search:index }
