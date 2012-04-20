@@ -61,6 +61,7 @@ $(function() {
     }
 
     $bot.on("click", "tr", function() { location.href = $(this).find('a.watch').attr("href"); });
+    $bot.find('.undertable_inner').scrollable();
     $newpostsinner.scrollable();
     $newpostsinner[0].scrollTop = 9999999;
     $newpostsinner.scrollable();
@@ -88,7 +89,7 @@ $(function() {
         $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
         addToChat(chatHtml);
       }
-      socket = new $.websocket("ws://127.0.0.1:9000/lobby/socket", preloadData.version, {
+      socket = new $.websocket("ws://" + lichess.socketUrl + "/lobby/socket", preloadData.version, {
         params: {
           hook: hookOwnerId
         },

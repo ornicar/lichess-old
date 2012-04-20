@@ -48,7 +48,7 @@ $.widget("lichess.game", {
             400);
         }
 
-        self.socket = new $.websocket("ws://127.0.0.1:9000/socket/" + self.options.game.id + "/" + self.options.player.color, self.options.player.version, {
+        self.socket = new $.websocket("ws://" + lichess.socketUrl + "/socket/" + self.options.game.id + "/" + self.options.player.color, self.options.player.version, {
           events: { 
             message: function(event) { 
               self.element.queue(function() {

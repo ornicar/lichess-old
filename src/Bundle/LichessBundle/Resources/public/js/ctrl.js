@@ -3,8 +3,10 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
 };
 
 var lichess = {
-  socket: null
+  socket: null,
+  onProduction: /.+\.lichess\.org/.test(document.domain)
 };
+lichess.socketUrl = lichess.onProduction ? "188.165.218.189:9000" : "127.0.0.1:9000";
 
 $(function() {
 
@@ -26,7 +28,7 @@ $(function() {
     }
 
     var $nbPlayersTag = $('#nb_connected_players');
-    lichess.socket = new $.websocket("ws://127.0.0.1:9000/socket", 0, {
+    lichess.socket = new $.websocket("ws://" + lichess.socketUrl + "/socket", 0, {
       params: {
         username: $('#user_tag').attr('data-username')
       },
@@ -267,7 +269,7 @@ $.displayBoardMarks = function($board, isWhite) {
     $board.append(marks);
 };
 
-if (/.+\.lichess\.org/.test(document.domain)) {
+if (lichess.onProduction) {
     //analytics
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-7935029-3']);
