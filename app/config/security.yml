@@ -31,7 +31,6 @@ security:
         - { path: "^/(inbox|profile)(/.*|$)", role: ROLE_USER }
         - { path: "^/forum/(post|topic)/delete/.+", role: ROLE_MODERATE_FORUM }
         - { path: "^/forum/staff(/.+|$)", role: ROLE_STAFF_FORUM }
-        - { path: "^/trial/verdict/.+", role: ROLE_ADJUST_CHEATER }
         - { path: "^/@/.+/adjust", role: ROLE_ADJUST_CHEATER }
         - { path: "^/@/.+/chatban", role: ROLE_CHAT_BAN }
 
