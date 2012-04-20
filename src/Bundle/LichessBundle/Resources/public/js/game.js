@@ -127,7 +127,7 @@ $.widget("lichess.game", {
               self.element.find("div.ui-draggable").draggable("destroy");
               // But enqueue the visible changes
               self.element.queue(function() {
-                  self.changeTitle(self.translate('Game over'));
+                  self.changeTitle($.trans('Game over'));
                   self.element.removeClass("my_turn");
                   self.reloadTable(function() {
                       self.element.dequeue();
@@ -185,15 +185,15 @@ $.widget("lichess.game", {
     indicateTurn: function() {
         var self = this;
         if (self.options.game.finished) {
-            self.changeTitle(self.translate('Game over'));
+            self.changeTitle($.trans('Game over'));
         }
         else if (self.isMyTurn()) {
             self.element.addClass("my_turn");
-            self.changeTitle(self.translate('Your turn'));
+            self.changeTitle($.trans('Your turn'));
         }
         else {
             self.element.removeClass("my_turn");
-            self.changeTitle(self.translate('Waiting for opponent'));
+            self.changeTitle($.trans('Waiting for opponent'));
         }
 
         if (!self.$table.find('>div').hasClass('finished')) {
@@ -557,9 +557,6 @@ $.widget("lichess.game", {
     },
     isPlayerColor: function(color) {
         return !this.options.player.spectator && this.options.player.color == color;
-    },
-    translate: function(message) {
-        return this.options.i18n[message] || message;
     },
     inArray: function(needle, haystack) {
         for (var i in haystack) {

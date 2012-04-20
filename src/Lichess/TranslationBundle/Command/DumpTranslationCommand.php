@@ -45,7 +45,10 @@ class DumpTranslationCommand extends BaseCommand
             "Draw offer sent",
             "Draw offer declined",
             "Draw offer accepted",
-            "Draw offer canceled"
+            "Draw offer canceled",
+            "Game over",
+            "Your turn",
+            "Waiting for opponent"
         );
         $tm = $this->getContainer()->get('lichess_translation.manager');
         $translator = $this->getContainer()->get('translator');
