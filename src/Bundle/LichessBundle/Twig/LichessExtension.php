@@ -188,14 +188,8 @@ class LichessExtension extends Twig_Extension
             'url' => array(
                 'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId))
             ),
-            'i18n' => array(
-                'Game Over'            => $translator->trans('Game Over'),
-                'Waiting for opponent' => $translator->trans('Waiting for opponent'),
-                'Your turn'            => $translator->trans('Your turn'),
-            ),
             'possible_moves'  => $possibleMoves,
             'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime())),
-            'locale'          => $this->container->get('session')->getLocale(),
             'debug'           => $this->container->getParameter('kernel.debug')
         );
 
@@ -215,7 +209,6 @@ class LichessExtension extends Twig_Extension
         $opponent   = $player->getOpponent();
         $generator  = $this->getUrlGenerator();
         $translator = $this->getTranslator();
-        $locale       = $this->container->get('session')->getLocale();
 
         $data = array(
             'game' => array(
@@ -241,14 +234,8 @@ class LichessExtension extends Twig_Extension
             'url' => array(
                 'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
             ),
-            'i18n' => array(
-                'Game Over'            => $translator->trans('Game Over'),
-                'Waiting for opponent' => $translator->trans('Waiting for opponent'),
-                'Your turn'            => $translator->trans('Your turn')
-            ),
             'possible_moves'    => $possibleMoves,
-            'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime())),
-            'locale' => $this->container->get('session')->getLocale()
+            'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime()))
         );
 
         return sprintf('<script type="text/javascript">var lichess_data = %s;</script>', json_encode($data));
