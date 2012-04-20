@@ -443,17 +443,13 @@ div.lichess_social div.addtochrome {
   display: none;
   margin-bottom: 15px;
 }
-.lichess_facebook iframe,
-.lichess_stumbleupon iframe {
+.lichess_facebook iframe {
   border:none;
   width: 110px;
   height: 22px;
   margin-left: 5px;
   overflow: hidden;
   background: transparent;
-}
-.lichess_stumbleupon iframe {
-  width: 80px;
 }
 
 div.lichess_server {

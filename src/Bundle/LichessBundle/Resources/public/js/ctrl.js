@@ -223,7 +223,7 @@ $(function() {
                     $gameSharing.addClass('loaded')
                 });
             } else {
-                $('div.lichess_social').append('<div class="lichess_stumbleupon"><iframe src="http://www.stumbleupon.com/badge/embed/2/?url='+homeUrl+'"></iframe></div><div class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href='+encodeURIComponent(homeUrl)+'%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></div><div><g:plusone size="medium" href="'+homeUrl+'"></g:plusone></div>');
+                $('div.lichess_social').append('<div class="lichess_facebook"><iframe src="http://www.facebook.com/plugins/like.php?href='+encodeURIComponent(homeUrl)+'%2F&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=22"></iframe></div><div><g:plusone size="medium" href="'+homeUrl+'"></g:plusone></div>');
             }
             $.getScript('https://apis.google.com/js/plusone.js');
         },
