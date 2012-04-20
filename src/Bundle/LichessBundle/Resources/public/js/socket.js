@@ -10,7 +10,7 @@ $.websocket = function(url, version, settings) {
     options: {
       name: "unnamed",
       reconnectDelay: 1000,
-      debug: true,
+      debug: false,
       offlineDelay: false,
       offlineTag: false,
     }
