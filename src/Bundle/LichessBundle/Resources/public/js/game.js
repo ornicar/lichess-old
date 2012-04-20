@@ -571,17 +571,6 @@ $.widget("lichess.game", {
     isPlayerColor: function(color) {
         return !this.options.player.spectator && this.options.player.color == color;
     },
-    inArray: function(needle, haystack) {
-        for (var i in haystack) {
-            if (haystack[i] == needle) {
-                return true;
-            }
-        }
-        return false;
-    },
-    isPlayable: function() {
-        return ! this.options.game.finished;
-    },
     get: function(url, options, reloadIfFail) {
         var self = this;
         options = $.extend({
@@ -616,8 +605,8 @@ $.widget("lichess.game", {
     onError: function(error, reloadIfFail) {
         var self = this;
         if (reloadIfFail) {
-            //location.reload();
-            console.debug(error)
+            location.reload();
+            //console.debug(error)
         }
     }
 });
