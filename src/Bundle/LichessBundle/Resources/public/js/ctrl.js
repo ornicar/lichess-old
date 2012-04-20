@@ -31,7 +31,7 @@ $(function() {
         username: $('#user_tag').attr('data-username')
       },
       events: {
-        nbp: function(e) {
+        n: function(e) {
           $nbPlayersTag.html($nbPlayersTag.html().replace(/\d+/, e)).removeClass('none');
         }
       },

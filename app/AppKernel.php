@@ -25,7 +25,6 @@ class AppKernel extends Kernel
             new FOQ\ElasticaBundle\FOQElasticaBundle(),
             new Lichess\ChartBundle\LichessChartBundle(),
             new Lichess\OpeningBundle\LichessOpeningBundle(),
-            //new Lichess\SearchBundle\LichessSearchBundle(),
             new Lichess\TranslationBundle\LichessTranslationBundle(),
             new Ornicar\AkismetBundle\OrnicarAkismetBundle(),
             new Ornicar\MessageBundle\OrnicarMessageBundle(),
