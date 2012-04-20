@@ -130,7 +130,9 @@ $.widget("lichess.game", {
                   self.changeTitle($.trans('Game over'));
                   self.element.removeClass("my_turn");
                   self.reloadTable(function() {
+                    self.reloadPlayers(function() {
                       self.element.dequeue();
+                    });
                   });
               });
             },
@@ -502,6 +504,17 @@ $.widget("lichess.game", {
                 $('body').trigger('lichess.content_loaded');
             }
         }, false);
+    },
+    reloadPlayers: function(callback) {
+        var self = this;
+        $.getJSON(self.options.url.players, function(data) {
+          $(['white', 'black']).each(function() {
+            if (data[this]) self.$table.find('div.username.' + this).html(data[this]);
+          });
+          if (data.me) $('#user_tag span').text(data.me);
+          $('body').trigger('lichess.content_loaded');
+          $.isFunction(callback) && callback();
+        });
     },
     initTable: function() {
         var self = this;

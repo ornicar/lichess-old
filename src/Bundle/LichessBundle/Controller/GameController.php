@@ -13,6 +13,7 @@ use Lichess\ChartBundle\Chart\PlayerMoveTimeChart;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
 use Bundle\LichessBundle\CachePagerAdapter;
+use Application\UserBundle\Document\User;
 
 class GameController extends Controller
 {
@@ -90,6 +91,24 @@ class GameController extends Controller
         ));
     }
 
+    public function playersAction($id)
+    {
+        $game = $this->get('lichess.provider')->findGame($id);
+        $twig = $this->get('lichess.twig.extension');
+        $players = array();
+        foreach ($game->getPlayers() as $player) {
+            if (!$player->getIsAi()) {
+                $players[$player->getColor()] = $twig->linkPlayer($player);
+            }
+        }
+        $user = $this->getAuthenticatedUser();
+        if ($user instanceof User) {
+            $players['me'] = $user->getUsernameWithElo();
+        }
+
+        return new Response(json_encode($players), 200, array('Content-Type' => 'application/json'));
+    }
+
     /**
      * Shows some stats about the game
      */
@@ -142,6 +161,11 @@ class GameController extends Controller
         $games->setCurrentPage($page)->setMaxPerPage(10);
 
         return $games;
+    }
+
+    protected function getAuthenticatedUser()
+    {
+        return $this->get('security.context')->getToken()->getUser();
     }
 
     protected function flush($safe = true)

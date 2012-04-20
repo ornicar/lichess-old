@@ -186,7 +186,8 @@ class LichessExtension extends Twig_Extension
                 'ai'     => $opponent->getIsAi(),
             ),
             'url' => array(
-                'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId))
+                'table'     => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => $playerFullId)),
+                'players'   => $generator->generate('lichess_game_players', array('id' => $gameId))
             ),
             'possible_moves'  => $possibleMoves,
             'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime())),
@@ -232,7 +233,8 @@ class LichessExtension extends Twig_Extension
                 'active' => true
             ),
             'url' => array(
-                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => ''))
+                'table'    => $generator->generate('lichess_table', array('id' => $gameId, 'color' => $color, 'playerFullId' => '')),
+                'players'   => $generator->generate('lichess_game_players', array('id' => $gameId))
             ),
             'possible_moves'    => $possibleMoves,
             'animation_delay' => round($this->container->getParameter('lichess.animation.delay') * 1000 * self::animationDelayFactor($game->estimateTotalTime()))

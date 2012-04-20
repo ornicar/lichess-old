@@ -19,7 +19,7 @@
             <argument type="service" id="logger" />
             <argument type="service" id="router" />
         </service>
-        <service id="lichess.twig.extension" class="Bundle\LichessBundle\Twig\LichessExtension" public="false">
+        <service id="lichess.twig.extension" class="Bundle\LichessBundle\Twig\LichessExtension" public="true">
             <argument type="service" id="service_container" />
             <tag name="twig.extension" />
         </service>

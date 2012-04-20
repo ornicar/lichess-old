@@ -26,6 +26,10 @@ lichess_player:
     pattern:        /{id}
     defaults:       { _controller: LichessBundle:Player:show }
     requirements:   { id: "[\w\-]{12}" }
+lichess_game_players:
+    pattern:        /{id}/players
+    defaults:       { _controller: LichessBundle:Game:players }
+    requirements:   { id: "[\w\-]{8}" }
 lichess_join_game:
     pattern:        /join/{id}
     defaults:       { _controller: LichessBundle:Game:join }
