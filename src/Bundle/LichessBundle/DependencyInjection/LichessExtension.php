@@ -27,7 +27,6 @@ class LichessExtension extends Extension
         $container->setParameter('lichess.lila.internal_url', $config['lila']['internal_url']);
         $container->setParameter('lichess.debug_assets', $config['debug_assets']);
         $container->setParameter('lichess.sync.path', $config['sync']['path']);
-        $container->setParameter('lichess.sync.latency', $config['sync']['latency']);
 
         if ($config['test']) {
             $loader->load('test.xml');

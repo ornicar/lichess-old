@@ -34,7 +34,6 @@ class Configuration
                 ->arrayNode('sync')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('path')->defaultValue('/lila')->end()
-                        ->scalarNode('latency')->defaultValue(7)->end()
                     ->end()
                 ->end()
                 ->arrayNode('feature')->addDefaultsIfNotSet()
