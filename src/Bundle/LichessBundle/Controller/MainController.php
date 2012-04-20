@@ -10,19 +10,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MainController extends Controller
 {
-    public function statusAction()
-    {
-        $load = sys_getloadavg();
-
-        return new Response(implode(' ', array(
-            $this->container->get('lila')->nbPlayers(),
-            $this->container->get('lichess.repository.game')->getNbGames(),
-            $this->container->get('lichess.repository.game')->countPlaying(),
-            $this->container->get('lichess.repository.game')->countRecentlyCreated(),
-            sprintf('%.01f', $load[0])
-        )), 200, array('content-type' => 'text/plain'));
-    }
-
     private function settings()
     {
         return $this->get('lichess_user.settings');

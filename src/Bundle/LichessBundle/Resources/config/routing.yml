@@ -73,9 +73,6 @@ lichess_api_new:
     pattern:        /api/game/new
     defaults:       { _controller: LichessBundle:Api:new }
     requirements:   { _method: POST }
-lichess_status:
-    pattern:        /status
-    defaults:       { _controller: LichessBundle:Main:status }
 lichess_wiki_index:
     pattern:        /wiki
     defaults:       { _controller: LichessBundle:Wiki:index }
