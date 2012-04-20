@@ -180,8 +180,6 @@ $(function() {
         return confirm('Confirm this action?');
     });
 
-    $.fn.hints && $('input.hint_me').hints();
-
     var elem = document.createElement('audio');
     var canPlayAudio = !! elem.canPlayType && elem.canPlayType('audio/ogg; codecs="vorbis"');
 

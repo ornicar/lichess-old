@@ -22,12 +22,3 @@
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}
-
-{% block javascripts %}
-{{ parent() }}
-{% javascripts
-    '@LichessBundle/Resources/public/vendor/jquery.hint.js'
-    filter="?yui_js" %}
-    <script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{% endblock %}

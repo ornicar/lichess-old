@@ -1,4 +1,4 @@
 <form class="forum_search" action="{{ path("lichess_forum_search") }}" method="get">
-    <input class="query hint_me" data-hint="Search in forum" name="q" value="{{ app.request.query.get("q") }}" />
+    <input class="query" name="q" value="{{ app.request.query.get("q") }}" />
     <input class="submit" type="submit" value="&rarr;" />
 </form>
