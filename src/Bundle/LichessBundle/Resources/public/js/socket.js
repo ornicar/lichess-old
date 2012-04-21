@@ -10,7 +10,7 @@ $.websocket = function(url, version, settings) {
     options: {
       name: "unnamed",
       reconnectDelay: 2000,
-      debug: false,
+      debug: true,
       offlineDelay: false,
       offlineTag: false,
     }
@@ -69,7 +69,7 @@ $.websocket.prototype = {
       })
       .bind('message', function(e){
         var m = $.parseJSON(e.originalEvent.data);
-        if (m.t != "n") self._debug(m);
+        //if (m.t != "n") self._debug(m);
         if (m.t == "batch") {
           $(m.d || []).each(function() { self._handle(this); });
         } else {
