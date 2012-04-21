@@ -12,7 +12,7 @@ $.websocket = function(url, version, settings) {
       offlineTag: false,
       pingData: $.toJSON({t: "p"}),
       pingTimeout: 5000,
-      pingDelay: 2000
+      pingDelay: 2500
     }
   };
   $.extend(true, this.settings, settings);
@@ -75,7 +75,6 @@ $.websocket.prototype = {
     var self = this;
     clearTimeout(self.pingTimeout);
     setTimeout(function() {
-        self._debug("ping!");
       try {
         self.ws.send(self.options.pingData);
         self.pingTimeout = setTimeout(function() {
