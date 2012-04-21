@@ -181,8 +181,8 @@ class Lila
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $fullPath);
         curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 9);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 9);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
         curl_setopt($ch, CURLOPT_USERAGENT, 'lichess/api');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if ($this->debug) {
