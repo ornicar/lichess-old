@@ -15,7 +15,7 @@ $(function()
 
         var $nbPlayersTag = $users.find('.players_count');
         var $anonsTag = $users.find('.anonymous_users');
-        lichess.socket.addEvent("nbp", function(e) {
+        lichess.socket.addEvent("n", function(e) {
           $nbPlayersTag.html(e).removeClass('none');
           $anonsTag.html(str_repeat('<li></li>', e));
         });
