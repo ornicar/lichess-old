@@ -7,10 +7,12 @@ $.websocket = function(url, version, settings) {
     params: { },
     options: {
       name: "unnamed",
-      reconnectDelay: 2000,
-      debug: false,
+      debug: true,
       offlineDelay: false,
       offlineTag: false,
+      pingData: $.toJSON({t: "p"}),
+      pingTimeout: 5000,
+      pingDelay: 2000
     }
   };
   $.extend(true, this.settings, settings);
@@ -20,7 +22,7 @@ $.websocket = function(url, version, settings) {
   this.ws = null;
   this.fullUrl = null;
   this.offlineTimeout = null;
-  this.reconnectTimeout = null;
+  this.pingTimeout = null;
   this.connect();
   $(window).unload(this._destroy);
 }
@@ -33,11 +35,6 @@ $.websocket.prototype = {
       fn(e); 
     };
   },
-  send: function(t, d) { 
-    var data = d || {};
-    this._debug({t: t, d: data});
-    return this.ws.send($.toJSON({t: t, d: data})); 
-  },
   connect: function() { var self = this;
     self._destroy();
     self.fullUrl = self.url + "?" + $.param($.extend(self.settings.params, { version: self.version }));
@@ -46,7 +43,7 @@ $.websocket.prototype = {
     else if (window.WebSocket) self.ws = new WebSocket(self.fullUrl); 
     else self.ws = {
       send: function(m){ return false },
-      close: function(){}
+        close: function(){}
     }; 
     $(self.ws)
       .bind('open', function() {
@@ -55,29 +52,49 @@ $.websocket.prototype = {
         if (self.options.offlineTag) self.options.offlineTag.hide(); 
         self.settings.open();
       })
-      .bind('close', function() {
-        self._debug("disconnected");
-        if (self.options.offlineDelay && !self.offlineTimeout) self.offlineTimeout = setTimeout(function() { 
-          self.options.offlineTag.show(); 
-        }, self.options.offlineDelay);
-        if (self.options.reconnectDelay) self.reconnectTimeout = setTimeout(function() {
+    .bind('close', function() {
+      self._debug("disconnected");
+      if (self.options.offlineDelay && !self.offlineTimeout) self.offlineTimeout = setTimeout(function() { 
+        self.options.offlineTag.show(); 
+      }, self.options.offlineDelay);
+      self.settings.close();
+    })
+    .bind('message', function(e){
+      var m = $.parseJSON(e.originalEvent.data);
+      if (m.t != "n") self._debug(m);
+      if (m.t == "p") self.keepAlive();
+      else if (m.t == "batch") {
+        $(m.d || []).each(function() { self._handle(this); });
+      } else {
+        self._handle(m);
+      }
+    });
+    self.keepAlive();
+  },
+  keepAlive: function() {
+    var self = this;
+    clearTimeout(self.pingTimeout);
+    setTimeout(function() {
+        self._debug("ping!");
+      try {
+        self.ws.send(self.options.pingData);
+        self.pingTimeout = setTimeout(function() {
+          self._debug("reconnect!");
           self.connect();
-        }, self.options.reconnectDelay);
-        self.settings.close();
-      })
-      .bind('message', function(e){
-        var m = $.parseJSON(e.originalEvent.data);
-        //if (m.t != "n") self._debug(m);
-        if (m.t == "batch") {
-          $(m.d || []).each(function() { self._handle(this); });
-        } else {
-          self._handle(m);
-        }
-      });
+        }, self.options.pingTimeout);
+      } catch (e) {
+        self._debug(e);
+        self.connect();
+      }
+    }, self.options.pingDelay);
+  },
+  send: function(t, d) { 
+    var data = d || {};
+    this._debug({t: t, d: data});
+    return this.ws.send($.toJSON({t: t, d: data})); 
   },
   disconnect: function() { 
     this.ws.close(); 
-    clearTimeout(self.reconnectTimeout);
   },
   _handle: function(m) { var self = this;
     if (m.v) self.version = m.v;
@@ -87,5 +104,5 @@ $.websocket.prototype = {
     self.settings.message(m);
   },
   _debug: function(msg) { if (this.options.debug) console.debug("[" + this.options.name + "]", msg); },
-  _destroy: function() { if (this.ws) { this.ws.close(); this.ws = null; } }
-};
+  _destroy: function() { if (this.ws) { this.disconnect(); this.ws = null; } }
+}
