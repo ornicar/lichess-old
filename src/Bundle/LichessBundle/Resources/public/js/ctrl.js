@@ -39,8 +39,9 @@ $(function() {
       },
       options: {
         name: "site",
-        offlineDelay: 5000,
-        offlineTag: $('#connection_lost')
+        offlineDelay: false,
+        offlineTag: $('#connection_lost'),
+        pingDelay: 7300
       }
     });
 

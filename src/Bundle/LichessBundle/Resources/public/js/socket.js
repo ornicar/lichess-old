@@ -8,7 +8,7 @@ $.websocket = function(url, version, settings) {
     options: {
       name: "unnamed",
       debug: true,
-      offlineDelay: false,
+      offlineDelay: 5000,
       offlineTag: false,
       pingData: $.toJSON({t: "p"}),
       pingTimeout: 5000,
