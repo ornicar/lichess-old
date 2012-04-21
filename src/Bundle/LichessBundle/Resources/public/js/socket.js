@@ -4,9 +4,7 @@ $.websocket = function(url, version, settings) {
     close: function(){},
     message: function(m){},
     events: {},
-    params: {
-      uid: Math.random().toString(36).substring(5) // 8 chars
-    },
+    params: { },
     options: {
       name: "unnamed",
       reconnectDelay: 2000,

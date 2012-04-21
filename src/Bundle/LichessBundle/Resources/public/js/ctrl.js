@@ -213,7 +213,7 @@ $(function() {
         $('#sound_state').addClass('unavailable');
     }
 
-    if (false || /.+\.lichess\.org/.test(document.domain)) {
+    if (false || lichess.onProduction) {
         var homeUrl = $('#site_title').attr('href');
         setTimeout(function() {
             if ($gameSharing = $('div.game_share_widgets').orNot()) {
