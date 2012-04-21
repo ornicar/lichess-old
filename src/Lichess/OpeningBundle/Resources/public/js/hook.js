@@ -145,6 +145,7 @@ $(function() {
     function renderHook(hook) {
       if (!isRegistered && hook.mode == "Rated") return "";
       var html = "", isEngine, engineMark, userClass, mode, eloRestriction;
+      hook.action = hook.ownerId ? "cancel" : "join";
       html += '<tr id="'+hook.id+'" class="hook'+(hook.action == 'join' ? ' joinable' : '')+'">';
       html += '<td class="color"><span class="'+hook.color+'"></span></td>';
       isEngine = hook.engine && hook.action == 'join';
@@ -159,7 +160,7 @@ $(function() {
       eloRestriction = false;
       if (isRegistered) {
         mode = $.trans(hook.mode);
-        if (hook.emin && (hook.emin > 700 || hook.emax < 2200)) {
+        if (hook.emin && (hook.emin >= 700 || hook.emax <= 2200)) {
           if (hook.action == "join" && (myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax))) {
             eloRestriction = true;
           }
@@ -178,7 +179,7 @@ $(function() {
         html += '<td class="action empty"></td>';
       } else {
         html += '<td class="action">';
-        if (hook.ownerId) {
+        if (hook.action == "cancel") {
           html += '<a href="'+actionUrls.cancel.replace(/\/0{12}/, '/'+hook.ownerId)+'" class="cancel"></a>';
         } else {
           var cancelParam = hookOwnerId ? "?cancel=" + hookOwnerId : ""
