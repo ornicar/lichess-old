@@ -6,7 +6,7 @@ var lichess = {
   socket: null,
   onProduction: /.+\.lichess\.org/.test(document.domain)
 };
-lichess.socketUrl = lichess.onProduction ? "188.165.218.189:9000" : "127.0.0.1:9000";
+lichess.socketUrl = lichess.onProduction ? "lichess.org:9000" : "127.0.0.1:9000";
 
 $(function() {
 
