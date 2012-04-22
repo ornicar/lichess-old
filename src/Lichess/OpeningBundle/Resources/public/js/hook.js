@@ -160,11 +160,13 @@ $(function() {
       eloRestriction = false;
       if (isRegistered) {
         mode = $.trans(hook.mode);
-        if (hook.emin && (hook.emin >= 700 || hook.emax <= 2200)) {
+        if (hook.emin) {
           if (hook.action == "join" && (myElo < parseInt(hook.emin) || myElo > parseInt(hook.emax))) {
             eloRestriction = true;
           }
-          mode += "<span class='elorange" + (eloRestriction ? ' nope' : '') + "'>" + hook.emin + ' - ' + hook.emax + '</span>';
+          if (hook.emin > 700 || hook.emax < 2200) {
+            mode += "<span class='elorange" + (eloRestriction ? ' nope' : '') + "'>" + hook.emin + ' - ' + hook.emax + '</span>';
+          }
         }
       } else {
         mode = "";
