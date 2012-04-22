@@ -111,7 +111,7 @@ $.widget("lichess.game", {
               self.element.queue(function() {
                 setTimeout(function() {
                   location.href = event;
-                }, 500);
+                }, 400);
               });
             },
             threefold_repetition: function(event) {
@@ -531,6 +531,9 @@ $.widget("lichess.game", {
         });
         self.$table.find('a.lichess_rematch, a.lichess_rematch_cancel, a.lichess_rematch_decline').click(function() {
             self.post($(this).attr('href'), {}, true);
+            if ($(this).is('.lichess_play_again_join a')) {
+              $(this).parent().remove();
+            }
             return false;
         });
         self.$table.find('a.moretime').click(function() { 
