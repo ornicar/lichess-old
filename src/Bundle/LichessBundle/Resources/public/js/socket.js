@@ -9,7 +9,7 @@ $.websocket = function(url, version, settings) {
     },
     options: {
       name: "unnamed",
-      debug: false,
+      debug: true,
       offlineDelay: 5000,
       offlineTag: false,
       pingData: $.toJSON({t: "p"}),
@@ -63,7 +63,7 @@ $.websocket.prototype = {
     })
     .bind('message', function(e){
       var m = $.parseJSON(e.originalEvent.data);
-      if (m.t != "n" && m.t != "p") self._debug(m);
+      if (m.t != "n" && m.t != "p" || true) self._debug(m);
       if (m.t == "p") self.keepAlive();
       else if (m.t == "batch") {
         $(m.d || []).each(function() { self._handle(this); });

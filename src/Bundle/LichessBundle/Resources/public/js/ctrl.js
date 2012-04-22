@@ -40,8 +40,7 @@ $(function() {
       options: {
         name: "site",
         offlineDelay: false,
-        offlineTag: $('#connection_lost'),
-        pingDelay: 7300
+        offlineTag: $('#connection_lost')
       }
     });
 
