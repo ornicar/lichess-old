@@ -7,7 +7,7 @@ $.websocket = function(url, version, settings) {
     params: { },
     options: {
       name: "unnamed",
-      debug: true,
+      debug: false,
       offlineDelay: 5000,
       offlineTag: false,
       pingData: $.toJSON({t: "p"}),
@@ -55,7 +55,7 @@ $.websocket.prototype = {
     .bind('close', function() {
       self._debug("disconnected");
       if (self.options.offlineDelay && !self.offlineTimeout) self.offlineTimeout = setTimeout(function() { 
-        self.options.offlineTag.show(); 
+        if (self.options.offlineTag) self.options.offlineTag.show(); 
       }, self.options.offlineDelay);
       self.settings.close();
     })
