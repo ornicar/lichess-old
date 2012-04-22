@@ -17,6 +17,7 @@ class Lila
     private $url;
 
     public $debug = false;
+    private $timeout = 4;
 
     public function __construct(UrlGeneratorInterface $urlGenerator, $url)
     {
@@ -181,8 +182,8 @@ class Lila
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $fullPath);
         curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 2);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->timeout);
         curl_setopt($ch, CURLOPT_USERAGENT, 'lichess/api');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if ($this->debug) {
