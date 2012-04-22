@@ -61,7 +61,7 @@ $.websocket.prototype = {
     })
     .bind('message', function(e){
       var m = $.parseJSON(e.originalEvent.data);
-      if (m.t != "n") self._debug(m);
+      if (m.t != "n" && m.t != "p") self._debug(m);
       if (m.t == "p") self.keepAlive();
       else if (m.t == "batch") {
         $(m.d || []).each(function() { self._handle(this); });

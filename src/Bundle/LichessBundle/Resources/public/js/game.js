@@ -107,8 +107,12 @@ $.widget("lichess.game", {
               });
             },
             redirect: function(event) {
-              // redirect immediatly: no queue
-              window.location.href = event;
+              // stop queue propagation here
+              self.element.queue(function() {
+                setTimeout(function() {
+                  location.href = event;
+                }, 500);
+              });
             },
             threefold_repetition: function(event) {
               self.element.queue(function() {

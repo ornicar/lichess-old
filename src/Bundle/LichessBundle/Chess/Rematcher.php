@@ -77,8 +77,8 @@ class Rematcher
             $nextPlayer   = $nextOpponent->getOpponent();
             $nextGame     = $nextOpponent->getGame();
             $messages = $this->starter->start($nextGame);
+            $this->objectManager->persist($nextGame);
         }
-        $this->objectManager->persist($nextGame);
 
         return array($nextGame, $messages);
     }
