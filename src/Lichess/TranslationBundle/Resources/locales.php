@@ -145,7 +145,7 @@ return array(
     "te" => "తెలు",
     "th" => "ไท",
     "ti" => "ትግር",
-    "tk" => "Türkmen, Түркме",
+    "tk" => "Türkmençe",
     "tn" => "Setswan",
     "to" => "faka Tong",
     "tp" => "Toki Pona",
