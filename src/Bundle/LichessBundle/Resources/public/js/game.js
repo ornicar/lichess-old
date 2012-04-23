@@ -177,7 +177,8 @@ $.widget("lichess.game", {
             playerId: self.options.player.id
           },
           options: {
-            name: "game"
+            name: "game",
+            offlineTag: $('#connection_lost')
           }
         });
     },

@@ -39,8 +39,7 @@ $(function() {
       },
       options: {
         name: "site",
-        offlineDelay: false,
-        offlineTag: $('#connection_lost')
+        offlineDelay: false
       }
     });
 
