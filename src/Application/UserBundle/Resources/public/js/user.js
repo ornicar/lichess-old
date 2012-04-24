@@ -15,10 +15,13 @@ $(function()
 
         var $nbPlayersTag = $users.find('.players_count');
         var $anonsTag = $users.find('.anonymous_users');
-        lichess.socket.addEvent("n", function(e) {
+
+        var prev = lichess.socketDefaults.events["n"];
+        lichess.socketDefaults.events["n"] = function(e) {
+          if ($.isFunction(prev)) prev(e);
           $nbPlayersTag.html(e).removeClass('none');
           $anonsTag.html(str_repeat('<li></li>', e));
-        });
+        };
     }
 
     if($searchForm = $('form.search_user_form').orNot()) {

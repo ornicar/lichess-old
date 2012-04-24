@@ -20,7 +20,6 @@ $(function() {
     var myElo = isRegistered ? parseInt($userTag.data('elo')) : null;
     var username = isRegistered ? $userTag.data("username") : "Anonymous";
     var hookOwnerId = $hooks.data('my-hook');
-    var socket;
 
     if (chatExists) {
         var $form = $chat.find('form');
@@ -39,7 +38,7 @@ $(function() {
                 return false;
             }
             $input.val('');
-            socket.send('talk', { u: username, txt: text });
+            lichess.socket.send('talk', { u: username, txt: text });
             return false;
         });
         $chat.find('a.send').click(function() { $input.trigger('click'); $form.submit(); });
@@ -89,7 +88,7 @@ $(function() {
         $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
         addToChat(chatHtml);
       }
-      socket = new $.websocket("ws://" + lichess.socketUrl + "/lobby/socket", preloadData.version, {
+      lichess.socket = new $.websocket(lichess.socketUrl + "/lobby/socket", preloadData.version, $.extend(true, lichess.socketDefaults, {
         params: {
           hook: hookOwnerId
         },
@@ -106,7 +105,7 @@ $(function() {
         options: {
           name: "lobby"
         }
-      });
+      }));
     }
     $('body').trigger('lichess.content_loaded');
 

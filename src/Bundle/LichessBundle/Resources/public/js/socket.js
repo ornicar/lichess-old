@@ -30,16 +30,9 @@ $.websocket = function(url, version, settings) {
 }
 $.websocket.available = window.WebSocket || window.MozWebSocket;
 $.websocket.prototype = {
-  addEvent: function(name, fn) { var self = this;
-    var prev = self.settings.events[name];
-    self.settings.events[name] = function(e) {
-      if ($.isFunction(prev)) prev(e);
-      fn(e); 
-    };
-  },
   connect: function() { var self = this;
     self._destroy();
-    self.fullUrl = self.url + "?" + $.param($.extend(self.settings.params, { version: self.version }));
+    self.fullUrl = "ws://" + self.url + "?" + $.param($.extend(self.settings.params, { version: self.version }));
     self._debug("connection attempt to " + self.fullUrl);
     if (window.MozWebSocket) self.ws = new MozWebSocket(self.fullUrl); 
     else if (window.WebSocket) self.ws = new WebSocket(self.fullUrl); 
@@ -63,9 +56,11 @@ $.websocket.prototype = {
     })
     .bind('message', function(e){
       var m = $.parseJSON(e.originalEvent.data);
-      if (m.t != "n" && m.t != "p" || true) self._debug(m);
-      if (m.t == "p") self.keepAlive();
-      else if (m.t == "batch") {
+      self._debug(m);
+      if (m.t == "n") {
+        self.keepAlive();
+      } 
+      if (m.t == "batch") {
         $(m.d || []).each(function() { self._handle(this); });
       } else {
         self._handle(m);

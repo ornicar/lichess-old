@@ -11,7 +11,6 @@ $.widget("lichess.game", {
         self.initialTitle = document.title;
         self.hasMovedOnce = false;
         self.premove = null;
-        self.socket;
 
         if (self.options.game.started) {
             self.indicateTurn();
@@ -48,7 +47,9 @@ $.widget("lichess.game", {
             400);
         }
 
-        self.socket = new $.websocket("ws://" + lichess.socketUrl + "/socket/" + self.options.game.id + "/" + self.options.player.color, self.options.player.version, {
+        lichess.socket = new $.websocket(
+            lichess.socketUrl + "/socket/" + self.options.game.id + "/" + self.options.player.color, self.options.player.version, 
+            $.extend(true, lichess.socketDefaults, {
           events: { 
             message: function(event) { 
               self.element.queue(function() {
@@ -177,10 +178,9 @@ $.widget("lichess.game", {
             playerId: self.options.player.id
           },
           options: {
-            name: "game",
-            offlineTag: $('#connection_lost')
+            name: "game"
           }
-        });
+        }));
     },
     isMyTurn: function() {
         return this.options.possible_moves != null;
@@ -335,7 +335,7 @@ $.widget("lichess.game", {
 
         // TODO send moveData here
         function sendMoveRequest(moveData) {
-          self.socket.send("move", moveData);
+          lichess.socket.send("move", moveData);
         }
 
         var color = self.options.player.color;
@@ -480,7 +480,7 @@ $.widget("lichess.game", {
                     return false;
                 }
                 $input.val('');
-                self.socket.send('talk', text);
+                lichess.socket.send('talk', text);
                 return false;
             });
 
@@ -538,7 +538,7 @@ $.widget("lichess.game", {
             return false;
         });
         self.$table.find('a.moretime').click(function() { 
-          self.socket.send("moretime"); 
+          lichess.socket.send("moretime"); 
           return false;
         });
     },
@@ -550,7 +550,7 @@ $.widget("lichess.game", {
                 time: $(this).attr('data-time'),
                 buzzer: function() {
                     if (!self.options.game.finished && ! self.options.player.spectator) {
-                        self.socket.send("outoftime");
+                        lichess.socket.send("outoftime");
                     }
                 }
             });
