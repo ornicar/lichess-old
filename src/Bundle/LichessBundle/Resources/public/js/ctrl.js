@@ -43,7 +43,7 @@ $(function() {
   }
 
   setTimeout(function() {
-    if (lichess.socket == null) {
+    if (lichess.socket == null && $('div.server_error_box').length == 0) {
       lichess.socket = new $.websocket(lichess.socketUrl + "/socket", 0, lichess.socketDefaults);
     }
   }, 2000);
