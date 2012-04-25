@@ -51,7 +51,12 @@ class HookController extends Controller
             return new RedirectResponse($this->generateUrl('lichess_homepage').'#hook');
         }
 
-        return $this->render('LichessOpeningBundle:Config:hook.html.twig', array('form' => $form->createView(), 'config' => $form->getData()));
+        $response = $this->get('lichess.provider')->uncachableResponse();
+
+        return $this->render('LichessOpeningBundle:Config:hook.html.twig', array(
+            'form' => $form->createView(), 
+            'config' => $form->getData()
+        ), $response);
     }
 
     public function hookAction($id)
@@ -59,10 +64,12 @@ class HookController extends Controller
         $auth = $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ? '1' : '0';
         $preload = $this->get('lila')->lobbyPreload($auth, $this->canSeeChat(), $id);
 
+        $response = $this->get('lichess.provider')->uncachableResponse();
+
         return $this->render('LichessOpeningBundle:Hook:hook.html.twig', array(
             'myHookId' => $id,
             'preload' => $preload
-        ));
+        ), $response);
     }
 
     public function joinAction($id)

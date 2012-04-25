@@ -75,13 +75,15 @@ class GameController extends Controller
                 return new RedirectResponse($this->generateUrl('lichess_game', array('id' => $id, 'color' => $player->getOpponent()->getColor())));
             }
 
+            $response = $this->get('lichess.provider')->uncachableResponse();
+
             return $this->render('LichessBundle:Player:watch.html.twig', array(
                 'game'           => $game,
                 'player'         => $player,
                 'version'   => $this->get('lila')->gameVersion($game),
                 'checkSquareKey' => $game->getCheckSquareKey(),
                 'possibleMoves'  => ($player->isMyTurn() && $game->getIsPlayable()) ? 1 : null
-            ));
+            ), $response);
         }
 
         // game NOT started: join it

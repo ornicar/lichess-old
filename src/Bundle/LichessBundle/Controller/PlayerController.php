@@ -77,13 +77,15 @@ class PlayerController extends Controller
 
         $lilaData = json_decode($this->get('lila')->show($player), true);
 
+        $response = $this->get('lichess.provider')->uncachableResponse();
+
         return $this->render('LichessBundle:Player:show.html.twig', array(
             'player'              => $player,
             'messageHtml'         => $lilaData['roomHtml'],
             'version'             => $lilaData['version'],
             'checkSquareKey'      => $game->getCheckSquareKey(),
             'possibleMoves'       => $lilaData['possibleMoves']
-        ));
+        ), $response);
     }
 
     public function waitFriendAction($id)

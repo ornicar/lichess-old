@@ -5,6 +5,9 @@ namespace Bundle\LichessBundle;
 use Bundle\LichessBundle\Document\GameRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use Symfony\Component\HttpFoundation\Response;
+use DateTime;
+
 class Provider
 {
     protected $gameRepository;
@@ -74,5 +77,18 @@ class Provider
         }
 
         return $player;
+    }
+
+    public function uncachableResponse() {
+
+        $response = new Response();
+        $date = new DateTime();
+        $date->modify('-1 day');
+        $response->setExpires($date);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        $response->headers->addCacheControlDirective('no-store', true);
+        $response->headers->addCacheControlDirective('no-cache', true);
+
+        return $response;
     }
 }
