@@ -71,7 +71,7 @@
     <a class="lichess_replay_link" href="{{ path("lichess_pgn_viewer", {"id": game.id, "color": player.color} ) }}">{{ "Replay and analyse"|trans }}</a>
     {% if game.isRated and game.hasMoveTimes %}
         <br /><br />
-        <a href="{{ path("lichess_game_stats", {"id": game.id}) }}">View game stats</a>
+        <a href="{{ path("lichess_game_stats", {"id": game.id}) }}">{{ 'View game stats'|trans }}</a>
     {% endif %}
     <br /><br />
     <a class="rotate_board" href="{{ path("lichess_game", {"id": game.id, "color": player.opponent.color} ) }}">{{ "Flip board"|trans }}</a>
