@@ -59,6 +59,11 @@ class Post extends BasePost
         return null !== $this->author;
     }
 
+    public function isAnon()
+    {
+        return !$this->hasAuthor();
+    }
+
     /**
      * @param  User
      * @return null
