@@ -175,7 +175,7 @@ $(function() {
       } else {
           html += '<td>'+mode+'</td>';
       }
-      html += '<td>'+hook.clock+'</td>';
+      html += '<td>'+$.trans(hook.clock)+'</td>';
       if (eloRestriction) {
         html += '<td class="action empty"></td>';
       } else {
