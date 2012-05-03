@@ -18,7 +18,7 @@ $(function() {
     var $userTag = $('#user_tag');
     var isRegistered = $userTag.length > 0
     var myElo = isRegistered ? parseInt($userTag.data('elo')) : null;
-    var username = isRegistered ? $userTag.data("username") : "Anonymous";
+    var username = isRegistered ? $('#username_tag').text() : "Anonymous";
     var hookOwnerId = $hooks.data('my-hook');
 
     if (chatExists) {

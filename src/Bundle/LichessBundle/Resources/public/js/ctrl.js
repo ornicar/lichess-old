@@ -6,7 +6,7 @@ var lichess = {
   socket: null,
   socketDefaults: {
     params: {
-      username: $('#user_tag').attr('data-username')
+      username: $('#username_tag').text()
     },
     events: {
       n: function(e) {
