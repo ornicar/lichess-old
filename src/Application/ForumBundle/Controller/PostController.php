@@ -49,12 +49,18 @@ class PostController extends BasePostController
     {
         $post = $this->get('herzult_forum.repository.post')->createNewPost();
         $post->setTopic($topic);
-        $this->get('herzult_forum.blamer.post')->blame($post);
-
         $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.post'), 'forum_post_form', $post);
         $form->bindRequest($this->get('request'));
 
         if(!$form->isValid()) {
+            return $this->invalidCreate($topic);
+        }
+
+        $this->get('herzult_forum.blamer.post')->blame($post);
+
+        if ($this->get('forum.akismet')->isPostSpam($post)) {
+            $form['message']->addError(new FormError('Sorry, but your post looks like spam. If you think it is an error, send me an email.'));
+            $this->get('logger')->warn('HerzultForumBundle:post spam block: '.$post->getAuthorName());
             return $this->invalidCreate($topic);
         }
 
