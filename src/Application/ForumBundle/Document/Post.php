@@ -6,12 +6,14 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 use Herzult\Bundle\ForumBundle\Document\Post as BasePost;
 use Application\UserBundle\Document\User;
+use Application\ForumBundle\Spam;
 
 /**
  * @MongoDB\Document(
  *   repositoryClass="Herzult\Bundle\ForumBundle\Document\PostRepository",
  *   collection="forum_post"
  * )
+ * @Spam
  */
 class Post extends BasePost
 {

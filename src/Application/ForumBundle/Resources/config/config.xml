@@ -9,6 +9,10 @@
         <service id="forum.akismet" class="Application\ForumBundle\Akismet" scope="request">
             <argument type="service" id="ornicar_akismet" />
         </service>
+        <service id="forum.spam_validator" class="Application\ForumBundle\SpamValidator" scope="request">
+            <argument type="service" id="forum.akismet" />
+            <tag name="validator.constraint_validator" alias="forum_spam" />
+        </service>
         <service id="lichess_forum.search.model_to_elastica_transformer" class="Application\ForumBundle\Search\ModelToElasticaTransformer" public="false">
             <argument type="service" id="service_container" />
         </service>
