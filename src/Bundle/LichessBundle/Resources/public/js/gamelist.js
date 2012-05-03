@@ -16,7 +16,7 @@ $(function() {
 	}
 
     function parseFen() {
-        $('a.parse_fen').each(function() {
+        $('.parse_fen').each(function() {
             var fen = $(this).data('fen').replace(/\//g, '');
             var x, y, html = '', scolor, pcolor, pclass, c, d, increment;
             var pclasses = {'p':'pawn', 'r':'rook', 'n':'knight', 'b':'bishop', 'q':'queen', 'k':'king'};

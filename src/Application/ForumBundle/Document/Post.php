@@ -15,6 +15,11 @@ use Application\UserBundle\Document\User;
  */
 class Post extends BasePost
 {
+    // id of the checkmate game (captcha)
+    public $checkmateId;
+
+    public $checkmateMove;
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Application\ForumBundle\Document\Topic")
      */

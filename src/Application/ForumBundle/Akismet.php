@@ -34,9 +34,8 @@ class Akismet
         $hasBr = strpos($simplified, '<br') !== false;
         $hasHref = strpos($simplified, '<ahref') !== false;
         $hasSpam = strpos($simplified, 'hhtournaments.com') !== false;
-        $anonUrl = $post->isAnon() && strpos($simplified, 'http://') !== false;
 
-        return $hasBr || $hasHref || $hasSpam || $anonUrl;
+        return $hasBr || $hasHref || $hasSpam;
     }
 
     protected function getPostData(Post $post)

@@ -25,6 +25,11 @@ class Lila
         $this->url = $url;
     }
 
+    public function captcha()
+    {
+        return $this->get('captcha');
+    }
+
     public function show(Player $player)
     {
         return $this->get('show/' . $player->getFullId());

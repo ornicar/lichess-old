@@ -66,7 +66,7 @@ div.game_list_inner div.vstext {
     white-space: nowrap;
 }
 
-a.mini_board {
+.mini_board {
     width: 192px;
     height: 192px;
     position: relative;

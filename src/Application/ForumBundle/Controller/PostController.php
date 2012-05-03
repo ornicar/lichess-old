@@ -38,10 +38,16 @@ class PostController extends BasePostController
         $post = $this->get('herzult_forum.repository.post')->createNewPost();
         $this->get('lichess_forum.authorname_persistence')->loadPost($post);
         $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.post'), 'forum_post_form', $post);
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $checkmate = null;
+        } else {
+            $checkmate = json_decode($this->get('lila')->captcha());
+        }
 
         return $this->get('templating')->renderResponse('HerzultForumBundle:Post:new.html.'.$this->getRenderer(), array(
             'form'  => $form->createView(),
             'topic' => $topic,
+            'checkmate' => $checkmate
         ));
     }
 

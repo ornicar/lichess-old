@@ -4,6 +4,9 @@
     <label><span class="required">Message</span>{{ form_widget(form.message) }}</label>
     {% if form.authorName is defined %}
         <label><span>Author</span>{{ form_widget(form.authorName, {"attr": {"class": "authorName"}}) }}</label>
+        <div class="checkmateFen"><div class="mini_board parse_fen" data-color="white" data-fen="{{ checkmate.fen }}"></div></div>
+        <label><span>{{ checkmate.color }} plays, mate in one!</span>{{ form_widget(form.checkmateMove, {"attr": {"class": "checkmateMove"}}) }}</label>
+        {{ form_widget(form.checkmateId) }}
     {% endif %}
     <input type="submit" class="submit button" value="Reply" />
     <a href="{{ path("herzult_forum_category_show", {"slug": topic.category.slug}) }}" style="margin-left:20px">{{ "Cancel"|trans }}</a>
