@@ -39,9 +39,9 @@ class PostFormType extends AbstractType
 
         if (!$this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $builder->add('authorName', 'text');
-            $builder->add('checkmateId', 'hidden');
-            $builder->add('checkmateMove', 'text');
         }
+        $builder->add('checkmateId', 'hidden');
+        $builder->add('checkmateMove', 'text');
     }
 
 	public function getDefaultOptions(array $options)

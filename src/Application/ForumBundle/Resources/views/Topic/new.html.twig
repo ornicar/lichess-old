@@ -17,6 +17,9 @@
     {% if form.firstPost.authorName is defined %}
     <label><span>Author</span> {{ form_widget(form.firstPost.authorName, {"attr": {"class": "authorName"}}) }}</label>
     {% endif %}
+    {% include "LichessForumBundle:Post:captcha.html.twig" with {"form": form.firstPost, "checkmate": checkmate} %}
+    {{ form_widget(form.firstPost.checkmateId) }}
+    {{ form_errors(form) }}
     <button class="submit button" type="submit">Create the topic</button>
 </form>
 {% endblock %}

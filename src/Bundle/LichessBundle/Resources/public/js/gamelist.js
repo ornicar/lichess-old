@@ -17,21 +17,28 @@ $(function() {
 
     function parseFen() {
         $('.parse_fen').each(function() {
+            var withKeys = $(this).hasClass('with_keys');
+            var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
             var fen = $(this).data('fen').replace(/\//g, '');
             var x, y, html = '', scolor, pcolor, pclass, c, d, increment;
             var pclasses = {'p':'pawn', 'r':'rook', 'n':'knight', 'b':'bishop', 'q':'queen', 'k':'king'};
             var pregex = /(p|r|n|b|q|k)/;
 
             if ('white' == $(this).data('color')) {
-                x = 8; y = 1;
-                increment = function() { y++; if(y > 8) { y = 1; x--; } };
+                var x = 8, y = 1;
+                var increment = function() { y++; if(y > 8) { y = 1; x--; } };
             } else {
-                x = 1; y = 8;
-                increment = function() { y--; if(y < 1) { y = 8; x++; } };
+                var x = 1, y = 8;
+                var increment = function() { y--; if(y < 1) { y = 8; x++; } };
             }
             function openSquare(x, y) {
-                scolor = (x+y)%2 ? 'white' : 'black';
-                return '<div class="lmcs '+scolor+'" style="top:'+(24*(8-x))+'px;left:'+(24*(y-1))+'px;">';
+                var scolor = (x+y)%2 ? 'white' : 'black';
+                var html = '<div class="lmcs '+scolor+'" style="top:'+(24*(8-x))+'px;left:'+(24*(y-1))+'px;"';
+                if (withKeys) {
+                  var key = letters[y - 1] + x;
+                  html += ' data-key="' + key + '"';
+                }
+                return html + '>';
             }
             function closeSquare() {
                 return '</div>';

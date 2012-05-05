@@ -6,6 +6,7 @@ use Herzult\Bundle\ForumBundle\Controller\PostController as BasePostController;
 use Herzult\Bundle\ForumBundle\Model\Topic;
 use Herzult\Bundle\ForumBundle\Model\Post;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Form\FormError;
@@ -33,16 +34,13 @@ class PostController extends BasePostController
         return new Response($html);
     }
 
-    public function newAction(Topic $topic)
+    public function newAction(Topic $topic, $form = null)
     {
+        $checkmate = $this->get('lila')->captchaCreate();
         $post = $this->get('herzult_forum.repository.post')->createNewPost();
+        $post->checkmateId = $checkmate['id'];
         $this->get('lichess_forum.authorname_persistence')->loadPost($post);
-        $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.post'), 'forum_post_form', $post);
-        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $checkmate = null;
-        } else {
-            $checkmate = json_decode($this->get('lila')->captcha());
-        }
+        $form = $form ? $form : $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.post'), 'forum_post_form', $post);
 
         return $this->get('templating')->renderResponse('HerzultForumBundle:Post:new.html.'.$this->getRenderer(), array(
             'form'  => $form->createView(),
@@ -53,13 +51,19 @@ class PostController extends BasePostController
 
     public function createAction(Topic $topic)
     {
+        $postData = $this->get('request')->request->all();
+        $checkmateId = isset($postData['forum_post_form']['checkmateId']) ? $postData['forum_post_form']['checkmateId'] : null;
+        if (empty($checkmateId)) throw new HttpException(400);
+        $solutions = $this->get('lila')->captchaSolve($checkmateId);
+        if (empty($solutions)) throw new HttpException(400);
         $post = $this->get('herzult_forum.repository.post')->createNewPost();
+        $post->checkmateSolutions = $solutions;
         $post->setTopic($topic);
         $form = $this->get('form.factory')->createNamed($this->get('lichess_forum.form_type.post'), 'forum_post_form', $post);
         $form->bindRequest($this->get('request'));
 
         if(!$form->isValid()) {
-            return $this->invalidCreate($topic);
+            return $this->invalidCreate($topic, $form);
         }
 
         $this->get('herzult_forum.blamer.post')->blame($post);
@@ -67,7 +71,7 @@ class PostController extends BasePostController
         if ($this->get('forum.akismet')->isPostSpam($post)) {
             $form['message']->addError(new FormError('Sorry, but your post looks like spam. If you think it is an error, send me an email.'));
             $this->get('logger')->warn('HerzultForumBundle:post spam block: '.$post->getAuthorName());
-            return $this->invalidCreate($topic);
+            return $this->invalidCreate($topic, $form);
         }
 
         $this->get('herzult_forum.creator.post')->create($post);
@@ -84,14 +88,14 @@ class PostController extends BasePostController
         return $response;
     }
 
-    protected function invalidCreate(Topic $topic)
+    protected function invalidCreate(Topic $topic, $form)
     {
         $lastPage = $this->get('herzult_forum.router.url_generator')->getTopicNumPages($topic);
 
         return $this->forward('HerzultForumBundle:Topic:show', array(
             'categorySlug' => $topic->getCategory()->getSlug(),
             'slug'         => $topic->getSlug(),
-            'id'           => $topic->getId()
+            'form'         => $form
         ), array('page' => $lastPage));
     }
 

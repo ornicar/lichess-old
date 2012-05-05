@@ -257,15 +257,15 @@ $.trans = function(text) {
 
 $.displayBoardMarks = function($board, isWhite) {
   if (isWhite) {
-    factor = 1;
-    base = 0;
+    var factor = 1;
+    var base = 0;
   } else {
-    factor = - 1;
-    base = 575;
+    var factor = - 1;
+    var base = 575;
   }
   $board.find('span.board_mark').remove();
-  letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  marks = '';
+  var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  var marks = '';
   for (i = 1; i < 9; i++) {
     marks += '<span class="board_mark vert" style="bottom:' + (factor * i * 64 - 38 + base) + 'px;">' + i + '</span>';
     marks += '<span class="board_mark horz" style="left:' + (factor * i * 64 - 35 + base) + 'px;">' + letters[i - 1] + '</span>';

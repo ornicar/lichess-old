@@ -1,0 +1,17 @@
+<div class="checkmateCaptcha clearfix">
+  <div class="checkmateFen">
+    <div class="mini_board parse_fen with_keys" data-color="white" data-fen="{{ checkmate.fen }}"></div>
+  </div>
+  <div class="checkmateSection">
+    {{ form_errors(form.checkmateMove) }}
+    <label>
+      <div>
+        <strong>{{ checkmate.color|capitalize }} plays, mate in one!</strong><br />
+        This is a chess captcha.<br />
+        Click on the board to make your move,<br />
+        and prove you are human.<br /><br />
+      </div>
+      {{ form_widget(form.checkmateMove, {"attr": {"class": "checkmateMove"}}) }}
+    </label>
+  </div>
+</div>

@@ -27,7 +27,7 @@
 
     {% if isLastPage %}
         <div class="topicReply">
-            {% render "HerzultForumBundle:Post:new" with {"topic": topic} %}
+            {% render "HerzultForumBundle:Post:new" with {"topic": topic, "form" : form ? form : none} %}
         </div>
     {% endif %}
 

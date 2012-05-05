@@ -20,6 +20,8 @@ class Post extends BasePost
 
     public $checkmateMove;
 
+    public $checkmateSolutions;
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Application\ForumBundle\Document\Topic")
      */
@@ -45,6 +47,19 @@ class Post extends BasePost
      * @Assert\MaxLength(10000)
      */
     protected $message;
+
+    /**
+     * @Assert\True(message = "You failed to checkmate!")
+     */
+    public function isCaptchaSolved() 
+    {
+        return in_array($this->cleanMove($this->checkmateMove), array_map(array($this, 'cleanMove'), $this->checkmateSolutions));
+    }
+
+    private function cleanMove($move)
+    {
+        return str_replace(' ', '', strtolower($move));
+    }
 
     public function isStaff()
     {

@@ -22,3 +22,12 @@
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% javascripts
+    '@LichessForumBundle/Resources/public/js/form.js'
+    filter="?yui_js" %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}

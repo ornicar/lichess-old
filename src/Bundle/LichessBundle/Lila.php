@@ -25,9 +25,18 @@ class Lila
         $this->url = $url;
     }
 
-    public function captcha()
+    public function captchaCreate()
     {
-        return $this->get('captcha');
+        return $this->cacheable('captchaCreate', function($self) {
+            return json_decode($self->get('captcha/create'), true);
+        }, 60);
+    }
+
+    public function captchaSolve($gameId)
+    {
+        return $this->cacheable('captchaSolve:'.$gameId, function($self) use ($gameId) {
+            return json_decode($self->get('captcha/solve/' . $gameId), true);
+        }, 0);
     }
 
     public function show(Player $player)
@@ -67,11 +76,6 @@ class Lila
     public function getActivity(Player $player)
     {
         return (int) $this->get('activity/' . $this->gameColorUrl($player));
-    }
-
-    public function nbPlayers()
-    {
-        return $this->get('nb-players');
     }
 
     public function start(Game $game)
@@ -163,7 +167,7 @@ class Lila
         return $this->urlGenerator->generate($route, $params);
     }
 
-    private function get($path)
+    public function get($path)
     {
         if ($this->debug) print "GET " . $path;
 
@@ -221,5 +225,16 @@ class Lila
         }
 
         return $response;
+    }
+
+    private function cacheable($cacheKey, \Closure $closure, $ttl)
+    {
+        $val = apc_fetch($cacheKey);
+        if (!$val) {
+            $val = $closure($this);
+            apc_store($val, $ttl);
+        }
+
+        return $val;
     }
 }
