@@ -89,7 +89,7 @@ class PgnDumper
         );
 
         if (!$game->isStandardVariant()) {
-            $header .= sprintf('%s[FEN "%s"]', "\n", $game->getInitialFen());
+            $header .= sprintf('%s[FEN "%s"]%s[SetUp "1"]', "\n", $game->getInitialFen(), "\n");
         }
 
         return $header;
