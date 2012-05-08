@@ -4,7 +4,6 @@ namespace Bundle\LichessBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Bundle\LichessBundle\Notation\PgnDumper;
 use Symfony\Component\HttpFoundation\Response;
 
 class PgnController extends Controller
