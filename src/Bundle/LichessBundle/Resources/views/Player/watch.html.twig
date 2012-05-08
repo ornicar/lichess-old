@@ -62,7 +62,7 @@
         {% endfor %}
         <br />
         {{ "Variant"|trans }}: {{ game.variantName|capitalize }}<br /><br />
-        {{ "Time control"|trans }}: {{ game.clockName }}<br />
+        {{ "Time control"|trans }}: {{ game.clockName|trans }}<br />
         {% if game.isRated %}
             <br />{{ "This game is rated"|trans }}<br />
         {% endif %}

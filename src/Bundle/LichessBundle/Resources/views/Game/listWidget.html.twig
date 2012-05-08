@@ -38,7 +38,7 @@
 {% endblock %}
 <br />
 {% if game.hasClock %}
-    <span class="s16 clock">{% if not mini %}{{ "Time control"|trans }}: {% endif %}{{ game.clockName }}</span>
+    <span class="s16 clock">{% if not mini %}{{ "Time control"|trans }}: {% endif %}{{ game.clockName|trans }}</span>
     <br /><br />
 {% endif %}
 {% if game.isRated %}
