@@ -439,7 +439,7 @@ class Game
 
     public function getClockName()
     {
-        return $this->hasClock() ? $this->getClock()->getName() : 'No clock';
+        return $this->hasClock() ? $this->getClock()->getName() : 'Unlimited';
     }
 
     public function estimateTotalTime()

@@ -41,9 +41,12 @@
         </div>
         <br />
         {{ "Variant"|trans }} - {{ game.variantName|capitalize }}<br />
-        {{ "Time control"|trans }} - {{ game.clockName }}<br />
+        {{ "Time control"|trans }} - {{ game.clockName|trans }}<br />
         {% if game.isRated %}
             {{ "This game is rated"|trans }}<br />
+        {% endif %}
+        {% if opening %}
+          {{ "Opening"|trans }} - <a href="http://www.chessgames.com/perl/chessopening?eco={{ opening.code }}">{{ opening.name }}</a><br />
         {% endif %}
     </div>
     <br />

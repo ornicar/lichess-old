@@ -25,6 +25,11 @@ class Lila
         $this->url = $url;
     }
 
+    public function gameInfo(Game $game)
+    {
+        return json_decode($this->get('game-info/' . $game->getId()), true);
+    }
+
     public function captchaCreate()
     {
         return $this->cacheable('captchaCreate', function($self) {

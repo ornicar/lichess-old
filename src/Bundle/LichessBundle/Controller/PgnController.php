@@ -13,25 +13,16 @@ class PgnController extends Controller
     {
         $game = $this->findGame($id);
         $player = $game->getPlayer($color);
-        $pgn = $this->get('lichess.pgn_dumper')->dumpGame($game);
+
+        $data = $this->get('lila')->gameInfo($game);
 
         return $this->render('LichessBundle:Pgn:analyse.html.twig', array(
             'game'         => $game,
             'player'       => $player,
             'reverseColor' => 'white' === $color ? 'black' : 'white',
-            'pgn'          => $pgn
+            'pgn'          => $data['pgn'],
+            'opening' => $data['opening']
         ));
-    }
-
-    public function exportAction($id)
-    {
-        $withTime = (bool) $this->get('request')->query->get('time');
-        $game = $this->findGame($id);
-        $pgn = $this->get('lichess.pgn_dumper')->dumpGame($game, $withTime);
-
-        $response = new Response($pgn);
-        $response->headers->set('Content-Type', 'text/plain');
-        return $response;
     }
 
     /**
