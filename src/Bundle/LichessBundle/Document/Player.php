@@ -113,6 +113,14 @@ class Player
     protected $isOfferingDraw = null;
 
     /**
+     * Whether the player is proposing takeback or not
+     *
+     * @var bool
+     * @MongoDB\Field(type="boolean")
+     */
+    protected $isProposingTakeback = null;
+
+    /**
      * Whether the player is offering rematch or not
      *
      * @var bool
@@ -237,6 +245,23 @@ class Player
     /**
      * @return bool
      */
+    public function getIsProposingTakeback()
+    {
+        return $this->isProposingTakeback;
+    }
+
+    /**
+     * @param  bool
+     * @return null
+     */
+    public function setIsProposingTakeback($isProposingTakeback)
+    {
+        $this->isProposingTakeback = $isProposingTakeback ?: null;
+    }
+
+    /**
+     * @return bool
+     */
     public function getIsOfferingRematch()
     {
         return $this->isOfferingRematch;
@@ -249,6 +274,14 @@ class Player
     public function setIsOfferingRematch($isOfferingRematch)
     {
         $this->isOfferingRematch = $isOfferingRematch ?: null;
+    }
+
+    public function canProposeTakeback()
+    {
+        return $this->getGame()->getIsStarted()
+            && $this->getGame()->getIsPlayable()
+            && $this->getGame()->getHasEnoughMovesToTakeback()
+            && !$this->getIsProposingTakeback();
     }
 
     public function canOfferDraw()

@@ -463,6 +463,7 @@ div.lichess_control div.rematch_wait {
 
 div.lichess_control a.lichess_resign,
 div.lichess_control a.lichess_abort,
+div.lichess_control a.propose_takeback,
 div.lichess_control a.offer_draw {
   float: right;
   display: block;
@@ -476,6 +477,7 @@ div.lichess_control.buttons a.button {
 }
 
 div.lichess_claim_draw_zone,
+div.proposed_takeback,
 div.offered_draw {
   margin-top: 10px;
   padding-top: 10px;

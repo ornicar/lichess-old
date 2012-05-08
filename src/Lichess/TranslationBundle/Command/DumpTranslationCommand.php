@@ -46,6 +46,10 @@ class DumpTranslationCommand extends BaseCommand
             "Draw offer declined",
             "Draw offer accepted",
             "Draw offer canceled",
+            "Takeback proposition sent",
+            "Takeback proposition declined",
+            "Takeback proposition accepted",
+            "Takeback proposition canceled",
             "Game over",
             "Your turn",
             "Waiting for opponent"

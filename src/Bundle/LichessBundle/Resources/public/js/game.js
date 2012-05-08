@@ -115,6 +115,14 @@ $.widget("lichess.game", {
                 }, 400);
               });
             },
+            reload: function(event) {
+              // stop queue propagation here
+              self.element.queue(function() {
+                setTimeout(function() {
+                  location.reload();
+                }, 400);
+              });
+            },
             threefold_repetition: function(event) {
               self.element.queue(function() {
                   self.reloadTable(function() {

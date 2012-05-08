@@ -535,6 +535,11 @@ class Game
         return $this->getTurns() >= 2;
     }
 
+    public function getHasEnoughMovesToTakeback()
+    {
+        return $this->getTurns() >= 2;
+    }
+
     /**
      * Tells if both players saved their move times
      *

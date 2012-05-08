@@ -13,10 +13,13 @@
     {% if game.isAbortable %}
         <a href="{{ lila_path("abort/" ~ player.fullId) }}" class="lichess_abort">{{ "Abort game"|trans }}</a>
     {% else %}
-    <a href="{{ lila_path("resign/" ~ player.fullId) }}" class="lichess_resign" title="{{ "Give up"|trans }}">{{ "Resign"|trans }}</a>
-        {% if player.canOfferDraw %}
-            <a class="offer_draw" href="{{ lila_path("draw-offer/" ~ player.fullId) }}">{{ "Offer draw"|trans }}</a>
-        {% endif %}
+      <a href="{{ lila_path("resign/" ~ player.fullId) }}" class="lichess_resign" title="{{ "Give up"|trans }}">{{ "Resign"|trans }}</a>
+      {% if player.canOfferDraw %}
+          <a class="offer_draw" href="{{ lila_path("draw-offer/" ~ player.fullId) }}">{{ "Offer draw"|trans }}</a>
+      {% endif %}
+      {% if player.canProposeTakeback %}
+          <a class="propose_takeback" title="{{ "Propose a takeback"|trans }}"href="{{ lila_path("takeback-offer/" ~ player.fullId) }}">{{ "Takeback"|trans }}</a>
+      {% endif %}
     {% endif %}
 </div>
 {% if player.isMyTurn and game.isThreefoldRepetition %}
@@ -34,5 +37,16 @@
     {{ "Your opponent offers a draw"|trans }}.<br />
     <a href="{{ lila_path("draw-accept/" ~ player.fullId) }}">{{ "Accept"|trans }}</a>&nbsp;
     <a href="{{ lila_path("draw-decline/" ~ player.fullId) }}">{{ "Decline"|trans }}</a>
+</div>
+{% elseif player.isProposingTakeback %}
+<div class="proposed_takeback">
+    {{ "Takeback proposition sent"|trans }}.&nbsp;
+    <a href="{{ lila_path("takeback-cancel/" ~ player.fullId) }}">{{ "Cancel"|trans }}</a>
+</div>
+{% elseif player.opponent.isProposingTakeback %}
+<div class="offered_draw">
+    {{ "Your opponent proposes a takeback"|trans }}.<br />
+    <a href="{{ lila_path("takeback-accept/" ~ player.fullId) }}">{{ "Accept"|trans }}</a>&nbsp;
+    <a href="{{ lila_path("takeback-decline/" ~ player.fullId) }}">{{ "Decline"|trans }}</a>
 </div>
 {% endif %}
