@@ -24,6 +24,16 @@ class PgnController extends Controller
         ));
     }
 
+    public function exportAction($id)
+    {
+        $game = $this->findGame($id);
+        $data = $this->get('lila')->gameInfo($game);
+
+        $response = new Response($data['pgn']);
+        $response->headers->set('Content-Type', 'text/plain');
+        return $response;
+    }
+
     /**
      * Return the game for this id
      *
