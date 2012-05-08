@@ -113,6 +113,7 @@ $(function() {
         var html = "";
         for (i in data) { html += '<tr>' + data[i] + '</tr>'; }
         $bot.find('.lichess_messages').append(html).parent()[0].scrollTop = 9999999;
+        $('body').trigger('lichess.content_loaded');
     }
 
     function removeHook(id) {
