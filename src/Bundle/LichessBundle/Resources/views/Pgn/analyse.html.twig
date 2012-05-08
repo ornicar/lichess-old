@@ -45,8 +45,11 @@
         {% if game.isRated %}
             {{ "This game is rated"|trans }}<br />
         {% endif %}
+        {{ "Opening"|trans }} - 
         {% if opening %}
-          {{ "Opening"|trans }} - <a href="http://www.chessgames.com/perl/chessopening?eco={{ opening.code }}">{{ opening.name }}</a><br />
+          <a href="http://www.chessgames.com/perl/chessopening?eco={{ opening.code }}">{{ opening.name }}</a><br />
+        {% else %}
+          Unknown
         {% endif %}
     </div>
     <br />
