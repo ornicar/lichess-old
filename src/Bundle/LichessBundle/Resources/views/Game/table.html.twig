@@ -22,7 +22,7 @@
       {% endif %}
     {% endif %}
 </div>
-{% if game.isResignable %}
+{% if game.isResignable and player.opponent.isHuman %}
 <div class="force_resign_zone">
   {{ "The other player has left the game. You can force resignation, or wait for him."|trans }}<br />
   <a class="force_resign" href="{{ lila_path("resign-force/" ~ player.fullId) }}">{{ "Force resignation"|trans }}</a>
