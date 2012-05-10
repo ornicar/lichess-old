@@ -138,6 +138,8 @@ Lichess.org will be down in a few minutes!
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
-        <script src="{{ asset("trans/" ~ app.session.locale ~ ".js") }}"></script>
+        {% if app.session.locale != "en" %}
+          <script src="{{ asset("trans/" ~ app.session.locale ~ ".js") }}"></script>
+        {% endif %}
     </body>
 </html>

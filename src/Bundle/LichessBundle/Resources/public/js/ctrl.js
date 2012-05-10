@@ -2,6 +2,9 @@ if (typeof console == "undefined" || typeof console.log == "undefined") console 
   log: function() {}
 };
 
+// declare now, populate later
+var lichess_translations = [];
+
 var lichess = {
   socket: null,
   socketDefaults: {
