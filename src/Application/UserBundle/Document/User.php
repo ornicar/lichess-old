@@ -150,16 +150,6 @@ class User extends BaseUser implements ParticipantInterface
         return $this->engine;
     }
 
-    public function setChatBan($v)
-    {
-        $this->isChatBan = $v ? true : null;
-    }
-
-    public function toggleChatBan()
-    {
-        $this->setChatBan(!$this->isChatBan());
-    }
-
     public function isChatBan()
     {
         return $this->isChatBan;

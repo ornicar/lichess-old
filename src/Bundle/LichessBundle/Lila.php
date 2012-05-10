@@ -147,6 +147,11 @@ class Lila
         ));
     }
 
+    public function chatBan($username)
+    {
+        $this->post('lobby/chat-ban/' . $username);
+    }
+
     private function encodeLobbyEntry(Game $game)
     {
         $entry = array();
