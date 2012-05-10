@@ -47,7 +47,7 @@
         {% endif %}
         {{ "Opening"|trans }} - 
         {% if opening %}
-          <a href="http://www.chessgames.com/perl/chessopening?eco={{ opening.code }}">{{ opening.name }}</a><br />
+          <a href="http://www.chessgames.com/perl/chessopening?eco={{ opening.code }}">{{ opening.code }} {{ opening.name }}</a><br />
         {% else %}
           Unknown
         {% endif %}
