@@ -22,6 +22,12 @@
       {% endif %}
     {% endif %}
 </div>
+{% if game.isResignable %}
+<div class="force_resign_zone">
+  {{ "The other player has left the game. You can force resignation, or wait for him."|trans }}<br />
+  <a class="force_resign" href="{{ lila_path("resign-force/" ~ player.fullId) }}">{{ "Force resignation"|trans }}</a>
+</div>
+{% endif %}
 {% if player.isMyTurn and game.isThreefoldRepetition %}
 <div class="lichess_claim_draw_zone">
     {{ "Threefold repetition"|trans }}.&nbsp;

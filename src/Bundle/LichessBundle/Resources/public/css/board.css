@@ -477,11 +477,15 @@ div.lichess_control.buttons a.button {
 }
 
 div.lichess_claim_draw_zone,
+div.force_resign_zone,
 div.proposed_takeback,
 div.offered_draw {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid #ddd;
+}
+div.force_resign_zone {
+  display: none;
 }
 
 div.lichess_separator {

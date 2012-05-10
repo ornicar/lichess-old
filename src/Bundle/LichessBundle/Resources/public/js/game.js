@@ -130,6 +130,9 @@ $.widget("lichess.game", {
                   });
               });
             },
+            gone: function(event) {
+              self.$table.find("div.force_resign_zone").toggle(event);
+            },
             end: function(event) {
               // Game end must be applied firt: no queue
               self.options.game.finished = true;
