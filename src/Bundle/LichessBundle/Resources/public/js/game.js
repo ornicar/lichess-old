@@ -132,6 +132,7 @@ $.widget("lichess.game", {
             },
             gone: function(event) {
               self.$table.find("div.force_resign_zone").toggle(event);
+              self.centerTable();
             },
             end: function(event) {
               // Game end must be applied firt: no queue
@@ -172,10 +173,12 @@ $.widget("lichess.game", {
               });
             },
             crowd: function(event) {
-              self.$nbViewers.html(self.$nbViewers.html().replace(/(\d+|-)/, event.watchers)).toggle(event.watchers > 0);
-              $(["white", "black"]).each(function() {
-                self.$table.find("div.username." + this).toggleClass("connected", event[this]).toggleClass("offline", !event[this]);
-              });
+              if (self.$nbViewers.length) {
+                self.$nbViewers.html(self.$nbViewers.html().replace(/(\d+|-)/, event.watchers)).toggle(event.watchers > 0);
+                $(["white", "black"]).each(function() {
+                  self.$table.find("div.username." + this).toggleClass("connected", event[this]).toggleClass("offline", !event[this]);
+                });
+              }
             },
             state: function(event) {
               self.element.queue(function() {
@@ -534,7 +537,7 @@ $.widget("lichess.game", {
     },
     initTable: function() {
         var self = this;
-        self.$table.css('top', (256 - self.$table.height() / 2) + 'px');
+        self.centerTable();
         self.$table.find('a, input, label').tipsy({
             fade: true
         });
@@ -552,6 +555,9 @@ $.widget("lichess.game", {
           lichess.socket.send("moretime"); 
           return false;
         });
+    },
+    centerTable: function() {
+        this.$table.css('top', (256 - this.$table.height() / 2) + 'px');
     },
     initClocks: function() {
         var self = this;
