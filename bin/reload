@@ -12,8 +12,8 @@ show_run("Building bootstrap", "vendor/bundles/Sensio/Bundle/DistributionBundle/
 
 foreach ($envs as $env) {
     if ($env != 'test') clearCache('app', $env, false);
-    if ($env != 'dev') show_run("Loading app $env fixtures", "php app/console --env=$env doctrine:mongodb:fixtures:load");
-    show_run("Creating app $env MongoDB indexes", "php app/console --env=$env doctrine:mongodb:schema:create --index");
+    //if ($env != 'dev') show_run("Loading app $env fixtures", "php app/console --env=$env doctrine:mongodb:fixtures:load");
+    //show_run("Creating app $env MongoDB indexes", "php app/console --env=$env doctrine:mongodb:schema:create --index");
 }
 
 show_run("Clearing APC cache", "php app/console apc:clear");
