@@ -51,6 +51,7 @@ $(function() {
 
     function addToChat(html) {
         $chat.find('.lichess_messages').append(html)[0].scrollTop = 9999999;
+        $('body').trigger('lichess.content_loaded');
     }
     function buildChatMessage(txt, username) {
         var html = '<li><span>'
