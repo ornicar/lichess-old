@@ -86,7 +86,9 @@ $(function() {
       renderTimeline(preloadData.timeline);
       if (chatExists) {
         var chatHtml = "";
-        $.each(preloadData.chat, function() { chatHtml += buildChatMessage(this.txt, this.u); });
+        $.each(preloadData.chat, function() { 
+          if (this.txt) chatHtml += buildChatMessage(this.txt, this.u); 
+        });
         addToChat(chatHtml);
       }
       lichess.socket = new $.websocket(lichess.socketUrl + "/lobby/socket", preloadData.version, $.extend(true, lichess.socketDefaults, {
@@ -94,7 +96,7 @@ $(function() {
           hook: hookOwnerId
         },
         events: {
-          talk: function(e) { if (chatExists) addToChat(buildChatMessage(e.txt, e.u)); },
+          talk: function(e) { if (chatExists && e.txt) addToChat(buildChatMessage(e.txt, e.u)); },
           entry: function(e) { renderTimeline([e]); },
           hook_add: addHook,
           hook_remove: removeHook,
