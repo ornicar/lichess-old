@@ -242,7 +242,7 @@ class Lila
         $val = apc_fetch($cacheKey);
         if (!$val) {
             $val = $closure($this);
-            apc_store($val, $ttl);
+            apc_store($cacheKey, $val, $ttl);
         }
 
         return $val;
