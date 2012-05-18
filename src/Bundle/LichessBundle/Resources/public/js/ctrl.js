@@ -38,9 +38,7 @@ $(function() {
     $game.game(lichess_data);
     if (!lichess_data.player.spectator) {
       $('a.blank_if_play').click(function() {
-        if ($game.game('isPlayable')) {
-          $(this).attr('target', '_blank');
-        }
+        $(this).attr('target', '_blank');
       });
     }
   }

@@ -17,9 +17,7 @@
           {% endif %}
           <div class="lichess_table{{ game.hasClock ? " table_with_clock" : "" }}{{ game.isFinished ? " finished" : "" }}">
             <div class="lichess_opponent">
-                <div class="opponent_status">
-                    {% include "LichessBundle:Player:player.html.twig" with {"player": player.opponent} %}
-                </div>
+                {% include "LichessBundle:Player:player.html.twig" with {"player": player.opponent} %}
             </div>
             <div class="lichess_separator"></div>
             <div class="table_inner">
