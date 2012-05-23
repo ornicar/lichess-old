@@ -10,6 +10,7 @@
 "%ai_name% level %ai_level%": "%ai_name% på nivå %ai_level"
 "Level": "Nivå"
 "Toggle the chat": "Slå samtalen av og på"
+"Toggle sound": "Lyd av/på"
 "Chat": "Samtale"
 "Give up": "Gi opp"
 "Resign": "Gi seg"
@@ -134,4 +135,5 @@
 "Takeback proposition accepted": "Angreforslag godtatt"
 "Takeback proposition canceled": "Angreforslag avbrutt"
 "Your opponent proposes a takeback": "Din motstander foreslår å angre"
+"Opening": "Åpning"
 "Free online Chess game. Play Chess now in a clean interface. No registration, no ads, no plugin required. Play Chess with computer, friends or random opponents.": "Gratis online sjakk. Spill sjakk nå med et rent grensesnitt. Ingen registrering, ingen reklame og ingen ekstra tillegg nødvendig. Spill sjakk mot datamaskinen, en venn eller tilfeldige motstandere."
