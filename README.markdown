@@ -1,4 +1,13 @@
-This is the frontend of the [scala online chess game](http://github.com/ornicar/lila)
+# DEPRECATED - See [lila](http://github.com/ornicar/lila) instead
+
+---
+
+
+### This is an old version of [lichess.org](http://lichess.org). This code is not used anymore, it has been replaced with a scala program: [lila](http://github.com/ornicar/lila).
+
+
+---
+
 
 Very fast Chess game designed to run on a small server and play hundreds of concurrent games.
 GUI is only HTML5 and JavaScript.
